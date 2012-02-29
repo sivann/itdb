@@ -1,0 +1,390 @@
+0:black, 255:white#0:μαύρο, 255:άσπρο
+About#Περιγραφή
+Accounting#Λογιστική
+Add Agent#Προσθήκη  πράκτορα
+Add Contract#Προσθήκη συμβολαίου
+Add File#Προσθήκη αρχείου
+Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#Προσθήκη ιεραρχικής ή αδελφικής σχέσης σε: εξαρτήματα, κάρτες, οθόνες, κ.λπ
+Add Invoice#Προσθήκη τιμολογίου
+Add new Agent#Προσθήκη νέου Πράκτορα
+Add new Contract#Προσθήκη νέου συμβολαίου
+Add new File#Προσθήκη νέου αρχείου
+Add new Invoice#Προσθήκη νέου τιμολογίου
+Add new item#Προσθήκη νέου αντικειμένου
+Add new Item#Προσθήκη νέου αντικειμένου
+Add New Item#Προσθήκη νέου αντικειμένου
+Add new Location#Προσθήκη νέας τοποθεσίας
+Add new software#Προσθήκη  νέου λογισμικού
+Add new Software#Προσθήκη νέου λογισμικύ
+Address, Phone number, other info, etc#Δνση, τηλέφωνο, άλλες πληροφορίες
+Add Row#Προσθήκη 
+Add Software#Προσθήκη 
+Add/View#Προσθήκη/Εμφάνιση
+Add#Προσθήκη
+Agent Properties#Στοιχεία πράκτορα
+Agents#Πράκτορες
+Area Names/Offices#Όνομα χώρων/γραφείων
+Area/Room#Χώρος/γραφείο
+Areas: rooms, offices#Χώροι: δωμάτια,γραφεία
+Are you sure you want to delete this row ?#Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή τη γραμμή;
+Associated Files#Σχετικά αρχεία
+Associated Items#Σχετικά αντικείμενα
+Associated Software#Σχετικό λογισμικό
+Associated#Συσχέτισμένο
+Associate#Συσχέτηση
+Associations (items/racks)#Συσχετισμοί (αντικείμενα/ικριώματα)
+Associations Overview#Επισκόπηση σχέσεων
+Associations#Συσχετισμοί
+Blank passwords prohibit login#Τα κενά συνθηματικά απαγορεύουν την πρόσβαση
+Border Color (0-255)#Χρώμα περιγραμμάτων
+Bottom Margin#Κάτω περιθώριο
+<br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate &amp; center'</b>#<br><br>Στο διάλογο εκτύπωσης του PDF, <br>ορίστε <b>'κλιμάκωση σελίδας (Page Scaling)'</b> σε <b>'Καμία (None)'</b>, <br>και <b>απο-επιλέξτε</b> 'αυτόματη περιστροφή &amp; κεντράρισμα (auto-rotate &amp; center)'</b>
+Browse Data#Πλοήγηση
+Browse#Πλοήγηση
+Building Name#Όνομα κτηρίου
+Buyer#Πωλητής
+Cannot add log entries to unsaved items.#Πρέπει πρώτα να σώσετε το αντικείμενο
+Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the Tags menu for that.#Οι αλλαγές αποθηκεύονται αμέσως.<br>Η αφαίρεση των tags αφαιρεί μόνο τη συσχέτηση. Χρησ/τε το Tags μενού για να σβήσετε το tag.
+Click on Item count column on the left to display associated items#Πατήστε στο πλήθος αντικειμένων στα αριστερά για να τα εμφανίσετε
+Click on Software count column on the left to display associated software#στο πλήθος λογισμικών στα αριστερά για να τα εμφανίσετε
+Click 'Show Labels'#Πατήστε 'Εμφάνιση Ετικετών'
+Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor &amp; Buyer</u>: will be listed in invoices &amp; Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Cntrl+κλίκ για πολλαπλή επιλογή ρόλων πράκτορα <br><br><u>Πωλητές &amp; Αγοραστές</u>: χρησιμοποιούνται στα τιμολόγια και στα συμβόλαια <br><br><u>Κατασκευαστές υλικού</u>: χρησιμοποιούνται στα αντικείμενα <br><br><u>Κατασκευαστές υλικού</u>: χρησιμοποιούνται στα λογισμικά
+Cntrl+Click to select multiple roles for an agent#Cntrl+κλίκ για επιλογή πολλαπλών ρόλων
+Columns#Στήλες
+Comments#Σχόλια
+Configure contract types#Καθορισμός τύπων συμβολαίων
+Configure Item Types#Καθορισμός τύπων αντικειμένων
+Configure Status Types#Καθορισμός τύπων καταστάσεων αντικειμένων
+Contact Info#Στοιχεία Επικοινωνίας
+Contacts#Επαφές
+Contact#Επικοινωνία
+Contract Associations#Συσχέτιση συμβολαίων
+Contract Data#Στοιχεία συμβολαίου
+Contract Description#Περιγραφή συμβολαίου
+Contract number is missing#Λείπει ο αριθμός συμβολαίου
+Contractor is missing#Λείπει ο συμβαλλόμενος
+Contractor#Συμβαλλόμενος
+Contract Properties#Στοιχεία συμβολαίου
+CONTRACTS#ΣΥΜΒΟΛΑΙΑ
+Contracts#Συμβόλαια
+Contract Title is missing#Λείπει ο τίτλος συμβολαίου
+Contract Type is missing#Λείπει ο τύπος συμβολαίου
+Contract Types#Είδη Συμβολαίων
+Contr. Types#Τύποι Συμ/λαίων
+Cores/CPU#Πυρήνες/Επεξεργαστή
+Cores per CPU (used for licensing)#Πυρήνες/Επεξεργαστή (χρησ/ται για τις άδειες)
+CPU Model#Μοντέλο επεξεργαστή
+Current End Date of contract is missing#Λείπει η τρέχουσα ημ. λήξης
+Current EndDate#Τρέχουσα ημ. λήξης
+Data Browser#Πλοηγός Δεδομένων
+Date Entered#Εισαχθείσα ημερομηνία
+Date of Purchase#Ημερομηνία αγοράς
+Date of purhcase is missing#Λείπει η ημερομηνία αγοράς
+Date#Ημερομηνία
+Delete Event?#Διαγραφή συμβάντος;
+Delete#Διαγραφή
+Depth of rack occupation. (F)ront, (M)iddle, (B)ack#Βάθος κατάληψης (F)ront, (M)iddle, (B)ack)
+Depth#Βάθος
+describe the purpose of this item#σκοπός χρήσης αντικειμένου
+Description#Περιγραφή
+DNS#DNS
+DnsName#DNSName
+DNS Name#DNSName
+DnsName#Όνομα DNS
+Documents, Manuals, Offers, Licenses, ...#Έγγραφα, Εγχειρίδια, Προσφορές, Άδειες χρήσης, ...
+Download a complete installation backup (much larger)#Κατέβασμα πλήρους αντιγράφου της εγκατάστασης (μεγάλο αρχείο)
+Download &amp; print the resulting PDF#Κατεβάστε και τυπώστε το παραχθέν PDF
+Download DataBase file. Contains all data except uploaded files/documents#Κατέβασμα μόνο της βάσης δεδομένων. Περιέχει τις εγγραφές αλλά όχι τα ανεβασμένα έγγραφα/αρχεία.
+Download#Κατέβασμα
+Do you really want to remove this row?#Θέλετε να σβήσετε αυτή τη γραμμή;
+Edit Contract Types#Επεξεργασία τύπων συμβολαίων
+Edit ID#Επεξεργασία ID
+Edit Item Types#Επεξεργασία τύπων αντικειμένων
+Edit Software#Επεξεργασία λογισμικού
+Edit Status Types#Επεξεργασία καταστάσεων αντικειμένων
+edit tags#Επεξεργασία tags
+Edit Tags#Επεξεργασία tags
+Edit#Επεξεργασία
+Effective date#Ημ. ισχύος
+e.g. like donator, etc. Vendor info is best to be provided in the related invoice#π.χ.:δωρητής, κλπ. Ο πωλητής καλύτερα να ορίζεται στο σχετικό τιμολόγιο
+Email#Email
+End Date#Ημ. Λήξης
+End&nbsp;Date after#Ημ. λήξης μετά
+End&nbsp;Date before#Ημ. λήξης πρίν
+End#Τέλος
+Entered By#Εισήχθη από
+enter text to filter listed items#εισάγετε κείμενο για φιλτράρισμα επιλογών
+Event End#Τέλος γεγονότος
+Event History#Ιστορικό γεγονότων
+Event Start#Έναρξη γεγονότος
+File Maintenance#Συντήρηση Αρχείων
+Filename#Όνομα αρχείου
+Files#Αρχεία
+File title is missing#Λείπει ο τίτλος αρχείου
+File Type is missing#Λείπει ο τύπος αρχείου
+File#Αρχείο
+Filter#Φίλτρο
+Find#Εύρεση
+Floor Plan#Κάτοψη Ορόφου
+Floor#Όροφος
+FontSize#Μέγεθος κειμένου
+Full Access#Πλήρης πρόσβαση
+Function#Λειτουργία
+GO#GO
+Hardware#Υλικό
+HDs (TB)#HDs (TB)
+Header FontSize#Μέγεθος κειμένου επικεφαλίδας
+Header (from conf.php)#Επικεφαλίδα (από conf.php)
+Height#Ύψος
+Home#Αρχική
+Horz. Pitch#Οριζ. απόσταση (pitch)
+How is this item used. e.g.: Video Encoder#Σκοπός χρήσης αντ/νου. π.χ. Video encoder
+how many items are assigned to this rack#Πόσα αντικείμενα σχετίζονται με το ικρίωμα
+H/W &amp; S/W Manufacturers &amp; Vendors, Buyers, Contractors#Κατασκευαστές υλικού &amp; λογισμικού, πωλητές, συμβαλόμενοι
+H/W Manufacturer#Κατασκευαστές υλικού
+[id desc]#[id περιγρ.]
+ID FontSize#Μέγεθος ID
+[id]#[id]
+ID#ID
+Installed Into#Εγκατεστημένο σε
+Installed on#Εγκατεστημένο σε
+Installed#Εγκατεστημένο
+Inter-Item Associations#Συσχετίσεις αντικειμένων
+Intrinsic Properties#Εγγενείς ιδιότητες
+Invoice Associations#Συσχετίσεις τιμολογίου
+Invoice  Data#Στοιχεία τιμολογίου
+Invoice Description / File(s)#Περιγραφή τιμολογίου / αρχείο(α)
+Invoice Properties#Στοιχεία τιμολογίου
+Invoices (buyers)#Τιμολόγηα (αγοραστές)
+INVOICES (buyer)#Τιμολόγηα (αγοραστής)
+Invoices (vendors)#Τιμολόγια (πωλητές)
+INVOICES (vendor)#Τιμολόγια (πωλητής)
+INVOICES#ΤΙΜΟΛΟΓΙΑ
+Invoices#Τιμολόγια
+Invoice#Τιμολόγιο
+IPv4#IPv4
+IPv6#IPv6
+Is Part#Εξάρτημα
+Issue Date#Ημ. έκδοσης
+Item Associations#Συσχετίσεις αντικειμένων
+Item Data#Στοιχεία αντικειμένου
+Item list per location#Λίστα αντικειμένων ανά τοποθεσία
+Items without invoices#Αντικείμενα χωρίς τιμολόγια
+Items without location#Αντικείμενα χωρίς τοποθεσία
+Items with warranty end date close to (before or after) today#Αντικείμενα των οποίων η εγγύηση λήγει σύντομα ή έλξηε πρόσφατα.
+ITEMS#ΑΝΤΙΚΕΙΜΕΝΑ
+items#αντικείμενα
+Items#Αντικείμενα
+Items#Αντικείμενα
+Item Types#Τύποι Αντι/μένων
+Item Type#Είδος Αντικ.
+Label properties#Ιδιότητες ετικέττας
+Labels#Ετικέττες
+labels#ετικετών
+Label#Ετικέτα
+Left Margin#Αριστερό περιθώριο
+Licencing Info#Πληροφορίες αδειοδότησης
+License Info#Πληροφορίες άδειας
+List Invoices#Λίστα τιμολογίων
+List items with defined IPv4 numbers#Αντικείμενα με ορισμένες διευθύνσεις IPv4 
+List Items#Λίστα αντικειμένων
+List Software#Λίστα λογισμικού
+Loading data from server#Λήψη δεδομένων από τον εξυπηρετητή
+Location Name/Building Name#Όνομα τοποθεσίας/κτηρίου
+Location Properties#Στοιχεία τοποθεσίας
+Locations#Τοποθεσίες
+Location#Τοποθεσία
+Log/Journal#Ημερολόγιο χρήσης
+Logout#Έξοδος
+MACs#MACs
+maintenance end date#ημ. τέλους συντήρησης
+Maintenance Instructions#Οδηγίες συντηρησης
+Maint. End#Τέλος συντήρησης
+Manage Agents#Διαχείριση Πρακτόρων
+Manage item locations#Διαχείριση θέσεων αντικειμένων
+Manage various parameters#Διάφορες παράμετροι
+Manage your contracts <br> Support, Licenses, Leases, etc#Διαχείριση Συμβολαίων<br>Συντήρηση, άδειες, ενοικιάσεις, κ.λπ.
+Manage your H/W items <br> PCs, Switches, Phones, etc#Διαχείριση υλικού<br>Η/Υ, Δικτυακές &amp; τηλ. συσκευές, κλπ
+Manage your Invoices#Διαχείριση τιμολογίων
+Manage your software#Διαχείριση λογισμικού
+Manufacturer is missing#Λείπει ο κατασκευαστής
+Manufacturer#Κατασκευαστής
+[model]#[μοντέλο]
+Model#Μοντέλο
+Name#Όνομα
+Network Ports#Πόρτες δικτύου
+Network#Δίκτυο
+New#Νέο
+Notes#Σημειώσεις
+No#Όχι
+Numbering#Αρίθμηση
+Number of cores per CPU (used for licensing)#Αρ. πυρήνων/cpu (χρησ/ται για άδειες)
+Number of installed Software per Manufacturer (Agent)#Πλήθος εγκατεστημένων λογισμικά ανά κατασκευαστή
+Number of invoices per Vendor (Agent)#Πλήθος τιμολογίων ανά πωλητή
+Number of items per Location#Πλήθος αντικειμένων  ανά τοποθεσία
+Number of items per Manufacturer (Agent)#Πλήθος αντικειμένων ανά κατασκευαστή
+Number of Items under support#Πλήθος αντικειμένων σε συντήρηση
+Number#Αριθμός
+Occupation#Κατάληψη
+Order By#Ταξινόμηση με
+Order No#Αριθμός Παραγγελίας
+Order No#Αριθμός Παραγγελίας
+Order Num#Αριθμός Παραγγελίας
+order: status, id descending, item type, manufacturer#Ταξινόμηση:κατάσταση,id φθίν., είδος, κατασκευαστής
+order: status, id, item type, manufacturer#Ταξινόμηση:κατάσταση,id, είδος, κατασκευαστής
+order: status, item type, manufacturer,id#Ταξινόμηση:κατάσταση, είδος, κατασκευαστής,id
+order: status, model, item type, manufacturer#Ταξινόμηση:κατάσταση,μοντέλο, είδος, κατασκευαστής
+Other Info#Άλλες πληροφορίες
+Parent ID#ID προγόνου
+Parent#Πρόγονος
+Password#Κωδικός
+Patch Panel Port#Πόρτα patch panel
+Phone numbers#Αρ. τηλεφώνου
+Please check if this item can be rackmounted#Παρακαλώ σημειώστε εάν το αντικείμενο δύναται να αναρτηθεί σε ικρίωμα
+Please select item type#Επιλέξτε είδος αντικειμένου
+Please specify if this item is a part of another#Επιλέξτε εάν το αντικείμενο είναι εξάρτημα άλλου
+Populated from H/W Manufacturers defined in agents menu#Λίστα κατασκευαστών υλικού (μενού πράκτορες)
+populated from items of type switch or router#λίστα αντικειμένων είδους switch ή router
+Populate list from the Item Types menu#Λίστα ειδών αντικειμένων (μενού είδη αντικειμένων)
+Preset Name#Όνομα Προεπιλογής
+Presets#Προεπιλογές
+Print Labels#Εκτύπ. Εττικετών
+Property#Ιδιότητα
+Ptch.PnlPrt#Ptch.PnlPrt
+Purchace Price (#Τιμή Αγοράς
+Purchase Date#Ημ. Αγοράς
+PurchaseDate#Ημ. Αγοράς
+PurchPrice#Τιμή Αγοράς
+QTY#Ποσότητα
+Quantity#Ποσότητα
+Rackmountable#Σε ικρίωμα
+Rack Pos. (topmost)#Θέση Ικρ.
+Racks#Ικριώματα
+Rack#Ικρίωμα
+RAM (GB)#Μνήμη (GB)
+Read Only#Μόνο ανάγνωση
+Recent History#Πρόσφατο ιστορικό
+Related#Σχετικά
+Rel#Συσχετ.
+RemAdmIP#RemAdmIP
+Remote Administration IP#Διεύθυνση απομακρυσμένης διαχείρισης
+Renewals#Ανανεώσεις
+Reports#Αναφορές
+Right Margin#Δεξί περιθώριο
+Role#Ρόλος
+Rows#Γραμμές
+Save Invoice#Αποθήκευση τιμολογίου
+Save new location first to define areas onto it#Αποθηκεύστε πρώτα την τοποθεσία για να ορίσετε επιμέρους χώρους
+Save Preset#Αποθήκευση επιλογής
+Save#Αποθήκευση
+Select &amp; Print#Επιλέξτε &amp; τυπώστε
+select and print labels for your items#επιλογή και εκτύπωση ετικεττών
+Select Cores/CPU#Επιλέξτε πυρήνες/cpu
+Select items from the list above#Επιλέξτε αντικείμενα από την παραπάνω λίστα
+Select Items#Επιλέξτε αντικείμενα
+Select Label properties (manual or preset)#Επιλέξτε στοιχεία ετικέτας (προεπ. ή νέα)
+Select Report#Επιλέξτε αναφορά
+Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.#Επιλέξτε συστήματα όπου το λογισμικό είναι εγκατεστημένο. Εμφανίζονται αντικείμενα με την ιδιότητα 'υποστηρίζει λογισμικό' στο αντίστοιχο είδος τους.
+Select User#Επιλέξτε χρήστη
+Select 'YES' if software can be installed <b>on</b> this item.<br> Only items supporting software are listed when <br>performing software - item associations#Επιλέξτε 'ΝΑΙ' μπορεί να εγκατασταθεί λογισμικό <b>σε</b> αυτού του είδους το αντικείμενο.
+Select#Επιλέξτε
+Settings#Ρυθμίσεις
+Shop/Origin#Μαγαζί/προέλευση
+show also this text on printable labels#εμφάνιση του κειμένου και στις εκτυπώσιμες ετικέτες
+Show Labels#Εμφάνιση ετικετών
+Sibling#Αδέλφι
+Size (U)#Ύψος (U)
+Skip#Παράλειψη
+S/N 2#Σειριακός αρ. 2
+S/N#Σειριακός αρ.
+Software Associations#Συσχετίσεις λογισμικού
+Software Data#Στοιχεία λογισμικού
+Software title is missing#Λείπει ο τίτλος του λογισμικού
+Software Version is missing#Λείπει η έκδοση του λογισμικού
+SOFTWARE#ΛΟΓΙΣΜΙΚΟ
+Software#Λογισμικό
+Special maintenance instructions#Ειδικές οδηγίες συντήρησης
+Specify model#Ορίστε μοντέλο
+Specify user responsible for this item#Ορίστε υπεύθυνο χρήστη για το αντικείμενο
+Start Date of contract is missing#Λείπει η ημερομηνία έναρξης του συμβολαίου
+Start Date#Ημερ. έναρξης
+Start#Αρχή
+Status Types#Τύποι Καταστ.
+Status#Κατάσταση
+suggested resolution: 1024 pixels for A4 scans#συνιστώμενη ανάλυση 1024 pixels για A4
+Support and Maintanance, Leases, ...#Υποστήριξη &amp; συντήρηση, ενοικιάσεις, ...
+Supports<br>Software#Υποστηρίζει<br>Λογισμικό
+Switch Port#Switch Port
+Switch#Switch
+S/W Manufacturer is missing#Λείπει ο κατασκευστής λογισμικού
+S/W Manufacturer#Κατασκευστής λογισμικού
+Tags#Tags
+TAG#TAG
+taken from related invoice#προκύπτει από το σχετικό τιμολόγιο
+Text Padding#Padding κειμένου
+Title/Ver.#Τίτλος/έκδ.
+Title#Τίτλος
+Top Margin#Άνω περιθώριο
+Total Cost#Συνολικό κόστος
+Tree Explorer#Δενδρική Πλοήγηση
+Type Names#Είδη
+Type(s)#Είδη
+[type]#[είδος]
+Type#Είδος
+Upload a File#Ανεβάστε ένα αρχείο
+Upload a Floor Plan#Ανεβάστε κάτοψη ορόφου
+Uploaded by#Ανεβάστηκε από
+Upload Files#Ανέβασμα αρχείων
+Usage#Χρήση
+User Description#Περιγραφή χρήστη
+Username#Όνομα χρήστη (username)
+User responsible for this item#Υπεύθυνος χρήστης
+Users are used for both web login and as item assignees#Οι χρήστες χρησ/νται και για την πρόσβαση στο itdb και ως υπεύθυνοι αντικειμένων
+Users, Tags#Χρήστες, Tags
+Users#Χρήστες
+User#Χρήστης
+use when the top labels have already been printed#χρησιμοποιείστε το όταν έχουν τυπωθεί ήδη οι πρώτες ετικέττες 
+Value#Τιμή
+Vendors/Buyers/ Manufacturers#Πωλητές, αγοραστές, κατασκευαστές
+Vendor#Πωλητής
+Version#Έκδοση
+Vert. Pitch#Κάθετη απόσταση (pitch)
+View/Edit Subtypes#Εμφάνιση υποτύπων
+View items by type, by user, by agent#Εμφάνιση αντικειμένων ανά είδος, χρήστη, πράκτορα
+View Reports#Εμφάνιση αναφορών
+View#Εμφάνιση
+Warranty Info#Πληροφορίες Εγγύησης
+Warranty&nbsp;Months#Μήνες&nbsp;Εγγύησης
+Warranty#Εγγύηση
+Warr. Rem. days#Μέρες Εγ/σης
+Width#Πλάτος
+Yes#Ναι
+You forgot to select the file?#Ξεχάσατε να επιλέξετε αρχείο;
+Clone#Κλωνοποίηση
+Warning#Ειδοποίηση
+<b>status</b> of this item  different from status of associated item#η <b>κατάσταση</b> του αντικειμένου είναι διαφορετική από αυτή του συνδεδεμένου αντικειμένου
+<b>location</b> of this item  different from location of associated item#η <b>τοποθεσία</b> του αντικειμένου είναι διαφορετική από αυτή του συνδεδεμένου αντικειμένου
+<b>user</b> of this item  different from user of associated item#ο <b>χρήστης</b> του αντικειμένου είναι διαφορετική από αυτόν του συνδεδεμένου αντικειμένου
+No racks in location#τοποθεσία χωρίς ικριώματα
+No areas defined#Τοποθεσία χωρίς περιοχές
+Barcode Size#Μέγεθος γραμμοκώδικα
+<br>In the PDF printing dialog,#<br>Στο διάλογο εκτύπωσης του PDF
+<b>uncheck</b> 'auto-rotate &amp; center'</b>#απο-επιλέξτε την αυτόματη περιστροφή &amp; κεντράρισμα
+Click 'Make Item Labels'#Πατήστε 'Δημιουργία ετικεττών αντικειμένων'
+Company Title#Τίτλος Εταιρείας
+Currency#Νόμισμα
+Date Format#Τύπος ημερομηνίας
+Header#Επικεφαλίδα
+Header Image#Εικόνα επικεφαλίδας
+Header Text#Κείμενο επικεφαλίδας
+Image Size (WxH)#Μέγεθος εικόνας (ΠxΥ)
+Interface Language#Γλώσσα διαπροσωπείας
+ITDB Settings#Ρυθμίσεις ITDB
+Language#Γλώσσα
+Paper Size#Μέγεθος χαρτιού
+QR Barcode#QR Barcode
+Save#Αποθήκευση
+set <b>'Page Scaling'</b> to <b>'None'</b>#ορίστε <b>'κλιμάκωση σελίδας (Page Scaling)'</b> σε <b>'Καμία (None)'</b>
+Settings#Ρυθμίσεις
+Translations#Μεταφράσεις
+Users, Tags, Dates, Currency,...#Χρήστες, tags, ημερομηνίες, νόμισμα,...

@@ -1,0 +1,24 @@
+
+Prerequisites
+-------------------
+-Apache 2.2 on a posix system (linux, solaris, etc) (apache 2.0 may also work)
+-php > 5.2.x
+-php sqlite pdo, sqlite >3.6.14.1
+-for some installations, you may have to install also the php-posix package
+-for recent fedora systems, define short_open_tag=On in php.ini (this will -not be necessary in the next version)
+
+Browse to itdb/phpinfo.php to find out which sqlite is used by apache/php
+
+INSTALLATION
+-------------------
+
+   1. extract the files in a web-exported directory
+   2. rename pure.db to itdb.db (pure.db is a blank db)
+   3. make the data/itdb.db file AND the data/ directory AND the data/files/ directory readable and writeable by the web server
+   4. Login with admin/admin
+
+send me patches/bugs/well-thought ideas
+sivann _at gmail dot com
+
+Latest version can be found here:
+http://www.sivann.gr/software/itdb/

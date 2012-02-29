@@ -1,0 +1,50 @@
+KNOWN BUGS:
+---------------
+
+TODO/IDEAS
+================================================================================
+-user selection, and others: instead of pull-down select, use jqueryui's autocomplete combobox
+-software version update via gui
+
+-EOS (end of support by manfucacturer) in software/hardware
+-add history (renewals) + events in software 
+-incidents/Tickets
+-design PC/server layout in Locations. Assign Items to x/y over imagemap
+-individual column filtering datatables (http://www.datatables.net/examples/api/multi_filter.html)
+-previous next item for each thing
+-add support for configuration files (textareas) with version control. (rancid like?)
+-add knowledge area, with connections to items & software (text)
+-Purchase Order management (orderID, vendor, Item Description, QTY ORDered, Qty shipped, Unit Price, order date, expected ship date, comments, attached files, type (hw/sw/project). 
+create PO->submit for approval->approved/rejected->ordered->partially received->received->invoice received->payment done->closed PO
+-+searches: open orders, shipmen history, project orders
+-software classes (types).
+-unify tab association code
+-replace file uploader with one supporting drag&drop
+-email column on users, add cron notification on contract/warranty expiration
+-integrate with nagios services (item2service table)
+-license models: on inventory data:per installation, OEM and machine licensing. On external data sources: qualified desktop, CPU, user, named user, server, client access license (CAL), site, enterprise and user-defined models.
+-Contract Fields:  Key Dates,  One-time and Recurring Actions, Obligations and Provisions,  Contract Summary, Documents, Amendments, financial, scope
+-inplace edit/add itemtypes, agents, users
+-RRD support for historical graph trends (via cron). 
+-virtual/non virtual. Also reports virtual/non virtual
+---------------
+
+auto software/hardware cataloguing/dependency building
+-table with list of commands that provide remote cataloguing. 
+-table with procname/software name/configurations file,key/remote system dependency detection in the conf file for this software 
+-AES password manager:client-based AES password decrypter for online password storage
+---------------
+
+-CD numbering for software CDs
+
+more reports:
+---------------
+-yearly maintenance cost 
+-list of items (descriptions, not itemcount) per location
+-report maintenance: item, warranty end, maintenance end
+
+MEMO:
+---------------
+-barcode here: http://www.fpdf.de/downloads/addons/68/
+-table:networkports(id, osname, label, type, mac, remportid)
+ or item(port,name,type,vlan,ip,function,mac,notes)

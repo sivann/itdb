@@ -1,0 +1,47 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>JavaScript Implementation of AES Advanced Encryption Standard in Counter Mode</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="author" content="Chris Veness, 2005-2007">
+<meta name="keywords" content="AES advanced encryption algorithm standard counter mode operation javascript">
+<link href="../css/mtl.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+button {
+  font-size: 0.9em;
+  height: 1.9em;
+  padding: 0 0.25em 0 0.25em;
+  width:auto;
+  overflow:visible;
+}
+</style>
+<script type="text/javascript" src="aes-lib.js">/* AES JavaScript implementation */</script>
+</head>
+
+<body>
+  <h2>AES Advanced Encryption Standard</h2>
+
+  <form name="f" action="none!">
+    <table>
+      <tr>
+        <td>Password:</td>
+        <td><input type="text" name="pw" size="16" value="L0ck it up saf3"></td>
+      </tr>
+      <tr>
+        <td>Plaintext:</td>
+        <td><input type="text" name="pt" size="40" value="pssst ... đon't tell anyøne!"></td>
+      </tr>
+      <tr valign="bottom">
+        <td><input type="button" name="encrypt" value="Encrypt it:" accesskey="e"
+              onClick='f.cipher.value = AESEncryptCtr(f.pt.value, f.pw.value, 256)'></td>
+        <td><input type="text" name="cipher" size="80"></td>
+      </tr>
+      <tr valign="bottom">
+        <td><input type="button" name="decrypt" value="Decrypt it:" accesskey="d"
+                onClick='f.plain.value = AESDecryptCtr(f.cipher.value, f.pw.value, 256)'></td>
+        <td><input type="text" name="plain" size="40"></td>
+      </tr>
+    </table>
+  </form>
+</body>
+</html>

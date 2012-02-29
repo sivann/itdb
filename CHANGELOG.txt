@@ -1,0 +1,591 @@
+CHANGELOG
+
+LEGEND:
+-------------
++:new feature 
+I:improvement 
+B:bugfix
+
+1.5 -> 1.6 19/01/2012
+-------------------------------------------------------------------------------------------------------
+B:fixed rack icon links on home screen
+I:updated jqplot jquery plotting library from 0.9.7r629 to version 1.0b to support IE9
+I:better css on the translation interface
++:easy enable read only demo mode (conf.php)
+
+1.4 -> 1.5 1.5 12/01/2012
+-------------------------------------------------------------------------------------------------------
+B:fixed wrong header in item list (Buyer instead of Location)
+B:fixed deleting of racks
+I:alternative detection of web server username if no posix extensions are installed of are buggy (init.php)
+
+1.3.1 -> 1.4 30/8/2011
+-------------------------------------------------------------------------------------------------------
+B:check if rackmounted item boundaries go beyond the rack size when drawing the rack
+B:fixed translations bug. New translations could not be used in previous version.
+I:improved browser compatibility when downloading pdf labels
+I:more elements translated
+I:replaced fpdf with tcpdf pdf library
+I:constant preview when defining header image
+I:all properties of labels are now defined and saved in the Print Labels menu (header, font sizes, padding, header image, image size, paper size etc)
++:clone item button. Creates a new item with most properties identical, except user, serial numbers, location, IP, associations, etc.
++:track user changes: automatic item log entries "changed user from x to y" when changing user in items.
++:display warning if connected items have different status,user or location
++:in item edit, only racks of selected location are displayed
++:racks have now their own separate list and edit pages
++:when changing rack location, the location of all items in the rack is updated as well
++:barcodes in labels! (QR-code 2d barcodes).
++:unicode fonts are now supported in labels. 
++:date format, currency, language, is now configured on the interface without the need to edit configuration files.
++:translation interface: add, edit translations
+
+
+DB UPGRADE from 1.3.1->1.4
+-----------------------------
+update items set rackposition='' where rackposition='-';
+update items set rackid='' where rackid='-';    
+update items set locationid=(select locationid from racks where racks.id=items.rackid) where items.locationid=''; 
+update items set locationid=(select locationid from racks where racks.id=items.rackid) where items.locationid is NULL; 	
+
+alter table labelpapers add column border;
+alter table labelpapers add column padding;
+alter table labelpapers add column headerfontsize;
+alter table labelpapers add column idfontsize;
+alter table labelpapers add column wantheadertext;
+alter table labelpapers add column wantheaderimage;
+alter table labelpapers add column headertext;
+alter table labelpapers add column fontsize;
+alter table labelpapers add column wantbarcode;
+alter table labelpapers add column barcodesize;
+alter table labelpapers add column image;
+alter table labelpapers add column imagewidth;
+alter table labelpapers add column imageheight;
+alter table labelpapers add column papersize;  
+
+update labelpapers set border=200, padding=1, headerfontsize=6, idfontsize=7, wantheadertext=1, wantheaderimage=1;
+update labelpapers set headertext='Header Text', fontsize=6,wantbarcode=0,barcodesize=20;
+update labelpapers set imagewidth=5, imageheight=5, papersize='A4', image='images/itdb.png';
+
+create table settings(companytitle, dateformat, currency, lang, version);
+insert into settings (companytitle,dateformat,currency,lang,version) values ('','dmy','&euro;','en','1.3');
+
+
+
+
+1.3 -> 1.3.1 1/8/2011
+-------------------------------------------------------------------------------------------------------
+B:release had Greek as default by mistake.
+B:suppressed some undefined var warnings existent in some installations
+B:fixed an invalid image link
+
+
+
+1.2 -> 1.3 30/7/2011
+-------------------------------------------------------------------------------------------------------
+I:graphically display rack occupation in rack list 
+I:display associated contract files in items and software
+I:itemtypes:hidden IDs converted frmget to frmpost
+I:statustypes:hidden ID
+I:upgraded jquery 1.5.1 -> 1.6
+I:removed the checkboxes to allow for saving individual racks. All racks are saved at once now
+I:tabs now are displayed after loading, suppressing the momentary display of unformated page contents
+I:added "view racks" icon to home screen
+I:added $sth->closeCursor(); to most functions to free sqlite cursors
+I:areas with items assigned, cannot be deleted
+I:new multiple select javascript for label printing. Works better with all browsers.
+B:fixed tag display in item list (was shown as link)
+B:undefined purchasedate now is '' instead of null on both new items and updates. This may unhide some items.
+B:fixed item search filtering in label printing to work with FF4
+B:fixed wrong link in home page labeled "edit status types" which was redirecting to "edit users"
++:area field is now separate: area (room/office) for items and racks in addition to location (building,floor).
++:paginating data grid for all lists (items,software,invoices,files,etc)
++:translation file support. Already translated in Greek.
+
+
+DB UPGRADE from 1.2->1.3:
+----------------------
+update items set userid=1 where userid is null;
+update items set userid=1 where userid = '-';
+update items set purchasedate='' where purchasedate is NULL;
+alter table items add column locareaid number;
+update items  set locareaid=trim(substr(replace(locationid,':','      '),4));
+update items  set locationid=trim(substr(replace(locationid,':','      '),-4,-8));
+alter table racks add column locareaid number;
+update racks  set locareaid=trim(substr(replace(locationid,':','      '),4));
+update racks  set locationid=trim(substr(replace(locationid,':','      '),-4,-8));
+
+
+
+
+
+
+
+
+
+1.1 -> 1.2  8/5/2011
+-------------------------------------------------------------------------------------------------------
+I:new home page: includes a simplified view of most functions for begginers
+I:better conf.php comments/layout
+I:Changed all <? to <?php. It can now be installed in systems with short_open_tag=Off in php.ini (Fedora)
+I:styling: left menu, status color alignment, listitems table header
+I:3 new predefined status colors styles for the next 3 user-defined item statuses: yellow, magenta, cyan
+i:marked the first 4 status types as "internal" (non-deletable) ($internaltypes at editstatustypes.php)
+I:added some more item types on the default installation to help you start
+I:accidentaly pressing enter on input boxes doesn't now submit the form (use the save button for that) 
+I:moved database and files under the data/ folder
+B:fixed a bug where after inserting a new contract, you were not redirected to the contract's page correctly, but to an invalid url
+B:fixed cursor to be a pointer above tree browser arrows
+B:current page is now displayed in bold (list items)
+
+DB UPGRADE from 1.1->1.2:
+----------------------
+execute the following commands on your shell:
+#cd to the itdb/ directory
+
+mkdir data/
+mv *.db data/
+mv files/ data/
+
+chown wwwuser.wwwgroup data/ # where wwwuser,wwwgroup is your web server's user and group
+
+
+proceed with the upgrade as normal.
+
+
+
+
+1.0b -> 1.1 25/4/2011
+-------------------------------------------------------------------------------------------------------
++:TAGS  support. AJAX adding/removing of tags (3rd NF) for items and software. List of items per tag (Tags menu). 
++:Client based form validation for items, software, invoices, files and contracts. (The rest have too few fields to bother)
+I:new date masked input (works for dmy and mdy configurations)
+I:upgraded several .js libs to current versions.
+I:new TABS code (jqueryui). You can now bookmark them.
+I:some language clean-up in tooltips
+I:styling of tables
+I:styling of mandatory fields
+I:more uniform look of input elements
+I:unification of edititem and additem internal code. 
+B:fixed action saving when no action date specified (adds current date)
+B:fixed action saving in items (no more repeated entries when saving on same day) 
+B:fixed upgrade instructions for 0.23->1.0
+B:fixed displaying of racks with no items assigned
+B:fixed saving locations in more than 2 racks at a time (edit racks)
+B:fixed displaying of download arrow in list software (was displayed inside next column)
+
+DB CHANGES
+-----------
+CREATE TABLE tags (id INTEGER PRIMARY KEY AUTOINCREMENT, name);
+CREATE TABLE tag2item (itemid integer,tagid integer);
+CREATE TABLE tag2software (softwareid integer,tagid integer);
+
+
+1.0a -> 1.0b 14/01/11
+-------------------------------------------------------------------------------------------------------
+B:saving a new item for the first time didn't save software/invoice relations 
+B:Invoice list in software list (overview) was not shown correctly
+B:don't display broken floorplan image if no floorplan has been defined
+I:report menu now defined in array for easy expansion
+I:vendor/manufacturer lists are now ordered by title and not by id in pulldown menus
+I:link hover is now underline instead of colors change
+I:file date is now pre-filled from invoice date when uploading invoice file 
+I:new combined columns of edit+id: edit icon with ID display on top. applies to most screens.
+I:item status colors are now css based (status1, status2, ...). The first 4 predefined status css are already defined.
+
+DB CHANGES
+----------
+UPDATE software set invoiceid='';
+
+
+
+0.23 -> 1.0a 
+-------------------------------------------------------------------------------------------------------
+This is a major release, with lots of rewritten code parts, bugfixes and many new features.
+
+*********************************************************************************************************
+** WARNING: the following information will be lost when upgrading to this version from the previous one**
+*********************************************************************************************************
+Keep a .tar.gz of your old installation before upgrading. It's very easy. 
+1) In both items and software: support type, supporter, maintenance end, maintenance billing freq, maintenance cost. 
+You must re-create this info as associated contracts.
+2) Office names in location. Building names & floors will be retained. The location part was redesigned.
+
+
+-added: major styling revamp. More space-saving, more consistent, better looking.
+-added: Contracts top-level entity (history, relations w/ items & software, invoices)
+-added: horizontal rack positioning for items (front, middle, back, combinations)
+-added: tips on home screen for new users
+-added: Tree-like database browser: by User, by Agent, by Item Type
+-added: different tab/html Title for each page (to help discriminate multiple open tabs)
+-added: improved datepicker 
+-added: file editing functionality. For a given file (document, manual, etc) edit software/item relations, Title, etc.
+        When removing a file association from an item, files are not deleted if more items link to it.
+-added: auto action entries on items. (Added on xxx by yyy, updated on xxx by yyy)
+-added: configurable log size for database history. Defaults to 1000 entries.
+-added: report items with warranty ending or ended close to current date
+-added: ability to associate multiple invoices per software
+-added: recent view/edit history list on menu column
+-added: "Issue Date" on files
+-added: removable status types, contract types, item types and locations
+-added: locations,status,item and contract types cannot be removed now if they are used somewhere.
+-added: label printing: subsort by id, model
+-added: associations overview in items, software, invoices, agents, files and contracts
+-added: associations with other types (items/software/invoices/files/contracts) from all types. Now you can both associate a software with multiple items AND an item with multiple software.
+-added: alternating sort order in list items in each column click
+-added: files list includes files of related invoices in items, software, contracts
+-added: quickfilter in software,invoice,agent,files, contracts lists
+-added: show rack popuplation in rack list
+-added: pie graph support in reports
+-fixed: item searching in label printing not working for chrome/IE. Now it degrades to some basic functionality.
+-fixed: allow read-only users to view associations. (They were previously denied since some complex queries required 
+        the creation of temporary tables)
+-fixed: bug when saving agents
+-fixed: hard coded location denominators now in english (floor, office)
+-fixed: default image on home page now comes from config.php
+-fixed: cleaner "excel" export: no header links, no header images
+-fixed: quotes and other special character handling for all GET + POST variables. Change variable serialization to base64 internaly for labels
+-fixed: item serial number 2 (sn2) display in file- software- and item- to item association tables
+-fixed: affinity issues for item2inv id datatypes
+-fixed: better automatic installation guidance regarding filesystem permissions
+
+
+DB Changes 0.23->0.24
+----------------------
+WARNING: the following information will be lost when upgrading to this version: items AND software:support type, supporter, maintenance end, maintenance billing freq, maintenance cost.  You must re-create this info as associated contracts.
+
+alter table items add rackposdepth integer;
+alter table files add column uploader;
+alter table files add column uploaddate;
+CREATE TABLE files (id INTEGER PRIMARY KEY AUTOINCREMENT,type,title,fname, uploader,uploaddate);
+update items set rackposdepth=6 where rackmountable=1;
+alter table actions add column isauto;
+alter table actions add column entrydate integer;
+update actions set isauto=0;
+create table  contract2item(itemid integer,contractid integer);
+create table  contract2soft(softid integer,contractid integer);
+create table  contract2inv(invid integer,contractid integer);
+create table  contract2file(contractid integer,fileid integer);
+create table  contracttypes(id INTEGER PRIMARY KEY AUTOINCREMENT, name);
+create table contracts(id integer primary key autoincrement, type integer, parentid integer, title, number, description, comments, totalcost, contractorid integer, startdate integer, currentenddate integer, renewals);
+CREATE TABLE contractevents(id integer primary key autoincrement,siblingid integer, contractid integer, startdate integer, enddate integer, description);
+CREATE TABLE locareas(id  INTEGER PRIMARY KEY AUTOINCREMENT,locationid number,areaname,x1 number,y1 number,x2 number,y2 number);
+CREATE TABLE tt1 (itemid integer,invid integer);
+INSERT INTO tt1 SELECT * FROM item2inv;
+DROP TABLE item2inv;
+ALTER TABLE tt1 RENAME TO item2inv;
+CREATE TABLE soft2inv(invid integer,softid integer);
+insert into soft2inv(invid,softid) select invoiceid,id from software where invoiceid <9999 and invoiceid>0;
+create table viewhist(id INTEGER PRIMARY KEY AUTOINCREMENT, url,description);
+CREATE TABLE contractsubtypes(id INTEGER PRIMARY KEY AUTOINCREMENT, contypeid integer,name);
+begin transaction;
+alter table items rename to items_t;
+CREATE TABLE items (id INTEGER primary key autoincrement,itemtypeid integer, function, manufacturerid integer,model,sn,sn2,sn3,origin,warrantymonths integer,purchasedate integer,purchprice,dnsname,maintenanceinfo,comments,ispart integer,hd,cpu,ram,locationid integer,userid integer,ipv4,ipv6,usize integer,rackmountable integer,macs,remadmip,panelport,ports integer,switchport,switchid integer,rackid integer,rackposition integer,label,status integer, cpuno INTEGER, corespercpu INTEGER, rackposdepth integer);
+insert into items(id ,itemtypeid , function, manufacturerid ,model,sn,sn2,sn3,origin,warrantymonths ,purchasedate ,purchprice,dnsname,maintenanceinfo,comments,ispart ,hd,cpu,ram,locationid ,userid ,ipv4,ipv6,usize ,rackmountable ,macs,remadmip,panelport,ports ,switchport,switchid ,rackid ,rackposition ,label,status , cpuno , corespercpu , rackposdepth ) select id ,itemtypeid , description, manufacturerid ,model,sn,sn2,sn3,origin,warrantymonths ,purchasedate ,purchprice,dnsname,maintenanceinfo,comments,ispart ,hd,cpu,ram,locationid ,userid ,ipv4,ipv6,usize ,rackmountable ,macs,remadmip,panelport,ports ,switchport,switchid ,rackid ,rackposition ,label,status , cpuno , corespercpu , rackposdepth  from items_t;
+drop table items_t;
+commit;
+alter table items add warrinfo;
+begin transaction;
+alter table software rename to software_t;
+CREATE TABLE software (id INTEGER PRIMARY KEY autoincrement, invoiceid integer,slicenseinfo ,stype ,manufacturerid integer ,stitle ,sversion ,sinfo ,purchdate integer,licqty integer, lictype integer);
+insert into software (id, invoiceid ,slicenseinfo ,stype ,manufacturerid  ,stitle ,sversion ,sinfo ,purchdate ,licqty , lictype ) select id, invoiceid ,slicenseinfo ,stype ,manufacturerid  ,stitle ,sversion ,sinfo ,purchdate ,licqty , lictype from software_t;
+drop table software_t;
+commit;
+DROP table support;
+alter table contracts add subtype integer;
+alter table files add date integer;
+begin transaction;
+alter table locations rename to locations_t;
+CREATE TABLE locations (id INTEGER PRIMARY KEY AUTOINCREMENT, name, floor);
+insert into locations (id,name,floor) select id,name,floor from locations_t;
+drop table locations_t;
+commit;
+alter table locations add floorplanfn;
+
+update items set locationid=null where locationid='-';
+
+
+0.23 29/09/2010
+-------------------------------------------------------------------------------------------------------
+-added: show item status colors  (in use, defective, etc) in software list/editing ,  software-item associations 
+-added: denied itdb.db download for non-authenticated user (.htaccess)
+-added: "Obsolete" status
+-added: max-height in "installed on" software list. Software row cannot be too tall now.
+-added: configurable item status
+-fixed: removed display of user DB id in userlist in item association (was left there for debugging)
+-fixed: edit item types: order by description (was:random)
+-fixed: better UPGRADE instructions in 00-UPGRADE
+-fixed: when clicking "save" on a new item/invoice/software/etc, the new item is displayed now after saving instead of displaying the "add new" screen
+-fixed: could not add new software
+
+#run the following SQL commands to update your previous version to the current one (see 00-UPGRADE):
+CREATE TABLE statustypes (id INTEGER PRIMARY KEY AUTOINCREMENT, statusdesc);
+INSERT INTO statustypes (id,statusdesc) values (0,'In Use');
+INSERT INTO statustypes (id,statusdesc) values (1,'Stored');
+INSERT INTO statustypes (id,statusdesc) values (2,'Defective');
+INSERT INTO statustypes (id,statusdesc) values (3,'Obsolete');
+INSERT INTO statustypes (id,statusdesc) values (4,'inService');
+
+
+
+0.22 14/06/2010
+-added: check for directory permissions
+
+0.21  09/06/2010
+-added: filter in software list
+-added: description column  in invoice list
+-fixed: image shown in home.php now comes from conf.php
+-fixed: invoice, software & relevant invoice links in finditems
+-fixed: phone numbers not shown in agents list
+-fixed: reports "items without invoice" and "list items with IP" showed manufacturer ID instead of name
+bug reports by Justin
+
+0.20 07/06/10
+-added: Added Warranty Type, S&M Cost, & Billing Freq and several more changes by  Justin Willoughby 
+-added: filter by item status on main page
+-fixed: invoice list in software-invoice association now includes invoices without files attached
+-added: changed all edit links [V] to the edit icon
+
+0.19  02/06/2010
+-fixed: label column not populating in connectTo items list
+-fixed: label printing over label image when label header had fewer than 3 lines
+-fixed: default DB now contains some Avery paper definitions
+-fixed: label printing now supports printing multi-page labels (previously only the first page would print)
+-fixed: ability to link items to invoices without files
+
+
+
+0.18 31/05/10
+-fixed manufacturer printing in labels
+-date fields cannot take text any more (checked for 00/00/0000)
+-fixed "has software" property saving when adding new item types
+-fix display of invoices with multiple files, in item-invoice connections 
+-added item filter box when selecting labels to print
+-added table row filters in item associations and invoice associations (item edit)
+-fixed saving agents when URLs < Contacts
+
+
+0.17 28/5/2010
+-added IP column on history
+-several bugfixes from an extensive bug report from Justin Willoughby (thanks!)
+
+
+DB update from 0.16->0.17
+alter table history add ip;
+alter table items add supporterid integer;
+alter table software add supportid integer;
+alter table software add supporterid integer;
+
+
+
+0.16 27/5/2010
+-added reports menu. First report: "Items without invoices"
+-added reports menu. First report: "IP address list"
+-fixed:finditems: users were reported under the S&M column
+-label field from items is now shown in label printing
+-support for both d/m/Y and m/d/Y date format ($dateformat parameter in conf.php)
+-raised session timeout to 48h (from 24h)
+-Agents table: vendors/buyers/manufacturers. Agents can have multiple roles.
+-corrected a bug in connected switch reporting on main item listing
+-added agents: vendors buyers, SW&HW manufacturers. All those are entered to a separate table and not free text.
+ agents include contacts, urls, etc
+-added support & maintenance type
+
+
+DB update from 0.15->0.16:
+
+alter table invoices add description;
+alter table items add supportid integer;
+CREATE TABLE support  (id INTEGER PRIMARY KEY , title, description);
+CREATE TABLE agents  (id INTEGER PRIMARY KEY AUTOINCREMENT, type integer, title, contactinfo, contacts,urls);
+insert into agents (title,type) select distinct UPPER(vendor),4 from invoices;
+insert into agents (title,type) select distinct UPPER(buyer),1 from invoices;
+insert into agents (title,type) select distinct UPPER(scompany),2 from software;
+insert into agents (title,type) select distinct UPPER(manufacturer),8 from items;
+
+update invoices set vendor=(select id from agents where title = upper(invoices.vendor) and agents.type=4);
+update invoices set buyer=(select id from agents where title = upper(invoices.buyer) and agents.type=1); 
+update software set scompany=(select id from agents where title = upper(software.scompany) and agents.type=2);
+update items set manufacturer=(select id from agents where title = upper(items.manufacturer) and agents.type=8);   
+
+
+alter table invoices rename to tmp_invoices;
+CREATE TABLE "invoices" ("id" INTEGER PRIMARY KEY ,"number" ,"date" integer,vendorid  integer,buyerid integer , description);
+insert into invoices (id ,number ,date ,vendorid  ,buyerid  , description) select id ,number ,date ,vendor  ,buyer  , description from tmp_invoices;
+drop table tmp_invoices;
+
+alter table software rename to tmp_software;
+CREATE TABLE software (id INTEGER PRIMARY KEY ,invoiceid integer,slicenseinfo ,stype ,manufacturerid integer ,stitle ,sversion ,sinfo ,purchdate integer,licqty integer, lictype integer, maintbilling  integer, maintcost  integer, maintend  integer);
+insert into software (id ,invoiceid ,slicenseinfo ,stype ,manufacturerid  ,stitle ,sversion ,sinfo ,purchdate ,licqty , lictype , maintbilling  , maintcost  , maintend  ) select id ,invoiceid ,slicenseinfo ,stype ,scompany  ,stitle ,sversion ,sinfo ,purchdate ,licqty , lictype , maintbilling  , maintcost  , maintend  from tmp_software;
+drop table tmp_software;
+
+
+alter table items rename to tmp_items;
+CREATE TABLE "items" ("id" INTEGER PRIMARY KEY ,"itemtypeid" integer,"description" ,"manufacturerid" integer ,"model" ,"sn" ,"sn2" ,"sn3" ,"origin" ,"warrantymonths" integer,"purchasedate" integer,"purchprice" ,"dnsname" ,"maintenanceinfo" ,"comments" ,"ispart" integer,"hd" ,"cpu" ,"ram" ,"locationid" integer,"userid" integer,"ipv4" ,"ipv6" ,"usize" integer,"rackmountable" integer,"macs" ,"remadmip" ,"panelport" ,"ports" integer,"switchport" ,"switchid" integer,"rackid" integer,"rackposition" integer,"label" ,"status" integer, cpuno INTEGER, corespercpu INTEGER, maintend  integer);
+
+insert into items (id  ,itemtypeid ,description ,manufacturerid ,model ,sn ,sn2 ,sn3 ,origin ,warrantymonths ,purchasedate ,purchprice ,dnsname ,maintenanceinfo ,comments ,ispart ,hd ,cpu ,ram ,locationid ,userid ,ipv4 ,ipv6 ,usize ,rackmountable ,macs ,remadmip ,panelport ,ports ,switchport ,switchid ,rackid ,rackposition ,label ,status , cpuno , corespercpu , maintend  ) select id  ,itemtypeid ,description ,manufacturer ,model ,sn ,sn2 ,sn3 ,origin ,warrantymonths ,purchasedate ,purchprice ,dnsname ,maintenanceinfo ,comments ,ispart ,hd ,cpu ,ram ,locationid ,userid ,ipv4 ,ipv6 ,usize ,rackmountable ,macs ,remadmip ,panelport ,ports ,switchport ,switchid ,rackid ,rackposition ,label ,status , cpuno , corespercpu , maintend  from tmp_items;
+drop table tmp_items;
+
+
+0.15 09/05/2010 
+the 3 following  patches and most ideas in this release by Justin Willoughby:
+-fixed rack deletion
+-raised model input size in racks
+-raised license QTY to 400
+-display related invoice vendor in software list
+-support software licensing counting per box/cpu/core
+-added related fields in items (cpu count, cores per cpu)
+-added "maintenance end" date on software. This is to reflect the latest contract for each software.
+ Since this will be repeated multiple times during the software's life, also attach the maintenance contract as file.
+-added software maintenance cost
+-added maintenance cost charging frequency (times/yr) 
+-added maintenance end date on software list (red when expired)
+-added maintenance end date for items
+-added maintenance end date on items list (red when expired)
+-removed obsolete "license file" column from software list
+
+
+DB update from 0.14->0.15:
+alter table items add cpuno INTEGER;
+alter table items add corespercpu INTEGER;
+alter table items add maintend  integer;
+alter table software add lictype integer;
+alter table software add maintbilling  integer;
+alter table software add maintcost  integer;            
+alter table software add maintend  integer;  
+update items set cpuno=0;
+update items set corespercpu=0;
+
+0.14 28/2/2010
+-completely rewritten file-item,file-invoice,file-software connections
+-completely rewritten file handling (uploading, association detection functions, etc)
+-support for multiple files and filetypes per item/invoice/software
+-software editing: link to edit assoc. invoice
+-don't try to include action pages if not logged in (suppressing DB errors)
+-invoice info + license: larger text areas
+-installed into/connected into, pre-selected items have their ID in bold 
+-invoice editing: display connected items from item2inv and connected software (software.invoiceid)
+-sortable tables in item connections, item invoice, software installations
+-fully sortable table in software list
+-new and uniform save/delete buttons
+-replaced several icons with better & free
+-changed cookie scope
+
+
+0.13 17/10/2009 
+-red/green item status indicator in pdf lists and finditems
+-improved printout of finditems (header on every page, removed #mainheader from print)
+-order item type list by itemtype instead of id in itemform
+-layout improvements in software list and itemlist
+-transactional database deletes/updates in item2inv,itemlink
+-ITDB source code current size: about 7000 lines
+-fixed 4-5 td/tr/sup/option tag errors reported by chrome's javascript console
+
+
+0.12 09/10/2009 
+-added property "quantity" for software licensing
+-pdf labels:added ability for different fontsize and color for header,body,ID
+-pdf labels:added ability to skip already printed labels on paper
+-order item type list by itemtype instead of id in finditems
+
+0.11 17/09/2009 
+-don't display download links when not logged in
+
+0.10 25/08/2009 
+-fixed page links in pagination
+-fixed year/month date in item list
+-fixed combined sort+search in item list
+-display detailed installed software list for each item (edititem)
+-show all items in one page in item list
+ 
+0.9 13/07/2009 
+---
+-display invoice file link in software list and edit
+-fixed bug in switch assignment of items
+-new invoice filename: inv-<vendor>-<inv#>-<date>-<id>.<ext>
+-new license filename: lic-<company-title-version>-<date>-<id>.<ext>
+-batch invoice rename utility (file+db)
+-batch license rename utility (file+db)
+
+
+
+0.8 4/07/2009 
+---
+-various aesthetic changes, a new icon
+-new invoices and new license files do not retain original filename, only extension
+-search button on item list header
+-pagination in item list
+-expandable columns in item list
+-different colors per row in item list
+-moved most included files in include/ directory
+-selectable font size in pdf label printing
+-new link to download sqlite database
+-new link to download realtime generated backup in tar format
+-bugfix: greek in excel export
+-bugfix: when deleting invoices, the file is also deleted now
+-bugfix: when deleting software, the license file is also deleted now
+
+
+
+0.7 26/06/2009 
+---
+-show software invoices/host in finditems
+-added field in invoice: buyer
+-several html fixes
+-different icon/color for warning/info messages
+
+
+0.6 
+---
+-fixed bug in network ports insert
+-reverse numbering in rack positions now supported
+-fixed small bug with warrantyinfo
+-when adding new items, hd, ram, cpu were not saved
+
+
+0.5 10/05/2009
+---
+-https handling
+-better configuration files
+-pdf labels
+-create table labelpapers (id INTEGER PRIMARY KEY AUTOINCREMENT,rows integer, cols integer, lwidth real, lheight real,  vpitch real,  hpitch real,  tmargin real,  bmargin real,  lmargin real,  rmargin real, name);
+
+
+0.4 22/04/2009
+---
+-simplified left menu
+-order items by id
+-readonly users
+DB:alter table users add column usertype integer;
+DB:update users set usertype=0;
+
+
+0.3 18/04/2009
+---
+DB:alter table items add ipv4; 
+DB:alter table items add ipv6;
+DB:alter table items add usize int;
+DB:alter table items add rackmountable int; 
+DB:alter table items add macs;
+DB:alter table items add remadmip;
+DB:alter table items add panelport;
+DB:alter table items add ports integer;   
+DB:alter table items add switchport;     
+DB:alter table items add switchid integer;
+DB:alter table items add rackid integer;   
+DB:alter table items add rackposition integer;
+DB:alter table items add label ;
+DB:alter table items add column status integer;
+DB:create table racks (id INTEGER PRIMARY KEY AUTOINCREMENT, locationid integer, usize integer, depth integer, comments,model,label);
+
+init.php: auto-guess dbfile path
+added: editracks.php
+added: viewrack.php
+added support for new fields to itemforms.php, {edit,add}items.php
+improved menu layout
+lots of other changes
+
+
+0.2
+--
+first usable version
+

@@ -1,0 +1,3 @@
+to replace <? to <?php and <?= to <? echo 
+find . -iname "*.php" -print0 | xargs -0 -I{} sed -i 's/\(<?\)\([^p]\|$\)/\1php \2/g' '{}'  
+find . -iname "*.php" -print0 | xargs -0 -I{} sed -i 's/?php[ ]\+=/?php echo /g' '{}' 

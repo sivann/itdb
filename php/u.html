@@ -1,0 +1,33 @@
+<html>
+<head>
+<link rel="stylesheet" href="../../css/itdb.css" type="text/css">
+
+</head>
+
+<body>
+
+
+<div style='float:left;border:1px solid black;width:400px;'>
+<table width='100%' border=0>
+<tr>
+  <form target="upload_target" id="file_upload_form" method="post" enctype="multipart/form-data" action="upload.php">
+  <td  style='width:50px;'>File:</td>
+  <td><input name="file" id="file" size="25" type="file"></td>
+  <td><input type="submit" name="action" value="Upload"></td>
+</tr>
+<tr>
+  <td>Title:</td>
+  <td colspan=2><input name="title" id="title" size="45" style='width:350px;' type="text"></td>
+</tr>
+<tr>
+  <td style='text-align:center;border-top:1px solid  #a0a0a0;' colspan=3>
+  <iframe id="upload_target" name="upload_target" src="upload.php"  frameborder="0"></iframe>
+  </td>
+</tr>
+</form>
+</table>
+</div><!-- upload -->
+
+
+
+</body>

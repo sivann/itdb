@@ -1,0 +1,66 @@
+
+h1 {
+  text-align:left;
+  border:0;
+  border-bottom:1px dashed #666;
+  background-color:white;
+
+  color:#444;
+  font-size:12pt;
+  text-shadow:3px 3px 4px #cCCCCC;
+}
+
+div.relatedlist {
+  /*background-color:#64788C;*/
+  /*background-color:#0073C5;*/
+  background-color:#6484A4;
+  color:#ffffff;
+}
+
+table.tbl2 th {
+  /*background-color:#64788C;*/
+  background-color:#6484A4;
+  color:#ffffff;
+
+}
+
+table.brdr th {
+  background-color: #1E4380;
+  border-right: 1px solid #769BD8;
+  color:#FFF;
+}
+
+table.brdr th a{
+  color:#FFF;
+
+}
+
+
+@media screen {
+
+  body.mainbody {
+    /*background:url("../images/bgpixels.png") repeat fixed 50% 0 transparent;*/
+    background-color:#295bad;
+  }
+
+  #mainpage {
+      background-color:#fff;
+
+      -moz-box-shadow:2px 2px 8px #333;
+      -webkit-box-shadow:2px 2px 8px #333;
+      box-shadow:2px 2px 8px #333;
+  }
+}
+
+@media print {
+  body.mainbody {
+    background-color:#fff;
+  }
+
+}
+
+#leftcolumn {
+  background: url(../images/bluepsbg.jpg)  repeat-x left top; background-color: #004489;
+
+}
+

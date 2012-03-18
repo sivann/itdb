@@ -138,6 +138,7 @@ else {
   $maskdateparam="m9/d9/y999";
 }
 
+date_default_timezone_set($settings['timezone']);
 
 read_trans($settings['lang']);
 

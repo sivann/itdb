@@ -12,6 +12,18 @@ B:removed date checking from buggy validation pugin and leaved it to
 B:fixed browsing bug where same starting category was repeated on subtrees
 I:updated jstree version
 
+DB UPGRADE 1.6 -> 1.7
+-----------------------------
+alter table settings add column timezone;
+alter table settings add column vendorlookupurl;
+alter table settings add column listshowentries;
+alter table settings add column listheight;     
+update settings set listshowentries=50;
+update settings set listheight=750;   
+update settings set vendorlookupurl='http://support.dell.com/support/topics/global.aspx/support/my_systems_info/details?c=us&cs=04&l=en&s=bsdr&ServiceTag=';
+
+
+
 
 1.5 -> 1.6 19/01/2012
 -------------------------------------------------------------------------------------------------------

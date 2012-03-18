@@ -10,12 +10,16 @@ $(document).ready(function() {
 <?php 
 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
+if(!isset($userdata) || $userdata[0]['usertype'] == 1) { echo "You must have Admin (Full Access) to access this page";exit;}
 
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 
-
-if (isset($_POST['dateformat'])) { //if we came from a post (save), update the rack 
-  $sql="UPDATE settings set companytitle='".$_POST['companytitle']."', dateformat='".$_POST['dateformat']."', currency='".$_POST['currency']."', lang='".$_POST['lang']."'";
+if (isset($_POST['dateformat']) && isset($_POST['timeformat'])) { //if we came from a post (save), update the rack 
+  $sql="UPDATE settings set companytitle='".$_POST['companytitle']."', dateformat='".$_POST['dateformat']."', currency='".$_POST['currency']."',".
+       " lang='".$_POST['lang']."', ".
+       //" switchmapenable='".$_POST['switchmapenable']."', switchmapdir='".$_POST['switchmapdir']."',".
+       " timezone='".$_POST['timezone']."', timeformat='".$_POST['timeformat']."', vendorlookupurl='".$_POST['vendorlookupurl']."',".
+       " listshowentries='".$_POST['listshowentries']."', listheight='".$_POST['listheight']."'";
   db_exec($dbh,$sql);
 
 }//save pressed
@@ -43,6 +47,13 @@ echo "\n<h1>".t("Settings")."</h1>\n";
       <option <?php echo $s?> value='dmy'>Day/Month/Year</option>
       <? if ($settings['dateformat']=="mdy") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> value='mdy'>Month/Day/Year</option>
+    </select>
+    </td>
+    </tr>
+    <tr><td class="tdt"><?php te("Time Format")?></td><td>
+    <select  name='timeformat'>
+      <? if ($settings['timeformat']=="hh:mm:ss") $s="SELECTED"; else $s="" ?>
+      <option <?php echo $s?> value='hh:mm:ss'>hh:mm:ss</option>
     </select>
     </td>
     </tr>
@@ -76,7 +87,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
 
       <? if ($settings['currency']=="&amp;#65020;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Rial' value='<?php echo htmlentities("&#65020;");?>'>&#65020;</option>
-    </select>
+    </select></td></tr>
     <tr><td class="tdt"><?php te("Interface Language")?></td><td>
     <select  name='lang'>
       <? if ($settings['lang']=="en") $s="SELECTED"; else $s="" ?>
@@ -94,6 +105,66 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     </select>
     </td>
 
+    </tr>
+    <tr><td class="tdt" title='Timezone based on 3 alpha abbreviation. (e.g. MST, EST, UTC, etc)'><?php te("Timezone (Abbreviation)");?>:</td><td>
+    <select name='timezone'>
+<?php
+      $tz_array=file("php/timezones.txt");
+      foreach ($tz_array as $tz) {
+	$tz=trim($tz);
+	if ($tz==$settings['timezone']) $s="SELECTED"; else $s="";
+	echo "<option $s>$tz</option>\n";
+      }
+?>
+</select>
+
+</td></tr>
+
+    <tr><td class="tdt" title='Should be the URL to lookup products on the vendors webpage using the service tag value. The Service tag must be appended to the end of the URL for it to work. This URL will only be applied for service tags.'><?php te("Vendor Lookup URL");?>:</td><td><input  class='input2 ' size=20 type=text name='vendorlookupurl' value="<?php echo $settings['vendorlookupurl']?>"></td></tr>
+
+    <tr><td class="tdt" title='The default number of entries shown.'><?php te("Show Entries");?>:</td>
+      <td>
+        <select name='listshowentries'>
+          <?php
+            if ($settings['listshowentries']=="10") $s="SELECTED"; else $s="";
+	      echo "<option title='10' $s value='10'>10</option>\n";
+            if ($settings['listshowentries']=="18") $s="SELECTED"; else $s="";
+	      echo "<option title='18' $s value='18'>18</option>\n";
+            if ($settings['listshowentries']=="25") $s="SELECTED"; else $s="";
+	      echo "<option title='25' $s value='25'>25</option>\n";
+            if ($settings['listshowentries']=="50") $s="SELECTED"; else $s="";
+	      echo "<option title='50' $s value='50'>50</option>\n";
+            if ($settings['listshowentries']=="100") $s="SELECTED"; else $s="";
+	      echo "<option title='100' $s value='100'>100</option>\n";
+            if ($settings['listshowentries']=="All") $s="SELECTED"; else $s="";
+	      echo "<option title='All' $s value='All'>All</option>\n";
+          ?>
+      </select>
+      </td>
+    </tr>
+    <tr><td class="tdt" title='What height in pixels do you want the list view?'><?php te("List Height");?>:</td><td><input  class='input2 ' size=20 type=text name='listheight' value="<?php echo $settings['listheight']?>"></td></tr>
+
+<!--
+    <tr><td colspan=2><h3><?php te("Integration"); ?></h3></td></tr>
+
+    <tr>
+    <?php
+      //SwitchMap Enabled (switchmapenable)
+      $y="";$n="";
+      if ($settings['switchmapenable']=="1") {$y="checked";$n="";}
+      if ($settings['switchmapenable']=="0") {$n="checked";$y="";}
+    ?>
+      <td class='tdt' title='Select yes if switchmap is installed on this server.'><?php te("SwitchMap Integration");?>:</td>
+      <td>
+        <div >
+          <input  validate='required:true' <?php echo $y?> class='radio' type=radio name='switchmapenable' value='1'><?php te("Yes");?>
+          <input  class='radio' type=radio <?php echo $n?> name='switchmapenable' value='0'><?php te("No");?>
+        </div>
+      </td>
+    </tr>
+    <tr><td class="tdt" title='Provide the full path to the switches directory within the SwitchMap directory.'><?php te("Path To Switchmap");?>:</td><td><input  class='input2 ' size=20 type=text name='switchmapdir' value="<?php echo $settings['switchmapdir']?>"></td></tr>
+
+-->
 
 <tr>
 <td colspan=2>

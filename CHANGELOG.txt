@@ -6,6 +6,13 @@ LEGEND:
 I:improvement 
 B:bugfix
 
+1.6 -> 1.7 19/01/2012
+-------------------------------------------------------------------------------------------------------
+B:removed date checking from buggy validation pugin and leaved it to
+B:fixed browsing bug where same starting category was repeated on subtrees
+I:updated jstree version
+
+
 1.5 -> 1.6 19/01/2012
 -------------------------------------------------------------------------------------------------------
 B:fixed rack icon links on home screen

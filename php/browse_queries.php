@@ -6,13 +6,14 @@ include('../init.php');
 if (isset($_REQUEST['id'])) $id=$_REQUEST['id']; else $id="";
 $id=$_REQUEST['id'];
 
-if ($id=="showusers") {
+if ("$id"=="showusers") {
       showlist1("users","username");
 }
 elseif ($id=="itemtypes") {
       showlist1("itemtypes","typedesc");
 }
-if ($id=="showagents") {
+
+elseif ($id=="showagents") {
       //showlist1("agents","title");
 ?>
 	<li id='agents:items' class='jstree-closed'><?php te("H/W Manufacturers");?></li>
@@ -101,17 +102,10 @@ elseif (strstr($id,"agentbuyer:")) {
            "FROM invoices,agents WHERE invoices.buyerid='$agent_id' AND agents.id=invoices.vendorid ORDER BY invoices.date";
       showlist2($sql,"invoice","jstree-leaf","$wscriptdir/index.php?action=editinvoice&id=");
 }
-
-
-
-
-
-elseif ($id==0) {
-?>
-      <li id='itemtypes' class='jstree-closed'><?php te("Item Types");?></li>
-      <li id='showusers' class='jstree-closed'><?php te("Users");?></li>
-      <li id='showagents' class='jstree-closed'><?php te("Agents");?></li>
-<?php
+elseif ($id == "0") {
+ echo "<li id='itemtypes' class='jstree-closed'>".t("Item Types")."</li>\n";
+      echo "<li id='showusers' class='jstree-closed'>".t("Users")."</li>\n";
+      echo "<li id='showagents' class='jstree-closed'>".t("Agents")."</li>\n";
 }
 else {
   echo " <li id='showusers' class='jstree-closed'><a href='#'>unknown id ($id)</a></li>\n";

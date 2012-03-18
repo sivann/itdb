@@ -413,7 +413,7 @@ else
       <?php  
       $edate=strlen($r["currentenddate"])?date($dateparam,$r['currentenddate']):"";
       ?>
-      <td class="tdt"><?php te("Current EndDate");?>:</td> <td><input  class='dateinp mandatory' validate='required:true,date:true' size=10 title='<?php echo $datetitle?>' type=text id='currentenddate' name='currentenddate' value='<?php echo $edate?>'>
+      <td class="tdt"><?php te("Current EndDate");?>:</td> <td><input  class='dateinp mandatory' validate='required:true' size=10 title='<?php echo $datetitle?>' type=text id='currentenddate' name='currentenddate' value='<?php echo $edate?>'>
       </td>
       </tr>
 

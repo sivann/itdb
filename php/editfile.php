@@ -265,7 +265,7 @@ else
     </select>
     </td></tr>
     <tr><td class="tdt"><?php te("Title");?>:</td> <td><input  class='input2 mandatory' validate='required:true' size=20 type=text name='title' value="<?php echo $r['title']?>"></td></tr>
-    <tr><td class="tdt"><?php te("Issue Date");?>:</td> <td><input  class='input2 dateinp mandatory' validate='required:true,date:true' id='date' size=20 type=text name='date' 
+    <tr><td class="tdt"><?php te("Issue Date");?>:</td> <td><input  class='input2 dateinp mandatory' validate='required:true' id='date' size=20 type=text name='date' 
         value="<?php  if (!empty($r['date'])) echo date($dateparam,$r['date'])?>"></td></tr>
     <tr><td class="tdt"><?php te("Filename");?>:</td><td><a target=_blank href="<?php  echo $uploaddirwww.$r['fname'] ?>"><?php echo $r['fname']?></a></td></tr>
     <tr><td title='Number of items/software/invoices/etc which reference this file'

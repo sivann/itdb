@@ -282,7 +282,7 @@ else
       <tr><td class="tdt"><?php te("Title");?>:</td> <td><input  validate='required:true' class='input2 mandatory' size=20 type=text name='stitle' value="<?php echo $stitle?>"></td></tr>
       <tr><td class="tdt"><?php te("Version");?>:</td> <td><input  validate='required:true' class='input2 mandatory' size=20 type=text name='sversion' value="<?php echo $sversion?>"></td></tr>
       <tr>
-	  <td class="tdt"><?php te("Purchase Date");?>:</td> <td><input  validate='required:true,date:true' class='mandatory dateinp' size=10 title='<?php echo $datetitle?>' type=text name='purchdate' id='purchdate' value='<?php echo $d?>'>
+	  <td class="tdt"><?php te("Purchase Date");?>:</td> <td><input  validate='required:true' class='mandatory dateinp' size=10 title='<?php echo $datetitle?>' type=text name='purchdate' id='purchdate' value='<?php echo $d?>'>
 	  </td>
       </tr>
 

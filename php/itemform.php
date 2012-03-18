@@ -297,11 +297,10 @@ else if ($action=="edititem") {
     <tr>
 
   <?php 
-  //dell service tag
-  if (strlen($sn3)) $st="<a target=_blank href='http://support.dell.com/support/topics/global.aspx/support/".
-			"my_systems_info/details?c=uk&l=en&s=gen&~tab=2&servicetag=$sn3'>Service Tag</a>";
-  else $st="Service Tag";
 
+  //dell service tag
+  if (strlen($sn3)) $st="<a target=_blank href='".$settings['vendorlookupurl'].$sn3."'>Service Tag</a>";
+  else $st="Service Tag";
   ?>
     <td class='tdt'><?php echo $st?></td><td><input type=text value='<?php echo $sn3?>' name='sn3'></td>
     </tr>

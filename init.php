@@ -777,4 +777,26 @@ function read_trans($lang) {
   }
 }
 
+
+/* return URL of an agent which has a specific $tag description. E.g. "Service Tag" */
+function getagenturlbytag($agenturl,$tagstr) {
+  global $dbh;
+
+  $sql="SELECT urls from agents where id='$agenturl'";
+  $sth=db_execute($dbh,$sql);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  $sth->closeCursor();
+  $urls=$r['urls'];
+
+  $allurls=explode("|",$urls);
+  for ($i=0;$i<count($allurls);$i++) {
+    $row=explode("#",$allurls[$i]);
+    $description=$row[0];
+    $url=urldecode($row[1]);
+    if (stristr($description,$tagstr))
+    return $url;
+  }
+  return "";
+}
+
 ?>

@@ -374,6 +374,8 @@ else
 	}
 	?>
 	</table><br>
+	<sup>*</sup>
+	<?php te("Use the string 'service'  on the description to display this url on the item edit page");?>
 </td>
 </tr>
 

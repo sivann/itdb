@@ -17,7 +17,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <body>
 <div id="container">
 
-<h1>jsTree v.1.0 - json_data plugin</h1>
+<h1 id="dhead">jsTree v.1.0</h1>
+<h1>json_data plugin</h1>
 <h2>Description</h2>
 <div id="description">
 <p>The <code>json_data</code> plugin enables jsTree to convert JSON objects to interactive trees. The data (JSON) can be set up in the config or retrieved from a server (also ondemand). Version 1.0 also introduces the experimental progressive render feature, which is suitable for large heavy trees, when the DOM would be too heavy to manipulate.</p>
@@ -25,12 +26,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <div class="code_f">
 <pre class="brush:js;">
 { 
-	data : "node_title", 
+	"data" : "node_title", 
 	// omit `attr` if not needed; the `attr` object gets passed to the jQuery `attr` function
-	attr : { id : "node_identificator", some-other-attribute : "attribute_value" }, 
+	"attr" : { "id" : "node_identificator", "some-other-attribute" : "attribute_value" }, 
 	// `state` and `children` are only used for NON-leaf nodes
-	state: "closed", // or "open", defaults to "closed"
-	children: [ /* an array of child nodes objects */ ]
+	"state" : "closed", // or "open", defaults to "closed"
+	"children" : [ /* an array of child nodes objects */ ]
 }
 </pre>
 </div>
@@ -40,21 +41,21 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <pre class="brush:js;">
 {
 	// `data` can also be an object
-	data : { 
-		title : "The node title", 
+	"data" : { 
+		"title" : "The node title", 
 		// omit when not needed
-		attr : {}, 
-		// if `icon` contains a slash <code>/</code> it is treated as a file, used for background
+		"attr" : {}, 
+		// if `icon` contains a slash / it is treated as a file, used for background
 		// otherwise - it is added as a class to the &lt;ins&gt; node
-		icon : "folder"
+		"icon" : "folder"
 	},
 
 	// the `metadata` property will be saved using the jQuery `data` function on the `li` node
-	metadata : "a string, array, object, etc",
+	"metadata" : "a string, array, object, etc",
 
 	// if you use the language plugin - just set this property
 	// also make sure that `data` is an array of objects
-	language : "en" // any code you are using
+	"language" : "en" // any code you are using
 }
 </pre>
 </div>
@@ -65,7 +66,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <div class="panel configuration">
 <h3>data</h3>
 <p class="meta">A JSON object (or <code>false</code> if not used). Default is <code>false</code>.</p>
-<p>Specifies the content to load into the container and convert to a tree.</p>
+<p>Specifies the content to load into the container and convert to a tree. You can also set this to a function - it will be executed in the tree's scope for every node that needs to be loaded, the function will receive two arguments - the node being loaded &amp; a function to call with the data once your processing is done.</p>
 <h3>ajax</h3>
 <p class="meta">An object (or <code>false</code> if not used). Default is <code>false</code>.</p>
 <p>The ajax config object is pretty much the same as the <a href="http://api.jquery.com/jQuery.ajax/">jQuery ajax settings object</a>.</p>
@@ -78,6 +79,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <h3>progressive_render</h3>
 <p class="meta">A Boolean. Default is <code>false</code>.</p>
 <p>If this option is set to <code>true</code> only the visible (open nodes) parts of the returned JSON are converted to DOM nodes, any hidden parts are saved away and parsed ondemand (when a node becomes visible). This is useful when you have a large nested tree which would result in a heavy DOM.</p>
+<h3>progressive_unload</h3>
+<p class="meta">A Boolean. Default is <code>false</code>.</p>
+<p>If this option is set to <code>true</code> when a node is closed its children are removed from the DOM and saved as metadata on the node itself, on reopen that metadata is used (much like <code>progressive_render</code>).</p>
 
 <p class="note"><strong>NOTE:</strong><br />If both <code>data</code> and <code>ajax</code> are set the initial tree is rendered from the <code>data</code> string. When opening a closed node (that has no loaded children) an AJAX request is made.</p>
 </div>
@@ -94,10 +98,11 @@ $(function () {
 			"data" : [
 				{ 
 					"data" : "A node", 
-					"children" : [ "Child 1", "Child 2" ]
+					"metadata" : { id : 23 },
+					"children" : [ "Child 1", "A Child 2" ]
 				},
 				{ 
-					"attr" : { "id" : "li.node.id" }, 
+					"attr" : { "id" : "li.node.id1" }, 
 					"data" : { 
 						"title" : "Long format demo", 
 						"attr" : { "href" : "#" } 
@@ -105,8 +110,8 @@ $(function () {
 				}
 			]
 		},
-		"plugins" : [ "themes", "json_data" ]
-	});
+		"plugins" : [ "themes", "json_data", "ui" ]
+	}).bind("select_node.jstree", function (e, data) { alert(jQuery.data(data.rslt.obj[0], "id")); });
 });
 </script>
 
@@ -140,7 +145,7 @@ $(function () {
 					"children" : [ "Child 1", "Child 2" ]
 				},
 				{ 
-					"attr" : { "id" : "li.node.id" }, 
+					"attr" : { "id" : "li.node.id2" }, 
 					"data" : { 
 						"title" : "Long format demo", 
 						"attr" : { "href" : "#" } 
@@ -166,7 +171,7 @@ $(function () {
 					"state" : "closed"
 				},
 				{ 
-					"attr" : { "id" : "li.node.id" }, 
+					"attr" : { "id" : "li.node.id3" }, 
 					"data" : { 
 						"title" : "Long format demo", 
 						"attr" : { "href" : "#" } 
@@ -200,12 +205,16 @@ $(function () {
 		<p>A function to be executed if the node is not loaded due to an error - used internally. You should wait for the <code>load_node</code> event.</p>
 	</li>
 </ul>
-<h3 id="_parse_json">._parse_json ( data , is_callback )</h3>
+<h3 id="_parse_json">._parse_json ( data , node , is_callback )</h3>
 <p>This function converts JSON nodes to the DOM structure required by jstree. Returns a jQuery object.</p>
 <ul class="arguments">
 	<li>
 		<code class="tp">mixed</code> <strong>node</strong>
 		<p>This can be a tree node in the JSON format described above, or an array of such JSON nodes, may also be a string.</p>
+	</li>
+	<li>
+		<code class="tp">mixed</code> <strong>node</strong>
+		<p>This is the DOM node, jQuery node or selector pointing to the element for which data is parsed. <code>-1</code> means root nodes.</p>
 	</li>
 	<li>
 		<code class="tp">bool</code> <strong>is_callback</strong>

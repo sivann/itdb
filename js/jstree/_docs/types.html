@@ -17,7 +17,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <body>
 <div id="container">
 
-<h1>jsTree v.1.0 - types plugin</h1>
+<h1 id="dhead">jsTree v.1.0</h1>
+<h1>types plugin</h1>
 <h2>Description</h2>
 <div id="description">
 <p>The <code>types</code> enables node types - each node can have a type, and you can define rules on how that type should behave - maximum children count, maximum depth, valid children types, selectable or not, etc.</p>
@@ -38,9 +39,13 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <p class="meta">A string or array. Default is <code>"all"</code>.</p>
 <p>Defines valid root node types (could be <code>"all"</code>, <code>"none"</code>, or an array of type strings).</p>
 
+<h3>use_data</h3>
+<p class="meta">A boolean. Default is <code>false</code>.</p>
+<p>If set to <code>true</code> jstree will check every node for <code>$.metadata</code> or <code>$.data</code> for rules (valid_children, max_depth &amp; the function rules). Keep in mind jstree will look for this data in <code>$("li-node-here").metadata().jstree.<em>rule_name</em></code> (or <code>$.data</code> respectively).</p>
+
 <h3>type_attr</h3>
 <p class="meta">A string. Default is <code>"rel"</code>.</p>
-<p>Defines the attribute on each <code>li</code> node, where the type attribute will be stored.</p>
+<p>Defines the attribute on each <code>li</code> node, where the type attribute will be stored. <em>For correct usage in IE - do not assign to <code>"type"</code> - it triggers an IE bug.</em></p>
 
 <h3>types</h3>
 <p class="meta">An object.</p>
@@ -133,7 +138,7 @@ $(function () {
 </ul>
 
 <h3 id="set_type">.set_type ( type , node )</h3>
-<p>Set the type of a node.</p>
+<p>Set the type of a node. Triggers an event.</p>
 <ul class="arguments">
 	<li>
 		<code class="tp">string</code> <strong>type</strong>

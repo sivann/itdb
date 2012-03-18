@@ -19,10 +19,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <body>
 <div id="container">
 
-<h1>jsTree v.1.0 - themeroller plugin</h1>
+<h1 id="dhead">jsTree v.1.0</h1>
+<h1>themeroller plugin</h1>
 <h2>Description</h2>
 <div id="description">
 <p>The <code>themeroller</code> plugin adds support for jQuery UI's themes. Add the plugin as last in your <code>plugins</code> config option. Also make sure that you have included the jquery theme you'd like to use and you should NOT use the native jstree <code>themes</code> plugin.</p>
+<p>If using the search plugin - bind to <code>"search.jstree"</code> to style the found nodes, or apply some styles to the <code>.jstree-search</code> class (which is added by default) but make sure the selector is stronger than your current theme or use <code>!important</code></p>
 </div>
 
 <h2 id="configuration">Configuration</h2>
@@ -47,9 +49,16 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <p class="meta">A string. Default is <code>"ui-state-active"</code>.</p>
 <p>The class name to use for selected items (UI plugin).</p>
 
-<h3>item_icon</h3>
+<h3>item_open</h3>
+<p class="meta">A string. Default is <code>"ui-icon-folder-open"</code>.</p>
+<p>The class name to use for the opened items. If set to <code>false</code> the icon is not shown.</p>
+<h3>item_clsd</h3>
 <p class="meta">A string. Default is <code>"ui-icon-folder-collapsed"</code>.</p>
-<p>The class name to use for the default icon.</p>
+<p>The class name to use for the opened items. If set to <code>false</code> the icon is not shown.</p>
+<h3>item_leaf</h3>
+<p class="meta">A string. Default is <code>"ui-icon-document"</code>.</p>
+<p>The class name to use for the opened items. If set to <code>false</code> the icon is not shown.</p>
+
 
 </div>
 
@@ -63,7 +72,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 			<a href="#">Root node 1</a>
 			<ul>
 				<li id="phtml_2">
-					<a href="#">Child node 1</a>
+					<a href="#"><ins class="ui-icon ui-icon-lightbulb">&#160;</ins>Child node 1</a>
 				</li>
 				<li id="phtml_3">
 					<a href="#">Child node 2</a>

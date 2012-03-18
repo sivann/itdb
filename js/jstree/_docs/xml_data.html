@@ -17,7 +17,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <body>
 <div id="container">
 
-<h1>jsTree v.1.0 - xml_data plugin</h1>
+<h1 id="dhead">jsTree v.1.0</h1>
+<h1>xml_data plugin</h1>
 <h2>Description</h2>
 <div id="description">
 <p>The <code>xml_data</code> plugin enables jsTree to convert XML objects to interactive trees (using XSL). The data (XML) can be set up in the config (as a string) or retrieved from a server (also ondemand).</p>
@@ -65,9 +66,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <h3>ajax</h3>
 <p class="meta">An object (or <code>false</code> if not used). Default is <code>false</code>.</p>
 <p>The ajax config object is pretty much the same as the <a href="http://api.jquery.com/jQuery.ajax/">jQuery ajax settings object</a>.</p>
-<p>You can set the <code>data</code> option to a function, that will be executed in the current tree's scope (<code>this</code> will be the tree instance) and gets the node about to be open as a paramater (or <code>-1</code> for initial load). Whatever you return in the function will be sent to the server as data (so for example you can send the node's ID).</p>
+<p>You can set the <code>data</code> option to a function, that will be executed in the current tree's scope (<code>this</code> will be the tree instance) and gets the node about to be open as a parameter (or <code>-1</code> for initial load). Whatever you return in the function will be sent to the server as data (so for example you can send the node's ID).</p>
 <p>You can set the <code>url</code> option to a function, that will be executed in the current tree's scope (<code>this</code> will be the tree instance) and gets the node about to be open as a paramater (or <code>-1</code> for initial load). Whatever you return in the <code>url</code> function will be used as the ajax URL (so that you can accomodate pretty paths such as /get_children/node_2).</p>
-<p>The <code>error</code> and <code>success</code> functions (if present) also fire in the context of the tree, and if you return a value in the <code>success</code> function it will be used to populate the tree - this can be useful if you want to somehow change what the server returned on the client side before it is displayed in the tree.</p>
+<p>The <code>error</code> and <code>success</code> functions (if present) also fire in the context of the tree, and if you return a value in the <code>success</code> function it will be used to populate the tree - this can be useful if you want to somehow change what the server returned on the client side before it is displayed in the tree. Please note that the <code>success</code> function receives a string as the first parameter, and also if you decide to return a value - return a string.</p>
 <h3>correct_state</h3>
 <p class="meta">A Boolean. Default is <code>true</code>.</p>
 <p>If this option is set to <code>true</code> if an AJAX returns an empty result, the node that was about to be opened will be converted to a leaf node (the open icon will no longer be displayed).</p>
@@ -77,6 +78,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <h3>xsl</h3>
 <p class="meta">A string. Default is <code>"flat"</code>.</p>
 <p>The type of structure you wiil be using - set either to <code>"flat"</code> or <code>"nest"</code>.</p>
+<h3>get_skip_empty</h3>
+<p class="meta">A Boolean. Default is <code>false</code>.</p>
+<p>If set to <code>true</code> empty attributes won't be returned by the <code>get_xml</code> function.</p>
 
 <p class="note"><strong>NOTE:</strong><br />If both <code>data</code> and <code>ajax</code> are set the initial tree is rendered from the <code>data</code> string. When opening a closed node (that has no loaded children) an AJAX request is made.</p>
 </div>

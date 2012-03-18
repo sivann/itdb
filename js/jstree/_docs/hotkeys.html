@@ -17,18 +17,19 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <body>
 <div id="container">
 
-<h1>jsTree v.1.0 - hotkeys plugin</h1>
+<h1 id="dhead">jsTree v.1.0</h1>
+<h1>hotkeys plugin</h1>
 <h2>Description</h2>
 <div id="description">
-<p>The <code>hotkeys</code> plugin enables keyboard navigation and shortcuts. Depends on the  <a href="http://github.com/jeresig/jquery.hotkeys/">jquery.hotkeys plugin</a></p>
+<p>The <code>hotkeys</code> plugin enables keyboard navigation and shortcuts. Depends on the  <a href="http://github.com/jeresig/jquery.hotkeys/">jquery.hotkeys plugin</a>.</p>
 </div>
 
 <h2 id="configuration">Configuration</h2>
 <div class="panel configuration">
-<p>Expects an object:<br />each key is the keyboard shortcut (for possible values check <a href="http://github.com/jeresig/jquery.hotkeys/">the hotkeys plugin</a>)<br />each values is a function executed in the instance's context, the return value is used as a return value for the event.</p>
+<p>Expects an object:<br />each key is the keyboard shortcut (for possible values check <a href="http://github.com/jeresig/jquery.hotkeys/">the hotkeys plugin</a>)<br />each value is a function executed in the instance's context, the return value is used as a return value for the event.</p>
 <p>Simple example:</p>
 <p><code>"del" : function () { this.remove(); }</code></p>
-
+<p>By default <code>"up"</code>, <code>"ctrl+up"</code>, <code>"shift+up"</code>, <code>"down"</code>, <code>"ctrl+down"</code>, <code>"shift+down"</code>, <code>"left"</code>, <code>"ctrl+left"</code>, <code>"shift+left"</code>, <code>"right"</code>, <code>"ctrl+right"</code>, <code>"shift+right"</code>, <code>"space"</code>, <code>"ctrl+space"</code>, <code>"shift+space"</code>, <code>"f2"</code>, <code>"del"</code> are bound.<br />To override any of those - just specify your own function, to disable - just set to <code>false</code>.
 </div>
 
 <h2 id="demos">Demos</h2>

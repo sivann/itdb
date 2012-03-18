@@ -2208,7 +2208,7 @@ $(function () {
 			div  = $('<div class="code"><pre class="brush:' + ( $(this).is("script") ? 'js' : 'xml' ) + ';">' + code + '</pre></div>'),
 			demo = $(this).prevAll(".demo:eq(0)");
 		$(this).after(div);
-		divs = divs.add(div);
+		if(!$(this).hasClass("below")) divs = divs.add(div);
 	});
 	SyntaxHighlighter.all();
 

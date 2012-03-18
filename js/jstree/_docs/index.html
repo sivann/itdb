@@ -17,11 +17,20 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <body>
 <div id="container">
 
-<h1>jsTree v.1.0</h1>
+<h1 id="dhead">jsTree - jquery tree plugin</h1>
+
 <h2>Description</h2>
 <div id="description">
-<p>jsTree is a javascript based, cross browser tree component. It is packaged as a <a href="http://jquery.com">jQuery</a> plugin.</p>
-<p>jsTree is absolutely free (licensed same as jQuery – under both GPL and MIT – whichever suits your needs).</p>
+
+<h3>jsTree:</h3>
+<ul class="jstree">
+	<li>&#9830;&#160;&#160;is a <strong>javascript based, cross browser tree component</strong>. It is packaged as a <a href="http://jquery.com">jQuery</a> plugin.</li>
+	<li>&#9830;&#160;&#160;<strong>is absolutely free</strong> (licensed same as jQuery – under the terms of either the MIT License or the GPL v2 License).</li>
+	<li>&#9830;&#160;&#160;is a <a href="http://vakata.com/">one man</a> project and relies on <a href="http://groups.google.com/group/jstree">its great community</a> for <a href="http://code.google.com/p/jstree/issues/list">feature requests &amp; bug reports</a>. Join in!</li>
+	<li>&#9830;&#160;&#160;passes <a href="http://jslint.com">jslint validation</a>, minifies nicely and does not modify the global scope in any way.</li>
+	<li>&#9830;&#160;&#160;uses plugins so feel free to remove any plugins you do not use (for an even smaller download) or create your own plugins.</li>
+</ul>
+
 <h3>Features at a glance</h3>
 <ul class="columns">
 	<li>Various data sources - HTML, JSON, XML</li>
@@ -43,11 +52,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	<li>RTL support</li>
 	<li>Optional sorting / unique management</li>
 </ul>
-<p>As of version 1.0 jsTree is extremely plugin friendly, so all functionality is now wrapped in plugins, which take care of various aspects of the tree and can be removed without affecting the functionality of other plugins. Below you will find a list of plugins - each with its own documentation page. Probably a good place to start is the <a href="core.html">core</a>.</p>
+<p style="color:gray; font-size:0.8em; text-align:center; padding:15px;">if you like the project - consider <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&amp;business=paypal@vakata.com&amp;currency_code=USD&amp;amount=&amp;return=http://jstree.com/donation&amp;item_name=Buy+me+a+coffee+for+jsTree">supporting jstree</a>.</p>
 </div>
 
-<h2 id="plugins">Plugins</h2>
+<h2 id="plugins">Plugins documentation</h2>
 <div class="panel">
+<p>As of version 1.0 jsTree is extremely plugin friendly, so all functionality is now wrapped in plugins, which take care of various aspects of the tree and can be removed without affecting the functionality of other plugins. Below you will find a list of plugins - each with its own documentation page. Probably a good place to start is the <a href="core.html">core</a>.</p>
 <ul class="columns plugins">
 	<li style="float:none; width:660px;"><a href="core.html" style="font-weight:bold;">Core functionality</a><p>all core functions for manipulating the tree + basic examples of including, configuring and working with the tree, along with demos of the new event system</p></li>
 	<li><a href="html_data.html">HTML_DATA plugin</a><p>enables jsTree to convert nested unordered lists to interactive trees, an already existing UL may be used or data could be retrieved from a server</p></li>
@@ -67,6 +77,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	<li><a href="types.html">Types plugin</a><p>each node can have a type, and you can define rules on how that type should behave</p></li>
 	<li><a href="themeroller.html">Themeroller plugin</a><p>adds support for jQuery UI's themes</p></li>
 	<li><a href="unique.html">Unique plugin</a><p>adds unique checking to jsTree</p></li>
+	<li><a href="#" onclick="return false" style="color:black;text-decoration:none;">Wholerow plugin</a><p>enhances UIs select &amp; hover functions</p></li>
 </ul>
 </div>
 

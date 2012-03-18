@@ -17,7 +17,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <body>
 <div id="container">
 
-<h1>jsTree v.1.0 - languages plugin</h1>
+<h1 id="dhead">jsTree v.1.0</h1>
+<h1>languages plugin</h1>
 <h2>Description</h2>
 <div id="description">
 <p>The <code>languages</code> plugin enables multilanguage trees. This means that each node has a specified number of titles - each in a different "language". Only one language set is visible at any given time. This is useful for maintaining the same structure in many languages (hence the name of the plugin)</p>
@@ -73,7 +74,7 @@ $(function () {
 	});
 	$("#demo1").jstree({ 
 		"languages" : [ "en", "bg" ],
-		"plugins" : [ "themes", "html_data", "languages"]
+		"plugins" : [ "themes", "html_data", "languages","checkbox"]
 	});
 });
 </script>
@@ -93,6 +94,19 @@ $(function () {
 </ul>
 <h3 id="get_lang">.get_lang ( )</h3>
 <p>Returns the name of the currently visible language.</p>
+
+<h3 id="_get_string">._get_string ( node , lang )</h3>
+<p>Returns the needed string from the core config object. Overwrites the <a href="core.html#_get_string">get_string function</a> from the core. If the key does not exist in that language, but exists in the root of the object - that is returned, if even that does not exist - the key itself is returned.</p>
+<ul class="arguments">
+	<li>
+		<code class="tp">string</code> <strong>key</strong>
+		<p>The name of the string you are looking for. If you want to use the localize option just set the strings core config option to an object like this one: <code>strings : { "lang-code-here" : { "string-key" : "string-value"  ... }, "other-lang" : { ... } }</code>, otherwise _get_strings won't be affected.</p>
+	</li>
+	<li>
+		<code class="tp">string</code> <strong>lang</strong>
+		<p>The language code string (as specified in the config) to get the key in. If not specified the currently visible language is used.</p>
+	</li>
+</ul>
 
 <h3 id="get_text">.get_text ( node , lang )</h3>
 <p>Returns the title of a node. Overwrites the <a href="core.html#get_text">get_text function</a> from the core.</p>

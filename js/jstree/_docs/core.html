@@ -4,7 +4,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>jsTree Testing</title>
+	<title>jsTree v.1.0 Core documentation</title>
 	<script type="text/javascript" src="../_lib/jquery.js"></script>
 	<script type="text/javascript" src="../_lib/jquery.cookie.js"></script>
 	<script type="text/javascript" src="../_lib/jquery.hotkeys.js"></script>
@@ -17,7 +17,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <body>
 <div id="container">
 
-<h1>jsTree v.1.0 - Core</h1>
+<h1 id="dhead">jsTree v.1.0</h1>
+<h1>CORE</h1>
 <h2>Description</h2>
 <div id="description">
 <h3>Including the files</h3>
@@ -121,7 +122,23 @@ jQuery("some-container")
 
 <h3>initially_open</h3>
 <p class="meta">An array. Default is <code>[]</code>.</p>
-<p>Defines which nodes are to be automatically opened when the tree finishes loading - a list of IDs is expected.</p>
+<p>Defines which nodes are to be automatically opened (if they are not present they will first be loaded) when the tree finishes loading - a list of IDs is expected.</p>
+
+<h3>initially_load</h3>
+<p class="meta">An array. Default is <code>[]</code>.</p>
+<p>Defines which nodes are to be automatically loaded (but not opened) when the tree finishes loading - a list of IDs is expected.</p>
+
+<h3>load_open</h3>
+<p class="meta">A Boolean. Default is <code>false</code>.</p>
+<p>When set to <code>true</code> forces loading of nodes marked as open, which do not have children. Otherwise nodes are only visualized as open without any children and opening/closing such a node won't cause it to load (make a server call).</p>
+
+<h3>open_parents</h3>
+<p class="meta">Boolean. Default is <code>true</code>.</p>
+<p>If set to true opening a node will also open any closed ancestors it has (will open the whole chain down to this node).</p>
+
+<h3>notify_plugins</h3>
+<p class="meta">Boolean. Default is <code>true</code>.</p>
+<p>If set to true loading nodes with some metadata will trigger some actions on the corresponding plugin. So you can actually set the selected/checked/etc</p>
 
 <h3>rtl</h3>
 <p class="meta">Boolean. Default is <code>false</code>.</p>
@@ -289,6 +306,9 @@ $("some-container").bind("some-event.jstree", function (e, data) {
 <h3 id="get_container">.get_container ()</h3>
 <p>Returns the jQuery extended container node of the tree.</p>
 
+<h3 id="get_container_ul">.get_container_ul ()</h3>
+<p>Returns the jQuery extended first UL node in the container of the tree.</p>
+
 <h3 id="_set_settings">._set_settings ( settings )</h3>
 <p>Replace the settings object with the <code>settings</code> param. Please note that not all plugins will react to the change. Unless you know exactly what you are doing you'd be better off recreating the tree with the new settings.</p>
 
@@ -319,8 +339,18 @@ $("some-container").bind("some-event.jstree", function (e, data) {
 <h3 id="set_focus">.set_focus ()</h3>
 <p>Makes the current instance the focused one on the page. Triggers an event.</p>
 
+<h3 id="unset_focus">.unset_focus ()</h3>
+<p>If the current instance is focused this removes the focus. Triggers an event.</p>
+
 <h3 id="is_focused">.is_focused ()</h3>
 <p>Returns <code>true</code> if the current instance is the focused one, otherwise returns <code>false</code>.</p>
+
+<h3 id="lock">.lock ()</h3>
+<p>Sets the tree to a locked state - no methods can be called on that instance except for <code>unlock</code> and <code>is_locked</code>.</p>
+<h3 id="unlock">.unlock ()</h3>
+<p>Sets the tree to a unlocked state (the default state).</p>
+<h3 id="is_locked">.is_locked ()</h3>
+<p>Returns <code>true</code> if the tree is locked, otherwise returns <code>false</code>.</p>
 
 <h3 id="_get_node">._get_node ( node )</h3>
 <p>Return the jQuery extended <code>LI</code> element of the node, <code>-1</code> if the container node is passed, or <code>false</code> otherwise.</p>
@@ -388,6 +418,15 @@ $("some-container").bind("some-event.jstree", function (e, data) {
 	</li>
 </ul>
 
+<h3 id="correct_state">.correct_state ( node )</h3>
+<p>Corrects closed items to leaf items, if no children are found. Used internally, triggers an event.</p>
+<ul class="arguments">
+	<li>
+		<code class="tp">mixed</code> <strong>node</strong>
+		<p>This can be a DOM node, jQuery node or selector pointing to an element we want corrected.</p>
+	</li>
+
+
 <h3 id="open_node">.open_node ( node , callback , skip_animation )</h3>
 <p>Opens a closed node, so that its children are visible. If the <code>animation</code> config option is greater than <code>0</code> the children are revealed using a slide down animation, whose duration is the value of the <code>animation</code> config option in milliseconds. Triggers an event.</p>
 <ul class="arguments">
@@ -405,6 +444,9 @@ $("some-container").bind("some-event.jstree", function (e, data) {
 	</li>
 </ul>
 
+<h3 id="after_open">.after_open ( node )</h3>
+<p>A dummy function, it triggers an event after the open animation has finished.</p>
+
 <h3 id="close_node">.close_node ( node , skip_animation )</h3>
 <p>Closes an open node, so that its children are not visible. If the <code>animation</code> config option is greater than <code>0</code> the children are hidden using a slide up animation, whose duration is the value of the <code>animation</code> config option in milliseconds. Triggers an event.</p>
 <ul class="arguments">
@@ -418,6 +460,9 @@ $("some-container").bind("some-event.jstree", function (e, data) {
 	</li>
 </ul>
 
+<h3 id="after_close">.after_close ( node )</h3>
+<p>A dummy function, it triggers an event after the close animation has finished.</p>
+
 <h3 id="toggle_node">.toggle_node ( node )</h3>
 <p>If a node is closed - this function opens it, if it is open - calling this function will close it.</p>
 <ul class="arguments">
@@ -427,7 +472,7 @@ $("some-container").bind("some-event.jstree", function (e, data) {
 	</li>
 </ul>
 
-<h3 id="open_all">.open_all ( node , original_obj )</h3>
+<h3 id="open_all">.open_all ( node , do_animation, original_obj )</h3>
 <p>Opens all descendants of the <code>node</code> node.</p>
 <ul class="arguments">
 	<li>
@@ -435,17 +480,25 @@ $("some-container").bind("some-event.jstree", function (e, data) {
 		<p>This can be a DOM node, jQuery node or selector pointing to an element whose descendants you want opened. If this param is omitted or set to <code>-1</code> all nodes in the tree are opened.</p>
 	</li>
 	<li>
+		<code class="tp">boolean</code> <strong>do_animation</strong>
+		<p>If set to <code>true</code> all nodes are opened with an animation. This can be slow on large trees.</p>
+	</li>
+	<li>
 		<code class="tp">mixed</code> <strong>original_obj</strong>
 		<p>Used internally when recursively calling the same function - do not pass this param.</p>
 	</li>
 </ul>
 
-<h3 id="close_all">.close_all ( node )</h3>
+<h3 id="close_all">.close_all ( node, do_animation )</h3>
 <p>Closes all descendants of the <code>node</code> node.</p>
 <ul class="arguments">
 	<li>
 		<code class="tp">mixed</code> <strong>node</strong>
 		<p>This can be a DOM node, jQuery node or selector pointing to an element whose descendants you want closed. If this param is omitted or set to <code>-1</code> all nodes in the tree are closed.</p>
+	</li>
+	<li>
+		<code class="tp">boolean</code> <strong>do_animation</strong>
+		<p>If set to <code>true</code> all nodes are closed with an animation. This can be slow on large trees.</p>
 	</li>
 </ul>
 
@@ -522,6 +575,15 @@ $("some-container").bind("some-event.jstree", function (e, data) {
 	<li>
 		<code class="tp">bool</code> <strong>is_loaded</strong>
 		<p>Specifies if the parent of the node is loaded or not - used ONLY internally.</p>
+	</li>
+</ul>
+
+<h3 id="_get_string">._get_string ( node )</h3>
+<p>Returns the needed string from the config object. If the key does not exist the key itself is returned.</p>
+<ul class="arguments">
+	<li>
+		<code class="tp">string</code> <strong>key</strong>
+		<p>The name of the string you are looking for.</p>
 	</li>
 </ul>
 
@@ -613,6 +675,11 @@ $("some-container").bind("some-event.jstree", function (e, data) {
 <code>.p</code> - the position to move to (may be a string - <code>"last"</code>, <code>"first"</code>, etc)<br />
 <code>.cp</code> - the calculated position to move to (always a number)<br />
 <code>.np</code> - the new parent<br />
+<code>.oc</code> - the original node (if there was a copy)<br />
+<code>.cy</code> - boolen indicating if the move was a copy<br />
+<code>.cr</code> - same as <code>np</code>, but if a root node is created this is -1<br />
+<code>.op</code> - the former parent<br />
+<code>.or</code> - the node that was previously in the position of the moved node<br />
 </p>
 
 </div>

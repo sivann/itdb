@@ -17,10 +17,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <body>
 <div id="container">
 
-<h1>jsTree v.1.0 - drag'n'drop plugin</h1>
+<h1 id="dhead">jsTree v.1.0</h1>
+<h1>dnd plugin</h1>
 <h2>Description</h2>
 <div id="description">
 <p>The <code>dnd</code> plugin enables drag'n'drop support for jstree, also using foreign nodes and drop targets.</p>
+<p class="note">All foreign node options and callback functions in the config (drop_target, drop_check, drop_finish, drag_target, drag_check, drag_finish) are to be used ONLY when nodes that are not part of any tree are involved.<br />If moving nodes from one tree instance to another - just listen for the "move_node.jstree" event on the receiving tree.<br /><span style="color:red">DO NOT SET drag_target AND drop_target to match tree nodes!</span></p>
 </div>
 
 <h2 id="configuration">Configuration</h2>
@@ -114,7 +116,7 @@ $(function () {
 					inside : true 
 				};
 			},
-			"drag_finish" : function () { 
+			"drag_finish" : function (data) { 
 				alert("DRAG OK"); 
 			}
 		},
@@ -187,7 +189,7 @@ $(function () {
 	<span id="dnd_enter">&nbsp;</span>
 	<span id="start_drag">&nbsp;</span>
 </div>
-<h3 id="dnd_prepare">.dnd_prepare ( ), .dnd_show ( ), .dnd_open ( ), .dnd_finish ( ), .dnd_enter ( ), .start_drag ( )</h3>
+<h3 id="dnd_prepare">.dnd_prepare ( ), .dnd_show ( ), .dnd_open ( ), .dnd_finish ( ), .dnd_enter ( ), .dnd_leave ( ), .start_drag ( )</h3>
 <p>All those functions are used internally only. If you want more information - examine the source code.</p>
 
 </div>

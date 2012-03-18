@@ -17,7 +17,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <body>
 <div id="container">
 
-<h1>jsTree v.1.0 - sort plugin</h1>
+<h1 id="dhead">jsTree v.1.0</h1>
+<h1>sort plugin</h1>
 <h2>Description</h2>
 <div id="description">
 <p>The <code>sort</code> enables jstree to automatically sort all nodes using a specified function. This means that when the user creates, renames or moves nodes around - they will automatically sort.</p>
@@ -26,7 +27,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <h2 id="configuration">Configuration</h2>
 <div class="panel configuration">
 
-<p>Expects a function. The functions receives two arguments - two nodes to be compared. Return <code>-1</code> or <code>1</code>. Default is: </p>
+<p>Expects a function. The functions receives two arguments - two nodes to be compared. Return <code>-1</code> or <code>1</code> (or any other different from -1). Default is: </p>
 <p><code>function (a, b) { return this.get_text(a) > this.get_text(b) ? 1 : -1; }</code></p>
 
 </div>

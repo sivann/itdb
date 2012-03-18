@@ -1,0 +1,9 @@
+ITDB is a web based asset inventory management tool used to store information 
+about assets found in office environments, with a focus -but not lmited to- 
+IT assets. It is not or targets for ITIL/CMDB compliance (yet), but it has 
+served me for years and hopefully it will do the same for you :-)
+
+ITDB comes with sources and is distributed under the GNU Public license. 
+
+*Homepage*
+http://www.sivann.gr/software/itdb/

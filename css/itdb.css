@@ -1039,7 +1039,10 @@ img.bigblock {
   padding:0;
 }
 
-.ui-button{ font-size:9pt; font-weight:bold;}
+.ui-button{ 
+  font-size:9pt; 
+  font-weight:bold;
+}
 
 #selitems {
   width:600px;

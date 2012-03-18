@@ -168,7 +168,7 @@ else
 
 <tr>
 <td class="tdtop">
-    <div class="divtit" ><?php te("Agent Properties");?></div>
+    <h3><?php te("Agent Properties");?></h3>
     <table border=0 class="tbl2" width='100%'>
     <tr><td class="tdt"><?php te("ID");?>:</td> <td><input  class='input1' type=text name='id' value='<?php echo $id?>' readonly size=3></td></tr>
     <tr><td class="tdt"><?php te("Title");?>:</td> <td><input  class='input1 mandatory' size=20 type=text name='title' value="<?php echo $title?>"></td></tr>
@@ -200,7 +200,7 @@ else
 </td>
 
 <td class="tdtop" title='<?php te("Address, Phone number, other info, etc");?>' >
-  <div class="divtit" ><?php te("Contact Info");?></div>
+  <h3><?php te("Contact Info");?></h3>
    <textarea name='contactinfo' style='height: 90px;width:550px;' wrap='soft'><?php echo $contactinfo?></textarea> 
 </td>
 </tr>
@@ -209,9 +209,7 @@ else
 <!-- relevant item & software links -->
 <tr> 
 <td  style='vertical-align:top;' rowspan=2>
-  <div title='click to scroll'  class='divtit'>
-Related:
-  </div>
+  <h3> Related: </h3>
   <div>
     <span class="tita" onclick='showid("items");'><?php te("Items");?></span>  ,
     <span class="tita" onclick='showid("software");'><?php te("Software");?></span>  ,
@@ -303,9 +301,7 @@ Related:
   
   </div><!-- scrlbcontainer -->
 </td> 
-<td>
-
-  <div class="divtit"> <?php te("Contacts");?><button id='caddrow' ><?php te("Add Row");?></button> </div>
+<td><h3> <?php te("Contacts");?> <img id='caddrow' src='images/add.png' title="<?php te("Add Row");?>"> </h3>
   <div class="scrltblcontainer3">
 	<table class=tbl2 id="contactstable">
 	<tr> 
@@ -351,7 +347,7 @@ Related:
 <tr>
 
 <td class="tdtop">
-  <div class="divtit"> URLs <button id='uaddrow' ><?php te("Add Row");?></button> </div>
+  <h3>URLs <img src='images/add.png'  id='uaddrow' title="<?php te("Add Row");?>"> </h3>
   <div class="scrltblcontainer3">
 	<table class=tbl2 id="urlstable">
 	<tr> 
@@ -377,16 +373,9 @@ Related:
 	<?php 
 	}
 	?>
-
-
 	</table><br>
-
-
 </td>
-
 </tr>
-
-
 
 <tr><td ><button type="submit"><img src="images/save.png" alt="Save" > <?php te("Save");?></button></td>
 <?php 

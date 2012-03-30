@@ -6,7 +6,7 @@ LEGEND:
 I:improvement 
 B:bugfix
 
-1.6 -> 1.7 19/01/2012
+1.6 -> 1.7 
 -------------------------------------------------------------------------------------------------------
 B:removed date checking from buggy validation pugin and leaved it to
 B:fixed browsing bug where same starting category was repeated on subtrees

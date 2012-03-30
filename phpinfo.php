@@ -1,9 +1,28 @@
 <?php  
 
+try {
+  $dbh = new PDO("sqlite:/tmp/test.db");
+} 
+catch (PDOException $e) {
+  print "Open test database Error!: " . $e->getMessage() . "<br>";
+}
+$error = $dbh->errorInfo();
+if($error[0] && isset($error[2]))  echo "Error 00: ".$error[2]."<br>";
+
+
+
+$attributes = array( "CLIENT_VERSION", "SERVER_VERSION");
+
+foreach ($attributes as $val) {
+    echo "<b>PDO::ATTR_$val: ";
+    echo $dbh->getAttribute(constant("PDO::ATTR_$val")) . "</b><br>\n";
+}
+
+
 $modules=parsePHPModules();
 
 // prints e.g. 'Current PHP version: 4.1.1'
-echo "<b>";
+echo "<br>\n<b>";
 echo 'Current PHP version: ' . phpversion();
 echo "<br>";
 
@@ -14,7 +33,7 @@ echo "<br>";
 
 phpinfo();
 
-function parsePHPModules() {
+function parsePHPModules(){
  ob_start();
  phpinfo(INFO_MODULES);
  $s = ob_get_contents();

@@ -117,7 +117,7 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update agent
   $contactinfo=$_POST['contactinfo'];
   //don't accept empty fields
   if ((!strlen($title))) {
-    echo "<br><b>Title and type are missing.</b><br><a href='javascript:history.go(-1);'>Go back</a></body></html>"; 
+    echo "<br><b>Name and type are missing.</b><br><a href='javascript:history.go(-1);'>Go back</a></body></html>"; 
     exit;
   }
 
@@ -171,7 +171,7 @@ else
     <h3><?php te("Agent Properties");?></h3>
     <table border=0 class="tbl2" width='100%'>
     <tr><td class="tdt"><?php te("ID");?>:</td> <td><input  class='input1' type=text name='id' value='<?php echo $id?>' readonly size=3></td></tr>
-    <tr><td class="tdt"><?php te("Title");?>:</td> <td><input  class='input1 mandatory' size=20 type=text name='title' value="<?php echo $title?>"></td></tr>
+    <tr><td class="tdt"><?php te("Name");?>:</td> <td><input  class='input1 mandatory' size=20 type=text name='title' value="<?php echo $title?>"></td></tr>
     <tr><td class="tdt"><?php te("Type(s)");?>:</td> 
         <td title='<?php te("Cntrl+Click to select multiple roles for an agent ".
                    "<br><br><u>Vendor &amp; Buyer</u>: will be listed in invoices &amp; Contracts ".

@@ -105,6 +105,7 @@ else if (isset($items)) { //normal row numbering (bottom==1)
 
 //echo "<pre>"; print_r($rackrow); echo "<p>";
 
+
 echo "<h1>Rack $id - {$rack['model']} {$rack['label']}</h1>";
 
 ?>
@@ -118,10 +119,20 @@ echo "<h1>Rack $id - {$rack['model']} {$rack['label']}</h1>";
 
 function printitemcell($rr,$depth) {
   global $rackrow,$items,$scriptname,$_GET;
+  $dns=$items[$rackrow[$rr][$depth]]['dnsname'];
+  $label=$items[$rackrow[$rr][$depth]]['label'];
+  $dr=explode(".",$dns); if(count($dr)) $dr=$dr[0];
+
+  $mixlabel=" ";
+  if (strlen($label)) $mixlabel="$label";
+  if (strlen($dr))
+    $mixlabel.=" DNS:$dr";
+ 
+
   return  "<a href='$scriptname?action=edititem&amp;id={$rackrow[$rr][$depth]}'>".
 	$items[$rackrow[$rr][$depth]]['agtitle']." ".
 	$items[$rackrow[$rr][$depth]]['model']." ".
-	$items[$rackrow[$rr][$depth]]['label'].
+	$mixlabel.
 	" [ID:".$items[$rackrow[$rr][$depth]]['id']."]".
 	"</a>";
 }

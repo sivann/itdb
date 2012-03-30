@@ -20,11 +20,12 @@ if (basename($scriptdir)=="php") {
 }
 
 //wscriptdir: www relative address of base itdb directory (/itdb)
+//used for cookie setting
 $wscriptdir=dirname($_SERVER['SCRIPT_NAME']);
 if (basename($wscriptdir)=="php") { 
   $wscriptdir=preg_replace('#/php$#','',$wscriptdir);
 }
-
+if ($wscriptdir=="") $wscriptdir="/"; //itdb installed under /
 
 if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
   $remaddr=$_SERVER['HTTP_X_FORWARDED_FOR'];

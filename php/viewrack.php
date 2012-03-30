@@ -124,16 +124,16 @@ function printitemcell($rr,$depth) {
   $dr=explode(".",$dns); if(count($dr)) $dr=$dr[0];
 
   $mixlabel=" ";
-  if (strlen($label)) $mixlabel="$label";
+  if (strlen($label)) $mixlabel=" $label ";
   if (strlen($dr))
-    $mixlabel.=" DNS:$dr";
+    $mixlabel.=" [DNS:$dr]";
  
 
   return  "<a href='$scriptname?action=edititem&amp;id={$rackrow[$rr][$depth]}'>".
 	$items[$rackrow[$rr][$depth]]['agtitle']." ".
 	$items[$rackrow[$rr][$depth]]['model']." ".
-	$mixlabel.
 	" [ID:".$items[$rackrow[$rr][$depth]]['id']."]".
+	$mixlabel.
 	"</a>";
 }
 

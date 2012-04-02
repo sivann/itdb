@@ -119,20 +119,28 @@ echo "<h1>Rack $id - {$rack['model']} {$rack['label']}</h1>";
 
 function printitemcell($rr,$depth) {
   global $rackrow,$items,$scriptname,$_GET;
+  global $dbh;
+
   $dns=$items[$rackrow[$rr][$depth]]['dnsname'];
   $label=$items[$rackrow[$rr][$depth]]['label'];
   $dr=explode(".",$dns); if(count($dr)) $dr=$dr[0];
+  $itemid=$items[$rackrow[$rr][$depth]]['id'];
+  
 
   $mixlabel=" ";
   if (strlen($label)) $mixlabel=" $label ";
   if (strlen($dr))
     $mixlabel.=" [DNS:$dr]";
  
+  $sid=getstatusidofitem($itemid,$dbh);
+  $x=attrofstatus($sid,$dbh);
+  $attr=$x[0];
+  $statustxt=$x[1];
 
-  return  "<a href='$scriptname?action=edititem&amp;id={$rackrow[$rr][$depth]}'>".
+  return  "<span $attr>&nbsp;</span>&nbsp;<a href='$scriptname?action=edititem&amp;id={$rackrow[$rr][$depth]}'>".
 	$items[$rackrow[$rr][$depth]]['agtitle']." ".
 	$items[$rackrow[$rr][$depth]]['model']." ".
-	" [ID:".$items[$rackrow[$rr][$depth]]['id']."]".
+	" [ID:$itemid]".
 	$mixlabel.
 	"</a>";
 }

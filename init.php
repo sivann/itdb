@@ -380,6 +380,7 @@ function getstatusidofitem($itemid,$dbh)
 
 }
 
+/* return css and title based on item status */
 function attrofstatus($statusid,$dbh)
 {
   $sql="SELECT * from statustypes WHERE id='$statusid'";

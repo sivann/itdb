@@ -249,6 +249,9 @@ else
        </td>
     </tr>
     </table>
+<?php
+
+?>
 </td>
 
 <td class='smallrack' style='padding-left:10px;border-left:1px dashed #aaa'>

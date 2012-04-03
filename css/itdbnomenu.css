@@ -1,0 +1,14 @@
+/* css is included when nomenu GET parameter is specified */
+#leftcolumn {
+  display:none;
+}
+
+#mainpage {
+  padding:3px;
+  margin:3px;
+  width:auto;
+  min-width:450px;
+  max-width:650px;
+}
+
+

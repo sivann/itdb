@@ -477,8 +477,21 @@ else if ($action=="edititem") {
   //rackid
   echo "\n<td class='tdt' class='tdt'>";
   if (is_numeric($rackid)) 
-    echo "<a alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id'><img height=12 src='images/eye.png'></a> ";
+    //echo "<a alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id'><img height=12 src='images/eye.png'></a> ";
+    echo "<a id=viewrack alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id&amp;nomenu=1'><img height=12 src='images/eye.png'></a> ";
+    echo "<a alt='Edit' title='".t("edit rack")."' href='$scriptname?action=editrack&amp;id=$rackid&amp;highlightid=$id'><img src='images/edit.png'></a> ";
   ?>
+
+  <script type="text/javascript"> 
+    $('a#viewrack').popupWindow({ 
+      centerScreen:1,
+      height:800, 
+      scrollbars:1,
+      width:700, 
+      windowName:'viewrack', 
+    }); 
+  </script>
+
   Rack:</td>
   <td>
   <select id='rackid' name='rackid'>

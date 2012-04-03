@@ -20,6 +20,15 @@
 
 <link rel="icon" type="image/png" href="images/favicon.png">
 
+
+<?php
+  if (isset($_GET['nomenu']) && ($_GET['nomenu'])) {
+    echo "<link rel='stylesheet' href='css/itdbnomenu.css' type='text/css'>\n";
+
+  }
+?>
+
+
 <script>
 
 function BodyLoad() {
@@ -68,6 +77,7 @@ function showid(n){
 <script type="text/javascript" src="js/jquery.maskedinput-1.3.js"></script>
 <script type="text/javascript" src="js/jquery.quicksearch.js "></script>
 <script type="text/javascript" src="js/jquery.form.js "></script>
+<script type="text/javascript" src="js/jquery.popupWindow.js "></script>
 
 
 <?php 

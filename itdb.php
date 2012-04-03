@@ -207,7 +207,6 @@ if ($dlg && $authstatus) {
 
 
 <!--div id='mainheader'> <?php echo $settings['companytitle']?> </div-->
-
 <div id='leftcolumn' >
 <div onclick='self.location.href="<?php echo $scriptname?>"' id='leftlogo' >
 <span style='padding-top:5px;'> <a href='<?php echo $scriptname?>'> ITDB </a></span>

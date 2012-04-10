@@ -105,8 +105,7 @@ else if (isset($items)) { //normal row numbering (bottom==1)
 
 //echo "<pre>"; print_r($rackrow); echo "<p>";
 
-$edt="<a href='$scriptname?action=editrack&amp;id={$rack['id']}'>Properties</a>";
-echo "<h1>Rack ID:$id - {$rack['model']} {$rack['label']} &nbsp;&nbsp;$edt</h1>";
+echo "<h1>Rack ID:$id - {$rack['model']} {$rack['label']} </h1>";
 
 ?>
 <div style='float:left;padding-left:10px;'>
@@ -297,4 +296,14 @@ echo "<p>";
 echo $err;
 ?>
 </div>
+
+<?php
+if ($action=="viewrack") {
+?>
+<script type="text/javascript">
+$('a').attr("target", "_new");
+</script>
+
+<?php }?>
+
 

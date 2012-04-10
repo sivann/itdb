@@ -12,7 +12,7 @@ $(document).ready(function() {
                 //"sDom": '<"H"CTlpf>rt<"F"ip>',
                 "sDom": '<"H"Tlpf>rt<"F"ip>',
                 "oTableTools": {
-                        "sSwfPath": "swf/copy_cvs_xls_pdf.swf",
+                        "sSwfPath": "swf/copy_cvs_xls_pdf.swf"
 /*
 
 			"aButtons": [ {
@@ -32,7 +32,7 @@ $(document).ready(function() {
 		"aoColumnDefs": [ 
 			{ "sWidth": "70px", "aTargets": [ 0 ] },
 			{ "asSorting": [ "desc","asc" ], "aTargets": [ 0 ] },
-			{ "sType": "title-numeric", "aTargets": [ 7 ] },
+			{ "sType": "title-numeric", "aTargets": [ 7 ] }
 		],
 		//"oColVis": { "buttonText": "+/-", },
 		"bProcessing": true,

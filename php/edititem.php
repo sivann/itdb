@@ -243,7 +243,7 @@ elseif (isset($_POST['itemtypeid']) && ($_GET['id']=="new")&&isvalidfrm()) {
   " '$comments',$ispart, $rackid, $rackposition,$rackposdepth, $rackmountable, " .
   "  $usize, $status, '$macs', '$ipv4', '$ipv6', '$remadmip', ".
   " '$hd', '$cpu', '$cpuno', '$corespercpu', '$ram', ".
-  " '$panelport', $switchid,  '$switchport', $ports ) ";
+  " '$panelport', $switchid,  '$switchport', '$ports' ) ";
 
   //echo $sql."<br>";
   db_exec($dbh,$sql);

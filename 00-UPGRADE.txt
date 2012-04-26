@@ -1,13 +1,15 @@
-GENERAL INFO
+INFO
 -------------------------------------------------------------------------------
 Most versions add changes to the Database. If upgrading several versions you 
-must apply all the relevant SQL commands to the DB. Those commands are found
-in the CHANGELOG file. 
-For example, if updating from versino 0.14 -> 0.16  you must execute inside the
-sqlite prompt the commands in the 0.14->0.15 section and after that the commands 
-found in 0.15->0.16 section in the CHANGELOG file
+must apply all the relevant SQL commands to the DB. As of version 1.7 this is
+performed from the GUI on first run.
 
-INSTRUCTIONS
+All your files reside inside the itdb/data/ directory. Both the database and the
+uploaded files. 
+
+
+
+INSTRUCTIONS to upgrade version 1.6 to 1.7
 -------------------------------------------------------------------------------
 1.Backup everything (the whole directory). You can use the "Get Full Backup" 
   link on the menu, or from the command like use something like: cp -a itdb/ 
@@ -15,6 +17,8 @@ INSTRUCTIONS
 
 2.Extract the tar over the existing files. The file itdb.db should not be 
   overwritten (it won't normaly since there is no itdb.db file on the package).
+  or
+  Transfer the itdb/data from the old installation to a fresh installation
 
 3.run sqlite3 on the command prompt inside the itdb/data/ directory:
   sqlite3 itdb.db
@@ -26,4 +30,19 @@ INSTRUCTIONS
 
 6.fix the ownerships/permissions if necessary as per original installation instructions
 
+
+
+INSTRUCTIONS for version >1.7
+-------------------------------------------------------------------------------
+
+1.Backup everything (the whole itdb directory). You can use the "Get Full Backup" 
+  link on the menu, or from the command like use something like: 
+  tar zcvf itdb.tar.gz itdb/
+
+2.Extract the new tar over the existing files. The file itdb.db should not be 
+  overwritten (it won't normaly since there is no itdb.db file on the package).
+  or
+  Transfer the itdb/data from the old installation to a fresh installation
+
+3.Browse to the itdb/ with your browser and follow instructions as prompted 
 

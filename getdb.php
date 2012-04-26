@@ -4,7 +4,7 @@ $initok=1;
 require("init.php");
 if (!isset($authstatus) || (!$authstatus)) {echo "<big><b>Not logged in</b></big><br>";exit(0);}
 
-$content_disp = ( ereg('MSIE ([0-9].[0-9]{1,2})', $HTTP_USER_AGENT) == 'IE') ? 'inline' : 'attachment';
+$content_disp = ( preg_match('/MSIE ([0-9].[0-9]{1,2})/', $HTTP_USER_AGENT) == 'IE') ? 'inline' : 'attachment';
 $now = date("Ymd");
 
 header('Content-Type: application/octet-stream');

@@ -26,8 +26,8 @@ if (isset($_POST['savepreset'])) {
     " '$headertext', '$image', '$imagewidth', '$imageheight', '$papersize' )";
     $sth=db_execute($dbh,$sql);
   }
-  echo "<html><body><script>document.location='$wscriptdir/itdb.php?action=printlabels'</script>\n";
-  echo "<a href='$wscriptdir/itdb.php?action=printlabels'>Go here</a>\n</body></html>"; 
+  echo "<html><body><script>document.location='$wscriptdir/?action=printlabels'</script>\n";
+  echo "<a href='$wscriptdir/?action=printlabels'>Go here</a>\n</body></html>"; 
   exit;
 }
 

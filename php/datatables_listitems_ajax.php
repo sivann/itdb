@@ -213,7 +213,7 @@
 				$x=attrofstatus($statusid,$dbh); $attr=$x[0]; $statustxt=$x[1];
 
 				$r="<div style='width:60px'><span $attr>&nbsp;</span>".
-				   "<span><a class='editid' title='Edit' href='itdb.php?action=edititem&amp;id=".$aRow['itemid']."'>".
+				   "<span><a class='editid' title='Edit' href='?action=edititem&amp;id=".$aRow['itemid']."'>".
 				   $aRow['itemid']."</a></span></div>";
 				$row[] = $r;
 			}

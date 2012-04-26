@@ -801,4 +801,15 @@ function getagenturlbytag($agenturl,$tagstr) {
   return "";
 }
 
+function dbversion() {
+  global $dbh;
+
+  $sql="SELECT * from settings";
+  $sth=db_execute($dbh,$sql);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  $sth->closeCursor();
+  $ver=$r['dbversion'];
+  return $ver;
+}
+
 ?>

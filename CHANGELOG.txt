@@ -15,7 +15,9 @@ I:updated jstree version
 DB UPGRADE 1.6 -> 1.7
 -----------------------------
 alter table settings add column timezone;
+alter table settings add column dbversion;
 update settings set timezone="GMT";
+update settings set dbversion=1;
 
 
 

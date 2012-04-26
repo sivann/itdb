@@ -73,7 +73,7 @@ $sth = $dbh->query($sql);
 $fixtypes=$sth->fetchAll(PDO::FETCH_ASSOC);
 
 
-echo "<form method=post id='typeaddfrm' action='itdb.php?action=edititypes&amp;dlg=$dlg' name='typeaddfrm'>";
+echo "<form method=post id='typeaddfrm' action='?action=edititypes&amp;dlg=$dlg' name='typeaddfrm'>";
 echo "<input type=hidden name=action value='".$_POST["action"]."'>";
 ?>
 

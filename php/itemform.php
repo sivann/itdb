@@ -40,35 +40,6 @@
 
     });
 
-
-/*
-   function mdl() {
-      dialog1=$('<div></div>')
-	.html('<center><img src="images/ajaxload.gif"></center>')
-	.load('/itdb/itdb.php?action=edititypes&dlg=1')
-	.dialog({
-	      autoOpen: false,
-	      title: 'Basic Dialog',
-	      modal:true,
-	      height:500,
-	      width:300,
-	      close: function (e, ui) { $(this).remove(); },
-      });
-    }
-
-    $('#eit').click(function() {
-        mdl();
-
-	dialog1.dialog('open');
-	return false;
-    });
-
-
-*/
-
-
-
-
   });
 
 </SCRIPT>

@@ -123,12 +123,12 @@ if (!isset($dbid)) $dbid=0;
   $(document).ready(function(){    
 
     $(".showitems" ).click(function() {
-      $("#itemresults").html('<center><img src="images/ajaxload.gif"></center>').load('/itdb/php/tag2item_ajaxlist.php?tagid='+ $(this).attr('href'));
+      $("#itemresults").html('<center><img src="images/ajaxload.gif"></center>').load('php/tag2item_ajaxlist.php?tagid='+ $(this).attr('href'));
       return false;
     });
 
     $(".showsoftware" ).click(function() {
-      $("#softwareresults").html('<center><img src="images/ajaxload.gif"></center>').load('/itdb/php/tag2software_ajaxlist.php?tagid='+ $(this).attr('href'));
+      $("#softwareresults").html('<center><img src="images/ajaxload.gif"></center>').load('php/tag2software_ajaxlist.php?tagid='+ $(this).attr('href'));
       return false;
     });
 

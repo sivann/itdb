@@ -22,7 +22,7 @@ for ($i=0;$i<$nitems;$i++) {
   $x=($i+1).": ".$ri[$i]['txt'];
   if ($i%2) $bcolor="#D9E3F6"; else $bcolor="#ffffff";
   $institems.="\t<div style='margin:0;padding:0;background-color:$bcolor'>".
-	      "<a href='itdb.php?action=edititem&amp;id={$ri[$i]['id']}'>$x</a></div>\n";
+	      "<a href='?action=edititem&amp;id={$ri[$i]['id']}'>$x</a></div>\n";
 }
 
 echo "<h3>".t('Associated Items')." (".tagid2name($tagid).")</h3>";

@@ -3,7 +3,7 @@
 //sivann at gmail.com 2008-2012
 
 $version="1.6";
-$dbversion=2;
+$fordbversion=2;
 
 /***********************************************************************/
 $itdb_start=getmicrotime();
@@ -196,7 +196,7 @@ $$x="color:#BAFF04 ";
 
 require('php/header.php');
 
-if (0 && $authstatus && (dbversion() != $dbversion)) {
+if ($authstatus && (dbversion() != $fordbversion)) {
   echo "<body>";
   require ("php/itdbupdate.php");
   echo "</body>\n</html>\n";

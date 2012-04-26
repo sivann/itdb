@@ -101,6 +101,7 @@ catch (PDOException $e) {
 $error = $dbh->errorInfo();
 if($error[0] && isset($error[2]))  echo "Error 00: ".$error[2]."<br>";
 
+//$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
 //some configuration
 $ret = $dbh->exec("PRAGMA case_sensitive_like = 0;");

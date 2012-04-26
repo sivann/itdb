@@ -2,8 +2,8 @@
 //ITDB:IT-items database
 //sivann at gmail.com 2008-2012
 
-$version="1.6";
-$fordbversion=2;
+$version="1.7";
+$fordbversion=1;
 
 /***********************************************************************/
 $itdb_start=getmicrotime();

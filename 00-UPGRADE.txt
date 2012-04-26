@@ -15,20 +15,22 @@ INSTRUCTIONS to upgrade version 1.6 to 1.7
   link on the menu, or from the command like use something like: cp -a itdb/ 
   itdbold/ 
 
-2.Extract the tar over the existing files. The file itdb.db should not be 
+2.Rename itdb.php to index.php
+
+3.Extract the tar over the existing files. The file itdb.db should not be 
   overwritten (it won't normaly since there is no itdb.db file on the package).
   or
   Transfer the itdb/data from the old installation to a fresh installation
 
-3.run sqlite3 on the command prompt inside the itdb/data/ directory:
+4.run sqlite3 on the command prompt inside the itdb/data/ directory:
   sqlite3 itdb.db
 
-4.on the sqlite> prompt paste the SQL instructions sequentialy depending on the 
+5.on the sqlite> prompt paste the SQL instructions sequentialy depending on the 
   itdb version
 
-5.type .q to quit the sqlite prompt
+6.type .q to quit the sqlite prompt
 
-6.fix the ownerships/permissions if necessary as per original installation instructions
+7.fix the ownerships/permissions if necessary as per original installation instructions
 
 
 

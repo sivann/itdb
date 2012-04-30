@@ -42,6 +42,10 @@ if (isset($_GET['delid'])) {
   $sql="DELETE from itemlink where itemid1=".$_GET['delid']." or itemid2=".$_GET['delid'];
   $sth=db_exec($dbh,$sql);
 
+  //nullify TAGS
+  $sql="UPDATE tag2item set itemid=null where itemid=".$_GET['delid'];
+  $sth=db_exec($dbh,$sql);
+
   //delete item 
   $sql="DELETE from items where id=".$_GET['delid'];
   $sth=db_exec($dbh,$sql);

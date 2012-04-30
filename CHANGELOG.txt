@@ -6,11 +6,32 @@ LEGEND:
 I:improvement 
 B:bugfix
 
-1.6 -> 1.7 
+1.6 -> 1.7  24/4/2012
 -------------------------------------------------------------------------------------------------------
 B:removed date checking from buggy validation pugin and leaved it to
 B:fixed browsing bug where same starting category was repeated on subtrees
 I:updated jstree version
++:new update instructions
++:gui-based database version upgrade
+B:fixed getdb.php for php 5.3 when error reporting was enabled
+B:fixed tag association listing
+B:item insert failed for IE in some cases
+I:viewrack links open in new window
+B:removed some js commas for picky IE8
++:rack menu-less popup window support.
++:status icons in racks
+B:fixed cookie problem if itdb installed without the /itdb prefix
+I:editagent name
+I:better rack view
++:view dns in racklist
+I:better phpinfo.php sqlite version detection
++:edit file types
++:use agent 'service' url as vendor servicetag link in itemform
+I:Stylistic unification in editagents
++:removed previous clutter, added timezone to settings
+B:small other fixes
+B:removed date checking from buggy validation pugin and leaved it to -:fixed browsing bug where same starting category was repeated on subtrees
+
 
 DB UPGRADE 1.6 -> 1.7
 -----------------------------

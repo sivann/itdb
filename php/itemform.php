@@ -1004,6 +1004,7 @@ else {
 <div id='tab5' class='tab_content'>
   <h2><input style='color:#909090' id="softfilter" name="softfilter" class='filter' 
              value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+      <span style='font-weight:normal;' class='nres'>xx</span>
   </h2>
   <?php 
   //////////////////////////////////////////////
@@ -1022,7 +1023,7 @@ else {
         </thead>
         <tbody>
   <?php 
-
+$xx=0;
   while ($ir=$sth->fetch(PDO::FETCH_ASSOC)) {
     if ($ir['islinked']) {
       $cls="class='bld'";
@@ -1030,6 +1031,7 @@ else {
     else
       $cls="";
 
+    $xx++;
     echo "<tr><td><input name='softlnk[]' value='".$ir['id']."' ";
     if ($ir['islinked']) echo " checked ";
     echo  " type='checkbox' /></td>".
@@ -1043,6 +1045,7 @@ else {
   ?>
   </tbody>
   </table>
+  <?php echo "$xx"?> Software listed
   </div>
 
 

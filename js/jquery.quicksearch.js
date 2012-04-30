@@ -1,12 +1,11 @@
 jQuery(function ($) {
 	$.fn.quicksearch = function (target, opt) {
-		
 		var timeout, cache, rowcache, jq_results, val = '', e = this, options = $.extend({ 
 			delay: 100,
 			selector: null,
 			stripeRows: ['even', 'odd'],
 			loader: null,
-			noResults: '',
+			noResults: '', //display this id when no results found
 			bind: 'keyup',
 			onBefore: function () { 
 				return;
@@ -23,15 +22,16 @@ jQuery(function ($) {
 		}, opt);
 		
 		this.go = function () {
-			
 			var i = 0, noresults = true, vals = val.toLowerCase().split(' ');
-			
 			var rowcache_length = rowcache.length;
+			var matchno=0;
+			var nxt;
 			for (var i = 0; i < rowcache_length; i++)
 			{
 				if (this.test(vals, cache[i]) || val == "") {
 					options.show.apply(rowcache[i]);
 					noresults = false;
+					matchno++;
 				} else {
 					options.hide.apply(rowcache[i]);
 				}
@@ -45,13 +45,19 @@ jQuery(function ($) {
 			}
 			
 			this.loader(false);
+
+			// display number of results
+			nxt=this.next(); 
+			if (nxt.attr('class')=='nres') {
+			  nxt.text(matchno);
+			}
+
 			options.onAfter();
 			
 			return this;
 		};
 		
 		this.stripe = function () {
-			
 			if (typeof options.stripeRows === "object" && options.stripeRows !== null)
 			{
 				var joined = options.stripeRows.join(' ');
@@ -99,9 +105,7 @@ jQuery(function ($) {
 		};
 		
 		this.cache = function () {
-			
 			jq_results = $(target);
-			
 			if (typeof options.noResults === "string" && options.noResults !== "") {
 				jq_results = jq_results.not(options.noResults);
 			}

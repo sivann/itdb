@@ -114,6 +114,7 @@ jQuery(function ($) {
 			cache = t.map(function () {
 			  var txt;
 			  if ($(this) && $(this).find('input:text').length)
+			    //this is for input form search (in users list)
 			    txt= e.strip_html(this.innerHTML)+' '+$(this).find('input:text').val();
 			  else
 			    txt= e.strip_html(this.innerHTML);

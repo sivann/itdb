@@ -812,6 +812,7 @@ else if ($action=="edititem") {
   <table border='0' class='tbl2' style='width:100%;border-bottom:1px solid #cecece'><!-- connect to other items -->
     <tr><td colspan=2 title='Add hierarchical or sibling relations to: parts, cards, monitors, et.c.'><h2>Connected To<sup>1</sup>
     <input style='color:#909090' id="itemsfilter" name="itemsfilter" value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+      <span style='font-weight:normal;' class='nres'></span>
     </h2></td></tr>
     <tr><td colspan=2>
       <div class='scrltblcontainer'>
@@ -899,8 +900,11 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   <!-- invoice links -->
   <table border='0' class=tbl2 style='border-bottom:1px solid #cecece;width:100%;'>
     <tr>
-    <td colspan=2 style='text-align:center;' title='Select invoice(s) related to this item'><h2>
-    <input style='color:#909090' id="invoicefilter" name="invoicefilter" value='Filter' onclick='this.style.color="#000"; this.value=""' size="20"></h2>
+    <td colspan=2 style='text-align:center;' title='Select invoice(s) related to this item'>
+      <h2>
+      <input style='color:#909090' id="invoicefilter" name="invoicefilter" value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+      <span style='font-weight:normal;' class='nres'></span>
+      </h2>
     </td>
     </tr>
     <tr><td colspan=2>
@@ -1004,7 +1008,7 @@ else {
 <div id='tab5' class='tab_content'>
   <h2><input style='color:#909090' id="softfilter" name="softfilter" class='filter' 
              value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
-      <span style='font-weight:normal;' class='nres'>xx</span>
+      <span style='font-weight:normal;' class='nres'></span>
   </h2>
   <?php 
   //////////////////////////////////////////////
@@ -1056,6 +1060,7 @@ $xx=0;
 
   <h2><input style='color:#909090' id="contrfilter" name="contrfilter" class='filter' 
              value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+      <span style='font-weight:normal;' class='nres'></span>
   </h2>
   <?php 
   //////////////////////////////////////////////

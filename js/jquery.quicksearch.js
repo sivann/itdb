@@ -112,7 +112,13 @@ jQuery(function ($) {
 			
 			var t = (typeof options.selector === "string") ? jq_results.find(options.selector) : $(target).not(options.noResults);
 			cache = t.map(function () {
-				return e.strip_html(this.innerHTML);
+			  var txt;
+			  if ($(this) && $(this).find('input:text').length)
+			    txt= e.strip_html(this.innerHTML)+' '+$(this).find('input:text').val();
+			  else
+			    txt= e.strip_html(this.innerHTML);
+			  return txt;
+			  //return e.strip_html(this.innerHTML); //original code
 			});
 			
 			rowcache = jq_results.map(function () {

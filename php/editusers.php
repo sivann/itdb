@@ -1,3 +1,9 @@
+<script>
+ $(document).ready(function() {
+    $('input#usersfilter').quicksearch('table#userstbl tbody tr');
+ });
+
+</script>
 <?php 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
@@ -44,10 +50,17 @@ $sth=db_execute($dbh,$sql);
 
 <form autocomplete='off' method=post name='actionaddfrm'>
 <h1><?php te("Users");?></h1><b><?php te("Users are used for both web login and as item assignees");?></b>
-<table class=brdr width='100%' border=0>
-<tr><th><?php te("Username");?></th><th><?php te("User Description");?></th>
-    <th><?php te("Password");?><sup>1</sup></th>
-    <th><?php te("Type");?></th></tr>
+<input style='color:#909090' id="usersfilter" name="usersfilter" class='filter' 
+      value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+<span style='font-weight:normal;' class='nres'></span>
+
+<table id='userstbl' class=brdr width='100%' border=0>
+  <thead>
+  <tr><th><?php te("Username");?></th><th><?php te("User Description");?></th>
+      <th><?php te("Password");?><sup>1</sup></th>
+      <th><?php te("Type");?></th></tr>
+  </thead>
+  <tbody>
 
 <?php
 $i=0;
@@ -83,6 +96,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
 <tr><td colspan=4><button type="submit"><img src="images/save.png" alt="Save" > <?php te("Save");?></button></td></tr>
 <tr><td colspan=4><sup>1</sup><?php te("Blank passwords prohibit login");?></td></tr>
 
+</tbody>
 </table>
 </form>
 </body>

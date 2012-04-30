@@ -431,6 +431,7 @@ else
     <td colspan=3><h2> <?php te("Installed Into");?><sup>1</sup>
 	<input style='color:#909090' id="itemsfilter" name="itemsfilter" class='filter' 
 	       value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+	 <span style='font-weight:normal;' class='nres'></span>
     </h2>
     </td></tr>
     <tr><td colspan=3 class='tdc' >
@@ -501,6 +502,7 @@ else
   <h2>
       <input style='color:#909090' id="invfilter" name="invfilter" class='filter' 
              value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+	 <span style='font-weight:normal;' class='nres'></span>
   </h2>
 
   <?php 
@@ -552,6 +554,7 @@ else
 
   <h2><input style='color:#909090' id="contrfilter" name="contrfilter" class='filter' 
              value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+	 <span style='font-weight:normal;' class='nres'></span>
   </h2>
 
   <?php 

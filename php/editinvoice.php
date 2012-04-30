@@ -368,6 +368,7 @@ else
 <div id="tab2" class="tab_content">
   <h2> <input style='color:#909090' id="itemsfilter" name="itemsfilter" class='filter' 
              value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+      <span style='font-weight:normal;' class='nres'></span>
   </h2>
   <?php 
   //////////////////////////////////////////////
@@ -427,6 +428,7 @@ else
 <div id="tab3" class="tab_content">
   <h2><input style='color:#909090' id="softfilter" name="softfilter" class='filter' 
              value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+      <span style='font-weight:normal;' class='nres'></span>
   </h2>
 
   <?php 
@@ -478,6 +480,7 @@ else
 
   <h2><input style='color:#909090' id="contrfilter" name="contrfilter" class='filter' 
              value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+      <span style='font-weight:normal;' class='nres'></span>
   </h2>
   <?php 
   //////////////////////////////////////////////

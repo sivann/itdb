@@ -307,7 +307,6 @@ if ($authstatus) {
 
 <tr><td colspan=2><a style="<?php echo $style_edittags; ?>" class='ahdr' href="<?php echo $scriptname?>?action=edittags" ><?php te("Tags")?></a></td></tr>
 
-<tr><td colspan=2><a style="<?php echo $style_editusers; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editusers" ><?php te("Users")?></a></td></tr>
 <tr><td colspan=2><hr class='light1'> </td></tr>
 
 <tr><td colspan=2><a style="<?php echo $style_printlabels; ?>" class='ahdr' href="<?php echo $scriptname?>?action=printlabels" ><?php te("Print Labels")?></a></td></tr>

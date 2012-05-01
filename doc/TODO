@@ -3,10 +3,17 @@ KNOWN BUGS:
 
 TODO/IDEAS
 ================================================================================
+-port connectivity management
+-services (+virtual)
+-VMs
+-LDAP auth
+-LDAP users
+-import capability
+
 -user selection, and others: instead of pull-down select, use jqueryui's autocomplete combobox
 -software version update via gui
-
 -EOS (end of support by manfucacturer) in software/hardware
+
 -add history (renewals) + events in software 
 -incidents/Tickets
 -design PC/server layout in Locations. Assign Items to x/y over imagemap

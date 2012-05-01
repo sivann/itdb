@@ -180,7 +180,7 @@ else
 <td colspan=2>
 <button type="submit"><img src="images/save.png" alt="Save"> <?php te("Save");?></button>
 <?php 
-echo "\n<button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid=$id\");'>".
+echo "\n<button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid=$id\",\"All items will be assigned to user [id:1].\");'>".
      "<img title='delete' src='images/delete.png' border=0>".t("Delete"). "</button>\n";
 ?>
 

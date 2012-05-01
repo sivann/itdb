@@ -50,10 +50,15 @@ function cloneconfirm(what,cloneurl) {
 
 
 
-function delconfirm2(what,delurl)
+function delconfirm2(what,delurl,msg)
 {
-  var msg="Warning! All associations and orphaned files will be removed too. Write YES if you want to delete this : " + what;
-  $i=window.prompt(msg,'NO');
+  var mesg;
+  if (arguments.length<3) 
+    mesg="Warning! All associations and orphaned files will be removed too. Write YES if you want to delete this : " + what;
+  else 
+    mesg=msg+" Write YES if you want to delete id "+what;
+
+  $i=window.prompt(mesg,'NO');
   if ($i=='YES') 
     window.location = delurl;
   else

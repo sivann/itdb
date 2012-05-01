@@ -690,7 +690,24 @@ function delrack($rackid,$dbh) {
 
 }
 
+function deluser($userid,$dbh) {
+  $sql="UPDATE items set userid=1 where userid='$userid'";
+  $sth=db_exec($dbh,$sql);
 
+  $sql="DELETE from users where id='$userid'";
+  $sth=db_exec($dbh,$sql);
+
+}
+
+function countitemsofuser($userid) {
+  global $dbh;
+
+  $sql="SELECT count(id) count from items where userid='$userid'";
+  $sth=db_execute($dbh,$sql);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  $sth->closeCursor();
+  return $r['count'];
+}
 
 function showfiles($f,$class="fileslist",$wantdel=1,$divtitle='') {
 // f: array with data from "files" table (from fetchall)

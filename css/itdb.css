@@ -683,9 +683,9 @@ a.ahdr:hover {
   -webkit-box-shadow:3px 3px 5px #303F7E;
   box-shadow:3px 3px 5px #303F7E;
 
-  -moz-border-radius: 0px 0px 15px 15px;
-  -webkit-border-radius: 0px 0px 15px 15px;
-  border-radius: 0px 0px 15px 15px;
+  -moz-border-radius: 0px 0px 10px 10px;
+  -webkit-border-radius: 0px 0px 10px 10px;
+  border-radius: 0px 0px 10px 10px;
   margin-top:15px;
 
 }
@@ -707,9 +707,9 @@ a.ahdr:hover {
   margin-top:-15px;
   margin-bottom:5px;
 
-  border-radius:15px 15px 0px 0px;
-  -moz-border-radius:15px 15px 0px 0px;
-  -webkit-border-radius:15px 15px 0px 0px;
+  border-radius:10px 10px 0px 0px;
+  -moz-border-radius:10px 10px 0px 0px;
+  -webkit-border-radius:10px 10px 0px 0px;
 }
 
 
@@ -735,11 +735,9 @@ a.ahdr:hover {
     -webkit-box-shadow:3px 3px 5px #303F7E;
     box-shadow:3px 3px 5px #303F7E;
 
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
-    border-radius: 15px 15px 15px 15px;
-
-
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px 10px 10px 10px;
   }
 }
 

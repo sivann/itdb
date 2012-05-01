@@ -103,6 +103,9 @@ switch ($_GET['action']) {
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
     break;
+  case "listusers": 
+    $title="List Users";
+    break;
   case "listracks": 
     $title="List Racks";
     break;
@@ -112,6 +115,15 @@ switch ($_GET['action']) {
   case "settings": 
     $title="Settings";
     break;
+
+  case "edituser": 
+    $stitle="User";
+    $title="Edit User";
+    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+    break;
+
   case "editrack": 
     $stitle="Rack";
     $title="Edit Rack";
@@ -119,6 +131,7 @@ switch ($_GET['action']) {
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
     break;
+
   case "edititypes": 
     $title="Edit Item Types";
     break;
@@ -272,8 +285,13 @@ if ($authstatus) {
 <tr>
 <td><a style="<?php echo $style_listlocations; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listlocations" ><?php te("Locations");?></a></td>
 <td><a style="<?php echo $style_editlocation; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editlocation&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
-
 </tr>
+
+<tr>
+<td><a style="<?php echo $style_listusers; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listusers" ><?php te("Users");?></a></td>
+<td><a style="<?php echo $style_edituser; ?>" class='ahdr' href="<?php echo $scriptname?>?action=edituser&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+</tr>
+
 
 <tr>
 <td><a style="<?php echo $style_listracks; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listracks" ><?php te("Racks");?></a></td>

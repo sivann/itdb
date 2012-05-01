@@ -23,6 +23,7 @@ if (isset($_GET['delid'])) {
   else {
   }
     */
+
   deluser($delid,$dbh); //reassigns items to administrator
   echo "<script>document.location='$scriptname?action=listusers'</script>\n";
   echo "<a href='$scriptname?action=listusers'>Go here</a>\n</body></html>"; 
@@ -180,6 +181,7 @@ else
 <td colspan=2>
 <button type="submit"><img src="images/save.png" alt="Save"> <?php te("Save");?></button>
 <?php 
+ if ($id!=1)
 echo "\n<button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid=$id\",\"All items will be assigned to user [id:1].\");'>".
      "<img title='delete' src='images/delete.png' border=0>".t("Delete"). "</button>\n";
 ?>

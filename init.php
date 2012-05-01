@@ -691,6 +691,10 @@ function delrack($rackid,$dbh) {
 }
 
 function deluser($userid,$dbh) {
+  if ($userid==1) {
+    echo "Cannot remove user with ID=1";
+    return;
+  }
   $sql="UPDATE items set userid=1 where userid='$userid'";
   $sth=db_exec($dbh,$sql);
 

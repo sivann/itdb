@@ -29,7 +29,6 @@ $sth=db_execute($dbh,$sql);
 <h1><?php te("Users");?> <a title='<?php te("Add new User");?>' href='<?php echo $scriptname?>?action=edituser&amp;id=new'><img border=0 src='images/add.png' ></a>
 </h1>
 
-<th title='<?php te("how many items are assigned to this user");?>'> <?php te("Items");?></th>
 <table class='display' width="100%" id='userslisttbl'>
 <thead>
 <tr>

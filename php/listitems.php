@@ -87,6 +87,7 @@ $(document).ready(function() {
 <th><?php te("User");?></th>
 <th><?php te("Status");?></th>
 <th><?php te("Location");?></th>
+<th><?php te("Area");?></th>
 <th><?php te("Rack");?></th>
 <th><?php te("PurchPrice");?></th>
 <th><?php te("MACs");?></th>
@@ -98,7 +99,7 @@ $(document).ready(function() {
 </tr>
 </thead>
 <tbody>
-  <td colspan="18" class="dataTables_empty"><?php te("Loading data from server");?></td>
+  <tr> <td colspan="21" class="dataTables_empty"><?php te("Loading data from server");?></td> </tr>
 </tbody>
 </table>
 

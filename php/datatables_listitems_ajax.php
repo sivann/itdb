@@ -9,8 +9,9 @@
 	/* Array of database columns which should be read and sent back to DataTables. Use a space where
 	 * you want to insert a non-database field (for example a counter or static image)
 	 */
-	$aColumns = array('itemid','typedesc','title','itemmodel','dnsname','serial','itemlabel','purchasedate','remdays','username',
-	                   'statusdesc','name','rackinfo','purchprice','macs','ipv4','ipv6','remadmip','taginfo','softinfo');
+	$aColumns = array('itemid','typedesc','title','itemmodel','dnsname','serial','itemlabel','purchasedate',
+	'remdays','username','statusdesc','locationname','areaname','rackinfo','purchprice','macs','ipv4','ipv6',
+	'remadmip','taginfo','softinfo');
 	
 	include( '../init.php');
 
@@ -126,6 +127,7 @@
 		  items.id AS itemid,
 		  items.model AS itemmodel,
 		  items.label AS itemlabel,
+                  locations.name as locationname,
                   sn || ' ' || sn2 || ' ' || sn3 AS serial,
                   (purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) AS remdays,
                   racks.label || ' ' || racks.usize || ' ' || racks.model AS rackinfo,
@@ -138,6 +140,7 @@
 		  JOIN users ON items.userid=users.id
 		  JOIN statustypes ON items.status=statustypes.id
 		  LEFT OUTER JOIN locations ON items.locationid=locations.id
+		  LEFT OUTER JOIN locareas ON items.locareaid=locareas.id
 		  LEFT OUTER JOIN racks ON items.rackid=racks.id
 		  $sWhere";
 	      $sth=db_execute($dbh,$sQueryCnt);
@@ -165,7 +168,8 @@
                   purchasedate,
                   users.username,
                   statustypes.statusdesc,
-                  locations.name,
+                  locations.name as locationname,
+                  locareas.areaname,
                   sn || ' ' || sn2 || ' ' || sn3 AS serial,
                   (purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) AS remdays,
                   racks.label || ' ' || racks.usize || ' ' || racks.model AS rackinfo,
@@ -180,6 +184,7 @@
 		  JOIN statustypes ON items.status=statustypes.id
 		  JOIN users ON items.userid=users.id
 		  LEFT OUTER JOIN locations ON items.locationid=locations.id
+		  LEFT OUTER JOIN locareas ON items.locareaid=locareas.id
 		  LEFT OUTER JOIN racks ON items.rackid=racks.id
 		  $sWhere
 		  $sOrder

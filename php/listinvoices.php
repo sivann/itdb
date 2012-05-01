@@ -62,7 +62,7 @@ $sql="SELECT * FROM invoices ORDER BY date";
 $sth=db_execute($dbh,$sql);
 ?>
 
-<h1><?php te("Invoices");?><a title='<?php te("Add new Invoice");?>' href='<?php echo $scriptname?>?action=editinvoice&amp;id=new'><img border=0 src='images/add.png' ></a> </h1>
+<h1><?php te("Invoices");?> <a title='<?php te("Add new Invoice");?>' href='<?php echo $scriptname?>?action=editinvoice&amp;id=new'><img border=0 src='images/add.png' ></a> </h1>
 
 <div class='scrtblcontainerlist'>
 <table class="display" width='100%' border=0 id="invlisttbl">

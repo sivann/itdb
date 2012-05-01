@@ -30,7 +30,7 @@ $sql="SELECT files.id,title,fname,typedesc from files,filetypes WHERE files.type
 $sth=db_execute($dbh,$sql);
 ?>
 
-<h1><?php te("Files");?><a title='<?php te("Add new File");?>' href='<?php echo $scriptname?>?action=editfile&amp;id=new'><img border=0 src='images/add.png' ></a>
+<h1><?php te("Files");?> <a title='<?php te("Add new File");?>' href='<?php echo $scriptname?>?action=editfile&amp;id=new'><img border=0 src='images/add.png' ></a>
 </h1>
 
 

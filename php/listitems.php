@@ -70,7 +70,7 @@ $(document).ready(function() {
 } );
 </script>
 
-<h1><?php te("Items");?><a title='<?php te("Add new item");?>' href='<?php echo $scriptname;?>?action=edititem&amp;id=new'><img border=0 src='images/add.png'></a></h1>
+<h1><?php te("Items");?> <a title='<?php te("Add new item");?>' href='<?php echo $scriptname;?>?action=edititem&amp;id=new'><img border=0 src='images/add.png'></a></h1>
 
 <table id='itemlisttbl' class="display">
 <thead>

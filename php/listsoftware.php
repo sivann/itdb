@@ -39,7 +39,7 @@ $sql="SELECT software.*,agents.id as agid ,agents.type as agtype, agents.title a
 $sth=db_execute($dbh,$sql);
 ?>
 
-<h1><?php te("Software");?><a  title='<?php te("Add new software");?>' href='<?php echo $scriptname?>?action=editsoftware&amp;id=new'><img border=0 src='images/add.png'></a> </h1>
+<h1><?php te("Software");?> <a  title='<?php te("Add new software");?>' href='<?php echo $scriptname?>?action=editsoftware&amp;id=new'><img border=0 src='images/add.png'></a> </h1>
 
 <div class='scrtblcontainerlist'>
 

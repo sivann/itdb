@@ -59,7 +59,7 @@ $sth=db_execute($dbh,$sql);
 
 ?>
 
-<h1><?php te("Contracts");?><a title='<?php te("Add new Contract");?>' href='<?php echo $scriptname?>?action=editcontract&amp;id=new'><img border=0 src='images/add.png' ></a>
+<h1><?php te("Contracts");?> <a title='<?php te("Add new Contract");?>' href='<?php echo $scriptname?>?action=editcontract&amp;id=new'><img border=0 src='images/add.png' ></a>
 </h1>
 <table class='display' width='100%' id='contlisttbl'>
 <thead>

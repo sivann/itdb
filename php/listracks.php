@@ -35,7 +35,7 @@ $sql="SELECT count(items.id) AS population, sum(items.usize) as occupation,racks
 $sth=db_execute($dbh,$sql);
 ?>
 
-<h1><?php te("Racks");?><a title='<?php te("Add new File");?>' href='<?php echo $scriptname?>?action=editrack&amp;id=new'><img border=0 src='images/add.png' ></a>
+<h1><?php te("Racks");?> <a title='<?php te("Add new Rack");?>' href='<?php echo $scriptname?>?action=editrack&amp;id=new'><img border=0 src='images/add.png' ></a>
 </h1>
 
 

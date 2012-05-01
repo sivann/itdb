@@ -30,7 +30,7 @@ $sql="SELECT * from agents order by title,type";
 $sth=db_execute($dbh,$sql);
 ?>
 
-<h1><?php te("Agents");?><a title='<?php te("Add new Agent");?>' href='<?php echo $scriptname?>?action=editagent&amp;id=new'><img border=0 src='images/add.png' ></a>
+<h1><?php te("Agents");?> <a title='<?php te("Add new Agent");?>' href='<?php echo $scriptname?>?action=editagent&amp;id=new'><img border=0 src='images/add.png' ></a>
 </h1>
 
 <table  class='display' width='100%' border=0 id='agentlisttbl'>

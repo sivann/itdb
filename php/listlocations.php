@@ -32,7 +32,7 @@ $sql="SELECT locations.*,group_concat(locareas.areaname,', ') AS areaname FROM l
 $sth=db_execute($dbh,$sql);
 ?>
 
-<h1><?php te("Locations");?><a title='<?php te("Add new Location");?>' href='<?php echo $scriptname?>?action=editlocation&amp;id=new'><img border=0 src='images/add.png' ></a>
+<h1><?php te("Locations");?> <a title='<?php te("Add new Location");?>' href='<?php echo $scriptname?>?action=editlocation&amp;id=new'><img border=0 src='images/add.png' ></a>
 </h1>
 
 

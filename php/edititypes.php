@@ -110,10 +110,8 @@ else echo "\n\n<tr><td>--</td>";
 if (!isset($dbid)) $dbid=0;
 ?>
 
-</tbody>
-</table>
+<!--</tbody> </table> <table>-->
 
-<table>
 <tr><th>&nbsp;</th><th><?php te("Description");?></th><th><?php te("Supports<br>Software");?><sup>1</sup></th></tr>
 <tr><td colspan=1><?php te("New");?>:</td><td>
      <input name='newtype' type='text'></td>

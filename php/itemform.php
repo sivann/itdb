@@ -148,153 +148,346 @@ else if ($action=="edititem") {
   <form class='frm1' enctype='multipart/form-data' method=post name='additmfrm' id='mainform'>
 
   <table border='0' class=tbl1 >
-  <tr><td class='tdtop'>
-
-
-  <table border='0' class=tbl2>
-  <tr><td colspan=2><h3><?php te("Intrinsic Properties");?></h3></td></tr>
-
   <tr>
-  <td class='tdt'><?php te("Item Type");?>:<sup class='red'>*</sup></td>
-  <td title='<?php te("Populate list from the Item Types menu");?>'>
+  <td class='tdtop'>
+    <table border='0' class=tbl2>
+    <tr><td colspan=2><h3><?php te("Intrinsic Properties");?></h3></td></tr>
 
-  <?php 
-  echo "\n<select class='mandatory' validate='required:true' name='itemtypeid'>\n";
-  echo "<option value=''>Select</option>\n";
-  for ($i=0;$i<count($itypes);$i++) {
-    $dbid=$itypes[$i]['id']; $itype=$itypes[$i]['typedesc']; $s="";
-    if ($itemtypeid=="$dbid") $s=" SELECTED ";
-    echo "<option $s title='id=$dbid' value='$dbid'>$itype</option>\n";
-  }
-  ?>
+    <tr>
+    <td class='tdt'><?php te("Item Type");?>:<sup class='red'>*</sup></td>
+    <td title='<?php te("Populate list from the Item Types menu");?>'>
+
+    <?php 
+    echo "\n<select class='mandatory' validate='required:true' name='itemtypeid'>\n";
+    echo "<option value=''>Select</option>\n";
+    for ($i=0;$i<count($itypes);$i++) {
+      $dbid=$itypes[$i]['id']; $itype=$itypes[$i]['typedesc']; $s="";
+      if ($itemtypeid=="$dbid") $s=" SELECTED ";
+      echo "<option $s title='id=$dbid' value='$dbid'>$itype</option>\n";
+    }
+    ?>
+      </select>
+      </td>
+      </tr>
+
+      <tr>
+
+    <?php 
+    //ispart
+    $y="";$n="";
+    if ($ispart=="1") {$y="checked";$n="";}
+    if ($ispart=="0") {$n="checked";$y="";}
+
+    ?>
+      <td class='tdt'><?php te("Is Part");?>:<sup class='red'>*</sup></td>
+      <td title='Select yes for parts/components'>
+      <div class='mandatory'>
+	<input  validate='required:true' <?php echo $y?> class='radio' type=radio name='ispart' value='1'><?php te("Yes");?>
+	<input  class='radio' type=radio <?php echo $n?> name='ispart' value='0'><?php te("No");?>
+      </div>
+      </td>
+      </tr>
+      <tr>
+
+    <?php 
+
+    //rackmountable
+    $y="";$n="";
+    if ($rackmountable=="1") {$y="checked";$n="";}
+    if ($rackmountable=="0") {$n="checked";$y="";}
+
+    ?>
+
+
+      <td class='tdt'><?php te("Rackmountable");?>:<sup class='red'>*</sup></td>
+      <td>
+      <div class=mandatory>
+	<input validate='required:true' class='radio' <?php echo $y?> type=radio name='rackmountable' value='1'><?php te("Yes");?>
+	<input class='radio' type=radio <?php echo $n?> name='rackmountable' value='0'><?php te("No");?>
+      </div>
+      </td></td>
+      </tr>
+
+
+    <?php 
+    //manufacturer
+    ?>
+
+      <tr>
+      <td class='tdt'>
+
+    <?php   if (is_numeric($manufacturerid)) 
+      echo "<a title='Edit selected manufacturer (agent)' href='$scriptname?action=editagent&amp;id=$manufacturerid'><img src='images/edit.png'></a> "; ?>
+      <?php te("Manufact.");?><sup class='red'>*</sup>:</td>
+
+      <td title='<?php te("Populated from H/W Manufacturers defined in agents menu");?>'>
+
+       <select validate='required:true' class='mandatory' name='manufacturerid'>
+       <option value=''><?php te("Select");?></option>
+      <?php 
+	foreach ($agents as $a) {
+	  if (!($a['type']&8)) continue;
+	  $dbid=$a['id']; 
+	  $atype=$a['title']; $s="";
+	  if (isset($manufacturerid) && $manufacturerid==$a['id']) $s=" SELECTED ";
+	  echo "<option $s value='$dbid' title='$dbid'>$atype</option>\n";
+	}
+	echo "</select>\n";
+      ?>
+      </td>
+
+      </tr>
+
+      <tr> <td class='tdt'><?php te("Model");?><sup class='red'>*</sup>:</td><td><input type=text validate='required:true' class='mandatory' value="<?php echo $model?>" name='model'></td> </tr>
+
+      <tr>
+
+    <?php 
+    //usize
+    ?>
+      <td class='tdt' class='tdt'><?php te("Size (U)");?>:</td><td>
+      <select name='usize'>
+      <option value=''><?php te("Select");?></option>
+
+    <?php 
+    for ($i=1;$i<45;$i++) {
+      $s="";
+      if ($usize=="$i") $s=" SELECTED ";
+      echo "<option $s value='$i'>$i</option>\n";
+    }
+    ?>
+
     </select>
     </td>
-    </tr>
 
-    <tr>
+      </tr>
 
-  <?php 
-  //ispart
-  $y="";$n="";
-  if ($ispart=="1") {$y="checked";$n="";}
-  if ($ispart=="0") {$n="checked";$y="";}
+      <tr> <td class='tdt'><?php te("S/N");?>:</td><td><input type=text value='<?php echo $sn?>' name='sn'></td> </tr>
+      <tr> <td class='tdt'><?php te("S/N 2");?>:</td><td><input type=text value='<?php echo $sn2?>' name='sn2'></td> </tr>
+      <tr>
 
-  ?>
-    <td class='tdt'><?php te("Is Part");?>:<sup class='red'>*</sup></td>
-    <td title='Select yes for parts/components'>
-    <div class='mandatory'>
-      <input  validate='required:true' <?php echo $y?> class='radio' type=radio name='ispart' value='1'><?php te("Yes");?>
-      <input  class='radio' type=radio <?php echo $n?> name='ispart' value='0'><?php te("No");?>
-    </div>
-    </td>
-    </tr>
-    <tr>
-
-  <?php 
-
-  //rackmountable
-  $y="";$n="";
-  if ($rackmountable=="1") {$y="checked";$n="";}
-  if ($rackmountable=="0") {$n="checked";$y="";}
-
-  ?>
-
-
-    <td class='tdt'><?php te("Rackmountable");?>:<sup class='red'>*</sup></td>
-    <td>
-    <div class=mandatory>
-      <input validate='required:true' class='radio' <?php echo $y?> type=radio name='rackmountable' value='1'><?php te("Yes");?>
-      <input class='radio' type=radio <?php echo $n?> name='rackmountable' value='0'><?php te("No");?>
-    </div>
-    </td></td>
-    </tr>
-
-
-  <?php 
-  //manufacturer
-  ?>
-
-    <tr>
-    <td class='tdt'>
-
-  <?php   if (is_numeric($manufacturerid)) 
-    echo "<a title='Edit selected manufacturer (agent)' href='$scriptname?action=editagent&amp;id=$manufacturerid'><img src='images/edit.png'></a> "; ?>
-    <?php te("Manufact.");?><sup class='red'>*</sup>:</td>
-
-    <td title='<?php te("Populated from H/W Manufacturers defined in agents menu");?>'>
-
-     <select validate='required:true' class='mandatory' name='manufacturerid'>
-     <option value=''><?php te("Select");?></option>
     <?php 
-      foreach ($agents as $a) {
-	if (!($a['type']&8)) continue;
-	$dbid=$a['id']; 
-	$atype=$a['title']; $s="";
-	if (isset($manufacturerid) && $manufacturerid==$a['id']) $s=" SELECTED ";
-	echo "<option $s value='$dbid' title='$dbid'>$atype</option>\n";
-      }
-      echo "</select>\n";
+
+    //dell service tag
+    if (isset($manufacturerid)) {
+      $st=getagenturlbytag($manufacturerid,"service");
+      if (strlen($st)) $st="<a target=_blank href='$st'>Service Tag</a>";
+      else $st="Service Tag";
+    }
     ?>
-    </td>
+      <td class='tdt'><?php echo $st?></td><td><input type=text value='<?php echo $sn3?>' name='sn3'></td>
+      </tr>
 
-    </tr>
+      <tr> <td class='tdt'><?php te("Comments");?>:</td><td> <textarea wrap='soft' class=tarea1  name='comments'><?php echo $comments?></textarea></td> </tr>
 
-    <tr> <td class='tdt'><?php te("Model");?><sup class='red'>*</sup>:</td><td><input type=text validate='required:true' class='mandatory' value="<?php echo $model?>" name='model'></td> </tr>
-
-    <tr>
-
-  <?php 
-  //usize
-  ?>
-    <td class='tdt' class='tdt'><?php te("Size (U)");?>:</td><td>
-    <select name='usize'>
-    <option value=''><?php te("Select");?></option>
-
-  <?php 
-  for ($i=1;$i<45;$i++) {
-    $s="";
-    if ($usize=="$i") $s=" SELECTED ";
-    echo "<option $s value='$i'>$i</option>\n";
-  }
-  ?>
-
-  </select>
-  </td>
-
-    </tr>
-
-    <tr> <td class='tdt'><?php te("S/N");?>:</td><td><input type=text value='<?php echo $sn?>' name='sn'></td> </tr>
-    <tr> <td class='tdt'><?php te("S/N 2");?>:</td><td><input type=text value='<?php echo $sn2?>' name='sn2'></td> </tr>
-    <tr>
-
-  <?php 
-
-  //dell service tag
-  if (isset($manufacturerid)) {
-    $st=getagenturlbytag($manufacturerid,"service");
-    if (strlen($st)) $st="<a target=_blank href='$st'>Service Tag</a>";
-    else $st="Service Tag";
-  }
-  ?>
-    <td class='tdt'><?php echo $st?></td><td><input type=text value='<?php echo $sn3?>' name='sn3'></td>
-    </tr>
-
-    <tr> <td class='tdt'><?php te("Comments");?>:</td><td> <textarea wrap='soft' class=tarea1  name='comments'><?php echo $comments?></textarea></td> </tr>
-
-  <tr> <td class='tdt'><?php te("Label");?>:</td><td title='<?php te("show also this text on printable labels");?>'><input type='text' value="<?php echo $label?>" name='label'></td> </tr>
-    </table>
+    <tr> <td class='tdt'><?php te("Label");?>:</td><td title='<?php te("show also this text on printable labels");?>'><input type='text' value="<?php echo $label?>" name='label'></td> </tr>
+      </table>
     </td>
 
     <td class='tdtop'>
 
-      <table border='0' class=tbl2>
+      <table border='0' class=tbl2><!-- Usage -->
+      <tr><td colspan=2 ><h3><?php te("Usage");?></h3></td></tr>
 
-  <?php 
-  /* 2-Warranty & Support */
-  ?>
+      <tr>
 
+      <?php 
+      //status
+      ?>
+	<td class='tdt'><?php te("Status");?><sup class='red'>*</sup>:</td>
+	<td>
+	<select validate='required:true' class='mandatory'  name='status'>
+
+      <?php 
+      for ($i=0;$i<count($statustypes);$i++) {
+	$dbid=$statustypes[$i]['id']; $itype=$statustypes[$i]['statusdesc']; $s="";
+	if ($status==$dbid) $s=" SELECTED ";
+	echo "<option $s value='$dbid'>$itype</option>\n";
+      }
+      ?>
+      </select>
+	</td>
+	</tr>
+
+
+      <?php 
+      //user
+      ?>
+
+      <tr>
+      <td class='tdt'><?php te("User");?><sup class='red'>*</sup>:</td><td title='<?php te("User responsible for this item");?>'>
+      <select validate='required:true' class='mandatory' name='userid'>
+      <option value=''><?php te("Select User");?></option>
+      <?php 
+      for ($i=0;$i<count($userlist);$i++) {
+	$dbid=$userlist[$i]['id']; $itype=$userlist[$i]['username']; $s="";
+	if ($userid==$dbid) $s=" SELECTED ";
+	//echo "<option $s value='$dbid'>".sprintf("%02d",$dbid)."-$itype</option>\n";
+	echo "<option $s value='$dbid'>$itype</option>\n";
+      }
+      ?>
+
+      </select>
+      </td>
+      </tr>
+
+      <tr>
+      <?php 
+      //location
+      ?>
+      <td class='tdt' class='tdt'><?php te("Location");?>:</td>
+      <td>
+	<select id='locationid' name='locationid'>
+	<option value=''><?php te("Select");?></option>
+	<?php 
+	foreach ($locations  as $key=>$location ) {
+	  $dbid=$location['id']; 
+	  $itype=$location['name'].", Floor:".$location['floor'];
+	  $s="";
+	  if (($locationid=="$dbid")) $s=" SELECTED "; 
+	  echo "    <option $s value='$dbid'>$itype</option>\n";
+	}
+	?>
+	</select>
+
+      </td>
+      </tr>
+
+      <tr>
+      <?php 
+      //area
+      if (is_numeric($locationid)) {
+	$sql="SELECT * FROM locareas WHERE locationid=$locationid order by areaname";
+	$sth=$dbh->query($sql);
+	$locareas=$sth->fetchAll(PDO::FETCH_ASSOC);
+      } 
+      else 
+	$locareas=array();
+      ?>
+      <td class='tdt' class='tdt'><?php te("Area/Room");?>:</td>
+      <td>
+	<select id='locareaid' name='locareaid'>
+	  <option value=''><?php te("Select");?></option>
+	  <?php 
+	  foreach ($locareas  as $key=>$locarea ) {
+	    $dbid=$locarea['id']; 
+	    $itype=$locarea['areaname'];
+	    $s="";
+	    if (($locareaid=="$dbid")) $s=" SELECTED "; 
+	    echo "    <option $s value='$dbid'>$itype</option>\n";
+	  }
+	  ?>
+     
+
+	</select>
+
+      </td>
+      </tr>
+
+
+
+      <tr>
+      <?php 
+      //rackid
+      echo "\n<td class='tdt' class='tdt'>";
+      if (is_numeric($rackid)) 
+	//echo "<a alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id'><img height=12 src='images/eye.png'></a> ";
+	echo "<a id=viewrack alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id&amp;nomenu=1'><img height=12 src='images/eye.png'></a> ";
+	echo "<a alt='Edit' title='".t("edit rack")."' href='$scriptname?action=editrack&amp;id=$rackid&amp;highlightid=$id'><img src='images/edit.png'></a> ";
+      ?>
+
+      <script type="text/javascript"> 
+	$('a#viewrack').popupWindow({ 
+	  centerScreen:1,
+	  height:800, 
+	  scrollbars:1,
+	  width:700, 
+	  windowName:'viewrack', 
+	}); 
+      </script>
+
+      Rack:</td>
+      <td>
+      <select id='rackid' name='rackid'>
+      <option value=''><?php te("Select");?></option>
+      <?php 
+      if (is_numeric($locationid)) {
+	$sql="SELECT * FROM racks WHERE locationid=$locationid order by label,id";
+	$sth=$dbh->query($sql);
+	$racks=$sth->fetchAll(PDO::FETCH_ASSOC);
+      } 
+      else 
+	$racks=array();
+
+      for ($i=0;$i<count($racks);$i++) {
+	$dbid=$racks[$i]['id']; 
+	$itype=$racks[$i]['label'].",".$racks[$i]['usize']."U ". $racks[$i]['model'];
+	$s="";
+	if ($rackid=="$dbid") $s=" SELECTED ";
+	echo "<option $s value='$dbid'>$dbid:$itype</option>\n";
+      }
+      ?>
+      </select></td>
+      </tr>
+
+      <tr>
+
+      <?php 
+      //rackposition
+      ?>
+      <td class='tdt' class='tdt'><?php te("Rack Pos. (topmost)");?>:</td><td>
+
+      <select name='rackposition' title='Rack Row'  style='width:40%'>
+      <option value=''><?php te("Select");?></option>
+      <?php 
+      for ($i=1;$i<51;$i++) {
+	$s="";
+	if ($rackposition=="$i") $s=" SELECTED ";
+	echo "<option $s value='$i'>$i</option>\n";
+      }
+      ?>
+      </select>
+
+      <?php 
+	$s="";$s6="";$s3="";$s4="";$s2="";$s1="";$s7="";
+	$x="s$rackposdepth";
+	$$x="SELECTED";
+      ?>
+      <select name='rackposdepth'  style='width:40%' title='<?php te("Depth of rack occupation. (F)ront, (M)iddle, (B)ack");?>'>
+      <option <?php echo $s6?> value='6'>FM-</option>
+      <option <?php echo $s3?> value='3'>-MB</option>
+      <option <?php echo $s4?> value='4'>F--</option>
+      <option <?php echo $s2?> value='2'>-M-</option>
+      <option <?php echo $s1?> value='1'>--B</option>
+      <option <?php echo $s7?> value='7'>FMB</option>
+      </select>
+
+      </td>
+      </tr>
+
+      <tr>
+	<td class='tdt' title='<?php te("describe the purpose of this item");?>'><?php te("Function");?>:</td>
+	<td title='<?php te("How is this item used. e.g.: Video Encoder");?>'><input type=text size=15 value="<?php echo $function?>" name='function'></td> 
+      </tr>
+
+      <tr>
+      <td class='tdt'><?php te("Maintenance Instructions");?>:</td><td title='<?php te("Special maintenance instructions");?>'>
+       <textarea wrap='soft' class=tarea1 name='maintenanceinfo'><?php echo $maintenanceinfo?></textarea></td>
+      </tr>
+
+	  <tr><td colspan=2 style='padding-top:10px'><h3><?php te("Accounting");?></h3></td></tr>
+	  <tr> <td class='tdt'><?php te("Shop/Origin");?>:</td><td title='<?php te("e.g. like donator, etc. Vendor info is best to be provided in the related invoice");?>'><input size=15 value='<?php echo $origin?>' name='origin'></td> </tr>
+	  <tr> <td class='tdt'><?php te("Purchace Price (");?><?php echo $settings['currency']?>):</td><td><input size=15 value='<?php echo $purchprice?>' name='purchprice'></td> </tr>
+
+      </table><!--/usage-->
+
+
+    </td>
+    <td class='tdtop'>
+
+
+      <table border='0' class=tbl2> <!-- 2-Warranty & Support -->
       <tr><td colspan=2><h3><?php te("Warranty");?></h3></td></tr>
-
       <tr>
       <td class='tdt'><?php te("Date of Purchase");?>:</td>
       <td><input  type=text class='dateinp' title='<?php echo $datetitle?>' size=12 id=aa0 value='<?php echo $d?>' name='purchasedate'>
@@ -339,212 +532,7 @@ else if ($action=="edititem") {
 
     </td>
     <td class='tdtop'>
-
-  <?php 
-  /* 3-Use */
-  ?>
-  <table border='0' class=tbl2>
-  <tr><td colspan=2 ><h3><?php te("Usage");?></h3></td></tr>
-
-  <tr>
-
-  <?php 
-  //status
-  ?>
-    <td class='tdt'><?php te("Status");?><sup class='red'>*</sup>:</td>
-    <td>
-    <select validate='required:true' class='mandatory'  name='status'>
-
-  <?php 
-  for ($i=0;$i<count($statustypes);$i++) {
-    $dbid=$statustypes[$i]['id']; $itype=$statustypes[$i]['statusdesc']; $s="";
-    if ($status==$dbid) $s=" SELECTED ";
-    echo "<option $s value='$dbid'>$itype</option>\n";
-  }
-  ?>
-  </select>
-    </td>
-    </tr>
-
-
-  <?php 
-  //user
-  ?>
-
-  <tr>
-  <td class='tdt'><?php te("User");?><sup class='red'>*</sup>:</td><td title='<?php te("User responsible for this item");?>'>
-  <select validate='required:true' class='mandatory' name='userid'>
-  <option value=''><?php te("Select User");?></option>
-  <?php 
-  for ($i=0;$i<count($userlist);$i++) {
-    $dbid=$userlist[$i]['id']; $itype=$userlist[$i]['username']; $s="";
-    if ($userid==$dbid) $s=" SELECTED ";
-    //echo "<option $s value='$dbid'>".sprintf("%02d",$dbid)."-$itype</option>\n";
-    echo "<option $s value='$dbid'>$itype</option>\n";
-  }
-  ?>
-
-  </select>
-  </td>
-  </tr>
-
-  <tr>
-  <?php 
-  //location
-  ?>
-  <td class='tdt' class='tdt'><?php te("Location");?>:</td>
-  <td>
-    <select id='locationid' name='locationid'>
-    <option value=''><?php te("Select");?></option>
-    <?php 
-    foreach ($locations  as $key=>$location ) {
-      $dbid=$location['id']; 
-      $itype=$location['name'].", Floor:".$location['floor'];
-      $s="";
-      if (($locationid=="$dbid")) $s=" SELECTED "; 
-      echo "    <option $s value='$dbid'>$itype</option>\n";
-    }
-    ?>
-    </select>
-
-  </td>
-  </tr>
-
-  <tr>
-  <?php 
-  //area
-  if (is_numeric($locationid)) {
-    $sql="SELECT * FROM locareas WHERE locationid=$locationid order by areaname";
-    $sth=$dbh->query($sql);
-    $locareas=$sth->fetchAll(PDO::FETCH_ASSOC);
-  } 
-  else 
-    $locareas=array();
-  ?>
-  <td class='tdt' class='tdt'><?php te("Area/Room");?>:</td>
-  <td>
-    <select id='locareaid' name='locareaid'>
-      <option value=''><?php te("Select");?></option>
-      <?php 
-      foreach ($locareas  as $key=>$locarea ) {
-	$dbid=$locarea['id']; 
-	$itype=$locarea['areaname'];
-	$s="";
-	if (($locareaid=="$dbid")) $s=" SELECTED "; 
-	echo "    <option $s value='$dbid'>$itype</option>\n";
-      }
-      ?>
- 
-
-    </select>
-
-  </td>
-  </tr>
-
-
-
-  <tr>
-  <?php 
-  //rackid
-  echo "\n<td class='tdt' class='tdt'>";
-  if (is_numeric($rackid)) 
-    //echo "<a alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id'><img height=12 src='images/eye.png'></a> ";
-    echo "<a id=viewrack alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id&amp;nomenu=1'><img height=12 src='images/eye.png'></a> ";
-    echo "<a alt='Edit' title='".t("edit rack")."' href='$scriptname?action=editrack&amp;id=$rackid&amp;highlightid=$id'><img src='images/edit.png'></a> ";
-  ?>
-
-  <script type="text/javascript"> 
-    $('a#viewrack').popupWindow({ 
-      centerScreen:1,
-      height:800, 
-      scrollbars:1,
-      width:700, 
-      windowName:'viewrack', 
-    }); 
-  </script>
-
-  Rack:</td>
-  <td>
-  <select id='rackid' name='rackid'>
-  <option value=''><?php te("Select");?></option>
-  <?php 
-  if (is_numeric($locationid)) {
-    $sql="SELECT * FROM racks WHERE locationid=$locationid order by label,id";
-    $sth=$dbh->query($sql);
-    $racks=$sth->fetchAll(PDO::FETCH_ASSOC);
-  } 
-  else 
-    $racks=array();
-
-  for ($i=0;$i<count($racks);$i++) {
-    $dbid=$racks[$i]['id']; 
-    $itype=$racks[$i]['label'].",".$racks[$i]['usize']."U ". $racks[$i]['model'];
-    $s="";
-    if ($rackid=="$dbid") $s=" SELECTED ";
-    echo "<option $s value='$dbid'>$dbid:$itype</option>\n";
-  }
-  ?>
-  </select></td>
-  </tr>
-
-  <tr>
-
-  <?php 
-  //rackposition
-  ?>
-  <td class='tdt' class='tdt'><?php te("Rack Pos. (topmost)");?>:</td><td>
-
-  <select name='rackposition' title='Rack Row'  style='width:40%'>
-  <option value=''><?php te("Select");?></option>
-  <?php 
-  for ($i=1;$i<51;$i++) {
-    $s="";
-    if ($rackposition=="$i") $s=" SELECTED ";
-    echo "<option $s value='$i'>$i</option>\n";
-  }
-  ?>
-  </select>
-
-  <?php 
-    $s="";$s6="";$s3="";$s4="";$s2="";$s1="";$s7="";
-    $x="s$rackposdepth";
-    $$x="SELECTED";
-  ?>
-  <select name='rackposdepth'  style='width:40%' title='<?php te("Depth of rack occupation. (F)ront, (M)iddle, (B)ack");?>'>
-  <option <?php echo $s6?> value='6'>FM-</option>
-  <option <?php echo $s3?> value='3'>-MB</option>
-  <option <?php echo $s4?> value='4'>F--</option>
-  <option <?php echo $s2?> value='2'>-M-</option>
-  <option <?php echo $s1?> value='1'>--B</option>
-  <option <?php echo $s7?> value='7'>FMB</option>
-  </select>
-
-  </td>
-  </tr>
-
-  <tr>
-    <td class='tdt' title='<?php te("describe the purpose of this item");?>'><?php te("Function");?>:</td>
-    <td title='<?php te("How is this item used. e.g.: Video Encoder");?>'><input type=text size=15 value="<?php echo $function?>" name='function'></td> 
-  </tr>
-
-  <tr>
-  <td class='tdt'><?php te("Maintenance Instructions");?>:</td><td title='<?php te("Special maintenance instructions");?>'>
-   <textarea wrap='soft' class=tarea1 name='maintenanceinfo'><?php echo $maintenanceinfo?></textarea></td>
-  </tr>
-
-      <tr><td colspan=2 style='padding-top:10px'><h3><?php te("Accounting");?></h3></td></tr>
-      <tr> <td class='tdt'><?php te("Shop/Origin");?>:</td><td title='<?php te("e.g. like donator, etc. Vendor info is best to be provided in the related invoice");?>'><input size=15 value='<?php echo $origin?>' name='origin'></td> </tr>
-      <tr> <td class='tdt'><?php te("Purchace Price (");?><?php echo $settings['currency']?>):</td><td><input size=15 value='<?php echo $purchprice?>' name='purchprice'></td> </tr>
-
-  </table>
-  </td>
-  <td class='tdtop'>
-
-  <?php 
-  /* 3-Network */
-  ?>
-
-      <table border='0' class=tbl2>
+      <table border='0' class=tbl2> <!-- 3-Network -->
       <tr><td colspan=2 ><h3><?php te("Network");?></h3></td></tr>
       <tr> <td class='tdt'><?php te("DNS Name");?>:</td><td><input type=text size=15 value='<?php echo $dnsname?>' name='dnsname'></td> </tr>
       <tr> <td class='tdt'>MACs:</td><td><input type=text size=15 value='<?php echo $macs?>' name='macs'></td> </tr>
@@ -590,8 +578,8 @@ else if ($action=="edititem") {
       </table>
 
     </td>
-    </tr>
 
+    </tr>
 
   <?php 
   //Associated files
@@ -608,9 +596,9 @@ else if ($action=="edititem") {
 
   ?>
 
-  <tr>
+    <tr>
     <td class='tdtop' colspan=1>
-    <!-- related item & software links -->
+      <!-- related item & software links -->
       <h3><?php te("Associations Overview");?></h3>
       <div style='text-align:center'>
 	<span class="tita" onclick='showid("items");'><?php te("Items");?></span> |
@@ -739,10 +727,10 @@ else if ($action=="edititem") {
       </tr>
       </table>
 
-
     </td>
   </tr>
   </table>
+
     <?php
      
     if ($id!="new") {

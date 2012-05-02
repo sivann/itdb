@@ -670,7 +670,7 @@ a.ahdr:hover {
   top:10px;
 
   width:  100px;
-  height: 900px;
+  height: 950px;
 
   margin-right:  4px;
   padding:  0px;
@@ -716,7 +716,7 @@ a.ahdr:hover {
 @media screen {
   #mainpage {
     position:relative;
-    min-width:1000px;;
+    min-width:1050px;;
 
     top:10px;
     background-color:white;

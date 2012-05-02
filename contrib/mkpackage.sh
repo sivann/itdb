@@ -22,6 +22,12 @@ rm data/itdb.db
 
 cd /tmp
 
-echo "it is ready for tarring in /tmp/itdb"
+echo ""
+echo "Remember to:"
+echo "-change version to index.php"
+echo "-change dbversion to index.php"
+echo "-apply dbupdates to pure.db"
+echo ""
 
-echo "you may do a  tar zcvf itdb-${version}.tar.gz itdb/ "
+echo "it is ready for tarring in /tmp/itdb. Do a:"
+echo "tar zcvf itdb-${version}.tar.gz itdb/ "

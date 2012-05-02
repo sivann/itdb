@@ -4,6 +4,7 @@ KNOWN BUGS:
 TODO/IDEAS
 ================================================================================
 -port connectivity management
+-power cable management
 -services (+virtual)
 -VMs
 -LDAP auth

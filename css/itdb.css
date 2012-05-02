@@ -913,11 +913,11 @@ ul li {
   margin:0;
   margin-right:1px;
   margin-left:1px;
-  color:#0077aa;
+  color:#0077aa!important;
 }
 
 .editid a {
-  color:#0077aa;
+  color:#0077aa!important;
 }
 
 .statusx { 

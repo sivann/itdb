@@ -185,10 +185,14 @@ else
     </td>
     </tr>
 
-    <tr><td class="tdt"><?php te("Label");?>:</td> <td><input  class='input2 mandatory' validate='required:true' size=20 type=text name='label' value="<?php echo $r['label']?>"></td></tr>
-    <tr><td class="tdt"><?php te("Depth");?>(mm):</td> <td><input  class='input2 mandatory' validate='required:true' size=20 type=text name='depth' value="<?php echo $r['depth']?>"></td></tr>
-    <tr><td class="tdt"><?php te("Model");?>:</td> <td><input  class='input2 mandatory' validate='required:true' size=20 type=text name='model' value="<?php echo $r['model']?>"></td></tr>
-    <tr><td class="tdt"><?php te("Comments");?>:</td> <td><textarea class='tarea1' wrap=soft name=comments><?php echo $r['comments']?></textarea></td></tr>
+    <tr><td class="tdt"><?php te("Label");?>:</td> 
+        <td><input  class='input2 mandatory' validate='required:true' size=20 type=text name='label' value="<?php echo $r['label']?>"></td></tr>
+    <tr><td class="tdt"><?php te("Depth");?>(mm):</td> 
+        <td><input  class='input2 mandatory' validate='required:true' size=20 type=text name='depth' value="<?php echo $r['depth']?>"></td></tr>
+    <tr><td class="tdt"><?php te("Model");?>:</td> 
+        <td><input  class='input2 mandatory' size=20 type=text name='model' value="<?php echo $r['model']?>"></td></tr>
+    <tr><td class="tdt"><?php te("Comments");?>:</td> 
+        <td><textarea class='tarea1' wrap=soft name=comments><?php echo $r['comments']?></textarea></td></tr>
     <tr><td class="tdt"><?php te("Location");?>:</td> 
 
     <td>

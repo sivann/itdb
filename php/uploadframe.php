@@ -64,8 +64,7 @@ function rst() {
 </head>
 <body >
 <?php 
-//$types=$_GET['types'];
-//$types_arr=explode(",",$types);
+$type=$_GET['type'];
 isset($_GET['defdate'])?$defdate=$_GET['defdate']:$defdate="";
 $id=$_GET['id'];
 
@@ -73,7 +72,11 @@ if (!is_numeric($id)) {
   echo "Cannot upload files to unsaved items.";
   exit;
 }
-$sql="SELECT * from filetypes WHERE id <> 3 order by typedesc";
+if ($type == "invoice")
+	$sql="SELECT * from filetypes WHERE id = 3 order by typedesc";
+else
+	$sql="SELECT * from filetypes WHERE id <> 3 order by typedesc";
+
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $ftypes[$r['id']]=$r;
 ?>

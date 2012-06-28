@@ -800,7 +800,7 @@ else
     <tr><td colspan=2><h2>Upload a File</h2></td></tr>
     <tr><td class="tdc">
     <iframe class="upload_frame" name="upload_frame" 
-          src="php/uploadframe.php?id=<?php echo $id?>&amp;types=1,2,4,5,6,7,8,9,10&amp;assoctable=contract2file&amp;colname=contractid"  
+          src="php/uploadframe.php?id=<?php echo $id?>&amp;assoctable=contract2file&amp;colname=contractid"  
           frameborder="0" allowtransparency="true"></iframe>
     </td>
     </tr>

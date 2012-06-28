@@ -1099,7 +1099,7 @@ $xx=0;
     <!-- file upload -->
     <tr><td class="tdc">
     <iframe class="upload_frame" name="upload_frame" 
-          src="php/uploadframe.php?id=<?php echo $id?>&amp;types=1,2,4,5,6,7,8,9,10&amp;assoctable=item2file&amp;colname=itemid"  
+          src="php/uploadframe.php?id=<?php echo $id?>&amp;assoctable=item2file&amp;colname=itemid"  
           frameborder="0" allowtransparency="true"></iframe>
     </td>
     </tr>

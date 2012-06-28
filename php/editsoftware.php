@@ -606,7 +606,7 @@ else
       <!-- file upload -->
       <tr><td class="tdc">
       <iframe class="upload_frame" name="upload_frame" 
-	    src="php/uploadframe.php?id=<?php echo $id?>&amp;types=1,2,4,5,6,7,8,9,10&amp;assoctable=software2file&amp;colname=softwareid"  
+	    src="php/uploadframe.php?id=<?php echo $id?>&amp;assoctable=software2file&amp;colname=softwareid"  
 	    frameborder="0" allowtransparency="true"></iframe>
       </td>
       </tr>

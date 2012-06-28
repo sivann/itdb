@@ -64,16 +64,16 @@ function rst() {
 </head>
 <body >
 <?php 
-$types=$_GET['types'];
+//$types=$_GET['types'];
+//$types_arr=explode(",",$types);
 isset($_GET['defdate'])?$defdate=$_GET['defdate']:$defdate="";
-$types_arr=explode(",",$types);
 $id=$_GET['id'];
 
 if (!is_numeric($id)) {
   echo "Cannot upload files to unsaved items.";
   exit;
 }
-$sql="SELECT * from filetypes WHERE id IN ($types) order by typedesc";
+$sql="SELECT * from filetypes WHERE id <> 3 order by typedesc";
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $ftypes[$r['id']]=$r;
 ?>
@@ -103,6 +103,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $ftypes[$r['id']]=$r;
   if (count($ftypes)==1) $s="selected"; else $s=""; //if just 1 type, pre-select it
 
   foreach ($ftypes as $t) {
+
     $dbid=$t['id']; 
     $desc=$t['typedesc']; 
     echo "\t<option $s value='$dbid' title='$dbid'>".ucfirst($desc)."</option>\n";

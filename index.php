@@ -5,7 +5,10 @@
 $version="1.7";
 $fordbversion=1;
 
-/***********************************************************************/
+/*********************************************************************** 
+ *********************************************************************** 
+ ***********************************************************************/
+
 $itdb_start=getmicrotime();
 function getmicrotime() {
     $a = explode (' ',microtime());
@@ -322,8 +325,8 @@ if ($authstatus) {
 
 }
 else {
-if (isset($_COOKIE["itdbuser"])) $itdbuser=$_COOKIE["itdbuser"]; 
-else $itdbuser="username";
+  if (isset($_COOKIE["itdbuser"])) $itdbuser=$_COOKIE["itdbuser"]; 
+  else $itdbuser="username";
 
   echo "\n<form name=itdbloginfrm method=post>".
    "<input name=authusername size=10 onfocus=\"this.value='';\" ".

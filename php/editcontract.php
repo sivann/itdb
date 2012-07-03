@@ -576,17 +576,17 @@ else
 	  ?>
 	    <tr> 
 		<td><img <?php  if (!$i) echo "style='display:none'";?> title='Delete Row' class='delrow' src='images/delete.png'></td>
-		<td><input xd='re0_<?=$i?>' class='dateinp' style='width:7em'  type="text" name="ren_enddatebefore[]" size="8" value='<?php echo $enddatebefore?>' >
+		<td><input class='dateinp' style='width:7em'  type="text" name="ren_enddatebefore[]" size="8" value='<?php echo $enddatebefore?>' >
 	        </td>
 
-		<td><input xd='re1_<?=$i?>' class='dateinp'  style='width:7em' type="text" name="ren_enddateafter[]" size="8" value='<?php echo $enddateafter?>' >
+		<td><input class='dateinp'  style='width:7em' type="text" name="ren_enddateafter[]" size="8" value='<?php echo $enddateafter?>' >
 		</td>
 
-		<td><input xd='re2_<?=$i?>' class='dateinp'  style='width:7em' type="text" name="ren_effectivedate[]" size="8" value='<?php echo $effectivedate?>' >
+		<td><input class='dateinp'  style='width:7em' type="text" name="ren_effectivedate[]" size="8" value='<?php echo $effectivedate?>' >
 		</td>
 
 		<td><input type=text  name="ren_notes[]"  style='width:10em;' value='<?php echo $notes?>'></td> 
-		<td><input xd='re3_<?=$i?>' class='dateinp'  style='width:7em' type="text" name="ren_dateentered[]" size="8" value='<?php echo $dateentered?>'>
+		<td><input class='dateinp'  style='width:7em' type="text" name="ren_dateentered[]" size="8" value='<?php echo $dateentered?>'>
 		</td>
 
 		<td><input style='width:5em' type="text" name="ren_enteredby[]" size="5"  value='<?php echo $enteredby?>'></td> 

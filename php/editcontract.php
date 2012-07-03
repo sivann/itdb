@@ -20,12 +20,16 @@
     });
 
     $("#caddrow").click(function($e) {
-	var row = $('#renewalstable tr:last').clone(true);
+	var row = $('#renewalstable tr:last').clone(false);
         $e.preventDefault();
-	row.find("input:text").val("");
-	row.find("img").css("display","inline");
-	row.find("input[name='enteredby[]']").val("<?php  echo $userdata[0]['username'] ; ?>");
-	row.insertAfter('#renewalstable tr:last');
+		row.find("input:text").val("");
+		row.find("img").css("display","inline");
+		row.find("input[name='enteredby[]']").val("<?php  echo $userdata[0]['username'] ; ?>");
+		row.find('input').each(function() {
+		    $(this).attr("id","");
+		});
+		row.insertAfter('#renewalstable tr:last');
+		$(".dateinp").mask('<?php echo $maskdateparam?>',{placeholder:"_"});
     });
 
 
@@ -572,17 +576,17 @@ else
 	  ?>
 	    <tr> 
 		<td><img <?php  if (!$i) echo "style='display:none'";?> title='Delete Row' class='delrow' src='images/delete.png'></td>
-		<td><input id='re0' class='dateinp' style='width:7em'  type="text" name="ren_enddatebefore[]" size="8" value='<?php echo $enddatebefore?>' >
+		<td><input xd='re0_<?=$i?>' class='dateinp' style='width:7em'  type="text" name="ren_enddatebefore[]" size="8" value='<?php echo $enddatebefore?>' >
 	        </td>
 
-		<td><input id='re1' class='dateinp'  style='width:7em' type="text" name="ren_enddateafter[]" size="8" value='<?php echo $enddateafter?>' >
+		<td><input xd='re1_<?=$i?>' class='dateinp'  style='width:7em' type="text" name="ren_enddateafter[]" size="8" value='<?php echo $enddateafter?>' >
 		</td>
 
-		<td><input id='re2' class='dateinp'  style='width:7em' type="text" name="ren_effectivedate[]" size="8" value='<?php echo $effectivedate?>' >
+		<td><input xd='re2_<?=$i?>' class='dateinp'  style='width:7em' type="text" name="ren_effectivedate[]" size="8" value='<?php echo $effectivedate?>' >
 		</td>
 
 		<td><input type=text  name="ren_notes[]"  style='width:10em;' value='<?php echo $notes?>'></td> 
-		<td><input id='re3' class='dateinp'  style='width:7em' type="text" name="ren_dateentered[]" size="8" value='<?php echo $dateentered?>'>
+		<td><input xd='re3_<?=$i?>' class='dateinp'  style='width:7em' type="text" name="ren_dateentered[]" size="8" value='<?php echo $dateentered?>'>
 		</td>
 
 		<td><input style='width:5em' type="text" name="ren_enteredby[]" size="5"  value='<?php echo $enteredby?>'></td> 

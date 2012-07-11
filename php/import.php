@@ -1,18 +1,41 @@
 <?php 
-if (!isset($initok)) {echo "do not run this script directly";exit;}
+function array_iunique($array) {
+	    return array_intersect_key($array,array_unique(
+		                 array_map(strtolower,$array)));
+}
 
+if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 if (!isset($_POST['nextstep']))
 	$nextstep=0;
 else
 	$nextstep=$_POST['nextstep'];
 
+
+if (!isset($_POST['imfn']))
+	$imfn="";
+else
+	$imfn=$_POST['imfn'];
+
+$nfields=13;
+
+
+//nextstep:
 //0: show import form
-//1: show imported file
-//2: do import
+//1: import file and if not successfull go to 0 else show imported file and fields, and candidate db objects
+//2: DB insert
 
+echo "<p>NEXT1=$nextstep<br>";
 
-if (strlen($_FILES['file']['name'])>2) { //insert file
+function lineok ($line,$delim) {
+	$cols=explode($delim,$line);
+	if (!strlen($cols[6])  //ip
+		&& !strlen($cols[8]) //manufact
+		&& !strlen($cols[9]))  //model
+		return 0;
+}
+
+if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
   $filefn=strtolower("import-".$_COOKIE["itdbuser"]."-".validfn($_FILES['file']['name']));
   $uploadedfile = "/tmp/".$filefn;
   $result = '';
@@ -30,14 +53,18 @@ if (strlen($_FILES['file']['name'])>2) { //insert file
 	  $filefn = '';
 
 	  echo "<br><b>ERROR: $result</b><br>";
+	  $imfn="";
+	  $nextstep=0;
   }
   else { //file ok
 	  $nextstep=1;
 	  print "<br>Uploaded  $uploadedfile<br>";
+	  $imfn=$uploadedfile;
 	}
 }//insert file
 ?>
 
+<div style='width:100%;'> <!-- import1 -->
 
 <?php if ($nextstep==0) { ?>
 <table>
@@ -47,56 +74,262 @@ if (strlen($_FILES['file']['name'])>2) { //insert file
 <tr><td>Delimeter:</td><td> <input size=1 type=text name='delim' value=';' maxlength=1></td></tr>
 <tr><td>Skip 1st row:</td><td><select name=skip1st><option value=1>Yes</option><option value=0>No</option></select></td></tr>
 <tr><td colspan=2><input type=submit value='Upload and inspect file'></td></tr>
+<input type=hidden name='nextstep' value='1'>
+<input type=hidden name='imfn' value='<?=$imfn?>'>
 </form>
 <?php }?>
 
 <?php if ($nextstep==1) { 
 	$delim=$_POST['delim'];
-	$imlines=file($uploadedfile);
+	$imlines=file($imfn);
 ?>
 
 	<br><b> Please check imported file for consistency before submiting</b>:
 	<div style='height:400px;overflow:auto'>
 	<table class='brdr sortable'>
 	<thead>
+	<th>Building</th><th>Area/Room</th><th>Owner</th><th>Status</th><th>DNS Hostname</th><th>IPv4</th><th>OS</th><th>Manufacturer</th><th>Model</th><th>SN</th><th>SN2</th><th>Comments</th><th>Item Type</th></tr>
 	</thead>
-	<th>ID</th><th>Room</th><th>Owner</th><th>Status</th><th>DNS Hostname</th><th>IPv4</th><th>OS</th><th>Manufacturer</th><th>Model</th><th>SN</th><th>SN2</th><th>Comments</th></tr>
 	<tbody>
 
-<?
-	$nfields=12;
+	<?
 	foreach ($imlines as $line_num => $line) {
-			if ($line_num==0 && $_POST['skip1st']) 
-				continue;
+		if ($line_num==0 && $_POST['skip1st']) 
+			continue;
 
-			$cols=explode($delim,$line);
-			if (count($cols) != $nfields) {
-				echo "Error: field count in line $line_num is ".count($cols).", $nfields expected";
-				exit;
-			}
-			echo "<tr>";
-			foreach ($cols as $col) {
-				$col=trim($col);
-				echo "<td>$col</td>";
-			}
-			echo "</tr>\n";
-		    //echo "Line #<b>{$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
+		$cols=explode($delim,$line);
+		if (count($cols) != $nfields) {
+			echo "<b><big>Error: field count in line $line_num is ".count($cols).", $nfields is expected</big></b>";
+			$nextstep=0;
+			break;
+		}
+		echo "<tr>";
+		foreach ($cols as $col) {
+			$col=trim($col);
+			echo "<td>$col</td>";
+		}
+		echo "</tr>\n";
+		//echo "Line #<b>{$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
+
+		//hw manufacturer
+		if (gethwmanufacturerbyname($cols[8])) 
+			$hwman_old[]=trim($cols[8]);
+		else 
+			$hwman_new[]=trim($cols[8]);
+
+		//users
+		if (getuserbyname($cols[2])) 
+			$user_old[]=trim($cols[2]);
+		elseif (strlen(trim($cols[2])))
+			$user_new[]=trim($cols[2]);
+
+		//itemtypes
+		if (getitemtypeidbyname($cols[12])) 
+			$itypes_old[]=trim($cols[12]);
+		elseif (strlen(trim($cols[12])))
+			$itypes_new[]=trim($cols[12]);
+
+		//statustypes
+		if (getstatustypeidbyname($cols[3])) 
+			$stypes_old[]=trim($cols[3]);
+		elseif (strlen(trim($cols[3])))
+			$stypes_new[]=trim($cols[3]);
+
+		//locations/areas
+		if (getlocidsbynames($cols[0],$cols[1])) 
+			$loc_old[]=trim($cols[0]." - ".$cols[1]);
+		else  {
+			$loc_new[]=array('loc'=>trim($cols[0]),'area'=>($cols[1])); 
+			$loc_new2[]=trim($cols[0]." : ".$cols[1]);
+		}
+
 	}
+
 	echo "</tbody></table>\n";
 	echo "</div>";
-	$nextstep=2;
 	?>
-<form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>
-	<input type=hidden name='nextstep' value='2'>
-	<td colspan=2><input type=submit value='Import' ></td></tr>
-</form>
+
+	<div style='float:left;clear:both; width:100%; margin-top:20px;'>
+	    <div style='width:200px;height:200px;overflow:auto; float:left;text-align:left; clear:left;border:1px solid #ccc;margin-right:20px;'>
+		<b>New H/W Manufacturers detected (will be inserted to the DB):</b><br>
+		<hr>
+		<?php 
+		$hwman_new=array_iunique($hwman_new,SORT_STRING);
+		foreach ($hwman_new as $hmn)
+			echo "$hmn<br>\n";
+		?>
+		</div>
+
+	    <div style='border:1px solid #ccc;width:200px;height:200px;overflow:auto; text-align:left;float:left;margin-left:20px;'>
+		<b>New Users detected (will be inserted to the DB):</b><br>
+		<hr>
+		<?php
+		$user_new=array_iunique($user_new,SORT_STRING);
+		foreach ($user_new as $hmn)
+			echo "$hmn<br>\n";
+		?>
+		</div>
+
+	    <div style='border:1px solid #ccc;width:200px;height:200px;overflow:auto; text-align:left;float:left;margin-left:20px;'>
+		<b>New Item Types detected (will be inserted to the DB):</b><br>
+		<hr>
+		<?php
+		$itypes_new=array_iunique($itypes_new,SORT_STRING);
+		foreach ($itypes_new as $itype)
+			echo "$itype<br>\n";
+		?>
+		</div>
+
+	    <div style='border:1px solid #ccc;width:200px;height:200px;overflow:auto; text-align:left;float:left;margin-left:20px;'>
+		<b>New Status Types detected (will be inserted to the DB):</b><br>
+		<hr>
+		<?php
+		$stypes_new=array_iunique($stypes_new,SORT_STRING);
+		foreach ($stypes_new as $stype)
+			echo "$stype<br>\n";
+		?>
+		</div>
+
+	    <div style='border:1px solid #ccc;width:200px;height:200px;overflow:auto; text-align:left;float:left;margin-left:20px;'>
+		<b>New Locations / Locareas detected (will be inserted to the DB):</b><br>
+		<hr>
+		<?php
+		$loc_new2=array_iunique($loc_new2,SORT_STRING);
+		foreach ($loc_new2 as $loc) {
+			//echo "{$loc['loc']} - {$loc['area']}<br>\n";
+			echo "$loc<br>\n";
+		}
+		?>
+		</div>
+	</div>
+
+	<div style='clear:both;text-align:center:width:100%; '>
+		<?php if ($nextstep!=0) { ?>
+		<form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>
+		<input type=hidden name='nextstep' value='2'>
+		<td colspan=2><input type=submit value='Import' ></td></tr>
+		<input type=hidden name='delim' value='<?=$_POST['delim']?>'>
+		<input type=hidden name='imfn' value='<?=$imfn?>'>
+		<input type=hidden name='skip1st' value='<?=$_POST['skip1st']?>'>
+		</form>
+		<?php } ?>
+
+		<form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>
+		<input type=hidden name='nextstep' value='0'>
+		<td colspan=2><input type=submit value='Back' ></td></tr>
+		</form>
+	</div>
 
 <?
 }
 
-if ($nextstep==2) { 
-	echo "<b>importing</b>";
+if ($nextstep==2) {
+	$imlines=file($imfn);
+	//$hwm=getagenthwmanufacturers();
+	echo "<b>Updating DB with=$imfn</b>";
+
+	foreach ($imlines as $line_num => $line) {
+		if ($line_num==0 && $_POST['skip1st']) 
+			continue;
+
+		$cols=explode($delim,$line);
+		//hw manufacturer
+		if (gethwmanufacturerbyname($cols[8])) 
+			$hwman_old[]=trim($cols[8]);
+		else 
+			$hwman_new[]=trim($cols[8]);
+
+		//users
+		if (getuserbyname($cols[2])) 
+			$user_old[]=trim($cols[2]);
+		else 
+			$user_new[]=trim($cols[2]);
+
+
+		//itemtypes
+		if (getitemtypebyname($cols[12])) 
+			$itypes_old[]=trim($cols[12]);
+		else 
+			$itypes_new[]=trim($cols[12]);
+
+		//statustypes
+		if (getstatustypebyname($cols[3])) 
+			$stypes_old[]=trim($cols[3]);
+		else 
+			$stypes_new[]=trim($cols[3]);
+
+		//locations/areas
+		if (getlocareabynames($cols[0],$cols[1])) 
+			$loc_old[]=trim($cols[0]." - ".$cols[1]);
+		else 
+			$loc_new[]=array('loc'=>trim($cols[0]),'area'=>($cols[1])); 
+
+
+	}
+
+
+	//add manufacturers
+	$hwman_new=array_iunique($hwman_new,SORT_STRING);
+	foreach ($hwman_new as $hwm) {
+		$hwm=ucfirst($hwm);
+		$sql="INSERT into agents (type,title) VALUEs ('4','$hwm')";
+		 db_exec($dbh,$sql);
+		 echo "added $hwm<br>";
+	}
+
+	//add users
+	$user_new=array_iunique($user_new,SORT_STRING);
+
+	foreach ($user_new as $usr) {
+		$usr=strtolower($usr);
+		$sql="INSERT into users (username,usertype) VALUEs ('$usr',1)";
+		 db_exec($dbh,$sql);
+		 echo "added $usr<br>";
+	}
+
+	//add items
+	foreach ($imlines as $line_num => $item) {
+		if ($line_num==0 && $_POST['skip1st']) 
+			continue;
+		$cols=explode($delim,$item);
+		if (!lineok($item,$delim))
+			continue;
+		$sql="INSERT into items (userid,ipv4,dnsname,comments,manufacturerid,model,sn,ispart,rackmountable,itemtypeid) VALUEs (".
+		getuseridbyname($cols[2]).",".
+		"'".$cols[6]."',".
+		"'".$cols[4]."',".
+		"'".$cols[11]."',".
+		getagentidbyname($cols[8]).",".
+		"'".$cols[9]."',".
+		"'".$cols[10]."'".
+		"0,".
+		"0,".
+		getitemtypeidbyname($cols[8]);
+		")";
+		 db_exec($dbh,$sql);
+		 echo "<br>Isql=$sql<br>";
+	}
+
+
+
+?>
+
+	<form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>
+	<input type=hidden name='nextstep' value='3'>
+	<td colspan=2><input type=submit value='Back' ></td></tr>
+	<input type=hidden name='imfn' value='<?=$imfn?>'>
+	<input type=hidden name='delim' value='<?=$_POST['delim']?>'>
+	<input type=hidden name='skip1st' value='<?=$_POST['skip1st']?>'>
+	</form>
+
+<?php
+
 }
+
+
+
+echo "<p>NEXT2=$nextstep";
 ?>
 
 
+</div> <!-- import1 -->

@@ -1,9 +1,4 @@
 <?php 
-function array_iunique($array) {
-	    return array_intersect_key($array,array_unique(
-		                 array_map(strtolower,$array)));
-}
-
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 if (!isset($_POST['nextstep']))
@@ -25,15 +20,24 @@ $nfields=13;
 //1: import file and if not successfull go to 0 else show imported file and fields, and candidate db objects
 //2: DB insert
 
-echo "<p>NEXT1=$nextstep<br>";
+//echo "<p>NEXT1=$nextstep<br>";
 
 function lineok ($line,$delim) {
 	$cols=explode($delim,$line);
 	if (!strlen($cols[6])  //ip
 		&& !strlen($cols[8]) //manufact
-		&& !strlen($cols[9]))  //model
+		&& !strlen($cols[9])) { //model
+		echo "Skipping semi-empty line ($line)<br>";
 		return 0;
+	}
+	return 1;
 }
+
+function array_iunique($array) {
+	    return array_intersect_key($array,array_unique(
+		                 array_map(strtolower,$array)));
+}
+
 
 if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
   $filefn=strtolower("import-".$_COOKIE["itdbuser"]."-".validfn($_FILES['file']['name']));
@@ -58,7 +62,7 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
   }
   else { //file ok
 	  $nextstep=1;
-	  print "<br>Uploaded  $uploadedfile<br>";
+	  //print "<br>Uploaded  $uploadedfile<br>";
 	  $imfn=$uploadedfile;
 	}
 }//insert file
@@ -67,6 +71,8 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 <div style='width:100%;'> <!-- import1 -->
 
 <?php if ($nextstep==0) { ?>
+<h1>Experimental import </h1>
+<h2>BACKUP your ITDB FIRST!</h2>
 <table>
 <form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>
 <tr>
@@ -84,7 +90,7 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 	$imlines=file($imfn);
 ?>
 
-	<br><b> Please check imported file for consistency before submiting</b>:
+	<br><h2> Please check fields for consistency before submiting</h2>
 	<div style='height:400px;overflow:auto'>
 	<table class='brdr sortable'>
 	<thead>
@@ -112,31 +118,32 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 		//echo "Line #<b>{$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
 
 		//hw manufacturer
-		if (gethwmanufacturerbyname($cols[8])) 
+		if (gethwmanufacturerbyname($cols[8])>=0) 
 			$hwman_old[]=trim($cols[8]);
 		else 
 			$hwman_new[]=trim($cols[8]);
 
 		//users
-		if (getuserbyname($cols[2])) 
+		if (getuserbyname($cols[2])>=0) 
 			$user_old[]=trim($cols[2]);
 		elseif (strlen(trim($cols[2])))
 			$user_new[]=trim($cols[2]);
 
 		//itemtypes
-		if (getitemtypeidbyname($cols[12])) 
+		if (getitemtypeidbyname($cols[12])>=0) 
 			$itypes_old[]=trim($cols[12]);
 		elseif (strlen(trim($cols[12])))
 			$itypes_new[]=trim($cols[12]);
 
 		//statustypes
-		if (getstatustypeidbyname($cols[3])) 
+		if (getstatustypeidbyname($cols[3])>=0) 
 			$stypes_old[]=trim($cols[3]);
 		elseif (strlen(trim($cols[3])))
 			$stypes_new[]=trim($cols[3]);
 
 		//locations/areas
-		if (getlocidsbynames($cols[0],$cols[1])) 
+		$lr=getlocidsbynames($cols[0],$cols[1]);
+		if ($lr[0]>=0)
 			$loc_old[]=trim($cols[0]." - ".$cols[1]);
 		else  {
 			$loc_new[]=array('loc'=>trim($cols[0]),'area'=>($cols[1])); 
@@ -181,7 +188,7 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 		</div>
 
 	    <div style='border:1px solid #ccc;width:200px;height:200px;overflow:auto; text-align:left;float:left;margin-left:20px;'>
-		<b>New Status Types detected (will be inserted to the DB):</b><br>
+		<b>Invalid Status Types detected (will NOT be inserted to the DB):</b><br>
 		<hr>
 		<?php
 		$stypes_new=array_iunique($stypes_new,SORT_STRING);
@@ -191,7 +198,7 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 		</div>
 
 	    <div style='border:1px solid #ccc;width:200px;height:200px;overflow:auto; text-align:left;float:left;margin-left:20px;'>
-		<b>New Locations / Locareas detected (will be inserted to the DB):</b><br>
+		<b>New Locations / Locarea detected (will be inserted to the DB):</b><br>
 		<hr>
 		<?php
 		$loc_new2=array_iunique($loc_new2,SORT_STRING);
@@ -234,37 +241,37 @@ if ($nextstep==2) {
 
 		$cols=explode($delim,$line);
 		//hw manufacturer
-		if (gethwmanufacturerbyname($cols[8])) 
+		if (gethwmanufacturerbyname($cols[8])>=0) 
 			$hwman_old[]=trim($cols[8]);
 		else 
 			$hwman_new[]=trim($cols[8]);
 
 		//users
-		if (getuserbyname($cols[2])) 
+		if (getuserbyname($cols[2])>=0) 
 			$user_old[]=trim($cols[2]);
 		else 
 			$user_new[]=trim($cols[2]);
 
 
 		//itemtypes
-		if (getitemtypebyname($cols[12])) 
+		if (getitemtypeidbyname($cols[12])>=0) 
 			$itypes_old[]=trim($cols[12]);
 		else 
 			$itypes_new[]=trim($cols[12]);
 
 		//statustypes
-		if (getstatustypebyname($cols[3])) 
+		if (getstatustypeidbyname($cols[3])>=0) 
 			$stypes_old[]=trim($cols[3]);
 		else 
 			$stypes_new[]=trim($cols[3]);
 
 		//locations/areas
-		if (getlocareabynames($cols[0],$cols[1])) 
+		$lr=getlocidsbynames($cols[0],$cols[1]);
+
+		if ($lr[0]>=0) 
 			$loc_old[]=trim($cols[0]." - ".$cols[1]);
 		else 
 			$loc_new[]=array('loc'=>trim($cols[0]),'area'=>($cols[1])); 
-
-
 	}
 
 
@@ -272,9 +279,8 @@ if ($nextstep==2) {
 	$hwman_new=array_iunique($hwman_new,SORT_STRING);
 	foreach ($hwman_new as $hwm) {
 		$hwm=ucfirst($hwm);
-		$sql="INSERT into agents (type,title) VALUEs ('4','$hwm')";
+		$sql="INSERT into agents (type,title) VALUEs ('8','$hwm')";
 		 db_exec($dbh,$sql);
-		 echo "added $hwm<br>";
 	}
 
 	//add users
@@ -284,51 +290,86 @@ if ($nextstep==2) {
 		$usr=strtolower($usr);
 		$sql="INSERT into users (username,usertype) VALUEs ('$usr',1)";
 		 db_exec($dbh,$sql);
-		 echo "added $usr<br>";
 	}
+
+	//item types
+	$itypes_new=array_iunique($itypes_new,SORT_STRING);
+	foreach ($itypes_new as $itype) {
+		$itype=strtolower($itype);
+		$sql="INSERT into itemtypes (typedesc,hassoftware) VALUEs ('$itype',1)";
+		 db_exec($dbh,$sql);
+	}
+
+	//addlocations/locareas
+	foreach ($loc_new as $loca) {
+		$location=$loca['loc'];
+		$locarea=$loca['area'];
+		//insert location if not already there
+		$sql="INSERT INTO locations (name)
+		SELECT '$location' WHERE NOT EXISTS (SELECT 1 FROM locations WHERE name = '$location')";
+		db_exec($dbh,$sql);
+
+		//insert locareaid
+		$lr=getlocidsbynames($location,$locarea);
+		if ($lr[0]<0) {
+			$sql="INSERT INTO locareas (areaname,locationid) ".
+			"values ('$locarea', (SELECT id FROM locations WHERE name = '$location')) ";
+			db_exec($dbh,$sql);
+		}
+	}
+
 
 	//add items
 	foreach ($imlines as $line_num => $item) {
-		if ($line_num==0 && $_POST['skip1st']) 
+		if ($line_num==0 && $_POST['skip1st']) {
+			echo "<br>Skipping first line<br>";
 			continue;
-		$cols=explode($delim,$item);
+		}
+
 		if (!lineok($item,$delim))
 			continue;
-		$sql="INSERT into items (userid,ipv4,dnsname,comments,manufacturerid,model,sn,ispart,rackmountable,itemtypeid) VALUEs (".
-		getuseridbyname($cols[2]).",".
+
+		$cols=explode($delim,$item);
+
+		$lr=getlocidsbynames($cols[0],$cols[1]);
+		if ($lr[0]<0) {
+			echo "Location/locarea non existent: {$cols[0]}/{$cols[1]}<br>";
+			$locid="";
+			$locareaid="";
+		}
+		else {
+			$locid=$lr['locid'];
+			$locareaid=$lr['locareaid'];
+		}
+		//echo "<br>LR:{$cols[0]},{$cols[1]}=";print_r($lr); echo "<br>";
+
+
+
+		$sql="INSERT into items (userid,ipv4,dnsname,comments,manufacturerid,model,sn,ispart,rackmountable,itemtypeid,status,locationid,locareaid) VALUEs (".
+		getuseridbyname($cols[2]).",". //username
 		"'".$cols[6]."',".
 		"'".$cols[4]."',".
 		"'".$cols[11]."',".
-		getagentidbyname($cols[8]).",".
-		"'".$cols[9]."',".
-		"'".$cols[10]."'".
-		"0,".
-		"0,".
-		getitemtypeidbyname($cols[8]);
+		getagentidbyname($cols[8]).",". //manuf
+		"'".$cols[9]."',". //model
+		"'".$cols[10]."',". //sn
+		"0,". //ispart
+		"0,". //rackmountable
+		getitemtypeidbyname($cols[12]).",".
+		getstatustypeidbyname($cols[3]).",".
+		"'$locid','$locareaid'".
 		")";
+
 		 db_exec($dbh,$sql);
-		 echo "<br>Isql=$sql<br>";
+		 //echo "<br>Isql=$sql<br>";
 	}
 
-
-
-?>
-
-	<form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>
-	<input type=hidden name='nextstep' value='3'>
-	<td colspan=2><input type=submit value='Back' ></td></tr>
-	<input type=hidden name='imfn' value='<?=$imfn?>'>
-	<input type=hidden name='delim' value='<?=$_POST['delim']?>'>
-	<input type=hidden name='skip1st' value='<?=$_POST['skip1st']?>'>
-	</form>
-
-<?php
-
+	echo "<br><h2>Finished.</h2>";
 }
 
 
 
-echo "<p>NEXT2=$nextstep";
+//echo "<p>NEXT2=$nextstep";
 ?>
 
 

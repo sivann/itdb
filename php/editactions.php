@@ -81,11 +81,7 @@ if (isset($_POST['description'])) {
 
     $r=db_exec($dbh,$sql);
   }//for
-
-
 } //if
-
-
 
 
 if (!isset ($_GET['itemid']) || !strlen($_GET['itemid'])) {echo "$scriptname: wrong arguments";exit;}

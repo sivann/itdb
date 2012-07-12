@@ -818,14 +818,18 @@ function getagenthwmanufacturers() {
 function gethwmanufacturerbyname ($name) {
   global $dbh;
 
-	$name=trim($name);
-	$sql="select * from agents where type&4 AND title like '%$name%' ";
+	$name=trim(strtolower($name));
+	if (!strlen($name))
+		return -1;
+	$sql="select * from agents where type&8 AND lower(title) = '$name'";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetchAll(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!count($r)) return 0;
-	else return $r;
+	if (!$r['id']) 
+		return -1;
+	else 
+		return $r;
 }
 
 
@@ -834,14 +838,16 @@ function getuseridbyname ($name) {
 
 	$name=trim(strtolower($name));
 	if (!strlen($name))
-		return 0;
+		return -1;
 	$sql="select id from users where LOWER(username) ='$name' ";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!count($r)) return 0;
-	else return $r['id'];
+	if (!$r['id']) 
+		return -1;
+	else 
+		return $r['id'];
 }
 
 function getagentidbyname ($name) {
@@ -849,13 +855,14 @@ function getagentidbyname ($name) {
 
 	$name=trim(strtolower($name));
 	if (!strlen($name))
-		return 0;
+		return -1;
 	$sql="select id from agents where LOWER(title) ='$name' ";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!count($r)) return 0;
+	if (!$r['id']) 
+		return -1;
 	else return $r['id'];
 }
 
@@ -864,14 +871,16 @@ function getitemtypeidbyname ($name) {
 
 	$name=trim(strtolower($name));
 	if (!strlen($name))
-		return 0;
+		return -1;
 	$sql="select id from itemtypes where LOWER(typedesc) ='$name' ";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!count($r)) return 0;
-	else return $r['id'];
+	if (!$r['id']) 
+		return -1;
+	else 
+		return $r['id'];
 }
 
 
@@ -880,14 +889,16 @@ function getstatustypeidbyname ($name) {
 
 	$name=trim(strtolower($name));
 	if (!strlen($name))
-		return 0;
+		return -1;
 	$sql="select id from statustypes where LOWER(statusdesc) ='$name' ";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!count($r)) return 0;
-	else return $r['id'];
+	if (!$r['id']) 
+		return -1;
+	else 
+		return $r['id'];
 }
 
 function getlocidsbynames ($locname,$areaname) {
@@ -896,18 +907,20 @@ function getlocidsbynames ($locname,$areaname) {
 	$locname=trim(strtolower($locname));
 	$areaname=trim(strtolower($areaname));
 	if (!strlen($locname) || (!strlen($areaname)))
-		return 0;
+		return array(-1,-1);
 	$sql="select locations.id as locid, locareas.id as locareaid from locations,locareas ".
 	" WHERE locareas.locationid=locations.id AND ".
 	" LOWER(locareas.areaname) ='$areaname' AND ".
 	" LOWER(locations.name) ='$locname' ";
 
 	$sth=db_execute($dbh,$sql);
-	$r=$sth->fetch(PDO::FETCH_ASSOC);
+	$r=$sth->fetch(PDO::FETCH_BOTH);
 	$sth->closeCursor();
 
-	if (!count($r)) return 0;
-	else return $r;
+	if (!$r['locid']) 
+		return array(-1,-1);
+	else 
+		return $r;
 }
 
 
@@ -922,8 +935,10 @@ function getuserbyname ($name) {
 	$r=$sth->fetchAll(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!count($r)) return 0;
-	else return $r;
+	if (!$r['id'][0]) 
+		return -1;
+	else 
+		return $r;
 }
 
 

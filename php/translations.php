@@ -45,7 +45,7 @@ elseif (isset($_POST['newlang'])&& strlen($_POST['newlang'])) {
       echo "<b>$newfile already exists, not overwritten!</b>";
   }
   elseif (!copy("translations/new.txt", "translations/$newfile")) {
-      echo "failed to copy $newfile...\n";
+      echo "<br>failed to copy $newfile to $scriptdir/translations/$newfile\n";
   }
 
 }

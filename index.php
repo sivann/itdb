@@ -119,6 +119,9 @@ switch ($_GET['action']) {
     $title="Settings";
     break;
 
+  case "import": 
+    $title="Import";
+    break;
   case "edituser": 
     $stitle="User";
     $title="Edit User";
@@ -318,6 +321,8 @@ if ($authstatus) {
 <tr><td colspan=2><hr class='light1'></td></tr>
 
 <tr><td colspan=2><a style="<?php echo $style_settings; ?>" class='ahdr' href="<?php echo $scriptname?>?action=settings" ><?php te("Settings");?></a></td></tr>
+
+<tr><td colspan=2><a style="<?php echo $style_import; ?>" class='ahdr' href="<?php echo $scriptname?>?action=import" ><?php te("Import");?></a></td></tr>
 <tr><td colspan=2><a style="<?php echo $style_translations; ?>" class='ahdr' href="<?php echo $scriptname?>?action=translations" ><?php te("Translations");?></a></td></tr>
 <tr><td colspan=2><a style="<?php echo $style_showhist; ?>" class='ahdr' href="<?php echo $scriptname?>?action=showhist" >DB Log</a></td></tr>
 </table>

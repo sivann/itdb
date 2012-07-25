@@ -47,6 +47,7 @@ elseif (isset($_POST['newlang'])&& strlen($_POST['newlang'])) {
   elseif (!copy("translations/new.txt", "translations/$newfile")) {
       echo "<br>failed to copy $newfile to $scriptdir/translations/$newfile\n";
   }
+  echo "<br>copied  $newfile to $scriptdir/translations/$newfile\n";
 
 }
 

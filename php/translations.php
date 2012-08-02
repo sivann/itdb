@@ -94,9 +94,9 @@ How to add more languages:
 <table class="tbl2" >
 <tr><td class="tdt"><?php te("Language")?></td><td>
 <select  id='langsel' name='lang'>
-  <? if ($lang=="en") $s="SELECTED"; else $s="" ?>
+  <?php if ($lang=="en") $s="SELECTED"; else $s="" ?>
   <option <?php echo $s?> value=''>en</option>
-  <?
+  <?php
   $tfiles=scandir("translations/");
   foreach ($tfiles as $f) {
     if (strstr($f,"txt") && (!strstr($f,"new")) && (!strstr($f,"missing"))) {

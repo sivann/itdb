@@ -9,8 +9,8 @@
     <div class='bigblocklinks'>
 	    <div><a  href='<?php echo $scriptname?>?action=listitems'><img class='bigblocklnk' src='images/big/search24.png'> <span class="lnktxt"></span><span class='lnktxt'><?php te("Find");?></span></a></div>
 	    <div><a   href='<?php echo $scriptname?>?action=edititem&amp;id=new'><img class='bigblocklnk' src='images/big/plus.png'> <span class="lnktxt"><?php te("Add");?></span></a></div>
-	    <div><a title='<? te("Configure Item Types");?>'  href='<?php echo $scriptname?>?action=edititypes'><img class='bigblocklnk' src='images/big/wheel24.png'> <span class="lnktxt"><?php te("Item Types");?></span></a></div>
-	    <div><a title='<? te("Configure Status Types");?>' href='<?php echo $scriptname?>?action=editstatustypes'><img class='bigblocklnk' src='images/big/wheel24.png'> <span class="lnktxt"><?php te("Status Types");?></span></a></div>
+	    <div><a title='<?php te("Configure Item Types");?>'  href='<?php echo $scriptname?>?action=edititypes'><img class='bigblocklnk' src='images/big/wheel24.png'> <span class="lnktxt"><?php te("Item Types");?></span></a></div>
+	    <div><a title='<?php te("Configure Status Types");?>' href='<?php echo $scriptname?>?action=editstatustypes'><img class='bigblocklnk' src='images/big/wheel24.png'> <span class="lnktxt"><?php te("Status Types");?></span></a></div>
     </div>
     <div class='bigblockdesc'>
       <div class='bigblocktitle'><?php te("Hardware");?></div>
@@ -60,7 +60,7 @@
       </a>
     </div>
     <div class='bigblocklinks'>
-	    <div><a title='<? te("Reports");?>' href='<?php echo $scriptname?>?action=reports'><img class='bigblocklnk' src='images/big/spreadsheet24.png'> <span class="lnktxt"><?php te("Reports");?></span></a></div>
+	    <div><a title='<?php te("Reports");?>' href='<?php echo $scriptname?>?action=reports'><img class='bigblocklnk' src='images/big/spreadsheet24.png'> <span class="lnktxt"><?php te("Reports");?></span></a></div>
     </div>
     <div class='bigblockdesc'>
       <div class='bigblocktitle'><?php te("Reports");?></div>

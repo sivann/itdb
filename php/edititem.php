@@ -111,13 +111,15 @@ if (isset($_POST['itemtypeid']) && ($_GET['id']!="new") && isvalidfrm()) {
     if ($formvar == "purchasedate") $$formvar=ymd2sec($$formvar);
     if ($formvar == "maintend") $$formvar=ymd2sec($$formvar);
     if ($formvar == "warrantymonths") {
-      if ($$formvar=="") $$formvar="NULL";
-      else
-	$$formvar=(int)($$formvar);
+		if ($$formvar=="") 
+		  $$formvar="NULL";
+		else
+		  $$formvar=(int)($$formvar);
       $set.="$formvar=".($$formvar).""; //without quotes for integer
     }
-    else
-      $set.="$formvar='".($$formvar)."'";
+    else {
+      $set.="$formvar='".htmlspecialchars($$formvar,ENT_QUOTES,"UTF-8")."'";
+	}
     $set.=", ";
     $i++;
   }
@@ -244,7 +246,7 @@ elseif (isset($_POST['itemtypeid']) && ($_GET['id']=="new")&&isvalidfrm()) {
   " '$warrinfo', '$model', '$sn', '$sn2', '$sn3', '$origin', ".
   "  $warrantymonths, '$purchasedate2', ".
   " '$purchprice', '$dnsname', $userid, $locationid,$locareaid, '$maintenanceinfo', ".
-  " '$comments',$ispart, $rackid, $rackposition,$rackposdepth, $rackmountable, " .
+  " '". htmlspecialchars($comments,ENT_QUOTES,'UTF-8')  ."',$ispart, $rackid, $rackposition,$rackposdepth, $rackmountable, " .
   "  $usize, $status, '$macs', '$ipv4', '$ipv6', '$remadmip', ".
   " '$hd', '$cpu', '$cpuno', '$corespercpu', '$ram', ".
   " '$panelport', $switchid,  '$switchport', '$ports' ) ";

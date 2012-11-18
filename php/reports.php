@@ -29,6 +29,8 @@ $reports=array (
 'allips' => t('List items with defined IPv4 numbers'),
 'noinvoice' => t('Items without invoices'),
 'nolocation' => t('Items without location'),
+'depreciation3' => t('Item depreciation value 3 years'),
+'depreciation5' => t('Item depreciation value 5 years'),
 );
 
 
@@ -63,6 +65,29 @@ $reports=array (
 
 <?php 
 switch ($query) {
+
+  case "depreciation5":
+    $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model, strftime('%Y-%m-%d', purchasedate,'unixepoch') AS PurchaseDate, ".
+	     "purchprice as PurchasePrice, ".
+		 " cast( ((strftime('%s','now') - purchasedate)/(60*60*24*30.4)*(purchasedate AND 1)) AS INTEGER)  as Months , ".
+		 " (purchprice-purchprice/60*cast( ((strftime('%s','now') - purchasedate)/(60*60*24*30.4)*(purchasedate AND 1)) AS INTEGER))  as CurrentValue  ".
+         " FROM items,itemtypes,agents ".
+         " WHERE agents.id=manufacturerid AND itemtypes.id=items.itemtypeid ";
+    $editlnk="$scriptname?action=edititem&id";
+  break;
+
+
+  case "depreciation3":
+    $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model, strftime('%Y-%m-%d', purchasedate,'unixepoch') AS PurchaseDate, ".
+	     "purchprice as PurchasePrice, ".
+		 " cast( ((strftime('%s','now') - purchasedate)/(60*60*24*30.4)*(purchasedate AND 1)) AS INTEGER)  as Months , ".
+		 " (purchprice-purchprice/36*cast( ((strftime('%s','now') - purchasedate)/(60*60*24*30.4)*(purchasedate AND 1)) AS INTEGER))  as CurrentValue  ".
+         " FROM items,itemtypes,agents ".
+         " WHERE agents.id=manufacturerid AND itemtypes.id=items.itemtypeid ";
+    $editlnk="$scriptname?action=edititem&id";
+  break;
+
+
   case "noinvoice":
     $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model, strftime('%Y-%m-%d', purchasedate,'unixepoch') AS PurchaseDate".
          " FROM items,itemtypes,agents ".

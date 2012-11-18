@@ -6,6 +6,25 @@ LEGEND:
 I:improvement 
 B:bugfix
 
+1.7 -> 1.8  18/11/2012
+-------------------------------------------------------------------------------------------------------
+added current depreciation value calculation queries
+fixed some quote problems in inserting items 
+inform user where the translation file was copied 
+experimental import items 
+fixed masked input bug when adding more contract renewals
+allow custom filetypes in upload
+rack model not mandatory any more
+user id 1 cannot be deleted from now on
+location area name is now displayed in list items
+moved users on left menu
+new user editing
+when deleting items remove tag association
+added filter search counter also to soft, inv, contract assoc
+association filtering for all items
+display number of results in associations search
+many more minor fixes, view the github log for more info
+
 1.6 -> 1.7  24/4/2012
 -------------------------------------------------------------------------------------------------------
 B:removed date checking from buggy validation pugin and leaved it to

@@ -1,0 +1,1 @@
+cat `find . -name '*.php'`| sed 's/te("\([^"]\{1,\}\)")/\r\nte111 \1\r\n /'|grep 'te111 '|sed -e 's/te111 //'|sort -u 

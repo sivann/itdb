@@ -16,7 +16,7 @@ cd translations
 cat el.txt |cut -d'#' -f1 |sed 's/$/#/'>new.txt 
 cd ..
 rm -f data/files/*
-rm -f .git/
+rm -fr .git/
 rm -f images/eoa*
 rm data/itdb.db
 

@@ -1,0 +1,425 @@
+                                                                     
+                                                                     
+                                                                     
+                                             
+[id desc]#[编号降序]
+[id]#[编号]
+[model]#[型号]
+[type]#[类型]
+<b>location</b> of this item  different from location of associated item#<b>地点</b>与相关硬件的地点不同
+<b>status</b> of this item  different from status of associated item#<b>状态</b>与相关硬件的状态不同
+<b>uncheck</b> 'auto-rotate & center'</b>#<b>不选</b> 'auto-rotate & center'</b>
+<b>uncheck</b> 'auto-rotate &amp; center'</b>#<b>不选</b> 'auto-rotate &amp; center'</b>
+<b>user</b> of this item  different from user of associated item#<b>用户</b>与相关硬件的地点不同
+<br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate & center'</b>#<br><br>在PDF打印对话框，<br>设置 <b>'页面缩放比例'</b> 为 <b>'None'</b>, <br>并且 <b>不选</b> 'auto-rotate & center'</b>
+<br>In the PDF printing dialog,#<br>在打印PDF对话框,
+0:black, 255:white#0:黑色, 255:白色
+About#关于
+Accounting#帐目
+Add Agent#增加代理
+Add Contract#增加协议
+Add File#增加文件
+Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#增加层级或平均关系到：部件，板卡，显示器等。
+Add Invoice#增加单据
+Add new Agent#增加新代理
+Add new Contract#增加新协议
+Add new File#增加新文件
+Add new Invoice#增加新单据
+Add new item#增加新硬件
+Add new Item#增加新硬件
+Add New Item#增加新硬件
+Add new Location#增加新地点
+Add new software#增加新软件
+Add new Software#增加新软件
+Add Row#增加行
+Add Software#增加软件
+Add#增加
+Add/View#增加/查看
+Address, Phone number, other info, etc#地址，电话号码，其余信息
+Agent Properties#代理属性
+Agents#代理
+Are you sure you want to delete this row ?#是否确定删除该行
+Area Names/Offices#区域/办公室
+Area#区域
+Area/Room#区域/房间
+Areas: rooms, offices#区域：房间，办公室
+Associate file with the following contracts#关联文件到以下合同
+Associate file with the following items#关联文件到以下硬件
+Associate#关联
+Associated Files #管理文件 
+Associated Files#关联文件
+Associated Items#关联硬件
+Associated Software#关联软件
+Associated#关联于
+Associations (items/racks)#关联（硬件/机架）
+Associations Overview#关联概览
+Associations#关联
+Barcode Size#硬件大小
+Blank passwords prohibit login#禁止空密码登录
+Border Color (0-255)#边框颜色（0-255）
+Bottom Margin#边框边距
+Browse Data#浏览数据
+Browse#浏览
+Building Name#建筑名称
+Buyer#采购者
+Buyers#采购者
+Cannot add log entries to unsaved items.#不能为未保存的硬件增加日志记录。
+Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the Tags menu for that.#更改将立即保存。<br>可以使用标记菜单删除未关联的标记。
+Click 'Make Item Labels'#点击'Make Item Labels'
+Click on Item count column on the left to display associated items#点击左侧的硬件数量列来显示关联的硬件
+Click on Software count column on the left to display associated software#点击左侧的软件数量列来显示关联的软件
+Click 'Show Labels'#点击'显示标签'
+Clone#复制
+Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor & Buyer</u>: will be listed in invoices & Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Cntrl+Click 为代理选取多个角色 <br><br><u>供应商 & 采购者</u>: 将显示在 单据 & 合同 <br><br><u>硬件厂商.</u>: 将在编辑硬件时显示 <br><br><u>软件厂商.</u>: 将在编辑软件时显示 <br><br><u>承揽人</u>: 将在合同中显示
+Cntrl+Click to select multiple roles for an agent#Cntrl+Click 为代理选取多个角色
+Columns#列
+Comments#注释
+Company Title#公司名称
+Configure contract types#设置合同类型
+Configure Item Types#设置硬件类型
+Configure Status Types#设置状态类型
+Contact Info#合同信息
+Contact#合同
+Contacts#合同
+Contr. Types#合同类型
+Contract Associations#关联合同
+Contract Data#合同数据
+Contract Description#合同描述
+Contract number is missing#缺少合同编号
+Contract Properties#合同属性
+Contract Title is missing#缺少合同名称
+Contract Type is missing#缺少合同类型
+Contract Types#合同类型
+Contractor is missing#缺少承揽人
+Contractor#承揽人
+Contracts#合同
+CONTRACTS#合同
+Cores per CPU (used for licensing)#单颗CPU核数(授权时使用)
+Cores/CPU#核数/颗树
+CPU Model#CPU型号
+Currency#货币
+Current End Date of contract is missing#缺少合同当前结束日期
+Current EndDate#当前结束日期
+Data Browser#数据浏览
+Date Entered#进入日期
+Date Format#日期格式
+Date of Purchase#采购日期
+Date of purhcase is missing#缺少采购日期
+Date#日期
+Delete Event?#删除事件？
+Delete#删除
+Depth of rack occupation. (F)ront, (M)iddle, (B)ack#占用机架深度。 (F)前, (M)中, (B)后
+Depth#深度
+describe the purpose of this item#描述该硬件的用途
+Description#描述
+DNS Name#DNS 名称
+DNS#DNS
+DnsName#Dns名称
+Do you really want to remove this row?#您确定要删除这条记录么？
+Documents, Manuals, Offers, Licenses, ...#文档, 手册, 认购书, 授权书, ...
+Download & print the resulting PDF#下载并打印生成的PDF
+Download &amp; print the resulting PDF#下载并打印生成的PDF
+Download a complete installation backup (much larger)#下载完全备份(非常大)
+Download DataBase file. Contains all data except uploaded files/documents#下载数据库文件。包含除上传到文件（文档）外的所有数据
+Download#下载
+e.g. like donator, etc. Vendor info is best to be provided in the related invoice#诸如捐赠者、供应商之类信息最好在相关单据中录入
+Edit Contract Types#修改合同类型
+Edit File Types#修改文件类型
+Edit ID#修改编号
+Edit Item Types#修改硬件类型
+Edit Software#修改软件
+Edit Status Types#修改状态类型
+edit tags#编辑标记
+Edit Tags#编辑标记
+Edit#编辑
+Effective date#有效日期
+Email#电子邮件
+End Date#结束日期
+End Date after#截止于该日期后
+End Date before#截止于该日期前
+End#结束
+End&nbsp;Date after#截止于该日期后
+End&nbsp;Date before#截止于该日期前
+enter text to filter listed items#录入文本来过滤硬件
+Entered By#登记人
+Event End#事件结束
+Event History#事件历史
+Event Start#事件开始
+File Maintenance#文件维护
+File title is missing#缺少文件名称
+File Type is missing#缺少文件类型
+File Types#文件类型
+File#文件
+Filename#文件名称
+Files#文件
+Filter#过滤
+Find#查找
+Floor Plan#建筑平面图
+Floor#楼层
+FontSize#字体大小
+Full Access#完全访问
+Function#功能
+GO#GO
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#软硬件厂商，供应商、采购者、承包商
+H/W &amp; S/W Manufacturers &amp; Vendors, Buyers, Contractors#软硬件厂商，供应商、采购者、承包商
+H/W Manufacturer#硬件厂商
+H/W Manufacturers#软硬件厂商
+Hardware#硬件
+HDs (TB)#HDs (TB)
+Header (from conf.php)#标题 (from conf.php)
+Header FontSize#标题字体大小
+Header Image#页头图片
+Header Text#页头文字
+Header#页头
+Height (U)#高度 (U)
+Height#高度
+Home#首页
+Horz. Pitch#水平定位
+How is this item used. e.g.: Video Encoder#这个硬件的用途。例如：视频编码器
+how many items are assigned to this rack#多少硬件被分配到这个机架
+ID FontSize#编号字体大小
+ID#编号
+Image Size (WxH)#图片大小(WxH)
+Import#导入
+Installed Into#安装到
+Installed on#安装于
+Installed#安装
+Integration#集成
+Interface Language#界面语言
+Inter-Item Associations#内部硬件关联
+Intrinsic Properties#内在特性
+Invoice  Data#单据数据
+Invoice Associations#关联单据
+Invoice Description / File(s)#单据描述 / 文件
+Invoice Properties#单据属性
+Invoice#单据
+INVOICES (buyer)#单据 (采购者)
+Invoices (buyers)#单据 (采购方)
+INVOICES (vendor)#单据 (供应商)
+Invoices (vendors)#单据 (供应方)
+Invoices#单据
+INVOICES#单据
+IPv4#IPv4
+IPv6#IPv6
+Is Part#属于
+Issue Date#签署日期
+ITDB Settings#ITDB 设置
+Item Associations#硬件关联
+Item Data#硬件数据
+Item list per location#按地点显示硬件
+Item Type#硬件类型
+Item Types#硬件类型
+Items with warranty end date close to (before or after) today#今日前后授权过期的硬件
+Items without invoices#无单据的硬件
+Items without location#无地点的硬件
+items#硬件
+Items#硬件
+ITEMS#硬件
+Label properties#标签属性
+Label#标签
+labels#标签
+Labels#标签
+Language#语言
+Left Margin#左边距
+Licencing Info#许可信息
+License Info#许可信息
+List Invoices#单据清单
+List items with defined IPv4 numbers#指定了 IPv4 的硬件清单
+List Items#硬件清单
+List Software#软件清单
+Loading data from server#正在从服务器加载数据
+Location Name/Building Name#地点名称/建筑名称
+Location of items in this rack was updated to match rack location#机架内的硬件的位置被更新为机架的位置
+Location Properties#地点属性
+Location#地点
+Locations#地点
+Log/Journal#日志
+Logout#注销
+MACs#MACs
+Maint. End#维护结束
+maintenance end date#维护截至日期
+Maintenance Instructions#维护说明
+Manage Agents#管理代理
+Manage item locations#管理硬件地点
+Manage various parameters#管理各种参数
+Manage your contracts <br> Support, Licenses, Leases, etc#管理您的合同 <br> 维保, 许可, 租赁, 等等
+Manage your H/W items <br> PCs, Switches, Phones, etc#管理您的硬件硬件 <br> PC机, 交换机, 电话, 等等
+Manage your Invoices#管理您的单据
+Manage your software#管理您的软件
+Manufact.#厂商
+Manufacturer is missing#缺少厂商
+Manufacturer#厂商
+Model#型号
+Name#名称
+Network Ports#网络端口
+Network#网络
+New#新建
+No areas defined#未定义区域
+No racks in location#在该地点无机架
+No#否
+Notes#说明
+Number of cores per CPU (used for licensing)#单颗CPU核数(授权时使用)
+Number of installed Software per Manufacturer (Agent)#每个厂商已安装的软件数量(代理)
+Number of invoices per Vendor (Agent)#每个供应商的单据数量(代理)
+Number of items per Location#每个地点的硬件数量
+Number of items per Manufacturer (Agent)#每个厂商的硬件数量(代理)
+Number of Items under support#在保的硬件数量
+Number#数量
+Numbering#编号
+Occupation#在用
+Order By#订购人
+Order No#订单编号
+Order Num#订单量
+order: status, id descending, item type, manufacturer#订单: 状态, 编号（逆序）, 硬件类型, 厂商
+order: status, id, item type, manufacturer#订单: 状态, 编号, 硬件类型, 厂商
+order: status, item type, manufacturer,id#订单: 状态, 硬件类型, 厂商, 编号
+order: status, model, item type, manufacturer#订单: 状态, 型号, 硬件类型, 厂商
+Other Info#其它信息
+Paper Size#纸张大小
+Parent ID#上级编号
+Parent#上级
+Password#口令
+Patch Panel Port#插线板端口
+Path To Switchmap#交换机图路径
+Phone numbers#电话号码
+Please check if this item can be rackmounted#请检查该硬件是否能够被放置于机架内
+Please select item type#请选择硬件类型
+Please specify if this item is a part of another#请指定该硬件是否其它硬件的组成部分
+Populate list from the Item Types menu#根据硬件类型分组
+Populated from H/W Manufacturers defined in agents menu#根据代理菜单中定义的硬件厂商分组
+populated from items of type switch or router#根据交换机或路由器分组
+Preset Name#预置名称
+Presets#预置
+Print Labels#打印标签
+Property#属性
+Ptch.PnlPrt#Ptch.PnlPrt
+Purchace Price (#采购价格(
+Purchase Date#采购日期
+PurchaseDate#采购日期
+PurchPrice#采购价格
+QR Barcode#QR 条码
+QTY#QTY
+Quantity#数量
+Rack depth is missing#缺少机架深度
+Rack height is missing#缺少机架高度
+Rack label is missing#缺少机架标签
+Rack location is missing#缺少机架位置
+Rack Pos. (topmost)#机架位置. (从顶部算起)
+Rack#机架
+Rackmountable#机架式
+Racks#机架
+RAM (GB)#内存 (GB)
+Read Only#只读
+Recent History#最近历史记录
+Rel#Rel
+Related#相关于
+RemAdmIP#远程管理IP
+Remote Administration IP#远程管理IP
+Renewals#备件
+Reports#报告
+Right Margin#右边距
+Role#角色
+Rows#行
+S/N 2#库存编号 2
+S/N#库存编号
+S/W Manufacturer is missing#缺少软件厂商
+S/W Manufacturer#软件厂商
+S/W Manufacturers#软件厂商
+Save Invoice#保存票据
+Save new location first to define areas onto it#首先保存地点再在其上定义区域
+Save Preset#保存预置
+Save#保存
+Select & Print#保存并打印
+Select &amp; Print#选择并打印
+select and print labels for your items#保存并打印您的硬件的标签
+Select Cores/CPU#选择 核数/CPU
+Select items from the list above#从上面选取硬件
+Select Items#选取硬件
+Select Label properties (manual or preset)#选择标签属性(手册或预设)
+Select Report#选择报告
+Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.#选择这个软件当前安装的目的系统。只有类型为“支持软件”的硬件才可见。
+Select User#选择用户
+Select 'YES' if software can be installed <b>on</b> this item.<br> Only items supporting software are listed when <br>performing software - item associations#选择“是”如果软件能够被安装<b>在</b>这个硬件上。<br>只有支持安装软件的硬件才会被列出在<br>进行操作软件 - 硬件关联时。
+Select#选择
+set <b>'Page Scaling'</b> to <b>'None'</b>#设置 <b>'Page Scaling'</b> 为 <b>'None'</b>
+Settings#设置
+Shop/Origin#商店/自有
+show also this text on printable labels#在可打印表格上也显示此文本
+Show Labels#显示标签
+Sibling#同类
+Size (U)#大小 (U)
+Skip#忽略
+Software Associations#软件关联
+Software Data#软件数据
+Software title is missing#缺少软件标题
+Software Version is missing#缺少软件版本
+Software#软件
+SOFTWARE#软件
+Special maintenance instructions#特殊维护说明书
+Specify model#指定型号
+Specify user responsible for this item#指定该硬件的负责人
+Start Date of contract is missing#缺少合同开始日期
+Start Date#开始日期
+Start#开始
+Status Types#状态类型
+Status#状态
+Subtypes of  type #子类型
+suggested resolution: 1024 pixels for A4 scans#建议分辨率: 1024像素A4幅面
+Support and Maintanance, Leases, ...#维保, 租赁, ...
+Supports<br>Software#支持<br>软件
+Switch Port#交换机端口
+Switch#交换机
+SwitchMap Integration#交换机图集成
+TAG#标记
+Tags#标记
+taken from related invoice#从相关单据获取
+Text Padding#文本填充
+There are errors in your form submission, please see below for details#您的提交的表单有错误，请查看一下详细信息
+Time Format#时间格式
+Timezone (Abbreviation)#时区（缩写）
+Title#标题
+Title/Ver.#标题/版本.
+Title-Version#标题版本
+Top Margin#上边距
+Total Cost#总成本
+Translations#翻译
+Tree Explorer#树浏览器
+Type Names#类型名称
+Type#类型
+Type(s)#类型
+Upload a File#上传文件
+Upload a Floor Plan#上传楼层平面图
+Upload Files#上传文件
+Uploaded by#上传人
+Usage#用法
+Use the string 'service'  on the description to display this url on the item edit page#在硬件修改页面使用描述中的“service”字段显示此链接
+use when the top labels have already been printed#当顶部标签已经被打印过时使用
+User Description#用户描述
+User responsible for this item#该硬件的负责人
+User#用户
+Username is missing#缺少用户名
+Username#用户名称
+Users are used for both web login and as item assignees#能够网页登录、负责硬件的用户
+Users#用户
+Users, Tags#用户, 标记
+Users, Tags, Dates, Currency,...#用户, 标记, 日期, 货币,...
+Value#价格
+Vendor#供应商
+Vendors#供应商
+Vendors/Buyers/ Manufacturers#供应商/采购者/厂商
+Version#版本
+Vert. Pitch#Vert. Pitch
+View items by type, by user, by agent#按类型、用户、代理查看硬件
+View Reports#查看报告
+View#查看
+View/Edit Subtypes#查看/编辑 子类型
+Warning#Warning
+Warr. Rem. days#维保剩余天数
+Warranty Info#维保信息
+Warranty Months#维保月数
+Warranty#维保
+Warranty&nbsp;Months#维保月数
+Width#宽度
+Yes#是
+Ymd#年月日
+You forgot to select the file?#您忘记选择文件?

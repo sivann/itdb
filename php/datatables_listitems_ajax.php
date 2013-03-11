@@ -181,7 +181,7 @@
                   items
 		  JOIN itemtypes ON items.itemtypeid=itemtypes.id 
 		  JOIN agents ON items.manufacturerid=agents.id
-		  JOIN statustypes ON items.status=statustypes.id
+		  LEFT OUTER JOIN statustypes ON items.status=statustypes.id
 		  JOIN users ON items.userid=users.id
 		  LEFT OUTER JOIN locations ON items.locationid=locations.id
 		  LEFT OUTER JOIN locareas ON items.locareaid=locareas.id

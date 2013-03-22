@@ -3,9 +3,14 @@
 $(document).ready(function() {
 
 
+
+<?php
+if (isset($_POST['dateformat']) ) { //if we came from a post (save), refresh to show new language
+	echo "window.location=window.location;";
+}
+?>
+
 });
-
-
 </SCRIPT>
 <?php 
 

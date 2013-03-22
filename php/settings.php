@@ -100,11 +100,12 @@ echo "\n<h1>".t("Settings")."</h1>\n";
       <?
       $tfiles=scandir("translations/");
       foreach ($tfiles as $f) {
-        if (strstr($f,"txt") && (!strstr($f,"new")) && (!strstr($f,"missing"))) {
-	  $bf=basename($f,".txt");
-	  if ($settings['lang']=="$bf") $s="SELECTED"; else $s="" ;
-	  echo "<option $s value='$bf'>$bf</option>\n";
-	}
+		  $f=strtolower($f);
+		  if (strstr($f,"txt") && (!strstr($f,"new")) && (!strstr($f,"missing"))) {
+			  $bf=basename($f,".txt");
+			  if ($settings['lang']=="$bf") $s="SELECTED"; else $s="" ;
+			  echo "<option $s value='$bf'>$bf</option>\n";
+		  }
       }
       ?>
     </select>

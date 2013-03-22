@@ -79,10 +79,15 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 <tr><td>File:</td><td> <input name="file" id="file" size="25" type="file"></td></tr>
 <tr><td>Delimeter:</td><td> <input size=1 type=text name='delim' value=';' maxlength=1></td></tr>
 <tr><td>Skip 1st row:</td><td><select name=skip1st><option value=1>Yes</option><option value=0>No</option></select></td></tr>
-<tr><td colspan=2><input type=submit value='Upload and inspect file'></td></tr>
+<tr><td colspan=2><input type=submit value='Upload file and inspect fields'></td></tr>
 <input type=hidden name='nextstep' value='1'>
 <input type=hidden name='imfn' value='<?=$imfn?>'>
 </form>
+<p>
+Expacted format is CSV file with the following fields:<br>
+Building,Area/Room,Owner,Status,DNS Hostname,TBD,IPv4,OS,Manufacturer,Model,SN,Comments,Item Type<br>
+<br>
+TBD: to be defined<br>
 <?php }?>
 
 <?php if ($nextstep==1) { 
@@ -94,7 +99,7 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 	<div style='height:400px;overflow:auto'>
 	<table class='brdr sortable'>
 	<thead>
-	<th>Building</th><th>Area/Room</th><th>Owner</th><th>Status</th><th>DNS Hostname</th><th>IPv4</th><th>OS</th><th>Manufacturer</th><th>Model</th><th>SN</th><th>SN2</th><th>Comments</th><th>Item Type</th></tr>
+	<th>Building</th><th>Area/Room</th><th>Owner</th><th>Status</th><th>DNS Hostname</th><th>TBD</th><th>IPv4</th><th>OS</th><th>Manufacturer</th><th>Model</th><th>SN</th><th>Comments</th><th>Item Type</th></tr>
 	</thead>
 	<tbody>
 
@@ -311,7 +316,7 @@ if ($nextstep==2) {
 
 		//insert locareaid
 		$lr=getlocidsbynames($location,$locarea);
-		if ($lr[0]<0) {
+		if ($lr[0]<0 && strlen($locarea)) {
 			$sql="INSERT INTO locareas (areaname,locationid) ".
 			"values ('$locarea', (SELECT id FROM locations WHERE name = '$location')) ";
 			db_exec($dbh,$sql);

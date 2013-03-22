@@ -71,7 +71,7 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 <div style='width:100%;'> <!-- import1 -->
 
 <?php if ($nextstep==0) { ?>
-<h1>Experimental import </h1>
+<h1>***Experimental*** import </h1>
 <h2>BACKUP your ITDB FIRST!</h2>
 <table>
 <form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>

@@ -113,56 +113,57 @@ How to add more languages:
 <tr> <td colspan=2> 
 <?php
 if (strlen($lang)&&($lang!="en"))
-  echo "<button id='savebtn' type='submit'><img src='images/save.png' alt='Save'>".t(Save)."</button> </td> </tr>\n";
+	echo "<button id='savebtn' type='submit'><img src='images/save.png' alt='Save'>".t(Save)."</button> </td> </tr>\n";
 
-  $fn="translations/$lang.txt";
-  if (strlen($lang) && ($lang !="en")) {
-    if (is_readable($fn) && (($handle = fopen($fn, "r")) !== FALSE)) {
-	while (($data = fgetcsv($handle, 1000, "#")) !== FALSE) {
-	    $num = count($data);
-	    $row++;
-	    if ($num<2)  continue;
-	    if ($num>2)  echo "<p style='display:inline;background-color:white;color:red'> Error in $fn, row $row: ($num fields found, 2 expected) <br /></p>\n";
-	    $tt1[]=$data[0];
-	    $tt2[]=$data[1];
+$fn="translations/$lang.txt";
+
+if (strlen($lang) && ($lang !="en")) {
+	if (is_readable($fn) && (($handle = fopen($fn, "r")) !== FALSE)) {
+		while (($data = fgetcsv($handle, 1000, "#")) !== FALSE) {
+			$num = count($data);
+			$row++;
+			if ($num<2)  continue;
+			if ($num>2)  echo "<p style='display:inline;background-color:white;color:red'> Error in $fn, row $row: ($num fields found, 2 expected) <br /></p>\n";
+			$tt1[]=$data[0];
+			$tt2[]=$data[1];
+		}
+		fclose($handle);
 	}
-	fclose($handle);
-    }
-    else {
-      echo "Could not open $fn";
-    }
-  }
+	else {
+		echo "Could not open $fn";
+	}
+}
+
 ?>
 
 <?php
 $nt=count($tt1);
 for ($i=0;$i<$nt;$i++) {
-  echo "<tr><td style='width:30%;border:1px solid #ccc;text-align:left'>".$tt1[$i]."</td>".
-       "<td><input name='tr2_$i' size=100 value='".htmlspecialchars($tt2[$i], ENT_QUOTES,'UTF-8')."'>".
-       "<input  name='tr1_$i' type=hidden value='".htmlspecialchars($tt1[$i], ENT_QUOTES,'UTF-8')."'></td></tr>\n";
+	echo "<tr><td style='width:30%;border:1px solid #ccc;text-align:left'>".$tt1[$i]."</td>".
+		"<td><input name='tr2_$i' size=100 value='".htmlspecialchars($tt2[$i], ENT_QUOTES,'UTF-8')."'>".
+		"<input  name='tr1_$i' type=hidden value='".htmlspecialchars($tt1[$i], ENT_QUOTES,'UTF-8')."'></td></tr>\n";
 }
 
 if ($nt) {
 
-    //read untranslated english strings
-    $nfn="translations/new.txt";
-    if (is_readable($nfn) && (($handle = fopen($nfn, "r")) !== FALSE)) {
-	$eng=array();
-	while (($data = fgetcsv($handle, 1000, "#")) !== FALSE) {
-	  $eng[]=$data[0];
+	//read untranslated english strings
+	$nfn="translations/new.txt";
+	if (is_readable($nfn) && (($handle = fopen($nfn, "r")) !== FALSE)) {
+		$eng=array();
+		while (($data = fgetcsv($handle, 1000, "#")) !== FALSE) {
+			$eng[]=$data[0];
+		}
 	}
-    }
 
-    //find which are missing from current translation file
-    foreach ($eng  as $engstr){
-      if (!in_array($engstr,$tt1)) {
-        $nt++;
-        echo "<br>$engstr NOT FOUND<br>";
-	echo "<tr><td>".$engstr."</td>".
-	     "<td><input name='tr2_".($nt-1)."' size=100 value=''>".
-	     "<input  name='tr1_".($nt-1)."' type=hidden value='".htmlspecialchars($engstr)."'></td></tr>\n";
-      }
-    }
+	//find which english words are missing from current translation file
+	foreach ($eng  as $engstr){
+		if (!in_array($engstr,$tt1)) {
+			$nt++;
+			echo "<tr><td style='border:1px solid #ee0000'>".$engstr."</td>".
+				"<td><input name='tr2_".($nt-1)."' size=100 value=''>".
+				"<input  name='tr1_".($nt-1)."' type=hidden value='".htmlspecialchars($engstr)."'></td></tr>\n";
+		}
+	}
 
 }
 echo "<input name='trcount' type=hidden value='$nt'>";

@@ -843,7 +843,7 @@ function gethwmanufacturerbyname ($name) {
 	$r=$sth->fetchAll(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!$r['id']) 
+	if (!$r[0]['id']) 
 		return -1;
 	else 
 		return $r;
@@ -880,7 +880,8 @@ function getagentidbyname ($name) {
 
 	if (!$r['id']) 
 		return -1;
-	else return $r['id'];
+	else 
+        return $r['id'];
 }
 
 function getitemtypeidbyname ($name) {
@@ -946,16 +947,19 @@ function getlocidsbynames ($locname,$areaname) {
 function getuserbyname ($name) {
   global $dbh;
 
+
 	$name=trim(strtolower($name));
 	$sql="select * from users where lower(username) = '$name' ";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetchAll(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!$r['id'][0]) 
+	if (!$r[0]['id'])  {
 		return -1;
-	else 
+    }
+	else  {
 		return $r;
+    }
 }
 
 

@@ -324,6 +324,78 @@ function db_execute($dbh,$sql,$skipauth=0)
   return $sth;
 }
 
+function opendb($dbfile) {
+    global $dbh;
+    //open db
+    try {
+      $dbh = new PDO("sqlite:$dbfile");
+    } 
+    catch (PDOException $e) {
+      print "Open database Error!: " . $e->getMessage() . "<br>";
+      die();
+    }
+    return $dbh;
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+
+
+    //$ret = $dbh->exec("PRAGMA case_sensitive_like = 0;");
+
+}
+
+function ckdberr($resource) {
+    global $errorstr;
+    $error = $resource->errorInfo();
+    if($error[0] && isset($error[2])) {
+        $errorstr= $error[2];
+        $errorbt = debug_backtrace();
+        logerr($errorstr."   BACKTRACE: ".$errorbt);
+        return 1;
+    }
+    return 0;
+}
+
+
+/*execute with prepared statements
+Example:
+        $sql="SELECT * from tablename where id=:id order by date";
+        $stmt=db_execute($dbh,$sql,array('id'=>$items['id']));
+        $res=$stmt->fetch(PDO::FETCH_ASSOC);
+*/
+
+function db_execute2($dbh,$sql,$params=NULL) {
+    global $errorstr,$errorbt,$errorno;
+
+    $sth = $dbh->prepare($sql);
+    $error = $dbh->errorInfo();
+
+    if(((int)$error[0]||(int)$error[1]) && isset($error[2])) {
+        $errorstr= "DB Error: ($sql): <br>\n".
+            $error[2]."<br>\nParameters:"."params\n";
+            //implode(",",$params);
+        $errorbt= debug_backtrace();
+        $errorno=$error[1]+$error[0];
+        logerr("$errorstr BACKTRACE:".$errorbt);
+        return 0;
+    }
+
+    if (is_array($params))
+        $sth->execute($params);
+    else
+        $sth->execute();
+
+    $error = $sth->errorInfo();
+    if(((int)$error[0]||(int)$error[1]) && isset($error[2])) {
+        $errorstr= "DB Error: ($sql): <br>\n".$error[2]."<br>\nParameters:".implode(",",$params);
+        $errorbt= debug_backtrace();
+        $errorno=$error[1]+$error[0];
+        logerr("$errorstr BACKTRACE:".$errorbt);
+    }
+
+    return $sth;
+}
+
+
+
 
 ///////////cookies///////////
 
@@ -843,7 +915,7 @@ function gethwmanufacturerbyname ($name) {
 	$r=$sth->fetchAll(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!$r[0]['id']) 
+	if (!count($r[0]['id'])) 
 		return -1;
 	else 
 		return $r;
@@ -861,7 +933,7 @@ function getuseridbyname ($name) {
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!$r['id']) 
+	if (!count($r['id'])) 
 		return -1;
 	else 
 		return $r['id'];
@@ -878,7 +950,7 @@ function getagentidbyname ($name) {
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!$r['id']) 
+	if (!count($r['id'])) 
 		return -1;
 	else 
         return $r['id'];
@@ -895,7 +967,7 @@ function getitemtypeidbyname ($name) {
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!$r['id']) 
+	if (!count($r['id'])) 
 		return -1;
 	else 
 		return $r['id'];
@@ -905,6 +977,7 @@ function getitemtypeidbyname ($name) {
 function getstatustypeidbyname ($name) {
   global $dbh;
 
+
 	$name=trim(strtolower($name));
 	if (!strlen($name))
 		return -1;
@@ -913,7 +986,7 @@ function getstatustypeidbyname ($name) {
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!$r['id']) 
+	if (!count($r['id'])) 
 		return -1;
 	else 
 		return $r['id'];
@@ -922,26 +995,36 @@ function getstatustypeidbyname ($name) {
 function getlocidsbynames ($locname,$areaname) {
   global $dbh;
 
+
 	$locname=trim(strtolower($locname));
 	$areaname=trim(strtolower($areaname));
-	if (!strlen($locname) || (!strlen($areaname)))
+	if (!strlen($locname))
 		return array(-1,-1);
-	$sql="select locations.id as locid, locareas.id as locareaid from locations,locareas ".
-	" WHERE locareas.locationid=locations.id AND ".
-	" LOWER(locareas.areaname) ='$areaname' AND ".
-	" LOWER(locations.name) ='$locname' ";
 
-	$sth=db_execute($dbh,$sql);
-	$r=$sth->fetch(PDO::FETCH_BOTH);
-	$sth->closeCursor();
+	//if (!strlen($locname) || (!strlen($areaname))) return array(-1,-1);
 
-	if (!$r['locid']) 
-		return array(-1,-1);
-	else 
-		return $r;
+	if (strlen($areaname)) {
+        $sql="select locations.id as locid, locareas.id as locareaid from locations,locareas ".
+        " WHERE locareas.locationid=locations.id AND ".
+        " LOWER(locareas.areaname) =:areaname AND ".
+        " LOWER(locations.name) =:locname";
+        $sth=db_execute2($dbh,$sql,array('areaname'=>$areaname,'locname'=>$locname));
+        $r=$sth->fetch(PDO::FETCH_BOTH);
+        $sth->closeCursor();
+        if (!count($r['locid'])) return array(-1,-1);
+        else return $r;
+    }
+    else {
+        $sql="select locations.id as locid, locareas.id as locareaid from locations,locareas ".
+        " WHERE LOWER(locations.name) =:locname";
+        $sth=db_execute2($dbh,$sql,array('locname'=>$locname));
+        $r=$sth->fetch(PDO::FETCH_BOTH);
+        $sth->closeCursor();
+        if (!count($r['locid'])) return array(-1,-1);
+        else return array($r['locid'],-1);
+    }
+
 }
-
-
 
 
 function getuserbyname ($name) {
@@ -954,7 +1037,7 @@ function getuserbyname ($name) {
 	$r=$sth->fetchAll(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 
-	if (!$r[0]['id'])  {
+	if (!count($r[0]['id']))  {
 		return -1;
     }
 	else  {

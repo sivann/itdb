@@ -76,12 +76,12 @@ $(document).ready(function() {
 <thead>
 <tr>
 <th><?php te("ID");?></th>
+<th><?php te("Label");?></th>
 <th><?php te("Item Type");?></th>
 <th><?php te("Manufacturer");?></th>
 <th><?php te("Model");?></th>
 <th><?php te("DnsName");?></th>
 <th><?php te("S/N");?></th>
-<th><?php te("Label");?></th>
 <th><?php te("PurchaseDate");?></th>
 <th><?php te("Warr. Rem. days");?></th>
 <th><?php te("User");?></th>

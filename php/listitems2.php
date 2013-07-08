@@ -117,12 +117,12 @@ echo "<thead>\n";
 $thead= "\n<tr><th title='Search'>".
      "<button type='submit' style='padding:1px;'><img border=0  src='images/search.png'></button>".
      "<a href='$fscriptname?$url&amp;orderby=items.id$ob'>ID</a></th>".
+     "<th><a href='$fscriptname?$url&amp;orderby=label$ob'>Label</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=itemtypeid$ob'>Item type</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=manufacturerid$ob'>Manufacturer</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=model$ob'>Model</a></th>".
      "<th>DNS Name</th>".
      "<th><a href='$fscriptname?$url&amp;orderby=sn$ob,sn2$ob,sn3$ob'>S/N</a></th>".
-     "<th><a href='$fscriptname?$url&amp;orderby=label$ob'>Label</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=purchasedate$ob'>Purch. Date</a></th>".
      "<th title='Warranty expiration in '><small><a href='$fscriptname?action=$action&amp;orderby=remdays$ob'>Warr. Left</a></small></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=userid$ob'>User</a></th>".

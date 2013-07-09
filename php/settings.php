@@ -161,12 +161,13 @@ echo "\n<h1>".t("Settings")."</h1>\n";
         ?>
         <option value=0><?=t('No')?></option>
         <option <?=$s1?> value=1><?=t('Yes')?></option>
-        </td></tr>
+        </select>
+        (for authentication only)</td></tr>
 
     <tr><td class="tdt"><?php te("LDAP Server");?>:</td> 
-        <td><input  class='input2 ' size=20 type=text name='ldap_server' value="<?php echo $settings['ldap_server']?>"></td></tr>
+        <td><input  class='input2 ' size=20 type=text name='ldap_server' value="<?php echo $settings['ldap_server']?>"> e.g.: ldap.mydomain.com</td></tr>
     <tr><td class="tdt"><?php te("LDAP DN");?>:</td> 
-        <td><input  class='input2 ' size=20 type=text name='ldap_dn' value="<?php echo $settings['ldap_dn']?>"></td></tr>
+        <td><input  class='input2 ' size=20 type=text name='ldap_dn' value="<?php echo $settings['ldap_dn']?>"> e.g.: ou=People,dc=mydomain,dc=com</td></tr>
 
 
 <tr>

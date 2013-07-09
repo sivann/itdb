@@ -215,26 +215,27 @@ function db_execute2($dbh,$sql,$params=NULL) {
 
 
 
-function connect_to_ldap_server($ldap_server,$username,$passwd,$domain) {
+function connect_to_ldap_server($ldap_server,$username,$passwd,$ldap_dn) {
     global $gen_error,$gen_errorstr;
 
-        $ds=ldap_connect($ldap_server);  // must be a valid LDAP server!
-        //echo "connect result is " . $ds . "<br />\n";
-        if($ds){
-                $dn="uid=".$username.",ou=People,o=".$domain.",o=ian";
-                ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-                $r=ldap_bind($ds,$dn, $passwd);
-                if(!$r){
+    $ds=ldap_connect($ldap_server);  // must be a valid LDAP server!
+    //echo "connect result is " . $ds . "<br />\n";
+    if($ds){
+        $dn="uid=".$username.",".$ldap_dn;
+        echo $dn;
+        ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+        $r=ldap_bind($ds,$dn, $passwd);
+        if(!$r){
             $gen_errorstr="ldap_bind: ".ldap_error($ds);
             $gen_error=100;
-                        ldap_close($ds);
-                        return FALSE;
-                }
-                return $ds;
+            ldap_close($ds);
+            return FALSE;
         }
-        else{
-                return FALSE;
-        }
+        return $ds;
+    }
+    else {
+        return FALSE;
+    }
 }
 
 

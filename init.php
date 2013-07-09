@@ -183,38 +183,58 @@ if (get_magic_quotes_gpc()) {
 
 
 ///////////cookies///////////
-
 $authstatus=0;
 $authmsg="Not logged in";
-if (!$demomode) {
+if (!$demomode ) {
   if (isset($_POST['logout'])) {
      setcookie("itdbcookie1",'', time()+3600*1,$wscriptdir);
      header("Location: $scriptname"); //eat get parameters
   }
   elseif (isset($_POST['authusername'])){ //logging in
-   $username=$_POST['authusername'];
-   $password=$_POST['authpassword'];
-   $sth=db_execute($dbh,"SELECT * from users where username='$username' limit 1",1);
-   $userdata=$sth->fetchAll(PDO::FETCH_ASSOC);
-   $nr=count($userdata);
-   if ((!$nr) || $userdata[0]['username']!=$username) {
-      $authstatus=0;
-      $authmsg="Invalid username";
-   }
-   elseif (($userdata[0]['pass']==$password) && strlen($password)) { //correct password
-     $rnd=mt_rand(); //create a random
-     //store random in db
-     db_exec($dbh,"UPDATE users set cookie1='$rnd' where username='$username'",1,1);
-     //store random in browser
-     setcookie("itdbcookie1",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
-     setcookie("itdbuser",$username, time()+3600*24*60,$wscriptdir); //username
-     $authstatus=1;
-     $authmsg="User Authenticated";
-   }
-   else { //wrong password
-     $authstatus=0;
-     $authmsg="Wrong Password";
-   }
+       $username=$_POST['authusername'];
+       $password=$_POST['authpassword'];
+
+        if ($settings['useldap']) {
+            $r=connect_to_ldap_server($settings['ldap_server'],$username,$password,$settings['ldap_dn']);
+            echo "HERE. r=".var_dump($r)."\n";
+            if ($r == false) {
+                $authstatus=0;
+                $authmsg="Wrong Password";
+            }
+            else {
+                 $rnd=mt_rand(); //create a random
+                 db_exec($dbh,"UPDATE users set cookie1='$rnd' where username='$username'",1,1);
+                 setcookie("itdbcookie1",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
+                 setcookie("itdbuser",$username, time()+3600*24*60,$wscriptdir); //username
+                 $authstatus=1;
+                 $authmsg="User Authenticated";
+            }
+        }
+        else { //local users
+           $sth=db_execute($dbh,"SELECT * from users where username='$username' limit 1",1);
+           $userdata=$sth->fetchAll(PDO::FETCH_ASSOC);
+           $nr=count($userdata);
+           if ((!$nr) || $userdata[0]['username']!=$username) {
+              $authstatus=0;
+              $authmsg="Invalid username";
+           }
+           elseif (($userdata[0]['pass']==$password) && strlen($password)) { //correct password
+             $rnd=mt_rand(); //create a random
+             //store random in db
+             db_exec($dbh,"UPDATE users set cookie1='$rnd' where username='$username'",1,1);
+
+             //store random in browser
+             setcookie("itdbcookie1",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
+             setcookie("itdbuser",$username, time()+3600*24*60,$wscriptdir); //username
+             $authstatus=1;
+             $authmsg="User Authenticated";
+           }
+           else { //wrong password
+             $authstatus=0;
+             $authmsg="Wrong Password";
+           }
+        }
+
 
   } //logging in 
   elseif (isset($_COOKIE["itdbuser"]) && ! isset($_COOKIE["itdbcookie1"])) {
@@ -240,8 +260,9 @@ if (!$demomode) {
   else
     $authmsg="Please Login!";
 }
-else { //demomode
+elseif ($demomode) { //demomode
   $authstatus=1;
   $authmsg="Demo mode, no save possible";
 }
+
 ?>

@@ -20,7 +20,13 @@ if(!isset($userdata) || $userdata[0]['usertype'] == 1) { echo "You must have Adm
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 
 if (isset($_POST['dateformat']) ) { //if we came from a post (save), update the rack 
-  $sql="UPDATE settings set companytitle='".$_POST['companytitle']."', dateformat='".$_POST['dateformat']."', currency='".$_POST['currency']."',".
+  $sql="UPDATE settings set companytitle='".$_POST['companytitle'].
+  "', dateformat='".$_POST['dateformat'].
+  "', currency='".$_POST['currency'].
+  "', useldap='".$_POST['useldap'].
+  "', ldap_server='".$_POST['ldap_server'].
+  "', ldap_dn='".$_POST['ldap_dn'].
+  "',".
        " lang='".$_POST['lang']."', ".
        //" switchmapenable='".$_POST['switchmapenable']."', switchmapdir='".$_POST['switchmapdir']."',".
        //" timeformat='".$_POST['timeformat']."', ".
@@ -147,6 +153,21 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <tr><td class="tdt" title='Provide the full path to the switches directory within the SwitchMap directory.'><?php te("Path To Switchmap");?>:</td><td><input  class='input2 ' size=20 type=text name='switchmapdir' value="<?php echo $settings['switchmapdir']?>"></td></tr>
 
 -->
+    <tr><td class="tdt"><?php te("Use LDAP");?>:</td> 
+        <td><select  name='useldap'>
+        <?php
+        if ($settings['useldap']==1) $s1='SELECTED';
+        else $s1='';
+        ?>
+        <option value=0><?=t('No')?></option>
+        <option <?=$s1?> value=1><?=t('Yes')?></option>
+        </td></tr>
+
+    <tr><td class="tdt"><?php te("LDAP Server");?>:</td> 
+        <td><input  class='input2 ' size=20 type=text name='ldap_server' value="<?php echo $settings['ldap_server']?>"></td></tr>
+    <tr><td class="tdt"><?php te("LDAP DN");?>:</td> 
+        <td><input  class='input2 ' size=20 type=text name='ldap_dn' value="<?php echo $settings['ldap_dn']?>"></td></tr>
+
 
 <tr>
 <td colspan=2>

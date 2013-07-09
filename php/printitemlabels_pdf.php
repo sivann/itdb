@@ -65,9 +65,11 @@ for ($row=1;$row<=$rows;$row++) {
     $id=sprintf("%04d",$r['id']);
     $dnsname=$r['dnsname'];
     $ipv4=$r['ipv4'];
+    $ipv4=mb_substr($ipv4,0,15);
     $ipv6=$r['ipv6'];
     $agtitle=$r['agtitle'];
     $model=$r['model'];
+    $label=$r['label'];
 
     $desc="$agtitle/$model";
     $desc=mb_substr($desc,0,37);
@@ -75,7 +77,8 @@ for ($row=1;$row<=$rows;$row++) {
     $sn=strlen($r['sn'])>0?$r['sn']:$r['sn3'];
 
     $labeltext="";
-    $labeltext.=sprintf("ID:$id");
+    $labeltext.=sprintf("ID:$id\n");
+    if (strlen($label)) $labeltext.=sprintf("LBL:$label\n");
 
     if (strlen($sn)) $labeltext.=sprintf("SN:$sn\n");
 
@@ -83,11 +86,6 @@ for ($row=1;$row<=$rows;$row++) {
 
     if (strlen($ipv4)) { $labeltext.="IPv4:$ipv4\n"; }
     if (strlen($ipv6)) { $labeltext.="IPv6:$ipv6\n"; }
-
-
-    if (strlen($r['label'])) { 
-      $labeltext.=$r['label']."\n";
-    }
 
     if (strlen($dnsname)) { 
        $labeltext.="HName:$dnsname\n";

@@ -131,13 +131,13 @@ function contractid2files($contractid,$dbh) {
 
 //returns number of connected items/racks with a locationid
 function countloclinks($locid,$dbh) {
-  $sql="select count(id) count from items where locationid=$locid";
+  $sql="SELECT count(id) count from items where locationid=$locid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $count+=$r['count'];
 
-  $sql="select count(id) count from racks where locationid=$locid";
+  $sql="SELECT count(id) count from racks where locationid=$locid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -148,13 +148,13 @@ function countloclinks($locid,$dbh) {
 
 //returns number of connected items/racks with a location areaid
 function countlocarealinks($locareaid,$dbh) {
-  $sql="select count(id) count from items where locareaid=$locareaid";
+  $sql="SELECT count(id) count from items where locareaid=$locareaid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $count+=$r['count'];
 
-  $sql="select count(id) count from racks where locareaid=$locareaid";
+  $sql="SELECT count(id) count from racks where locareaid=$locareaid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -166,25 +166,25 @@ function countlocarealinks($locareaid,$dbh) {
 function countfileidlinks($fileid,$dbh) {
   $count=0;
 
-  $sql="select count(softwareid) count from software2file where fileid=$fileid";
+  $sql="SELECT count(softwareid) count from software2file where fileid=$fileid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $count+=$r['count'];
 
-  $sql="select count(*) count from invoice2file where fileid=$fileid";
+  $sql="SELECT count(*) count from invoice2file where fileid=$fileid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $count+=$r['count'];
 
-  $sql="select count(*) count from item2file where fileid=$fileid";
+  $sql="SELECT count(*) count from item2file where fileid=$fileid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $count+=$r['count'];
 
-  $sql="select count(*) count from contract2file where fileid=$fileid";
+  $sql="SELECT count(*) count from contract2file where fileid=$fileid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -197,7 +197,7 @@ function countfileidlinks($fileid,$dbh) {
 function delfile($fileid,$dbh) {
 global $uploaddir;
   //delete inter-item links
-  $sql="select fname from files where id=$fileid";
+  $sql="SELECT fname from files where id=$fileid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -435,7 +435,7 @@ function read_trans($lang) {
 function getagenthwmanufacturers() {
   global $dbh;
 
-  $sql="select * from agents where type&4";
+  $sql="SELECT * from agents where type&4";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetchAll(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -451,7 +451,7 @@ function gethwmanufacturerbyname ($name) {
 	$name=trim(strtolower($name));
 	if (!strlen($name))
 		return -1;
-	$sql="select * from agents where type&8 AND lower(title) = '$name'";
+	$sql="SELECT * from agents where type&8 AND lower(title) = '$name'";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetchAll(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
@@ -469,7 +469,7 @@ function getuseridbyname ($name) {
 	$name=trim(strtolower($name));
 	if (!strlen($name))
 		return -1;
-	$sql="select id from users where LOWER(username) ='$name' ";
+	$sql="SELECT id from users where LOWER(username) ='$name' ";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
@@ -486,7 +486,7 @@ function getagentidbyname ($name) {
 	$name=trim(strtolower($name));
 	if (!strlen($name))
 		return -1;
-	$sql="select id from agents where LOWER(title) ='$name' ";
+	$sql="SELECT id from agents where LOWER(title) ='$name' ";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
@@ -503,7 +503,7 @@ function getitemtypeidbyname ($name) {
 	$name=trim(strtolower($name));
 	if (!strlen($name))
 		return -1;
-	$sql="select id from itemtypes where LOWER(typedesc) ='$name' ";
+	$sql="SELECT id from itemtypes where LOWER(typedesc) ='$name' ";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
@@ -522,7 +522,7 @@ function getstatustypeidbyname ($name) {
 	$name=trim(strtolower($name));
 	if (!strlen($name))
 		return -1;
-	$sql="select id from statustypes where LOWER(statusdesc) ='$name' ";
+	$sql="SELECT id from statustypes where LOWER(statusdesc) ='$name' ";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetch(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
@@ -545,7 +545,7 @@ function getlocidsbynames ($locname,$areaname) {
 	//if (!strlen($locname) || (!strlen($areaname))) return array(-1,-1);
 
 	if (strlen($areaname)) {
-        $sql="select locations.id as locid, locareas.id as locareaid from locations,locareas ".
+        $sql="SELECT locations.id as locid, locareas.id as locareaid from locations,locareas ".
         " WHERE locareas.locationid=locations.id AND ".
         " LOWER(locareas.areaname) =:areaname AND ".
         " LOWER(locations.name) =:locname";
@@ -556,7 +556,7 @@ function getlocidsbynames ($locname,$areaname) {
         else return $r;
     }
     else {
-        $sql="select locations.id as locid, locareas.id as locareaid from locations,locareas ".
+        $sql="SELECT locations.id as locid, locareas.id as locareaid from locations,locareas ".
         " WHERE LOWER(locations.name) =:locname";
         $sth=db_execute2($dbh,$sql,array('locname'=>$locname));
         $r=$sth->fetch(PDO::FETCH_BOTH);
@@ -573,7 +573,7 @@ function getuserbyname ($name) {
 
 
 	$name=trim(strtolower($name));
-	$sql="select * from users where lower(username) = '$name' ";
+	$sql="SELECT * from users where lower(username) = '$name' ";
 	$sth=db_execute($dbh,$sql);
 	$r=$sth->fetchAll(PDO::FETCH_ASSOC);
 	$sth->closeCursor();

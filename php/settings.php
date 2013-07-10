@@ -20,12 +20,14 @@ if(!isset($userdata) || $userdata[0]['usertype'] == 1) { echo "You must have Adm
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 
 if (isset($_POST['dateformat']) ) { //if we came from a post (save), update the rack 
-  $sql="UPDATE settings set companytitle='".$_POST['companytitle'].
+  $sql="UPDATE settings set companytitle='".trim($_POST['companytitle']).
   "', dateformat='".$_POST['dateformat'].
   "', currency='".$_POST['currency'].
   "', useldap='".$_POST['useldap'].
-  "', ldap_server='".$_POST['ldap_server'].
-  "', ldap_dn='".$_POST['ldap_dn'].
+  "', ldap_server='".trim($_POST['ldap_server']).
+  "', ldap_dn='".trim($_POST['ldap_dn']).
+  "', ldap_getusers='".trim($_POST['ldap_getusers']).
+  "', ldap_getusers_filter='".trim($_POST['ldap_getusers_filter']).
   "',".
        " lang='".$_POST['lang']."', ".
        //" switchmapenable='".$_POST['switchmapenable']."', switchmapdir='".$_POST['switchmapdir']."',".
@@ -167,7 +169,11 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <tr><td class="tdt"><?php te("LDAP Server");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='ldap_server' value="<?php echo $settings['ldap_server']?>"> e.g.: ldap.mydomain.com</td></tr>
     <tr><td class="tdt"><?php te("LDAP DN");?>:</td> 
-        <td><input  class='input2 ' size=20 type=text name='ldap_dn' value="<?php echo $settings['ldap_dn']?>"> e.g.: ou=People,dc=mydomain,dc=com</td></tr>
+        <td><input  class='input2 ' size=20 type=text name='ldap_dn' value="<?php echo $settings['ldap_dn']?>"> For user authentication.e.g.: ou=People,dc=mydomain,dc=com</td></tr>
+    <tr><td class="tdt"><?php te("LDAP Search for users");?>:</td> 
+        <td><input  class='input2 ' size=20 type=text name='ldap_getusers' value="<?php echo $settings['ldap_getusers']?>"> e.g.: ou=People,dc=mydomain,dc=com</td></tr>
+    <tr><td class="tdt"><?php te("LDAP User filter");?>:</td> 
+        <td><input  class='input2 ' size=20 type=text name='ldap_getusers_filter' value="<?php echo $settings['ldap_getusers_filter']?>"> e.g.: (&amp; (uid=*) (IsActive=TRUE))</td></tr>
 
 
 <tr>

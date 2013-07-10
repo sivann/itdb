@@ -77,7 +77,7 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 <div style='width:100%;'> <!-- import1 -->
 
 <?php if ($nextstep==0) { ?>
-<h1>***Experimental*** import </h1>
+<h1>Experimental import </h1>
 <h2>BACKUP your ITDB FIRST!</h2>
 <table>
 <form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>
@@ -91,10 +91,17 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 </form>
 <p>
 Expected format is CSV file with the following fields:<br>
+<big>
+<p>
     <?
-    foreach ($fno2name as $name)
-        echo "$name,\n";
+    $sep="";
+    foreach ($fno2name as $name) {
+        echo $sep.ucfirst($name);
+        $sep=",";
+    }
     ?>
+    </big>
+    </p>
 <br>
 <?php }?>
 

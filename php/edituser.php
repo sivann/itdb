@@ -68,13 +68,17 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the user
     }
     //else if ($_POST['id']==1 && $_POST['username']!="admin") { echo "<b>Cannot change admin username</b>"; }
     else {
-      $sql="UPDATE users set ".
-	" username='".$_POST['username']."', ".
-	" userdesc='".$_POST['userdesc']."', ".
-	" pass='".$_POST['pass']."', ".
-	" usertype='".$_POST['usertype']."' ".
-	" WHERE id=$id";
-      db_exec($dbh,$sql);
+        if ($username='admin' && $usertype) {
+            echo "<h2>".t("user admin has always full access")."</h2><br>";
+            $usertype=0;
+        }
+          $sql="UPDATE users set ".
+        " username='".$_POST['username']."', ".
+        " userdesc='".$_POST['userdesc']."', ".
+        " pass='".$_POST['pass']."', ".
+        " usertype='".$usertype."' ".
+        " WHERE id=$id";
+          db_exec($dbh,$sql);
     }
   }
 }//save pressed

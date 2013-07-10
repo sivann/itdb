@@ -571,10 +571,9 @@ function getlocidsbynames ($locname,$areaname) {
 function getuserbyname ($name) {
   global $dbh;
 
-
 	$name=trim(strtolower($name));
-	$sql="SELECT * from users where lower(username) = '$name' ";
-	$sth=db_execute($dbh,$sql);
+	$sql="SELECT * from users where lower(username) = :name ";
+	$sth=db_execute2($dbh,$sql,array('name'=>$name));
 	$r=$sth->fetchAll(PDO::FETCH_ASSOC);
 	$sth->closeCursor();
 

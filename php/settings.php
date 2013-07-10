@@ -164,7 +164,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
         <option value=0><?=t('No')?></option>
         <option <?=$s1?> value=1><?=t('Yes')?></option>
         </select>
-        (for authentication only)</td></tr>
+        (for authentication only, except user admin which is local)</td></tr>
 
     <tr><td class="tdt"><?php te("LDAP Server");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='ldap_server' value="<?php echo $settings['ldap_server']?>"> e.g.: ldap.mydomain.com</td></tr>

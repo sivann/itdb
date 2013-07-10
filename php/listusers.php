@@ -44,6 +44,7 @@ $sth=db_execute($dbh,$sql);
 <?php 
 $usertype[0]=t("Full Access");
 $usertype[1]=t("Read Only");
+$usertype[2]=t("copied from LDAP (read only)");
 
 $i=0;
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {

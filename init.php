@@ -194,7 +194,7 @@ if (!$demomode ) {
        $username=$_POST['authusername'];
        $password=$_POST['authpassword'];
 
-        if ($settings['useldap']) {
+        if ($settings['useldap'] && $username != 'admin') {
             $r=connect_to_ldap_server($settings['ldap_server'],$username,$password,$settings['ldap_dn']);
             echo "HERE. r=".var_dump($r)."\n";
             if ($r == false) {
@@ -203,6 +203,12 @@ if (!$demomode ) {
             }
             else {
                  $rnd=mt_rand(); //create a random
+                 $u=getuserbyname($username);
+                 if ($u==-1) { //user not found, it's an LDAP user, add him
+                     db_execute2($dbh,
+                         "INSERT into users (username,cookie1,usertype) values (:username,:cookie1,:usertype)",
+                         array('username'=>$username,'cookie1'=>$rnd,'usertype'=>2));
+                 }
                  db_exec($dbh,"UPDATE users set cookie1='$rnd' where username='$username'",1,1);
                  setcookie("itdbcookie1",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
                  setcookie("itdbuser",$username, time()+3600*24*60,$wscriptdir); //username
@@ -210,7 +216,8 @@ if (!$demomode ) {
                  $authmsg="User Authenticated";
             }
         }
-        else { //local users
+
+        if (!$authstatus) { //try local users
            $sth=db_execute($dbh,"SELECT * from users where username='$username' limit 1",1);
            $userdata=$sth->fetchAll(PDO::FETCH_ASSOC);
            $nr=count($userdata);

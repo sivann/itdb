@@ -24,8 +24,8 @@ cd /tmp
 
 echo ""
 echo "Remember to:"
-echo "-change version to index.php"
-echo "-change dbversion to index.php"
+echo "-change version in index.php"
+echo "-change dbversion in index.php"
 echo "-apply dbupdates to pure.db"
 echo ""
 

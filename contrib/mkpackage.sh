@@ -7,7 +7,7 @@ echo "updating version on database to $version"
 echo "update settings set version='$version';"|sqlite3 ../data/itdb.db 
 echo "update settings set version='$version';"|sqlite3 ../data/pure.db 
 
-echo "Copying"
+echo "Copying to /tmp"
 rm -fr /tmp/itdb
 cp -a ../../itdb /tmp
 cd /tmp #just to be sure we are not someplace dangerous

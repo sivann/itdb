@@ -8,6 +8,12 @@ All your files reside inside the itdb/data/ directory. Both the database and the
 uploaded files. 
 
 
+*** *** *** ***
+*** *** *** ***
+*** You cannot automatically upgrade the database from github releases. Only from released numbered versions. ***
+*** *** *** ***
+*** *** *** ***
+
 
 INSTRUCTIONS to upgrade version 1.6 to 1.7
 -------------------------------------------------------------------------------

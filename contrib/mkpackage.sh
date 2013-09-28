@@ -19,6 +19,9 @@ rm -f data/files/*
 rm -fr .git/
 rm -f images/eoa*
 rm data/itdb.db
+chown www-data.www-data data/
+chown www-data.www-data data/pure.db
+chown www-data.www-data data/files
 
 cd /tmp
 
@@ -30,4 +33,4 @@ echo "-apply dbupdates to pure.db"
 echo ""
 
 echo "it is ready for tarring in /tmp/itdb. Do a:"
-echo "tar zcvf itdb-${version}.tar.gz itdb/ "
+echo "tar zcf itdb-${version}.tar.gz itdb/ "

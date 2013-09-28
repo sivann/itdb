@@ -6,6 +6,18 @@ LEGEND:
 I:improvement 
 B:bugfix
 
+1.8 -> 1.9  28/09/2013
+-------------------------------------------------------------------------------------------------------
+B:list items without status
+B:import csv: lots of bug fixes, better file import functionality
+E:check for translations/ directory permissions
+E:better error reporting in translations
+E:experimental ldap authentication:LDAP users are now copied to local users on login
+E:chineese translation
+
+
+
+
 1.7 -> 1.8  18/11/2012
 -------------------------------------------------------------------------------------------------------
 added current depreciation value calculation queries

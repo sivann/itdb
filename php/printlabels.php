@@ -1,7 +1,6 @@
 <?php
 
-if (isset($_POST['action']) && $_POST['action']=="savepreset") {
-  include("../init.php");
+if (isset($_POST['labelaction']) && $_POST['labelaction']=="savepreset") {
   if (!strlen($_POST['name'])) {
     echo "<b><big>Not saved: specity preset name!</big></b>";
   }
@@ -12,9 +11,9 @@ if (isset($_POST['action']) && $_POST['action']=="savepreset") {
     if (!isset($wantheaderimage)) $wantheaderimage=0;
 
     foreach($_POST as $k => $v) { 
-      ${$k} = $v; 
-      if (strstr($k,"want") && $v=="on")  //checkboxes are "on" when checked, we want "1"
-	$$k=1;
+		${$k} = $v; 
+		if (strstr($k,"want") && $v=="on")  //checkboxes are "on" when checked, we want "1"
+		$$k=1;
     }
 
     $sql="INSERT INTO labelpapers ".
@@ -26,9 +25,6 @@ if (isset($_POST['action']) && $_POST['action']=="savepreset") {
     " '$headertext', '$image', '$imagewidth', '$imageheight', '$papersize' )";
     $sth=db_execute($dbh,$sql);
   }
-  echo "<html><body><script>document.location='$wscriptdir/?action=printlabels'</script>\n";
-  echo "<a href='$wscriptdir/?action=printlabels'>Go here</a>\n</body></html>"; 
-  exit;
 }
 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
@@ -116,7 +112,7 @@ $(document).ready(function() {
 
     $('#savepreset').click(function(e) {
       $("#selitemsfrm").attr("action", "?action=printlabels");
-      $("#frmaction").val("savepreset");
+      $("#frmlabelaction").val("savepreset");
       $('#selitemsfrm').submit();
     });
 
@@ -271,7 +267,7 @@ else
 
 
       <br><input class='prepbtn' id='getitemspdf' type=submit value='Make Item Labels'>
-      <input type='hidden' name='action' id='frmaction' value='<?php echo $_POST['action']?>'>
+      <input type='hidden' name='labelaction' id='frmlabelaction' value=''>
       <br>
       <ol style='text-align:left'>
       <li><?php te("Select items from the list above");?></li>

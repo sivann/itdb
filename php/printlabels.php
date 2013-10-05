@@ -1,8 +1,8 @@
 <?php
 
-if (isset($_POST['savepreset'])) {
+if (isset($_POST['action']) && $_POST['action']=="savepreset") {
   include("../init.php");
-  if (!strlen($name)) {
+  if (!strlen($_POST['name'])) {
     echo "<b><big>Not saved: specity preset name!</big></b>";
   }
   else {
@@ -115,7 +115,8 @@ $(document).ready(function() {
 
 
     $('#savepreset').click(function(e) {
-      $("#selitemsfrm").attr("action", "php/printlabels.php");
+      $("#selitemsfrm").attr("action", "?action=printlabels");
+      $("#frmaction").val("savepreset");
       $('#selitemsfrm').submit();
     });
 
@@ -270,7 +271,7 @@ else
 
 
       <br><input class='prepbtn' id='getitemspdf' type=submit value='Make Item Labels'>
-      <input type='hidden' name='action' value='<?php echo $_POST['action']?>'>
+      <input type='hidden' name='action' id='frmaction' value='<?php echo $_POST['action']?>'>
       <br>
       <ol style='text-align:left'>
       <li><?php te("Select items from the list above");?></li>

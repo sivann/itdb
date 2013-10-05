@@ -11,6 +11,7 @@ $scriptdir=dirname( __FILE__ );
 date_default_timezone_set("GMT");
 $servername=$_SERVER['SERVER_NAME'];
 $scriptname=$_SERVER['SCRIPT_NAME'];
+$serverport=$_SERVER['SERVER_PORT'];
 
 error_reporting (E_ALL ^ E_NOTICE); 
 
@@ -42,8 +43,8 @@ if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == "on"))
 else
   $prot="http";
 
-$fscriptname="$prot://$servername$scriptname";
-$fuploaddirwww="$prot://$servername".dirname($scriptname)."/$uploaddirwww";
+$fscriptname="$prot://$servername:$serverport$scriptname";
+$fuploaddirwww="$prot://$servername:$serverport".dirname($scriptname)."/$uploaddirwww";
 
 // find out our username
 $procusername="";

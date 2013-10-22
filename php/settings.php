@@ -74,31 +74,31 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <tr><td class="tdt"><?php te("Currency")?></td><td>
 
     <select  name='currency'>
-      <?php if ($settings['currency']=="&amp;euro;") $s="SELECTED"; else $s="" ?>
+      <?php if ($settings['currency']=="&euro;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Euro' value='<?php echo htmlentities("&euro;");?>'>&euro;</option>
 
       <?php if ($settings['currency']=="$") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Dollar' value='<?php echo htmlentities("$");?>'>$</option>
 
-      <?php if ($settings['currency']=="&amp;pound;") $s="SELECTED"; else $s="" ?>
+      <?php if ($settings['currency']=="&pound;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Pound' value='<?php echo htmlentities("&pound;");?>'>&pound;</option>
 
-      <?php if ($settings['currency']=="&amp;yen;") $s="SELECTED"; else $s="" ?>
+      <?php if ($settings['currency']=="&yen;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Yen' value='<?php echo htmlentities("&yen;");?>'>&yen;</option>
 
-      <?php if ($settings['currency']=="&amp;#8361;") $s="SELECTED"; else $s="" ?>
+      <?php if ($settings['currency']=="&#8361;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Won' value='<?php echo htmlentities("&#8361;");?>'>&#8361;</option>
 
-      <?php if ($settings['currency']=="&amp;#8360;") $s="SELECTED"; else $s="" ?>
+      <?php if ($settings['currency']=="&#8360;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Rupee' value='<?php echo htmlentities("&#8360;");?>'>&#8360;</option>
 
-      <?php if ($settings['currency']=="&amp;#8377;") $s="SELECTED"; else $s="" ?>
+      <?php if ($settings['currency']=="&#8377;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Indian Rupee' value='<?php echo htmlentities("&#8377;");?>'>&#8377;</option>
 
-      <?php if ($settings['currency']=="&amp;#20803;") $s="SELECTED"; else $s="" ?>
+      <?php if ($settings['currency']=="&#20803;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Yuan' value='<?php echo htmlentities("&#20803;");?>'>&#20803;</option>
 
-      <?php if ($settings['currency']=="&amp;#65020;") $s="SELECTED"; else $s="" ?>
+      <?php if ($settings['currency']=="&#65020;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Rial' value='<?php echo htmlentities("&#65020;");?>'>&#65020;</option>
     </select></td></tr>
     <tr><td class="tdt"><?php te("Interface Language")?></td><td>

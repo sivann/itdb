@@ -6,8 +6,12 @@ LEGEND:
 I:improvement 
 B:bugfix
 
-1.9 -> 1.10  22/10/2013
+1.10 -> 1.11  22/10/2013
+-------------------------------------------------------------------------------------------------------
+B: buggy db version in released sample DB.
 
+1.9 -> 1.10  22/10/2013
+-------------------------------------------------------------------------------------------------------
 B:printlabel/saving presets fixes
 B:php shorttag prevented ITDB on running on some apache installations
 B:fixed settings not updating

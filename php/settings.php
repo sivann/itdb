@@ -105,7 +105,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <select  name='lang'>
       <?php if ($settings['lang']=="en") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> value='en'>en</option>
-      <?
+      <?php
       $tfiles=scandir("translations/");
       foreach ($tfiles as $f) {
 		  $f=strtolower($f);

@@ -93,7 +93,7 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 Expected format is CSV file with the following fields:<br>
 <big>
 <p>
-    <?
+    <?php
     $sep="";
     foreach ($fno2name as $name) {
         echo $sep.ucfirst($name);
@@ -115,7 +115,7 @@ Expected format is CSV file with the following fields:<br>
 	<table class='brdr sortable'>
 	<thead>
     <tr>
-    <?
+    <?php
     foreach ($fno2name as $name)
         echo "<th>$name</th>\n";
     ?>
@@ -123,7 +123,7 @@ Expected format is CSV file with the following fields:<br>
 	</thead>
 	<tbody>
 
-	<?
+	<?php
 	foreach ($imlines as $line_num => $line) {
 		if ($line_num==0 && $_POST['skip1st']) 
 			continue;
@@ -255,7 +255,7 @@ Expected format is CSV file with the following fields:<br>
 		</form>
 	</div>
 
-<?
+<?php
 }
 
 if ($nextstep==2) {

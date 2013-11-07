@@ -100,6 +100,10 @@ echo "\n<h1>".t("Settings")."</h1>\n";
 
       <?php if ($settings['currency']=="&#65020;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Rial' value='<?php echo htmlentities("&#65020;");?>'>&#65020;</option>
+
+      <?php if ($settings['currency']=="Ft") $s="SELECTED"; else $s="" ?>
+      <option <?php echo $s?> title='Forint' value='<?php echo htmlentities("&#65020;");?>'>Ft</option>
+
     </select></td></tr>
     <tr><td class="tdt"><?php te("Interface Language")?></td><td>
     <select  name='lang'>

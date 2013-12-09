@@ -165,8 +165,8 @@ echo "\n<h1>".t("Settings")."</h1>\n";
         if ($settings['useldap']==1) $s1='SELECTED';
         else $s1='';
         ?>
-        <option value=0><?=t('No')?></option>
-        <option <?=$s1?> value=1><?=t('Yes')?></option>
+        <option value=0><?php t('No')?></option>
+        <option <?php echo $s1?> value=1><?php t('Yes')?></option>
         </select>
         (for authentication only, except user admin which is local)</td></tr>
 

@@ -80,14 +80,14 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 <h1>Experimental import </h1>
 <h2>BACKUP your ITDB FIRST!</h2>
 <table>
-<form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>
+<form method=post name='importfrm' action='<?php echo $scriptname?>?action=<?php echo $action?>' enctype='multipart/form-data'>
 <tr>
 <tr><td>File:</td><td> <input name="file" id="file" size="25" type="file"></td></tr>
 <tr><td>Delimeter:</td><td> <input size=1 type=text name='delim' value=';' maxlength=1></td></tr>
 <tr><td>Skip 1st row:</td><td><select name=skip1st><option value=1>Yes</option><option value=0>No</option></select></td></tr>
 <tr><td colspan=2><input type=submit value='Upload file and inspect fields'></td></tr>
 <input type=hidden name='nextstep' value='1'>
-<input type=hidden name='imfn' value='<?=$imfn?>'>
+<input type=hidden name='imfn' value='<?php echo $imfn?>'>
 </form>
 <p>
 Expected format is CSV file with the following fields:<br>
@@ -240,16 +240,16 @@ Expected format is CSV file with the following fields:<br>
 
 	<div style='clear:both;text-align:center:width:100%; '>
 		<?php if ($nextstep!=0) { ?>
-		<form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>
+		<form method=post name='importfrm' action='<?php $scriptname?>?action=<?php echo $action?>' enctype='multipart/form-data'>
 		<input type=hidden name='nextstep' value='2'>
 		<td colspan=2><input type=submit value='Import' ></td></tr>
-		<input type=hidden name='delim' value='<?=$_POST['delim']?>'>
-		<input type=hidden name='imfn' value='<?=$imfn?>'>
-		<input type=hidden name='skip1st' value='<?=$_POST['skip1st']?>'>
+		<input type=hidden name='delim' value='<?php echo $_POST['delim']?>'>
+		<input type=hidden name='imfn' value='<?php echo $imfn?>'>
+		<input type=hidden name='skip1st' value='<?php echo $_POST['skip1st']?>'>
 		</form>
 		<?php } ?>
 
-		<form method=post name='importfrm' action='<?=$scriptname?>?action=<?=$action?>' enctype='multipart/form-data'>
+		<form method=post name='importfrm' action='<?php echo $scriptname?>?action=<?php echo $action?>' enctype='multipart/form-data'>
 		<input type=hidden name='nextstep' value='0'>
 		<td colspan=2><input type=submit value='Back' ></td></tr>
 		</form>

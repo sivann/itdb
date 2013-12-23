@@ -1088,8 +1088,8 @@ div#labelcontainer {
   width:430px;
 }
 
-.propstable input {
-min-width:50px;
+.propstable input:not([type=checkbox]) {
+	min-width:50px;
 }
 
 select {
@@ -1137,9 +1137,6 @@ table.propstable td {
   padding:0px 5px 0px 5px;
 }
 
-.propstable input {
-  min-width:50px;
-}
 
 table.propstable caption {
   text-align:left;

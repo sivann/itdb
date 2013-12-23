@@ -99,11 +99,12 @@ for ($row=1;$row<=$rows;$row++) {
       $image="";
 
     if ($wantbarcode) {
-      $barcode=$id;
-      $barcode = mb_strtoupper($barcode, 'UTF-8');
+      $barcode=$qrtext.$id;
+      //$barcode = mb_strtoupper($barcode, 'UTF-8');
     }
-    else 
+    else {
       $barcode="";
+	}
 
     $headertext=str_replace('_NL_',"\n",$headertext);
 

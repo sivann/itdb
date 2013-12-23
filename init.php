@@ -83,12 +83,14 @@ if (!$demomode) {
     exit;
   }
 
+  /*
   if (!is_writable("$scriptdir/tcpdf/cache")) {
     echo "$scriptdir is not writeable by apache<br>";
     echo "<b><big>make $scriptdir/tcpdf/cache writeable by the user running the web server</big></b><br>";
     echo "in unix:<br><pre> chown -R $procusername $scriptdir/tcpdf/cache; chmod u+w $scriptdir/tcpdf/cache/</pre>";
     exit;
   }
+  */
 
 
   if (!is_writable($uploaddir)) {

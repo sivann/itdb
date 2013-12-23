@@ -19,10 +19,10 @@ if (isset($_POST['labelaction']) && $_POST['labelaction']=="savepreset") {
     $sql="INSERT INTO labelpapers ".
     " (rows,cols,lwidth,lheight, vpitch, hpitch, tmargin, bmargin, lmargin, rmargin, name,  ".
     " border, padding, fontsize, headerfontsize, barcodesize, idfontsize, wantbarcode, wantheadertext, wantheaderimage,  ".
-    " headertext,image,imagewidth,imageheight,papersize) ".
+    " headertext,image,imagewidth,imageheight,papersize,qrtext) ".
     " values ($rows,$cols,$lwidth,$lheight, $vpitch, $hpitch, $tmargin, $bmargin, $lmargin, $rmargin, '$name', ".
     " $border, $padding, $fontsize, $headerfontsize,$barcodesize, $idfontsize, $wantbarcode, $wantheadertext, $wantheaderimage, ".
-    " '$headertext', '$image', '$imagewidth', '$imageheight', '$papersize' )";
+    " '$headertext', '$image', '$imagewidth', '$imageheight', '$papersize','".htmlentities($qrtext, ENT_QUOTES)."' )";
     $sth=db_execute($dbh,$sql);
   }
 }
@@ -33,7 +33,7 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 <script>
 function ldata(rows,cols,lwidth,lheight, vpitch, hpitch, tmargin, bmargin, lmargin, rmargin,name, 
                border,padding,fontsize, headerfontsize,barcodesize, idfontsize,wantbarcode,wantheadertext,wantheaderimage,
-               headertext,image,imageheight,imagewidth,papersize)
+               headertext,image,imageheight,imagewidth,papersize,qrtext)
 {
   document.selitemsfrm.lwidth.value=lwidth;
   document.selitemsfrm.lheight.value=lheight;
@@ -54,6 +54,7 @@ function ldata(rows,cols,lwidth,lheight, vpitch, hpitch, tmargin, bmargin, lmarg
   document.selitemsfrm.image.value=image;
   document.selitemsfrm.imagewidth.value=imagewidth;
   document.selitemsfrm.imageheight.value=imageheight;
+  document.selitemsfrm.qrtext.value=qrtext;
 
   $("#wantbarcode").prop("checked", wantbarcode);
   $("#wantheadertext").prop("checked", wantheadertext);
@@ -321,7 +322,8 @@ foreach ($labelpapers as $lp) {
        "\"{$lp['image']}\",".
        "\"{$lp['imageheight']}\",".
        "\"{$lp['imagewidth']}\",".
-       "\"{$lp['papersize']}\"".
+       "\"{$lp['papersize']}\",".
+       "\"{$lp['qrtext']}\"".
        ")'>{$lp['name']}</a>"; 
 
   echo " <a href='javascript:delconfirm(\"{$lp['id']}\",".
@@ -399,7 +401,10 @@ echo "</select>\n</td></tr>\n";
 <tr><td class='tdt'><label for=headertext><?php te("Header");?><br><small>_NL_ = newline</small>:</label></td><td><textarea wrap=soft rows=2 name='headertext' cols=20><?php echo $headertext?></textarea></td></tr>
 
 
-<tr><td class='tdt'><label for=wantbarcode><?php te("QR Barcode");?>:</label></td><td><input id='wantbarcode' type=checkbox <?php if($wantbarcode) echo "CHECKED"; ?> name=wantbarcode></td></tr>
+<tr><td class='tdt'><label for=wantbarcode><?php te("QR Barcode");?>:</label></td>
+     <td><input id='wantbarcode' type=checkbox <?php if($wantbarcode) echo "CHECKED"; ?> name=wantbarcode>
+	 <input title='<?php te("Text to prepend in QR barcode ID. <br>e.g. http://www.example.com/itdb/ ?action=edititem&id=")?>' size=8 style='width:140px' value='<?php echo $qrtext?>' name=qrtext></td>
+	</td></tr>
 <tr><td class='tdt'><label for=wantheadertext><?php te("Header Text");?>:</label></td><td><input id='wantheadertext' type=checkbox <?php if($wantheadertext) echo "CHECKED"; ?> name=wantheadertext></td></tr>
 <tr><td class='tdt'><label for=wantheaderimage><?php te("Header Image");?>:</label></td><td><input id='wantheaderimage' type=checkbox <?php if($wantheaderimage) echo "CHECKED"; ?> name=wantheaderimage></td></tr>
 

@@ -93,7 +93,7 @@ class PDF_Label extends TCPDF{
 		//$this->AddFont('dejavusans','','tahoma.php');
 		//$this->AddFont('dejavusans','B','tahomabd.php');
 
-		$this->SetFont('dejavusans');
+		$this->SetFont('freesans');
 		//$this->SetFont('dejavusans','B');
 
 		$this->SetMargins(0,0); 
@@ -188,7 +188,7 @@ class PDF_Label extends TCPDF{
 		  $t=str_replace("\n","",$t);
 		  $t=preg_replace('/.*ID:([0-9]+).*/','ID:\1 ',$t);
 		  $text=preg_replace('/ID:[0-9]+\n/','',$text);
-		  $this->SetFont('dejavusans','B');
+		  $this->SetFont('freesans','B');
 		  $this->SetTextColor(0,0,0); 
 		  $this->Set_Font_Size($idfontsize);
 		  if (($this->y - $_PosY)>=$imheight) { //if header text had more height than the image
@@ -225,13 +225,16 @@ class PDF_Label extends TCPDF{
 		  //code,type,x,y, width,height, xres, style, align
 		  //$this->write1DBarcode($barcode, 'C39E+', $X, $Y, $this->_Width, $bar_h, $bar_w, $bstyle, 'N');
 		  //$this->write1DBarcode($barcode, 'C128', $X, $Y, $this->_Width, $bar_h, $bar_w, $bstyle, 'N');
+
+		  // QRCODE,M : QR-CODE Medium error correction
 		  $this->write2DBarcode($barcode, 'QRCODE,M', $X, $Y, $barcodesize,$barcodesize, $bstyle, 'N');
+//		  $this->write2DBarcode('www.lala.org', 'QRCODE,M', $X, $Y, $barcodesize,$barcodesize, $bstyle, 'N');
 
 		}
 
 
 		//rest of the text
-		$this->SetFont('dejavusans');
+		$this->SetFont('freesans');
 		$this->SetTextColor(0,0,0); 
 		$this->Set_Font_Size($fontsize);
 		$this->SetX($_PosX); //position to the left border, we are now under the logo image hopefully

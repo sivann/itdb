@@ -19,8 +19,10 @@ for ($i=0;$i<count($selitems);$i++)  {
 
 
 
+//$sql="SELECT items.id,model,sn,sn3,itemtypeid,dnsname,ipv4,ipv6,label, agents.title as agtitle FROM items,agents ".
+//     " WHERE agents.id=items.manufacturerid AND items.id in ($ids) order by itemtypeid, agtitle, model,sn,sn2,sn3";
 $sql="SELECT items.id,model,sn,sn3,itemtypeid,dnsname,ipv4,ipv6,label, agents.title as agtitle FROM items,agents ".
-     " WHERE agents.id=items.manufacturerid AND items.id in ($ids) order by itemtypeid, agtitle, model,sn,sn2,sn3";
+     " WHERE agents.id=items.manufacturerid AND items.id in ($ids) order by items.id";
 $sth=db_execute($dbh,$sql);
 $idx=0;
 

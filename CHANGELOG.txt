@@ -6,6 +6,15 @@ LEGEND:
 I:improvement 
 B:bugfix
 
+1.11 -> 1.12  23/12/2013
+-------------------------------------------------------------------------------------------------------
+B:php shorttag prevented ITDB on running on some apache installations in import and settings
+I:trim more input fields while importing
+I:new tcpdf library, removed redundant fonts
++:QR codes can now have text prefixes, so as to point to URLs
++:added forint (Ft) in currency
+I:labels are now sorted by id on paper
+
 1.10 -> 1.11  22/10/2013
 -------------------------------------------------------------------------------------------------------
 B: buggy db version in released sample DB.

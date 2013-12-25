@@ -103,7 +103,7 @@ if (!$demomode) {
   if (!is_writable("$scriptdir/translations")) {
     echo "$scriptdir/translations is not writeable by apache<br>";
     echo "<b><big>make $uploaddir writeable by the user running the web server</big></b><br>";
-    echo "in unix: <br><pre>chown $procusername $scriptdir/translations; chmod u+w $scriptdir/translations</pre>";
+    echo "in unix: <br><pre>chown -R $procusername $scriptdir/translations; chmod u+w $scriptdir/translations</pre>";
     exit;
   }
 

@@ -1,0 +1,423 @@
+[id desc]#[編號降序]
+[id]#[編號]
+[model]#[型號]
+[type]#[類型]
+<b>location</b> of this item  different from location of associated item#<b>地點</b>與相關硬體的地點不同
+<b>status</b> of this item  different from status of associated item#<b>狀態</b>與相關硬體的狀態不同
+<b>uncheck</b> 'auto-rotate & center'</b>#<b>不選</b> 'auto-rotate & center'</b>
+<b>uncheck</b> 'auto-rotate & center'</b>#<b>不選</b> 'auto-rotate & center'</b>
+<b>user</b> of this item  different from user of associated item#<b>用戶</b>與相關硬體的地點不同
+<br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate & center'</b>#<br><br>在PDF列印對話框，<br> 設定 <b>'頁面縮放比例'</b> 為 <b>'None'</b>, <br>並且 <b>不選</b> 'auto-rotate & center'</b>
+<br>In the PDF printing dialog,#<br>在列印PDF對話框,
+0:black, 255:white#0:黑色, 255:白色
+About#關於
+Accounting#帳目
+Add Agent#增加代理
+Add Contract#增加協議
+Add File#增加文件
+Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#增加層級或平均關係到：部件，板卡，顯示器等。
+Add Invoice#增加單據
+Add new Agent#增加新代理
+Add new Contract#增加新協議
+Add new File#增加新文件
+Add new Invoice#增加新單據
+Add new item#增加新硬體
+Add new Item#增加新硬體
+Add New Item#增加新硬體
+Add new Location#增加新地點
+Add new software#增加新軟體
+Add new Software#增加新軟體
+Add Row#增加行
+Add Software#增加軟體
+Add#增加
+Add/View#增加/查看
+Address, Phone number, other info, etc#地址，電話號碼，其餘訊息
+Agent Properties#代理屬性
+Agents#代理
+Are you sure you want to delete this row ?#是否確定刪除該行
+Area Names/Offices#區域/辦公室
+Area#區域
+Area/Room#區域/房間
+Areas: rooms, offices#區域：房間，辦公室
+Associate file with the following contracts#關聯文件到以下合約
+Associate file with the following items#關聯文件到以下硬體
+Associate#關聯
+Associated Files #管理文件 
+Associated Files#關聯文件
+Associated Items#關聯硬體
+Associated Software#關聯軟體
+Associated#關聯於
+Associations (items/racks)#關聯（硬體/機架）
+Associations Overview#關聯概覽
+Associations#關聯
+Barcode Size#硬體大小
+Blank passwords prohibit login#禁止空密碼登錄
+Border Color (0-255)#邊框顏色（0-255）
+Bottom Margin#邊框邊距
+Browse Data#瀏覽資料
+Browse#瀏覽
+Building Name#建築名稱
+Buyer#採購者
+Buyers#採購者
+Cannot add log entries to unsaved items.#不能為未保存的硬體增加日誌記錄。
+Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the Tags menu for that.#更改將立即保存。<br>可以使用標記菜單刪除未關聯的標記。
+Click 'Make Item Labels'#點選'Make Item Labels'
+Click on Item count column on the left to display associated items#點選左側的硬體數量列來顯示關聯的硬體
+Click on Software count column on the left to display associated software#點選左側的軟體數量列來顯示關聯的軟體
+Click 'Show Labels'#點選'顯示標籤'
+Clone#複製
+Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor & Buyer</u>: will be listed in invoices & Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Cntrl+Click 為代理選取多個角色 <br><br><u>供應商 & 採購者</u>: 將顯示在 單據 & 合約 <br><br><u>硬體廠商.</u>: 將在編輯硬體時顯示 <br><br><u>軟體廠商.</u>: 將在編輯軟體時顯示 <br><br><u>承辦人</u>: 將在合約中顯示
+Cntrl+Click to select multiple roles for an agent#Cntrl+Click 為代理選取多個角色
+Columns#列
+Comments#註釋
+Company Title#公司名稱
+Configure contract types# 設定合約類型
+Configure Item Types# 設定硬體類型
+Configure Status Types# 設定狀態類型
+Contact Info#合約訊息
+Contact#合約
+Contacts#合約
+Contr. Types#合約類型
+Contract Associations#關聯合約
+Contract Data#合約資料
+Contract Description#合約描述
+Contract number is missing#缺少合約編號
+Contract Properties#合約屬性
+Contract Title is missing#缺少合約名稱
+Contract Type is missing#缺少合約類型
+Contract Types#合約類型
+Contractor is missing#缺少承辦人
+Contractor#承辦人
+Contracts#合約
+CONTRACTS#合約
+Cores per CPU (used for licensing)#單顆CPU核數(授權時使用)
+Cores/CPU#核數/顆
+CPU Model#CPU型號
+Currency#貨幣
+Current End Date of contract is missing#缺少合約當前結束日期
+Current EndDate#當前結束日期
+Data Browser#資料瀏覽
+Date Entered#進入日期
+Date Format#日期格式
+Date of Purchase#採購日期
+Date of purhcase is missing#缺少採購日期
+Date#日期
+Delete Event?#刪除事件？
+Delete#刪除
+Depth of rack occupation. (F)ront, (M)iddle, (B)ack#佔用機架深度。 (F)前, (M)中, (B)後
+Depth#深度
+describe the purpose of this item#描述該硬體的用途
+Description#描述
+DNS Name#DNS 名稱
+DNS#DNS
+DnsName#Dns名稱
+Do you really want to remove this row?#您確定要刪除這條記錄嗎？
+Documents, Manuals, Offers, Licenses, ...#文檔, 手冊, 認購書, 授權書, ...
+Download & print the resulting PDF#下載並列印產生的PDF
+Download & print the resulting PDF#下載並列印產生的PDF
+Download a complete installation backup (much larger)#下載完全備份(非常大)
+Download DataBase file. Contains all data except uploaded files/documents#下載資料庫文件。包含除上傳到文件（文檔）外的所有資料
+Download#下載
+e.g. like donator, etc. Vendor info is best to be provided in the related invoice#如捐贈者、供應商之類訊息最好在相關單據中錄入
+Edit Contract Types#修改合約類型
+Edit File Types#修改文件類型
+Edit ID#修改編號
+Edit Item Types#修改硬體類型
+Edit Software#修改軟體
+Edit Status Types#修改狀態類型
+edit tags#編輯標記
+Edit Tags#編輯標記
+Edit#編輯
+Effective date#有效日期
+Email#電子郵件
+End Date#結束日期
+End Date after#截止於該日期後
+End Date before#截止於該日期前
+End#結束
+End Date after#截止於該日期後
+End Date before#截止於該日期前
+enter text to filter listed items#輸入文字來過濾硬體
+Entered By#登記人
+Event End#事件結束
+Event History#事件歷史
+Event Start#事件開始
+File Maintenance#文件維護
+File title is missing#缺少文件名稱
+File Type is missing#缺少文件類型
+File Types#文件類型
+File#文件
+Filename#文件名稱
+Files#文件
+Filter#過濾
+Find#查找
+Floor Plan#建築平面圖
+Floor#樓層
+FontSize#字體大小
+Full Access#完全訪問
+Function#功能
+GO#GO
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#軟硬體廠商，供應商、採購者、承包商
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#軟硬體廠商，供應商、採購者、承包商
+H/W Manufacturer#硬體廠商
+H/W Manufacturers#軟硬體廠商
+Hardware#硬體
+HDs (TB)#HDs (TB)
+Header (from conf.php)#標題 (from conf.php)
+Header FontSize#標題字體大小
+Header Image#頁頭圖片
+Header Text#頁頭文字
+Header#頁頭
+Height (U)#高度 (U)
+Height#高度
+Home#首頁
+Horz. Pitch#水平定位
+How is this item used. e.g.: Video Encoder#這個硬體的用途。例如：視頻編碼器
+how many items are assigned to this rack#多少硬體被分配到這個機架
+ID FontSize#編號字體大小
+ID#編號
+Image Size (WxH)#圖片大小(WxH)
+Import#導入
+Installed Into#安裝到
+Installed on#安裝於
+Installed#安裝
+Integration#集成
+Interface Language#界面語言
+Inter-Item Associations#內部硬體關聯
+Intrinsic Properties#內在特性
+Invoice  Data#單據資料
+Invoice Associations#關聯單據
+Invoice Description / File(s)#單據描述 / 文件
+Invoice Properties#單據屬性
+Invoice#單據
+INVOICES (buyer)#單據 (採購者)
+Invoices (buyers)#單據 (採購方)
+INVOICES (vendor)#單據 (供應商)
+Invoices (vendors)#單據 (供應方)
+Invoices#單據
+INVOICES#單據
+IPv4#IPv4
+IPv6#IPv6
+Is Part#屬於
+Issue Date#簽署日期
+ITDB Settings#ITDB  設定
+Item Associations#硬體關聯
+Item Data#硬體資料
+Item list per location#按地點顯示硬體
+Item Type#硬體類型
+Item Types#硬體類型
+Items with warranty end date close to (before or after) today#今日前後授權過期的硬體
+Items without invoices#無單據的硬體
+Items without location#無地點的硬體
+items#硬體
+Items#硬體
+ITEMS#硬體
+Label properties#標籤屬性
+Label#標籤
+labels#標籤
+Labels#標籤
+Language#語言
+Left Margin#左邊距
+Licencing Info#許可訊息
+License Info#許可訊息
+List Invoices#單據清單
+List items with defined IPv4 numbers#指定了 IPv4 的硬體清單
+List Items#硬體清單
+List Software#軟體清單
+Loading data from server#正在從服務器加載資料
+Location Name/Building Name#地點名稱/建築名稱
+Location of items in this rack was updated to match rack location#機架內的硬體的位置被更新為機架的位置
+Location Properties#地點屬性
+Location#地點
+Locations#地點
+Log/Journal#日誌
+Logout#登出
+MACs#MACs
+Maint. End#維護結束
+maintenance end date#維護截至日期
+Maintenance Instructions#維護說明
+Manage Agents#管理代理
+Manage item locations#管理硬體地點
+Manage various parameters#管理各種參數
+Manage your contracts <br> Support, Licenses, Leases, etc#管理您的合約 <br> 維護保固, 許可, 租賃, 等等
+Manage your H/W items <br> PCs, Switches, Phones, etc#管理您的硬體硬體 <br> PC主機, 交換機, 電話, 等等
+Manage your Invoices#管理您的單據
+Manage your software#管理您的軟體
+Manufact.#廠商
+Manufacturer is missing#缺少廠商
+Manufacturer#廠商
+Model#型號
+Name#名稱
+Network Ports#網絡端口
+Network#網絡
+New#新建
+No areas defined#未定義區域
+No racks in location#在該地點無機架
+No#否
+Notes#說明
+Number of cores per CPU (used for licensing)#單顆CPU核數(授權時使用)
+Number of installed Software per Manufacturer (Agent)#每個廠商已安裝的軟體數量(代理)
+Number of invoices per Vendor (Agent)#每個供應商的單據數量(代理)
+Number of items per Location#每個地點的硬體數量
+Number of items per Manufacturer (Agent)#每個廠商的硬體數量(代理)
+Number of Items under support#在保的硬體數量
+Number#數量
+Numbering#編號
+Occupation#在用
+Order By#訂購人
+Order No#訂單編號
+Order Num#訂單量
+order: status, id descending, item type, manufacturer#訂單: 狀態, 編號（逆序）, 硬體類型, 廠商
+order: status, id, item type, manufacturer#訂單: 狀態, 編號, 硬體類型, 廠商
+order: status, item type, manufacturer,id#訂單: 狀態, 硬體類型, 廠商, 編號
+order: status, model, item type, manufacturer#訂單: 狀態, 型號, 硬體類型, 廠商
+Other Info#其它訊息
+Paper Size#紙張大小
+Parent ID#上級編號
+Parent#上級
+Password# 密碼
+Patch Panel Port#插線板連接埠
+Path To Switchmap#交換機圖路徑
+Phone numbers#電話號碼
+Please check if this item can be rackmounted#請檢查該硬體是否能夠被放置於機架內
+Please select item type#請選擇硬體類型
+Please specify if this item is a part of another#請指定該硬體是否其它硬體的組成部分
+Populate list from the Item Types menu#根據硬體類型分組
+Populated from H/W Manufacturers defined in agents menu#根據代理菜單中定義的硬體廠商分組
+populated from items of type switch or router#根據交換機或路由器分組
+Preset Name#預置名稱
+Presets#預置
+Print Labels#列印標籤
+Property#屬性
+Ptch.PnlPrt#Ptch.PnlPrt
+Purchace Price (#採購價格(
+Purchase Date#採購日期
+PurchaseDate#採購日期
+PurchPrice#採購價格
+QR Barcode#QR 條碼
+QTY#QTY
+Quantity#數量
+Rack depth is missing#缺少機架深度
+Rack height is missing#缺少機架高度
+Rack label is missing#缺少機架標籤
+Rack location is missing#缺少機架位置
+Rack Pos. (topmost)#機架位置. (從頂部算起)
+Rack#機架
+Rackmountable#機架式
+Racks#機架
+RAM (GB)#內存 (GB)
+Read Only#只讀
+Recent History#最近歷史記錄
+Rel#Rel
+Related#相關於
+RemAdmIP#遠程管理IP
+Remote Administration IP#遠程管理IP
+Renewals#備件
+Reports#報告
+Right Margin#右邊距
+Role#角色
+Rows#行
+S/N 2#庫存編號 2
+S/N#庫存編號
+S/W Manufacturer is missing#缺少軟體廠商
+S/W Manufacturer#軟體廠商
+S/W Manufacturers#軟體廠商
+Save Invoice#保存票據
+Save new location first to define areas onto it#首先保存地點再在其上定義區域
+Save Preset#保存預置
+Save#保存
+Select & Print#保存並列印
+Select & Print#選擇並列印
+select and print labels for your items#保存並列印您的硬體的標籤
+Select Cores/CPU#選擇 核數/CPU
+Select items from the list above#從上面選取硬體
+Select Items#選取硬體
+Select Label properties (manual or preset)#選擇標籤屬性(手冊或預設)
+Select Report#選擇報告
+Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.#選擇這個軟體當前安裝的目的系統。只有類型為「支持軟體」的硬體才可見。
+Select User#選擇用戶
+Select 'YES' if software can be installed <b>on</b> this item.<br> Only items supporting software are listed when <br>performing software - item associations#選擇「是」如果軟體能夠被安裝<b>在</b>這個硬體上。<br>只有支持安裝軟體的硬體才會被列出在<br>進行操作軟體 - 硬體關聯時。
+Select#選擇
+set <b>'Page Scaling'</b> to <b>'None'</b># 設定 <b>'Page Scaling'</b> 為 <b>'None'</b>
+Settings# 設定
+Shop/Origin#商店/自有
+show also this text on printable labels#在可列印表格上也顯示此文本
+Show Labels#顯示標籤
+Sibling#同類
+Size (U)#大小 (U)
+Skip#忽略
+Software Associations#軟體關聯
+Software Data#軟體資料
+Software title is missing#缺少軟體標題
+Software Version is missing#缺少軟體版本
+Software#軟體
+SOFTWARE#軟體
+Special maintenance instructions#特殊維護說明書
+Specify model#指定型號
+Specify user responsible for this item#指定該硬體的負責人
+Start Date of contract is missing#缺少合約開始日期
+Start Date#開始日期
+Start#開始
+Status Types#狀態類型
+Status#狀態
+Subtypes of  type #子類型
+suggested resolution: 1024 pixels for A4 scans#建議分辨率: 1024像素A4幅面
+Support and Maintanance, Leases, ...#維護保固, 租賃, ...
+Supports<br>Software#支持<br>軟體
+Switch Port#交換機端口
+Switch#交換機
+SwitchMap Integration#交換機圖集成
+TAG#標記
+Tags#標記
+taken from related invoice#從相關單據獲取
+Text Padding#文本填充
+There are errors in your form submission, please see below for details#您的送出的表單有錯誤，請查看一下詳細訊息
+Time Format#時間格式
+Timezone (Abbreviation)#時區（縮寫）
+Title#標題
+Title/Ver.#標題/版本.
+Title-Version#標題版本
+Top Margin#上邊距
+Total Cost#總成本
+Translations#翻譯
+Tree Explorer#樹狀瀏覽器
+Type Names#類型名稱
+Type#類型
+Type(s)#類型
+Upload a File#上傳文件
+Upload a Floor Plan#上傳樓層平面圖
+Upload Files#上傳文件
+Uploaded by#上傳人
+Usage#用法
+Use the string 'service'  on the description to display this url on the item edit page#在硬體修改頁面使用描述中的「service」字段顯示此鏈接
+use when the top labels have already been printed#當頂部標籤已經被列印過時使用
+User Description#用戶描述
+User responsible for this item#該硬體的負責人
+User#用戶
+Username is missing#缺少用戶名
+Username#用戶名稱
+Users are used for both web login and as item assignees#能夠網頁登錄、負責硬體的用戶
+Users#用戶
+Users, Tags#用戶, 標記
+Users, Tags, Dates, Currency,...#用戶, 標記, 日期, 貨幣,...
+Value#價格
+Vendor#供應商
+Vendors#供應商
+Vendors/Buyers/ Manufacturers#供應商/採購者/廠商
+Version#版本
+Vert. Pitch#Vert. Pitch
+View items by type, by user, by agent#按類型、用戶、代理查看硬體
+View Reports#查看報告
+View#查看
+View/Edit Subtypes#查看/編輯 子類型
+Warning#Warning
+Warr. Rem. days#維護保固剩餘天數
+Warranty Info#維護保固訊息
+Warranty Months#維護保固月數
+Warranty#維護保固
+Warranty Months#維護保固月數
+Width#寬度
+Yes#是
+Ymd#年月日
+You forgot to select the file?#您忘記選擇文件?
+<br><br>In the PDF printing dialog, <br>set <b>#
+Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor & Buyer</u>: will be listed in invoices & Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#

@@ -221,6 +221,8 @@ if (!$demomode ) {
         }
 
         if (!$authstatus) { //try local users
+		   $username=str_replace(";","",$username);
+		   $username=str_replace("%","",$username);
            $sth=db_execute($dbh,"SELECT * from users where username='$username' limit 1",1);
            $userdata=$sth->fetchAll(PDO::FETCH_ASSOC);
            $nr=count($userdata);

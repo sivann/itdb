@@ -199,7 +199,7 @@ if (!$demomode ) {
 
         if ($settings['useldap'] && $username != 'admin') {
             $r=connect_to_ldap_server($settings['ldap_server'],$username,$password,$settings['ldap_dn']);
-            echo "HERE. r=".var_dump($r)."\n";
+            //echo "HERE. r=".var_dump($r)."\n";
             if ($r == false) {
                 $authstatus=0;
                 $authmsg="Wrong Password";

@@ -4,8 +4,8 @@
 [type]#[类型]
 <b>location</b> of this item  different from location of associated item#<b>地点</b>与相关硬件的地点不同
 <b>status</b> of this item  different from status of associated item#<b>状态</b>与相关硬件的状态不同
-<b>uncheck</b> 'auto-rotate & center'</b>#<b>不选</b> 'auto-rotate & center'</b>
-<b>uncheck</b> 'auto-rotate &amp; center'</b>#<b>不选</b> 'auto-rotate &amp; center'</b>
+<b>uncheck</b> 'auto-rotate & center'</b>#<b>不选</b> 'auto-rotate & center'
+<b>uncheck</b> 'auto-rotate & center'</b>#<b>不选</b> 'auto-rotate & center'
 <b>user</b> of this item  different from user of associated item#<b>用户</b>与相关硬件的地点不同
 <br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate & center'</b>#<br><br>在PDF打印对话框，<br>设置 <b>'页面缩放比例'</b> 为 <b>'None'</b>, <br>并且 <b>不选</b> 'auto-rotate & center'</b>
 <br>In the PDF printing dialog,#<br>在打印PDF对话框,
@@ -114,7 +114,7 @@ DnsName#Dns名称
 Do you really want to remove this row?#您确定要删除这条记录么？
 Documents, Manuals, Offers, Licenses, ...#文档, 手册, 认购书, 授权书, ...
 Download & print the resulting PDF#下载并打印生成的PDF
-Download &amp; print the resulting PDF#下载并打印生成的PDF
+Download & print the resulting PDF#下载并打印生成的PDF
 Download a complete installation backup (much larger)#下载完全备份(非常大)
 Download DataBase file. Contains all data except uploaded files/documents#下载数据库文件。包含除上传到文件（文档）外的所有数据
 Download#下载
@@ -134,8 +134,8 @@ End Date#结束日期
 End Date after#截止于该日期后
 End Date before#截止于该日期前
 End#结束
-End&nbsp;Date after#截止于该日期后
-End&nbsp;Date before#截止于该日期前
+End Date after#截止于该日期后
+End Date before#截止于该日期前
 enter text to filter listed items#录入文本来过滤硬件
 Entered By#登记人
 Event End#事件结束
@@ -157,7 +157,7 @@ Full Access#完全访问
 Function#功能
 GO#GO
 H/W & S/W Manufacturers & Vendors, Buyers, Contractors#软硬件厂商，供应商、采购者、承包商
-H/W &amp; S/W Manufacturers &amp; Vendors, Buyers, Contractors#软硬件厂商，供应商、采购者、承包商
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#软硬件厂商，供应商、采购者、承包商
 H/W Manufacturer#硬件厂商
 H/W Manufacturers#软硬件厂商
 Hardware#硬件
@@ -326,7 +326,7 @@ Save new location first to define areas onto it#首先保存地点再在其上�
 Save Preset#保存预置
 Save#保存
 Select & Print#保存并打印
-Select &amp; Print#选择并打印
+Select & Print#选择并打印
 select and print labels for your items#保存并打印您的硬件的标签
 Select Cores/CPU#选择 核数/CPU
 Select items from the list above#从上面选取硬件
@@ -414,7 +414,7 @@ Warr. Rem. days#维保剩余天数
 Warranty Info#维保信息
 Warranty Months#维保月数
 Warranty#维保
-Warranty&nbsp;Months#维保月数
+Warranty Months#维保月数
 Width#宽度
 Yes#是
 Ymd#年月日

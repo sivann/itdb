@@ -128,6 +128,8 @@
 		  items.model AS itemmodel,
 		  items.label AS itemlabel,
                   locations.name as locationname,
+                  purchasedate,
+                  warrantymonths,
                   coalesce(sn,'') || ' ' || coalesce(sn2,'') || ' ' || coalesce(sn3,'') AS serial,
                   (purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) AS remdays,
                   coalesce(racks.label,'') || ' ' || coalesce(racks.usize,'') || ' ' || coalesce(racks.model,'') AS rackinfo,
@@ -165,6 +167,8 @@
                   items.model as itemmodel,
                   dnsname,
                   items.label as itemlabel,
+                  purchasedate,
+                  warrantymonths,
                   purchasedate,
                   users.username,
                   statustypes.statusdesc,
@@ -223,7 +227,14 @@
 				$row[] = $r;
 			}
 			elseif ( $aColumns[$i] == "remdays" ) {
-				$remdays=$aRow['remdays'];
+				if (strlen($aRow['purchasedate']) && strlen($aRow['warrantymonths'])){
+				$startyr = (int)date("Y",$aRow['purchasedate'])+($aRow['warrantymonths']/12);
+				$date1 =  strtotime($startyr.date("md",$aRow['purchasedate']));
+				$dateDiff = $date1 - $t;
+				$remdays = ceil($dateDiff/(60*60*24));		
+				}
+				else $remdays="";		
+				//$remdays=$aRow['remdays'];
 				$rdstr=showremdays($remdays);
 				$row[] = "<small><div title='$remdays'>". $rdstr. "</div></small>"; // title attribute used for sorting
 			}

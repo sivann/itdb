@@ -68,7 +68,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the user
     }
     //else if ($_POST['id']==1 && $_POST['username']!="admin") { echo "<b>Cannot change admin username</b>"; }
     else {
-        if ($username='admin' && $usertype) {
+        if ($username=='admin' && $usertype) {
             echo "<h2>".t("user admin has always full access")."</h2><br>";
             $usertype=0;
         }

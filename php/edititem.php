@@ -234,6 +234,9 @@ elseif (isset($_POST['itemtypeid']) && ($_GET['id']=="new")&&isvalidfrm()) {
   $warrantymonths=(int)$warrantymonths;
   if (!$warrantymonths || !strlen($warrantymonths) || !is_integer($warrantymonths)) $warrantymonths="NULL";
 
+
+
+
   //// STORE DATA
   $sql="INSERT into items (label, itemtypeid, function, manufacturerid, ".
   " warrinfo, model, sn, sn2, sn3, origin, warrantymonths, purchasedate, purchprice, ".
@@ -307,7 +310,7 @@ elseif (isset($_POST['itemtypeid']) && ($_GET['id']=="new")&&isvalidfrm()) {
 }//xxxadd new item
 
 function isvalidfrm() {
-global $disperr,$err,$_POST;
+global $dbh,$disperr,$err,$_POST;
   //check for mandatory fields
   $err="";
   $disperr="";
@@ -318,6 +321,18 @@ global $disperr,$err,$_POST;
   if (!isset($_POST['ispart'])) $err.="Missing 'Part' classification<br>";
   if (!isset($_POST['status'])) $err.="Missing 'Status' classification<br>";
   if ($_POST['model']=="") $err.="Missing model<br>";
+
+
+  $myid=$_GET['id'];
+  $sql="SELECT id from items where  id <> $myid AND ((length(sn)>0 AND sn in ('{$_POST['sn']}', '{$_POST['sn2']}')) OR (length(sn2)>0 AND sn2 in ('{$_POST['sn']}', '{$_POST['sn2']}')))  LIMIT 1";
+  $sth=db_execute($dbh,$sql);
+  $dups=$sth->fetchAll(PDO::FETCH_ASSOC);
+  if (count($dups[0])) {
+	  $err.="Duplicate SN with id <a href='$scriptname?action=edititem&amp;id={$dups[0]['id']}'><b><u>{$dups[0]['id']}</u></b></a>";
+  }
+
+
+
 
   if (strlen($err)) {
       $disperr= "

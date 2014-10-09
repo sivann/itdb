@@ -30,6 +30,7 @@ echo "Remember to:"
 echo "-change version in index.php"
 echo "-change dbversion in index.php"
 echo "-apply dbupdates to pure.db"
+echo "-run contrib/gittag"
 echo ""
 
 echo "it is ready for tarring in /tmp/itdb. Do a:"

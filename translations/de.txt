@@ -1,0 +1,390 @@
+0:black, 255:white#0:schwarz, 255:weiss
+About#&Uumlber
+Accounting#Buchhaltung
+Add Agent#Agenten hinzufügen
+Add Contract#Vertrag hinzufügen
+Add File#Datei hinzufügen
+Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#Hierarchische oder verwandte Beziehungen hinzufügen: Einzelteile, Zusatzkarten, Bildschirme, usw.
+Add Invoice#Rechnung hinzufügen
+Add new Agent#Neuen Agenten hinzufügen
+Add new Contract#Neuen Vertrag hinzufügen
+Add new File#Neue Datei hinzufügen
+Add new Invoice#Neue Rechnung hinzufügen
+Add new item#Neues Item hinzufügen
+Add new Item#Neues Item hinzufügen
+Add New Item#Neues Item hinzufügen
+Add new Location#Neuen Standort hinzufügen
+Add new software#Neue Software hinzufügen
+Add new Software#Neue Software hinzufügen
+Address, Phone number, other info, etc#Adresse, Telefon, weitere Infos, etc.
+Add Row#Zeile hinzufügen
+Add Software#Software hinzufügen
+Add/View#Racks hinzufügen / ansehen
+Add#Hinzufügen
+Agent Properties#Eigenschaften des Agenten
+Agents#Agenten
+Area Names/Offices#Bereichsnamen/Büros
+Area/Room#Bereich/Raum
+Areas: rooms, offices#Bereiche: Räume, Büros
+Are you sure you want to delete this row ?#Möchten Sie diese Zeile wirklich löschen ?
+Associated Files#Zugeordnete Dateien
+Associated Items#Zugeordnete Items
+Associated Software#Zugeordnete Software
+Associated#Zugeordnet
+Associate#Zuordnen
+Associations (items/racks)#Zuordnungen (Items/Racks)
+Associations Overview#&Uumlbersicht der Zuordnungen
+Associations#Zuordnungen
+Blank passwords prohibit login#Leere Passwörter verbieten den Login
+Border Color (0-255)#Randfarbe (0-255)
+Bottom Margin#Unterer Rand
+<br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate & center'</b>#<br><br>Im PDF Druck Dialog, <br>die <b>'Seiten-Skalierungen'</b> auf <b>'Keine'</b> setzen, <br>und 'automatisch drehen & zentrieren' <b>abwählen</b></b>
+Browse Data#Daten-Browser
+Browse#Ansehen
+Building Name#Gebäudename
+Buyer#Käufer
+Cannot add log entries to unsaved items.#Log-Einträge für ungespeicherte Items können nicht hinzugefügt werden.
+Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the Tags menu for that.#&Aumlnderungen werden sofort gespeichert.<br>Löschen von Markierungen löscht die Zuordnung zur Markierung und nicht die Markierung selbst. Zum Löschen der Markierung bitte den Menüpunkt Markierungen benutzen.
+Click on Item count column on the left to display associated items#Zum Anzeigen der zugeordneten Items links auf die Spalte Item Anzahl klicken
+Click on Software count column on the left to display associated software#Zum Anzeigen der zugeordneten Software links auf die Spalte Software Anzahl klicken
+Click 'Show Labels'#'Zeige Markierungen' anklicken
+Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor & Buyer</u>: will be listed in invoices & Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Strg+Klick um mehrere Rollen für einen Agenten auszuwählen Anbieter & Käufer: der Agent erscheint bei Rechnungen & Verträgen H/W Hersteller: der Agent erscheint als Hersteller bei den Items S/W Hersteller: der Agent erscheint als Hersteller bei der Software Vertragsnehmer: der Agent erscheint bei Verträgen
+Cntrl+Click to select multiple roles for an agent#Strg+Klick um mehrere Rollen für einen Agenten auszuwählen
+Columns#Spalten
+Comments#Kommentare
+Configure contract types#Vertragsarten konfigurieren
+Configure Item Types#Item-Typen konfigurieren
+Configure Status Types#Status-Typen konfigurieren
+Contact Info#Vertragsinfo
+Contacts#Kontakte
+Contact#Vertrag
+Contract Associations#Zugeordnete Verträge
+Contract Data#Vertragsdaten
+Contract Description#Vertragsbeschreibung
+Contract number is missing#Vertragsnummer fehlt
+Contractor is missing#Vertragsnehmer fehlt
+Contractor#Vertragsnehmer
+Contract Properties#Eigenschaften des Vertrags
+CONTRACTS#VERTRÄGE
+Contracts#Verträge
+Contract Title is missing#Vertragstitel fehlt
+Contract Type is missing#Vertragsart fehlt
+Contract Types#Vertragsarten
+Contr. Types#Vertragsarten
+Cores/CPU#Kerne/CPU
+Cores per CPU (used for licensing)#Kerne pro CPU (genutzt zur Lizenzierung)
+CPU Model#CPU Modell
+Current End Date of contract is missing#Aktuelles Ablaufdatum des Vertrags fehlt
+Current EndDate#Aktuelles Ablaufdatum
+Data Browser#Daten-Browser
+Date Entered#Eintragsdatum
+Date of Purchase#Kaufdatum
+Date of purhcase is missing#Kaufdatum fehlt
+Date#Datum
+Delete Event?#Event löschen?
+Delete#Löschen
+Depth of rack occupation. (F)ront, (M)iddle, (B)ack#Tiefe der Rack-Belegung. (V)orne, (M)itte, (H)inten
+Depth#Tiefe
+describe the purpose of this item#beschreibe den Zweck dieses Items
+Description#Beschreibung
+DNS#DNS
+DnsName#DnsName
+DNS Name#DNS Name
+DnsName#DnsName
+Documents, Manuals, Offers, Licenses, ...#Dokumente, Anleitungen zur Bedienung, Angebote, Lizenzen, ...
+Download a complete installation backup (much larger)#Download eines vollständigen Backups der Installation (wesentlich größer)
+Download & print the resulting PDF#Download & Druck des Resultats als PDF
+Download DataBase file. Contains all data except uploaded files/documents#Download der Datenbank. Enthält alle Daten außer hochgeladene Dateien
+Download#Download
+Do you really want to remove this row?#Möchten Sie diese Zeile wirklich löschen?
+Edit Contract Types#Vertragsarten bearbeiten
+Edit ID#ID
+Edit Item Types#Item-Typen bearbeiten
+Edit Software#Software bearbeiten
+Edit Status Types#Status-Typen bearbeiten
+edit tags#Markierungen bearbeiten
+Edit Tags#Markierungen bearbeiten
+Edit#ID
+Effective date#Datum des Inkrafttretens
+e.g. like donator, etc. Vendor info is best to be provided in the related invoice#z.B. wie Spender, etc. Hersteller-Infos werden am besten in den entsprechenden Rechnungen zur Verfügung gestellt
+Email#E-Mail
+End Date#Ablaufdatum
+End Date after#Ablaufdatum nachher
+End Date before#Ablaufdatum vorher
+End#Ablaufdatum
+Entered By#Eingetragen von
+enter text to filter listed items#zum Filtern der Items Text eingeben
+Event End#Enddatum des Events
+Event History#Event-Verlauf
+Event Start#Startdatum des Events
+File Maintenance#Dateien verwalten
+Filename#Dateiname
+Files#Dateien
+File title is missing#Dateititel fehlt
+File Type is missing#Dateititel fehlt
+File#Datei
+Filter#Filter
+Find#Suchen
+Floor Plan#Etagenplan
+Floor#Etage
+FontSize#Schriftgröße
+Full Access#Vollzugriff
+Function#Funktion
+GO#LOS!
+Hardware#Hardware
+HDs (TB)#Festplatten (TB)
+Header FontSize#Schriftgröße Kopfzeile
+Header (from conf.php)#Kopfzeile (von der conf.php)
+Height#Höhe
+Home#Startseite
+Horz. Pitch#horizonataler Abstand
+How is this item used. e.g.: Video Encoder#Wie wird dieses Item genutzt. z.B. als Video Encoder
+how many items are assigned to this rack#Wie viele Items sind diesem Rack zugeordnet
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#H/W & S/W Hersteller & Anbieter, Käufer, Vertragsnehmer
+H/W Manufacturer#H/W Hersteller
+[id desc]#[ID Beschreibung]
+ID FontSize#ID Schriftgröße
+[id]#[ID]
+ID#ID
+Installed Into#Installiert auf
+Installed on#Installiert auf
+Installed#Installiert
+Inter-Item Associations#Inter-Item Zuordnungen
+Intrinsic Properties#Item-spezifische Eigenschaften
+Invoice Associations#Zugeordnete Rechnungen
+Invoice  Data#Rechnungsdaten
+Invoice Description / File(s)#Rechnungsbeschreibung / Datei(en)
+Invoice Properties#Eigenschaften der Rechnung
+Invoices (buyers)#Rechnungen (Käufer)
+INVOICES (buyer)#RECHNUNGEN (Käufer)
+Invoices (vendors)#Rechnungen (Anbieter)
+INVOICES (vendor)#RECHNUNGEN (Anbieter)
+INVOICES#RECHNUNGEN
+Invoices#Rechnungen
+Invoice#Rechnung
+IPv4#IPv4
+IPv6#IPv6
+Is Part#Ist ein Einzelteil
+Issue Date#Ausgabedatum
+Item Associations#Zugeordnete Items
+Item Data#Item Daten
+Item list per location#Item Liste nach Standort
+Items without invoices#Items ohne Rechnungen
+Items without location#Items ohne Standort
+Items with warranty end date close to (before or after) today#Items deren Garantie-Ablaufdatum nahe (vor oder nach) dem heutigen Tag ist
+ITEMS#ITEMS
+items#items
+Items#Items
+Items#Items
+Item Types#Item-Typen
+Item Type#Item-Typ
+Label properties#Eigenschaften des Aufklebers
+Labels#Aufkleber
+labels#Aufkleber
+Label#Aufkleber
+Left Margin#Linker Rand
+Licencing Info#Lizenzierungsinfo
+License Info#Lizenzinfo
+List Invoices#Rechnungen auflisten
+List items with defined IPv4 numbers#Items mit eingetragenen IPv4 Adressen auflisten
+List Items#Items auflisten
+List Software#Software auflisten
+Loading data from server#Lade Daten vom Server
+Location Name/Building Name#Standortname/Gebäudename
+Location Properties#Standorteigenschaften
+Locations#Standorte
+Location#Standort
+Log/Journal#Log/Protokoll
+Logout#Logout
+MACs#MACs
+maintenance end date#Wartungsablaufdatum
+Maintenance Instructions#Instruktionen <br><br>zur Wartung
+Maint. End#Wartungsende
+Manage Agents#Agenten verwalten
+Manage item locations#Item-Standorte verwalten
+Manage various parameters#Diverse Parameter verwalten
+Manage your contracts <br> Support, Licenses, Leases, etc#Verträge verwalten <br> Support, Lizenzen, Leihgeräte, etc.
+Manage your H/W items <br> PCs, Switches, Phones, etc#Hardware-Items verwalten <br> Rechner, Switches, Telefone, etc.
+Manage your Invoices#Rechnungen verwalten
+Manage your software#Software verwalten
+Manufacturer is missing#Hersteller fehlt
+Manufacturer#Hersteller
+[model]#[Modell]
+Model#Modell
+Name#Name
+Network Ports#Netzwerk Ports
+Network#Netzwerk
+New#Neu
+Notes#Notizen
+No#NEIN
+Numbering#Nummerierung
+Number of cores per CPU (used for licensing)#Anzahl der Kerne pro CPU (genutzt zur Lizenzierung)
+Number of installed Software per Manufacturer (Agent)#Anzahl der installierten Software pro Hersteller (Agent)
+Number of invoices per Vendor (Agent)#Anzahl der Rechnungen pro Anbieter (Agent)
+Number of items per Location#Anzahl der Items pro Standort
+Number of items per Manufacturer (Agent)#Anzahl der Items pro Hersteller (Agent)
+Number of Items under support#Anzahl der Items mit Garantie/Wartung
+Number#Nummer
+Occupation#Belegung
+Order By#Sortieren nach
+Order No#Bestell-Nr.
+Order No#Bestell-Nr.
+Order Num#Bestell-Nummer
+order: status, id descending, item type, manufacturer#Reihenfolge: Status, ID absteigend, Item-Typ, Hersteller
+order: status, id, item type, manufacturer#Reihenfolge: Status, ID, Item-Typ, Hersteller
+order: status, item type, manufacturer,id#Reihenfolge: Status, Item-Typ, Hersteller,ID
+order: status, model, item type, manufacturer#Reihenfolge: Status, Modell, Item-Typ, Hersteller
+Other Info#Weitere Infos
+Parent ID#&Uumlbergeordnete ID
+Parent#&Uumlbergeordnet
+Password#Passwort
+Patch Panel Port#Patch-Panel Port
+Phone numbers#Telefon-Nummern
+Please check if this item can be rackmounted#Bitte überprüfe ob dieses Element in ein Rack eingebaut werden kann
+Please select item type#Bitte Item-Typ auswählen
+Please specify if this item is a part of another#Bitte angeben ob dieses Item ein Einzelteil ist
+Populated from H/W Manufacturers defined in agents menu#Liste aller im Agenten Menü definierten H/W Hersteller
+populated from items of type switch or router#Liste aller Items mit Item-Typ Switch oder Router
+Populate list from the Item Types menu#Liste aller Item-Typen des Item-Typen Menü
+Preset Name#Name der Vorlage
+Presets#Vorlagen
+Print Labels#Aufkleber
+Property#Eigenschaft
+Ptch.PnlPrt#Patch-Panel Port
+Purchace Price (#Kauf-Preis (
+Purchase Date#Kauf-Datum
+PurchaseDate#KaufDatum
+PurchPrice#KaufPreis
+QTY#ANZ
+Quantity#Anzahl
+Rackmountable#Rack-Montierbar
+Rack Pos. (topmost)#Rack Pos. (oberste)
+Racks#Racks
+Rack#Rack
+RAM (GB)#RAM (GB)
+Read Only#Lesezugriff
+Recent History#Verlauf
+Related#Zusammengehörig
+Rel#Zsm
+RemAdmIP#FernAdminIP
+Remote Administration IP#IP zum administrativen Fernzugriff
+Renewals#Verlängerungen
+Reports#Berichte
+Right Margin#Rechter Rand
+Role#Rolle
+Rows#Zeilen
+Save Invoice#Rechnung speichern
+Save new location first to define areas onto it#Zum Hinzufügen von Bereichen den neuen Standort zuerst speichern
+Save Preset#Vorlage speichern
+Save#Speichern
+Select & Print#Auswählen & Drucken
+select and print labels for your items#Inventar-Aufkleber für die Items ausdrucken
+Select Cores/CPU#Kerne/CPU auswählen
+Select items from the list above#Items von der Liste oben auswählen
+Select Items#Items auswählen
+Select Label properties (manual or preset)#Eigenschaften des Aufklebers auswählen (Manuell oder Vorlage)
+Select Report#Bericht auswählen
+Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.#Wähle Systeme aus auf denen diese Software aktuell installiert ist. Es werden nur Items angezeigt bei denen der Item-Typ 'Software unterstützt'.
+Select User#Benutzer auswählen
+Select 'YES' if software can be installed <b>on</b> this item.<br> Only items supporting software are listed when <br>performing software - item associations#Wähle 'JA' wenn Software installiert werden kann <b>auf</b> diesem Item.<br> Nur Items mit Unterstützung für Software werden angezeigt wenn <br>Software - Item Zuordnungen durchgeführt werden
+Select#Wähle
+Settings#Einstellungen
+Shop/Origin#Shop/Herkunft
+show also this text on printable labels#auch diesen Text auf den druckbaren Aufklebern zeigen
+Show Labels#Aufkleber anzeigen
+Sibling#Verwandt
+Size (U)#Höhe (HE)
+Skip#&Uumlberspringen
+S/N 2#S/N 2
+S/N#S/N
+Software Associations#Zugeordnete Software
+Software Data#Software Daten
+Software title is missing#Software Titel fehlt
+Software Version is missing#Software Version fehlt
+SOFTWARE#SOFTWARE
+Software#Software
+Special maintenance instructions#spezielle Wartungsinstruktionen
+Specify model#Modell angeben
+Specify user responsible for this item#den für dieses Item verantwortlichen Benutzer angeben
+Start Date of contract is missing#Anfangsdatum des Vertrags fehlt
+Start Date#Anfangsdatum
+Start#Anfang
+Status Types#Status-Typen
+Status#Status
+suggested resolution: 1024 pixels for A4 scans#vorgeschlagene Auflösung: 1024 Pixel für A4 Scans
+Support and Maintanance, Leases, ...#Support und Wartung, Leihgeräte, ...
+Supports<br>Software#unterstützt<br>Software
+Switch Port#Switch Port
+Switch#Switch
+S/W Manufacturer is missing#S/W Hersteller fehlt
+S/W Manufacturer#S/W Hersteller
+Tags#Markierungen
+TAG#MARKIERUNG
+taken from related invoice#entnommen aus der zugehörigen Rechnung
+Text Padding#Text Abstand
+Title/Ver.#Titel/Ver.
+Title#Titel
+Top Margin#Oberer Rand
+Total Cost#Gesamt-Kosten
+Tree Explorer#Daten-Browser
+Type Names#Typ-Namen
+Type(s)#Type(n)
+[type]#[Typ]
+Type#Typ
+Upload a File#Datei hochladen
+Upload a Floor Plan#Etagen-Plan hochladen
+Uploaded by#Hochgeladen von
+Upload Files#Dateien hochladen
+Usage#Nutzung
+User Description#Beschreibung
+Username#Benutzername
+User responsible for this item#Für dieses Item verantwortlicher Benutzer
+Users are used for both web login and as item assignees#Benutzer werden für beides genutzt - zum Web Login und als Item-Verwalter
+Users, Tags#Benutzer, Markierungen
+Users#Benutzer
+User#Benutzer
+use when the top labels have already been printed#wenn die oberen Aufkleber bereits gedruckt wurden
+Value#Wert
+Vendors/Buyers/ Manufacturers#Anbieter / Käufer / Hersteller
+Vendor#Anbieter
+Version#Version
+Vert. Pitch#vertikaler Abstand
+View/Edit Subtypes#Subtypen ansehen/bearbeiten
+View items by type, by user, by agent#Items ansehen nach Typ, nach Benutzer, nach Agent
+View Reports#Berichte ansehen
+View#Ansicht
+Warranty Info#Infos zur Garantie
+Warranty Months#Garantie Monate
+Warranty#Garantie
+Warr. Rem. days#Verbl. Garantietage
+Width#Breite
+Yes#JA
+You forgot to select the file?#Haben Sie vergessen die Datei auszuwählen?
+Clone#Klonen
+Warning#Warnung
+<b>status</b> of this item  different from status of associated item#<b>Status</b> dieses Items  unterscheidet sich vom Status des zugeordnetem Item
+<b>location</b> of this item  different from location of associated item#<b>Standort</b> dieses Items  unterscheidet sich vom Standort des zugeordnetem Item
+<b>user</b> of this item  different from user of associated item#<b>Benutzer</b> dieses Items  unterscheidet sich vom Benutzer des zugeordnetem Item
+No racks in location#Keine Racks am Standort
+No areas defined#Keine Bereiche definiert
+Barcode Size#Größe QR Barcode
+<br>In the PDF printing dialog,#<br>Im PDF Druck Dialog,
+<b>uncheck</b> 'auto-rotate & center'</b>#'automatisch drehen & zentrieren' <b>abwählen</b></b>
+Click 'Make Item Labels'#'Item Aufkleber drucken' anklicken
+Company Title#Unternehmensname
+Currency#Währung
+Date Format#Datumsformat
+Header#Kopfzeile
+Header Image#Kopfzeilen-Bild
+Header Text#Kopfzeilen-Text
+Image Size (WxH)#Bildgröße (BxH)
+Interface Language#Sprache der Benutzerobefläche
+ITDB Settings#Einstellungen
+Language#Sprache
+Paper Size#Papiergröße
+QR Barcode#QR Barcode
+Save#Speichern
+set <b>'Page Scaling'</b> to <b>'None'</b>#die <b>'Seiten-Skalierungen'</b> auf <b>'Keine'</b> setzen
+Settings#Einstellungen
+Translations#&Uumlbersetzer
+Users, Tags, Dates, Currency,...#Benutzer, Markierungen, Datumsformat, Währung,....

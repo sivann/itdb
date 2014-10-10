@@ -8,11 +8,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=9" > 
 
+<?php
+// Query database to get theme
+$sql="SELECT theme FROM settings";
+$sth=$dbh->query($sql);
+$settings=$sth->fetchAll(PDO::FETCH_ASSOC);
+$theme=$settings[0];
+?>
 
 <link rel="stylesheet" href="css/sweetTitles.css">
 <link type="text/css" href="css/jquery-themes/blue2/jquery-ui-1.8.12.custom.css" rel="stylesheet" >
-<link rel="stylesheet" href="css/itdb.css" type="text/css">
-<link rel="stylesheet" href="css/theme.css" type="text/css">
+<link rel="stylesheet" href="css/itdb.<?php echo $theme['theme'] ?>.css" type="text/css">
+<link rel="stylesheet" href="css/theme.<?php echo $theme['theme'] ?>.css" type="text/css">
 
 <link rel="stylesheet" href="css/datatable.css" type="text/css">
 <link rel="stylesheet" href="css/TableTools_JUI.css" type="text/css">

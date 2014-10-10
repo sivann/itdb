@@ -203,7 +203,7 @@
     </div>
     <div class='bigblocklinks'>
 	    <div><a title='<?php te("ITDB Settings");?>' href='<?php echo $scriptname?>?action=settings'><img class='bigblocklnk' src='images/big/wheel24.png'> <span class="lnktxt"><?php te("ITDB Settings");?></span></a></div>
-	    <div><a title='<?php te("Users");?>' href='<?php echo $scriptname?>?action=editusers'><img class='bigblocklnk' src='images/big/users.png'> <span class="lnktxt"><?php te("Users");?></span></a></div>
+	    <div><a title='<?php te("Users");?>' href='<?php echo $scriptname?>?action=listusers'><img class='bigblocklnk' src='images/big/users.png'> <span class="lnktxt"><?php te("Users");?></span></a></div>
 	    <div><a title='<?php te("Tags");?>' href='<?php echo $scriptname?>?action=edittags'><img class='bigblocklnk' src='images/big/tag.png'> <span class="lnktxt"><?php te("Tags");?></span></a></div>
     </div>
     <div class='bigblockdesc'>

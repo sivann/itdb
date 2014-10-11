@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+lasthash=`git log --decorate=full --all --pretty=format:'%h %d'  |grep 'refs/tags'|head -1|awk '{print $1}'`
+lasttag=`git describe --tags $lasthash`
+
+echo "Previous tag was $lasttag"
+
+read -e -p "Enter ${CYAN}new tag${OFF}: " -i "$newtag" newtag
+
+read -e -p  "Press enter to tag $newtag: "
+
+gitbase=`git rev-parse --show-toplevel`
+echo $newtag > $gitbase/VERSION
+git add $gitbase/VERSION
+git commit -m "Set version to $newtag"
+git push origin
+git tag -a $newtag -m "Tagged version:$newtag"
+git push --tags

@@ -18,8 +18,8 @@ $theme=$settings[0];
 
 <link rel="stylesheet" href="css/sweetTitles.css">
 <link type="text/css" href="css/jquery-themes/blue2/jquery-ui-1.8.12.custom.css" rel="stylesheet" >
-<link rel="stylesheet" href="css/itdb.<?php echo $theme['theme'] ?>.css" type="text/css">
-<link rel="stylesheet" href="css/theme.<?php echo $theme['theme'] ?>.css" type="text/css">
+<link rel="stylesheet" href="css/itdb.<?php echo $theme['theme']; ?>.css" type="text/css">
+<link rel="stylesheet" href="css/theme.<?php echo $theme['theme']; ?>.css" type="text/css">
 
 <link rel="stylesheet" href="css/datatable.css" type="text/css">
 <link rel="stylesheet" href="css/TableTools_JUI.css" type="text/css">

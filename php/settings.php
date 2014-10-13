@@ -56,7 +56,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <tr><td class="tdt"><?php te("Company Title");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='companytitle' value="<?php echo $settings['companytitle']?>"></td></tr>
         
-    <tr><td class="tdt"><?php te("ITDB Theme")?></td><td>
+    <tr><td class="tdt"><?php te("ITDB Theme"); ?></td><td>
     <select  name='theme'>
       <?php if ($settings['theme']=="green") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> value='green'>Green</option>

@@ -21,6 +21,7 @@ if(!isset($userdata) || $userdata[0]['usertype'] == 1) { echo "You must have Adm
 
 if (isset($_POST['dateformat']) ) { //if we came from a post (save), update the rack 
   $sql="UPDATE settings set companytitle='".trim($_POST['companytitle']).
+  "', theme='".$_POST['theme'].
   "', dateformat='".$_POST['dateformat'].
   "', currency='".$_POST['currency'].
   "', useldap='".$_POST['useldap'].
@@ -54,6 +55,17 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <tr><td colspan=2><h3><?php te("Settings"); ?></h3></td></tr>
     <tr><td class="tdt"><?php te("Company Title");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='companytitle' value="<?php echo $settings['companytitle']?>"></td></tr>
+        
+    <tr><td class="tdt"><?php te("ITDB Theme"); ?></td><td>
+    <select  name='theme'>
+      <?php if ($settings['theme']=="green") $s="SELECTED"; else $s="" ?>
+      <option <?php echo $s?> value='green'>Green</option>
+      <?php if ($settings['theme']=="blue") $s="SELECTED"; else $s="" ?>
+      <option <?php echo $s?> value='blue'>Blue</option>
+    </select>
+    </td>
+    </tr>    
+        
     <tr><td class="tdt"><?php te("Date Format")?></td><td>
     <select  name='dateformat'>
       <?php if ($settings['dateformat']=="dmy") $s="SELECTED"; else $s="" ?>

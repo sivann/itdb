@@ -24,6 +24,11 @@ $sth=$dbh->query($sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $locations[$r['id']]=$r;
 $sth->closeCursor();
 
+$sql="SELECT * from locareas order by locationid,areaname";
+$sth=$dbh->query($sql);
+while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $locareas[$r['id']]=$r;
+$sth->closeCursor();
+
 
 $sql="SELECT * from racks";
 $sth=$dbh->query($sql);
@@ -44,8 +49,6 @@ $sql="SELECT * FROM statustypes";
 $sth=$dbh->query($sql);
 $statustypes=$sth->fetchAll(PDO::FETCH_ASSOC);
 
-
-
 //expand: show more columns
 if (isset($_GET['expand']) && $_GET['expand']==1) 
   $expand=1;
@@ -55,7 +58,7 @@ else
 //export: export to excel (as html table readable by excel)
 if (isset($_GET['export']) && $_GET['export']==1) {
   header('Content-Type: application/vnd.ms-excel; charset=UTF-8');
-  header("Expires: Thu, 01 Dec 1994 16:00:00 GMT");
+  header("Expires: Thu, 01 Dec 2999 16:00:00 GMT");
   header("Cache-Control: Must-Revalidate");
   header('Content-Disposition: attachment; filename=itdb.xls');
   header('Connection: close');
@@ -88,8 +91,24 @@ if ($export)  {
 if ($export) 
   echo "\n<table border='1'>\n";
 else {
-  echo "<h1>Items <a title='Add new item' href='$scriptname?action=edititem&amp;id=new'>".
-       "<img border=0 src='images/add.png'></a></h1>\n";
+  $get2=$_GET;
+  unset($get2['orderby']);
+  $url=http_build_query($get2);
+  $url = str_replace('&expand=0', '', $url);
+  $url = str_replace('&expand=1', '', $url);
+
+  echo "<h1><a title='Switch to normal view' href='$fscriptname?&action=listitems'>".
+  	   "<img border=0 src='images/view.png'></a>".
+  	   "&nbsp;&nbsp;&nbsp;&nbsp;Items <a title='Add new item' href='$scriptname?action=edititem&amp;id=new'>".
+       "<img border=0 src='images/add.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;";   
+  	   if (isset($_GET['expand']) && $_GET['expand']==1) {
+  		  echo "Collapse table <a alt='Less' title='Show less Columns' href='$fscriptname?$url&amp;expand=0'>";
+  		  echo "<img src='images/back_enabled.jpg'></a>";
+	   } else {
+	      echo "Expand table <a alt='More' title='Show more Columns' href='$fscriptname?$url&amp;expand=1'>";
+  		  echo "<img src='images/forward_enabled.jpg'></a>";
+	   }
+       echo "</h1>";
   echo "<form name='frm'>\n";
   echo "\n<table class='brdr'>\n";
 }
@@ -113,21 +132,25 @@ elseif (isset($orderby)) {
     $ob="+DESC";
 }
 
+echo "<button type='submit' style='padding:1px;'><img border=0  src='images/search.png'>Search</button>";
+
 echo "<thead>\n";
 $thead= "\n<tr><th title='Search'>".
-     "<button type='submit' style='padding:1px;'><img border=0  src='images/search.png'></button>".
+//     "<button type='submit' style='padding:1px;'><img border=0  src='images/search.png'>Search</button>".
      "<a href='$fscriptname?$url&amp;orderby=items.id$ob'>ID</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=label$ob'>Label</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=itemtypeid$ob'>Item type</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=manufacturerid$ob'>Manufacturer</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=model$ob'>Model</a></th>".
-     "<th>DNS Name</th>".
+     //"<th>DNS Name</th>".
+     "<th><a href='$fscriptname?$url&amp;orderby=dnsname$ob'>DNS Name</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=sn$ob,sn2$ob,sn3$ob'>S/N</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=purchasedate$ob'>Purch. Date</a></th>".
      "<th title='Warranty expiration in '><small><a href='$fscriptname?action=$action&amp;orderby=remdays$ob'>Warr. Left</a></small></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=userid$ob'>User</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=status$ob'>Status</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=locationid$ob'>Location</a></th>".
+     "<th><a href='$fscriptname?$url&amp;orderby=locareaid$ob'>Area</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=rackid$ob'>Rack</a></th>";
 
 if ($export) {
@@ -152,7 +175,7 @@ if ($expand) {
   echo "\n <th>ports</th>";
 }
 else
-  echo "<th>&nbsp;</th>";//more icon
+  //echo "<th>&nbsp;</th>";//more icon
 echo "</tr>\n</thead>\n";
 
 
@@ -173,6 +196,7 @@ $status=isset($_GET['status'])?$_GET['status']:"";
 if (!$export) {
 
   echo "\n<td title='ID'><input type=text size=3 style='width:6em;' value='$id' name='id'></td>";
+  echo "<td title='Label'><input style='width:7em' type=text value='$label' name='label'></td>";
   echo "\n<td>\n<select name='itemtypeid'>\n<option value=''>All</option>\n";
   foreach ($itypes as $itype) {
     $dbid=$itype['id'];
@@ -185,12 +209,11 @@ if (!$export) {
   echo "</select>\n</td>\n";
 
   echo "<td title='H/W Manufacturer'><input style='width:8em' type=text value='$manufacturer' name='manufacturer'></td>";
-  echo "<td><input style='width:11em' type=text value='$model' name='model'></td>";
-  echo "<td><input style='width:8em' type=text value='$dnsname' name='dnsname'></td>";
-  echo "<td><input style='width:8em' type=text value='$sn' name='sn'></td>";
-  echo "<td><input style='width:7em' type=text value='$label' name='label'></td>";
-  echo "<td><input style='width:7em' type=text value='$year' name='year'></td>";
-  echo "<td>-</td>";
+  echo "<td title='Model'><input style='width:11em' type=text value='$model' name='model'></td>";
+  echo "<td title='DNS Name'><input style='width:8em' type=text value='$dnsname' name='dnsname'></td>";
+  echo "<td title='S/N'><input style='width:8em' type=text value='$sn' name='sn'></td>";
+  echo "<td title='Purch. Date'><input style='width:7em' type=text value='$year' name='year'></td>";
+  echo "<td title='Warrenty'></td>";
 
   echo "<td>";
   echo "\n<select name='userid'>\n<option value=''>All</option>\n";
@@ -226,8 +249,23 @@ if (!$export) {
     $dbid=$l['id']; 
     $s="";
 
-    $itype=$l['name']." Flr ".$l['floor'];
+    $itype=$l['name'].", Floor ".$l['floor'];
     if (isset($_GET['locationid']) && $_GET['locationid']=="$dbid") $s=" SELECTED ";
+    echo "<option $s value='$dbid' title='$dbid'>$itype</option>\n";
+  }
+  echo "</select>\n";
+  echo "</td>";
+?>
+
+  <td><select name='locareaid'>
+      <option value=''>All</option>
+<?php 
+  foreach ($locareas as $la) {
+    $dbid=$la['id']; 
+    $s="";
+
+    $itype=$la['areaname'];
+    if (isset($_GET['locareaid']) && $_GET['locareaid']=="$dbid") $s=" SELECTED ";
     echo "<option $s value='$dbid' title='$dbid'>$itype</option>\n";
   }
   echo "</select>\n";
@@ -239,10 +277,10 @@ if (!$export) {
   echo "\n<td><select name='rackid'>\n<option value=''>All</option>\n";
   foreach ($racks as $r) {
     $dbid=$r['id']; 
-    $itype=$r['label'].",".$r['usize']."U ". $r['model'];
+    $itype=$r['label']." (".$r['usize']."U) ". $r['model'];
     $s="";
     if ($rackid=="$dbid") $s=" SELECTED ";
-    echo "<option $s value='$dbid'>$dbid-$itype</option>\n";
+    echo "<option $s value='$dbid'>$itype</option>\n";
   }
   echo "</select>\n";
   echo "</td>";
@@ -254,12 +292,12 @@ if (!$export) {
     echo "<td>&nbsp;</td>";
     echo "<td colspan='10'>&nbsp;</td>\n";
   }
-  else {
+/*  else {
     $url=http_build_query($_GET);
     echo "<td style='vertical-align:top;' rowspan=".($perpage+1).">".
          "<a alt='More' title='Show more Columns' href='$fscriptname?$url&amp;expand=1'>".
          "<img src='images/more.png'></a></td>";
-  }
+  } */
   echo "</tr>\n\n";
 
 }//if not export to excel: searchboxes
@@ -293,6 +331,7 @@ if (strlen($status)) $where.=" AND items.status = '$status' ";
 if (isset($itemtypeid) && strlen($itemtypeid)) $where.=" AND itemtypeid=$itemtypeid ";
 if (isset($userid) && strlen($userid)) $where.=" AND userid=$userid ";
 if (isset($locationid) && strlen($locationid)) $where.=" AND locationid='$locationid' ";
+if (isset($locareaid) && strlen($locareaid)) $where.=" AND locareaid='$locareaid' ";
 if (isset($rackid) && strlen($rackid)) $where.=" AND rackid=$rackid ";
 if (isset($label) && strlen($label)) $where.=" AND label like '%$label%' ";
 
@@ -346,15 +385,22 @@ $currow++;
 
   if (isset($locations[$r['locationid']])) {
     $i=$r['locationid'];
-    $loc=$locations[$i]['name'].",Flr:".$locations[$i]['floor'];
+    $loc=$locations[$i]['name'].", Floor ".$locations[$i]['floor'];
   }
   else $loc="";
+  
+  if (isset($locareas[$r['locareaid']])) {
+    $i=$r['locareaid'];
+    $locar=$locareas[$i]['areaname'];
+  }
+  else $locar="";
+
 
   $user=isset($userlist[$r['userid']])?$userlist[$r['userid']]['username']:"";
 
   if (isset($racks[$r['rackid']])) {
     $i=$r['rackid'];
-    $rack=$racks[$i]['label']." ".$racks[$i]['model']." ".$racks[$i]['usize']."U";
+    $rack=$racks[$i]['label']." (".$racks[$i]['usize']."U)".$racks[$i]['model'];
   }
   else $rack="";
 
@@ -433,16 +479,17 @@ $currow++;
 
 
   echo "</td>".
+       "\n  <td>{$r['label']}</td>".
        "\n  <td>".$itypes[$r['itemtypeid']]['typedesc']."</td>".
        "\n  <td>".$r['agtitle']."&nbsp;</td>".
        "\n  <td>".$r['model']."</td><td>".$r['dnsname']."&nbsp;</td>".
        "\n  <td class='monospaced'>$sn&nbsp;</td>".
-       "\n  <td>{$r['label']}</td>".
        "\n  <td>$d&nbsp;</td>".
        "\n  <td>$remw</td>".
        "\n  <td>$user</td>".
        "\n  <td>$statustxt</td>".
        "\n  <td>$loc</td>".
+       "\n  <td>$locar</td>".
        "\n  <td>$rack</td>";
 
 
@@ -496,15 +543,15 @@ else {
     $cs=15;
 
 ?>
-  <tr><td colspan='<?php echo $cs?>' class=tdc><button type=submit><img src='images/search.png'>Search</button></td></tr>
   </tbody></table>
+  <button type=submit style='padding:1px;'><img src='images/search.png'>Search</button>
   <input type='hidden' name='action' value='<?php echo $_GET['action']?>'>
   </form>
 
 <div class='gray'>
   <b><?php echo $totalrows?> results</b><br>
   <b>Page:</b> <?php echo $plinks?> <br>
-  <a href='$fscriptname?action=$action&amp;export=1'><img src='images/xcel2.jpg' height=25 border=0>Export to Excel</a>
+  <a href='<?php echo "$fscriptname?action=$action&amp;export=1"; ?>'><img src='images/xcel2.jpg' height=25 border=0>Export to Excel</a>
 </div>
 
 <?php 

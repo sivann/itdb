@@ -408,6 +408,9 @@ echo "</select>\n</td></tr>\n";
 <tr><td class='tdt'><label for=wantheadertext><?php te("Header Text");?>:</label></td><td><input id='wantheadertext' type=checkbox <?php if($wantheadertext) echo "CHECKED"; ?> name=wantheadertext></td></tr>
 <tr><td class='tdt'><label for=wantheaderimage><?php te("Header Image");?>:</label></td><td><input id='wantheaderimage' type=checkbox <?php if($wantheaderimage) echo "CHECKED"; ?> name=wantheaderimage></td></tr>
 
+<tr><td class='tdt'><label for=notext><?php te("No Text");?>:</label></td><td><input title='<?php te("Just print the barcode, no text")?>' id='notext' type=checkbox <?php if($notext) echo "CHECKED"; ?> name=notext></td></tr>
+<tr><td class='tdt'><label for=raligntext><?php te("Text to the right of barcode");?>:</label></td><td><input id='raligntext' type=checkbox <?php if($notext) echo "CHECKED"; ?> name=raligntext></td></tr>
+
 
 <tr><td class='tdt'><label for=labelskip><?php te("Skip");?>:</label></td><td title='<?php te("use when the top labels have already been printed");?>' ><input size=4 value='<?php echo $labelskip?>' name=labelskip> <?php te("labels");?></td></tr>
 </table>

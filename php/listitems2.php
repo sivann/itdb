@@ -504,7 +504,7 @@ else {
 <div class='gray'>
   <b><?php echo $totalrows?> results</b><br>
   <b>Page:</b> <?php echo $plinks?> <br>
-  <a href='$fscriptname?action=$action&amp;export=1'><img src='images/xcel2.jpg' height=25 border=0>Export to Excel</a>
+  <a href='<?php echo "$fscriptname?action=$action&amp;export=1"?>'><img src='images/xcel2.jpg' height=25 border=0>Export to Excel</a>
 </div>
 
 <?php 

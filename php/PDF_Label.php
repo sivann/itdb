@@ -146,7 +146,7 @@ class PDF_Label extends TCPDF{
 	// Print a label
 	// sivann
 	function Add_Label($text_head, $text, $padding=3, $bordercolor=230, $img="",$imwidth=0,$imheight=0,
-                           $headerfontsize=6,$fontsize=6,$idfontsize=7,$barcode="",$bar_w="0.4",$bar_h="20",$barcodesize=20) {
+                           $headerfontsize=6,$fontsize=6,$idfontsize=7,$barcode="",$bar_w="0.4",$bar_h="20",$barcodesize=20,$raligntext=0) {
 		$this->_COUNTX++;
 		if ($this->_COUNTX == $this->_X_Number) {
 			// Row full, we start a new one
@@ -184,20 +184,23 @@ class PDF_Label extends TCPDF{
 
 
 		if (strstr($text,"ID:")) {
-		  $t=$text;
-		  $t=str_replace("\n","",$t);
-		  $t=preg_replace('/.*ID:([0-9]+).*/','ID:\1 ',$t);
+		  $txtid=$text;
+		  $txtid=str_replace("\n","",$txtid);
+		  $txtid=preg_replace('/.*ID:([0-9]+).*/','ID:\1 ',$txtid);
 		  $text=preg_replace('/ID:[0-9]+\n/','',$text);
 		  $this->SetFont('freesans','B');
 		  $this->SetTextColor(0,0,0); 
 		  $this->Set_Font_Size($idfontsize);
-		  if (($this->y - $_PosY)>=$imheight) { //if header text had more height than the image
-		    $this->SetX($_PosX); //position to the left border, we are now under the logo hopefully
-		  }
-		  else {
-		    $this->SetXY($_PosX, $_PosY+$imheight);
-		  }
-		  $this->MultiCell($this->_Width-(2*$padding), $this->_Line_Height, "$t",0,'L');
+
+		  if (!$raligntext) {
+			  if (($this->y - $_PosY)>=$imheight) { //if header text had more height than the image
+				$this->SetX($_PosX); //position to the left border, we are now under the logo hopefully
+			  }
+			  else {
+				$this->SetXY($_PosX, $_PosY+$imheight);
+			  }
+			  $this->MultiCell($this->_Width-(2*$padding), $this->_Line_Height, "$txtid",0,'L');
+			}
 		}
 
 		if (strlen($barcode)) {
@@ -234,10 +237,22 @@ class PDF_Label extends TCPDF{
 
 
 		//rest of the text
+
+		if ($raligntext) {
+			//$this->SetXY($_PosX+$barcodesize-2, $Y+$qz-3);
+			$this->SetFont('freesans','B');
+			$this->SetXY($_PosX+$barcodesize, $Y+$qz);
+			$this->MultiCell($this->_Width-(2*$padding), $this->_Line_Height, $txtid,0,'L');
+			$this->SetX($_PosX+$barcodesize); //position to the left border, we are now under the logo image hopefully
+		}
+		else {
+			$this->SetX($_PosX); //position to the left border, we are now under the logo image hopefully
+		}
+
 		$this->SetFont('freesans');
 		$this->SetTextColor(0,0,0); 
 		$this->Set_Font_Size($fontsize);
-		$this->SetX($_PosX); //position to the left border, we are now under the logo image hopefully
+
 		$this->MultiCell($this->_Width-(2*$padding), $this->_Line_Height, $text,0,'L');
 
 		if ($bordercolor) 

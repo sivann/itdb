@@ -115,12 +115,17 @@ for ($row=1;$row<=$rows;$row++) {
     //code39:bh:(mm) barcode height must allow for 15 degrees of scanning ideally
     //code39:includes barcode text font width (about 3mm)
     $bh=max(0.15*$barcodewidth+3,16); //at least 15% of length
+
+	if ($notext) {
+		$headertext='';
+		$labeltext='';
+	}
     
 
     $pdf->Add_Label($headertext,$labeltext,$padding,$border,
                     $image,$imagewidth,$imageheight,
                     $headerfontsize,$fontsize,$idfontsize,
-		    $barcode, $nbw,$bh,$barcodesize );
+		    $barcode, $nbw,$bh,$barcodesize,$raligntext );
 
 
     // for code39 barcodes: check if barcode fits inside label, allowing space for its quiet zone
@@ -133,6 +138,7 @@ for ($row=1;$row<=$rows;$row++) {
 
     }
 */
+
   }
 
   if (($row==$rows)) {

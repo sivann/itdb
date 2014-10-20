@@ -116,7 +116,7 @@ for ($row=1;$row<=$rows;$row++) {
     //code39:includes barcode text font width (about 3mm)
     $bh=max(0.15*$barcodewidth+3,16); //at least 15% of length
 
-	if ($notext) {
+	if ($wantnotext) {
 		$headertext='';
 		$labeltext='';
 	}
@@ -125,7 +125,7 @@ for ($row=1;$row<=$rows;$row++) {
     $pdf->Add_Label($headertext,$labeltext,$padding,$border,
                     $image,$imagewidth,$imageheight,
                     $headerfontsize,$fontsize,$idfontsize,
-		    $barcode, $nbw,$bh,$barcodesize,$raligntext );
+		    $barcode, $nbw,$bh,$barcodesize,$wantraligntext );
 
 
     // for code39 barcodes: check if barcode fits inside label, allowing space for its quiet zone

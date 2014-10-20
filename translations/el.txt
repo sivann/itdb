@@ -38,7 +38,7 @@ Associations#Συσχετισμοί
 Blank passwords prohibit login#Τα κενά συνθηματικά απαγορεύουν την πρόσβαση
 Border Color (0-255)#Χρώμα περιγραμμάτων
 Bottom Margin#Κάτω περιθώριο
-<br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate &amp; center'</b>#<br><br>Στο διάλογο εκτύπωσης του PDF, <br>ορίστε <b>'κλιμάκωση σελίδας (Page Scaling)'</b> σε <b>'Καμία (None)'</b>, <br>και <b>απο-επιλέξτε</b> 'αυτόματη περιστροφή &amp; κεντράρισμα (auto-rotate &amp; center)'</b>
+<br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate & center'</b>#<br><br>Στο διάλογο εκτύπωσης του PDF, <br>ορίστε <b>'κλιμάκωση σελίδας (Page Scaling)'</b> σε <b>'Καμία (None)'</b>, <br>και <b>απο-επιλέξτε</b> 'αυτόματη περιστροφή & κεντράρισμα (auto-rotate & center)'</b>
 Browse Data#Πλοήγηση
 Browse#Πλοήγηση
 Building Name#Όνομα κτηρίου
@@ -48,7 +48,7 @@ Changes are saved immediately.<br>Removing tags removes associations not Tags. U
 Click on Item count column on the left to display associated items#Πατήστε στο πλήθος αντικειμένων στα αριστερά για να τα εμφανίσετε
 Click on Software count column on the left to display associated software#στο πλήθος λογισμικών στα αριστερά για να τα εμφανίσετε
 Click 'Show Labels'#Πατήστε 'Εμφάνιση Ετικετών'
-Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor &amp; Buyer</u>: will be listed in invoices &amp; Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Cntrl+κλίκ για πολλαπλή επιλογή ρόλων πράκτορα <br><br><u>Πωλητές &amp; Αγοραστές</u>: χρησιμοποιούνται στα τιμολόγια και στα συμβόλαια <br><br><u>Κατασκευαστές υλικού</u>: χρησιμοποιούνται στα αντικείμενα <br><br><u>Κατασκευαστές υλικού</u>: χρησιμοποιούνται στα λογισμικά
+Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor & Buyer</u>: will be listed in invoices & Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Cntrl+κλίκ για πολλαπλή επιλογή ρόλων πράκτορα <br><br><u>Πωλητές & Αγοραστές</u>: χρησιμοποιούνται στα τιμολόγια και στα συμβόλαια <br><br><u>Κατασκευαστές υλικού</u>: χρησιμοποιούνται στα αντικείμενα <br><br><u>Κατασκευαστές υλικού</u>: χρησιμοποιούνται στα λογισμικά
 Cntrl+Click to select multiple roles for an agent#Cntrl+κλίκ για επιλογή πολλαπλών ρόλων
 Columns#Στήλες
 Comments#Σχόλια
@@ -93,7 +93,7 @@ DNS Name#DNSName
 DnsName#Όνομα DNS
 Documents, Manuals, Offers, Licenses, ...#Έγγραφα, Εγχειρίδια, Προσφορές, Άδειες χρήσης, ...
 Download a complete installation backup (much larger)#Κατέβασμα πλήρους αντιγράφου της εγκατάστασης (μεγάλο αρχείο)
-Download &amp; print the resulting PDF#Κατεβάστε και τυπώστε το παραχθέν PDF
+Download & print the resulting PDF#Κατεβάστε και τυπώστε το παραχθέν PDF
 Download DataBase file. Contains all data except uploaded files/documents#Κατέβασμα μόνο της βάσης δεδομένων. Περιέχει τις εγγραφές αλλά όχι τα ανεβασμένα έγγραφα/αρχεία.
 Download#Κατέβασμα
 Do you really want to remove this row?#Θέλετε να σβήσετε αυτή τη γραμμή;
@@ -109,8 +109,8 @@ Effective date#Ημ. ισχύος
 e.g. like donator, etc. Vendor info is best to be provided in the related invoice#π.χ.:δωρητής, κλπ. Ο πωλητής καλύτερα να ορίζεται στο σχετικό τιμολόγιο
 Email#Email
 End Date#Ημ. Λήξης
-End&nbsp;Date after#Ημ. λήξης μετά
-End&nbsp;Date before#Ημ. λήξης πρίν
+End Date after#Ημ. λήξης μετά
+End Date before#Ημ. λήξης πρίν
 End#Τέλος
 Entered By#Εισήχθη από
 enter text to filter listed items#εισάγετε κείμενο για φιλτράρισμα επιλογών
@@ -140,7 +140,7 @@ Home#Αρχική
 Horz. Pitch#Οριζ. απόσταση (pitch)
 How is this item used. e.g.: Video Encoder#Σκοπός χρήσης αντ/νου. π.χ. Video encoder
 how many items are assigned to this rack#Πόσα αντικείμενα σχετίζονται με το ικρίωμα
-H/W &amp; S/W Manufacturers &amp; Vendors, Buyers, Contractors#Κατασκευαστές υλικού &amp; λογισμικού, πωλητές, συμβαλόμενοι
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#Κατασκευαστές υλικού & λογισμικού, πωλητές, συμβαλόμενοι
 H/W Manufacturer#Κατασκευαστές υλικού
 [id desc]#[id περιγρ.]
 ID FontSize#Μέγεθος ID
@@ -204,7 +204,7 @@ Manage Agents#Διαχείριση Πρακτόρων
 Manage item locations#Διαχείριση θέσεων αντικειμένων
 Manage various parameters#Διάφορες παράμετροι
 Manage your contracts <br> Support, Licenses, Leases, etc#Διαχείριση Συμβολαίων<br>Συντήρηση, άδειες, ενοικιάσεις, κ.λπ.
-Manage your H/W items <br> PCs, Switches, Phones, etc#Διαχείριση υλικού<br>Η/Υ, Δικτυακές &amp; τηλ. συσκευές, κλπ
+Manage your H/W items <br> PCs, Switches, Phones, etc#Διαχείριση υλικού<br>Η/Υ, Δικτυακές & τηλ. συσκευές, κλπ
 Manage your Invoices#Διαχείριση τιμολογίων
 Manage your software#Διαχείριση λογισμικού
 Manufacturer is missing#Λείπει ο κατασκευαστής
@@ -277,7 +277,7 @@ Save Invoice#Αποθήκευση τιμολογίου
 Save new location first to define areas onto it#Αποθηκεύστε πρώτα την τοποθεσία για να ορίσετε επιμέρους χώρους
 Save Preset#Αποθήκευση επιλογής
 Save#Αποθήκευση
-Select &amp; Print#Επιλέξτε &amp; τυπώστε
+Select & Print#Επιλέξτε & τυπώστε
 select and print labels for your items#επιλογή και εκτύπωση ετικεττών
 Select Cores/CPU#Επιλέξτε πυρήνες/cpu
 Select items from the list above#Επιλέξτε αντικείμενα από την παραπάνω λίστα
@@ -312,7 +312,7 @@ Start#Αρχή
 Status Types#Τύποι Καταστ.
 Status#Κατάσταση
 suggested resolution: 1024 pixels for A4 scans#συνιστώμενη ανάλυση 1024 pixels για A4
-Support and Maintanance, Leases, ...#Υποστήριξη &amp; συντήρηση, ενοικιάσεις, ...
+Support and Maintanance, Leases, ...#Υποστήριξη & συντήρηση, ενοικιάσεις, ...
 Supports<br>Software#Υποστηρίζει<br>Λογισμικό
 Switch Port#Switch Port
 Switch#Switch
@@ -354,7 +354,7 @@ View items by type, by user, by agent#Εμφάνιση αντικειμένων 
 View Reports#Εμφάνιση αναφορών
 View#Εμφάνιση
 Warranty Info#Πληροφορίες Εγγύησης
-Warranty&nbsp;Months#Μήνες&nbsp;Εγγύησης
+Warranty Months#Μήνες Εγγύησης
 Warranty#Εγγύηση
 Warr. Rem. days#Μέρες Εγ/σης
 Width#Πλάτος
@@ -369,7 +369,7 @@ No racks in location#τοποθεσία χωρίς ικριώματα
 No areas defined#Τοποθεσία χωρίς περιοχές
 Barcode Size#Μέγεθος γραμμοκώδικα
 <br>In the PDF printing dialog,#<br>Στο διάλογο εκτύπωσης του PDF
-<b>uncheck</b> 'auto-rotate &amp; center'</b>#απο-επιλέξτε την αυτόματη περιστροφή &amp; κεντράρισμα
+<b>uncheck</b> 'auto-rotate & center'</b>#απο-επιλέξτε την αυτόματη περιστροφή & κεντράρισμα
 Click 'Make Item Labels'#Πατήστε 'Δημιουργία ετικεττών αντικειμένων'
 Company Title#Τίτλος Εταιρείας
 Currency#Νόμισμα

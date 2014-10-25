@@ -2,7 +2,7 @@
 //ITDB:IT-items database
 //sivann at gmail.com 2008-2014
 
-$version="1.12";
+$version="1.13";
 $fordbversion=6;
 
 /*********************************************************************** 

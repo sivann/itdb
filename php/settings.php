@@ -60,6 +60,8 @@ echo "\n<h1>".t("Settings")."</h1>\n";
       <option <?php echo $s?> value='dmy'>Day/Month/Year</option>
       <?php if ($settings['dateformat']=="mdy") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> value='mdy'>Month/Day/Year</option>
+      <?php if ($settings['dateformat']=="ymd") $s="SELECTED"; else $s="" ?>
+      <option <?php echo $s?> value='ymd'>Year-Month-Day</option>
     </select>
     </td>
     </tr>

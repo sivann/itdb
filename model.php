@@ -417,12 +417,12 @@ function read_trans($lang) {
   if ($lang=="en") return;
   $fn="$scriptdir/translations/$lang.txt";
   if (is_readable($fn) && (($handle = fopen($fn, "r")) !== FALSE)) {
-      while (($data = fgetcsv($handle, 1000, "#")) !== FALSE) {
-	  $num = count($data);
-	  $row++;
-	  if ($num<2)  continue;
-	  if ($num>2)  echo "<p style='display:inline;background-color:white;color:red'> Error in $fn, row $row: ($num fields found, 2 expected) <br /></p>\n";
-	  $trans_tbl[$lang][$data[0]]=$data[1];
+      while ($line=trim(fgets($handle))) {
+        if($pos=strpos($line,'#')){
+          $key=substr($line,0,$pos);
+          $value=substr($line, $pos+1);
+          $trans_tbl[$lang][$key]=$value;
+        }
       }
       fclose($handle);
   }

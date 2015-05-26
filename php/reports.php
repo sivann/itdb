@@ -131,7 +131,6 @@ switch ($query) {
 	"INNER JOIN locations on items.locationid=locations.id ".
 	"INNER JOIN itemtypes on itemtypes.id=items.itemtypeid ".
 	"order by items.locationid,typedesc desc";
-	echo $sql;
     $editlnk="$scriptname?action=edititem&id";
     $graph['type']="pie";
     $graph['colx']="Location";

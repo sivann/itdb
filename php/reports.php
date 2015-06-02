@@ -124,12 +124,14 @@ switch ($query) {
   break;
 
   case "itemlistperlocation":
-    $sql="select items.id as ID, typedesc as type, agents.title as manufacturer, model, dnsname, ".
-         " locations.name || ' Floor:' || locations.floor  as Location  ".
-         " FROM items,agents,locations,itemtypes ".
-         " WHERE itemtypes.id=items.itemtypeid AND agents.id=items.manufacturerid ".
-         " AND items.locationid=locations.id order by locationid,typedesc desc;";
-    $editlnk="$scriptname?action=editlocations";
+	$sql="select items.id as ID, typedesc as type, agents.title as manufacturer, model, dnsname, ".
+	"locations.name || ' Floor:' || locations.floor || ' Area:' || (select locareas.areaname from locareas where locareas.id=items.locareaid) as Location  ".
+	"FROM items ".
+	"INNER JOIN agents on agents.id=items.manufacturerid ".
+	"INNER JOIN locations on items.locationid=locations.id ".
+	"INNER JOIN itemtypes on itemtypes.id=items.itemtypeid ".
+	"order by items.locationid,typedesc desc";
+    $editlnk="$scriptname?action=edititem&id";
     $graph['type']="pie";
     $graph['colx']="Location";
     $graph['coly']="totalcount";

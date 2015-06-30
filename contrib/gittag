@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+set -e
 lasthash=`git log --decorate=full --all --pretty=format:'%h %d'  |grep 'refs/tags'|head -1|awk '{print $1}'`
 lasttag=`git describe --tags $lasthash`
 

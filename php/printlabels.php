@@ -114,6 +114,30 @@ $(document).ready(function() {
       $('#selitemsfrm').submit();
     });
 
+	//Layout 2 Style
+	$('#getitemspdf_layout2').click(function(e) {
+      e.preventDefault();
+      if  (!$("#selitems :selected").length) {
+        alert('Select items from the list first');
+        return;
+      }
+
+      $("#selitemsfrm").attr("action", "php/printitemlabels_layout2_pdf.php");
+      $('#selitemsfrm').submit();
+    });
+
+    //QR-Code / Barcode Style
+    $('#getitemspdf_barcode').click(function(e) {
+      e.preventDefault();
+      if  (!$("#selitems :selected").length) {
+        alert('Select items from the list first');
+        return;
+      }
+
+      $("#selitemsfrm").attr("action", "php/printitemlabels_barcode_pdf.php");
+      $('#selitemsfrm').submit();
+    });
+
 
     $('#savepreset').click(function(e) {
       $("#selitemsfrm").attr("action", "?action=printlabels");
@@ -270,9 +294,14 @@ else
       </select>
       </div><!--selcontainer-->
 
-
-      <br><input class='prepbtn' id='getitemspdf' type=submit value='Make Item Labels'>
+	  <h3>Make Item Labels</h3>
+      <input class='prepbtn' id='getitemspdf' type=submit value='Layout 1'>
       <input type='hidden' name='labelaction' id='frmlabelaction' value=''>
+      <input class='prepbtn' id='getitemspdf_layout2' type=submit value='Layout 2'>
+	  <input type='hidden' name='labelaction' id='frmlabelaction' value=''>
+	  <input class='prepbtn' id='getitemspdf_barcode' type=submit value='QR Barcode'>
+	  <input type='hidden' name='labelaction' id='frmlabelaction' value=''>
+      <br>
       <br>
       <ol style='text-align:left'>
       <li><?php te("Select items from the list above");?></li>
@@ -305,8 +334,19 @@ else
 <td style='vertical-align:top;' rowspan=19 align=left>
 <?php 
 //ldata(rows,cols,lwidth,lheight, vpitch, hpitch, tmargin, bmargin, lmargin, rmargin)
+//Get rows and columns of the label from first database entry instead of always using 6 rows and 2 cols
+$FirstPresetIteration=true;
+$FirstPresetRow=0;
+$FirstPresetCol=0;
+
 if (isset($labelpapers))
 foreach ($labelpapers as $lp) {
+	//Get rows and columns of the label from first database entry instead of always using 6 rows and 2 cols
+	if ($FirstPresetIteration) {
+                $FirstPresetIteration = false;
+                $FirstPresetRow = $lp['rows'];
+                $FirstPresetCol = $lp['cols'];
+   }
   //echo $lp['id'];
   echo "\n<a href='javascript:ldata({$lp['rows']}, {$lp['cols']}, ".  
        "{$lp['lwidth']},{$lp['lheight']}, {$lp['vpitch']}, {$lp['hpitch']}, ".  
@@ -357,7 +397,9 @@ echo "<tr><td class='tdt'>".t("Rows").":</td><td>";
 echo "<select name=rows>\n";
 for ($i=1;$i<40;$i++) {
   if (isset($_POST['rows']) && $_POST['rows']=="$i") $s=" SELECTED "; 
-  elseif (!isset($_POST['rows']) && $i=="6") $s=" SELECTED "; 
+  //elseif (!isset($_POST['rows']) && $i=="6") $s=" SELECTED "; 
+  //Get rows and columns of the label from first database entry instead of always using 6 rows and 2 cols
+  elseif (!isset($_POST['rows']) && $i==$FirstPresetRow) $s=" SELECTED ";
   else $s="";
   echo "\n<option $s value=$i>$i</option>";
 }
@@ -367,7 +409,9 @@ echo "<tr><td class='tdt'>".t('Columns').":</td><td>";
 echo "<select name=cols>\n";
 for ($i=1;$i<10;$i++) {
   if (isset($_POST['cols']) && $_POST['cols']=="$i") $s=" SELECTED "; 
-  elseif (!isset($_POST['cols']) && $i=="2") $s=" SELECTED "; 
+  //elseif (!isset($_POST['cols']) && $i=="2") $s=" SELECTED "; 
+  //Get rows and columns of the label from first database entry instead of always using 6 rows and 2 cols
+  elseif (!isset($_POST['cols']) && $i==$FirstPresetCol) $s=" SELECTED ";
   else $s="";
   echo "\n<option $s value=$i>$i</option>";
 }

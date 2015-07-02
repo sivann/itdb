@@ -380,7 +380,6 @@ function calcremdays($purchdate_ts,$warrantymonths) {
 	if (!is_numeric($purchdate_ts))
 		return array('string'=>'','days'=>'');
 
-file_put_contents("/tmp/calc.txt","$purchdate_ts,$warrantymonths\n",FILE_APPEND);
 	$nowdate = new DateTime();
 	$pdate = new DateTime();
 	$pdate->setTimestamp(intval($purchdate_ts));
@@ -390,7 +389,11 @@ file_put_contents("/tmp/calc.txt","$purchdate_ts,$warrantymonths\n",FILE_APPEND)
 	$enddate=$pdate->add($d_interval);
 
 	$exp_interval = $nowdate->diff($enddate);
-	$exp_interval_str=$exp_interval->format('%r %y yr %m mon, %d d');
+	if ($exp_interval->format('%y'))
+		$exp_interval_str=$exp_interval->format('%r %y yr %m mon, %d d');
+	else
+		$exp_interval_str=$exp_interval->format('%r %m mon, %d d');
+
 	$exp_interval_sign=$exp_interval->format('%r');
 	$exp_interval_days="$exp_interval_sign".$exp_interval->days;
 

@@ -14,6 +14,16 @@ function ymd2sec($d)
 
   if (!strlen($d))
     $purchasedate2="NULL";
+  elseif ($settings['dateformat']=="ymd"){
+    $x=explode("-",$d);
+    if ((count($x)==1) && strlen(trim($d))==4) { //only year
+      $d2=  mktime(0, 0, 0, 1, 1, $d);
+    }
+    else {
+      $d2=  mktime(0, 0, 0, $x[1], $x[2], $x[0]);
+    }
+    return $d2;
+  }
   elseif ($settings['dateformat']=="dmy"){
     $x=explode("/",$d);
     if ((count($x)==1) && strlen(trim($d))==4) { //only year

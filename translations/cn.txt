@@ -197,7 +197,7 @@ Invoices#单据
 INVOICES#单据
 IPv4#IPv4
 IPv6#IPv6
-Is Part#属于
+Is Part#从属部件
 Issue Date#签署日期
 ITDB Settings#ITDB 设置
 Item Associations#硬件关联
@@ -387,7 +387,7 @@ Upload a File#上传文件
 Upload a Floor Plan#上传楼层平面图
 Upload Files#上传文件
 Uploaded by#上传人
-Usage#用法
+Usage#使用
 Use the string 'service'  on the description to display this url on the item edit page#在硬件修改页面使用描述中的“service”字段显示此链接
 use when the top labels have already been printed#当顶部标签已经被打印过时使用
 User Description#用户描述

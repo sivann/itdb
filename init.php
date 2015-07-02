@@ -150,7 +150,13 @@ $settings=$sth->fetchAll(PDO::FETCH_ASSOC);
 $settings=$settings[0];
 
 
-if ($settings['dateformat']=="dmy") {
+if($settings['dateformat']=="ymd") {
+  $datetitle="y-m-d or yyyy";
+  $datecalparam="yy-mm-dd";
+  $dateparam="Y-m-d";
+  $maskdateparam="y999-m9-d9";
+}
+elseif ($settings['dateformat']=="dmy") {
   $datetitle="d/m/y or yyyy";
   $datecalparam="dd/mm/yy";
   $dateparam="d/m/Y";

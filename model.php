@@ -373,6 +373,35 @@ global $dateparam,$scriptname,$action,$id,$uploaddirwww,$dbh;
   return $flnk;
 
 }
+function calcremdays($purchdate_ts,$warrantymonths) {
+	if (!strlen($warrantymonths))
+		return array('string'=>'','days'=>'');
+
+	if (!is_numeric($purchdate_ts))
+		return array('string'=>'','days'=>'');
+
+file_put_contents("/tmp/calc.txt","$purchdate_ts,$warrantymonths\n",FILE_APPEND);
+	$nowdate = new DateTime();
+	$pdate = new DateTime();
+	$pdate->setTimestamp(intval($purchdate_ts));
+
+	$d_interval=new DateInterval("P{$warrantymonths}M");
+	$d_interval->invert=0;
+	$enddate=$pdate->add($d_interval);
+
+	$exp_interval = $nowdate->diff($enddate);
+	$exp_interval_str=$exp_interval->format('%r %y yr %m mon, %d d');
+	$exp_interval_sign=$exp_interval->format('%r');
+	$exp_interval_days="$exp_interval_sign".$exp_interval->days;
+
+	if ($exp_interval_sign=="-") 
+		$exp_interval_str="<span style='color:#F90000'>$exp_interval_str</span>";
+	else
+		$exp_interval_str="<span style='color:green'>$exp_interval_str</span>";
+
+	return array('string'=>$exp_interval_str,'days'=>$exp_interval_days);
+}
+
 
 function showremdays($remdays) {
   if (abs($remdays)>360) $remw=sprintf("%.1f",($remdays/360))."yr";

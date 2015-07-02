@@ -367,8 +367,8 @@ echo "</select>\n</td></tr>";
 echo "<tr><td class='tdt'>".t('Columns').":</td><td>";
 echo "<select name=cols>\n";
 for ($i=1;$i<10;$i++) {
-  if (isset($_POST['cols']) && $_POST['cols']=="$cols") $s=" SELECTED "; 
-  elseif (!isset($_POST['cols']) && $i=="2") $s=" SELECTED "; 
+  if (isset($_POST['cols']) && $_POST['cols']=="$i") $s=" SELECTED "; 
+  elseif (!isset($_POST['cols']) && $i=="$cols") $s=" SELECTED "; 
   else $s="";
   echo "\n<option $s value=$i>$i</option>";
 }

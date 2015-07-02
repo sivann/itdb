@@ -31,8 +31,8 @@ else {
 }
 
 if ((isset($_GET['export']) && ($_GET['export']==1))) {
-  $action = "listitems"; 
-  require ("php/listitems.php");
+  $action = "listitems2"; 
+  require ("php/listitems2.php");
   exit;
 }
 

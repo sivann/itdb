@@ -22,13 +22,16 @@ read -e -p "Press enter to tag $newtag: "
 
 gitbase=`git rev-parse --show-toplevel`
 
+echo ""
 echo "Updating sqlite settings.version to $newtag"
 echo "update settings set version='$newtag';"|sqlite3 ../data/itdb.db
 echo "update settings set version='$newtag';"|sqlite3 ../data/pure.db
 
-
 echo $newtag > $gitbase/VERSION
 git add $gitbase/VERSION
+
+echo ""
+echo "Committing $newtag"
 git commit -m "Set version to $newtag"
 #git push origin
 git push github

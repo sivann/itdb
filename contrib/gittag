@@ -11,6 +11,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+git pull
 set -e
 lasthash=`git log --decorate=full --all --pretty=format:'%h %d'  |grep 'refs/tags'|head -1|awk '{print $1}'`
 lasttag=`git describe --tags $lasthash`
@@ -29,6 +30,7 @@ echo "update settings set version='$newtag';"|sqlite3 ../data/pure.db
 
 echo $newtag > $gitbase/VERSION
 git add $gitbase/VERSION
+git add $gitbase/data/pure.db
 
 echo ""
 echo "Committing $newtag"

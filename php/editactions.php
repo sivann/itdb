@@ -23,7 +23,9 @@ var thetoday=mydate.getDate()
 var x=document.getElementById('newdate').value;
 
   if (x.length==0) {
-<?php if ($settings['dateformat']=="dmy") {?>
+<?php if ($settings['dateformat']=="ymd") {?>
+    document.getElementById('newdate').value=theyear+"-"+themonth+"-"+thetoday;
+<?php  } elseif ($settings['dateformat']=="dmy") {?>
     document.getElementById('newdate').value=thetoday+"/"+themonth+"/"+theyear;
 <?php  } else {?>
     document.getElementById('newdate').value=themonth+"/"+thetoday+"/"+theyear;

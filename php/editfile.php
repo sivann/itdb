@@ -384,16 +384,18 @@ else
       if ($id=="new") {
 	$tip="";
 	echo t("Upload a File");
+  $file_validate_required='true';
       }
       else{
 	$tip=t("If you select a new file, it will replace the current one, <br>while keeping its associations.");
 	echo t("Replace File");
+  $file_validate_required='false';
       }
       ?>
     </h3></td></tr>
     <!-- file upload -->
     <tr> 
-      <td class="tdt">File:</td> <td><input validate='required:true' name="file" id="file" size="25" type="file"></td>
+      <td class="tdt">File:</td> <td><input validate='required:<?php echo $file_validate_required;?>' name="file" id="file" size="25" type="file"></td>
     </tr>
     </table>
 <?php echo $tip?>

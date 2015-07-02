@@ -119,14 +119,12 @@ $fn="translations/$lang.txt";
 
 if (strlen($lang) && ($lang !="en")) {
 	if (is_readable($fn) && (($handle = fopen($fn, "r")) !== FALSE)) {
-		while (($data = fgetcsv($handle, 1000, "#")) !== FALSE) {
-			$num = count($data);
-			$row++;
-			if ($num<2)  continue;
-			if ($num>2)  echo "<p style='display:inline;background-color:white;color:red'> Error in $fn, row $row: ($num fields found, 2 expected) <br /></p>\n";
-			$tt1[]=$data[0];
-			$tt2[]=$data[1];
-		}
+    while ($line=trim(fgets($handle))) {
+      if($pos=strpos($line,'#')){
+        $tt1[]=substr($line,0,$pos);
+        $tt2[]=substr($line, $pos+1);
+      }
+    }
 		fclose($handle);
 	}
 	else {
@@ -150,9 +148,11 @@ if ($nt) {
 	$nfn="translations/new.txt";
 	if (is_readable($nfn) && (($handle = fopen($nfn, "r")) !== FALSE)) {
 		$eng=array();
-		while (($data = fgetcsv($handle, 1000, "#")) !== FALSE) {
-			$eng[]=$data[0];
-		}
+    while ($line=trim(fgets($handle))) {
+      if($pos=strpos($line,'#')){
+        $eng[]=substr($line,0,$pos);
+      }
+    }
 	}
 
 	//find which english words are missing from current translation file

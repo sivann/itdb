@@ -172,7 +172,7 @@ switch ($query) {
   case "itemsendwarranty":
     $t=time();
     $sql="select items.id as ID,ipv4, typedesc as type, agents.title as manufacturer, model, dnsname, label,  ".
-         " (purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) RemainingDays FROM items,itemtypes,agents ".
+         " (strftime('%s',purchasedate,'unixepoch','+'||warrantymonths||' months')-$t)/(60*60*24)  RemainingDays FROM items,itemtypes,agents ".
          " WHERE  agents.id=manufacturerid AND itemtypes.id=items.itemtypeid  AND RemainingDays>-360 AND RemainingDays<360 order by RemainingDays ";
     $editlnk="$scriptname?action=edititem&id";
   break;

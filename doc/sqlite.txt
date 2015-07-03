@@ -12,7 +12,7 @@ CREATE TABLE files (id INTEGER PRIMARY KEY AUTOINCREMENT,type,title,fname, uploa
 CREATE TABLE filetypes (id INTEGER PRIMARY KEY AUTOINCREMENT, typedesc);
 CREATE TABLE history (id INTEGER PRIMARY KEY AUTOINCREMENT, date integer, sql, authuser, ip);
 CREATE TABLE invoice2file(invoiceid INTEGER,fileid INTEGER);
-CREATE TABLE "invoices" ("id" INTEGER PRIMARY KEY ,"number" ,"date" integer,vendorid  integer,buyerid integer , description);
+CREATE TABLE "invoices" ("id" INTEGER PRIMARY KEY ,"number" ,"date" integer,vendorid  integer,buyerid integer,inv_total TEXT, description);
 CREATE TABLE item2file(itemid INTEGER,fileid INTEGER);
 CREATE TABLE "item2inv" (itemid integer,invid integer);
 CREATE TABLE item2soft (itemid INTEGER, softid INTEGER, instdate INTEGER);

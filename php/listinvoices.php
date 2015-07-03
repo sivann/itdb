@@ -22,7 +22,8 @@ $(function () {
 			{ "sType": "title-numeric" },
 			null,
 			null,
-			null
+			null,
+            null
 		]
 
   });
@@ -68,7 +69,7 @@ $sth=db_execute($dbh,$sql);
 <table class="display" width='100%' border=0 id="invlisttbl">
 <thead>
 <tr><th style='width:80px' nowrap><?php te("Edit ID");?></th><th><?php te("Vendor");?></th><th><?php te("Buyer");?></th><th><?php te("Date");?></th>
-     <th><?php te("Order No");?></th><th><?php te("Description");?></th><th><?php te("Associated Files");?></th></tr>
+     <th><?php te("Order No");?></th><th><?php te("Invoice Total");?></th><th><?php te("Description");?></th><th><?php te("Associated Files");?></th></tr>
 </thead>
 <tbody>
 <?php 
@@ -103,6 +104,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   echo "<td>".$agents[$r['buyerid']]['title']."</td>\n";
   echo "<td ><span title='{$r['date']}'></span>$d</td>\n";
   echo "<td>{$r['number']}</td>\n";
+  echo "<td style='text-align:right;padding-right:30px;'>{$r['inv_total']}</td>\n";
   echo "<td>{$r['description']}</td>\n";
   echo "<td>$flnk</td>\n";
   echo "</tr>\n\n";

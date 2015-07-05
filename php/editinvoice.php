@@ -266,7 +266,7 @@ else
 	  <td class="tdt"><?php te("Date");?>*:</td> <td><input  class='dateinp mandatory' validate='required:true' size=10 id='date' title='<?php echo $datetitle?>' type=text name='date' value='<?php echo $d?>'>
 	  </td>
       </tr>
-      	<tr><td class="tdt"><?php te("Total");?>:$</td> <td><input class='inv_total' validate='required:false' size=10 type=text name='inv_total' value="<?php echo $inv_total?>"></td></tr> 
+      	<tr><td class="tdt"><?php te("Total (");?><?php echo $settings['currency']?>):</td> <td><input class='inv_total' validate='required:false' size=10 type=text name='inv_total' value="<?php echo $inv_total?>"></td></tr> 
       <tr><td class="tdt"><?php te("Description");?>:</td> <td colspan=2> <textarea name='description' class='tarea2' wrap='soft'><?php echo $description?></textarea> </td></tr>
 
       </table>

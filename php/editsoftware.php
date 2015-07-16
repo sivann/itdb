@@ -476,7 +476,7 @@ else
        "target=_blank href='$scriptname?action=edititem&id=".$ir['id']."'><div class='editid'>".
        $ir['id'].
        "</div></a></td>";
-       echo "<td $attr $cls>".$typeid2name[$ir['itemtypeid']].
+       echo "<td $cls>".$typeid2name[$ir['itemtypeid']].
        "<td $cls>".$agents[$ir['manufacturerid']]['title']. "&nbsp;</td>".
        "<td $cls>".$ir['model'].  "&nbsp;</td>".
        "<td $cls>".$ir['label']."&nbsp;</td>".

@@ -486,7 +486,7 @@ else
   //////////////////////////////////////////////
   //connect to Items
   $sql=" SELECT COALESCE((SELECT contractid FROM contract2inv WHERE invid='$id' AND contractid=contracts.id ),0) islinked , ".
-       " contracts.id, contracts.title AS ctitle, agents.title AS agtitle  ".
+       " contracts.id, contracts.title AS ctitle, contracts.number AS cnumber, agents.title AS agtitle  ".
        " FROM contracts,agents WHERE agents.id=contracts.contractorid ".
        " ORDER BY islinked desc,contractorid,ctitle";
   $sth=db_execute($dbh,$sql);
@@ -494,7 +494,7 @@ else
   <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
      <table width='100%' class='tbl2 brdr sortable'  id='contrlisttbl'>
        <thead>
-          <tr><th width='5%'><?php te("Associated");?></th><th><?php te("ID");?></th><th><?php te("Contractor");?></th><th><?php te("Title");?></th>
+          <tr><th width='5%'><?php te("Associated");?></th><th><?php te("ID");?></th><th><?php te("Contractor");?></th><th><?php te("Contract Number");?></th><th><?php te("Title");?></th>
           </tr>
         </thead>
         <tbody>
@@ -515,6 +515,7 @@ else
     echo $ir['id'];
     echo "</a></td>".
      "<td $cls>".$ir['agtitle'].  "&nbsp;</td>".
+     "<td $cls>".$ir['cnumber'].  "&nbsp;</td>".
      "<td $cls>".$ir['ctitle']."&nbsp;</td></tr>\n";
   }
   ?>

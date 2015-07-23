@@ -4,44 +4,49 @@ $(document).ready(function() {
 });
 </script>
 
-<?php 
-if (!isset($initok)) {echo "do not run this script directly";exit;}
+<?php
+    if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
 
 
-if (isset($sqlsrch) && !empty($sqlsrch)) 
-  $where = "where sql like '%$sqlsrch%'";
-else { 
- $sqlsrch="";
- $where="";
-}
+    if (isset($sqlsrch) && !empty($sqlsrch)){
+        $where = "where sql like '%$sqlsrch%'";
+    }
+    else {
+        $sqlsrch="";
+        $where="";
+    }
 
-
-$reports=array (
-'itemperagent' => t('Number of items per Manufacturer (Agent)'),
-'softwareperagent' => t('Number of installed Software per Manufacturer (Agent)'),
-'invoicesperagent' => t('Number of invoices per Vendor (Agent)'),
-'itemsperlocation' => t('Number of items per Location'),
-'percsupitems' => t('Number of Items under support'),
-'itemlistperlocation' => t('Item list per location'),
-'itemsendwarranty' => t('Items with warranty end date close to (before or after) today'),
-'allips' => t('List items with defined IPv4 numbers'),
-'noinvoice' => t('Items without invoices'),
-'nolocation' => t('Items without location'),
-'depreciation3' => t('Item depreciation value 3 years'),
-'depreciation5' => t('Item depreciation value 5 years'),
+/* List of reports on the reports page. Clicking the link will run the respective SQL query. */
+$reports=array
+(
+    'contracttotals' => t('List Contract Purchase Totals'),
+    'contractinvoices' => t('List Invoice POs by Contract'),
+    'inventoryitems' => t('List of Items in Inventory'),
+    'itemperagent' => t('Number of items per Manufacturer (Agent)'),
+    'softwareperagent' => t('Number of installed Software per Manufacturer (Agent)'),
+    'invoicesperagent' => t('Number of invoices per Vendor (Agent)'),
+    'itemsperlocation' => t('Number of items per Location'),
+    'percsupitems' => t('Number of Items under support'),
+    'itemlistperlocation' => t('Item list per location'),
+    'itemsendwarranty' => t('Items with warranty end date close to (before or after) today'),
+    'allips' => t('List items with defined IPv4 numbers'),
+    'noinvoice' => t('Items without invoices'),
+    'nolocation' => t('Items without location'),
+    'depreciation3' => t('Item depreciation value 3 years'),
+    'depreciation5' => t('Item depreciation value 5 years'),
 );
 
 
 ?>
+
+
 <h1><?php te("Reports");?></h1>
-
-<div style='width:100%;clear:both;'>
-
-  <div style='float:left;text-align:left;padding:5px;height:350px;overflow-y:auto;width:300px;border:1px solid #cecece;'>
-  <h2><?php te("Select Report");?></h2>
-  <ul>
+    <div style='width:100%;clear:both;'>
+      <div style='float:left;text-align:left;padding:5px;height:350px;overflow-y:auto;width:300px;border:1px solid #cecece;'>
+     <h2><?php te("Select Report");?></h2>
+         <ul>
 
 <?php 
   $curdesc="";
@@ -63,9 +68,63 @@ $reports=array (
 
 <div style='width:100%;clear:both;'>
 
+
+<!-- Report SQL Queries--> 
 <?php 
 switch ($query) {
 
+  case "contracttotals":
+    $sql="SELECT". 
+        " c.number as 'Contract Number', c.title as 'Contract Title',".
+	" SUM(invoices.inv_total) as 'Running Total'". 
+	" FROM invoices".
+        " JOIN contract2inv c2i ON invoices.id=c2i.invid". 
+        " JOIN contracts c ON c2i.contractid=c.id".
+        " WHERE invoices.vendorid='22' OR invoices.vendorid='24'".
+	" GROUP by c.title".
+	" ORDER by Date asc;";
+    $editlnk="$scriptname?action=editcontract&id";
+    $graph['type']="pie";
+    $graph['colx']="Contract Title";
+    $graph['coly']="Running Total";
+    $graph['limit']=15;
+  break;
+
+  case "contractinvoices":
+    $sql="SELECT invoices.id as ID, invoices.number as 'PO Number', invoices.description as Description, invoices.inv_total as Total, strftime('%m-%d-%Y', invoices.date, 'unixepoch') as Date,".
+        " c.number as 'Contract Number', c.title as 'Contract Title', NULL as 'Contract Total'".
+        " FROM invoices".
+        " JOIN contract2inv c2i ON invoices.id=c2i.invid". 
+        " JOIN contracts c ON c2i.contractid=c.id".
+        " WHERE invoices.vendorid='22' OR invoices.vendorid='24'".
+        " UNION".
+        " SELECT NULL, NULL, NULL, NULL, NULL, c.number as 'Contract Number', c.title as 'Contract Title',".
+        " SUM(invoices.inv_total) as 'Running Total'".
+        " FROM invoices".
+        " JOIN contract2inv c2i ON invoices.id=c2i.invid".
+        " JOIN contracts c ON c2i.contractid=c.id".
+        " WHERE invoices.vendorid='22' OR invoices.vendorid='24'".
+        " GROUP by c.title".
+        " ORDER by c.number, Date asc;";
+    $editlnk="$scriptname?action=editinvoice&id";
+    $graph['type']="pie";
+    $graph['colx']="Contract Title";
+    $graph['coly']="Total";
+    $graph['limit']=15;
+  break;
+
+  case "inventoryitems":
+    $sql="SELECT i.id as ID, it.typedesc as 'Item Type', model as Model, sn as 'Serial Number', purchprice as 'Purchase Price',".
+	" l.name as 'Location Name',  la.areaname as 'Room'".
+    " FROM items i".
+    " JOIN itemtypes it ON i.itemtypeid=it.id".
+    " JOIN locations l ON i.locationid=l.id".
+    " JOIN locareas la ON i.locareaid=la.id".
+    " WHERE status=5".
+    " ORDER by status";
+    $editlnk="$scriptname?action=edititem&id";
+  break;
+  
   case "depreciation5":
     $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model, strftime('%Y-%m-%d', purchasedate,'unixepoch') AS PurchaseDate, ".
 	     "purchprice as PurchasePrice, ".
@@ -124,14 +183,13 @@ switch ($query) {
   break;
 
   case "itemlistperlocation":
-	$sql="select items.id as ID, typedesc as type, agents.title as manufacturer, model, dnsname, ".
-	"locations.name || ' Floor:' || locations.floor || ' Area:' || (select locareas.areaname from locareas where locareas.id=items.locareaid) as Location  ".
-	"FROM items ".
-	"INNER JOIN agents on agents.id=items.manufacturerid ".
-	"INNER JOIN locations on items.locationid=locations.id ".
-	"INNER JOIN itemtypes on itemtypes.id=items.itemtypeid ".
-	"order by items.locationid,typedesc desc";
-    $editlnk="$scriptname?action=edititem&id";
+    $sql="select items.id as ID, typedesc as 'Product Type', agents.title as Manufacturer, model as Model, sn as 'Serial Number', sn3 as 'Service Tag#',".
+	" strftime('%m-%d-%Y', purchasedate, 'unixepoch') as 'Purchase Date', replace(purchprice,'$','') as 'Purchase Price'  ".
+        " FROM items,agents,itemtypes".
+        " WHERE itemtypes.id=items.itemtypeid".
+	" AND agents.id=items.manufacturerid AND date(purchasedate)>= date('2015-01-01') ".
+        " ORDER by purchasedate, purchprice desc, typedesc desc;";
+    $editlnk="$scriptname?action=editlocations";
     $graph['type']="pie";
     $graph['colx']="Location";
     $graph['coly']="totalcount";
@@ -150,15 +208,14 @@ switch ($query) {
   break;
 
   case "softwareperagent":
-    $sql="select count(*) as totalcount,agents.title as Agent, agents.id as ID from software,agents ".
-         "WHERE agents.id=software.manufacturerid group by manufacturerid order by totalcount desc;";
+    $sql="select count(*) as totalcount,agents.title as Agent, agents.id as ID from software,agents".	" WHERE agents.id=software.manufacturerid group by manufacturerid order by totalcount desc;";
     $editlnk="$scriptname?action=editagent&id";
     $graph['type']="pie";
     $graph['colx']="Agent";
     $graph['coly']="totalcount";
     $graph['limit']=15;
   break;
-
+  
   case "invoicesperagent":
     $sql="select count(*) as totalcount,agents.title as Agent, agents.id as ID from invoices,agents ".
          "WHERE agents.id=invoices.vendorid group by vendorid order by totalcount desc;";
@@ -172,7 +229,7 @@ switch ($query) {
   case "itemsendwarranty":
     $t=time();
     $sql="select items.id as ID,ipv4, typedesc as type, agents.title as manufacturer, model, dnsname, label,  ".
-         " (strftime('%s',purchasedate,'unixepoch','+'||warrantymonths||' months')-$t)/(60*60*24)  RemainingDays FROM items,itemtypes,agents ".
+         " (purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) RemainingDays FROM items,itemtypes,agents ".
          " WHERE  agents.id=manufacturerid AND itemtypes.id=items.itemtypeid  AND RemainingDays>-360 AND RemainingDays<360 order by RemainingDays ";
     $editlnk="$scriptname?action=edititem&id";
   break;

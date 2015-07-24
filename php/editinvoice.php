@@ -535,7 +535,7 @@ else
       <!-- file upload -->
       <tr><td class="tdc">
       <iframe class="upload_frame" name="upload_frame" 
-	    src="php/uploadframe.php?id=<?php echo $id?>&amp;type=invoice&amp;assoctable=invoice2file&amp;colname=invoiceid&amp;defdate=<?php echo urlencode($d)?>"  
+	    src="php/uploadframe.php?id=<?php echo $id?>&amp;assoctable=invoice2file&amp;colname=invoiceid&amp;defdate=<?php echo urlencode($d)?>"  
 	    frameborder="0" allowtransparency="true"></iframe>
       </td>
       </tr>

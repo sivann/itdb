@@ -1,4 +1,5 @@
 <?php 
+$tmpdir= sys_get_temp_dir ();
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 if (!isset($_POST['nextstep']))
@@ -47,7 +48,7 @@ $nfields=count($fno2name);
 
 if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
   $filefn=strtolower("import-".$_COOKIE["itdbuser"]."-".validfn($_FILES['file']['name']));
-  $uploadedfile = "/tmp/".$filefn;
+  $uploadedfile = "$tmpdir/".$filefn;
   $result = '';
 
   //Move the file from the stored location to the new location

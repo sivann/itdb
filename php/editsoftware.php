@@ -24,6 +24,12 @@ $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $agents[$r['id']]=$r;
 
 
+// Get checksum type values for drop down 
+$sql="SELECT * FROM cksumtypes order by cksumtype";
+$sth=db_execute($dbh,$sql);
+while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $cksumtypes[$r['id']]=$r;
+
+
 //delete software
 if (isset($_GET['delid'])) { //if we came from a post (save) the update software 
   $delid=$_GET['delid'];
@@ -176,6 +182,10 @@ $sinfo=$r['sinfo'];
 $invoiceid=$r['invoiceid'];
 $licqty=$r['licqty'];
 $lictype=$r['lictype'];
+$cksumtype=$r['cksumtype'];
+$checksum=$r['checksum'];
+$ostype=$r['ostype'];
+$locationurl=$r['locationurl'];
 
 
 echo "\n<form id='mainform' method=post  action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
@@ -304,15 +314,35 @@ else
     <input style='width:10%' type=radio <?php echo $t2?> name='lictype' value='2'>Core
     </td>
     </tr>
-
-
-
       <tr><td class="tdt"><?php te("Licencing Info");?>:</td> <td colspan=2>
 	      <textarea name='slicenseinfo' class='tarea2' wrap='soft'><?php echo $slicenseinfo?></textarea></td></tr>
       <tr><td class="tdt"><?php te("Other Info");?>:</td> <td colspan=2> <textarea name='sinfo' class='tarea2' wrap='soft'><?php echo $sinfo?></textarea> </td></tr>
       </table>
   </td>
 
+  <!-- Added software info section -->
+  <td class="tdtop" style='width:300px' title='<?php te("Added software information");?>' >
+  <h3><?php te("Software Info");?></h3>
+  <table class="tbl2" style='width:300px;'>
+  <tr><td class="tdt">Checksum Type</td><td>
+    <select name='cksumtype'>
+	<?php 
+       echo "\n<option  value=''>--- Please Select ---</option>";
+       foreach ($cksumtypes as $ckstype) {
+	     $dbid=$ckstype['id'];
+	     $fcksumtype=ucfirst($ckstype['cksumtype']);
+	     if ($r['type']==$dbid) $s=" SELECTED "; else $s="";
+	   echo "\n<option $s value='$dbid'>$fcksumtype</option>";
+     }
+?>
+    </select>
+  </td></tr>
+  <tr><td class="tdt">Checksum:</td> <td><input  class='input2' type=text name='cksum' value='<?php echo $checksum ?>'</td></tr>
+  <tr><td class="tdt">OS Type:</td> <td><input  class='input2' type=text name='ostype' value='<?php echo $ostype ?>'</td></tr>
+  <tr><td class="tdt">Location URL:</td> <td><input  class='input2' type=text name='locationurl' value='<?php echo $locationurl ?>'</td></tr>
+  </table>
+</td>
+  
   <td rowspan=1 class="tdtop"> <!-- related start -->
     <h3><?php te("Associations Overview");?></h3>
     <div style='text-align:center'>

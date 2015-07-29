@@ -103,10 +103,16 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
 
   $pd=ymd2sec($purchdate);
   $mend=ymd2sec($maintend);
+  
+  // added Software info
+  $cksumtype=$_POST['cksumtype'];
+  $checksum=$_POST['checksum'];
+  $ostype=$_POST['ostype'];
+  $locationurl=$_POST['locationurl'];
 
   if ($_POST['id']=="new")  {//if we came from a post (save) the add software 
-    $sql="INSERT into software (invoiceid,slicenseinfo,manufacturerid,stitle,sversion,sinfo,purchdate,licqty,lictype)".
-         " VALUEs ('$invoiceid','$slicenseinfo','$manufacturerid','$stitle','$sversion','$sinfo','$pd','$licqty','$lictype')";
+    $sql="INSERT into software (invoiceid,slicenseinfo,manufacturerid,stitle,sversion,sinfo,purchdate,licqty,lictype,cksumtype,checksum,ostype,locationurl)".
+         " VALUES ('$invoiceid','$slicenseinfo','$manufacturerid','$stitle','$sversion','$sinfo','$pd','$licqty','$lictype','$cksumtype','$checksum','$ostype','$locationurl')";
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
     print "<br><b>Added Software <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -116,7 +122,8 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
   else {
     $sql="UPDATE software set invoiceid='$invoiceid', slicenseinfo='$slicenseinfo', ".
        " manufacturerid='$manufacturerid', stitle='$stitle', sversion='$sversion', ".
-       " sinfo='$sinfo', purchdate='$pd', licqty='$licqty', lictype='$lictype'  ".
+       " sinfo='$sinfo', purchdate='$pd', licqty='$licqty', lictype='$lictype',  ".
+       " cksumtype='$cksumtype',checksum='$checksum',ostype='$ostype',locationurl='$locationurl'".
        " WHERE id=$id";
     db_exec($dbh,$sql);
   }
@@ -176,6 +183,7 @@ $sql="SELECT * FROM software where id='$id'";
 $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 if (($id !="new") && (count($r)<5)) {echo "ERROR: non-existent ID";exit;}
+
 
 $manufacturerid=$r['manufacturerid'];
 $stitle=$r['stitle'];
@@ -326,34 +334,46 @@ else
   </td>
 
   <!-- Added software info section -->
-  <td class="tdtop" style='width:300px' title='<?php te("Added software information");?>' >
+  <td class="tdtop">
   <h3><?php te("Software Info");?></h3>
   <table class="tbl2" style='width:300px;'>
-  <tr><td class="tdt">Checksum Type</td><td>
-    <select name='cksumtype'>
-	<?php 
-       echo "\n<option  value=''>--- Please Select ---</option>";
-       foreach ($cksumtypes as $ckstype) {
-	     $dbid=$ckstype['id'];
-	     $fcksumtype=ucfirst($ckstype['cksumtype']);
-	     if ($r['type']==$dbid) $s=" SELECTED "; else $s="";
-	   echo "\n<option $s value='$dbid'>$fcksumtype</option>";
-     }
-?>
-    </select>
+  
+  <tr><td class="tdt">
+  <?php   if (is_numeric($cksumtype))
+       echo "<a title='Edit Checksum Type' href='$scriptname?action=editcksumtypes&amp;id=$cksumtype'><img src='images/edit.png'></a> "; ?>
+  
+  <?php te('Checksum Type');?>:</td> <td title='Add more checksum types at the "Cksum Types" menu'>
+	   <select name='cksumtype'>
+	   <option value=''>--- Please Select ---</option>
+	    <?php 
+	    foreach ($cksumtypes as $cks) {
+	      $dbid=$cks['id'];
+	      $selectedckstype=$cks['cksumtype']; $s="";
+	      if (isset($cksumtype) && $cksumtype==$cks['id']) $s=" SELECTED ";
+	      echo "<option $s value='$dbid' cksumtype='$dbid'>$selectedckstype</option>\n";
+	    }
+	    echo "</select>\n";
+        ?>  
   </td></tr>
-  <tr><td class="tdt">Checksum:</td> <td><input  class='input2' type=text name='cksum' value='<?php echo $checksum ?>'</td></tr>
-  <tr><td class="tdt">OS Type</td><td>
-    <select name='ostype'>
-	<?php 
-       echo "\n<option  value=''>--- Please Select ---</option>";
-       foreach ($ostypes as $ostype) {
-	     $dbid=$ostype['id'];
-	     $fostype=ucfirst($ostype['ostype']);
-	     if ($r['type']==$dbid) $s=" SELECTED "; else $s="";
-	   echo "\n<option $s value='$dbid'>$fostype</option>";
-     }
-?>
+  <tr><td class="tdt">Checksum:</td><td><input  class='input2' type=text name='checksum' value='<?php echo $checksum ?>'</td></tr>
+  
+  <tr><td class="tdt">
+  <?php   if (is_numeric($ostype))
+       echo "<a title='Edit OS Type' href='$scriptname?action=editostypes&amp;id=$ostype'><img src='images/edit.png'></a> "; ?>
+  
+  <?php te('OS Type');?>:</td> <td title='Add more OS types at the "OS Types" menu'>
+	   <select name='ostype'>
+	   <option value=''>--- Please Select ---</option>
+	    <?php 
+	    foreach ($ostypes as $os) {
+	      $dbid=$os['id'];
+	      $selectedostype=$os['ostype']; $s="";
+	      if (isset($ostype) && $ostype==$os['id']) $s=" SELECTED ";
+	      echo "<option $s value='$dbid' ostype='$dbid'>$selectedostype</option>\n";
+	    }
+	    echo "</select>\n";
+        ?>
+  </td></tr>
   <tr><td class="tdt">Location URL:</td> <td><input  class='input2' type=text name='locationurl' value='<?php echo $locationurl ?>'</td></tr>
   </table>
 </td>

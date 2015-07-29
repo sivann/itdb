@@ -169,6 +169,9 @@ switch ($_GET['action']) {
   case "editfiletypes": 
     $title="Edit File Types";
     break;
+  case "editcksumtypes":
+   	$title="Edit Checksum Types";
+   	break;
   case "printlabels": 
     $title="Print Labels ";
     break;
@@ -310,6 +313,7 @@ if ($authstatus) {
 <tr><td colspan=2><a style="<?php echo $style_editcontracttypes; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editcontracttypes" ><?php te("Contr. Types")?></a></td></tr>
 <tr><td colspan=2><a style="<?php echo $style_editstatustypes; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editstatustypes" ><?php te("Status Types");?></a></td></tr>
 <tr><td colspan=2><a style="<?php echo $style_editfiletypes; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editfiletypes" ><?php te("File Types");?></a></td></tr>
+<tr><td colspan=2><a style="<?php echo $style_editcksumtypes; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editcksumtypes" ><?php te("Cksum Types");?></a></td></tr>
 
 <tr><td colspan=2><a style="<?php echo $style_edittags; ?>" class='ahdr' href="<?php echo $scriptname?>?action=edittags" ><?php te("Tags")?></a></td></tr>
 

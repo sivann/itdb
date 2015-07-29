@@ -29,6 +29,11 @@ $sql="SELECT * FROM cksumtypes order by cksumtype";
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $cksumtypes[$r['id']]=$r;
 
+// Get os type values for dropdown
+$sql="SELECT * FROM ostypes order by ostype";
+$sth=db_execute($dbh,$sql);
+while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $ostypes[$r['id']]=$r;
+
 
 //delete software
 if (isset($_GET['delid'])) { //if we came from a post (save) the update software 
@@ -338,7 +343,17 @@ else
     </select>
   </td></tr>
   <tr><td class="tdt">Checksum:</td> <td><input  class='input2' type=text name='cksum' value='<?php echo $checksum ?>'</td></tr>
-  <tr><td class="tdt">OS Type:</td> <td><input  class='input2' type=text name='ostype' value='<?php echo $ostype ?>'</td></tr>
+  <tr><td class="tdt">OS Type</td><td>
+    <select name='ostype'>
+	<?php 
+       echo "\n<option  value=''>--- Please Select ---</option>";
+       foreach ($ostypes as $ostype) {
+	     $dbid=$ostype['id'];
+	     $fostype=ucfirst($ostype['ostype']);
+	     if ($r['type']==$dbid) $s=" SELECTED "; else $s="";
+	   echo "\n<option $s value='$dbid'>$fostype</option>";
+     }
+?>
   <tr><td class="tdt">Location URL:</td> <td><input  class='input2' type=text name='locationurl' value='<?php echo $locationurl ?>'</td></tr>
   </table>
 </td>

@@ -24,6 +24,17 @@ $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $agents[$r['id']]=$r;
 
 
+// Get checksum type values for drop down 
+$sql="SELECT * FROM cksumtypes order by cksumtype";
+$sth=db_execute($dbh,$sql);
+while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $cksumtypes[$r['id']]=$r;
+
+// Get os type values for dropdown
+$sql="SELECT * FROM ostypes order by ostype";
+$sth=db_execute($dbh,$sql);
+while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $ostypes[$r['id']]=$r;
+
+
 //delete software
 if (isset($_GET['delid'])) { //if we came from a post (save) the update software 
   $delid=$_GET['delid'];
@@ -92,10 +103,16 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
 
   $pd=ymd2sec($purchdate);
   $mend=ymd2sec($maintend);
+  
+  // added Software info
+  $cksumtype=$_POST['cksumtype'];
+  $checksum=$_POST['checksum'];
+  $ostype=$_POST['ostype'];
+  $locationurl=$_POST['locationurl'];
 
   if ($_POST['id']=="new")  {//if we came from a post (save) the add software 
-    $sql="INSERT into software (invoiceid,slicenseinfo,manufacturerid,stitle,sversion,sinfo,purchdate,licqty,lictype)".
-         " VALUEs ('$invoiceid','$slicenseinfo','$manufacturerid','$stitle','$sversion','$sinfo','$pd','$licqty','$lictype')";
+    $sql="INSERT into software (invoiceid,slicenseinfo,manufacturerid,stitle,sversion,sinfo,purchdate,licqty,lictype,cksumtype,checksum,ostype,locationurl)".
+         " VALUES ('$invoiceid','$slicenseinfo','$manufacturerid','$stitle','$sversion','$sinfo','$pd','$licqty','$lictype','$cksumtype','$checksum','$ostype','$locationurl')";
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
     print "<br><b>Added Software <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -105,7 +122,8 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
   else {
     $sql="UPDATE software set invoiceid='$invoiceid', slicenseinfo='$slicenseinfo', ".
        " manufacturerid='$manufacturerid', stitle='$stitle', sversion='$sversion', ".
-       " sinfo='$sinfo', purchdate='$pd', licqty='$licqty', lictype='$lictype'  ".
+       " sinfo='$sinfo', purchdate='$pd', licqty='$licqty', lictype='$lictype',  ".
+       " cksumtype='$cksumtype',checksum='$checksum',ostype='$ostype',locationurl='$locationurl'".
        " WHERE id=$id";
     db_exec($dbh,$sql);
   }
@@ -166,6 +184,7 @@ $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 if (($id !="new") && (count($r)<5)) {echo "ERROR: non-existent ID";exit;}
 
+
 $manufacturerid=$r['manufacturerid'];
 $stitle=$r['stitle'];
 $sversion=$r['sversion'];
@@ -176,6 +195,10 @@ $sinfo=$r['sinfo'];
 $invoiceid=$r['invoiceid'];
 $licqty=$r['licqty'];
 $lictype=$r['lictype'];
+$cksumtype=$r['cksumtype'];
+$checksum=$r['checksum'];
+$ostype=$r['ostype'];
+$locationurl=$r['locationurl'];
 
 
 echo "\n<form id='mainform' method=post  action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
@@ -304,15 +327,57 @@ else
     <input style='width:10%' type=radio <?php echo $t2?> name='lictype' value='2'>Core
     </td>
     </tr>
-
-
-
       <tr><td class="tdt"><?php te("Licencing Info");?>:</td> <td colspan=2>
 	      <textarea name='slicenseinfo' class='tarea2' wrap='soft'><?php echo $slicenseinfo?></textarea></td></tr>
       <tr><td class="tdt"><?php te("Other Info");?>:</td> <td colspan=2> <textarea name='sinfo' class='tarea2' wrap='soft'><?php echo $sinfo?></textarea> </td></tr>
       </table>
   </td>
 
+  <!-- Added software info section -->
+  <td class="tdtop">
+  <h3><?php te("Software Info");?></h3>
+  <table class="tbl2" style='width:300px;'>
+  
+  <tr><td class="tdt">
+  <?php   if (is_numeric($cksumtype))
+       echo "<a title='Edit Checksum Type' href='$scriptname?action=editcksumtypes&amp;id=$cksumtype'><img src='images/edit.png'></a> "; ?>
+  
+  <?php te('Checksum Type');?>:</td> <td title='Add more checksum types at the "Cksum Types" menu'>
+	   <select name='cksumtype'>
+	   <option value=''>--- Please Select ---</option>
+	    <?php 
+	    foreach ($cksumtypes as $cks) {
+	      $dbid=$cks['id'];
+	      $selectedckstype=$cks['cksumtype']; $s="";
+	      if (isset($cksumtype) && $cksumtype==$cks['id']) $s=" SELECTED ";
+	      echo "<option $s value='$dbid' cksumtype='$dbid'>$selectedckstype</option>\n";
+	    }
+	    echo "</select>\n";
+        ?>  
+  </td></tr>
+  <tr><td class="tdt">Checksum:</td><td><input  class='input2' type=text name='checksum' value='<?php echo $checksum ?>'</td></tr>
+  
+  <tr><td class="tdt">
+  <?php   if (is_numeric($ostype))
+       echo "<a title='Edit OS Type' href='$scriptname?action=editostypes&amp;id=$ostype'><img src='images/edit.png'></a> "; ?>
+  
+  <?php te('OS Type');?>:</td> <td title='Add more OS types at the "OS Types" menu'>
+	   <select name='ostype'>
+	   <option value=''>--- Please Select ---</option>
+	    <?php 
+	    foreach ($ostypes as $os) {
+	      $dbid=$os['id'];
+	      $selectedostype=$os['ostype']; $s="";
+	      if (isset($ostype) && $ostype==$os['id']) $s=" SELECTED ";
+	      echo "<option $s value='$dbid' ostype='$dbid'>$selectedostype</option>\n";
+	    }
+	    echo "</select>\n";
+        ?>
+  </td></tr>
+  <tr><td class="tdt">Location URL:</td> <td><input  class='input2' type=text name='locationurl' value='<?php echo $locationurl ?>'</td></tr>
+  </table>
+</td>
+  
   <td rowspan=1 class="tdtop"> <!-- related start -->
     <h3><?php te("Associations Overview");?></h3>
     <div style='text-align:center'>

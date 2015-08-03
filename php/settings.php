@@ -23,6 +23,7 @@ if (isset($_POST['dateformat']) ) { //if we came from a post (save), update the 
   $sql="UPDATE settings set companytitle='".trim($_POST['companytitle']).
   "', dateformat='".$_POST['dateformat'].
   "', currency='".$_POST['currency'].
+  "', theme='".$_POST['theme'].
   "', useldap='".$_POST['useldap'].
   "', ldap_server='".trim($_POST['ldap_server']).
   "', ldap_dn='".trim($_POST['ldap_dn']).
@@ -108,6 +109,19 @@ echo "\n<h1>".t("Settings")."</h1>\n";
       
       <?php if ($settings['currency']=="&#8381;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Rubel' value='<?php echo htmlentities("&#8381;");?>'>&#8381;</option>
+
+    <tr><td class="tdt"><?php te("Theme"); ?></td><td>
+    <select name='theme'>
+      <?php if ($settings['theme']=="default") $s="SELECTED"; else $s="" ;
+      echo "<option $s value='default'>Default (Blue)</option>";
+      foreach (glob('css/itdb-themes/*', GLOB_ONLYDIR) as $themedir) {
+        $themedir=str_replace('css/itdb-themes/', '', $themedir);
+        if ($settings['theme']=="$themedir") $s="SELECTED"; else $s="" ;
+        echo "<option $s value='$themedir'>$themedir</option>\n";
+      } ?>
+    </select>
+    </td>
+    </tr>
 
     </select></td></tr>
     <tr><td class="tdt"><?php te("Interface Language")?></td><td>

@@ -1002,7 +1002,7 @@ else {
   //////////////////////////////////////////////
   //connect to Items
   $sql=" SELECT COALESCE((SELECT softid from item2soft WHERE itemid='$id' AND softid=software.id ),0) islinked , ".
-       " software.id, stitle || ' ' || sversion as titver, agents.title AS agtitle  ".
+       " software.id, stitle || ' ' || sversion as titver, agents.title AS agtitle, strftime('%m-%d-%Y', purchdate, 'unixepoch') as date  ".
        " FROM software,agents WHERE agents.id=software.manufacturerid ".
        " ORDER BY islinked desc,manufacturerid,stitle,sversion ";
   $sth=db_execute($dbh,$sql);
@@ -1010,7 +1010,7 @@ else {
   <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
      <table width='100%' class='tbl2 brdr sortable'  id='softwarelisttbl'>
        <thead>
-          <tr><th width='5%'><?php te("Associated");?></th><th><?php te("ID");?></th><th><?php te("Manufacturer");?></th><th><?php te("Title/Ver.");?></th>
+          <tr><th width='5%'><?php te("Associated");?></th><th><?php te("ID");?></th><th><?php te("Manufacturer");?></th><th><?php te("Title/Ver.");?></th><th><?php te("Date");?></th>
           </tr>
         </thead>
         <tbody>
@@ -1032,7 +1032,8 @@ $xx=0;
     echo $ir['id'];
     echo "</a></td>".
      "<td $cls>".$ir['agtitle'].  "&nbsp;</td>".
-     "<td $cls>".$ir['titver']."&nbsp;</td></tr>\n";
+     "<td $cls>".$ir['titver']."&nbsp;</td>".
+     "<td $cls>".$ir['date']."&nbsp;</td></tr>\n";
   }
   ?>
   </tbody>

@@ -13,12 +13,16 @@
 <link type="text/css" href="css/jquery-themes/blue2/jquery-ui-1.8.12.custom.css" rel="stylesheet" >
 
 <?php
-$theme = theme();
-if (($theme != "default" ) && (file_exists("css/itdb-themes/".$theme."/itdb.css")) ) {
-    ?>
-    <link rel="stylesheet" href="css/itdb-themes/<?php echo $theme; ?>/itdb.css" type="text/css">
-    <link rel="stylesheet" href="css/itdb-themes/<?php echo $theme; ?>/theme.css" type="text/css">
-    <?php
+if ($authstatus)
+{
+    $theme = theme();
+    if (($theme != "default" ) && (file_exists("css/itdb-themes/".$theme."/itdb.css")) )
+    {
+        ?>
+        <link rel="stylesheet" href="css/itdb-themes/<?php echo $theme; ?>/itdb.css" type="text/css">
+        <link rel="stylesheet" href="css/itdb-themes/<?php echo $theme; ?>/theme.css" type="text/css">
+        <?php
+    }
 } else {
     ?>
     <link rel="stylesheet" href="css/itdb.css" type="text/css">

@@ -11,8 +11,30 @@
 
 <link rel="stylesheet" href="css/sweetTitles.css">
 <link type="text/css" href="css/jquery-themes/blue2/jquery-ui-1.8.12.custom.css" rel="stylesheet" >
-<link rel="stylesheet" href="css/itdb.css" type="text/css">
-<link rel="stylesheet" href="css/theme.css" type="text/css">
+
+<?php
+if ($authstatus)
+{
+    $theme = theme();
+    if (($theme != "default" ) && (file_exists("css/itdb-themes/".$theme."/itdb.css")) && (file_exists("css/itdb-themes/".$theme."/theme.css")))
+    {
+        ?>
+        <link rel="stylesheet" href="css/itdb-themes/<?php echo $theme; ?>/itdb.css" type="text/css">
+        <link rel="stylesheet" href="css/itdb-themes/<?php echo $theme; ?>/theme.css" type="text/css">
+        <?php
+    }  else {
+    ?>
+    <link rel="stylesheet" href="css/itdb.css" type="text/css">
+    <link rel="stylesheet" href="css/theme.css" type="text/css">
+    <?php
+    }
+} else {
+    ?>
+    <link rel="stylesheet" href="css/itdb.css" type="text/css">
+    <link rel="stylesheet" href="css/theme.css" type="text/css">
+    <?php
+}
+?>
 
 <link rel="stylesheet" href="css/datatable.css" type="text/css">
 <link rel="stylesheet" href="css/TableTools_JUI.css" type="text/css">

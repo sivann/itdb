@@ -651,4 +651,16 @@ function dbversion() {
   $ver=$r['dbversion'];
   return $ver;
 }
+
+
+function theme() {
+  global $dbh;
+
+  $sql="SELECT * from settings";
+  $sth=db_execute($dbh,$sql);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  $sth->closeCursor();
+  $theme=$r['theme'];
+  return $theme;
+}
 ?>

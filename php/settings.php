@@ -213,7 +213,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
         <option value=0><?php echo t('No')?></option>
         <option <?php echo $s1?> value=1><?php echo t('Yes')?></option>
         </select>
-        Updates IP-Adress (via DNS) of the selected Item automatically (after "save" is pressed")</td></tr>
+        Updates IP-Adress (via DNS) of the selected Item automatically (after "save" is pressed)</td></tr>
 
 <tr>
 <td colspan=2>

@@ -28,6 +28,10 @@ if (isset($_POST['dateformat']) ) { //if we came from a post (save), update the 
   "', ldap_dn='".trim($_POST['ldap_dn']).
   "', ldap_getusers='".trim($_POST['ldap_getusers']).
   "', ldap_getusers_filter='".trim($_POST['ldap_getusers_filter']).
+  "', usedns='".$_POST['usedns'].
+  "', dns_servers='".trim($_POST['dns_servers']).
+  "', dns_suffix='".trim($_POST['dns_suffix']).
+  "', dns_autoupdate='".$_POST['dns_autoupdate'].
   "',".
        " lang='".$_POST['lang']."', ".
        //" switchmapenable='".$_POST['switchmapenable']."', switchmapdir='".$_POST['switchmapdir']."',".
@@ -184,6 +188,32 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <tr><td class="tdt"><?php te("LDAP User filter");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='ldap_getusers_filter' value="<?php echo $settings['ldap_getusers_filter']?>"> e.g.: (&amp; (uid=*) (IsActive=TRUE))</td></tr>
 
+
+    <tr><td class="tdt"><?php te("Use DNS");?>:</td>
+        <td><select  name='usedns'>
+        <?php
+        if ($settings['usedns']==1) $s1='SELECTED';
+        else $s1='';
+        ?>
+        <option value=0><?php echo t('No')?></option>
+        <option <?php echo $s1?> value=1><?php echo t('Yes')?></option>
+        </select>
+        (for authentication only, except user admin which is local)</td></tr>
+
+    <tr><td class="tdt"><?php te("DNS Server");?>:</td>
+        <td><input  class='input2 ' size=20 type=text name='dns_servers' value="<?php echo $settings['dns_servers']?>"> e.g.: 123.45.67.8, 123.45.67.9 (only ip adresses)</td></tr>
+    <tr><td class="tdt"><?php te("DNS-Suffix");?>:</td>
+        <td><input  class='input2 ' size=20 type=text name='dns_suffix' value="<?php echo $settings['dns_suffix']?>"> e.g.: my.domain.com</td></tr>
+    <tr><td class="tdt"><?php te("Autoupdate IP-Adress");?>:</td>
+        <td><select  name='dns_autoupdate'>
+        <?php
+        if ($settings['dns_autoupdate']==1) $s1='SELECTED';
+        else $s1='';
+        ?>
+        <option value=0><?php echo t('No')?></option>
+        <option <?php echo $s1?> value=1><?php echo t('Yes')?></option>
+        </select>
+        Updates IP-Adress (via DNS) of the Item automaticaly</td></tr>
 
 <tr>
 <td colspan=2>

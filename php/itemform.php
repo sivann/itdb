@@ -538,7 +538,7 @@ else if ($action=="edititem") {
       <tr> <td class='tdt'>MACs:</td><td><input type=text size=15 value='<?php echo $macs?>' name='macs'></td> </tr>
     <td class='tdt'>
         <?php if($settings['usedns']==1){?>
-            <a title='<?php te("DNS IP");?>' class='ahdr'><img src='images/infosmall.png' ></a>
+            <a title='<?php te("DNS IP");?>' class='ahdr'><img height="12" src='images/infosmall.png' ></a>
         <?php };?>
         <?php te("IPv4:");?></td><td><input type=text size=15 value='<?php echo $ipv4?>' name='ipv4'></td>
       <tr> <td class='tdt'>IPv6:</td><td><input type=text size=15 value='<?php echo $ipv6?>' name='ipv6'></td> </tr>

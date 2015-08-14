@@ -1,0 +1,12 @@
+
+.net_dns_status_green {
+  background-color:#ceefcc;
+}
+
+.net_dns_status_yellow {
+  background-color:#f0f0aa;
+}
+
+.net_dns_status_red {
+  background-color:#efdbdb;
+}

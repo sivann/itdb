@@ -37,6 +37,7 @@ else
 require_once('conf.php');
 require_once('functions.php');
 require_once('model.php');
+require_once('functions_net_dns2.php');
 
 if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == "on"))
   $prot="https" ;

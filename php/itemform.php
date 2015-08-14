@@ -537,10 +537,21 @@ else if ($action=="edititem") {
       <tr> <td class='tdt'><?php te("DNS Name");?>:</td><td><input type=text size=15 value='<?php echo $dnsname?>' name='dnsname'></td> </tr>
       <tr> <td class='tdt'>MACs:</td><td><input type=text size=15 value='<?php echo $macs?>' name='macs'></td> </tr>
     <td class='tdt'>
-        <?php if($settings['usedns']==1){?>
-            <a title='<?php te("DNS IP");?>' class='ahdr'><img height="12" src='images/infosmall.png' ></a>
-        <?php };?>
+        <?php if($settings['usedns']==1) {
+          $dns_ipv4 = getipv4fromdns($dnsname);
+          if(!(is_array($dns_ipv4)) && ($dns_ipv4 == $ipv4)) { ?>
+            <a title='<?php te("DNS IPv4: ".$dns_ipv4);?>' class='ahdr'><img height="12" src='images/infosmall.png' ></a>
+            <?php te("IPv4:");?></td><td><input type=text class=net_dns_status_green size=15 value='<?php echo $ipv4?>' name='ipv4'></td>
+        <?php } else if(!(is_array($dns_ipv4)) && ($dns_ipv4 != $ipv4)) { ?>
+            <a title='<?php te("DNS IPv4: ".$dns_ipv4);?>' class='ahdr'><img height="12" src='images/infosmall.png' ></a>
+            <?php te("IPv4:");?></td><td><input type=text class=net_dns_status_yellow size=15 value='<?php echo $ipv4?>' name='ipv4'></td>
+        <?php } else { ?>
+            <a title='<?php te($dns_ipv4[0]);?>' class='ahdr'><img height="12" src='images/infosmall.png' ></a>
+            <?php te("IPv4:");?></td><td><input type=text class=net_dns_status_red size=15 value='<?php echo $ipv4?>' name='ipv4'></td>
+        <?php };
+        } else { ?>
         <?php te("IPv4:");?></td><td><input type=text size=15 value='<?php echo $ipv4?>' name='ipv4'></td>
+      <?php } ?>
       <tr> <td class='tdt'>IPv6:</td><td><input type=text size=15 value='<?php echo $ipv6?>' name='ipv6'></td> </tr>
       <tr> <td class='tdt'>Rem.Adm.IP:</td><td title='<?php te("Remote Administration IP");?>'><input type=text size=15 value='<?php echo $remadmip?>' name='remadmip'></td> </tr>
       <tr> <td class='tdt'><?php te("Ptch.PnlPrt");?>:</td><td title='<?php te("Patch Panel Port");?>'><input type=text size=15 value='<?php echo $panelport?>' name='panelport'></td> </tr>

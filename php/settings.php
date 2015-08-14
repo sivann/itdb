@@ -39,6 +39,11 @@ if (isset($_POST['dateformat']) ) { //if we came from a post (save), update the 
        " timezone='".$_POST['timezone']."' ";
   db_exec($dbh,$sql);
 
+  //Update DNS Suffixes to include necessary DOT at the beginning of suffix
+  $suffix = dns_suffix();
+  $newsuffix = suffix_dot($suffix);
+  $sql ="UPDATE settings set dns_suffix='$newsuffix'";
+  db_exec($dbh,$sql);
 }//save pressed
 
 /////////////////////////////
@@ -198,12 +203,12 @@ echo "\n<h1>".t("Settings")."</h1>\n";
         <option value=0><?php echo t('No')?></option>
         <option <?php echo $s1?> value=1><?php echo t('Yes')?></option>
         </select>
-        (for authentication only, except user admin which is local)</td></tr>
+        (query DNS for hostnames via NET_DNS2)</td></tr>
 
     <tr><td class="tdt"><?php te("DNS Server");?>:</td>
         <td><input  class='input2 ' size=20 type=text name='dns_servers' value="<?php echo $settings['dns_servers']?>"> e.g.: 123.45.67.8, 123.45.67.89 (only IP-Addresses)</td></tr>
-    <tr><td class="tdt"><?php te("DNS-Suffix");?>:</td>
-        <td><input  class='input2 ' size=20 type=text name='dns_suffix' value="<?php echo $settings['dns_suffix']?>"> e.g.: my.domain.com</td></tr>
+    <tr><td class="tdt"><?php te("DNS Suffixes");?>:</td>
+        <td><input  class='input2 ' size=20 type=text name='dns_suffix' value="<?php echo $settings['dns_suffix']?>"> e.g.: .domain.com, .newdomain.com</td></tr>
     <tr><td class="tdt"><?php te("Autoupdate IP-Address");?>:</td>
         <td><select  name='dns_autoupdate'>
         <?php
@@ -213,7 +218,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
         <option value=0><?php echo t('No')?></option>
         <option <?php echo $s1?> value=1><?php echo t('Yes')?></option>
         </select>
-        Updates IP-Address (via DNS) of the selected Item automatically (after button "Save" is pressed)</td></tr>
+        Updates IP (via DNS) of the selected item automatically (when button "Save" is pressed)</td></tr>
 
 <tr>
 <td colspan=2>

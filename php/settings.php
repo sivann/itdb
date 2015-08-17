@@ -193,7 +193,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <tr><td class="tdt"><?php te("LDAP User filter");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='ldap_getusers_filter' value="<?php echo $settings['ldap_getusers_filter']?>"> e.g.: (&amp; (uid=*) (IsActive=TRUE))</td></tr>
 
-
+    <tr><td colspan=2><h3><?php te("DNS Settings"); ?></h3></td></tr>
     <tr><td class="tdt"><?php te("Use DNS");?>:</td>
         <td><select  name='usedns'>
         <?php
@@ -203,12 +203,12 @@ echo "\n<h1>".t("Settings")."</h1>\n";
         <option value=0><?php echo t('No')?></option>
         <option <?php echo $s1?> value=1><?php echo t('Yes')?></option>
         </select>
-        (query DNS for hostnames via NET_DNS2)</td></tr>
+        (Query hostnames in DNS to get IPv4 addresses via NET_DNS2)</td></tr>
 
     <tr><td class="tdt"><?php te("DNS Server");?>:</td>
         <td><input  class='input2 ' size=20 type=text name='dns_servers' value="<?php echo $settings['dns_servers']?>"> e.g.: 123.45.67.8, 123.45.67.89 (only IP-Addresses)</td></tr>
     <tr><td class="tdt"><?php te("DNS Suffixes");?>:</td>
-        <td><input  class='input2 ' size=20 type=text name='dns_suffix' value="<?php echo $settings['dns_suffix']?>"> e.g.: .domain.com, .newdomain.com</td></tr>
+        <td><input  class='input2 ' size=20 type=text name='dns_suffix' value="<?php echo $settings['dns_suffix']?>"> e.g.: .domain.com, .seconddomain.com, .thirddomain.com</td></tr>
     <tr><td class="tdt"><?php te("Autoupdate IP-Address");?>:</td>
         <td><select  name='dns_autoupdate'>
         <?php
@@ -218,7 +218,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
         <option value=0><?php echo t('No')?></option>
         <option <?php echo $s1?> value=1><?php echo t('Yes')?></option>
         </select>
-        Updates IP (via DNS) of the selected item automatically (when button "Save" is pressed)</td></tr>
+        Update IPv4 addresses via DNS automatically when saving item data</td></tr>
 
 <tr>
 <td colspan=2>

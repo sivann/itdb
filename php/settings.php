@@ -41,9 +41,21 @@ if (isset($_POST['dateformat']) ) { //if we came from a post (save), update the 
 
   //Update DNS Suffixes to include necessary DOT at the beginning of suffix
   $suffix = dns_suffix();
-  $newsuffix = suffix_dot($suffix);
-  $sql ="UPDATE settings set dns_suffix='$newsuffix'";
-  db_exec($dbh,$sql);
+  if(!empty($suffix))
+  {
+    $newsuffix = suffix_dot($suffix);
+    $sql ="UPDATE settings set dns_suffix='$newsuffix'";
+    db_exec($dbh,$sql);
+  }
+
+  //Update DNS server list to make sure no unneccessary spaces/commas are in the list
+  $dnsservers = dns_servers();
+  if(!empty($dnsservers))
+  {
+    $newdnsservers = format_dns_server_list($dnsservers);
+    $sql ="UPDATE settings set dns_servers='$newdnsservers'";
+    db_exec($dbh,$sql);
+  }
 }//save pressed
 
 /////////////////////////////

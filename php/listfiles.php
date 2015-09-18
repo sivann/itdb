@@ -1,10 +1,10 @@
 <SCRIPT LANGUAGE="JavaScript"> 
 $(function () {
- //$('input#fileslistfilter').quicksearch('table#fileslisttbl tbody tr');
+  //$('input#fileslistfilter').quicksearch('table#fileslisttbl tbody tr');
   $('table#fileslisttbl').dataTable({
                 "sPaginationType": "full_numbers",
                 "bJQueryUI": true,
-                "iDisplayLength": 25,
+                "iDisplayLength": -1,
                 "aLengthMenu": [[10,25, 50, 100, -1], [10,25, 50, 100, "All"]],
                 "bLengthChange": true,
                 "bFilter": true,
@@ -19,14 +19,24 @@ $(function () {
   });
 });
 
-</SCRIPT>
+
+//http://www.kryogenix.org/code/browser/sorttable/ sorting a table from your code  #external call
+$(function () {
+	var myTH = document .getElementsByTagName("th")[0];
+	sorttable.innerSortFunction.apply(myTH, [];
+});
+
+</SCRIPT>  
 <?php 
 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 /* Spiros Ioannou 2010 , sivann _at_ gmail.com */
 
-$sql="SELECT files.id,title,fname,typedesc from files,filetypes WHERE files.type=filetypes.id order by files.id desc";
+$sql="SELECT files.id,title,fname,typedesc 
+	FROM files,filetypes 
+	WHERE files.type=filetypes.id 
+	ORDER BY typedesc DESC";
 $sth=db_execute($dbh,$sql);
 ?>
 
@@ -54,16 +64,17 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   $i++;
   $nlinks=countfileidlinks($r['id'],$dbh);
   $type=$r['typedesc'];
+//CSS crap
   if ($type=="invoice") $type="<span style='color:#0076A0'>$type</span>";
   if (!($i%2)) $cl="class=dark";else $cl="";
  
   echo "\n<tr $cl id='trid{$r['id']}'>";
-  echo "<td><a class='editid' href='$scriptname?action=editfile&amp;id=".$r['id']."'>{$r['id']}</a></td>\n";
+  echo "<td><a class='editiditm icon edit' href='$scriptname?action=editfile&amp;id=".$r['id']."'><span>{$r['id']}</span></a></td>\n";
   echo "<td style='padding-left:2px;padding-right:2px;'>$type</td>\n";
   echo "<td style='padding-left:2px;padding-right:2px;'>{$r['title']}</td>\n";
   echo "<td><a class='smaller' target=_blank href='$uploaddirwww{$r['fname']}'>{$r['fname']}</a></td>\n";
   if (!$nlinks)
-    echo "<td style='background-color:pink'>$nlinks</td>\n";
+    echo "<td style='background-color:#EAAF0F'>$nlinks</td>\n";
   else
     echo "<td>$nlinks</td>\n";
   echo "</tr>\n";

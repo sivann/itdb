@@ -112,7 +112,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
        $ftitle=$f[$c]['title'];
        $flnk.=" <a target=_blank title='View FILE: $ftitle $fname' href='".$uploaddirwww.$fname."'><img src='images/down.png'></a>";
     }
-    $invinfo.="<div style='min-width:70px;'><a title='Edit INVOICE' href='$scriptname?action=editinvoice&amp;id=$iid'><div class='editid'>$iid</div><div>$flnk</div></a></div>";
+    $invinfo.="<div style='min-width:70px;'><a title='Edit INVOICE' href='$scriptname?action=editinvoice&amp;id=$iid'><div class='editiditm icon edit'>$iid</div><div>$flnk</div></a></div>";
     $flnk="";
   }
 
@@ -120,7 +120,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
 ?>
 
   <tr>
-  <td><div class='editid'><a title='<?php te("Edit Software");?>' href='<?php echo $scriptname?>?action=editsoftware&amp;id=<?php echo $r['id']?>'><?php echo $id?></a></div>
+  <td><div class='editiditm icon edit'><a title='<?php te("Edit Software");?>' href='<?php echo $scriptname?>?action=editsoftware&amp;id=<?php echo $r['id']?>'><span><?php echo $id?></span></a></div>
   </td>
 
 <?php 

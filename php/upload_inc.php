@@ -20,10 +20,10 @@ global $dbh,$uploadErrors;
 
     $path_parts = pathinfo($_FILES[$file_id]["name"]);
     $fileext=$path_parts['extension'];
-    $unique=substr(uniqid(),-4,4);
+    //$unique=substr(uniqid(),-4,4);
 
-    $filefn="$ftypestr-".validfn($title)."-$unique.$fileext";
-    $filefn=strtolower($filefn);
+    $filefn="$ftypestr-"."$title.$fileext";
+    //$filefn=strtolower($filefn);
 
     $uploadfile = $folder.$filefn;
 

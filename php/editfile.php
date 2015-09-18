@@ -72,9 +72,9 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the file
       $path_parts = pathinfo($_FILES['file']["name"]);
       $fileext=$path_parts['extension'];
       $ftypestr=ftype2str($_POST['type'],$dbh);
-      $unique=substr(uniqid(),-4,4);
+      //$unique=substr(uniqid(),-4,4);
 
-      $filefn=strtolower("$ftypestr-".validfn($title)."-$unique.$fileext");
+      $filefn=/*strtolower*/("$ftypestr-"."$title.$fileext");
       $uploadfile = $uploaddir.$filefn;
       $result = '';
 
@@ -127,9 +127,9 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the file
       $path_parts = pathinfo($_FILES['file']["name"]);
       $fileext=$path_parts['extension'];
       $ftypestr=ftype2str($_POST['type'],$dbh);
-      $unique=substr(uniqid(),-4,4);
+      //$unique=substr(uniqid(),-4,4);
 
-      $filefn=strtolower("$ftypestr-".validfn($title)."-$unique.$fileext");
+      $filefn=/*strtolower*/("$ftypestr-"."$title.$fileext");//Saves file as filetype-Title.file extension
       $uploadfile = $uploaddir.$filefn;
       $result = '';
 
@@ -162,7 +162,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the file
   /* Redefine associations here */
 
 //echo "<pre>"; print_r($_REQUEST); echo "</pre>";
-
+//************************************************************
   //update item - file links 
   //remove old links for this object
   $sql="delete from item2file where fileid=$id";
@@ -393,7 +393,7 @@ else
     </h3></td></tr>
     <!-- file upload -->
     <tr> 
-      <td class="tdt">File:</td> <td><input validate='required:true' name="file" id="file" size="25" type="file"></td>
+      <td class="tdt">File:</td> <td><input validate='required:false' name="file" id="file" size="25" type="file"></td>
     </tr>
     </table>
 <?php echo $tip?>
@@ -425,7 +425,7 @@ else
 
 	  <div class='scrltblcontainer' style='height:30em'>
 	  <table width='100%' class='sortable brdr' id='itemslisttbl'>
-	  <thead><tr><th><?php te("Rel");?></th><th><?php te("ID");?></th><th><?php te("Type");?></th><th><?php te("Manuf.-Model");?></th>
+	  <thead><tr><th><?php te("Rel");?></th><th><?php te("ID");?></th><th><?php te("Type");?></th><th><?php te("Manufacturer");?><th><?php te("Model");?></th></th>
                      <th><?php te("Label");?></th><th>DNS</th><th><?php te("Users");?></th><th><?php te("S/N");?></th></tr></thead>
 	  <tbody>
 	  <?php 
@@ -457,10 +457,11 @@ else
 	    echo "\n <tr><td><input name='itlnk[]' value='".$r['id'].
 	     "' checked type='checkbox' /></td>".
 	     "<td class='bld' style='white-space:nowrap'><a title='Edit item {$r['id']} in new window' ".
-	     "target=_blank href='$scriptname?action=edititem&id=".$r['id']."'><img src='images/edit.png'>".
+	     "target=_blank href='$scriptname?action=edititem&id=".$r['id']."'><img src='images/edit2.png'>".
 	     $r['id']."</a></b></td>".
 	     "<td class='bld'>".$r['typedesc']."</td>".
-	     "<td class='bld'>".$r['agtitle']."&nbsp;".$r['model']."</td>".
+	     "<td class='bld'>".$r['agtitle']."</td>".
+		 "<td class='bld'>".$r['model']."</td>".
 	     "<td class='bld'>".$r['label']."&nbsp;</td>".
 	     "<td class='bld'>".$r['dnsname']."&nbsp;</td>".
 	     "<td class='bld'>".$r['username']."&nbsp;</td>".
@@ -480,14 +481,15 @@ else
 	    echo "\n  <tr><td><input name='itlnk[]' value='".$r['id'].
 	     "' type='checkbox' /></td>".
 	     "<td style='white-space:nowrap'><a title='Edit item {$r['id']} in new window' ".
-	     "target=_blank href='$scriptname?action=edititem&id=".$r['id']."'><img src='images/edit.png'>".
+	     "target=_blank href='$scriptname?action=edititem&id=".$r['id']."'><img src='images/edit2.png'>".
 	     $r['id']."</a>&nbsp;</td>".
 	     "<td>".$r['typedesc']."</td>".
-	     "<td>".$r['agtitle']."&nbsp;".$r['model']."</td>".
+		 "<td>".$r['agtitle']."</td>".
+	     "<td>".$r['model']."</td>".
 	     "<td>".$r['label']."&nbsp;</td>".
-	     "<td >".$r['dnsname']."&nbsp;</td>".
-	     "<td >".$r['username']."&nbsp;</td>".
-	     "<td >".$r['sn']."&nbsp;</td></tr>\n";
+	     "<td>".$r['dnsname']."&nbsp;</td>".
+	     "<td>".$r['username']."&nbsp;</td>".
+	     "<td>".$r['sn']."&nbsp;</td></tr>\n";
 	  }
 	?>
 
@@ -549,7 +551,7 @@ else
 	    echo "\n <tr><td><input name='softlnk[]' value='".$r['id'].
 	     "' checked type='checkbox' /></td>".
 	     "<td class='bld' style='white-space:nowrap'><a title='Edit Software {$r['id']} in new window' ".
-	     "target=_blank href='$scriptname?action=editsoftware&id=".$r['id']."'><img src='images/edit.png'>".
+	     "target=_blank href='$scriptname?action=editsoftware&id=".$r['id']."'><img src='images/edit2.png'>".
 	     $r['id']."</a></b></td>".
 	     "<td class='bld'>".$r['agtitle']."&nbsp;</td>".
 	     "<td class='bld'>".$r['stitle']."&nbsp;".$r['sversion']."&nbsp;</td>";
@@ -567,7 +569,7 @@ else
 	    echo "\n  <tr><td><input name='softlnk[]' value='".$r['id'].
 	     "' type='checkbox' /></td>".
 	     "<td style='white-space:nowrap'><a title='Edit Software {$r['id']} in new window' ".
-	     "target=_blank href='$scriptname?action=editsoftware&id=".$r['id']."'><img src='images/edit.png'>".
+	     "target=_blank href='$scriptname?action=editsoftware&id=".$r['id']."'><img src='images/edit2.png'>".
 	     $r['id']."</a>&nbsp;</td>".
 	     "<td>".$r['agtitle']."&nbsp;</td>".
 	     "<td>".$r['stitle']."&nbsp;".$r['sversion']."&nbsp;</td>";
@@ -633,7 +635,7 @@ else
 	    echo "\n <tr><td><input name='contrlnk[]' value='".$r['id'].
 	     "' checked type='checkbox' /></td>".
 	     "<td class='bld' style='white-space:nowrap'><a title='Edit Contract {$r['id']} in new window' ".
-	     "target=_blank href='$scriptname?action=editcontract&id=".$r['id']."'><img src='images/edit.png'>".
+	     "target=_blank href='$scriptname?action=editcontract&id=".$r['id']."'><img src='images/edit2.png'>".
 	     $r['id']."</a></b></td>".
 	     "<td class='bld'>".$r['agtitle']."&nbsp;</td>".
 	     "<td class='bld'>".$r['ctitle']."&nbsp;".$r['sversion']."&nbsp;</td>";
@@ -651,7 +653,7 @@ else
 	    echo "\n  <tr><td><input name='contrlnk[]' value='".$r['id'].
 	     "' type='checkbox' /></td>".
 	     "<td style='white-space:nowrap'><a title='Edit Contract {$r['id']} in new window' ".
-	     "target=_blank href='$scriptname?action=editcontract&id=".$r['id']."'><img src='images/edit.png'>".
+	     "target=_blank href='$scriptname?action=editcontract&id=".$r['id']."'><img src='images/edit2.png'>".
 	     $r['id']."</a>&nbsp;</td>".
 	     "<td>".$r['agtitle']."&nbsp;</td>".
 	     "<td>".$r['ctitle']."&nbsp;".$r['sversion']."&nbsp;</td>";
@@ -685,13 +687,11 @@ else
 
 </td></tr>
 
-<tr><td colspan=1><button type="submit"><img src="images/save.png" alt="Save"> <?php te("Save");?></button></td>
+<tr><td colspan=1><button type="submit"><img src="images/save.png" alt="Save"> <?php te("Save");?></button>
+	<button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid=$id\");'>
+    <img title='delete' src='images/delete.png' border=0> <?php te("Delete");?></button></td>\n</tr>\n";
 
-<?php 
-echo "\n<td style='text-align:right'><button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid=$id\");'>".
-     "<img title='delete' src='images/delete.png' border=0>".t("Delete"). "</button></td>\n</tr>\n";
-
-// end of item links
+<?php // end of item links
 //////////////////////////////////////////////
 echo "\n</table>\n";
 echo "\n<input type=hidden name='action' value='$action'>";

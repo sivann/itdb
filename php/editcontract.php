@@ -359,7 +359,7 @@ else
       <tr><td class="tdt">
       <?php   
        if (is_numeric($r['contractorid']))
-	 echo "<a title='edit vendor (agent)' href='$scriptname?action=editagent&amp;id={$r['contractorid']}'><img src='images/edit.png'></a> "; 
+	 echo "<a title='edit vendor (agent)' href='$scriptname?action=editagent&amp;id={$r['contractorid']}'><img src='images/edit2.png'></a> "; 
       ?>
       Contractor:</td> <td>
 	   <select class='mandatory' validate='required:true' name='contractorid' title='Agent of Type Contractor'>
@@ -382,7 +382,7 @@ else
 
       <?php   
        if (is_numeric($r['parentid']))
-	 echo "<a title='edit parent' href='$scriptname?action=editcontract&id={$r['parentid']}'><img src='images/edit.png'></a> "; 
+	 echo "<a title='edit parent' href='$scriptname?action=editcontract&id={$r['parentid']}'><img src='images/edit2.png'></a> "; 
       ?>
       <?php te("Parent");?>:</td> <td>
       <select class=''  name='parentid'>
@@ -674,9 +674,7 @@ else
     if ($ir['islinked']) echo " checked ";
     echo  " type='checkbox'></td>".
      "<td nowrap $cls><span $attr>&nbsp;</span><a title='Edit item {$ir['id']} in a new window' ".
-     "target=_blank href='$scriptname?action=edititem&amp;id=".$ir['id']."'><div class='editid'>";
-    echo $ir['id'];
-    echo "</div></a></td>".
+     "target=_blank href='$scriptname?action=edititem&amp;id=".$ir['id']."'><div class='editiditm icon edit'><span>".$r['id']."</span></a></td>".
      "<td $cls>".$ir['typedesc']."</td>".
      "<td $cls>".$agents[$ir['manufacturerid']]['title']. "&nbsp;</td>".
      "<td $cls>".$ir['model'].  "&nbsp;</td>".

@@ -209,7 +209,7 @@ else
          "<a title='Remove association. If file is orphaned (nothing links to it), it gets deleted.' ".
          " href='javascript:delconfirm2(\"[$fid] $fname\", \"$scriptname?action=$action&amp;id=$id&amp;delfid=$fid\");'>".
          "<img src='images/delete.png'></a> ".
-         "<a target=_blank title='Edit File' href='$scriptname?action=editfile&amp;id=$fid'><img  src='images/edit.png'></a>".
+         "<a target=_blank title='Edit File' href='$scriptname?action=editfile&amp;id=$fid'><img  src='images/edit2.png'></a>".
          " <a target=_blank title='Download $fname' href='".$uploaddirwww.$fname."'><img src='images/down.png'></a>".
          "<br>".t("Type").":<b>$ftypestr</b>".
          "<br>".t("Date").":<b>$fdate</b>".
@@ -227,7 +227,7 @@ else
       <tr><td class="tdt"><?php te("ID");?>:</td> <td><input  class='input2' type=text name='id' value='<?php echo $id?>' readonly size=3></td></tr>
       <tr><td class="tdt">
   <?php   if (is_numeric($vendorid))
-    echo "<a title='edit vendor (agent)' href='$scriptname?action=editagent&amp;id=$vendorid'><img src='images/edit.png'></a> "; ?>
+    echo "<a title='edit vendor (agent)' href='$scriptname?action=editagent&amp;id=$vendorid'><img src='images/edit2.png'></a> "; ?>
       <?php te("Vendor");?>*:</td> <td>
 	   <select class='mandatory' validate='required:true' name='vendorid'>
 	   <option value=''><?php te("Select");?></option>
@@ -245,7 +245,7 @@ else
       </td></tr>
       <tr><td class="tdt">
   <?php   if (is_numeric($buyerid))
-    echo "<a title='edit buyer (agent)' href='$scriptname?action=editagent&amp;id=$buyerid'><img src='images/edit.png'></a> "; ?>
+    echo "<a title='edit buyer (agent)' href='$scriptname?action=editagent&amp;id=$buyerid'><img src='images/edit2.png'></a> "; ?>
       <?php te("Buyer");?>*:</td> <td>
 	   <select class='mandatory' validate='required:true' name='buyerid'>
 	   <option value=''><?php te("Select");?></option>
@@ -406,9 +406,7 @@ else
     if ($ir['islinked']) echo " checked ";
     echo  " type='checkbox'></td>".
      "<td nowrap $cls><span $attr>&nbsp;</span><a title='Edit item {$ir['id']} in a new window' ".
-     "target=_blank href='$scriptname?action=edititem&amp;id=".$ir['id']."'><div class='editid'>";
-    echo $ir['id'];
-    echo "</div></a></td>".
+     "target=_blank href='$scriptname?action=edititem&amp;id=".$ir['id']."'><div class='editiditm icon edit'><span>".$r['id']."</span></a></td>".
      "<td $cls>".$ir['typedesc']."</td>".
      "<td $cls>".$agents[$ir['manufacturerid']]['title']. "&nbsp;</td>".
      "<td $cls>".$ir['model'].  "&nbsp;</td>".

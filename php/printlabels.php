@@ -309,8 +309,8 @@ if (isset($labelpapers))
 foreach ($labelpapers as $lp) {
   //echo $lp['id'];
   echo "\n<a href='javascript:ldata({$lp['rows']}, {$lp['cols']}, ".  
-       "{$lp['lwidth']},{$lp['lheight']}, {$lp['vpitch']}, {$lp['hpitch']}, ".  
-       "{$lp['tmargin']}, {$lp['bmargin']}, {$lp['lmargin']}, ".
+       "{$lp['lwidth']},{$lp['lheight']},{$lp['vpitch']},{$lp['hpitch']}, ".  
+       "{$lp['tmargin']},{$lp['bmargin']},{$lp['lmargin']}, ".
        "{$lp['rmargin']},".
        "\"{$lp['name']}\",".
        "{$lp['border']},".
@@ -348,7 +348,7 @@ foreach ($papernames as $papername) {
   $papername=trim($papername);
   if (isset($_POST['papersize']) && $_POST['papersize']=="$papername") $s=" SELECTED "; 
   else $s="";
-  if ($s=="" && $papername=="A4") $s="SELECTED";
+  if ($s=="" && $papername=="CUSTOM") $s="SELECTED";
   echo "<option $s id='pn_$papername' value='$papername'>$papername</option>\n";
 }
 echo "\n</select>\n</td></tr>";
@@ -357,7 +357,7 @@ echo "<tr><td class='tdt'>".t("Rows").":</td><td>";
 echo "<select name=rows>\n";
 for ($i=1;$i<40;$i++) {
   if (isset($_POST['rows']) && $_POST['rows']=="$i") $s=" SELECTED "; 
-  elseif (!isset($_POST['rows']) && $i=="6") $s=" SELECTED "; 
+  elseif (!isset($_POST['rows']) && $i=="1") $s=" SELECTED "; 
   else $s="";
   echo "\n<option $s value=$i>$i</option>";
 }
@@ -367,7 +367,7 @@ echo "<tr><td class='tdt'>".t('Columns').":</td><td>";
 echo "<select name=cols>\n";
 for ($i=1;$i<10;$i++) {
   if (isset($_POST['cols']) && $_POST['cols']=="$i") $s=" SELECTED "; 
-  elseif (!isset($_POST['cols']) && $i=="2") $s=" SELECTED "; 
+  elseif (!isset($_POST['cols']) && $i=="1") $s=" SELECTED "; 
   else $s="";
   echo "\n<option $s value=$i>$i</option>";
 }

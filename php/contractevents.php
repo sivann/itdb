@@ -50,7 +50,7 @@ elseif (isset($_POST['deleventid'])) {
 	$rowid=$ir['id'];
 	echo "\n<tr>";
 	echo "<td><img src='images/delete.png'  onClick=\"javascript:$('#ev_deldialog').data('rowid',$rowid).dialog({ position: {my:'left',at:'right',of:event,offset:'20 60'} }).dialog('open')\">";
-	echo "<img src='images/edit.png'  onClick=\"javascript:$('#ev_dialog').data('rowid',$rowid).dialog({ position: {my:'left',at:'right',of:event,offset:'20 60'} }).dialog('open')\"></td> ";
+	echo "<img src='images/edit2.png'  onClick=\"javascript:$('#ev_dialog').data('rowid',$rowid).dialog({ position: {my:'left',at:'right',of:event,offset:'20 60'} }).dialog('open')\"></td> ";
 	echo 
 	 "<td id='eventid_$rowid'>".$ir['id']."</td>".
 	 "<td id='ev_siblingid_$rowid'>".$ir['siblingid']."</td>".

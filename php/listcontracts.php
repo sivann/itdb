@@ -82,7 +82,7 @@ $i=0;
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   $i++;
   echo "\n<tr id='trid{$r['id']}'>";
-  echo "<td><a class='editid' href='$scriptname?action=editcontract&amp;id=".$r['id']."'>{$r['id']}</a></td>\n";
+  echo "<td><a class='editiditm icon edit' href='$scriptname?action=editcontract&amp;id=".$r['id']."'><span>{$r['id']}</span></a></td>\n";
   echo "<td>{$r['parentid']}</td>\n";
   echo "<td>{$r['name']}</td>\n";
   echo "<td>{$r['number']}</td>\n";

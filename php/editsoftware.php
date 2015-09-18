@@ -261,7 +261,7 @@ else
       <tr><td class="tdt">ID:</td> <td><input  class='input2' type=text name='id' value='<?php echo $id?>' readonly size=3></td></tr>
       <tr><td class="tdt">
      <?php   if (is_numeric($manufacturerid))
-       echo "<a title='edit manufacturer (agent)' href='$scriptname?action=editagent&amp;id=$manufacturerid'><img src='images/edit.png'></a> "; ?>
+       echo "<a title='edit manufacturer (agent)' href='$scriptname?action=editagent&amp;id=$manufacturerid'><img src='images/edit2.png'></a> "; ?>
       
       <?php te('Manufacturer');?>:</td> <td title='Add more manufacturers at the "Agents" menu'>
 	   <select validate='required:true' class='mandatory' name='manufacturerid'>
@@ -449,9 +449,15 @@ else
     <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
        <table width='100%' class='sortable'  id='itemslisttbl'>
 	 <thead>
-	    <tr><th><?php te("Installed");?></th><th style='width:70px'><?php te("ID");?></th><th><?php te("Type");?></th>
-                <th><?php te("Manufacturer");?></th><th><?php te("Model");?></th>
-	        <th><?php te("Label");?></th><th><?php te("DNS");?></th><th><?php te("User");?></th><th><?php te("S/N");?></th>
+	    <tr><th><?php te("Installed");?></th>
+        	<th style='width:Auto'><?php te("ID");?></th>
+        	<th style='width:10em'><?php te("Type");?></th>
+			<th style='width:25em'><?php te("Manufacturer");?></th>
+            <th style='width:20em'><?php te("Model");?></th>
+	        <th style='width:10em'><?php te("Label");?></th>
+            <th style='width:10em'><?php te("DNS");?></th>
+            <th style='width:10em'><?php te("User");?></th>
+            <th style='width:10em'><?php te("S/N");?></th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -469,24 +475,22 @@ else
       $attr=$x[0];
       $statustxt=$x[1];
 
-      echo "\n <tr><td><input name='softlnk[]' value='".$ir['id']."' ";
-      if ($ir['islinked']) echo " checked ";
-      echo  " type='checkbox' /></td>".
-       "<td nowrap $cls style='white-space: nowrap;'><span $attr>&nbsp;</span><a title='Edit item {$ir['id']} in a new window' ".
-       "target=_blank href='$scriptname?action=edititem&id=".$ir['id']."'><div class='editid'>".
-       $ir['id'].
-       "</div></a></td>";
-       echo "<td $attr $cls>".$typeid2name[$ir['itemtypeid']].
-       "<td $cls>".$agents[$ir['manufacturerid']]['title']. "&nbsp;</td>".
-       "<td $cls>".$ir['model'].  "&nbsp;</td>".
-       "<td $cls>".$ir['label']."&nbsp;</td>".
-       "<td $cls>".$ir['dnsname']."&nbsp;</td>".
-       "<td $cls>".$ir['username']."&nbsp;</td>".
-       "<td $cls>".$ir['sn']."&nbsp;</td></tr>\n";
-    }
-    echo "\n</tbody></table>\n";
-    echo "</div>\n";
-    ?>
+		if ($ir['islinked'])
+		echo " checked ";
+echo	"\n <tr>
+		<td><center><input name='softlnk[]' value='".$ir['id']."' type='checkbox' /></center></td>
+		<td $cls><a class='editiditm icon edit' title='Edit item {$ir['id']} in a new window' target=_blank href='$scriptname?action=edititem&id=".$ir['id']."'><span>".$r['id']."</span></a><span $attr></span></td>
+		<td><center>".$typeid2name[$ir['itemtypeid']]."</center></td>
+		<td $cls>".$agents[$ir['manufacturerid']]['title']."</td>
+		<td $cls>".$ir['model'].  "</td>
+		<td><center>".$ir['label']."</center></td>
+		<td $cls>".$ir['dnsname']."</td>
+		<td $cls>".$ir['username']."</td>
+		<td><center>".$ir['sn']."</center></td></tr>\n";
+		}
+echo "\n</tbody></table>\n";
+echo "</div>\n";
+	?>
 
     <sup>1</sup><?php te("Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.");?>
     </td>
@@ -531,18 +535,16 @@ else
     else
       $cls="";
 
-    echo "<tr><td><input name='invlnk[]' value='".$ir['id']."' ";
     if ($ir['islinked']) echo " checked ";
-    echo  " type='checkbox' /></td>".
-     "<td $cls><a title='Edit invoice {$ir['id']} in a new window' ".
-     "target=_blank href='$scriptname?action=editinvoice&amp;id=".$ir['id']."'><div class='editid'>";
-    echo $ir['id'];
-    echo "</div></a></td>".
-     "<td $cls>".$ir['agtitle'].  "&nbsp;</td>".
-     "<td $cls>".$ir['number'].  "&nbsp;</td>".
-     "<td $cls>".$ir['invdesc'].  "&nbsp;</td>".
-     "<td $cls>". date("Y-m-d",$ir['date'])."&nbsp;</td></tr>\n";
-  }
+    echo "<tr>
+			<td><center><input name='invlnk[]' value='".$ir['id']."' type='checkbox' /></center></td>
+			<td $cls><a title='Edit invoice {$ir['id']} in a new window' target=_blank href='$scriptname?action=editinvoice&amp;id=".$ir['id']."'><div class='editiditm icon edit'><span>".$r['id']."</span></a></td>
+			<td $cls>".$ir['agtitle']."</td>
+			<td $cls>".$ir['number']."</td>
+			<td $cls>".$ir['invdesc']."</td>
+			<td $cls>". date("Y-m-d",$ir['date'])."</td>
+		  </tr>\n";
+		}
   ?>
   </tbody>
   </table>
@@ -582,16 +584,14 @@ else
     else
       $cls="";
 
-    echo "<tr><td><input name='contrlnk[]' value='".$ir['id']."' ";
     if ($ir['islinked']) echo " checked ";
-    echo  " type='checkbox' /></td>".
-     "<td $cls><a title='Edit Contract {$ir['id']} in a new window' ".
-     "target=_blank href='$scriptname?action=editcontract&amp;id=".$ir['id']."'><div class='editid'>";
-    echo $ir['id'];
-    echo "</div></a></td>".
-     "<td $cls>".$ir['agtitle'].  "&nbsp;</td>".
-     "<td $cls>".$ir['ctitle']."&nbsp;</td></tr>\n";
-  }
+    echo "<tr>
+			<td><center><input name='contrlnk[]' value='".$ir['id']."' type='checkbox' /></center></td>
+			<td $cls><a class='editiditm icon edit' title='Edit Contract {$ir['id']} in a new window' target=_blank href='$scriptname?action=editcontract&amp;id=".$ir['id']."'><span>".$r['id']."</span></a></td>
+			<td $cls>".$ir['agtitle']."</td>
+			<td $cls>".$ir['ctitle']."</td>
+		  </tr>\n";
+		  }
   ?>
   </tbody>
   </table>

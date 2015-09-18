@@ -46,6 +46,7 @@ if (isset($_GET['delid'])) { //if we came from delete
 if (isset($_POST['id'])) { //if we came from a post (save), update 
   $id=$_POST['id'];
   $name=$_POST['name'];
+  $abbr=$_POST['abbr'];
   $floor=$_POST['floor'];
 
 
@@ -58,7 +59,8 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
 
   if ($_POST['id']=="new")  {//if we came from a post (save) the add software 
     if (strlen($_FILES['file']['name'])>2) { //insert file
-      $filefn=strtolower("floorplan-".validfn($name)."-$unique.$fileext");
+	$filefn=strtolower("floorplan-"."$name.[$floor].$fileext");
+      //$filefn=strtolower("floorplan-".validfn($name)."-$unique.$fileext");
       $uploadfile = $uploaddir.$filefn;
       $result = '';
 
@@ -78,8 +80,8 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
       }
       else { //file ok
 
-	  $sql="INSERT into locations (name,floor,floorplanfn)".
-	       " VALUES ('$name','$floor','$filefn')";
+	  $sql="INSERT into locations (name,abbr,floor,floorplanfn)".
+	       " VALUES ('$name','$abbr','$floor','$filefn')";
 	  db_exec($dbh,$sql,0,0,$lastid);
 	  $lastid=$dbh->lastInsertId();
 	  print "<br><b>Added Location <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -93,7 +95,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
     }//insert file
     else { //new and no file defined
 	  $sql="INSERT into locations (name,floor)".
-	       " VALUES ('$name','$floor')";
+	       " VALUES ('$name','$abbr','$floor')";
 	  db_exec($dbh,$sql,0,0,$lastid);
 	  $lastid=$dbh->lastInsertId();
 	  print "<br><b>Added Location <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -105,7 +107,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
     }
   }//new location
   else {
-    $sql="UPDATE locations set name='$name', floor='$floor' ".
+    $sql="UPDATE locations set name='$name',abbr='$abbr', floor='$floor' ".
        " WHERE id=$id";
     db_exec($dbh,$sql);
 
@@ -118,9 +120,10 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
       $path_parts = pathinfo($_FILES['file']["name"]);
       $fileext=$path_parts['extension'];
       $ftypestr=ftype2str($_POST['type'],$dbh);
-      $unique=substr(uniqid(),-4,4);
+      //$unique=substr(uniqid(),-4,4);
 
-      $filefn=strtolower("floorplan-".validfn($name)."-$unique.$fileext");
+      $filefn=strtolower("floorplan-"."$name.[$floor].$fileext");
+      //$filefn=strtolower("floorplan-".validfn($name)."-$unique.$fileext");
       $uploadfile = $uploaddir.$filefn;
       $result = '';
 
@@ -183,6 +186,7 @@ else
     <tr><td colspan=2><h3><?php te("Location Properties");?></h3></td></tr>
     <tr><td class="tdt"><?php te("ID");?>:</td> <td><input  class='input2' type=text name='id' value='<?php echo $id?>' readonly size=3></td></tr>
     <tr><td class="tdt"><?php te("Building Name");?>:</td> <td><input  class='input2 mandatory' size=20 type=text name='name' value="<?php echo $r['name']?>"></td></tr>
+    <tr><td class="tdt"><?php te("Building Abbr.");?>:</td> <td><input  class='input2' size=20 type=text name='abbr' value="<?php echo $r['abbr']?>"></td></tr>
     <tr><td class="tdt"><?php te("Floor");?>:</td> <td><input  class='input2 mandatory' size=20 type=text name='floor' value="<?php echo $r['floor']?>"></td></tr>
     <tr><td class="tdt"><?php te("Filename");?>:</td><td><a target=_blank href="<?php  echo $uploaddirwww.$r['floorplanfn']; ?>"><?php echo $r['floorplanfn']?></a></td></tr>
     <tr><td title="Number of items/software/invoices/etc which reference this file" 

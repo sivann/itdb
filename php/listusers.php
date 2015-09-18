@@ -51,7 +51,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   $i++;
   $itemcount=countitemsofuser($r['id']);
   echo "\n<tr>";
-  echo "<td><a class='editid' href='$scriptname?action=edituser&amp;id=".$r['id']."'>{$r['id']}</a></td>\n";
+  echo "<td><a class='editiditm icon edit' href='$scriptname?action=edituser&amp;id=".$r['id']."'><span>{$r['id']}</span></a></td>\n";
   echo "<td>{$r['username']}</td>\n";
   echo "<td>{$r['userdesc']}</td>\n";
   echo "<td>{$usertype[$r['usertype']]}</td>\n";

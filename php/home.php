@@ -8,7 +8,7 @@
     </div>
     <div class='bigblocklinks'>
 	    <div><a  href='<?php echo $scriptname?>?action=listitems'><img class='bigblocklnk' src='images/big/search24.png'> <span class="lnktxt"></span><span class='lnktxt'><?php te("Find");?></span></a></div>
-	    <div><a   href='<?php echo $scriptname?>?action=edititem&amp;id=new'><img class='bigblocklnk' src='images/big/plus.png'> <span class="lnktxt"><?php te("Add");?></span></a></div>
+	    <div><a  href='<?php echo $scriptname?>?action=edititem&amp;id=new'><img class='bigblocklnk' src='images/big/plus.png'> <span class="lnktxt"><?php te("Add");?></span></a></div>
 	    <div><a title='<?php te("Configure Item Types");?>'  href='<?php echo $scriptname?>?action=edititypes'><img class='bigblocklnk' src='images/big/wheel24.png'> <span class="lnktxt"><?php te("Item Types");?></span></a></div>
 	    <div><a title='<?php te("Configure Status Types");?>' href='<?php echo $scriptname?>?action=editstatustypes'><img class='bigblocklnk' src='images/big/wheel24.png'> <span class="lnktxt"><?php te("Status Types");?></span></a></div>
     </div>
@@ -67,6 +67,39 @@
       <?php te("View Reports");?>
        </div>
   </div>
+
+  <div class='bigblock'>
+    <div style='float:left'>
+      <a  href='<?php echo $scriptname?>?action=listjacks'>
+      <img class='bigblock' src='images/big/wall_jack.png'>
+      </a>
+    </div>
+    <div class='bigblocklinks'>
+	    <div><a  href='<?php echo $scriptname?>?action=listjacks'><img class='bigblocklnk' src='images/big/search24.png'> <span class="lnktxt"><?php te("Find");?></span></a></div>
+	    <div><a   href='<?php echo $scriptname?>?action=editjacks&amp;id=new'><img class='bigblocklnk' src='images/big/plus.png'> <span class="lnktxt"><?php te("Add");?></span></a></div>
+    </div>
+    <div class='bigblockdesc'>
+      <div class='bigblocktitle'><?php te("Jacks");?></div>
+      <?php te("Manage your wall jacks");?><br>
+    </div>
+  </div>
+
+  <div class='bigblock'>
+    <div style='float:left'>
+      <a  href='<?php echo $scriptname?>?action=listdepartments'>
+      <img class='bigblock' src='images/big/departments.png'>
+      </a>
+    </div>
+    <div class='bigblocklinks'>
+	    <div><a  href='<?php echo $scriptname?>?action=listdepartments'><img class='bigblocklnk' src='images/big/search24.png'> <span class="lnktxt"><?php te("Find");?></span></a></div>
+	    <div><a   href='<?php echo $scriptname?>?action=editdepartment&amp;id=new'><img class='bigblocklnk' src='images/big/plus.png'> <span class="lnktxt"><?php te("Add");?></span></a></div>
+    </div>
+    <div class='bigblockdesc'>
+      <div class='bigblocktitle'><?php te("Departments");?></div>
+      <?php te("Manage your departments.");?><br>
+    </div>
+  </div>
+
 
   <div style='clear:both'>
 
@@ -139,6 +172,21 @@
     </div>
   </div>
 
+  <div class='bigblock'>
+    <div style='float:left'>
+      <a  href='<?php echo $scriptname?>?action=listprojects'>
+      <img class='bigblock' src='images/big/projects.png'>
+      </a>
+    </div>
+    <div class='bigblocklinks'>
+	    <div><a  href='<?php echo $scriptname?>?action=listprojects'><img class='bigblocklnk' src='images/big/search24.png'> <span class="lnktxt"><?php te("Find");?></span></a></div>
+	    <div><a   href='<?php echo $scriptname?>?action=editprojects&amp;id=new'><img class='bigblocklnk' src='images/big/plus.png'> <span class="lnktxt"><?php te("Add");?></span></a></div>
+    </div>
+    <div class='bigblockdesc'>
+      <div class='bigblocktitle'><?php te("Projects");?></div>
+      <?php te("Manage your projects.");?><br>
+    </div>
+  </div>
 
   <div style='clear:both'>
 
@@ -212,7 +260,22 @@
       <?php te("Users, Tags, Dates, Currency,...");?>
     </div>
   </div>
-
+  
+  <div class='bigblock'>
+    <div style='float:left'>
+      <a  href='<?php echo $scriptname?>?action=listvlans'>
+      <img class='bigblock' src='images/big/vlans.png'>
+      </a>
+    </div>
+    <div class='bigblocklinks'>
+	    <div><a  href='<?php echo $scriptname?>?action=listvlans'><img class='bigblocklnk' src='images/big/search24.png'> <span class="lnktxt"><?php te("Find");?></span></a></div>
+	    <div><a   href='<?php echo $scriptname?>?action=editvlan&amp;id=new'><img class='bigblocklnk' src='images/big/plus.png'> <span class="lnktxt"><?php te("Add");?></span></a></div>
+    </div>
+    <div class='bigblockdesc'>
+      <div class='bigblocktitle'><?php te("VLANS");?></div>
+      <?php te("Manage your VLANS.");?><br>
+    </div>
+  </div>
 
   <div style='clear:both'>
 

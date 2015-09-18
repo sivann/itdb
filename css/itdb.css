@@ -47,7 +47,7 @@ hr.light1 {
   color: #2CCCF7;
   background-color: #2CCCF7;
   height: 1px;
-  width: 50px;
+  width: 150px;
 }
 
 
@@ -80,7 +80,7 @@ th {
   font-family:Verdana,Arial,Helvetica;
   font-weight:700;
   line-height:normal;
-  text-align:center;
+  text-align:center !important;
 }
 
 .center {
@@ -419,6 +419,16 @@ td.tdt { /*left column*/
   background-color:#EDEDED;
 }
 
+td.tdt2 { /*left column*/
+  color:#000000;
+  font-size:8pt;
+  font-family:Verdana,Arial,Helvetica;
+  vertical-align:top;
+  text-align:right;
+  line-height:90%;
+  background-color:#EDEDED;
+}
+
 td.tdd { /*right (data) column*/
   color:#000000;
   font-size:8pt;
@@ -578,7 +588,7 @@ table.rack td.highlight {
   min-width:120px;
 }
 table.rack td.occupied { 
-  background-color: #CBE98B;
+  background-color: #FFFFFF;
   font-weight:700;
   min-width:120px;
 }
@@ -586,6 +596,7 @@ table.rack td.emptyrow {
   background-color: #fafafa;
   font-weight:700;
   min-width:120px;
+  height:30px;
 }
 
 td.smallrack h1 {
@@ -594,6 +605,7 @@ td.smallrack h1 {
 
 td.smallrack table.rack tr td {
   min-width:60px;
+  height:30px;
   font-size:7pt;
   padding:0px 1px;
 }
@@ -601,6 +613,7 @@ td.smallrack table.rack tr td {
 
 td.bld {
   font-weight:bold;
+  text-align:center;
 }
 
 .warning {
@@ -669,7 +682,7 @@ a.ahdr:hover {
   left:5px;
   top:10px;
 
-  width:  100px;
+  width:  160px;
   height: 950px;
 
   margin-right:  4px;
@@ -727,7 +740,7 @@ a.ahdr:hover {
     padding-top:3px;
     padding-bottom:10px;
 
-    margin-left:120px;
+    margin-left:170px;
     margin-right:15px;
     margin-bottom:40px;
 
@@ -904,6 +917,7 @@ ul li {
   background-image: url(../images/editid.png);
   background-repeat:no-repeat;
   width:33px; /*48-15*/
+  height:15px;
   padding-left:15px;
   height:15px;
   padding-top:1px;
@@ -920,40 +934,124 @@ ul li {
   color:#0077aa!important;
 }
 
+.editiditm {
+background-image: -moz-linear-gradient(top, #ffffff, #dbdbdb);
+background-image: -webkit-gradient(linear,left top,left bottom,
+    color-stop(0, #ffffff),color-stop(1, #dbdbdb));
+filter: progid:DXImageTransform.Microsoft.gradient
+    (startColorStr='#ffffff', EndColorStr='#dbdbdb');
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient
+    (startColorStr='#ffffff', EndColorStr='#dbdbdb')";
+border: 1px solid #fff;
+-moz-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+-webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+border-radius: 2px;
+-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+  width:60px; /*48-15*/
+  height:15px;
+  font-size: 10px;
+  font-family:arial;
+  float:left; 
+  margin:1px;
+  margin-right:5px;
+  margin-left:1px;
+  padding-left:15px;
+  padding-top:2px;
+  color:#0077aa!important;
+}
+
+.editiditm:hover {
+background-image: -moz-linear-gradient(top, #ffffff, #eeeeee);
+background-image: -webkit-gradient(linear,left top,left bottom,
+    color-stop(0, #ffffff),color-stop(1, #eeeeee));
+filter: progid:DXImageTransform.Microsoft.gradient
+    (startColorStr='#ffffff', EndColorStr='#eeeeee');
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient
+    (startColorStr='#ffffff', EndColorStr='#eeeeee')";
+color: #000;
+display: block;
+}
+
+.editiditm:active {
+background-image: -moz-linear-gradient(top, #dbdbdb, #ffffff);
+background-image: -webkit-gradient(linear,left top,left bottom,
+    color-stop(0, #dbdbdb),color-stop(1, #ffffff));
+filter: progid:DXImageTransform.Microsoft.gradient
+    (startColorStr='#dbdbdb', EndColorStr='#ffffff');
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient
+    (startColorStr='#dbdbdb', EndColorStr='#ffffff')";
+text-shadow: 0px -1px 0 rgba(255, 255, 255, 0.5);
+margin-top: 1px;
+}
+
+.editiditm.icon {
+float:left;
+padding-left: 2px;
+padding-bottom:2px;
+}
+
+.editiditm.icon span{
+	padding-left:15px;
+	padding-bottom:6px;
+	background: url(../images/edit2.png) no-repeat 0 5px;
+}
+
+.editiditm.icon.edit span {
+background-position: 0px 0px;
+}
+
 .statusx { 
   border:1px solid black;
   float:left;
   width:8px;
-  height:12px;
+  display:inline-block;
+  height:100%;
+  vertical-align:middle;
 }
 
 
 .status0 {
   background-color:#0088ee;
+  width:8px;
+  height:12px;
 }
 
 .status1 {
   background-color:#00BB5F;
+  width:8px;
+  height:12px;
 }
 
 .status2 {
   background-color:red;
+  width:8px;
+  height:12px;
 }
 
 .status3 {
   background-color:#cecece;
+  width:8px;
+  height:12px;
 }
 
 .status4 {
   background-color:#ffff00;
+  width:8px;
+  height:12px;
 }
 
 .status5 {
   background-color:#ff00ff;
+  width:8px;
+  height:12px;
 }
 
 .status6 {
   background-color:#00ffff;
+  width:8px;
+  height:12px;
 }
 
 .mandatory {

@@ -1,18 +1,39 @@
 #!/bin/bash
 
+bn=`basename $0`
+if [ ! -f $bn ] ; then
+	echo "Run from within contrib directory"
+	exit
+fi
 
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+git pull
+set -e
 lasthash=`git log --decorate=full --all --pretty=format:'%h %d'  |grep 'refs/tags'|head -1|awk '{print $1}'`
 lasttag=`git describe --tags $lasthash`
 
 echo "Previous tag was $lasttag"
 
 read -e -p "Enter ${CYAN}new tag${OFF}: " -i "$newtag" newtag
-
-read -e -p  "Press enter to tag $newtag: "
+read -e -p "Press enter to tag $newtag: "
 
 gitbase=`git rev-parse --show-toplevel`
+
+echo ""
+echo "Updating sqlite settings.version to $newtag"
+echo "update settings set version='$newtag';"|sqlite3 ../data/itdb.db
+echo "update settings set version='$newtag';"|sqlite3 ../data/pure.db
+
 echo $newtag > $gitbase/VERSION
 git add $gitbase/VERSION
+git add $gitbase/data/pure.db
+
+echo ""
+echo "Committing $newtag"
 git commit -m "Set version to $newtag"
 #git push origin
 git push github

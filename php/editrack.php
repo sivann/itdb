@@ -117,7 +117,17 @@ if (!isset($_REQUEST['id'])) {echo "ERROR:ID not defined";exit;}
 $id=$_REQUEST['id'];
 
 //$sql="SELECT * FROM racks where racks.id='$id'";
-$sql="SELECT count(items.id) AS population, sum(items.usize) as occupation,racks.* FROM racks LEFT OUTER JOIN items ON items.rackid=racks.id WHERE racks.id='$id'";
+$sql="SELECT count(items.id) AS population, sum(items.usize) as occupation,racks.* 
+FROM racks 
+LEFT OUTER JOIN items 
+ON items.rackid=racks.id 
+WHERE items.id IN 
+(
+	SELECT items.id
+	FROM items  
+	WHERE items.rackid ='$id'
+	GROUP BY items.rackposition
+)";
 $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 
@@ -243,14 +253,25 @@ else
        <?php $occupation=(int)$r['occupation'];
 	     if ($id!="new")
 	       $width=(int)($occupation/$r['usize']*100/(100/150));
+		//$width=100;
 	      else 
 	        $width=0;
        ?>
        <td class='tdt'><?php te("Occupation");?></td>
        <td title='<?php echo $occupation?> U occupied'>
 	 <div style='width:150px;border:1px solid #888;padding:0;'>
-	 <div style='background-color:#8ECE03;width:<?php echo $width?>px'>&nbsp;</div></div>
+	 <div style='background-color:#EAAF0F;width:<?php echo $width?>px'>&nbsp;</div></div>
        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+        <br /><div style="width:165px; margin-right:auto; margin-left:auto;">
+            <button type="submit"><img src="images/save.png" alt="Save"> <?php te("Save");?></button>
+            <?php 
+            echo "\n<button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid=$id\");'>".
+                 "<img title='delete' src='images/delete.png' border=0>".t("Delete"). "</button>\n";
+            ?>     </div>
+        </td>
     </tr>
     </table>
 <?php
@@ -263,18 +284,6 @@ else
   if ($id!="new")
     include('viewrack.php');
   ?>
-</td>
-</tr>
-
-
-<tr>
-<td colspan=2>
-<button type="submit"><img src="images/save.png" alt="Save"> <?php te("Save");?></button>
-<?php 
-echo "\n<button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid=$id\");'>".
-     "<img title='delete' src='images/delete.png' border=0>".t("Delete"). "</button>\n";
-?>
-
 </td>
 </tr>
 

@@ -35,15 +35,13 @@
 	    $("#rackid").html(html);
 	  }
       });
-
-
-
     });
-
   });
 
 </SCRIPT>
 <?php 
+//error_reporting(E_ALL);				***UNCOMMENT THESE 2 LINES TO SEE ERRORS ON THE PAGE***
+//ini_set('display_errors', '1');
 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
@@ -51,7 +49,13 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 if ($id!="new") {
   //get current item data
   $id=$_GET['id'];
-  $sql="SELECT * FROM items WHERE id='$id'";
+  $sql="SELECT items.*, files.fname
+	FROM items
+	LEFT OUTER JOIN item2file
+	ON items.id = item2file.itemid
+	LEFT OUTER JOIN files
+	ON files.id = item2file.fileid
+	WHERE items.id= '$id'";
   $sth=db_execute($dbh,$sql);
   $item=$sth->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -85,11 +89,11 @@ $sql="SELECT * FROM statustypes";
 $sth=$dbh->query($sql);
 $statustypes=$sth->fetchAll(PDO::FETCH_ASSOC);
 
-
-
-$sql="SELECT items.* from items,itemtypes where ".
-  " (itemtypes.typedesc like '%switch%' or itemtypes.typedesc like '%router%' ) ".
-  " and itemtypes.id=items.itemtypeid ";
+$sql="SELECT items.*
+	From items,itemtypes
+	where(itemtypes.typedesc like '%switch%' 
+	or itemtypes.typedesc like '%router%' )
+   	and itemtypes.id=items.itemtypeid";
 $sth=$dbh->query($sql);
 $netitems=$sth->fetchAll(PDO::FETCH_ASSOC);
 
@@ -123,7 +127,6 @@ else if ($action=="edititem") {
 	<h4><?php te("There are errors in your form submission, please see below for details");?>.</h4>
 	<ol>
 		<li><label for="itemtypeid" class="error"><?php te("Please select item type");?></label></li>
-		<li><label for="ispart" class="error"><?php te("Please specify if this item is a part of another");?></label></li>
 		<li><label for="rackmountable" class="error"><?php te("Please check if this item can be rackmounted");?></label></li>
 		<li><label for="manufacturerid" class="error"><?php te("Manufacturer is missing");?></label></li>
 		<li><label for="model" class="error"><?php te("Specify model");?></label></li>
@@ -145,11 +148,12 @@ else if ($action=="edititem") {
 
 <div id="tab1" class="tab_content">
 
-  <form class='frm1' enctype='multipart/form-data' method=post name='additmfrm' id='mainform'>
+  <form class='frm1' enctype='multipart/form-data' method='post' name='additmfrm' id='mainform'>
 
   <table border='0' class=tbl1 >
   <tr>
   <td class='tdtop'>
+<!-- Intrinsic Properties -->
     <table border='0' class=tbl2>
     <tr><td colspan=2><h3><?php te("Intrinsic Properties");?></h3></td></tr>
 
@@ -173,16 +177,17 @@ else if ($action=="edititem") {
       <tr>
 
     <?php 
+
     //ispart
     $y="";$n="";
     if ($ispart=="1") {$y="checked";$n="";}
     if ($ispart=="0") {$n="checked";$y="";}
 
     ?>
-      <td class='tdt'><?php te("Is Part");?>:<sup class='red'>*</sup></td>
+      <td class='tdt'><?php te("Is Part");?>:<!--<sup class='red'>*</sup>--></td>
       <td title='Select yes for parts/components'>
-      <div class='mandatory'>
-	<input  validate='required:true' <?php echo $y?> class='radio' type=radio name='ispart' value='1'><?php te("Yes");?>
+      <!--<div class='mandatory'>--><div>
+	<input  validate='required:false' <?php echo $y?> class='radio' type=radio name='ispart' value='1'><?php te("Yes");?>
 	<input  class='radio' type=radio <?php echo $n?> name='ispart' value='0'><?php te("No");?>
       </div>
       </td>
@@ -199,7 +204,7 @@ else if ($action=="edititem") {
     ?>
 
 
-      <td class='tdt'><?php te("Rackmountable");?>:<sup class='red'>*</sup></td>
+      <td class='tdt'><?php te("Rackmountable");?>:<!--<sup class='red'>*</sup>--></td>
       <td>
       <div class=mandatory>
 	<input validate='required:true' class='radio' <?php echo $y?> type=radio name='rackmountable' value='1'><?php te("Yes");?>
@@ -217,7 +222,7 @@ else if ($action=="edititem") {
       <td class='tdt'>
 
     <?php   if (is_numeric($manufacturerid)) 
-      echo "<a title='Edit selected manufacturer (agent)' href='$scriptname?action=editagent&amp;id=$manufacturerid'><img src='images/edit.png'></a> "; ?>
+      echo "<a title='Edit selected manufacturer (agent)' href='$scriptname?action=editagent&amp;id=$manufacturerid'><img src='images/edit2.png'></a> "; ?>
       <?php te("Manufact.");?><sup class='red'>*</sup>:</td>
 
       <td title='<?php te("Populated from H/W Manufacturers defined in agents menu");?>'>
@@ -262,6 +267,7 @@ else if ($action=="edititem") {
 
       </tr>
 
+      <tr> <td class='tdt'><?php te("Asset");?>:</td><td><input type=text value='<?php echo $asset?>' name='asset'></td> </tr>
       <tr> <td class='tdt'><?php te("S/N");?>:</td><td><input type=text value='<?php echo $sn?>' name='sn'></td> </tr>
       <tr> <td class='tdt'><?php te("S/N 2");?>:</td><td><input type=text value='<?php echo $sn2?>' name='sn2'></td> </tr>
       <tr>
@@ -285,8 +291,10 @@ else if ($action=="edititem") {
     </td>
 
     <td class='tdtop'>
+<!-- end, Intrinsic Prop -->
+<!-- Usage -->
+      <table border='0' class=tbl2>
 
-      <table border='0' class=tbl2><!-- Usage -->
       <tr><td colspan=2 ><h3><?php te("Usage");?></h3></td></tr>
 
       <tr>
@@ -389,11 +397,11 @@ else if ($action=="edititem") {
       <tr>
       <?php 
       //rackid
-      echo "\n<td class='tdt' class='tdt'>";
+      echo "\n<td class='tdt'>";
       if (is_numeric($rackid)) 
 	//echo "<a alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id'><img height=12 src='images/eye.png'></a> ";
 	echo "<a id=viewrack alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id&amp;nomenu=1'><img height=12 src='images/eye.png'></a> ";
-	echo "<a alt='Edit' title='".t("edit rack")."' href='$scriptname?action=editrack&amp;id=$rackid&amp;highlightid=$id'><img src='images/edit.png'></a> ";
+	echo "<a alt='Edit' title='".t("edit rack")."' href='$scriptname?action=editrack&amp;id=$rackid&amp;highlightid=$id'><img src='images/edit2.png'></a> ";
       ?>
 
       <script type="text/javascript"> 
@@ -479,14 +487,15 @@ else if ($action=="edititem") {
 	  <tr> <td class='tdt'><?php te("Shop/Origin");?>:</td><td title='<?php te("e.g. like donator, etc. Vendor info is best to be provided in the related invoice");?>'><input size=15 value='<?php echo $origin?>' name='origin'></td> </tr>
 	  <tr> <td class='tdt'><?php te("Purchace Price (");?><?php echo $settings['currency']?>):</td><td><input size=15 value='<?php echo $purchprice?>' name='purchprice'></td> </tr>
 
-      </table><!--/usage-->
+      </table>
+<!--/usage-->
 
 
     </td>
     <td class='tdtop'>
 
-
-      <table border='0' class=tbl2> <!-- 2-Warranty & Support -->
+ <!-- 2-Warranty & Support -->
+      <table border='0' class=tbl2>
       <tr><td colspan=2><h3><?php te("Warranty");?></h3></td></tr>
       <tr>
       <td class='tdt'><?php te("Date of Purchase");?>:</td>
@@ -532,7 +541,8 @@ else if ($action=="edititem") {
 
     </td>
     <td class='tdtop'>
-      <table border='0' class=tbl2> <!-- 3-Network -->
+<!-- 3-Network -->
+      <table border='0' class=tbl2>
       <tr><td colspan=2 ><h3><?php te("Network");?></h3></td></tr>
       <tr> <td class='tdt'><?php te("DNS Name");?>:</td><td><input type=text size=15 value='<?php echo $dnsname?>' name='dnsname'></td> </tr>
       <tr> <td class='tdt'>MACs:</td><td><input type=text size=15 value='<?php echo $macs?>' name='macs'></td> </tr>
@@ -541,9 +551,7 @@ else if ($action=="edititem") {
       <tr> <td class='tdt'>Rem.Adm.IP:</td><td title='<?php te("Remote Administration IP");?>'><input type=text size=15 value='<?php echo $remadmip?>' name='remadmip'></td> </tr>
       <tr> <td class='tdt'><?php te("Ptch.PnlPrt");?>:</td><td title='<?php te("Patch Panel Port");?>'><input type=text size=15 value='<?php echo $panelport?>' name='panelport'></td> </tr>
 
-      <tr>
-
-      <td class='tdt' class='tdt'><?php te("Switch");?>:</td><td title='<?php te("populated from items of type switch or router");?>' >
+      <tr> <td class='tdt' class='tdt'><?php te("Switch");?>:</td><td title='<?php te("populated from items of type switch or router");?>' >
       <select name='switchid'>
       <option value=''><?php te("Select");?></option>
     <?php 
@@ -576,14 +584,35 @@ else if ($action=="edititem") {
       </td>
       </tr>
       </table>
+    </td> 
+
+	<td class='tdtop'>
+<!-- 4-Device Image -->
+
+		<table border='0' class=tbl2> 
+		<tr>
+			<td colspan=2 ><h3><?php te("Device Image");?></h3></td>
+		</tr>
+		<tr>
+			<td>
+				    <?php 
+					      $pictureName=$item[0]['fname'];
+					echo "<a href='../data/files/".$pictureName."'><img style='max-width: 400px; max-height: 400px' src='data/files/".$pictureName."'>";
+					?>
+			</td>
+		</tr>
+	</td>
+    </tr>
+      </table>
 
     </td>
+
 
     </tr>
 
   <?php 
-  //Associated files
-  //
+  //Associated Overview
+  
     $f=itemid2files($id,$dbh);
     $flnk=showfiles($f);
 
@@ -698,7 +727,7 @@ else if ($action=="edititem") {
     </td>
 
 
-    <!-- tags -->
+    <!-- Tags -->
     <td class='tdtop' colspan=1>
       <h3>Tags <span title='Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the "Tags" menu for that.' style='font-weight:normal;font-size:70%'>(<a class="edit-tags" href="">edit tags</a>)</span></h3>
       
@@ -805,9 +834,19 @@ else if ($action=="edititem") {
     <tr><td colspan=2>
       <div class='scrltblcontainer'>
       <table width='100%' class='sortable brdr' id='itemslisttbl'>
-      <thead><tr><th><?php te("Rel");?></th><th><?php te("ID");?></th><th><?php te("Type");?></th><th><?php te("Manufacturer");?></th>
-                 <th><?php te("Model");?></th><th><?php te("Label");?></th><th><?php te("DNS");?></th>
-                 <th><?php te("Users");?></th><th><?php te("S/N");?></th></tr></thead>
+      <thead>
+      	<tr>
+			<th><?php te("Rel");?></th>
+			<th><?php te("ID");?></th>
+            <th><?php te("Type");?></th>
+            <th><?php te("Manufacturer");?></th>
+            <th><?php te("Model");?></th>
+            <th><?php te("Label");?></th>
+            <th><?php te("DNS");?></th>
+			<th><?php te("Users");?></th>
+			<th><?php te("S/N");?></th>
+		</tr>
+	  </thead>
       <tbody>
 <?php 
 //////////////////////////////////////////////
@@ -835,18 +874,16 @@ $sth=db_execute($dbh,$sql);
 
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   if (isset($id) && ($r['id']==$id)) continue; //dont link recursively 
-  echo "\n <tr><td><input name='itlnk[]' value='".$r['id'].
-   "' checked type='checkbox' /></td>".
-   "<td class='bld'><a title='Edit item {$r['id']} in new window' ".
-   "target=_blank href='$scriptname?action=edititem&amp;id=".$r['id']."'><div class='editid'>".
-   $r['id']."</div></a></b></td>".
-   "<td class='bld'>".$typeid2name[$r['itemtypeid']]."</td>".
-   "<td class='bld'>".$agents[$r['manufacturerid']]['title']."&nbsp;</td>".
-   "<td class='bld'>".$r['model']."&nbsp;</td>".
-   "<td class='bld'>".$r['label']."&nbsp;</td>".
-   "<td class='bld'>".$r['dnsname']."&nbsp;</td>".
-   "<td class='bld'>".$r['username']."&nbsp;</td>".
-   "<td class='bld'>".$r['sn']."&nbsp;</td></tr>\n";
+echo "\n <tr>
+	<td><center><input name='itlnk[]' value='".$r['id']."' type='checkbox' /></center></td>
+	<td><a class='editiditm icon edit' title='Edit item {$r['id']} in new window' target=_blank href='$scriptname?action=edititem&amp;id=".$r['id']."'>".$r['id']."</a></td>
+	<td class='bld'>".$typeid2name[$r['itemtypeid']]."</td>
+	<td class='bld'>".$agents[$r['manufacturerid']]['title']."&nbsp;</td>
+	<td class='bld'>".$r['model']."</td>
+	<td class='bld'>".$r['label']."</td>
+	<td class='bld'>".$r['dnsname']."</td>
+	<td class='bld'>".$r['username']."</td>
+	<td class='bld'>".$r['sn']."</td></tr>\n";
 }
 
 //not linked items
@@ -857,19 +894,18 @@ $sql="SELECT items.id,manufacturerid,model,itemtypeid, sn || ' '||sn2 ||' ' || s
 $sth=db_execute($dbh,$sql);
 
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
-  if (isset($id) && ($r['id']==$id)) continue; //dont link recursively 
-  echo "\n  <tr><td><input name='itlnk[]' value='".$r['id'].
-   "' type='checkbox' /></td>".
-   "<td ><a title='Edit item {$r['id']} in new window' ".
-   "target=_blank href='$scriptname?action=edititem&amp;id=".$r['id']."' class='editid'>".
-   $r['id']."</a></td>".
-   "<td>".$typeid2name[$r['itemtypeid']]."</td>".
-   "<td>".$agents[$r['manufacturerid']]['title']."</td>".
-   "<td >".$r['model']."&nbsp;</td>".
-   "<td >".$r['label']."&nbsp;</td>".
-   "<td >".$r['dnsname']."&nbsp;</td>".
-   "<td >".$r['username']."&nbsp;</td>".
-   "<td >".$r['sn']."&nbsp;</td></tr>\n";
+if (isset($id) && ($r['id']==$id)) continue; //dont link recursively 
+echo "\n	<tr>
+				<td><center><input name='itlnk[]' value='".$r['id']."' type='checkbox' /></center></td>
+				<td><a title='Edit item {$r['id']} in new window' target=_blank href='$scriptname?action=edititem&amp;id=".$r['id']."' class='editiditm icon edit'><span>".$r['id']."</span></a></td>
+				<td>".$typeid2name[$r['itemtypeid']]."</td>
+				<td>".$agents[$r['manufacturerid']]['title']."</td>
+				<td>".$r['model']."</td>
+				<td>".$r['label']."</td>
+				<td>".$r['dnsname']."</td>
+				<td>".$r['username']."</td>
+				<td><center>".$r['sn']."</td><center>
+			</tr>\n";
 }
 ?>
 
@@ -881,7 +917,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   </table><!-- /connect to other items -->
 
   <?php te("Add hierarchical or sibling relations to: parts, cards, monitors, et.c.");?>
-</div> <!-- /tab2 -->
+</div> <!-- end, tab2 -->
 
 
 <div id='tab3' class='tab_content'><!-- Invoices -->
@@ -898,8 +934,15 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
     <tr><td colspan=2>
     <div class='scrltblcontainer'>
     <table  id='invoicelisttbl' width='100%' class='brdr'>
-      <thead><tr><th><?php te("Rel");?></th><th><?php te("ID");?></th><th><?php te("Vendor");?></th><th><?php te("Date");?></th>
-                  <th><?php te("Order No");?></th><th><?php te("Invoice Description / File(s)");?></th></tr></thead>
+      <thead>
+      	<tr>
+        	<th><?php te("Rel");?></th>
+            <th><?php te("ID");?></th>
+            <th><?php te("Vendor");?></th>
+            <th><?php te("Date");?></th>
+            <th><?php te("Order No");?></th>
+            <th><?php te("Invoice Description / File(s)");?></th>
+        </tr></thead>
       <tbody>
 
 <?php 
@@ -922,7 +965,7 @@ $sql="SELECT i.id,i.vendorid, i.date,i.number,i.description,   group_concat(fnam
     $d=strlen($r['date'])?date($dateparam,$r['date']):"";
     echo "\n <tr><td class='bld'><input name='invlnk[]' value='".$r['id'].
      "' checked type='checkbox' /></td>".  
-     "<td class='bld'><a href='$scriptname?action=editinvoice&amp;id={$r['id']}' class='editid'>".$r['id']."</a></td>".  
+     "<td class='bld'><a href='$scriptname?action=editinvoice&amp;id={$r['id']}' class='editiditm icon edit'><span>".$r['id']."</span></a></td>".  
      "<td class='bld'>".$agents[$r['vendorid']]['title']."&nbsp;</td>".
      "<td class='bld'>$d&nbsp;</td>".
      "<td class='bld'>".$r['number'].  "&nbsp;</td>".
@@ -954,21 +997,20 @@ $sth=db_execute($dbh,$sql);
 
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   $d=strlen($r['date'])?date($dateparam,$r['date']):"";
-  echo "\n <tr><td><input name='invlnk[]' value='".$r['id'].
-   "' type='checkbox' /></td>".  
-   "<td><a class='editid' href='$scriptname?action=editinvoice&amp;id={$r['id']}'>".$r['id']."</a></td>".  
-   "<td>".$agents[$r['vendorid']]['title'].
-   "&nbsp;</td><td>$d".
-   "&nbsp;</td><td>".$r['number'].  "&nbsp;</td>".
-   "<td>";
-   if ($r['description'] != '')  echo $r['description']. "<BR>";
-     $fx=explode("|",$r['fname']);
-     foreach ($fx as $f){
-       echo "<a target=invphoto href='$uploaddirwww/$f'>$f</a> ";
-     }
-     echo "</td></tr>\n";
-
-}
+  echo "\n	<tr>
+  				<td><center><input name='invlnk[]' value='".$r['id']."' type='checkbox' /></center></td>
+				<td><a class='editiditm icon edit' href='$scriptname?action=editinvoice&amp;id={$r['id']}'><span>".$r['id']."</span></a></td>
+				<td>".$agents[$r['vendorid']]['title']."</td>
+				<td>$d"."</td>
+				<td>".$r['number']."</td>
+				<td>";
+					if ($r['description'] != '')  echo $r['description']. "<BR>";
+						$fx=explode("|",$r['fname']);
+						foreach ($fx as $f){
+						echo "<a target=invphoto href='$uploaddirwww/$f'>$f</a> ";
+						}
+						echo "</td></tr>\n";
+					}
 ?>
     </tbody>
     </table>
@@ -1008,9 +1050,13 @@ else {
   $sth=db_execute($dbh,$sql);
   ?>
   <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
-     <table width='100%' class='tbl2 brdr sortable'  id='softwarelisttbl'>
+     <table width='700px' class='tbl2 brdr sortable'  id='softwarelisttbl'>
        <thead>
-          <tr><th width='5%'><?php te("Associated");?></th><th><?php te("ID");?></th><th><?php te("Manufacturer");?></th><th><?php te("Title/Ver.");?></th>
+          <tr>
+          	<th width='5%'><?php te("Associated");?></th>
+            <th width="10em"><?php te("ID");?></th>
+            <th><?php te("Manufacturer");?></th>
+            <th><?php te("Title/Ver.");?></th>
           </tr>
         </thead>
         <tbody>
@@ -1024,15 +1070,12 @@ $xx=0;
       $cls="";
 
     $xx++;
-    echo "<tr><td><input name='softlnk[]' value='".$ir['id']."' ";
+    echo "<tr><td><center><input name='softlnk[]' value='".$ir['id']."' ";
     if ($ir['islinked']) echo " checked ";
-    echo  " type='checkbox' /></td>".
-     "<td $cls><a class='editid' title='Edit software {$ir['id']} in a new window' ".
-     "target=_blank href='$scriptname?action=editsoftware&amp;id=".$ir['id']."'>";
-    echo $ir['id'];
-    echo "</a></td>".
-     "<td $cls>".$ir['agtitle'].  "&nbsp;</td>".
-     "<td $cls>".$ir['titver']."&nbsp;</td></tr>\n";
+    echo  " type='checkbox' /></center></td>".
+     "<td><a class='editiditm icon edit' title='Edit software {$ir['id']} in a new window' target=_blank href='$scriptname?action=editsoftware&amp;id=".$ir['id']."'><span>".$ir['id']."</span></a></td>".
+     "<td $cls>".$ir['agtitle']."</td>".
+     "<td $cls>".$ir['titver']."</td></tr>\n";
   }
   ?>
   </tbody>
@@ -1062,7 +1105,11 @@ $xx=0;
   <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
      <table width='100%' class='tbl2 brdr sortable'  id='contrlisttbl'>
        <thead>
-          <tr><th width='5%'><?php te("Associated");?></th><th><?php te("ID");?></th><th><?php te("Contractor");?></th><th><?php te("Title");?></th>
+          <tr>
+          	<th width='5%'><?php te("Associated");?></th>
+            <th><?php te("ID");?></th>
+            <th><?php te("Contractor");?></th>
+            <th><?php te("Title");?></th>
           </tr>
         </thead>
         <tbody>
@@ -1075,16 +1122,15 @@ $xx=0;
     else
       $cls="";
 
-    echo "<tr><td><input name='contrlnk[]' value='".$ir['id']."' ";
-    if ($ir['islinked']) echo " checked ";
-    echo  " type='checkbox' /></td>".
-     "<td $cls><a class='editid' title='Edit Contract {$ir['id']} in a new window' ".
-     "target=_blank href='$scriptname?action=editcontract&amp;id=".$ir['id']."'>";
-    echo $ir['id'];
-    echo "</a></td>".
-     "<td $cls>".$ir['agtitle'].  "&nbsp;</td>".
-     "<td $cls>".$ir['ctitle']."&nbsp;</td></tr>\n";
-  }
+    echo 	"<tr>
+				<td><center><input name='contrlnk[]' value='".$ir['id']."' ";
+					if ($ir['islinked']) echo " checked ";
+						echo "type='checkbox' /></center></td>
+				<td><a class='editiditm icon edit' title='Edit Contract {$ir['id']} in a new window' target=_blank href='$scriptname?action=editcontract&amp;id=".$ir['id']."'><span>".$ir['id']."</span></a></td>
+				<td $cls>".$ir['agtitle']."</td>
+				<td $cls>".$ir['ctitle']."</td>
+			 </tr>\n";
+	}
   ?>
   </tbody>
   </table>
@@ -1131,5 +1177,3 @@ else
 
 <input type=hidden name=action value='<?php echo $_GET["action"]?>'>
 </form>
-
-

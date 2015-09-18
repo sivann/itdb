@@ -5,7 +5,7 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 //form variables
 $formvars=array("itemtypeid","function","manufacturerid","label",
-  "warrinfo","model","sn","sn2","sn3","locationid","locareaid",
+  "warrinfo","model","asset","sn","sn2","sn3","locationid","locareaid",
   "origin","warrantymonths","purchasedate","purchprice","dnsname","userid",
   "comments","maintenanceinfo","ispart","hd",
   "cpu","cpuno","corespercpu", "ram", "rackmountable", "rackid","rackposition","rackposdepth","usize","status",
@@ -239,14 +239,14 @@ elseif (isset($_POST['itemtypeid']) && ($_GET['id']=="new")&&isvalidfrm()) {
 
   //// STORE DATA
   $sql="INSERT into items (label, itemtypeid, function, manufacturerid, ".
-  " warrinfo, model, sn, sn2, sn3, origin, warrantymonths, purchasedate, purchprice, ".
+  " warrinfo, model, asset, sn, sn2, sn3, origin, warrantymonths, purchasedate, purchprice, ".
   " dnsname, userid, locationid,locareaid, maintenanceinfo,  ".
   " comments,ispart, rackid, rackposition,rackposdepth, rackmountable, ".
   " usize, status, macs, ipv4, ipv6, remadmip, ".
   " hd, cpu,cpuno,corespercpu, ram, ".
   " panelport, switchid, switchport, ports) VALUES ".
   " ('$label', '$itemtypeid', '$function', '$manufacturerid', ".
-  " '$warrinfo', '$model', '$sn', '$sn2', '$sn3', '$origin', ".
+  " '$warrinfo', '$model', '$asset', '$sn', '$sn2', '$sn3', '$origin', ".
   "  $warrantymonths, '$purchasedate2', ".
   " '$purchprice', '$dnsname', $userid, $locationid,$locareaid, '$maintenanceinfo', ".
   " '". htmlspecialchars($comments,ENT_QUOTES,'UTF-8')  ."',$ispart, $rackid, $rackposition,$rackposdepth, $rackmountable, " .
@@ -315,17 +315,17 @@ global $dbh,$disperr,$err,$_POST;
   $err="";
   $disperr="";
   if ($_POST['itemtypeid']=="") $err.="Missing Item Type<br>";
-  if ($_POST['userid']=="") $err.="Missing User<br>";
+  //if ($_POST['userid']=="") $err.="Missing User<br>";
   if ($_POST['manufacturerid']=="") $err.="Missing manufacturer<br>";
-  if (!isset($_POST['rackmountable'])) $err.="Missing 'Rackmountable' classification<br>";
-  if (!isset($_POST['ispart'])) $err.="Missing 'Part' classification<br>";
+  //if (!isset($_POST['rackmountable'])) $err.="Missing 'Rackmountable' classification<br>";
+  //if (!isset($_POST['ispart'])) $err.="Missing 'Part' classification<br>";
   if (!isset($_POST['status'])) $err.="Missing 'Status' classification<br>";
   if ($_POST['model']=="") $err.="Missing model<br>";
 
 
   $myid=$_GET['id'];
   if ($myid != "new" && is_numeric($myid) && (strlen($_POST['sn']) || strlen($_POST['sn2']))) {
-	  $sql="SELECT id from items where  id <> $myid AND ((length(sn)>0 AND sn in ('{$_POST['sn']}', '{$_POST['sn2']}')) OR (length(sn2)>0 AND sn2 in ('{$_POST['sn']}', '{$_POST['sn2']}')))  LIMIT 1";
+	  //$sql="SELECT id from items where  id <> $myid AND ((length(sn)>0 AND sn in ('{$_POST['sn']}', '{$_POST['sn2']}')) OR (length(sn2)>0 AND sn2 in ('{$_POST['sn']}', '{$_POST['sn2']}')))  LIMIT 1";
 	  $sth=db_execute($dbh,$sql);
 	  $dups=$sth->fetchAll(PDO::FETCH_ASSOC);
 	  if (count($dups[0])) {

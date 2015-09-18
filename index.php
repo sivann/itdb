@@ -11,8 +11,8 @@ $fordbversion=6;
 
 $itdb_start=getmicrotime();
 function getmicrotime() {
-    $a = explode (' ',microtime());
-    return(double) $a[0] + $a[1];
+	$a = explode (' ',microtime());
+	return(double) $a[0] + $a[1];
 } 
 
 $initok=1;
@@ -49,158 +49,210 @@ else  {
 
 switch ($_GET['action']) {
   case "listitems2": 
-    $title="Find Item2";
-    break;
+	$title="Find Item2";
+	break;
   case "listitems": 
-    $title="Find Item";
-    $head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
-    break;
+	$title="Find Item";
+	$head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
+	break;
+	case "listjacks": 
+	$title="Find Jack";
+	$head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
+	break;
+  case "listprojects": 
+	$title="Find Project";
+	$head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
+	break;
+  case "listvlans": 
+	$title="Find VLAN";
+	$head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
+	break;
+  case "listdepartments": 
+	$title="Find Departments";
+	$head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
+	break;
   case "listagents": 
-    $title="List Agents";
-    break;
+	$title="List Agents";
+	break;
   case "editagent": 
-    $title="Edit Agent";
-    break;
+	$title="Edit Agent";
+	break;
   case "edititem": 
-    $title="Edit Item";
-    $stitle="Item";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
+	$title="Edit Item";
+	$stitle="Item";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
 	   "<link rel='stylesheet' type='text/css' href='css/jquery.tag.css' />\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
-    break;
+	break;
+	case "editjack": 
+	$title="Edit Jack";
+	$stitle="Jack";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
+	   "<link rel='stylesheet' type='text/css' href='css/jquery.tag.css' />\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+	break;
+  case "editproject": 
+	$title="Edit Project";
+	$stitle="Project";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
+	   "<link rel='stylesheet' type='text/css' href='css/jquery.tag.css' />\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+	break;
+  case "editvlan": 
+	$title="Edit VLAN";
+	$stitle="VLAN";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
+	   "<link rel='stylesheet' type='text/css' href='css/jquery.tag.css' />\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+	break;
+	case "editdepartment": 
+	$title="Edit Department";
+	$stitle="Department";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
+	   "<link rel='stylesheet' type='text/css' href='css/jquery.tag.css' />\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+	break;
   case "editsoftware": 
-    $title="Edit Software";
-    $stitle="Software";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
+	$title="Edit Software";
+	$stitle="Software";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
 	   "<link rel='stylesheet' type='text/css' href='css/jquery.tag.css' />\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
-    break;
+	break;
   case "listsoftware": 
-    $title="List Software";
-    $head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
-    break;
+	$title="List Software";
+	$head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
+	break;
   case "listcontracts": 
-    $title="List Contracts";
-    break;
+	$title="List Contracts";
+	break;
   case "listinvoices": 
-    $title="List Invoices";
-    break;
+	$title="List Invoices";
+	break;
   case "editinvoice": 
-    $title="Edit Invoice";
-    $stitle="Invoice";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	$title="Edit Invoice";
+	$stitle="Invoice";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
-    break;
+	break;
   case "listfiles": 
-    $title="List Files";
-    break;
+	$title="List Files";
+	break;
   case "editfile": 
-    $title="Edit File";
-    $stitle="File";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	$title="Edit File";
+	$stitle="File";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
-    break;
+	break;
   case "listusers": 
-    $title="List Users";
-    break;
+	$title="List Users";
+	break;
   case "listracks": 
-    $title="List Racks";
-    break;
+	$title="List Racks";
+	break;
   case "translations": 
-    $title="Translations";
-    break;
+	$title="Translations";
+	break;
   case "settings": 
-    $title="Settings";
-    break;
+	$title="Settings";
+	break;
 
   case "import": 
-    $title="Import";
-    break;
+	$title="Import";
+	break;
   case "edituser": 
-    $stitle="User";
-    $title="Edit User";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	$stitle="User";
+	$title="Edit User";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
-    break;
+	break;
 
   case "editrack": 
-    $stitle="Rack";
-    $title="Edit Rack";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	$stitle="Rack";
+	$title="Edit Rack";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
-    break;
+	break;
 
   case "edititypes": 
-    $title="Edit Item Types";
-    break;
+	$title="Edit Item Types";
+	break;
   case "editcontract": 
-    $title="Edit Contract";
-    $stitle="Contract";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	$title="Edit Contract";
+	$stitle="Contract";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
-    break;
+	break;
   case "editcontracttypes": 
-    $title="Edit Contract Types";
-    break;
+	$title="Edit Contract Types";
+	break;
   case "edittags": 
-    $title="Edit Tags";
-    break;
+	$title="Edit Tags";
+	break;
   case "editusers": 
-    $title="Edit Users";
-    break;
+	$title="Edit Users";
+	break;
   case "listlocations": 
-    $title="List Locations";
-    break;
+	$title="List Locations";
+	break;
   case "editlocation": 
-    $title="Edit Location";
-    break;
+	$title="Edit Location";
+	break;
   case "editstatustypes": 
-    $title="Edit Item Status Types";
-    break;
+	$title="Edit Item Status Types";
+	break;
   case "editfiletypes": 
-    $title="Edit File Types";
-    break;
+	$title="Edit File Types";
+	break;
   case "printlabels": 
-    $title="Print Labels ";
-    break;
+	$title="Print Labels ";
+	break;
   case "reports": 
-    $title="Reports";
-    $head.="<script language='javascript' type='text/javascript' src='js/jqplot/jquery.jqplot.js'></script>\n".
+	$title="Reports";
+	$head.="<script language='javascript' type='text/javascript' src='js/jqplot/jquery.jqplot.js'></script>\n".
 	   "<script type='text/javascript' src='js/jqplot/plugins/jqplot.pieRenderer.js'></script>\n".
 	   "<script type='text/javascript' src='js/jqplot/plugins/jqplot.barRenderer.js'></script>\n".
 	   "<!--[if lt IE 9]><script language='javascript' type='text/javascript' src='js/jqplot/excanvas.js'></script><![endif]-->\n".
 	   "<link rel='stylesheet' type='text/css' href='css/jquery.jqplot.css' />";
-    break;
+	break;
   case "showhist": 
-    $title="History";
-    break;
+	$title="History";
+	break;
   case "browse": 
-    $title="Browse Data";
-    $head.="<script type='text/javascript' src='js/jstree/jquery.jstree.js'></script>";
-    break;
+	$title="Browse Data";
+	$head.="<script type='text/javascript' src='js/jstree/jquery.jstree.js'></script>";
+	break;
   case "viewrack": 
-    $title="Rack";
-    $stitle="Rack";
-    break;
+	$title="Rack";
+	$stitle="Rack";
+	break;
   case "about":
-    $title="About";
-    $stitle="About";
-    $req="php/about.php";
-    break;
+	$title="About";
+	$stitle="About";
+	$req="php/about.php";
+	break;
   default: 
-    $title="";
-    $stitle="";
-    $req="php/home.php";
-    break;
+	$title="";
+	$stitle="";
+	$req="php/home.php";
+	break;
 }
 if (isset($_GET['id'])) 
   $id=$_GET['id']; 
@@ -210,7 +262,7 @@ else
 if (strlen($stitle)) $stitle.=":".$id;
 
 $x="style_".$_GET['action'];
-$$x="color:#BAFF04 ";
+$$x="color:#EAAF0F ";
 
 
 require('php/header.php');
@@ -273,7 +325,7 @@ if ($authstatus) {
 
 
 <tr>
-<td><a style="<?php echo $style_listagents.$style_editagent; ?>" title='<?php te("Vendors/Buyers/ Manufacturers");?>' class='ahdr' href="<?php echo $scriptname?>?action=listagents" ><?php te("Agents");?></a> </td>
+<td><a style="<?php echo $style_listagents.$style_editagent; ?>" title='<?php te("Vendors/Buyers/Manufacturers");?>' class='ahdr' href="<?php echo $scriptname?>?action=listagents" ><?php te("Agents");?></a> </td>
 <td><a title='<?php te("Add new Agent");?>' class='ahdr' href="<?php echo $scriptname?>?action=editagent&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
 </tr>
 
@@ -302,6 +354,26 @@ if ($authstatus) {
 <tr>
 <td><a style="<?php echo $style_listracks; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listracks" ><?php te("Racks");?></a></td>
 <td><a style="<?php echo $style_editrack; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editrack&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+</tr>
+
+<tr>
+	<td><a style="<?php echo $style_listjacks; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listjacks" ><?php te("Jacks");?></a></td>
+	<td><a style="<?php echo $style_editjacks; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editjack&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+</tr>
+
+<tr>
+	<td><a style="<?php echo $style_listprojects; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listprojects" ><?php te("Projects");?></a></td>
+	<td><a style="<?php echo $style_editprojects; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editproject&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+</tr>
+
+<tr>
+	<td><a style="<?php echo $style_listvlans; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listvlans" ><?php te("VLANS");?></a></td>
+	<td><a style="<?php echo $style_editvlans; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editvlan&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+</tr>
+
+<tr>
+	<td><a style="<?php echo $style_listdepartments; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listdepartments" ><?php te("Departments");?></a></td>
+	<td><a style="<?php echo $style_editdepartments; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editdepartment&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
 </tr>
 
 <tr><td colspan=2><hr class='light1'> </td></tr>
@@ -344,28 +416,28 @@ else {
 
 if ($authstatus) {
   echo "\n<div style='height:5px'></div>".
-       "<form method=post><button type='submit'><img width=20 src='images/logout_red.png'> ".t("Logout")."</button>".
-       "\n<input type=hidden name=logout value='1'></form>";
+	   "<form method=post><button type='submit'><img width=20 src='images/logout_red.png'> ".t("Logout")."</button>".
+	   "\n<input type=hidden name=logout value='1'></form>";
 
 
   if (strlen($stitle)) {
-    $url="$fscriptname?action=$action&id=$id";
+	$url="$fscriptname?action=$action&id=$id";
 
-    $sql="SELECT * FROM viewhist order by id DESC limit 1";
-    $sth=db_execute($dbh,$sql);
-    $viewhist=$sth->fetchAll(PDO::FETCH_ASSOC);
-    if (!$demomode) {
-      if ($viewhist[0]['url']!=$url) {
+	$sql="SELECT * FROM viewhist order by id DESC limit 1";
+	$sth=db_execute($dbh,$sql);
+	$viewhist=$sth->fetchAll(PDO::FETCH_ASSOC);
+	if (!$demomode) {
+	  if ($viewhist[0]['url']!=$url) {
 	$sql="INSERT into viewhist (url,description)".
-	     " VALUEs ('$url','$stitle')";
+		 " VALUEs ('$url','$stitle')";
 	db_exec($dbh,$sql,1,1,$lastid);
 
 	$lastkeep=(int)($lastid)-40;
 	$sql="DELETE from viewhist where id<$lastkeep";
 	db_exec($dbh,$sql,1,1);
 	$sth=$dbh->exec($sql);
-      }
-    }
+	  }
+	}
   }
 
   $sql="SELECT * FROM viewhist order by id DESC";
@@ -376,8 +448,8 @@ if ($authstatus) {
   <div title='<?php te("Recent History");?>' style='font-size:7pt;height:75px;width:100%;overflow:auto;margin-top:5px ;margin-bottom:5px;text-align:left;color:white;border-bottom:1px solid #8FAFE4;'>
   <?php 
   for ($i=0;$i<count($viewhist);$i++){
-    if (!($i%2)) $bgc="";else$bgc="background-color:#295BAD";
-    echo "<div style='border-bottom:1px solid #8FAFE4;width:100%;clear:both;$bgc'><a style='color:white' href='".$viewhist[$i]['url']."'>".$viewhist[$i]['description']."</a></div>\n";
+	if (!($i%2)) $bgc="";else$bgc="background-color:#295BAD";
+	echo "<div style='border-bottom:1px solid #8FAFE4;width:100%;clear:both;$bgc'><a style='color:white' href='".$viewhist[$i]['url']."'>".$viewhist[$i]['description']."</a></div>\n";
   }
 
   ?>
@@ -400,10 +472,10 @@ if ($authstatus) {
 }
 
 echo "<br> <small>".
-     "<a href='CHANGELOG.txt' class='ahdr'>Version $version</a><br><a style='color:white' href='http://www.sivann.gr/software/itdb/'>sivann</a></small>\n";
+	 "<a href='CHANGELOG.txt' class='ahdr'>Version $version</a><br><a style='color:white' href='http://www.sivann.gr/software/itdb/'>sivann</a></small>\n";
 ?>
 <br>
-<a title='phpinfo' href='phpinfo.php'><img src='images/infosmall.png'></a>
+<a title='phpinfo' href='phpinfo.bak'><img src='images/infosmall.png'></a>
 </div>
 <!-- END OF #leftcolumn -->
 

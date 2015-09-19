@@ -76,4 +76,7 @@
 <file name="xls_hover.png" server="209.114.127.248//var/www/html/" local="130700684797685408" remote="130850926830000000" />
 <file name="xred.png" server="209.114.127.248//var/www/html/" local="130700684797695408" remote="130850926830000000" />
 <file name="more.png.bak" server="209.114.127.248//var/www/html/" local="130700684797605408" remote="130867895000000000" />
+<file name="next-button.png" server="209.114.127.248//var/www/html/" local="130870849957288377" remote="130870854950000000" />
+<file name="previous-button.png" server="209.114.127.248//var/www/html/" local="130870852243676993" remote="130871123590000000" />
+<file name="view-all-button.gif" server="209.114.127.248//var/www/html/" local="130871126257867740" remote="130871127470000000" />
 </dwsync>

@@ -13,10 +13,10 @@ http://www.sivann.gr/software/itdb/
 Please consider that my free time is now extremely limited, and so even valid pull requests may not be addressed for a long time.
 
 ## Scope of pull requests
-Thank you for your time to consider contributing. Please take into account ITDB is only an inventory software.  
-It may offer some basic reporting by quering its own data because it may have access to invoices, users and equipment.
-ITDB tries to adhere to the [do one thing https://en.wikipedia.org/wiki/Unix_philosophy#Do_One_Thing_and_Do_It_Well] philisophy.
-ITDB does not and should not aim to provide the functionality of e.g. network monitoring tools, a finance software or network diagnostics software. 
+Thank you for your time to consider contributing. Please take into account ITDB is only an inventory software. It may offer some basic reporting by quering 
+its own data because it may have access to invoices, users and equipment.
+ITDB tries to adhere to the [do one thing](https://en.wikipedia.org/wiki/Unix_philosophy#Do_One_Thing_and_Do_It_Well) philisophy.
+ITDB does not and should not aim to provide the functionality of other software e.g. network monitoring tools, finance software or network diagnostics software. 
 
 ## Extent of pull request 
 Pull requests should fix 1 and only 1 thing. Otherwise it is extremely difficult to test and review.

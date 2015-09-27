@@ -50,8 +50,6 @@ Any pull requests fixing the following would be welcome. Please open a discussio
 * rewrite the front controller using a framework (e.g. slimphp)
  
 ### Minor contributions
-* port connectivity management
-* power cable management
 * services per item
 * item user selection and possibly others: instead of pull-down select, use jqueryui's autocomplete combobox
 * add history (renewals) & events in software, like in items.
@@ -65,6 +63,8 @@ Any pull requests fixing the following would be welcome. Please open a discussio
 * license models: on inventory data:per installation, OEM and machine licensing. On external data sources: qualified desktop, CPU, user, named user, server, client access license (CAL), site, enterprise and user-defined models.
 * inplace edit/add itemtypes, agents, users. Configurable to allow edit/add for specific user and select for others.
 * virtual/non virtual item (e.g. VM). Parent (physical) item. Virtual may show as tooltip of rack position of parent. Also reports virtual/non virtual items.
+* port connectivity management
+* power cable management
 
 
 Thank you!

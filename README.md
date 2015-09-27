@@ -50,23 +50,21 @@ Any pull requests fixing the following would be welcome. Please open a discussio
 * rewrite the front controller using a framework (e.g. slimphp)
  
 ### Minor contributions
--port connectivity management
--power cable management
--services (+virtual)
--import capability
-
--item user selection and possibly others: instead of pull-down select, use jqueryui's autocomplete combobox
--add history (renewals) & events in software, like in items.
--design PC/server layout in Locations. Assign Items to x/y over imagemap
--edit previous/next item functionality. E.g. from an item list of a search result. 
--add knowledge area, with connections to items & software (text)
--software classes (types). E.g. O/S
--unify tab association code
--replace file uploader with one supporting drag&drop
--add cron notification script in contrib/ for contract/warranty expiration
--license models: on inventory data:per installation, OEM and machine licensing. On external data sources: qualified desktop, CPU, user, named user, server, client access license (CAL), site, enterprise and user-defined models.
--inplace edit/add itemtypes, agents, users. Configurable to allow edit/add for specific user and select for others.
--virtual/non virtual item (e.g. VM). Parent (physical) item. Virtual may show as tooltip of rack position of parent. Also reports virtual/non virtual items.
+* port connectivity management
+* power cable management
+* services per item
+* item user selection and possibly others: instead of pull-down select, use jqueryui's autocomplete combobox
+* add history (renewals) & events in software, like in items.
+* design PC/server layout in Locations. Assign Items to x/y over imagemap
+* edit previous/next item functionality. E.g. from an item list of a search result. 
+* add knowledge area, with connections to items & software (text)
+* software classes (types). E.g. O/S
+* unify tab association code
+* replace file uploader with one supporting drag&drop
+* add cron notification script in contrib/ for contract/warranty expiration
+* license models: on inventory data:per installation, OEM and machine licensing. On external data sources: qualified desktop, CPU, user, named user, server, client access license (CAL), site, enterprise and user-defined models.
+* inplace edit/add itemtypes, agents, users. Configurable to allow edit/add for specific user and select for others.
+* virtual/non virtual item (e.g. VM). Parent (physical) item. Virtual may show as tooltip of rack position of parent. Also reports virtual/non virtual items.
 
 
 Thank you!

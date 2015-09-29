@@ -235,10 +235,49 @@ if (isset($locationid) && strlen($locationid)) $where.="WHERE locationid = '$loc
 if (isset($locareaid) && strlen($locareaid)) $where.="AND (locareaid = '$locareaid') ";
 if (isset($summary) && strlen($summary)) $where.="WHERE summary LIKE '%$summary%' ";
 
+///////////////////////////////////////////////////////////							Pagination							///////////////////////////////////////////////////////////
 
-//calculate total returned rows
+//	How many records are in table
 $sth=db_execute($dbh,"SELECT count(projects.id) as totalrows FROM projects $where");
 $totalrows=$sth->fetchColumn();
+
+//	Page Links
+//	Get's the current page number
+$get2=$_GET;
+unset($get2['page']);
+$url=http_build_query($get2);
+
+//	Previous and Next Links
+	$prev = $page - 1;
+	$next = $page + 1;
+
+//	Previous Page
+	if ($page > 1){
+	$prevlink .="<a href='$fscriptname?$url&amp;page=$prev'><img src='../images/previous-button.png' width='64' height='25' alt='previous' /></a> ";
+	}else{
+	$prevlink .="<img src='../images/previous-button.png' width='64' height='25' alt='previous' /> ";
+	}
+
+//	Numbers
+	for ($plinks="",$pc=1;$pc<=ceil($totalrows/$perpage);$pc++){
+		if ($pc==$page){
+			$plinks.="<b><u><a href='$fscriptname?$url&amp;page=$pc'>[$pc]</a></u></b> ";
+		}else{
+			$plinks.="<a href='$fscriptname?$url&amp;page=$pc'>$pc</a> ";
+		}
+	}
+
+//	Next Page
+	if ($page < ceil($totalrows/$perpage)){
+	$nextlink .="<a href='$fscriptname?$url&amp;page=$next'><img src='../images/next-button.png' width='64' height='25' alt='next' /></a> ";
+	}else{
+	$nextlink .=" <img src='../images/next-button.png' width='64' height='25' alt='next' />";
+	}
+
+//	Show All
+	$alllink .="<a href='$fscriptname?$url&amp;page=all'><br /><img src='../images/view-all-button.gif' width='64' height='25' alt='show all' /></a> ";
+
+///////////////////////////////////////////////////////////							end, Pagination							///////////////////////////////////////////////////////////
 
 //page links
 $get2=$_GET;
@@ -297,11 +336,83 @@ else {
   <input type='hidden' name='action' value='<?php echo $_GET['action']?>'>
   </form>
 
+<?php  ///////////////////////////////////////////////////////////							Pagination Links							///////////////////////////////////////////////////////////?>
+
 <div class='gray'>
-  <b><?php echo $totalrows?> results</b><br>
-  <b>Page:</b> <?php echo $plinks?> <br>
-  <a href='<?php echo "$fscriptname?action=$action&amp;export=1"?>'><img src='images/xcel2.jpg' height=25 border=0>Export to Excel</a>
-</div>
+  <br /><b><?php echo $totalrows?> results<br>
+	<?php if ($page >= 1 && $page != "all" && $totalrows != 0){
+		echo $prevlink;
+	}
+	if ($page != "all"){
+	// Function to generate pagination array - that is a list of links for pages navigation
+    function paginate ($base_url, $query_str, $total_pages, $page, $perpage)
+    {
+        // Array to store page link list
+        $page_array = array ();
+        // Show dots flag - where to show dots?
+        $dotshow = true;
+        // walk through the list of pages
+        for ( $i = 1; $i <= $total_pages; $i ++ )
+        {
+           // If first or last page or the page number falls 
+           // within the pagination limit
+           // generate the links for these pages
+           if ($i == 1 || $i == $total_pages || 
+                 ($i >= $page - $perpage && $i <= $page + $perpage) )
+           {
+              // reset the show dots flag
+              $dotshow = true;
+              // If it's the current page, leave out the link
+              // otherwise set a URL field also
+              if ($i != $page)
+                  $page_array[$i]['url'] = $base_url . $query_str .
+                                             "=" . $i;
+              $page_array[$i]['text'] = strval ($i);
+           }
+           // If ellipses dots are to be displayed
+           // (page navigation skipped)
+           else if ($dotshow == true)
+           {
+               // set it to false, so that more than one 
+               // set of ellipses is not displayed
+               $dotshow = false;
+               $page_array[$i]['text'] = "...";
+           }
+        }
+        // return the navigation array
+        return $page_array;
+    }
+    // To use the pagination function in a 
+    // PHP script to display the list of links
+    // paginate total number of pages ($pc) - current page is $page and show
+    // 3 links around the current page
+    $pages = paginate ("?$url&amp;", "page", ($pc - 1), $page, 3); ?>
+
+    <?php 
+    // list display
+    foreach ($pages as $page) {
+        // If page has a link
+        if (isset ($page['url'])) { ?>
+            <a href="<?php echo $page['url']?>">
+    		<?php echo $page['text'] ?>
+    	</a>
+    <?php }
+        // no link - just display the text
+         else 
+            echo $page['text'];
+    }
+	}?>
+	<?php if ($page >= 1 && $page != "all" && $totalrows != 0){
+		echo $nextlink."<br />";
+	}else
+	?>
+	<?php if ($page != "all" && $totalrows != 0){
+		echo $alllink."<br />";
+	}else
+	?>
+	<a href='<?php echo "$fscriptname?action=$action&amp;export=1"?>'><img src='images/xcel2.jpg' height=25 border=0>Export to Excel
+    
+<?php  ///////////////////////////////////////////////////////////							end, Pagination	Links						///////////////////////////////////////////////////////////?>
 
 <?php 
 }

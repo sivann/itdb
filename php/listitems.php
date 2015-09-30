@@ -71,7 +71,7 @@ $sth->closeCursor();
 
 $sql="SELECT * from items order by id";
 $sth=db_execute($dbh,$sql);
-while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $itemslist[$r['id']]=$r;
+while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $itemlist[$r['id']]=$r;
 $sth->closeCursor();
 
 
@@ -374,7 +374,7 @@ $where=" AND agtitle like '%$manufacturer%' and model like '%$model%' ".
 //  }
 //}
 
-if (strlen($id)) $where.=" AND items.id = '$id' ";
+if (strlen($id)) $where.=" AND (items.id = '$id') ";
 if (strlen($status)) $where.=" AND items.status = '$status' ";
 if (strlen($asset)) $where.=" AND items.asset = '$asset' ";
 if (strlen($ports)) $where.=" AND items.ports = '$ports' ";
@@ -388,7 +388,8 @@ if (isset($rackid) && strlen($rackid)) $where.=" AND rackid=$rackid ";
 ///////////////////////////////////////////////////////////							Pagination							///////////////////////////////////////////////////////////
 
 //	How many records are in table
-$sth=db_execute($dbh,"SELECT count(items.id) as totalrows, agents.title as agtitle FROM items,agents WHERE agents.id=items.manufacturerid $where");
+$sql="SELECT count(items.id) as totalrows, agents.title as agtitle FROM items,agents WHERE agents.id=items.manufacturerid $where";
+$sth=db_execute($dbh,$sql);
 $totalrows=$sth->fetchColumn();
 
 //	Page Links

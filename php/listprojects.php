@@ -77,7 +77,7 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 /* Cory Funk 2015 , cafunk@fhsu.edu */
 
 // Get Project information
-$sql="SELECT * FROM projects";
+$sql="SELECT * FROM projects WHERE id = '' OR id != '' ";
 $sth=$dbh->query($sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $projects[$r['id']]=$r;
 $sth->closeCursor();
@@ -229,16 +229,16 @@ if (!$export) {
 }//if not export to excel: searchboxes
 
 // Create WHERE clause
-if (strlen($id)) $where.="WHERE id = '$id' ";
-if (isset($projectname) && strlen($projectname)) $where.="WHERE projectname LIKE '%$projectname%' ";
-if (isset($locationid) && strlen($locationid)) $where.="WHERE locationid = '$locationid' ";
+if (strlen($id)) $where.="AND id = '$id' ";
+if (isset($projectname) && strlen($projectname)) $where.="AND projectname LIKE '%$projectname%' ";
+if (isset($locationid) && strlen($locationid)) $where.="AND locationid = '$locationid' ";
 if (isset($locareaid) && strlen($locareaid)) $where.="AND (locareaid = '$locareaid') ";
-if (isset($summary) && strlen($summary)) $where.="WHERE summary LIKE '%$summary%' ";
+if (isset($summary) && strlen($summary)) $where.="AND summary LIKE '%$summary%' ";
 
 ///////////////////////////////////////////////////////////							Pagination							///////////////////////////////////////////////////////////
 
 //	How many records are in table
-$sth=db_execute($dbh,"SELECT count(projects.id) as totalrows FROM projects $where");
+$sth=db_execute($dbh,"SELECT count(projects.id) as totalrows FROM projects WHERE id = '' OR id != '' $where");
 $totalrows=$sth->fetchColumn();
 
 //	Page Links
@@ -293,7 +293,7 @@ for ($plinks="",$pc=1;$pc<=ceil($totalrows/$perpage);$pc++) {
 $plinks.="<a href='$fscriptname?$url&amp;page=all'>[show all]</a> ";
 
 $t=time();
-$sql="SELECT * FROM projects $where order by $orderby LIMIT $perpage OFFSET ".($perpage*($page-1));
+$sql="SELECT * FROM projects WHERE id = '' OR id != '' $where order by $orderby LIMIT $perpage OFFSET ".($perpage*($page-1));
 $sth=db_execute($dbh,$sql);
 
 // Display Results

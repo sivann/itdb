@@ -55,7 +55,7 @@ if (isset($_GET['delid'])) { //Deletes the record in the current row
 }
 
 // get Departments
-$sql="SELECT * from departments order by id";
+$sql="SELECT * from departments WHERE id = '' OR id != '' order by id";
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $departments[$r['id']]=$r;
 $sth->closeCursor();
@@ -178,17 +178,17 @@ if (!$export) {
 }//if not export to excel: searchboxes
 
 /// create WHERE clause
-if (strlen($id)) $where.="WHERE id = '$id' ";
+if (strlen($id)) $where.="AND id = '$id' ";
 //if (strlen($delid)) $where.="WHERE delid = '$id' ";
-if (isset($division) && strlen($division)) $where.="WHERE division='$division' ";
-if (isset($name) && strlen($name)) $where.="WHERE name LIKE '%$name%' ";
-if (isset($abbr) && strlen($abbr)) $where.="WHERE abbr LIKE '%$abbr%' ";
+if (isset($division) && strlen($division)) $where.="AND division='$division' ";
+if (isset($name) && strlen($name)) $where.="AND name LIKE '%$name%' ";
+if (isset($abbr) && strlen($abbr)) $where.="AND abbr LIKE '%$abbr%' ";
 
 ///////////////////////////////////////////////////////////							Pagination							///////////////////////////////////////////////////////////
 
 //	How many records are in table
 //calculate total returned rows
-$sth=db_execute($dbh,"SELECT count(departments.id) as totalrows FROM departments $where");
+$sth=db_execute($dbh,"SELECT count(departments.id) as totalrows FROM departments WHERE id = '' OR id != '' $where");
 $totalrows=$sth->fetchColumn();
 
 //	Page Links
@@ -243,7 +243,7 @@ for ($plinks="",$pc=0;$pc<=ceil($totalrows/$perpage);$pc++) {
 $plinks.="<a href='$fscriptname?action=listdepartments&page=all'>[show all]</a> ";
 
 $t=time();
-$sql="SELECT * FROM departments $where order by $orderby LIMIT $perpage OFFSET ".($perpage*($page-1));
+$sql="SELECT * FROM departments WHERE id = '' OR id != '' $where order by $orderby LIMIT $perpage OFFSET ".($perpage*($page-1));
 $sth=db_execute($dbh,$sql);
 
 /// display results

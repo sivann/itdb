@@ -77,7 +77,7 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 /* Cory Funk 2015 , cafunk@fhsu.edu */
 
 // Get jack information
-$sql="SELECT * FROM jacks";
+$sql="SELECT * FROM jacks WHERE id = '' OR id != '' ";
 $sth=$dbh->query($sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $jacks[$r['id']]=$r;
 $sth->closeCursor();
@@ -203,7 +203,6 @@ echo "\n<tbody>\n";
 echo "\n<tr>";
 
 //create pre-fill form box vars
-$id=isset($_GET['id'])?($_GET['id']):"";
 $jackname=isset($_GET['jackname'])?($_GET['jackname']):"";
 $locationid=isset($_GET['locationid'])?($_GET['locationid']):"";
 $locareaid=isset($_GET['locareaid'])?($_GET['locareaid']):"";
@@ -319,27 +318,27 @@ if (!$export) {
 }//if not export to excel: searchboxes
 
 // Create WHERE clause
-if (isset($id) && strlen($id)) $where.="AND (id = '$id') ";
-if (isset($jackname) && strlen($jackname)) $where.="WHERE jackname LIKE '%$jackname%' ";
-if (isset($locationid) && strlen($locationid)) $where.="WHERE locationid = '$locationid' ";
+if (isset($id) && strlen($id)) $where.="AND id = '$id' ";
+if (isset($jackname) && strlen($jackname)) $where.="AND jackname LIKE '%$jackname%' ";
+if (isset($locationid) && strlen($locationid)) $where.="AND locationid = '$locationid' ";
 if (isset($locareaid) && strlen($locareaid)) $where.="AND (locareaid = '$locareaid') ";
-if (isset($switchname) && strlen($switchname)) $where.="WHERE switchname LIKE '%$switchname%' ";
-if (isset($modport) && strlen($modport)) $where.="WHERE modport LIKE '%$modport%' ";
-if (isset($userdev) && strlen($userdev)) $where.="WHERE userdev LIKE '%$userdev%' ";
-if (isset($notes) && strlen($notes)) $where.="WHERE notes LIKE '%$notes%' ";
-if (isset($wallcoord) && strlen($wallcoord)) $where.="WHERE wallcoord LIKE '%$wallcoord%' ";
-if (isset($departmentsid) && strlen($departmentsid)) $where.="WHERE departmentsid LIKE '%$departmentsid%' ";
-if (isset($vlanid) && strlen($vlanid)) $where.="WHERE vlanid LIKE '%$vlanid%' ";
-if (isset($pubipnet) && strlen($pubipnet)) $where.="WHERE pubipnet LIKE '%$pubipnet%' ";
-if (isset($pubiphost) && strlen($pubiphost)) $where.="WHERE pubiphost LIKE '%$pubiphost%' ";
-if (isset($privipnet) && strlen($privipnet)) $where.="WHERE privipnet LIKE '%$privipnet%' ";
-if (isset($priviphost) && strlen($priviphost)) $where.="WHERE priviphost LIKE '%$priviphost%' ";
-if (isset($groupname) && strlen($groupname)) $where.="WHERE groupname LIKE '%$groupname%' ";
+if (isset($switchname) && strlen($switchname)) $where.="AND switchname LIKE '%$switchname%' ";
+if (isset($modport) && strlen($modport)) $where.="AND modport LIKE '%$modport%' ";
+if (isset($userdev) && strlen($userdev)) $where.="AND userdev LIKE '%$userdev%' ";
+if (isset($notes) && strlen($notes)) $where.="AND notes LIKE '%$notes%' ";
+if (isset($wallcoord) && strlen($wallcoord)) $where.="AND wallcoord LIKE '%$wallcoord%' ";
+if (isset($departmentsid) && strlen($departmentsid)) $where.="AND departmentsid LIKE '%$departmentsid%' ";
+if (isset($vlanid) && strlen($vlanid)) $where.="AND vlanid LIKE '%$vlanid%' ";
+if (isset($pubipnet) && strlen($pubipnet)) $where.="AND pubipnet LIKE '%$pubipnet%' ";
+if (isset($pubiphost) && strlen($pubiphost)) $where.="AND pubiphost LIKE '%$pubiphost%' ";
+if (isset($privipnet) && strlen($privipnet)) $where.="AND privipnet LIKE '%$privipnet%' ";
+if (isset($priviphost) && strlen($priviphost)) $where.="AND priviphost LIKE '%$priviphost%' ";
+if (isset($groupname) && strlen($groupname)) $where.="AND groupname LIKE '%$groupname%' ";
 
 ///////////////////////////////////////////////////////////							Pagination							///////////////////////////////////////////////////////////
 
 //	How many records are in table
-$sth=db_execute($dbh,"SELECT count(jacks.id) as totalrows FROM jacks $where");
+$sth=db_execute($dbh,"SELECT count(jacks.id) as totalrows FROM jacks WHERE id = '' OR id != '' $where");
 $totalrows=$sth->fetchColumn();
 
 //	Page Links
@@ -394,7 +393,7 @@ for ($plinks="",$pc=1;$pc<=ceil($totalrows/$perpage);$pc++) {
 $plinks.="<a href='$fscriptname?$url&amp;page=all'>[show all]</a> ";
 
 $t=time();
-$sql="SELECT * FROM jacks $where order by $orderby LIMIT $perpage OFFSET ".($perpage*($page-1));
+$sql="SELECT * FROM jacks WHERE id = '' OR id != '' $where order by $orderby LIMIT $perpage OFFSET ".($perpage*($page-1));
 $sth=db_execute($dbh,$sql);
 
 // Display Results

@@ -56,7 +56,7 @@ if (isset($_GET['delid'])) { //Deletes the record in the current row
 
 
 // get VLANS
-$sql="SELECT * from vlans order by id";
+$sql="SELECT * from vlans WHERE id = '' OR id != '' order by id";
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $vlanslist[$r['id']]=$r;
 $sth->closeCursor();
@@ -172,14 +172,14 @@ if (!$export) {
 
 /// create WHERE clause
 $where="";
-if (strlen($id)) $where.="WHERE id = '$id' ";
-if (isset($vlanid) && strlen($vlanid)) $where.="WHERE vlanid='$vlanid' ";
-if (isset($vlanname) && strlen($vlanname)) $where.="WHERE vlanname LIKE '%$vlanname%' ";
+if (strlen($id)) $where.="AND id = '$id' ";
+if (isset($vlanid) && strlen($vlanid)) $where.="AND vlanid='$vlanid' ";
+if (isset($vlanname) && strlen($vlanname)) $where.="AND vlanname LIKE '%$vlanname%' ";
 
 ///////////////////////////////////////////////////////////							Pagination							///////////////////////////////////////////////////////////
 
 //	How many records are in table
-$sth=db_execute($dbh,"SELECT count(vlans.id) as totalrows FROM vlans $where");
+$sth=db_execute($dbh,"SELECT count(vlans.id) as totalrows FROM vlans WHERE id = '' OR id != '' $where");
 $totalrows=$sth->fetchColumn();
 
 //	Page Links
@@ -234,7 +234,7 @@ for ($plinks="",$pc=1;$pc<=ceil($totalrows/$perpage);$pc++) {
 $plinks.="<a href='$fscriptname?$url&amp;page=all'>[show all]</a> ";
 
 $t=time();
-$sql="SELECT vlans.* FROM vlans $where order by $orderby LIMIT $perpage OFFSET ".($perpage*($page-1));
+$sql="SELECT vlans.* FROM vlans WHERE id = '' OR id != '' $where order by $orderby LIMIT $perpage OFFSET ".($perpage*($page-1));
 $sth=db_execute($dbh,$sql);
 
 /// display results

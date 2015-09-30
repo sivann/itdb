@@ -309,31 +309,9 @@ if ($authstatus) {
 <tr><td colspan=2><hr class='light1'> </td></tr>
 
 <tr>
-<td><a style="<?php echo $style_listitems.$style_edititem; ?>" class='ahdr' title='<?php te("List Items");?>' href="<?php echo $scriptname?>?action=listitems&amp;page=1" ><?php te("Items")?></a> </td>
-<td><a title='<?php te("Add new Item");?>' class='ahdr' href="<?php echo $scriptname?>?action=edititem&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
-</tr>
-
-<tr>
-<td><a style="<?php echo $style_listsoftware.$style_editsoftware; ?>" title='<?php te("List Software");?>' class='ahdr' href="<?php echo $scriptname?>?action=listsoftware&amp;page=1" ><?php te("Software");?></a> </td>
-<td><a title='<?php te("Add new Software");?>' class='ahdr' href="<?php echo $scriptname?>?action=editsoftware&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
-</tr>
-
-<tr>
-<td><a style="<?php echo $style_listinvoices.$style_editinvoice; ?>" title='<?php te("List Invoices");?>' class='ahdr' href="<?php echo $scriptname?>?action=listinvoices&amp;page=1" ><?php te("Invoices");?></a> </td>
-<td><a title='<?php te("Add new Invoice");?>' class='ahdr' href="<?php echo $scriptname?>?action=editinvoice&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
-</tr>
-
-
-<tr>
 <td><a style="<?php echo $style_listagents.$style_editagent; ?>" title='<?php te("Vendors/Buyers/Manufacturers");?>' class='ahdr' href="<?php echo $scriptname?>?action=listagents&amp;page=1" ><?php te("Agents");?></a> </td>
 <td><a title='<?php te("Add new Agent");?>' class='ahdr' href="<?php echo $scriptname?>?action=editagent&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
 </tr>
-
-<tr>
-<td><a style="<?php echo $style_listfiles.$style_editfile; ?>" title='<?php te("Documents, Manuals, Offers, Licenses, ...");?>' class='ahdr' href="<?php echo $scriptname?>?action=listfiles&amp;page=1" ><?php te("Files");?></a> </td>
-<td><a title='<?php te("Add new File");?>' class='ahdr' href="<?php echo $scriptname?>?action=editfile&amp;id=new" ><img  alt="+" src='images/add.png'></a></td> 
-</tr>
-
 
 <tr>
 <td><a style="<?php echo $style_listcontracts.$style_editcontract; ?>" title='<?php te("Support and Maintanance, Leases, ...");?>' class='ahdr' href="<?php echo $scriptname?>?action=listcontracts&amp;page=1" ><?php te("Contracts");?></a> </td>
@@ -341,19 +319,23 @@ if ($authstatus) {
 </tr>
 
 <tr>
-<td><a style="<?php echo $style_listlocations; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listlocations&amp;page=1" ><?php te("Locations");?></a></td>
-<td><a style="<?php echo $style_editlocation; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editlocation&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+	<td><a style="<?php echo $style_listdepartments; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listdepartments&amp;page=1" ><?php te("Departments");?></a></td>
+	<td><a style="<?php echo $style_editdepartments; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editdepartment&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
 </tr>
 
 <tr>
-<td><a style="<?php echo $style_listusers; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listusers&amp;page=1" ><?php te("Users");?></a></td>
-<td><a style="<?php echo $style_edituser; ?>" class='ahdr' href="<?php echo $scriptname?>?action=edituser&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+<td><a style="<?php echo $style_listfiles.$style_editfile; ?>" title='<?php te("Documents, Manuals, Offers, Licenses, ...");?>' class='ahdr' href="<?php echo $scriptname?>?action=listfiles&amp;page=1" ><?php te("Files");?></a> </td>
+<td><a title='<?php te("Add new File");?>' class='ahdr' href="<?php echo $scriptname?>?action=editfile&amp;id=new" ><img  alt="+" src='images/add.png'></a></td> 
 </tr>
 
+<tr>
+<td><a style="<?php echo $style_listinvoices.$style_editinvoice; ?>" title='<?php te("List Invoices");?>' class='ahdr' href="<?php echo $scriptname?>?action=listinvoices&amp;page=1" ><?php te("Invoices");?></a> </td>
+<td><a title='<?php te("Add new Invoice");?>' class='ahdr' href="<?php echo $scriptname?>?action=editinvoice&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+</tr>
 
 <tr>
-<td><a style="<?php echo $style_listracks; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listracks&amp;page=1" ><?php te("Racks");?></a></td>
-<td><a style="<?php echo $style_editrack; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editrack&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+<td><a style="<?php echo $style_listitems.$style_edititem; ?>" class='ahdr' title='<?php te("List Items");?>' href="<?php echo $scriptname?>?action=listitems&amp;page=1" ><?php te("Items")?></a> </td>
+<td><a title='<?php te("Add new Item");?>' class='ahdr' href="<?php echo $scriptname?>?action=edititem&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
 </tr>
 
 <tr>
@@ -362,8 +344,28 @@ if ($authstatus) {
 </tr>
 
 <tr>
+<td><a style="<?php echo $style_listlocations; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listlocations&amp;page=1" ><?php te("Locations");?></a></td>
+<td><a style="<?php echo $style_editlocation; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editlocation&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+</tr>
+
+<tr>
 	<td><a style="<?php echo $style_listprojects; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listprojects&amp;page=1" ><?php te("Projects");?></a></td>
 	<td><a style="<?php echo $style_editprojects; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editproject&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+</tr>
+
+<tr>
+<td><a style="<?php echo $style_listracks; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listracks&amp;page=1" ><?php te("Racks");?></a></td>
+<td><a style="<?php echo $style_editrack; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editrack&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+</tr>
+
+<tr>
+<td><a style="<?php echo $style_listsoftware.$style_editsoftware; ?>" title='<?php te("List Software");?>' class='ahdr' href="<?php echo $scriptname?>?action=listsoftware&amp;page=1" ><?php te("Software");?></a> </td>
+<td><a title='<?php te("Add new Software");?>' class='ahdr' href="<?php echo $scriptname?>?action=editsoftware&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+</tr>
+
+<tr>
+<td><a style="<?php echo $style_listusers; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listusers&amp;page=1" ><?php te("Users");?></a></td>
+<td><a style="<?php echo $style_edituser; ?>" class='ahdr' href="<?php echo $scriptname?>?action=edituser&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
 </tr>
 
 <tr>
@@ -371,32 +373,26 @@ if ($authstatus) {
 	<td><a style="<?php echo $style_editvlans; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editvlan&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
 </tr>
 
-<tr>
-	<td><a style="<?php echo $style_listdepartments; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listdepartments&amp;page=1" ><?php te("Departments");?></a></td>
-	<td><a style="<?php echo $style_editdepartments; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editdepartment&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
-</tr>
-
 <tr><td colspan=2><hr class='light1'> </td></tr>
 
-<tr><td colspan=2><a style="<?php echo $style_edititypes; ?>" class='ahdr' href="<?php echo $scriptname?>?action=edititypes" ><?php te("Item Types");?></a></td></tr>
 <tr><td colspan=2><a style="<?php echo $style_editcontracttypes; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editcontracttypes" ><?php te("Contr. Types")?></a></td></tr>
-<tr><td colspan=2><a style="<?php echo $style_editstatustypes; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editstatustypes" ><?php te("Status Types");?></a></td></tr>
 <tr><td colspan=2><a style="<?php echo $style_editfiletypes; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editfiletypes" ><?php te("File Types");?></a></td></tr>
+<tr><td colspan=2><a style="<?php echo $style_edititypes; ?>" class='ahdr' href="<?php echo $scriptname?>?action=edititypes" ><?php te("Item Types");?></a></td></tr>
+<tr><td colspan=2><a style="<?php echo $style_editstatustypes; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editstatustypes" ><?php te("Status Types");?></a></td></tr>
 
 <tr><td colspan=2><a style="<?php echo $style_edittags; ?>" class='ahdr' href="<?php echo $scriptname?>?action=edittags" ><?php te("Tags")?></a></td></tr>
 
 <tr><td colspan=2><hr class='light1'> </td></tr>
 
+<tr><td colspan=2><a style="<?php echo $style_browse; ?>" class='ahdr' href="<?php echo $scriptname?>?action=browse" ><?php te("Browse Data")?></a></td></tr>
 <tr><td colspan=2><a style="<?php echo $style_printlabels; ?>" class='ahdr' href="<?php echo $scriptname?>?action=printlabels" ><?php te("Print Labels")?></a></td></tr>
 <tr><td colspan=2><a style="<?php echo $style_reports; ?>" class='ahdr' href="<?php echo $scriptname?>?action=reports" ><?php te("Reports")?></a></td></tr>
-<tr><td colspan=2><a style="<?php echo $style_browse; ?>" class='ahdr' href="<?php echo $scriptname?>?action=browse" ><?php te("Browse Data")?></a></td></tr>
 <tr><td colspan=2><hr class='light1'></td></tr>
 
-<tr><td colspan=2><a style="<?php echo $style_settings; ?>" class='ahdr' href="<?php echo $scriptname?>?action=settings" ><?php te("Settings");?></a></td></tr>
-
-<tr><td colspan=2><a style="<?php echo $style_import; ?>" class='ahdr' href="<?php echo $scriptname?>?action=import" ><?php te("Import");?></a></td></tr>
-<tr><td colspan=2><a style="<?php echo $style_translations; ?>" class='ahdr' href="<?php echo $scriptname?>?action=translations" ><?php te("Translations");?></a></td></tr>
 <tr><td colspan=2><a style="<?php echo $style_showhist; ?>" class='ahdr' href="<?php echo $scriptname?>?action=showhist" >DB Log</a></td></tr>
+<tr><td colspan=2><a style="<?php echo $style_import; ?>" class='ahdr' href="<?php echo $scriptname?>?action=import" ><?php te("Import");?></a></td></tr>
+<tr><td colspan=2><a style="<?php echo $style_settings; ?>" class='ahdr' href="<?php echo $scriptname?>?action=settings" ><?php te("Settings");?></a></td></tr>
+<tr><td colspan=2><a style="<?php echo $style_translations; ?>" class='ahdr' href="<?php echo $scriptname?>?action=translations" ><?php te("Translations");?></a></td></tr>
 </table>
 <?php 
 

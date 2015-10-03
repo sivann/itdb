@@ -51,20 +51,22 @@ Any pull requests fixing the following would be welcome. Please open a discussio
 * very simple ticketing
  
 ### Minor contributions
+#### UI
 * item user selection and possibly others: instead of pull-down select, use jqueryui's autocomplete combobox
 * inplace edit/add itemtypes, agents, users. Configurable to allow edit/add for specific user and select for others.
+* design PC/server layout in Locations. Assign Items to x/y over imagemap
+* edit previous/next item functionality. E.g. from an item list of a search result. 
+* replace file uploader with a recent one also supporting drag&drop 
+* unify tab association code
+
+### Schema
 * add history (renewals) & events in software, like in items.
 * list of services and relations to items
 * virtual/non virtual item (e.g. VM). Parent (physical) item. Virtual may show as tooltip of rack position of parent. Also
-* design PC/server layout in Locations. Assign Items to x/y over imagemap
-* edit previous/next item functionality. E.g. from an item list of a search result. 
 * add knowledge area, with connections to items & software (text)
 * software classes (types). E.g. O/S
-* unify tab association code
-* replace file uploader with a recent one also supporting drag&drop
 * add a cron notification sample script in contrib/ for contract/warranty expiration
 * license models: on inventory data:per installation, OEM and machine licensing. On external data sources: qualified desktop, CPU, user, named user, server, client access license (CAL), site, enterprise and user-defined models. TBD.
- reports virtual/non virtual items.
 * port connectivity management (TBD if needed)
 * power cable management (TBD if needed)
 

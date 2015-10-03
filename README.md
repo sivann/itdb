@@ -34,7 +34,7 @@ Please take the time to consider the following when submitting a bug:
 
 ### New UI fields pull requests:
 Please take the time to consider the following when submitting a generic pull-request :
-* Is your new  field universaly useful? Can you think of cases where it doesn't make sense?
+* Is your new  field universally useful? Can you think of cases where it doesn't make sense?
 * Can your functionality be already addressed by the current fields?
 * Does  your field have specific search needs?
 
@@ -47,24 +47,26 @@ Any pull requests fixing the following would be welcome. Please open a discussio
 * rewrite the DB requests using PDO
 * rewrite the item associations tables using datatables with server-side AJAX
 * update datatables to the most recent version
-* rewrite the front controller using a framework (e.g. slimphp)
+* rewrite the front controller and auth using a framework (e.g. slim)
+* very simple ticketing
  
 ### Minor contributions
-* services per item
 * item user selection and possibly others: instead of pull-down select, use jqueryui's autocomplete combobox
+* inplace edit/add itemtypes, agents, users. Configurable to allow edit/add for specific user and select for others.
 * add history (renewals) & events in software, like in items.
+* list of services and relations to items
+* virtual/non virtual item (e.g. VM). Parent (physical) item. Virtual may show as tooltip of rack position of parent. Also
 * design PC/server layout in Locations. Assign Items to x/y over imagemap
 * edit previous/next item functionality. E.g. from an item list of a search result. 
 * add knowledge area, with connections to items & software (text)
 * software classes (types). E.g. O/S
 * unify tab association code
-* replace file uploader with one supporting drag&drop
-* add cron notification script in contrib/ for contract/warranty expiration
-* license models: on inventory data:per installation, OEM and machine licensing. On external data sources: qualified desktop, CPU, user, named user, server, client access license (CAL), site, enterprise and user-defined models.
-* inplace edit/add itemtypes, agents, users. Configurable to allow edit/add for specific user and select for others.
-* virtual/non virtual item (e.g. VM). Parent (physical) item. Virtual may show as tooltip of rack position of parent. Also reports virtual/non virtual items.
-* port connectivity management
-* power cable management
+* replace file uploader with a recent one also supporting drag&drop
+* add a cron notification sample script in contrib/ for contract/warranty expiration
+* license models: on inventory data:per installation, OEM and machine licensing. On external data sources: qualified desktop, CPU, user, named user, server, client access license (CAL), site, enterprise and user-defined models. TBD.
+ reports virtual/non virtual items.
+* port connectivity management (TBD if needed)
+* power cable management (TBD if needed)
 
 
 Thank you!

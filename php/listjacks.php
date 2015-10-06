@@ -62,7 +62,7 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 //error_reporting(E_ALL);
 //ini_set('display_errors', '1');
 
-//delete department
+//delete Jack
 if (isset($_GET['delid'])) { //Deletes the record in the current row 
 	$delid=$_GET['delid'];
 	$sql="DELETE from jacks WHERE id=".$_GET['delid'];
@@ -71,10 +71,6 @@ if (isset($_GET['delid'])) { //Deletes the record in the current row
 	echo "<a href='$scriptname?action=listjacks'></a>"; 
 	exit;
 }
-
-if (!isset($initok)) {echo "do not run this script directly";exit;}
-
-/* Cory Funk 2015 , cafunk@fhsu.edu */
 
 // Get jack information
 $sql="SELECT * FROM jacks WHERE id = '' OR id != '' ";

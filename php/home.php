@@ -188,6 +188,22 @@
     </div>
   </div>
 
+  <div class='bigblock'>
+    <div style='float:left'>
+      <a  href='<?php echo $scriptname?>?action=listvouchers'>
+      <img class='bigblock' src='images/big/voucher.png'>
+      </a>
+    </div>
+    <div class='bigblocklinks'>
+	    <div><a  href='<?php echo $scriptname?>?action=listvouchers'><img class='bigblocklnk' src='images/big/search24.png'> <span class="lnktxt"><?php te("Find");?></span></a></div>
+	    <div><a   href='<?php echo $scriptname?>?action=editvoucher&amp;id=new'><img class='bigblocklnk' src='images/big/plus.png'> <span class="lnktxt"><?php te("Add");?></span></a></div>
+    </div>
+    <div class='bigblockdesc'>
+      <div class='bigblocktitle'><?php te("Guest Vouchers");?></div>
+      <?php te("Manage your guest network vouchers.");?><br>
+    </div>
+  </div>
+
   <div style='clear:both'>
 
   <div class='bigblock'>

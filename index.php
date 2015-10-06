@@ -2,7 +2,7 @@
 //ITDB:IT-items database
 //sivann at gmail.com 2008-2014
 
-$version="1.14";
+$version="1.23";
 $fordbversion=6;
 
 /*********************************************************************** 
@@ -59,6 +59,10 @@ switch ($_GET['action']) {
 	$title="Find Jack";
 	$head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
 	break;
+	case "listvouchers": 
+	$title="Find Vouchers";
+	$head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
+	break;
   case "listprojects": 
 	$title="Find Project";
 	$head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
@@ -89,6 +93,15 @@ switch ($_GET['action']) {
 	case "editjack": 
 	$title="Edit Jack";
 	$stitle="Jack";
+	$head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
+	   "<link rel='stylesheet' type='text/css' href='css/jquery.tag.css' />\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
+	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+	break;
+	case "editvoucher": 
+	$title="Edit Voucher";
+	$stitle="Voucher";
 	$head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
 	   "<link rel='stylesheet' type='text/css' href='css/jquery.tag.css' />\n".
 	   "<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
@@ -328,6 +341,12 @@ if ($authstatus) {
 <td><a title='<?php te("Add new File");?>' class='ahdr' href="<?php echo $scriptname?>?action=editfile&amp;id=new" ><img  alt="+" src='images/add.png'></a></td> 
 </tr>
 
+
+<tr>
+<td><a style="<?php echo $style_listvouchers.$style_editvouchers; ?>" title='<?php te("Guest WiFi Voucher Informaiton");?>' class='ahdr' href="<?php echo $scriptname?>?action=listvouchers&amp;page=1" ><?php te("Guest Vouchers");?></a> </td>
+<td><a title='<?php te("Add new Voucher");?>' class='ahdr' href="<?php echo $scriptname?>?action=editvoucher&amp;id=new" ><img  alt="+" src='images/add.png'></a></td> 
+</tr>
+
 <tr>
 <td><a style="<?php echo $style_listinvoices.$style_editinvoice; ?>" title='<?php te("List Invoices");?>' class='ahdr' href="<?php echo $scriptname?>?action=listinvoices&amp;page=1" ><?php te("Invoices");?></a> </td>
 <td><a title='<?php te("Add new Invoice");?>' class='ahdr' href="<?php echo $scriptname?>?action=editinvoice&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
@@ -441,7 +460,7 @@ if ($authstatus) {
   $viewhist=$sth->fetchAll(PDO::FETCH_ASSOC);
 
   ?>
-  <div title='<?php te("Recent History");?>' style='font-size:7pt;height:75px;width:100%;overflow:auto;margin-top:5px ;margin-bottom:5px;text-align:left;color:white;border-bottom:1px solid #8FAFE4;'>
+<?php /*?>  <div title='<?php te("Recent History");?>' style='font-size:7pt;height:75px;width:100%;overflow:auto;margin-top:5px ;margin-bottom:5px;text-align:left;color:white;border-bottom:1px solid #8FAFE4;'>
   <?php 
   for ($i=0;$i<count($viewhist);$i++){
 	if (!($i%2)) $bgc="";else$bgc="background-color:#295BAD";
@@ -450,29 +469,29 @@ if ($authstatus) {
 
   ?>
   </div>
-
+<?php */?>
 <?php 
 }
 
 if (strstr($authmsg,"elcome") || strstr($authmsg,"thenticated")) 
-  echo "<div class=info>$authmsg</div><br>";
+  echo "<div class=info>$authmsg</div>";
 elseif (!strstr($authmsg,"elcome")) 
-  echo "<br><div class=warning>$authmsg</div>";
+  echo "<div class=warning>$authmsg</div>";
 
 
 if ($authstatus) {
 ?>
-  <a title='<?php te("Download DataBase file. Contains all data except uploaded files/documents");?>' class='ahdr' href='getdb.php'><img src='images/database_save.png'>DB (SQLite)</a><br>
-  <a title='<?php te("Download a complete installation backup (much larger)");?>' class='ahdr' href='gettar.php'><img src='images/backup.gif' width=20>Full Backup</a><br>
+  <a title='<?php te("Download DataBase file. Contains all data except uploaded files/documents");?>' class='ahdr' href='getdb.php'><img src='images/database_save.png'>DB (SQLite)</a><br />
+  <a title='<?php te("Download a complete installation backup (much larger)");?>' class='ahdr' href='gettar.php'><img src='images/backup.gif' width=20>Full Backup</a><br />
 <?php 
 }
 
 echo "<br> <small>".
 	 "<a href='CHANGELOG.txt' class='ahdr'>Version $version</a><br><a style='color:white' href='http://www.sivann.gr/software/itdb/'>sivann</a></small>\n";
 ?>
-<br>
+<!--<br>
 <a title='phpinfo' href='phpinfo.bak'><img src='images/infosmall.png'></a>
-</div>
+--></div>
 <!-- END OF #leftcolumn -->
 
 

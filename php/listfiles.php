@@ -23,7 +23,7 @@ $(function () {
 //http://www.kryogenix.org/code/browser/sorttable/ sorting a table from your code  #external call
 $(function () {
 	var myTH = document .getElementsByTagName("th")[0];
-	sorttable.innerSortFunction.apply(myTH, [];
+	sorttable.innerSortFunction.apply(myTH, []);
 });
 
 </SCRIPT>  

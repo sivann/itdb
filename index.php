@@ -334,17 +334,24 @@ if ($authstatus) {
 <tr>
 	<td><a style="<?php echo $style_listdepartments; ?>" class='ahdr' href="<?php echo $scriptname?>?action=listdepartments&amp;page=1" ><?php te("Departments");?></a></td>
 	<td><a style="<?php echo $style_editdepartments; ?>" class='ahdr' href="<?php echo $scriptname?>?action=editdepartment&amp;id=new" ><img  alt="+" src='images/add.png'></a></td>
+<<<<<<< HEAD
 </tr>
 
 <tr>
 <td><a style="<?php echo $style_listfiles.$style_editfile; ?>" title='<?php te("Documents, Manuals, Offers, Licenses, ...");?>' class='ahdr' href="<?php echo $scriptname?>?action=listfiles&amp;page=1" ><?php te("Files");?></a> </td>
 <td><a title='<?php te("Add new File");?>' class='ahdr' href="<?php echo $scriptname?>?action=editfile&amp;id=new" ><img  alt="+" src='images/add.png'></a></td> 
+=======
+>>>>>>> d3425a2... Alphabetized the menu on the left side and fixed the search so that more than one field can be searched at a time
 </tr>
 
-
 <tr>
+<<<<<<< HEAD
 <td><a style="<?php echo $style_listvouchers.$style_editvouchers; ?>" title='<?php te("Guest WiFi Voucher Informaiton");?>' class='ahdr' href="<?php echo $scriptname?>?action=listvouchers&amp;page=1" ><?php te("Guest Vouchers");?></a> </td>
 <td><a title='<?php te("Add new Voucher");?>' class='ahdr' href="<?php echo $scriptname?>?action=editvoucher&amp;id=new" ><img  alt="+" src='images/add.png'></a></td> 
+=======
+<td><a style="<?php echo $style_listfiles.$style_editfile; ?>" title='<?php te("Documents, Manuals, Offers, Licenses, ...");?>' class='ahdr' href="<?php echo $scriptname?>?action=listfiles&amp;page=1" ><?php te("Files");?></a> </td>
+<td><a title='<?php te("Add new File");?>' class='ahdr' href="<?php echo $scriptname?>?action=editfile&amp;id=new" ><img  alt="+" src='images/add.png'></a></td> 
+>>>>>>> d3425a2... Alphabetized the menu on the left side and fixed the search so that more than one field can be searched at a time
 </tr>
 
 <tr>

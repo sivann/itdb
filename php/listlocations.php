@@ -28,7 +28,7 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 //$sql="SELECT locations.*,locareas.areaname FROM locations LEFT OUTER JOIN locareas ON locareas.locationid=locations.id";
 $sql="SELECT locations.*,group_concat(locareas.areaname,', ') AS areaname FROM locations ".
-     " LEFT OUTER JOIN locareas ON locareas.locationid=locations.id GROUP BY locations.id ";
+     " LEFT OUTER JOIN locareas ON locareas.locationid=locations.id GROUP BY locations.id ORDER BY name, floor";
 $sth=db_execute($dbh,$sql);
 ?>
 
@@ -45,7 +45,7 @@ $sth=db_execute($dbh,$sql);
   <th width='2%'><?php te("Edit");?></th>
   <th width='20%' nowrap><?php te("Location Name/Building Name");?></th>
   <th width='10%'><?php te("Floor");?></th>
-  <th width='40%'><?php te("Area Names/Offices");?></th>
+  <th width='40%'><?php te("Areas/Rooms");?></th>
   <th><?php te("Floor Plan");?></th>
 </tr>
 </thead>
@@ -61,7 +61,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   echo "<td>{$r['name']}</td>\n";
   echo "<td>{$r['floor']}</td>\n";
   echo "<td>{$r['areaname']}</td>\n";
-  echo "<td>{$r['floorplanfn']}</td>\n";
+  echo "<td><center>{$r['floorplanfn']}</center></td>\n";
   echo "</tr>\n";
 }
 ?>

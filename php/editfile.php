@@ -689,7 +689,7 @@ else
 
 <tr><td colspan=1><button type="submit"><img src="images/save.png" alt="Save"> <?php te("Save");?></button>
 	<button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid=$id\");'>
-    <img title='delete' src='images/delete.png' border=0> <?php te("Delete");?></button></td>\n</tr>\n";
+    <img title='delete' src='images/delete.png' border=0> <?php te("Delete");?></button></td></tr>
 
 <?php // end of item links
 //////////////////////////////////////////////

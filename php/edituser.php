@@ -45,8 +45,9 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the user
 
 
   if ($_POST['id']=="new")  {//if we came from a post (save) the add user 
+    $sha246pass = hash("sha256", $pass);
     $sql="INSERT into users (username , userdesc , pass, usertype) ".
-	 " VALUES ('$username','$userdesc','$pass', '$usertype')";
+	 " VALUES ('$username','$userdesc','$sha256pass', '$usertype')";
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
     print "<br><b>Added user <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -75,7 +76,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the user
           $sql="UPDATE users set ".
         " username='".$_POST['username']."', ".
         " userdesc='".$_POST['userdesc']."', ".
-        " pass='".$_POST['pass']."', ".
+        " pass='".hash("sha256", $_POST['pass'])."', ".
         " usertype='".$usertype."' ".
         " WHERE id=$id";
           db_exec($dbh,$sql);

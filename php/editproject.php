@@ -149,7 +149,7 @@ if ($id=="new")
 else
   echo "\n<h1>".t("Edit Project $id")."</h1><left>
     	  <p align='left' style='color:#DF0101'>NOTE: The use of single/double quotes will cause an error posting to the database if you must use these characters<br/>
-  								                   please escape them by doubling them (e.g. ' = '')</p>";
+  								                   please escape them by doubling them (e.g. ' = '')  **If you miss doing this jst use your [Back] Button to fix the problem.</p>";
   
 ?>
 
@@ -163,7 +163,7 @@ else
 <!-- Project Properties Title -->
       <tr>
           <td class='tdt'><?php te("Project Name");?>:</td>
-          <td><input style="width:33em" id='projectname' name='projectname' value="<?php echo $projectname?>"></input></td>
+          <td><input style="width:33em" id='projectname' name='projectname' value='<?php echo $r['projectname']?>'></input></td>
       </tr>
 <!-- end, Project Properties Title -->
 

@@ -73,6 +73,13 @@
 
 
 </SCRIPT>
+<script type="text/javascript" src="../js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+	tinymce.init({
+		selector: "#notes"
+	});
+</script>
+
 <?php 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
@@ -238,7 +245,7 @@ else
 <!-- Notes -->
           <tr>
             <td class="tdt2"><?php te("Project Details");?>:</td>
-            <td><textarea wrap='soft' class='tarea1' style='height:768px;width:1024px' name='notes'><?php echo $notes?></textarea></td>
+            <td><textarea wrap='soft' class='tarea1' style='height:768px;width:1024px' id='notes' name='notes'><?php echo $notes?></textarea></td>
           </tr>
         </table>
 <!-- end, Notes -->

@@ -73,13 +73,7 @@
 
 
 </SCRIPT>
-<script type="text/javascript" src="../js/tinymce/tinymce.min.js"></script>
-<script type="text/javascript">
-	tinymce.init({
-		selector: "#notes"
-	});
-</script>
-
+<script type="text/javascript" src="../js/ckeditor/ckeditor.js"></script>
 <?php 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
@@ -246,6 +240,10 @@ else
           <tr>
             <td class="tdt2"><?php te("Project Details");?>:</td>
             <td><textarea wrap='soft' class='tarea1' style='height:768px;width:1024px' id='notes' name='notes'><?php echo $notes?></textarea></td>
+				<script>
+					CKEDITOR.replace( 'notes' );
+				</script>
+
           </tr>
         </table>
 <!-- end, Notes -->

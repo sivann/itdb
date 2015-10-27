@@ -85,8 +85,9 @@
     });
   });
 
-
 </SCRIPT>
+<script type="text/javascript" src="../js/ckeditor/ckeditor.js"></script>
+
 <?php 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
@@ -130,9 +131,9 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update jack
   $id=$_POST['id'];
 
   if ($_POST['id']=="new")  {//if we came from a post (save) then add jack 
-    $sql="INSERT INTO jacks (switchname, locareaid, locationid, jackname, departmentsid, departmentabbrsid, userdev, modport, pubipnet, pubiphost, vlanname, privipnet, priviphost, groupname, vlanid, notes, userid,
+    $sql="INSERT INTO jacks (switchname, locareaid, locationid, jackname, departmentsid, departmentabbrsid, userdev, modport, pubipnet, pubiphost, vlanname, privipnet, priviphost, groupname, vlanid, notes, temp_perm, userid,
 		  wallcoord) VALUES ('$switchname', '$locareaid', '$locationid', '$jackname', '$departmentsid', '$departmentabbrsid', '$userdev', '$modport', '$pubipnet', '$pubiphost', '$vlanname', '$privipnet', '$priviphost',
-		  '$groupname', '$vlanid', '$notes', '$userid', '$wallcoord')";
+		  '$groupname', '$vlanid', '$notes', '$temp_perm', $userid', '$wallcoord')";
 		  
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
@@ -143,8 +144,8 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update jack
   else {
     $sql="UPDATE jacks SET ".
        " switchname='$switchname',locareaid='$locareaid',locationid='$locationid',jackname='$jackname',departmentsid='$departmentsid', departmentabbrsid='$departmentabbrsid',
-	   	 userdev='$userdev', modport='$modport', pubipnet='$pubipnet', pubiphost='$pubiphost', vlanname='$vlanname', privipnet='$privipnet', priviphost='$priviphost', groupname='$groupname', vlanid='$vlanid', notes='$notes', 
-		 userid='$userid', wallcoord='$wallcoord' WHERE id=$id";
+	   	 userdev='$userdev', modport='$modport', pubipnet='$pubipnet', pubiphost='$pubiphost', vlanname='$vlanname', privipnet='$privipnet', priviphost='$priviphost', groupname='$groupname', vlanid='$vlanid', notes='$notes',	
+		 temp_perm='$temp_perm', userid='$userid', wallcoord='$wallcoord' WHERE id=$id";
     db_exec($dbh,$sql);
   }
 
@@ -162,7 +163,7 @@ $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 if (($id !="new") && (count($r)<5)) {echo "ERROR: non-existent ID";exit;}
 
-$switchname=$r['switchname'];$locareaid=$r['locareaid'];$locationid=$r['locationid'];$jackname=$r['jackname'];$departmentsid=$r['departmentsid'];$departmentabbrsid=$r['departmentabbrsid'];$userdev=$r['userdev'];$modport=$r['modport'];$pubipnet=$r['pubipnet'];$pubiphost=$r['pubiphost'];$vlanname=$r['vlanname'];$privipnet=$r['privipnet'];$priviphost=$r['priviphost'];$groupname=$r['groupname'];$vlanid=$r['vlanid'];$notes=$r['notes'];$userid=$r['userid'];$wallcoord=$r['wallcoord'];
+$switchname=$r['switchname'];$locareaid=$r['locareaid'];$locationid=$r['locationid'];$jackname=$r['jackname'];$departmentsid=$r['departmentsid'];$departmentabbrsid=$r['departmentabbrsid'];$userdev=$r['userdev'];$modport=$r['modport'];$pubipnet=$r['pubipnet'];$pubiphost=$r['pubiphost'];$vlanname=$r['vlanname'];$privipnet=$r['privipnet'];$priviphost=$r['priviphost'];$groupname=$r['groupname'];$vlanid=$r['vlanid'];$notes=$r['notes'];$temp_perm=$r['temp_perm'];$userid=$r['userid'];$wallcoord=$r['wallcoord'];
 
 echo "\n<form method=post  action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
 
@@ -186,7 +187,22 @@ else
 				</tr>
 <!-- end, Jack Name -->
 
-<!-- Jack Name -->
+<!-- Temporary or Permanent Change -->
+				<tr>
+					<?php 
+						$T="";$P="";
+						if ($temp_perm=="Temp") {$T="checked";$P="";}
+						if ($temp_perm=="Perm") {$P="checked";$T="";}
+					?>
+					<td class='tdt'><?php te("Temp / Perm Change");?>:<br /></td>
+					<td title='Select (T)emporary / (P)ermanent'>
+                    	<input <?php echo $T?> class='radio' type=radio name='temp_perm' value='Temp'><?php te("Temporary");?>
+                    	<input <?php echo $P?> class='radio' type=radio name='temp_perm' value='Perm'><?php te("Permanent");?>
+ 					</td>
+				</tr>
+<!-- end, Temporary or Permanent Change -->
+
+<!-- Wall Location -->
 				<tr>
 					<?php 
 						$N="";$S="";$E="";$W="";
@@ -207,8 +223,11 @@ else
 
 <!-- Notes -->
                 <tr>
-					<td class='tdt'><?php te("Notes");?>:</td><td><textarea style='width:37em' wrap='soft' class=tarea1  name='notes'><?php echo $notes?></textarea></td>
-				</tr>
+					<td class='tdt'><?php te("Notes");?>:</td><td><textarea style='width:33em;height:20em' wrap='soft' class=tarea1  id='notes' name='notes'><?php echo $notes?></textarea></td>
+<!--						<script>
+                            CKEDITOR.replace( 'notes' );
+                        </script>
+-->				</tr>
 <!-- end, Notes -->
 			</table>
 		</td>

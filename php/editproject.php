@@ -109,7 +109,7 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update project
   $id=$_POST['id'];
 
 if ($_POST['id']=="new")  {//if we came from a post (save) then add project 
-	$sql="INSERT INTO projects (projectname, locationid, locareaid, summary, notes) VALUES ('$projectname', '$locationid', '$locareaid', '$summary', '$notes')";
+	$sql="INSERT INTO projects (projectname, proj_status, locationid, locareaid, summary, notes) VALUES ('$projectname', '$proj_status', '$locationid', '$locareaid', '$summary', '$notes')";
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
     print "<br><b>Added project <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -117,7 +117,7 @@ if ($_POST['id']=="new")  {//if we came from a post (save) then add project
     $id=$lastid;
   }
   else {
-    $sql="UPDATE projects SET projectname='$projectname',locationid='$locationid',locareaid='$locareaid',summary='$summary', notes='$notes' WHERE id=$id";
+    $sql="UPDATE projects SET projectname='$projectname',proj_status='$proj_status',locationid='$locationid',locareaid='$locareaid',summary='$summary', notes='$notes' WHERE id=$id";
     db_exec($dbh,$sql);
   }
 
@@ -126,15 +126,15 @@ if ($_POST['id']=="new")  {//if we came from a post (save) then add project
 
 ///////////////////////////////// display data now
 
-if (!isset($_REQUEST['id'])) {echo "ERROR:ID not defined";exit;}
-$id=$_REQUEST['id'];
+//if (!isset($_REQUEST['id'])) {echo "ERROR:ID not defined";exit;}
+//$id=$_REQUEST['id'];
 
 $sql="SELECT * FROM projects WHERE id='$id'";
 $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 
 if ($id !="new")
-$projectname=$r['projectname'];$locationid=$r['locationid'];$locareaid=$r['locareaid'];$summary=$r['summary'];$notes=$r['notes'];
+$projectname=$r['projectname'];$proj_status=$r['proj_status'];$locationid=$r['locationid'];$locareaid=$r['locareaid'];$summary=$r['summary'];$notes=$r['notes'];
 
 echo "\n<form method=post action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
 
@@ -154,12 +154,35 @@ else
       <td class='tdtop'>
         <table border='0' class="tbl2">
           
+<!-- Building Information -->
+    <tr> 
+      <td class='tdtop'>
+          <tr>
+            <td colspan=2><h3>
+                <?php te("Project Information");?>
+              </h3></td>
+          </tr>
+
 <!-- Project Properties Title -->
       <tr>
           <td class='tdt'><?php te("Project Name");?>:</td>
           <td><input style="width:33em" id='projectname' name='projectname' value='<?php echo $r['projectname']?>'></input></td>
       </tr>
 <!-- end, Project Properties Title -->
+
+<!-- Project Status -->
+	<tr>
+		<td class='tdt'><?php te("Project Status");?>:</td>
+		<td title='<?php te("What is the current status of the project?");?>'><select style='width:16em' id='proj_status' name='proj_status' />
+        		<option value=''><?php echo $r['proj_status']?></option>
+                <option title='<?php te("Cost, Best Possible Method, Time/Time Constraints, etc...");?>' value='Planning'>Planning</option>
+                <option title='<?php te("Steps towards completing the project.");?>' value='In Progress'>In Progress</option>
+                <option title='<?php te("Final touches to complete project.");?>' value='Finalizing'>Finalizing</option>
+                <option title='<?php te("Nothing more needed.");?>' value='Complete'>Complete</option>
+			</select>
+		</td>
+	</tr>
+<!-- end, Project Status -->
 
 <!-- Building Information -->
     <tr> 

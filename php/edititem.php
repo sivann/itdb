@@ -9,7 +9,9 @@ $formvars=array("itemtypeid","function","manufacturerid","label",
   "origin","warrantymonths","purchasedate","purchprice","dnsname","userid",
   "comments","maintenanceinfo","ispart","hd",
   "cpu","cpuno","corespercpu", "ram", "rackmountable", "rackid","rackposition","rackposdepth","usize","status",
-  "macs","ipv4","ipv6","remadmip","panelport","switchid","switchport","ports");
+  "macs","ipv4","ipv6","remadmip","panelport","switchid","switchport","ports","departmentsid","departmentabbrsid","vlanid","vlanname");
+
+
 
 /* delete item */
 if (isset($_GET['delid'])) { 

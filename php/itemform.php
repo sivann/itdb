@@ -36,6 +36,37 @@
 	  }
       });
     });
+	  $("#departmentsid").change(function() {
+      var departmentsid=$(this).val();
+      var departmentabbrid=$('#departmentabbrsid').val();
+      var dataString = 'departmentsid='+ departmentsid;
+	  
+      $.ajax ({
+	  type: "POST",
+	  url: "php/dept_options_ajax.php",
+	  data: dataString,
+	  cache: false,
+	  success: function(html) {
+	    $("#departmentabbrsid").html(html);
+	  }
+      });
+    });
+
+    $("#vlanid").change(function() {
+      var vlanid=$(this).val();
+      var vlanname=$('#vlanname').val();
+      var dataString = 'vlanid='+ vlanid;
+	  
+      $.ajax ({
+	  type: "POST",
+	  url: "php/vlan_options_ajax.php",
+	  data: dataString,
+	  cache: false,
+	  success: function(html) {
+	    $("#vlanname").html(html);
+	  }
+      });
+    });
   });
 
 </SCRIPT>
@@ -77,7 +108,13 @@ $sql="SELECT * FROM locations order by name";
 $sth=$dbh->query($sql);
 $locations=$sth->fetchAll(PDO::FETCH_ASSOC);
 
+$sql="SELECT * FROM departments order by name";
+$sth=$dbh->query($sql);
+$departments=$sth->fetchAll(PDO::FETCH_ASSOC);
 
+$sql="SELECT * FROM vlans order by vlanid";
+$sth=$dbh->query($sql);
+$vlans=$sth->fetchAll(PDO::FETCH_ASSOC);
 
 //$sql="SELECT * FROM racks"; $sth=$dbh->query($sql); $racks=$sth->fetchAll(PDO::FETCH_ASSOC);
 
@@ -537,6 +574,52 @@ else if ($action=="edititem") {
 	  </select>
 	  </td>
        </tr>
+      <tr><td colspan=2 style='padding-top:10px'><h3>Department Info</h3></td></tr>
+<!-- Department Name -->
+	<tr>
+		<td class='tdt'><?php te("Department");?>:</td>
+		<td><select style='width:37em' id='departmentsid' name='departmentsid'>
+			<option value=''><?php te("Select");?></option>
+			<?php 
+			foreach ($departments as $key=>$department ) {
+				$dbid=$department['id']; 
+				$itype=$department['name'];
+				$s="";
+				if (($departmentsid=="$dbid")) $s=" SELECTED "; 
+				echo "<option $s value='$dbid'>$itype</option>\n";
+			}
+			?>
+			</select>
+		</td>
+	</tr>
+<!-- end, Department Name -->
+
+<!-- Department Abbreviation -->
+	<tr>
+		<?php if (is_numeric($departmentsid)) {
+			$sql="SELECT * FROM departments WHERE id=$departmentsid order by abbr";
+			$sth=$dbh->query($sql);
+			$departments=$sth->fetchAll(PDO::FETCH_ASSOC);
+		} 
+		else 
+			$departments=array();
+		?>
+		<td class='tdt'><?php te("Department Abbr");?>:</td>
+		<td><select style='width:37em' id='departmentabbrsid' name='departmentabbrsid'>
+			<option value=''><?php te("Select");?></option>
+			<?php 
+			foreach ($departments as $key=>$d ) {
+				$dbid=$d['id']; 
+				$itype=$d['abbr'];
+				$s="";
+				if (($departmentsid=="$dbid")) $s=" SELECTED "; 
+				echo "<option $s value='$dbid'>$itype</option>\n";
+			}
+			?>
+			</select>
+		</td>
+	</tr>
+<!-- end, Department Abbreviation -->
      </table>
 
     </td>
@@ -569,8 +652,8 @@ else if ($action=="edititem") {
       <tr><td class='tdt'><?php te("Switch Port");?>:</td><td><input type=text size=15 value='<?php echo $switchport?>' name='switchport'></td></tr>
 
       <tr>
-      <td class='tdt' class='tdt'><?php te("Network Ports");?>:</td><td>
-      <select name='ports'>
+      <td class='tdt' class='tdt'><?php te("Network Ports");?>:</td>
+      <td><select name='ports'>
       <option value='0'>0</option>
 
     <?php 
@@ -583,6 +666,51 @@ else if ($action=="edititem") {
       </select>
       </td>
       </tr>
+      <!-- VLAN ID Information -->
+	<tr>
+		<td class='tdt'><?php te("VLAN");?>:</td>
+		<td><select style='width:16em' id='vlanid' name='vlanid'>
+			<option value=''><?php te("Select");?></option>
+			<?php 
+			foreach ($vlans as $key=>$v) {
+				$dbid=$v['id']; 
+				$itype=$v['vlanid'];
+				$s="";
+				if (($vlanid=="$dbid")) $s=" SELECTED "; 
+				echo "<option $s value='$dbid'>$itype</option>\n";
+			}
+			?>
+			</select>
+		</td>
+	</tr>
+<!-- end, VLAN ID Information -->
+
+<!-- VLAN Name Information -->
+	<tr>
+		<?php if (is_numeric($vlanid)) {
+			$sql="SELECT * FROM vlans WHERE id=$vlanid order by vlanid";
+			$sth=$dbh->query($sql);
+			$vlans=$sth->fetchAll(PDO::FETCH_ASSOC);
+		} 
+		else 
+			$vlans=array();
+		?>
+		<td class='tdt'><?php te("VLAN Name");?>:</td>
+		<td><select style='width:16em' id='vlanname' name='vlanname'>
+			<option value=''><?php te("Select");?></option>
+			<?php 
+			foreach ($vlans as $key=>$v ) {
+				$dbid=$v['id']; 
+				$itype=$v['vlanname'];
+				$s="";
+				if (($vlanid=="$dbid")) $s=" SELECTED "; 
+				echo "<option $s value='$dbid'>$itype</option>\n";
+			}
+			?>
+			</select>
+		</td>
+	</tr>
+<!-- end, VLAN Name Information -->
       </table>
     </td> 
 

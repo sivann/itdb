@@ -83,6 +83,14 @@ $sql="SELECT * from tags order by name";
 $sth=$dbh->query($sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $tags[$r['id']]=$r;
 $sth->closeCursor();
+$sql="SELECT * from vlans order by id";
+$sth=$dbh->query($sql);
+while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $vlans[$r['id']]=$r;
+$sth->closeCursor();
+$sql="SELECT * from departments order by id";
+$sth=$dbh->query($sql);
+while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $departments[$r['id']]=$r;
+$sth->closeCursor();
 $sql="SELECT id,title FROM agents";
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $agents[$r['id']]=$r;
@@ -167,17 +175,19 @@ if ($export) {
 echo $thead;
 if ($expand) {
   echo "\n <th><a href='$fscriptname?$url&amp;orderby=status$ob'>Status</a></th>";
+  echo "\n <th>Dept<br />Abbr</th>";
+  echo "\n <th>VLAN ID</th>";
 //  echo "\n <th>Tags</th>";
 //  echo "<th>Invoices</th>".  "<th>S/W</th>";
 //  echo "\n <th>purchprice</th>";
-  echo "\n <th>macs</th>";
-  echo "\n <th>ipv4</th>";
+  echo "\n <th>MAC</th>";
+  echo "\n <th>IPv4</th>";
 //  echo "\n <th>ipv6</th>";
 //  echo "\n <th>remadmip</th>";
 //  echo "\n <th>panelport</th>";
 //  echo "\n <th>switch</th>";
 //  echo "\n <th>switchport</th>";
-  echo "\n <th>ports</th>";
+  echo "\n <th>Ports<br />Qty</th>";
 }
 else
 //  echo "<th>&nbsp;</th>";//more icon
@@ -194,6 +204,8 @@ $asset=isset($_GET['asset'])?($_GET['asset']):"";
 //$year=isset($_GET['year'])?($_GET['year']):"";
 $page=isset($_GET['page'])?$_GET['page']:1;
 $status=isset($_GET['status'])?$_GET['status']:"";
+$abbr=isset($_GET['abbr'])?$_GET['abbr']:"";
+$vlanid=isset($_GET['vlanid'])?$_GET['vlanid']:"";
 $macs=isset($_GET['macs'])?$_GET['macs']:"";
 $ipv4=isset($_GET['ipv4'])?$_GET['ipv4']:"";
 $ports=isset($_GET['ports'])?$_GET['ports']:"";
@@ -280,6 +292,8 @@ if (!$export) {
             ?>
     </select></td>
 <?php
+	echo "<td title='Department Abbreviation'><input style='width:auto' type=text value='$abbr' name='abbr'></td>";
+	echo "<td title='VLAN ID'><input style='width:auto' type=text value='$vlanid' name='vlanid'></td>";
 	echo "<td title='MAC Address'><input style='width:auto' type=text value='$macs' name='macs'></td>";
 	echo "<td title='IPv4 Address'><input style='width:auto' type=text value='$ipv4' name='ipv4'></td>";
 	//echo "<td title='Number of Switch Ports'><input style='width:auto' type=text value='$ports' name='port'></td>";
@@ -333,6 +347,8 @@ if (isset($itemtypeid) && strlen($itemtypeid)) $where.=" AND itemtypeid=$itemtyp
 if (isset($userid) && strlen($userid)) $where.=" AND userid=$userid ";
 if (isset($locationid) && strlen($locationid)) $where.=" AND locationid='$locationid' ";
 if (isset($rackid) && strlen($rackid)) $where.=" AND rackid=$rackid ";
+if (isset($departmentsid) && strlen($departmentsid)) $where.="AND departmentsid LIKE '%$departmentsid%' ";
+if (isset($vlanid) && strlen($vlanid)) $where.="AND vlanid LIKE '%$vlanid%' ";
 ///////////////////////////////////////////////////////////							Pagination							///////////////////////////////////////////////////////////
 //	How many records are in table
 $sql="SELECT count(items.id) as totalrows, agents.title as agtitle FROM items,agents WHERE agents.id=items.manufacturerid $where";
@@ -493,6 +509,8 @@ $currow++;
     "<input type=hidden name='action' value='$action'>".
     "<input type=hidden name='id' value='$id'></td>";
 	echo "\n  <td><center>$statustxt</center></td>";
+	echo "\n <td><center>".$departments[$r['departmentsid']]['abbr']."</center></td>";
+	echo "\n <td><center>".$vlans[$r['vlanid']]['vlanid']."</center></td>";
     echo "\n  <td>".$r['macs']."</td>";
     echo "\n  <td>".$r['ipv4']."</td>";
 //    echo "\n  <td>".$r['ipv6']."</td>";

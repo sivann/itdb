@@ -186,7 +186,7 @@ if (!$export) {
 
 
   echo "<td title='ID'><input type=text size=3 style='width:8em' value='$id' name='id'></td>";
-  echo "<td title='Project Name'><input type=text size=3 style='min-width:25em' value='$projectname' name='projectname'></td>";?>
+  echo "<td title='Project Name'><input type=text size=3 style='min-width:35em' value='$projectname' name='projectname'></td>";?>
 		<td><select style='width:auto' id='locationid' name='locationid'>
 			<option value=''><?php te("Select");?></option>
 			<?php 
@@ -195,7 +195,7 @@ if (!$export) {
 				$itype=$location['name'];
 				$s="";
 				if (($locationid=="$dbid")) $s=" SELECTED "; 
-				echo "<option $s value='$dbid'>$itype</option>\n";
+				echo "    <option $s value='$dbid'>$itype</option>\n";
 			}
 			?>
 			</select>
@@ -203,14 +203,7 @@ if (!$export) {
 <!-- end, Location Information -->
 
 <!-- Room/Area Information -->
-		<?php if (is_numeric($locationid)) {
-			$sql="SELECT * FROM locareas WHERE locationid=$locationid order by areaname";
-			$sth=$dbh->query($sql);
-			$locareas=$sth->fetchAll(PDO::FETCH_ASSOC);
-		} 
-		else 
-			$locareas=array();
-		?>
+		<?php if (is_numeric($locationid))?>
 		<td><select style='width:8em' id='locareaid' name='locareaid'>
 			<option value=''><?php te("Select");?></option>
 			<?php 
@@ -225,7 +218,7 @@ if (!$export) {
 			</select>
 		</td>
 <?php
-	echo "<td title='Brief Description'><input type=text' value='$summary' name='summary'></td>";
+	echo "<td title='Brief Description'><input type=text' style='min-width:70em' value='$summary' name='summary'></td>";
 }//if not export to excel: searchboxes
 
 // Create WHERE clause
@@ -308,8 +301,8 @@ $currow++;
   echo "\n<tr $c>".
        "<td><a class='editiditm icon edit' title='Edit' href='$fscriptname?action=editproject&amp;id=".$r['id']."'><span>".$r['id']."</span></a></td>".
        "\n  <td>".$r['projectname']."</td>".
-       "\n  <td>".$r['locationid']."</td>".
-       "\n  <td><center>".$r['locareaid']."</center></td>".
+       "\n  <td>".$locations[$r['locationid']]['name']."</td>".	   
+       "\n  <td><center>".$locareas[$r['locareaid']]['areaname']."</center></td>".
        "\n  <td>".$r['summary']."</td>";?>
 		<?php
 			echo "<td><center><input type='image' src='images/delete.png' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid={$r['id']}\");'></td>\n</tr>\n";

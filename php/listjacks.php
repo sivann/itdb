@@ -314,7 +314,7 @@ if (!$export) {
 }//if not export to excel: searchboxes
 
 // Create WHERE clause
-if (isset($id) && strlen($id)) $where.="AND id = '$id' ";
+if (isset($id) && strlen($id)) $where.=" id = '$id' ";
 if (isset($jackname) && strlen($jackname)) $where.="AND jackname LIKE '%$jackname%' ";
 if (isset($locationid) && strlen($locationid)) $where.="AND locationid = '$locationid' ";
 if (isset($locareaid) && strlen($locareaid)) $where.="AND (locareaid = '$locareaid') ";
@@ -447,7 +447,7 @@ else {
     $cs=9;
 
 ?>
-  <tr><td colspan='<?php echo $cs?>' class=tdc><button type=submit><img src='images/search.png'>Search</button></td></tr>
+  <tr><td colspan='<?php echo $cs?>' class=tdc><button type=submit ><img src='images/search.png'>Search</button></td></tr>
   </tbody>
   </table>
   <input type='hidden' name='action' value='<?php echo $_GET['action']?>'>

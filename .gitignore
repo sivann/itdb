@@ -5,3 +5,4 @@ data/itdb.db
 dwsync.xml
 data/files.zip
 .gitignore
+data/pure.db.bak

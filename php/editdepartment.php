@@ -148,7 +148,7 @@
   IMPORTANT: Global Variable required to be SET by programmer
   -------------------------- source: http://chakrabarty.com/pp_editable_dropdown.html  */
 
-  var vEditableOptionIndex_A = 0;
+  var vEditableOptionIndex_A = 1;
 
   // Give Index of Editable option in the dropdown.
   // For eg.
@@ -587,13 +587,14 @@ $ph = "Please Select Or Enter A New Option";  //Placeholder for division
 		<td>
 		<select name="division" id="division" style="width:35em" onKeyDown="fnKeyDownHandler_A(this, event);" onKeyUp="fnKeyUpHandler_A(this, event); return false;" onKeyPress = "return fnKeyPressHandler_A(this, event);"  
         onChange="fnChangeHandler_A(this);" onFocus="fnFocusHandler_A(this);">
-			<option value=''>
+			<option style='color:#000000;background-color:#EAAF0F' value=''>
 			<?php if ($division!="")
 					echo $division;
                   else
 					echo $ph;
 			?>
                 </option> <!-- This is the Editable Option -->
+            <option value='<?php echo $textboxoption_division ?>'><?php echo $ph ?></option>
                 <?php
                 $sql="SELECT DISTINCT departments.division FROM departments";
                 $sth=$dbh->query($sql);

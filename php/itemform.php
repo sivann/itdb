@@ -70,6 +70,7 @@
   });
 
 </SCRIPT>
+
 <?php 
 //error_reporting(E_ALL);				***UNCOMMENT THESE 2 LINES TO SEE ERRORS ON THE PAGE***
 //ini_set('display_errors', '1');
@@ -195,7 +196,8 @@ else if ($action=="edititem") {
     <tr><td colspan=2><h3><?php te("Intrinsic Properties");?></h3></td></tr>
 
     <tr>
-    <td class='tdt'><?php te("Item Type");?>:<sup class='red'>*</sup></td>
+    <td class='tdt'><?php echo "<a title='Add New Item Type' href='$scriptname?action=edititypes'><img src='images/add.png' alt='+'></a> "; ?>
+		<?php te("Item Type");?>:<sup class='red'>*</sup></td>
     <td title='<?php te("Populate list from the Item Types menu");?>'>
 
     <?php 
@@ -224,8 +226,8 @@ else if ($action=="edititem") {
       <td class='tdt'><?php te("Is Part");?>:<!--<sup class='red'>*</sup>--></td>
       <td title='Select yes for parts/components'>
       <!--<div class='mandatory'>--><div>
-	<input  validate='required:false' <?php echo $y?> class='radio' type=radio name='ispart' value='1'><?php te("Yes");?>
-	<input  class='radio' type=radio <?php echo $n?> name='ispart' value='0'><?php te("No");?>
+	<input validate='required:false' <?php echo $y?> class='radio' type=radio name='ispart' value='1'><?php te("Yes");?>
+	<input validate='required:false' <?php echo $n?> class='radio' type=radio name='ispart' value='0'><?php te("No");?>
       </div>
       </td>
       </tr>
@@ -380,7 +382,7 @@ else if ($action=="edititem") {
       <?php 
       //location
       ?>
-      <td class='tdt' class='tdt'><?php te("Location");?>:</td>
+      <td class='tdt'><?php echo "<a title='Add New Building' href='$scriptname?action=editlocation&id=new'><img src='images/add.png' alt='+'></a> "; ?><?php te("Location");?>:</td>
       <td>
 	<select id='locationid' name='locationid'>
 	<option value=''><?php te("Select");?></option>
@@ -436,9 +438,8 @@ else if ($action=="edititem") {
       //rackid
       echo "\n<td class='tdt'>";
       if (is_numeric($rackid)) 
-	//echo "<a alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id'><img height=12 src='images/eye.png'></a> ";
-	echo "<a id=viewrack alt='View' title='".t("view rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id&amp;nomenu=1'><img height=12 src='images/eye.png'></a> ";
-	echo "<a alt='Edit' title='".t("edit rack")."' href='$scriptname?action=editrack&amp;id=$rackid&amp;highlightid=$id'><img src='images/edit2.png'></a> ";
+	echo "<a id=viewrack alt='View' title='".t("View Rack")."' href='$scriptname?action=viewrack&amp;id=$rackid&amp;highlightid=$id&amp;nomenu=1'><img src='images/eye.png'></a> ";
+	echo "<a alt='Edit' title='".t("Edit Rack")."' href='$scriptname?action=editrack&amp;id=$rackid&amp;highlightid=$id'><img src='images/edit2.png'></a> ";
       ?>
 
       <script type="text/javascript"> 
@@ -577,7 +578,10 @@ else if ($action=="edititem") {
       <tr><td colspan=2 style='padding-top:10px'><h3>Department Info</h3></td></tr>
 <!-- Department Name -->
 	<tr>
-		<td class='tdt'><?php te("Department");?>:</td>
+		<td class='tdt'>
+			<?php echo "<a title='Add New Department' href='$scriptname?action=editdepartment&id=new'><img height='10pt' src='images/add.png' alt='+'></a> ";
+				  echo "<a alt='Edit' title='".t("Edit Department")."' href='$scriptname?action=editdepartment&id=$departmentsid'><img height='10pt' src='images/edit2.png'></a> ";?>
+	<?php te("Department");?>:</td>
 		<td><select style='width:37em' id='departmentsid' name='departmentsid'>
 			<option value=''><?php te("Select");?></option>
 			<?php 
@@ -668,7 +672,9 @@ else if ($action=="edititem") {
       </tr>
       <!-- VLAN ID Information -->
 	<tr>
-		<td class='tdt'><?php te("VLAN");?>:</td>
+		<td class='tdt'><?php echo "<a title='Add New VLAN' href='$scriptname?action=editvlan&id=new'><img src='images/add.png' alt='+'></a> ";
+				  echo "<a alt='Edit' title='".t("Edit VLAN")."' href='$scriptname?action=editvlan&id=$vlanid'><img src='images/edit2.png'></a> ";?>
+<?php te("VLAN");?>:</td>
 		<td><select style='width:16em' id='vlanid' name='vlanid'>
 			<option value=''><?php te("Select");?></option>
 			<?php 

@@ -195,7 +195,10 @@ else
           
 <!-- Building Name & Floor -->
       <tr>
-      <td class='tdt' class='tdt'><?php te("Location");?>:</td>
+      <td class='tdt'>
+		<?php echo "<a title='Add New Building' href='$scriptname?action=editlocation&id=new'><img src='images/add.png' alt='+'></a> ";
+			  echo "<a alt='Edit' title='".t("Edit Building or Room")."' href='$scriptname?action=editlocation&id=$locationid'><img src='images/edit2.png'></a> ";?>
+			  <?php te("Location");?>:</td>
       <td>
 	<select style="width:33em" id='locationid' name='locationid'>
 	<option value=''><?php te("Select");?></option>

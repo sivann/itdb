@@ -203,7 +203,10 @@ else
         <td><input  class='input2 mandatory' size=20 type=text name='model' value="<?php echo $r['model']?>"></td></tr>
     <tr><td class="tdt"><?php te("Comments");?>:</td> 
         <td><textarea class='tarea1' wrap=soft name=comments><?php echo $r['comments']?></textarea></td></tr>
-    <tr><td class="tdt"><?php te("Location");?>:</td> 
+    <tr><td class="tdt">
+		<?php echo "<a title='Add New Building' href='$scriptname?action=editlocation&id=new'><img src='images/add.png' alt='+'></a> ";
+			  echo "<a alt='Edit' title='".t("Edit Building or Room")."' href='$scriptname?action=editlocation&id=$locationid'><img src='images/edit2.png'></a> ";?>
+			  <?php te("Location");?>:</td> 
 
     <td>
       <select id='locationid' name='locationid' validate='required:true'>

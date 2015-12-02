@@ -242,7 +242,10 @@ else
 
 <!-- Location Information -->
 	<tr>
-		<td class='tdt'><?php te("Location");?>:</td>
+		<td class='tdt'>
+		<?php echo "<a title='Add New Building' href='$scriptname?action=editlocation&id=new'><img src='images/add.png' alt='+'></a> ";
+			  echo "<a alt='Edit' title='".t("Edit Building or Room")."' href='$scriptname?action=editlocation&id=$locationid'><img src='images/edit2.png'></a> ";?>
+		<?php te("Location");?>:</td>
 		<td><select style='width:37em' id='locationid' name='locationid'>
 			<option value=''><?php te("Select");?></option>
 			<?php 
@@ -297,7 +300,10 @@ else
                 <tr><td class='tdt'><?php te("Module & Port");?>:</td><td><input type=text size=15 value='<?php echo $modport?>' name='modport'></td></tr>
 <!-- VLAN ID Information -->
 	<tr>
-		<td class='tdt'><?php te("VLAN");?>:</td>
+		<td class='tdt'>
+        <?php echo "<a title='Add New VLAN' href='$scriptname?action=editvlan&id=new'><img src='images/add.png' alt='+'></a> ";
+			  echo "<a alt='Edit' title='".t("Edit VLAN")."' href='$scriptname?action=editvlan&id=$vlanid'><img src='images/edit2.png'></a> ";?>
+			  <?php te("VLAN");?>:</td>
 		<td><select style='width:16em' id='vlanid' name='vlanid'>
 			<option value=''><?php te("Select");?></option>
 			<?php 
@@ -358,7 +364,10 @@ else
 
 <!-- Department Name -->
 	<tr>
-		<td class='tdt'><?php te("Department");?>:</td>
+		<td class='tdt'>
+        <?php echo "<a title='Add New Department' href='$scriptname?action=editdepartment&id=new'><img height='10pt' src='images/add.png' alt='+'></a> ";
+			  echo "<a alt='Edit' title='".t("Edit Department")."' href='$scriptname?action=editdepartment&id=$departmentsid'><img height='10pt' src='images/edit2.png'></a> ";?>
+			  <?php te("Department");?>:</td>
 		<td><select style='width:37em' id='departmentsid' name='departmentsid'>
 			<option value=''><?php te("Select");?></option>
 			<?php 

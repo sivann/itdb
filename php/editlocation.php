@@ -255,8 +255,6 @@ else
   <input type=hidden name='id' value='<?php echo $id?>'>
   </form>
 
-</td>
-
 <td class="tdtop">
 <h3><?php te("Areas: rooms, offices");?></h3>
   <div class='scrltblcontainer4'  id='locareas'>
@@ -277,10 +275,9 @@ else
 
 <td>
 <?php 
-if (strlen($r['floorplanfn'])) {?>
-<img width=600 src='<?php  echo $fuploaddirwww.$r['floorplanfn']; ?>'>
-<?php  }?>
-
+if (strlen($r['floorplanfn'])) {
+echo "<a href='".$fuploaddirwww.$r['floorplanfn']."' target='_new'><img width=600; src='".$fuploaddirwww.$r['floorplanfn']."'>";
+}?>
 </td>
 
 

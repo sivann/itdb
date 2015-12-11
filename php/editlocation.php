@@ -45,6 +45,7 @@ if (isset($_GET['delid'])) { //if we came from delete
 
 if (isset($_POST['id'])) { //if we came from a post (save), update 
   $id=$_POST['id'];
+  $sortid=$_POST['sortid'];
   $name=$_POST['name'];
   $abbr=$_POST['abbr'];
   $floor=$_POST['floor'];
@@ -80,8 +81,8 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
       }
       else { //file ok
 
-	  $sql="INSERT into locations (name,abbr,floor,floorplanfn)".
-	       " VALUES ('$name','$abbr','$floor','$filefn')";
+	  $sql="INSERT into locations (name,abbr,floor,floorplanfn,sortid)".
+	       " VALUES ('$name','$abbr','$floor','$filefn','$sortid')";
 	  db_exec($dbh,$sql,0,0,$lastid);
 	  $lastid=$dbh->lastInsertId();
 	  print "<br><b>Added Location <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -94,8 +95,8 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
 
     }//insert file
     else { //new and no file defined
-	  $sql="INSERT into locations (name,floor)".
-	       " VALUES ('$name','$abbr','$floor')";
+	  $sql="INSERT into locations (name,floor,sortid)".
+	       " VALUES ('$name','$abbr','$floor','$sortid')";
 	  db_exec($dbh,$sql,0,0,$lastid);
 	  $lastid=$dbh->lastInsertId();
 	  print "<br><b>Added Location <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -107,7 +108,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
     }
   }//new location
   else {
-    $sql="UPDATE locations set name='$name',abbr='$abbr', floor='$floor' ".
+    $sql="UPDATE locations set name='$name',abbr='$abbr', floor='$floor', sortid='$sortid' ".
        " WHERE id=$id";
     db_exec($dbh,$sql);
 
@@ -162,7 +163,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
 if (!isset($_REQUEST['id'])) {echo "ERROR:ID not defined";exit;}
 $id=$_REQUEST['id'];
 
-$sql="SELECT * FROM locations where  locations.id='$id'";
+$sql="SELECT * FROM locations where locations.id='$id'";
 $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 
@@ -185,6 +186,7 @@ else
     <table class="tbl2" style='width:300px;'>
     <tr><td colspan=2><h3><?php te("Location Properties");?></h3></td></tr>
     <tr><td class="tdt"><?php te("ID");?>:</td> <td><input  class='input2' type=text name='id' value='<?php echo $id?>' readonly size=3></td></tr>
+    <tr><td class="tdt"><?php te("Sortable ID");?>:</td> <td><input  class='input2' type=text name='sortid' value='<?php echo $r['sortid']?>' </td></tr>
     <tr><td class="tdt"><?php te("Building Name");?>:</td> <td><input  class='input2 mandatory' size=20 type=text name='name' value="<?php echo $r['name']?>"></td></tr>
     <tr><td class="tdt"><?php te("Building Abbr.");?>:</td> <td><input  class='input2' size=20 type=text name='abbr' value="<?php echo $r['abbr']?>"></td></tr>
     <tr><td class="tdt"><?php te("Floor");?>:</td> <td><input  class='input2 mandatory' size=20 type=text name='floor' value="<?php echo $r['floor']?>"></td></tr>

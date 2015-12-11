@@ -43,7 +43,7 @@ $sth=db_execute($dbh,$sql);
 
 <tr>
   <th width='2%'><?php te("Edit");?></th>
-  <th width='20%' nowrap><?php te("Location Name/Building Name");?></th>
+  <th width='20%' nowrap><?php te("Location/Building Name");?></th>
   <th width='10%'><?php te("Floor");?></th>
   <th width='40%'><?php te("Areas/Rooms");?></th>
   <th><?php te("Floor Plan");?></th>
@@ -57,7 +57,10 @@ $i=0;
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   $i++;
   echo "\n<tr>";
-  echo "<td><a class='editiditm icon edit' href='$scriptname?action=editlocation&amp;id=".$r['id']."'><span>{$r['id']}</span></a></td>\n";
+  if (empty ($r['sortid']))
+	  echo "<td><a class='editiditm icon edit' href='$scriptname?action=editlocation&amp;id=".$r['id']."'><span>{$r['id']}</span></a></td>\n";
+  else
+	  echo "<td><a class='editiditm icon edit' href='$scriptname?action=editlocation&amp;id=".$r['id']."'><span>{$r['sortid']}</span></a></td>\n";
   echo "<td>{$r['name']}</td>\n";
   echo "<td>{$r['floor']}</td>\n";
   echo "<td>{$r['areaname']}</td>\n";

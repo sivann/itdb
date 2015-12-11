@@ -317,7 +317,7 @@ if ($id >= 1 && $id != "all"){
 <td>
 <?php 
 if (strlen($r['floorplanfn'])) {
-echo "<a href='".$fuploaddirwww.$r['floorplanfn']."' target='_new'><img width=600; src='".$fuploaddirwww.$r['floorplanfn']."'>";
+echo "<a href='".$fuploaddirwww.$r['floorplanfn']."' target='_new'><img style=height:700px; max-width=600; src='".$fuploaddirwww.$r['floorplanfn']."'>";
 }?>
 </td>
 

@@ -157,8 +157,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
 
 }//save pressed
 
-/////////////////////////////
-//// display data now
+///////////////////////////////// display data now
 
 if (!isset($_REQUEST['id'])) {echo "ERROR:ID not defined";exit;}
 $id=$_REQUEST['id'];
@@ -246,12 +245,52 @@ else
     </div>
 
   <br>
+  
+<?php  ///////////////////////////////////////////////////////////							Pagination							///////////////////////////////////////////////////////////
+
+//	How many records are in table
+$sth=db_execute($dbh,"SELECT count(locations.id) as totalrows FROM locations WHERE id = '' OR id != ''");
+$totalrows=$sth->fetchColumn();
+
+//	Page Links
+//	Get's the current page number
+$get2=$_GET;
+unset($get2['id']);
+$url=http_build_query($get2);
+
+//	Previous and Next Links
+	$prev = $id - 1;
+	$next = $id + 1;
+
+//	Previous Page
+	if ($get2['id'] < 1){
+	$prevlink .="<a href='$fscriptname?$url&amp;id=$prev'><img src='../images/previous-button.png' width='64' height='25' alt='previous' /></a> ";
+	}else{
+	$prevlink .="";
+	}
+	
+//	Next Page
+	if ($get2['id'] < ceil($totalrows)){
+	$nextlink .="<a href='$fscriptname?$url&amp;id=$next'><img src='../images/next-button.png' width='64' height='25' alt='next' /></a> ";
+	}else{
+	$nextlink .=" <img src='../images/next-button.png' width='64' height='25' alt='next' />";
+	}
+	
+?>
 
   <button type="submit"><img src="images/save.png" alt="Save"> <?php te("Save");?></button>
   <?php 
   echo "\n<button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid=$id\");'>".
      "<img title='delete' src='images/delete.png' border=0> ".t("Delete")." </button>\n";
-  ?>
+
+if ($id >= 1 && $id != "all"){
+		echo $prevlink;
+	}
+
+if ($id >= 1 && $id != "all"){
+		echo $nextlink."<br />";
+	}else
+?>
 
   <input type=hidden name='action' value='<?php echo $action?>'>
   <input type=hidden name='id' value='<?php echo $id?>'>

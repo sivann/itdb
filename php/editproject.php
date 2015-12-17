@@ -109,7 +109,7 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update project
   $id=$_POST['id'];
 
 if ($_POST['id']=="new")  {//if we came from a post (save) then add project 
-	$sql="INSERT INTO projects (projectname, proj_status, locationid, locareaid, summary, notes) VALUES ('$projectname', '$proj_status', '$locationid', '$locareaid', '$summary', '$notes')";
+	$sql="INSERT INTO projects (projectname, proj_submitter, proj_status, locationid, locareaid, summary, notes) VALUES ('$projectname', '$proj_submitter', $proj_status', '$locationid', '$locareaid', '$summary', '$notes')";
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
     print "<br><b>Added project <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -117,7 +117,7 @@ if ($_POST['id']=="new")  {//if we came from a post (save) then add project
     $id=$lastid;
   }
   else {
-    $sql="UPDATE projects SET projectname='$projectname',proj_status='$proj_status',locationid='$locationid',locareaid='$locareaid',summary='$summary', notes='$notes' WHERE id=$id";
+    $sql="UPDATE projects SET projectname='$projectname', proj_submitter='$proj_submitter', proj_status='$proj_status',locationid='$locationid',locareaid='$locareaid',summary='$summary', notes='$notes' WHERE id=$id";
     db_exec($dbh,$sql);
   }
 
@@ -134,7 +134,7 @@ $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 
 if ($id !="new")
-$projectname=$r['projectname'];$proj_status=$r['proj_status'];$locationid=$r['locationid'];$locareaid=$r['locareaid'];$summary=$r['summary'];$notes=$r['notes'];
+$projectname=$r['projectname'];$proj_submitter=$r['proj_submitter'];$proj_status=$r['proj_status'];$locationid=$r['locationid'];$locareaid=$r['locareaid'];$summary=$r['summary'];$notes=$r['notes'];
 
 echo "\n<form method=post action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
 
@@ -169,6 +169,27 @@ else
           <td><input style="width:33em" id='projectname' name='projectname' value='<?php echo $r['projectname']?>'></input></td>
       </tr>
 <!-- end, Project Properties Title -->
+
+<!-- Project Submitter -->
+      <tr>
+      <td class='tdt'><?php te("Project Submitter");?>:</td><td title='<?php te("User that submitted this item");?>'>
+      <select id='proj_submitter' name='proj_submitter'>
+      <option value=''><?php te("Select User");?></option>
+      <?php 
+		for ($i=0;$i<count($userlist);$i++) {
+			$dbid=$userlist[$i]['id'];
+			$itype=$userlist[$i]['userdesc'];
+			$s="";
+		if ($proj_submitter==$dbid) $s=" SELECTED ";
+	//echo "<option $s value='$dbid'>".sprintf("%02d",$dbid)."-$itype</option>\n";
+	echo "<option $s value='$dbid'>$itype</option>\n";
+      }
+      ?>
+
+      </select>
+      </td>
+      </tr>
+<!-- end, Project Submitter -->
 
 <!-- Project Status -->
 	<tr>

@@ -143,7 +143,7 @@ if ($id=="new")
 else
   echo "\n<h1>".t("Edit Project $id")."</h1><left>
     	  <p align='left' style='color:#DF0101'>NOTE: The use of single/double quotes will cause an error posting to the database if you must use these characters<br/>
-  								                   please escape them by doubling them (e.g. ' = '')  **If you miss doing this jst use your [Back] Button to fix the problem.</p>";
+  								                   please escape them by doubling them (e.g. ' = '')  **If you miss doing this just use your [Back] Button to fix the problem.</p>";
   
 ?>
 

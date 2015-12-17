@@ -161,6 +161,7 @@ $thead= "\n<tr style='height:4em'><th><a href='$fscriptname?$url&amp;orderby=pro
      "<th><a href='$fscriptname?$url&amp;orderby=locationname$ob'>Building</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=locareaname$ob'>Area / Room</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=summary$ob'>Brief Summary</a></th>".
+     "<th><a href='$fscriptname?$url&amp;orderby=proj_status$ob'>Project Status</a></th>".
 	 "<th><button type='submit'><img border=0 src='images/search.png'></button></th>";
 
 if ($export) {
@@ -218,7 +219,18 @@ if (!$export) {
 			</select>
 		</td>
 <?php
-	echo "<td title='Brief Description'><input type=text' style='min-width:70em' value='$summary' name='summary'></td>";
+	echo "<td title='Brief Description'><input type=text' style='min-width:55em' value='$summary' name='summary'></td>";?>
+		  <td title='<?php te("What is the current status of the project?");?>'>
+			<select style='width:16em' id='proj_status' name='proj_status' />
+        		<option value=''><?php echo $r['proj_status']?></option>
+                <option title='<?php te("Cost, Best Possible Method, Time/Time Constraints, etc...");?>' value='Planning'>Planning</option>
+                <option title='<?php te("Steps towards completing the project.");?>' value='In Progress'>In Progress</option>
+                <option title='<?php te("Final touches to complete project.");?>' value='Finalizing'>Finalizing</option>
+                <option title='<?php te("Nothing more needed.");?>' value='Complete'>Complete</option>
+			</select>
+		  </td>
+          
+<?php
 }//if not export to excel: searchboxes
 
 // Create WHERE clause
@@ -227,6 +239,7 @@ if (isset($projectname) && strlen($projectname)) $where.="AND projectname LIKE '
 if (isset($locationid) && strlen($locationid)) $where.="AND locationid = '$locationid' ";
 if (isset($locareaid) && strlen($locareaid)) $where.="AND (locareaid = '$locareaid') ";
 if (isset($summary) && strlen($summary)) $where.="AND summary LIKE '%$summary%' ";
+if (isset($proj_status) && strlen($proj_status)) $where.="AND proj_status LIKE '%$proj_status%' ";
 
 ///////////////////////////////////////////////////////////							Pagination							///////////////////////////////////////////////////////////
 
@@ -303,8 +316,9 @@ $currow++;
        "\n  <td>".$r['projectname']."</td>".
        "\n  <td>".$locations[$r['locationid']]['name']."</td>".	   
        "\n  <td><center>".$locareas[$r['locareaid']]['areaname']."</center></td>".
-       "\n  <td>".$r['summary']."</td>";?>
-		<?php
+       "\n  <td>".$r['summary']."</td>".
+       "\n  <td>".$r['proj_status']."</td>";
+
 			echo "<td><center><input type='image' src='images/delete.png' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid={$r['id']}\");'></td>\n</tr>\n";
 			echo "\n<input type=hidden name='action' value='$action'>";
 			echo "\n<input type=hidden name='id' value='$id'>";
@@ -320,7 +334,7 @@ if ($export) {
   exit;
 }
 else {
-    $cs=6;
+    $cs=7;
 
 ?>
   <tr><td colspan='<?php echo $cs?>' class=tdc><button type=submit><img src='images/search.png'>Search</button></td></tr>

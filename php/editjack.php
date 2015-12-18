@@ -133,7 +133,7 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update jack
   if ($_POST['id']=="new")  {//if we came from a post (save) then add jack 
     $sql="INSERT INTO jacks (switchname, locareaid, locationid, jackname, departmentsid, departmentabbrsid, userdev, modport, pubipnet, pubiphost, vlanname, privipnet, priviphost, groupname, vlanid, notes, temp_perm, userid,
 		  wallcoord) VALUES ('$switchname', '$locareaid', '$locationid', '$jackname', '$departmentsid', '$departmentabbrsid', '$userdev', '$modport', '$pubipnet', '$pubiphost', '$vlanname', '$privipnet', '$priviphost',
-		  '$groupname', '$vlanid', '$notes', '$temp_perm', $userid', '$wallcoord')";
+		  '$groupname', '$vlanid', '$notes', '$temp_perm', '$userid', '$wallcoord')";
 		  
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();

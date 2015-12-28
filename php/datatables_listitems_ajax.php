@@ -129,7 +129,7 @@
 		  items.label AS itemlabel,
                   locations.name as locationname,
                   coalesce(sn,'') || ' ' || coalesce(sn2,'') || ' ' || coalesce(sn3,'') AS serial,
-                  (purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) AS remdays,
+				  '' as remdays, purchasedate, warrantymonths, 
                   coalesce(racks.label,'') || ' ' || coalesce(racks.usize,'') || ' ' || coalesce(racks.model,'') AS rackinfo,
                   (SELECT group_concat( tags.name ,',') from tags,tag2item WHERE tag2item.itemid=items.id AND tags.id=tag2item.tagid) AS taginfo,
                   (SELECT group_concat( software.stitle ,'|') from software,item2soft WHERE item2soft.itemid=items.id AND software.id=item2soft.softid) AS softinfo
@@ -157,6 +157,7 @@
 	//if ( $sWhere == "" ) $sWhere = " WHERE 1=1 ";
 	
 
+  //(purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) AS remdays,
 	$sQuery = "
 		  SELECT 
 		  items.id AS itemid,
@@ -171,7 +172,7 @@
                   locations.name as locationname,
                   locareas.areaname,
                   coalesce(sn,'') || ' ' || coalesce(sn2,'') || ' ' || coalesce(sn3,'') AS serial,
-                  (purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) AS remdays,
+				  '' as remdays, warrantymonths, 
                   coalesce(racks.label,'') || ' ' || coalesce(racks.usize,'') || ' ' || coalesce(racks.model,'') AS rackinfo,
                   (SELECT group_concat( tags.name ,', ') FROM tags,tag2item WHERE tag2item.itemid=items.id AND tags.id=tag2item.tagid) AS taginfo,
                   (SELECT group_concat( software.stitle ,',') FROM software,item2soft WHERE item2soft.itemid=items.id and software.id=item2soft.softid) AS softinfo,
@@ -223,9 +224,11 @@
 				$row[] = $r;
 			}
 			elseif ( $aColumns[$i] == "remdays" ) {
-				$remdays=$aRow['remdays'];
-				$rdstr=showremdays($remdays);
-				$row[] = "<small><div title='$remdays'>". $rdstr. "</div></small>"; // title attribute used for sorting
+				//$remdays=$aRow['remdays'];
+				$remdays_r=calcremdays($aRow['purchasedate'],$aRow['warrantymonths']);
+				$rdstr=$remdays_r['string'];
+				$rd=$remdays_r['days'];
+				$row[] = "<small><div title='$rd'>". $rdstr. "</div></small>"; // title attribute used for sorting
 			}
 
 			elseif ( $aColumns[$i] == "purchasedate" ) {

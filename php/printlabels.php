@@ -175,6 +175,7 @@ $alllabels=$sth->fetchAll(PDO::FETCH_ASSOC);
 for ($i=0;$i<count($alllabels);$i++) {
   $labelpapers[$alllabels[$i]['id']]=$alllabels[$i];
 }
+
 if (!isset($_POST['name'])) {
   foreach(array_keys($alllabels[0]) as $key) {
     $$key=$alllabels[0][$key];
@@ -357,7 +358,7 @@ echo "<tr><td class='tdt'>".t("Rows").":</td><td>";
 echo "<select name=rows>\n";
 for ($i=1;$i<40;$i++) {
   if (isset($_POST['rows']) && $_POST['rows']=="$i") $s=" SELECTED "; 
-  elseif (!isset($_POST['rows']) && $i=="6") $s=" SELECTED "; 
+  elseif (!isset($_POST['rows']) && $i=="$rows") $s=" SELECTED "; 
   else $s="";
   echo "\n<option $s value=$i>$i</option>";
 }
@@ -367,7 +368,7 @@ echo "<tr><td class='tdt'>".t('Columns').":</td><td>";
 echo "<select name=cols>\n";
 for ($i=1;$i<10;$i++) {
   if (isset($_POST['cols']) && $_POST['cols']=="$i") $s=" SELECTED "; 
-  elseif (!isset($_POST['cols']) && $i=="2") $s=" SELECTED "; 
+  elseif (!isset($_POST['cols']) && $i=="$cols") $s=" SELECTED "; 
   else $s="";
   echo "\n<option $s value=$i>$i</option>";
 }

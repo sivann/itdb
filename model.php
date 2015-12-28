@@ -373,6 +373,38 @@ global $dateparam,$scriptname,$action,$id,$uploaddirwww,$dbh;
   return $flnk;
 
 }
+function calcremdays($purchdate_ts,$warrantymonths) {
+	if (!strlen($warrantymonths))
+		return array('string'=>'','days'=>'');
+
+	if (!is_numeric($purchdate_ts))
+		return array('string'=>'','days'=>'');
+
+	$nowdate = new DateTime();
+	$pdate = new DateTime();
+	$pdate->setTimestamp(intval($purchdate_ts));
+
+	$d_interval=new DateInterval("P{$warrantymonths}M");
+	$d_interval->invert=0;
+	$enddate=$pdate->add($d_interval);
+
+	$exp_interval = $nowdate->diff($enddate);
+	if ($exp_interval->format('%y'))
+		$exp_interval_str=$exp_interval->format('%r %y yr %m mon, %d d');
+	else
+		$exp_interval_str=$exp_interval->format('%r %m mon, %d d');
+
+	$exp_interval_sign=$exp_interval->format('%r');
+	$exp_interval_days="$exp_interval_sign".$exp_interval->days;
+
+	if ($exp_interval_sign=="-") 
+		$exp_interval_str="<span style='color:#F90000'>$exp_interval_str</span>";
+	else
+		$exp_interval_str="<span style='color:green'>$exp_interval_str</span>";
+
+	return array('string'=>$exp_interval_str,'days'=>$exp_interval_days);
+}
+
 
 function showremdays($remdays) {
   if (abs($remdays)>360) $remw=sprintf("%.1f",($remdays/360))."yr";
@@ -417,12 +449,12 @@ function read_trans($lang) {
   if ($lang=="en") return;
   $fn="$scriptdir/translations/$lang.txt";
   if (is_readable($fn) && (($handle = fopen($fn, "r")) !== FALSE)) {
-      while (($data = fgetcsv($handle, 1000, "#")) !== FALSE) {
-	  $num = count($data);
-	  $row++;
-	  if ($num<2)  continue;
-	  if ($num>2)  echo "<p style='display:inline;background-color:white;color:red'> Error in $fn, row $row: ($num fields found, 2 expected) <br /></p>\n";
-	  $trans_tbl[$lang][$data[0]]=$data[1];
+      while ($line=trim(fgets($handle))) {
+        if($pos=strpos($line,'#')){
+          $key=substr($line,0,$pos);
+          $value=substr($line, $pos+1);
+          $trans_tbl[$lang][$key]=$value;
+        }
       }
       fclose($handle);
   }

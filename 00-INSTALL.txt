@@ -14,6 +14,8 @@ INSTALLATION
 
    1. extract the files in a web-exported directory
    2. rename pure.db to itdb.db (pure.db is a blank db)
+   3. fix permissions if the .zip file has corrupted them:
+      cd itdb/ && find . -type d -exec chmod 755 {} \;
    3. make the data/itdb.db file AND the data/ directory AND the data/files/ directory readable and writeable by the web server
    4. Login with admin/admin
 

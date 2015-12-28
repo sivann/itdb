@@ -88,7 +88,7 @@ if ($export)  {
 if ($export) 
   echo "\n<table border='1'>\n";
 else {
-  echo "<h1>Items <a title='Add new item' href='$scriptname?action=edititem&amp;id=new'>".
+  echo "<h1>Items <sup>2</sup> <a title='Add new item' href='$scriptname?action=edititem&amp;id=new'>".
        "<img border=0 src='images/add.png'></a></h1>\n";
   echo "<form name='frm'>\n";
   echo "\n<table class='brdr'>\n";

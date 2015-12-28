@@ -1,0 +1,390 @@
+﻿0:black, 255:white#0:svart, 255:hvitt
+About#Om
+Accounting#Regnskap
+Add Agent#Legg til virksomhet
+Add Contract#Legg til avtale
+Add File#Legg til fil
+Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#Legg til hierarkisk eller sideordnet kobling til: komponent, kort, skjerm, etc.
+Add Invoice#Legg til faktura
+Add new Agent#Legg inn ny virksomhet
+Add new Contract#Legg inn ny avtale
+Add new File#Legg til ny fil
+Add new Invoice#Legg til faktura
+Add new item#Legg inn ny enhet
+Add new Item#Legg inn ny Enhet
+Add New Item#Legg inn ny Enhet
+Add new Location#Legg inn nytt sted
+Add new software#Legg til ny programvare
+Add new Software#Legg til ny programvare
+Address, Phone number, other info, etc#Adresse, tlf., annen informasjon
+Add Row#Legg til rad
+Add Software#Legg til programvare
+Add/View#Legg inn/vis
+Add#Legg til
+Agent Properties#Type virksomhet
+Agents#Virksomhet
+Area Names/Offices#Områdenavn/kontor
+Area/Room#Område/rom
+Areas: rooms, offices#Områder: rom, kontorer
+Are you sure you want to delete this row ?#Er du sikker på at du vil slette raden?
+Associated Files#Koblede filer
+Associated Items#Koblede enheter
+Associated Software#Koblet programvare
+Associated#Koblet
+Associate#Lag kobling
+Associations (items/racks)#Koblinger (enhet/Rack)
+Associations Overview#Koblinger, oversikt
+Associations#Koblinger
+Blank passwords prohibit login#Blankt passord hindrer innlogging
+Border Color (0-255)#Rammefarge (0-255)
+Bottom Margin#Nedre kant
+<br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate & center'</b>#<br><br>I PDF-utskriftsdialog, <br>sett <b>'sideskalering'</b> til <b>'ingen'</b> og <b>fjern</b><br>avkryssing for 'roter og sentrer automatisk'.
+Browse Data#Se gjennom data
+Browse#Se gjennom
+Building Name#Navn på bygning
+Buyer#Kjøper
+Cannot add log entries to unsaved items.#Kan ikke legge inn loggoppføring for enhet som ikke er lagret.
+Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the Tags menu for that.#Endringer lagres fortløpende<br>Når knagger fjernes, fjernes bare koblingen. Bruk menyvalget <b>Knagger</b> for å fjerne knaggen fullstendig.
+Click on Item count column on the left to display associated items#Klikk i antall-kolonnen til venstre for å vise alle tilknyttede enheter.
+Click on Software count column on the left to display associated software#Klikk i antall-kolonnen til venstre for å vise alle tilknyttede programvaretitler
+Click 'Show Labels'#Klikk 'vis etiketter'
+Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor & Buyer</u>: will be listed in invoices & Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Ctrl+klikk for å velge flere leverandørroller<br><br><u>Kjøper og Selger</u>: kan knyttes til fakturaer og avtaler.<br><br><u>Utstyrsprodusent</u>: knyttes til enheter.<br><br><u>Programvarehus</u>: Knyttes til programvare.<br><br><u>Kontraktør</b>: kan knyttes til avtaler.
+Cntrl+Click to select multiple roles for an agent#Ctrl+klikk for å velge flere roller samtidig
+Columns#Kolonner
+Comments#Kommentarer
+Configure contract types#Rediger kontrakttyper
+Configure Item Types#Registrer enhetstyper
+Configure Status Types#Rediger valgbare statuser
+Contact Info#Kontaktinformasjon
+Contacts#Kontakter
+Contact#Kontakt
+Contract Associations#Tilknyttede avtaler
+Contract Data#Avtaleinformasjon
+Contract Description#Avtalebeskrivelse
+Contract number is missing#Avtalenummer mangler
+Contractor is missing#Avtalemotpart mangler
+Contractor#Avtalemotpart
+Contract Properties#Egenskaper for avtale
+CONTRACTS#AVTALER
+Contracts#Avtaler
+Contract Title is missing#Avtaletittel mangler
+Contract Type is missing#Avtaletype mangler
+Contract Types#Avtaletyper
+Contr. Types#Avtaletyper
+Cores/CPU#Kjerner/CPU
+Cores per CPU (used for licensing)#Kjerner pr CPU (til bruk ved lisensiering)
+CPU Model#CPU-modell
+Current End Date of contract is missing#Mangler gjeldende sluttdato for avtalen
+Current EndDate#Gjeldende sluttdato
+Data Browser#Datavisning
+Date Entered#Registrert dato
+Date of Purchase#Kjøpsdato
+Date of purhcase is missing#Kjøpsdato mangler
+Date#Dato
+Delete Event?#Slette hendelse?
+Delete#Slett
+Depth of rack occupation. (F)ront, (M)iddle, (B)ack#Dybdeplassering i rack. (F)ront, (M)idten, (B)ak
+Depth#Dybde
+describe the purpose of this item#Beskriv formål/bruk for denne enheten
+Description#Beskrivelse
+DNS#DNS
+DnsName#DnsName
+DNS Name#DNS navn
+DnsName#DnsName
+Documents, Manuals, Offers, Licenses, ...#Dokumenter, håndbøker, tilbud, lisenser, ...
+Download a complete installation backup (much larger)#Last ned sikkerhetskopi av full installasjon
+Download & print the resulting PDF#Last ned og skriv ut PDF-dokumentet
+Download DataBase file. Contains all data except uploaded files/documents#Last ned databasefila. Inneholder alle registrerte data unntatt opplastede filer/dokumenter
+Download#Last ned
+Do you really want to remove this row?#Vil du virkelig slette denne raden?
+Edit Contract Types#Behandle avtaletyper
+Edit ID#Endre ID
+Edit Item Types#Behandle enhetstyper
+Edit Software#Behandle programvare
+Edit Status Types#Behandle statusbetegnelser
+edit tags#behandle knagger
+Edit Tags#Behandle knagger
+Edit#Rediger
+Effective date#Ikrafttredelsesdato
+e.g. like donator, etc. Vendor info is best to be provided in the related invoice#f.eks. som giver, etc. Leverandørinfo bør oppgis for tilknyttet faktura.
+Email#E-Mail
+End Date#Sluttdato
+End Date after#Sluttdato etter
+End Date before#Sluttdato før
+End#Slutt
+Entered By#Lagt inn av
+enter text to filter listed items#Skriv inn søketekst for å sile ut enheter i listen
+Event End#Hendelse slutter
+Event History#Historikk for hendelse
+Event Start#Hendelse starter
+File Maintenance#Vedlikehold av filer
+Filename#Filnavn
+Files#Filer
+File title is missing#Tittel mangler for fil
+File Type is missing#Filtype mangler
+File#Fil
+Filter#Filter
+Find#Finn
+Floor Plan#Etasjeplan
+Floor#Etasje
+FontSize#Skriftstørrelse
+Full Access#Full tilgang
+Function#Funksjon
+GO#GÅ
+Hardware#Maskinvare
+HDs (TB)#Harddisker (TB)
+Header FontSize#Skriftstørrelse overskrift
+Header (from conf.php)#header (fra conf.php)
+Height#Høyde
+Home#Hjem
+Horz. Pitch#Vannrett avstand
+How is this item used. e.g.: Video Encoder#Hva brukes denne enheten til
+how many items are assigned to this rack#Hvor mange enheter er tilknyttet dette rackskapet
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#Utstyrs- og programvareprodusenter, forhandlere, kjøpere, avtalemotparter
+H/W Manufacturer#Maskinvareprodusent
+[id desc]#[ID beskr.]
+ID FontSize#ID skriftstørrelse
+[id]#[ID]
+ID#ID
+Installed Into#Installert i
+Installed on#Installert på
+Installed#Installert
+Inter-Item Associations#Koblinger mellom enheter
+Intrinsic Properties#Enhetsspesifikke egenskaper
+Invoice Associations#Tilknyttede fakturaer
+Invoice  Data#Fakturadata
+Invoice Description / File(s)#Fakturabeskrivelse / -filer
+Invoice Properties#Fakturaegenskaper
+Invoices (buyers)#Fakturaer (utgående)
+INVOICES (buyer)#FAKTURAER (utgående)
+Invoices (vendors)#Fakturaer (innkomne)
+INVOICES (vendor)#FAKTURAER (innkomne)
+INVOICES#FAKTURAER
+Invoices#Fakturaer
+Invoice#Faktura
+IPv4#IPv4
+IPv6#IPv6
+Is Part#Er del
+Issue Date#Utgitt dato
+Item Associations#Tilknytning mellom enheter
+Item Data#Enhetsdata
+Item list per location#Enhetsliste pr. sted
+Items without invoices#Enheter uten fakturainfo
+Items without location#Enheter uten registrert plassering
+Items with warranty end date close to (before or after) today#Enheter der sluttdato for garanti er nær dagen i dag
+ITEMS#ENHETER
+items#enheter
+Items#Enheter
+Items#Enheter
+Item Types#Enhetstyper
+Item Type#Type enhet
+Label properties#Etikett-egenskaper
+Labels#Etiketter
+labels#etiketter
+Label#Etikett
+Left Margin#Venstre marg
+Licencing Info#Lisensiering
+License Info#Lisensinfo
+List Invoices#List fakturaer
+List items with defined IPv4 numbers#List opp enheter med definerte IPv4-adresser
+List Items#List enheter
+List Software#List programvare
+Loading data from server#Henter data fra tjener
+Location Name/Building Name#Navn på plassering/bygning
+Location Properties#Egenskaper for plassering
+Locations#Plassering
+Location#Plassering
+Log/Journal#Logg/journal
+Logout#Logg ut
+MACs#MAC
+maintenance end date#Sluttdato for vedlikeholdsperiode
+Maintenance Instructions#Vedlikeholdsinstruks
+Maint. End#Slutt på vedlikehold
+Manage Agents#Oppdater liste over virksomheter
+Manage item locations#Oppdater enhetsplassering
+Manage various parameters#Oppdater innstillinger
+Manage your contracts <br> Support, Licenses, Leases, etc#Behandle avtaler<br>Support, lisenser, leieforhold, etc.
+Manage your H/W items <br> PCs, Switches, Phones, etc#Behandle maskinvareenheter<br>PCer, switcher, telefoner, etc.
+Manage your Invoices#Behandle fakturaer
+Manage your software#Behandle programvare
+Manufacturer is missing#Produsent mangler
+Manufacturer#Produsent
+[model]#[Modell]
+Model#Modell
+Name#Navn
+Network Ports#Nettverksporter
+Network#Nettverk
+New#Ny
+Notes#Notater
+No#Nei
+Numbering#Nummerering
+Number of cores per CPU (used for licensing)#Antall kjerner pr. CPU
+Number of installed Software per Manufacturer (Agent)#Antall programvareinstallasjoner pr. produsent
+Number of invoices per Vendor (Agent)#Antall fakturaer pr. forhandler
+Number of items per Location#Antall enheter pr. sted
+Number of items per Manufacturer (Agent)#Antall enheter pr. produsent
+Number of Items under support#Antall enheter som støttes
+Number#Nummer
+Occupation#Stilling
+Order By#Sorter etter
+Order No#Best.nr
+Order No#Best.nr
+Order Num#Best.nr
+order: status, id descending, item type, manufacturer#Sortering: Status, ID synkende, enhetstype, produsent
+order: status, id, item type, manufacturer#Sortering: Status, ID, enhetstype, produsent
+order: status, item type, manufacturer,id#Sortering: Status, enhetstype, produsent, ID
+order: status, model, item type, manufacturer#Sortering: Status, modell, enhetstype, produsent
+Other Info#Andre opplysninger
+Parent ID#ID overordnet enhet
+Parent#Overordnet
+Password#Passord
+Patch Panel Port#Patch-Panel Port
+Phone numbers#Telefonnummer
+Please check if this item can be rackmounted#Sjekk om denne enheten kan settes inn i rack
+Please select item type#Velg enhetstype
+Please specify if this item is a part of another#Angi om denne enheten er komponent i en større enhet
+Populated from H/W Manufacturers defined in agents menu#Genereres fra listen over virksomheter
+populated from items of type switch or router#Hentes fra Enheter, der enhetstype er Switch eller Router
+Populate list from the Item Types menu#Hentes fra listen over enhetstyper
+Preset Name#Navn på forhåndsdef.
+Presets#Forhåndsdefinert
+Print Labels#Etiketter
+Property#Egenskaper
+Ptch.PnlPrt#Patch-Panel Port
+Purchace Price (#Innkjøpspris (
+Purchase Date#Kjøpsdato
+PurchaseDate#Kjøpsdato
+PurchPrice#Innkjøpspris
+QTY#ANT
+Quantity#Antall
+Rackmountable#Rackmonterbar
+Rack Pos. (topmost)#Rackposisjon (øverste)
+Racks#Rackskap
+Rack#Rack
+RAM (GB)#RAM (GB)
+Read Only#Lesetilgang
+Recent History#Historikk
+Related#Sammenhørende
+Rel#Sm.
+RemAdmIP#Fjernadm.-IP
+Remote Administration IP#IP for fjernadministrasjon.
+Renewals#Forlengelser
+Reports#Rapporter
+Right Margin#Høyre marg
+Role#Rolle
+Rows#Rader
+Save Invoice#Lagre faktura
+Save new location first to define areas onto it#Stedsnavn må lagres først. Deretter kan du legge inn områder
+Save Preset#Lagre forhåndsinnstilling
+Save#Lagre
+Select & Print#Velg og skriv ut
+select and print labels for your items#velg og skriv ut etiketter for enhetene
+Select Cores/CPU#Velg antall kjerner/CPU
+Select items from the list above#Velg enheter fra listen over
+Select Items#Velg enheter
+Select Label properties (manual or preset)#Velg egenskaper for etikett (manuell eller forhåndsdefinert)
+Select Report#Velg rapport
+Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.#Velg systemer der programvaren er installert. Du finner bare enheter som er registrert med støtte for programvare.
+Select User#Velg bruker
+Select 'YES' if software can be installed <b>on</b> this item.<br> Only items supporting software are listed when <br>performing software - item associations#Velg 'JA' hvis programvare kan installeres på enheten.<br>Bare enheter som støtter programvare vises når<br>det legges inn koblinger mellom programvare og enhet.
+Select#Velg
+Settings#Instillinger
+Shop/Origin#Kjøpssted/kilde
+show also this text on printable labels#auch diesen Text auf den druckbaren Aufklebern zeigen
+Show Labels#Vis etiketter
+Sibling#sideordnet
+Size (U)#Høyde (U)
+Skip#Hopp over
+S/N 2#S/N 2
+S/N#S/N
+Software Associations#Tilknyttet programvare
+Software Data#Programvaredata
+Software title is missing#Mangler tittel på programvare
+Software Version is missing#Mangler programvareversjon
+SOFTWARE#PROGRAMVARE
+Software#Prog.vare
+Special maintenance instructions#Særlige vedlikeholdsinstruksjoner
+Specify model#Oppgi modell
+Specify user responsible for this item#Velg bruker som har ansvar for enheten
+Start Date of contract is missing#Startdato for avtalen mangler
+Start Date#Startdato
+Start#Start
+Status Types#Status-<br>betegnelser
+Status#Status
+suggested resolution: 1024 pixels for A4 scans#anbefalt oppløsning: 1024 Pixel for A4-skanning
+Support and Maintanance, Leases, ...#Støtte, vedlikehold, ...
+Supports<br>Software#Støtter<br>programvare
+Switch Port#Switchport
+Switch#Switch
+S/W Manufacturer is missing#Mangler SW-produsent
+S/W Manufacturer#SW-produsent
+Tags#Knagger
+TAG#KNAGG
+taken from related invoice#hentet fra tilhørende faktura
+Text Padding#Tekstavstand
+Title/Ver.#Tittel/versjon
+Title#Tittel
+Top Margin#Øvre kant
+Total Cost#totalkostnad
+Tree Explorer#Hierarkisk datautforsker
+Type Names#typebetegnelser
+Type(s)#Type(r)
+[type]#[type]
+Type#Type
+Upload a File#Last opp fil
+Upload a Floor Plan#Last opp plantegning
+Uploaded by#Lastet opp av
+Upload Files#Last opp filer
+Usage#Bruk
+User Description#Brukerinformasjon
+Username#Brukernavn
+User responsible for this item#Bruker med ansvar for enheten
+Users are used for both web login and as item assignees#Brukere i listen kan både gis innlogging og kobles til utstyr
+Users, Tags#Brukere, knagger
+Users#Brukere
+User#Bruker
+use when the top labels have already been printed#brukes når det allerede er skrevet på de øverste etikettene
+Value#Verdi
+Vendors/Buyers/ Manufacturers#Selger/kjøper/produsent
+Vendor#Selger
+Version#Versjon
+Vert. Pitch#Loddrett avstand
+View/Edit Subtypes#Vis/endre undertyper
+View items by type, by user, by agent#Vis enheter etter type/bruker/virksomhet
+View Reports#Vis rapporter
+View#Visning
+Warranty Info#Garantiinfo
+Warranty Months#Garantimåneder
+Warranty#Garanti
+Warr. Rem. days#Gjenværende garanti (dager)
+Width#Bredde
+Yes#Ja
+You forgot to select the file?#Glemt å velge fil?
+Clone#Klon
+Warning#Advarsel
+<b>status</b> of this item  different from status of associated item#<b>status</b> for denne enheten er ikke den samme som for tilknyttet enhet
+<b>location</b> of this item  different from location of associated item#<b>plassering</b> for denne enheten er ikke den samme som for tilknyttet enhet
+<b>user</b> of this item  different from user of associated item#<b>Bruker</b> for denne enheten er ikke den samme som for tilknyttet enhet
+No racks in location#Ingen rackskap her
+No areas defined#Ingen områder definert
+Barcode Size#Størrelse på strekkode
+<br>In the PDF printing dialog,#<br>Im PDF Druck Dialog,
+<b>uncheck</b> 'auto-rotate & center'</b>#Fjern markering for 'automatisk rotering og skalering'
+Click 'Make Item Labels'#Klikk 'Skriv ut etiketter'
+Company Title#Virksomhetens navn
+Currency#Myntenhet
+Date Format#Datoformat
+Header#Overskrift
+Header Image#Bilde til overskrift
+Header Text#Overskriftstekst
+Image Size (WxH)#Bildestørrelse (BxH)
+Interface Language#Språk for brukergrensesnitt
+ITDB Settings#Innstillinger
+Language#Språk
+Paper Size#Papirstørrelse
+QR Barcode#QR-kode
+Save#Lagre
+set <b>'Page Scaling'</b> to <b>'None'</b>#Sett <b>'Sideskalering'</b> til <b>'Ingen'</b>
+Settings#Innstillinger
+Translations#Oversettelser
+Users, Tags, Dates, Currency,...#Brukere, knagger, datoer, myntenheter

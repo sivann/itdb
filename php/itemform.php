@@ -343,6 +343,11 @@ else if ($action=="edititem") {
 	foreach ($locations  as $key=>$location ) {
 	  $dbid=$location['id']; 
 	  $itype=$location['name'].", Floor:".$location['floor'];
+
+      if (is_numeric($location['floor']))
+          $itype=$location['name'].", ".t("Floor").":".$location['floor'];
+      else
+          $itype=$location['name'];
 	  $s="";
 	  if (($locationid=="$dbid")) $s=" SELECTED "; 
 	  echo "    <option $s value='$dbid'>$itype</option>\n";

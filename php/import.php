@@ -84,7 +84,7 @@ if ($nextstep==1 && strlen($_FILES['file']['name'])>2) { //insert file
 <form method=post name='importfrm' action='<?php echo $scriptname?>?action=<?php echo $action?>' enctype='multipart/form-data'>
 <tr>
 <tr><td>File:</td><td> <input name="file" id="file" size="25" type="file"></td></tr>
-<tr><td>Delimeter:</td><td> <input size=1 type=text name='delim' value=';' maxlength=1></td></tr>
+<tr><td style='font-weight:bold'>Delimiter:</td><td> <input size=1 type=text name='delim' value=';' maxlength=1></td></tr>
 <tr><td>Skip 1st row:</td><td><select name=skip1st><option value=1>Yes</option><option value=0>No</option></select></td></tr>
 <tr><td colspan=2><input type=submit value='Upload file and inspect fields'></td></tr>
 <input type=hidden name='nextstep' value='1'>

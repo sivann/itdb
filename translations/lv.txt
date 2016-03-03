@@ -1,0 +1,421 @@
+[id desc]#[id desc]
+[id]#[id]
+[model]#[model]
+[type]#[type]
+<b>location</b> of this item  different from location of associated item#<b>Vieta</b> šīs iekārtas vieta, atšķirīga no piesaistītās iekārtas
+<b>status</b> of this item  different from status of associated item#<b>Stāvoklis</b> šīs iekārtas stāvoklis, atšķirīgs no piesaistītās iekārtas
+<b>uncheck</b> 'auto-rotate & center'</b>#<b>Neiezīmēt</b> 'auto-rotēt & center'
+<b>uncheck</b> 'auto-rotate & center'</b>#<b>Iezīmēt</b> 'auto-rotate & center'
+<b>user</b> of this item  different from user of associated item#<b>Lietotājs</b>šīs iekārtas lietotājs ja atšķiras no piesaistītās iekārtas
+<br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate & center'</b>#<br><br>PDF drukāšanas dialogā，<br>izvēlētie <b>'Page Scaling'</b> uz <b>'None'</b>, <br>un <b>noņmet atzīmi</b> 'auto-rotate & center'</b>
+<br>In the PDF printing dialog,#<br>PDF Drukāšanas dialogā,
+0:black, 255:white#0:Melns, 255:Balts
+About#Par
+Accounting#Grāmatvedība
+Add Agent#Pievienot aģentu
+Add Contract#Pievienot Līgumu
+Add File#Pievienot Failu
+Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#Pievienot hierarhiskās vai saitītās attiecības uz: detaļām, kartes, monitori, et.c.
+Add Invoice#Pievienot rēķinu
+Add new Agent#Pievienot jaunu Aģentu
+Add new Contract#Pievienienot jaunu Līgumu
+Add new File#Pievienot jaunu Failu
+Add new Invoice#Pievienot jaunu Rēķinu
+Add new item#Pievienot Jaunu Vienību
+Add new Item#Pievienot Jaunu vienību
+Add New Item#Pievienot Jaunu Vienību
+Add new Location#Pievienot Jaunu Vietu
+Add new software#Pievienot Jaunu Programmatūru
+Add new Software#Pievienot Jaunu Programmatūru
+Add Row#Pievienot Jaunu Rindu
+Add Software#Pievienot Programmatūru
+Add#Pievienot
+Add/View#Pievienot / Skatīt
+Address, Phone number, other info, etc#Adrese, Telefons, Cita informācija, utt.
+Agent Properties#Aģenta īpašības
+Agents#Aģenti
+Are you sure you want to delete this row ?#Vai tiešām vēlies dzēst šo rindu?
+Area Names/Offices#Zonu nosaukumi / Biroji
+Area#Zona
+Area/Room#Zona / Telpa
+Areas: rooms, offices#Zonas: telpas, biroji
+Associate file with the following contracts#Piesaistīt failu sekojošiem līgumiem
+Associate file with the following items#Piesaistīt failu sekojošām vienībām
+Associate#Piesaistīt
+Associated Files #Piesaistītie faili
+Associated Files#Piesaistītie faili
+Associated Items#Piesaistītās Vienības
+Associated Software#Piesaistītā programmatūra
+Associated#Piesaistīts
+Associations (items/racks)#Saistītie (Vienības / Statņi）
+Associations Overview#Saistīto vienību pārskats
+Associations#Saistības
+Barcode Size#Svītrkoda izmērs
+Blank passwords prohibit login#Tukšas paroles aizliedz pieslēgšanos
+Border Color (0-255)#Robežas krāsa（0-255）
+Bottom Margin#Apakšējā ārējā atkāpe
+Browse Data#Pārlūkot datus
+Browse#Pārlūkot
+Building Name#Ēkas nosaukums
+Buyer#Pircējs
+Buyers#Pircēji
+Cannot add log entries to unsaved items.#Nevar pievienot ierakstus nesaglabātām vienībām.
+Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the Tags menu for that.#Izmaiņas saglabātas tūlītēji.<br>Noņemot Tagus, tiek noņemtas saistības. <br>Lai izdzēstu tagu, izmantojiet tagu pārvaldību.
+Click 'Make Item Labels'#Noklikšķini 'Make Item Labels'
+Click on Item count column on the left to display associated items#Klikšķini uz vienību skaita kolonnā pa kreisi, lai redzētu saistītās vienības.
+Click on Software count column on the left to display associated software#Klikšķini uz Programmatūras skaita kolonnas pa kreisi, lai redzētu piesaistīto programmatūru
+Click 'Show Labels'#Klikšķini 'Parādīt Birkas'
+Clone#Klonēt
+Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor & Buyer</u>: will be listed in invoices & Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Cntrl+Click lai <br><br><u>Piegādātājs & Pircējs</u>: Tiks parādīts sadaļā Rēķini & Līgumi <br><br><u>Detaļu ražotājs</u>: Tiks parādīts vienību rediģēšanas skatā <br><br><u>Programmatūras ražotājs</u>: Tiks parādīts programmatūras rediģēšanas skatā <br><br><u>Pakalpojuma sniedzējs</u>: tiks parādīts pie līgumiem
+Cntrl+Click to select multiple roles for an agent#Cntrl+Click lai izvēlētos vairākas aģenta lomas
+Columns#Kolonnas
+Comments#Komentāri
+Company Title#Kompānijas nosukums
+Configure contract types#Iestatīt līguma veidu
+Configure Item Types#Iestatīt iekārtas veidu
+Configure Status Types#Iestatīt stāvokļa veidus
+Contact Info#Kontaktinformācija
+Contact#Kontaktperson
+Contacts#Kontaktpersona
+Contr. Types#Līguma veidi
+Contract Associations#Līguma piesaistes
+Contract Data#Līguma dati
+Contract Description#Līguma apraksts
+Contract number is missing#Iztrūkst līguma nr.
+Contract Properties#Līguma īpašības
+Contract Title is missing#Iztrūkst līguma nosaukums
+Contract Type is missing#Iztrūkst līguma veids
+Contract Types#Līgumu veidi
+Contractor is missing#iztrūkst Pakalpojuma sniedzējs
+Contractor#Pakalpojuma sniedzējs
+Contracts#Līgumi
+CONTRACTS#LĪGUMI
+Cores per CPU (used for licensing)#Kodoli uz CPU (Lietots licencēm)
+Cores/CPU#Kodoli uz CPU
+CPU Model#CPU Modelis
+Currency#Valūta
+Current End Date of contract is missing#Iztrūkst līguma beigu datums
+Current EndDate#Pašreizējais BeguDatums
+Data Browser#Datu pārlūks
+Date Entered#Datums ievadīts
+Date Format#Datuma Formāts
+Date of Purchase#Iegādes darums
+Date of purhcase is missing#Iztrūkst iegādes datums
+Date#Datums
+Delete Event?#Dzēst notikumu?
+Delete#Dzēst
+Depth of rack occupation. (F)ront, (M)iddle, (B)ack#Rack dziļuma ietlība (P)Priekša, (V)Vidus, (A)Aizmugur
+Depth#Dziļums
+describe the purpose of this item#apraksti pielietojumu vienībai
+Description#Apraksts
+DNS Name#DNS Vārds
+DNS#DNS
+DnsName#DnsVārds
+Do you really want to remove this row?#Vai tiešām vēlies noņemt šo rindiņu?
+Documents, Manuals, Offers, Licenses, ...#Dokumenti, Instrukcijas, Piedāvājumi, Licences, ...
+Download & print the resulting PDF#Lejuplādēt un drukāt uz PDF
+Download & print the resulting PDF#Lejuplādēt un drukāt uz PDF
+Download a complete installation backup (much larger)#Lejuplādēt pilnu instalācijas rezerves kopiju (daudz lielāks)
+Download DataBase file. Contains all data except uploaded files/documents#Lejuplādēt Datubāzes failu. Satur visus datus izņemot ielādētos failus /dokumentus
+Download#Lejuplādēt
+e.g. like donator, etc. Vendor info is best to be provided in the related invoice#piemēram ziedotājs, utt. Piegādātāja info vislābāk ir nodrošināt ar atsaucēm uz rēķiniem.
+Edit Contract Types#Rediģēt Līguma veidus
+Edit File Types#Rediģēt Failu veidus
+Edit ID#Rediģēt ID
+Edit Item Types#Rediģēt vienību Veidus
+Edit Software#Rediģēt Programmatūru
+Edit Status Types#Rediģēt Stāvokļu veidus
+edit tags#rediģēt iezīmes
+Edit Tags#Rediģēt Iezīmes
+Edit#Rediģēt
+Effective date#Datums no kura aktīvs
+Email#E-pasts
+End Date#Beigu datums
+End Date after#Beigu datums pēc
+End Date before#Beigu datums pirms
+End#Beigas
+End Date after#Beigu datums pēc
+End Date before#Beigu datums pirms
+enter text to filter listed items#ievadi tekstu lai filtrētu sarakstu
+Entered By#Ievadīja
+Event End#Notikumu beigas
+Event History#Notikumu Vēsture
+Event Start#Notikumu sākums
+File Maintenance#Faila nosaukums
+File title is missing#Iztrūkst faila nosaukums
+File Type is missing#Iztrūkst Faila tips
+File Types#Faila Tipi
+File#Fails
+Filename#Faila nosaukums
+Files#Faili
+Filter#Filtrs
+Find#Meklēt
+Floor Plan#Stāva plāns
+Floor#Stāvs
+FontSize#Šrifta Izmērs
+Full Access#Pilna Piekļuve
+Function#Funkcija
+GO#AIZIET
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#Aparatūras & Programmatūras Ražotāji & Piegādātāji, Pircēji, Pakalpojumu Sniedzēji
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#Aparatūras & Programmatūras Ražotāji & Piegādātāji, Pircēji, Pakalpojumu Sniedzēji
+H/W Manufacturer#Aparatūras Ražotājs
+H/W Manufacturers#Aparatūras Ražotāji
+Hardware#Aparatūra
+HDs (TB)#HDs (TB)
+Header (from conf.php)#Galvene (no conf.php)
+Header FontSize#Galvenes Šrifta Izmērs
+Header Image#Galvenes Attēls
+Header Text#Galvenes Teksts
+Header#Galvene
+Height (U)#Augstums (U)
+Height#Augstums
+Home#Sākums
+Horz. Pitch#Horizontālais Novietojums
+How is this item used. e.g.: Video Encoder#Vienības pielietojums. Piemēram: Video enkoderis
+how many items are assigned to this rack#cik daudz iekārtu ir nozīmētas uz šo statni
+ID FontSize#ID ŠriftaIzmērs
+ID#ID
+Image Size (WxH)#Attēla Izmērs (WxH)
+Import#Importēt
+Installed Into#Instalēts Iekš
+Installed on#Instalēts uz
+Installed#Instalēts
+Integration#IIntegrācija
+Interface Language#Lietotāja saskarnes Valoda
+Inter-Item Associations#Vienību savstarpējās sasaistes
+Intrinsic Properties#Rēķina Īpašibas
+Invoice  Data#Rēķina Dati
+Invoice Associations#Rēķina Sasaistes
+Invoice Description / File(s)#Rēķina Apraksts / Faili(s)
+Invoice Properties#Rēķina īpašības
+Invoice#Rēķins
+INVOICES (buyer)#RĒĶINI (pircējs)
+Invoices (buyers)#Rēķini (pircēji)
+INVOICES (vendor)#Rēķini (piegādātājs)
+Invoices (vendors)#Rēķini (piegādātāji)
+Invoices#Rēķini
+INVOICES#RĒĶINI
+IPv4#IPv4
+IPv6#IPv6
+Is Part#Ir Detaļa
+Issue Date#Izrakstīšanas Datums
+ITDB Settings#ITDB Iestatījumi
+Item Associations#Vienības Saistības
+Item Data#Vienības Dati
+Item list per location#Vienību saraksts pa atrašanās vietām
+Item Type#Vienības Veids
+Item Types#Vienību Veidi
+Items with warranty end date close to (before or after) today#Vienības ar garantijas beigu termiņu tuvu (pirms vai pēc) šodienai
+Items without invoices#Vienības bez rēķiniem
+Items without location#Vienības bez atrašanās vietas
+items#vienības
+Items#Vienības
+ITEMS#VIENĪBAS
+Label properties#Etiķetes īpašības
+Label#Etiķete
+labels#etiķetes
+Labels#Etiķetes
+Language#Valoda
+Left Margin#Labās puses ārējā atkāpe
+Licencing Info#Licencēšanas Info
+License Info#Licences nosasacījumi
+List Invoices#Parādīt Rēķinu sarakstu
+List items with defined IPv4 numbers#Vienību saraksts ar IPv4 definēto numerāciju
+List Items#Parādīt Vienību sarakstu
+List Software#Parādīt Programmatūras sarakstu
+Loading data from server#Tiek ielādēti dati no servera
+Location Name/Building Name#Vietas Nosaukums / Ēkas nosaukums
+Location of items in this rack was updated to match rack location#Atrašanās vieta vienībām kuras atrodas šinī statnī, tika mainīta uz statņa atrašanās vietu
+Location Properties#Vietas īpašības
+Location#Vieta
+Locations#Vietas
+Log/Journal#Log/Žurnāls
+Logout#Iziet
+MACs#MACs
+Maint. End#Apkalp. beigu datums
+maintenance end date#apkalpošanas beigu datums
+Maintenance Instructions#Apkalpošanas instrukcijas
+Manage Agents#Pārvaldīt Aģentus
+Manage item locations#Pārvaldīt vienību atrašanās vietas
+Manage various parameters#Pārvaldīt dažādus parametrus
+Manage your contracts <br> Support, Licenses, Leases, etc#Pārvaldīt Jūsu līgumsu<br> Atbalsts, Licences, Noma, utt.
+Manage your H/W items <br> PCs, Switches, Phones, etc#Pārvaldīt Jūsu iekārtas <br> Datori, komutatori, serveri, Telefoni, utt.
+Manage your Invoices#Pārvaldīt Jūsu rēķinus
+Manage your software#Pārvaldīt Jūsu programmatūru
+Manufact.#Ražot.
+Manufacturer is missing#Iztrūkst rašotājs
+Manufacturer#Ražotājs
+Model#Modelis
+Name#Nosaukums
+Network Ports#Tīkla porti
+Network#Tīkls
+New#Jauns
+No areas defined#Nav nodefinētas vietas
+No racks in location#Šajā vietā nav statņu
+No#No
+Notes#Piezīmes
+Number of cores per CPU (used for licensing)#Procesora kodoli uz procesoru, (izmanto licencēšanā)
+Number of installed Software per Manufacturer (Agent)#Instalētās programmatūras skaits pēc ražotāja(Aģents)
+Number of invoices per Vendor (Agent)#Rēķinu skaits pēc Pārdevēja(Aģents)
+Number of items per Location#Iekārtu skaits atrašanās vietā
+Number of items per Manufacturer (Agent)#Vienību skaits pēc Ražotāja(Aģents)
+Number of Items under support#Iekārtu sakats ar tehnisko atbalstu
+Number#Skaits
+Numbering#Numerācija
+Occupation#Pielietojums
+Order By#Pasūtītājs
+Order No#Pasūtījuma Nr
+Order Num#Pasūtījuma Nr
+order: status, id descending, item type, manufacturer#pasūtījums: stāvoklis, id dilstoši, vienības veids, ražotājs
+order: status, id, item type, manufacturer#pasūtījums: stāvoklis, id, vienības veids, ražotājs
+order: status, item type, manufacturer,id#pasūtījums: stāvoklis, vienības veids, ražotājs, id
+order: status, model, item type, manufacturer#pasūtījums: stāvoklis, modelis, vienības veids, ražotājs
+Other Info#Cita informācija
+Paper Size#Papīra izmērs
+Parent ID#Vecāka ID
+Parent#Vecāks
+Password#Parole
+Patch Panel Port#Patch paneļa ports
+Path To Switchmap#Ceļš uz Switcha karti
+Phone numbers#Telefona Nummuri
+Please check if this item can be rackmounted#Lūdzu iezīmēt ja iekārta montējas skapī
+Please select item type#Lūdzu izvēlies iekārtas veidu
+Please specify if this item is a part of another#Lūdzu norādi ja vienība ir daļa no citas vienības.
+Populate list from the Item Types menu#Apkopo sarakstu no  Vienību Veidu izvēlnes
+Populated from H/W Manufacturers defined in agents menu#Apkopots no Iekārtu ražotājiem iestatītiem Aģentu izvēlnē
+populated from items of type switch or router#apkopots no vienību veidiem switch vai ruteris
+Preset Name#Sagataves Nosaukums
+Presets#Sagataves
+Print Labels#Drukāt uzlīmes
+Property#Īpašība
+Ptch.PnlPrt#Ptch.PnlPrt
+Purchace Price (#Iepirkuma Cena (
+Purchase Date#Iepirkuma Datums
+PurchaseDate#IepirkumaDatums
+PurchPrice#Iepirkuma Cena
+QR Barcode#Qr. Svītrkods
+QTY#Daudz.
+Quantity#Daudzums
+Rack depth is missing#Nezināms skapja dziļums
+Rack height is missing#Nezināms skapja augstums
+Rack label is missing#Trūkst skapja nosaukums
+Rack location is missing#Iztrūkst Skapja atrašānās vieta
+Rack Pos. (topmost)#Vieta skapī. (augšējais)
+Rack#Serveru skapis
+Rackmountable#Montējams skapī
+Racks#Skapji
+RAM (GB)#Atmiņa (GB)
+Read Only#Tikai lasīt
+Recent History#Nesenā vēsture
+Rel#Rel
+Related#Atbilstošs
+RemAdmIP#Attālinātās vadības IP
+Remote Administration IP#Attālinātās vadības IP
+Renewals#Atjaunojumi
+Reports#Atskaites
+Right Margin#Labā ārmala
+Role#Loma
+Rows#Rindas
+S/N 2#Sērijas Nr 2
+S/N#Sērijas Nr
+S/W Manufacturer is missing#Iztrūkst programmatūras izstrādātājs
+S/W Manufacturer#Programmatūras ražotājs
+S/W Manufacturers#Programmatūras ražotāji
+Save Invoice#Saglabāt Rēķinu
+Save new location first to define areas onto it#Vispirms Saglabāt jaunu vietu lai noteiktu vietas tajā
+Save Preset#Saglabāt sagatavi
+Save#Saglabāt
+Select & Print#Izvēlēties un drukāt
+Select & Print#Izvēlēties un drukāt
+select and print labels for your items#Izvēlēties un drukāt uzlīmes iekārtām
+Select Cores/CPU#Atzīmē Procesora kodolus
+Select items from the list above#Izvēlies pozīcījas no  augšējā saraksta
+Select Items#Izvēlēties iekārtas
+Select Label properties (manual or preset)#Atzīmē etiķetes īpašības (sagatave vai ar roku vadīta)
+Select Report#Atzīmē Atskaiti
+Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.#Atzīmē sistēmas kur šī programmatūra šobrīd ir uzstādīta. Tikai vienības ar 'programmatūras atbalsts' iekš vienības veids lauka tiks rādītas
+Select User#Atzīmē Lietotāju
+Select 'YES' if software can be installed <b>on</b> this item.<br> Only items supporting software are listed when <br>performing software - item associations#Atzīmē 'Jā' ja programmatūra var tikt uzstādīta <b>uz</b> šīs vienības. <br>Tikai vienības ar programmatūras atbalstu tiks parādītas<br>kad tiks atlasītas programmatūras saistības
+Select#Atzīmē
+set <b>'Page Scaling'</b> to <b>'None'</b>#Uzstādi <b>'Lapas mērogu'</b> 为 <b>'Neviens'</b>
+Settings#Iestatījumi
+Shop/Origin#Veikals / Izcelsme
+show also this text on printable labels#parādīt arī šo tekstu uz drukājamās etiķetes
+Show Labels#Parādīt Etiķetes
+Sibling#Radniecīgs
+Size (U)#Izmērs (U) vienības
+Skip#Izlaist
+Software Associations#Piesaistītā programmatūra
+Software Data#Programmatūras informācija
+Software title is missing#Iztrūkst programmatūras nosaukums
+Software Version is missing#Iztrūkst programmatūras versija
+Software#Programmatūra
+SOFTWARE#PROGRAMMATŪRA
+Special maintenance instructions#Īpašas piezīmes apkopē
+Specify model#Norādiet modeli
+Specify user responsible for this item#Norādiet atbildīgo lietotāju par šo vienību
+Start Date of contract is missing#Iztrūkst līguma sākuma datums
+Start Date#Sākuma datums
+Start#Sākums
+Status Types#Stāvokļu Veidi
+Status#Stāvoklis
+Subtypes of  type #Veida apakšveidi
+suggested resolution: 1024 pixels for A4 scans#ieteicamā izšķirtspēja: 1024 pikseļi A4 skenējumiem
+Support and Maintanance, Leases, ...#Atbalsts un Uzturēšanas, Nomas, ...
+Supports<br>Software#Atbalsta<br>Programmatūru
+Switch Port#SWITCH ports
+Switch#Switch
+SwitchMap Integration#Switch Kartes Integrācija
+TAG#IEZĪME
+Tags#Iezīmes
+taken from related invoice#ņemts no saistītā rēķina
+Text Padding#Teksta iekšējā atkāpe
+There are errors in your form submission, please see below for details#Aizpildot formu tika konstatētas kļūdas, skatīt detalizētu informāciju zemāk.
+Time Format#Laika Formāts
+Timezone (Abbreviation)#Laika zona (Saīsinājums)
+Title#Virsraksts
+Title/Ver.#Virsraksts / Versija.
+Title-Version#Virsraksts-Versija
+Top Margin#Augšējā atkāpe no malas
+Total Cost#Kopējās izmaksas
+Translations#Tulkojumi
+Tree Explorer#Koka pārskats
+Type Names#Veidu nosaukumi
+Type#Veids
+Type(s)#Veidi
+Upload a File#Augšuplādēt failu
+Upload a Floor Plan#Augšuplādēt stāvu plānu
+Upload Files#Augšuplādēt failus
+Uploaded by#Lietotājs kurš augšuplādēja
+Usage#Pielietojums
+Use the string 'service'  on the description to display this url on the item edit page#Lietot iezīmi "service” aprakstā, lai parādītu šo adresi, iekārtas rediģēšanas lapā
+use when the top labels have already been printed#izmantot kad augšējās etiķetes jau ir izdrukātas
+User Description#Lietotāja apraksts
+User responsible for this item#Lietotājs kurš atbildīgs par šo lietu
+User#Lietotājs
+Username is missing#Iztrūkst Lietotāja vārda
+Username#Lietotājvārds
+Users are used for both web login and as item assignees#Lietotāji tiks pievienots gan sistēmas pieejai gan lai nozīmētu inventāru
+Users#Lietotāji
+Users, Tags#Lietotāji, Tagi
+Users, Tags, Dates, Currency,...#Lietotāji, Tagi, Valūta
+Value#Vērtība
+Vendor#Pārdevējs
+Vendors#Pārdevēji
+Vendors/Buyers/ Manufacturers#Pārdevēji /Pircēji /Ražotāji
+Version#Versija
+Vert. Pitch#Vert. Pitch
+View items by type, by user, by agent#Skatīt iekārtas pēc veida, pēc lietotāja, pēc aģenta
+View Reports#Skatīt Atskaites
+View#Skatīt
+View/Edit Subtypes#Skatīt / Rediģēt apakštipus
+Warning#Brīdinājums
+Warr. Rem. days#Garantijas </br>Atlikums </br> dienās
+Warranty Info#Garantijas informācija
+Warranty Months#Garantija Mēnešos
+Warranty#Garantija
+Warranty Months#Mēnešos
+Width#Garantija Mēnešos
+Yes#Jā
+Ymd#GMD
+You forgot to select the file?#Vai tu aizmirsi pievienot pielikumu?

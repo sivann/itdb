@@ -2,7 +2,8 @@
 ITDB is a web based asset inventory management tool used to store information 
 about assets found in office environments, with a focus -but not lmited to- 
 IT assets. It is not or targets for ITIL/CMDB compliance (yet), but it has 
-served me for years and hopefully it will do the same for you :-)
+served me for years and hopefully it will do the same for you :-) It is aimed as 
+an intranet tool.
 
 ITDB comes with sources and is distributed under the GNU Public license. 
 
@@ -12,6 +13,9 @@ http://www.sivann.gr/software/itdb/
 # Contributing
 Please consider that my free time is now extremely limited, and so even valid pull requests may not be addressed for a long time.
 
+# Status
+As I no longer have enough time to improve ITDB, I can only provide bug fixes for newer PHP or browser versions. Please do not ask for new features.
+ 
 ## Scope of pull requests
 Thank you for your time to consider contributing. Please take into account ITDB is only an inventory software. It may offer some basic reporting by quering 
 its own data because it may have access to invoices, users and equipment.

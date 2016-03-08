@@ -2,10 +2,21 @@
 
 #don't run this yourselves
 
-version=`grep version ../index.php |head -1|cut -d'"' -f2`
-echo "updating version on database to $version"
-echo "update settings set version='$version';"|sqlite3 ../data/itdb.db 
-echo "update settings set version='$version';"|sqlite3 ../data/pure.db 
+echo ""
+echo "Hope you remembered to:"
+echo "-change dbversion in index.php"
+echo "-apply dbupdates to pure.db"
+echo "-run contrib/gittag"
+echo ""
+
+read -p "Press [Enter] to continue..."
+
+
+#version=`grep version ../index.php |head -1|cut -d'"' -f2`
+version=`cat ../VERSION`
+#echo "updating version on database to $version"
+#echo "update settings set version='$version';"|sqlite3 ../data/itdb.db 
+#echo "update settings set version='$version';"|sqlite3 ../data/pure.db 
 
 echo "Copying to /tmp"
 rm -fr /tmp/itdb
@@ -24,14 +35,5 @@ chown www-data.www-data data/pure.db
 chown www-data.www-data data/files
 
 cd /tmp
-
-echo ""
-echo "Remember to:"
-echo "-change version in index.php"
-echo "-change dbversion in index.php"
-echo "-apply dbupdates to pure.db"
-echo "-run contrib/gittag"
-echo ""
-
 echo "it is ready for tarring in /tmp/itdb. Do a:"
 echo "tar zcf itdb-${version}.tar.gz itdb/ "

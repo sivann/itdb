@@ -254,7 +254,7 @@ if (!$export) {
 		</td>
 <?php
   echo "<td title='H/W Manufacturer'><input style='width:auto' type=text value='$manufacturer' name='manufacturer'></td>";
-  echo "<td title='Model'><input style='width:20em' type=text value='$model' name='model'></td>";
+  echo "<td title='Model'><input style='width:auto' type=text value='$model' name='model'></td>";
   echo "<td title='DNS Name'><input style='width:auto' type=text value='$dnsname' name='dnsname'></td>";
   echo "<td title='Serial #'><input style='width:auto' type=text value='$sn' name='sn'></td>";
   echo "<td title='Corporate Tracking # (Asset Tag)'><input type=text value='$asset' name='asset'></td>";
@@ -383,7 +383,7 @@ $url=http_build_query($get2);
 	$nextlink .=" <img src='../images/next-button.png' width='64' height='25' alt='next' />";
 	}
 //	Show All
-	$alllink .="<a href='$fscriptname?$url&amp;page=all'><br /><img src='../images/view-all-button.gif' width='64' height='25' alt='show all' /></a> ";
+	$alllink .="<a href='$fscriptname?$url&amp;page=all'><img src='../images/view-all-button.gif' width='64' height='25' alt='show all' /></a>";
 ///////////////////////////////////////////////////////////							end, Pagination							///////////////////////////////////////////////////////////
 $t=time();
 $sql="SELECT items.*,agents.title AS agtitle, (purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) AS remdays ".
@@ -478,7 +478,7 @@ $currow++;
 		"\n  <td>".$locations[$r['locationid']]['name']."</td>\n".
 		"\n  <td><center>".$locareas[$r['locareaid']]['areaname']."</center></td>\n".
 		"\n  <td>".$r['agtitle']."&nbsp;</td>".
-		"\n  <td>".$r['model']."</td>".
+		"\n  <td width='auto'><center>".$r['model']."</center></td>".
 		"\n  <td><center>".$r['dnsname']."</center></td>".
 		"\n  <td><center>$sn</center></td>".
 		"\n  <td><center>".$r['asset']."</center></td>".
@@ -609,14 +609,14 @@ else {
     }
 	}?>
 	<?php if ($page >= 1 && $page != "all"){
-		echo $nextlink."<br />";
+		echo $nextlink."<br></br>";
 	}else
 	?>
 	<?php if ($page != "all"){
-		echo $alllink."<br />";
+		echo $alllink;
 	}else
 	?>
-	<a href='<?php echo "$fscriptname?action=$action&amp;export=1"?>'><img src='images/xcel2.jpg' height=25 border=0>Export to Excel
+	<a href='<?php echo "$fscriptname?action=$action&amp;export=1"?>'><img src='images/xcel2.jpg' height=25 border=0>Export to Excel</div>
     
 <?php  ///////////////////////////////////////////////////////////							end, Pagination	Links						///////////////////////////////////////////////////////////?>
 

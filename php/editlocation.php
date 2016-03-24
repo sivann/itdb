@@ -283,11 +283,11 @@ $url=http_build_query($get2);
   echo "\n<button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid=$id\");'>".
      "<img title='delete' src='images/delete.png' border=0> ".t("Delete")." </button>\n";
 
-if ($id >= 1 && $id != "all"){
+if ($id > 1 && $id != "all"){
 		echo $prevlink;
 	}
 
-if ($id >= 1 && $id != "all"){
+if ($id >= 1 && $id != "all" && $id < ceil($totalrows)){
 		echo $nextlink."<br />";
 	}else
 ?>
@@ -317,7 +317,7 @@ if ($id >= 1 && $id != "all"){
 <td>
 <?php 
 if (strlen($r['floorplanfn'])) {
-echo "<a href='".$fuploaddirwww.$r['floorplanfn']."' target='_new'><img style=height:700px; max-width=600; src='".$fuploaddirwww.$r['floorplanfn']."'>";
+echo "<a href='".$fuploaddirwww.$r['floorplanfn']."' target='_new'><img style=max-height:700px;max-width:600px; src='".$fuploaddirwww.$r['floorplanfn']."'>";
 }?>
 </td>
 

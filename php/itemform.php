@@ -10,11 +10,27 @@
     $("#tabs").tabs();
     $("#tabs").show();
 
-    $("#locationid").change(function() {
+    $("#locationid").change(function () {
       var locationid=$(this).val();
       var locareaid=$('#locareaid').val();
-      var dataString = 'locationid='+ locationid;//+'&locareaid='+'<?php echo $locareaid?>';
+      var dataString = 'locationid='+ locationid;
+	  //+'&locareaid='+'<?php echo $locareaid?>';
+/*	  var mapButton=$('#locationid').val(); 
+	  window.alert(mapButton);
+	  */
       //var dataString2 = 'locationid='+ locationid+'&locareaid='+locareaid;
+	  
+
+	  
+	        $.ajax ({
+	  type: "POST",
+	  url: "php/locareaButton_options_ajax.php",
+	  data: dataString,
+	  cache: false,
+	  success: function(html) {
+	    $("#locareaidButton").html(html);
+	  }
+      });
 
       $.ajax ({
 	  type: "POST",
@@ -68,6 +84,13 @@
       });
     });
   });
+  
+	function openWin(image, w, h){
+	var wh='width='+w+',height='+h
+	var tmpPage=window.open('','',wh)
+	tmpPage.document.write('<body style="margin:0;padding:0;"><img src="'+image+'" width="'+w+'" height="'+h+'">')
+	tmpPage.document.close()
+	};
 
 </SCRIPT>
 
@@ -379,17 +402,22 @@ else if ($action=="edititem") {
       </tr>
 
       <tr>
+      
       <?php 
       //location
-      ?>
-      <td class='tdt'><?php echo "<a title='Add New Building' href='$scriptname?action=editlocation&id=new'><img src='images/add.png' alt='+'></a> "; ?><?php te("Location");?>:</td>
+	?>
+    <td class='tdt'>
+	  <?php
+	  echo "  <a title='Add New Building' href='$scriptname?action=editlocation&id=new'><img src='images/add.png' alt='+'></a>"	  ;?>
+	  <?php te("Location");?>:</td>
       <td>
-	<select id='locationid' name='locationid'>
+	<select id='locationid' name='locationid' onchange="locationChange()">
 	<option value=''><?php te("Select");?></option>
 	<?php 
 	foreach ($locations  as $key=>$location ) {
 	  $dbid=$location['id']; 
 	  $itype=$location['name'].", Floor:".$location['floor'];
+	  $mapBtn=$location['floorplanfn'];
 	  $s="";
 	  if (($locationid=="$dbid")) $s=" SELECTED "; 
 	  echo "    <option $s value='$dbid'>$itype</option>\n";
@@ -404,14 +432,19 @@ else if ($action=="edititem") {
       <?php 
       //area
       if (is_numeric($locationid)) {
-	$sql="SELECT * FROM locareas WHERE locationid=$locationid order by areaname";
+	$sql="SELECT locareas.*, locations.floorplanfn FROM locareas JOIN locations ON locareas.locationid = locations.id WHERE locationid=$locationid";
 	$sth=$dbh->query($sql);
 	$locareas=$sth->fetchAll(PDO::FETCH_ASSOC);
       } 
       else 
 	$locareas=array();
       ?>
-      <td class='tdt' class='tdt'><?php te("Area/Room");?>:</td>
+      <td class='tdt' class='tdt'><?php 
+	  	  foreach ($locareas  as $key=>$locarea ) {
+	    $mapButton=$locarea['floorplanfn'];
+		  }
+	  echo "<a id='locareaidButton' title='View Building Floor Map' href='../data/files/$mapButton' target='_blank' onclick='openWin(this.href, 1024, 1024);return false;'><img src='images/bldgmap.png' height=20px width=20px alt='+'></a> ";
+	  te("Area/Room");?>:</td>
       <td>
 	<select id='locareaid' name='locareaid'>
 	  <option value=''><?php te("Select");?></option>
@@ -1291,8 +1324,11 @@ $xx=0;
 </div><!-- tab container -->
 
 
-<table><!-- save buttons -->
+<table width="100%"><!-- save buttons -->
 <tr>
+<td>
+<button type='submit' title="Previous Record"><img title='Previous Record' src='images/prev_rec.png' border=0><?php echo t("&nbsp; Previous Record")?></button>
+</td>
 <td style='text-align: center' colspan=1><button type="submit"><img src="images/save.png" alt="Save" > <?php te("Save");?></button></td>
 <?php 
 if ($id!="new") {
@@ -1305,7 +1341,9 @@ if ($id!="new") {
 else 
   echo "\n<td>&nbsp;</td>";
 ?>
- 
+<td style="text-align:right;">
+<button type='button' title="Next Record"><?php echo t("Next Record &nbsp;")?><img title='Next Record' src='images/next_rec.png' border=0></button>
+</td>
 </tr>
 </table>
 

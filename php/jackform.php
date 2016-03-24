@@ -354,6 +354,7 @@ else if ($action=="editjack") {
 <!-- save buttons -->
 <table>
 <tr>
+<td><?php echo "\n<td style='text-align: center' ><button type='button' onclick='javascript:history.go(-2)\">"."<img title='Back' src='images/delete.png' border=0>".t("<< Back")."</button></td>\n"?>
 <td style='text-align: center' colspan=1><button type="submit"><img src="images/save.png" alt="Save" ><?php te("Save");?></button></td>
 <?php 
 if ($id!="new") {
@@ -361,7 +362,7 @@ if ($id!="new") {
        "<img title='Delete' src='images/delete.png' border=0>".t("Delete")."</button></td>\n";
 
   echo "\n<td style='text-align: center' ><button type='button' onclick='javascript:cloneconfirm(\"Item {$_GET['id']}\",\"$scriptname?action=$action&amp;cloneid={$_GET['id']}\");'>".
-       "<img  src='images/copy.png' border=0>". t("Clone")."</button></td>\n";
+       "<img title='Delete' src='images/copy.png' border=0>". t("Clone")."</button></td>\n";
 } 
 else 
   echo "\n<td>&nbsp;</td>";

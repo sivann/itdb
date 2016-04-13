@@ -96,7 +96,7 @@ $(document).ready(function() {
 <h1>
 <?php te("Items");?> <a title='Old Interface' style='font-size:0.5em' href="?action=listitems2">2</a>
 <a title='<?php te("Add new item");?>' href='<?php echo $scriptname;?>?action=edititem&amp;id=new'><img border=0 src='images/add.png'></a>
-<button style='margin-left:15px;font-weight:normal' class='filterbtn' id='togglefilter' style='font-weight:normal;font-size:1em'><?te("Filter")?></button> 
+<button style='margin-left:15px;font-weight:normal' class='filterbtn' id='togglefilter' style='font-weight:normal;font-size:1em'><?php te("Filter")?></button> 
 </h1>
 
 
@@ -108,7 +108,7 @@ $(document).ready(function() {
 		<?php
 		for ($i1=0;$i1<=20;$i1+=2) {
 		?>
-		<tr id="filter_col_<?=$i1?>" data-column="<?=$i1?>">
+		<tr id="filter_col_<?php echo $i1?>" data-column="<?php echo $i1?>">
 			<td class='col_filt_name'>Name</td>
 			<td align="center"><input type="text" class="column_filter"></td>
 		</tr>
@@ -123,7 +123,7 @@ $(document).ready(function() {
 		<?php
 		for ($i2=1;$i2<=20;$i2+=2) {
 		?>
-		<tr id="filter_col_<?=$i2?>" data-column="<?=$i2?>">
+		<tr id="filter_col_<?php echo $i2?>" data-column="<?php echo $i2?>">
 			<td class='col_filt_name'>Name</td>
 			<td align="center"><input type="text" class="column_filter"></td>
 		</tr>

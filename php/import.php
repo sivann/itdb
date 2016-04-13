@@ -131,7 +131,13 @@ Expected format is CSV file with the following fields:<br>
 
 		$cols=explode($delim,$line);
 		if (count($cols) != $nfields) {
-			echo "<b><big>Error: field count in line $line_num is ".count($cols).", $nfields is expected</big></b>";
+			echo "<b><big style='color:red'>Error: field count in line $line_num is ".count($cols).", $nfields is expected</big></b>";
+			$nextstep=0;
+			break;
+		}
+
+		if (strlen(trim($cols[$name2fno['owner']]))<1) {
+			echo "<b><big style='color:red'>Error: no owner specified in line $line_num</big></b>";
 			$nextstep=0;
 			break;
 		}
@@ -416,7 +422,7 @@ if ($nextstep==2) {
             'function'=>$function,
             )
         );
-		 //echo "<br>Isql=$sql<br>";
+		 echo "<br>Isql=$sql<br>";
 	}
 
 	echo "\n<br><h2>Finished.</h2>\n";

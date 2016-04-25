@@ -324,7 +324,7 @@ global $dbh,$disperr,$err,$_POST;
 
 
   $myid=$_GET['id'];
-  if ($myid != "new" && is_numeric($myid) && (strlen($_POST['sn']) || strlen($_POST['sn2']))) {
+  if ($myid != "new" && is_numeric($myid) && (strlen(trim($_POST['sn'])) || strlen(trim($_POST['sn2'])))) {
 	  $sql="SELECT id from items where  id <> $myid AND ((length(sn)>0 AND sn in ('{$_POST['sn']}', '{$_POST['sn2']}')) OR (length(sn2)>0 AND sn2 in ('{$_POST['sn']}', '{$_POST['sn2']}')))  LIMIT 1";
 	  $sth=db_execute($dbh,$sql);
 	  $dups=$sth->fetchAll(PDO::FETCH_ASSOC);

@@ -809,7 +809,7 @@ else if ($action=="edititem") {
     </h2></td></tr>
     <tr><td colspan=2>
       <div class='scrltblcontainer'>
-      <table width='100%' class='sortable brdr' id='itemslisttbl'>
+      <table width='100%' class='brdr' id='itemslisttbl'>
       <thead><tr><th><?php te("Rel");?></th><th><?php te("ID");?></th><th><?php te("Type");?></th><th><?php te("Manufacturer");?></th>
                  <th><?php te("Model");?></th><th><?php te("Label");?></th><th><?php te("DNS");?></th>
                  <th><?php te("Users");?></th><th><?php te("S/N");?></th></tr></thead>
@@ -1013,7 +1013,7 @@ else {
   $sth=db_execute($dbh,$sql);
   ?>
   <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
-     <table width='100%' class='tbl2 brdr sortable'  id='softwarelisttbl'>
+     <table width='100%' class='tbl2 brdr '  id='softwarelisttbl'>
        <thead>
           <tr><th width='5%'><?php te("Associated");?></th><th><?php te("ID");?></th><th><?php te("Manufacturer");?></th><th><?php te("Title/Ver.");?></th>
           </tr>
@@ -1065,7 +1065,7 @@ $xx=0;
   $sth=db_execute($dbh,$sql);
   ?>
   <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
-     <table width='100%' class='tbl2 brdr sortable'  id='contrlisttbl'>
+     <table width='100%' class='tbl2 brdr '  id='contrlisttbl'>
        <thead>
           <tr><th width='5%'><?php te("Associated");?></th><th><?php te("ID");?></th><th><?php te("Contractor");?></th><th><?php te("Title");?></th>
           </tr>

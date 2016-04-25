@@ -93,7 +93,7 @@ class PDF_Label extends TCPDF{
 		//$this->AddFont('dejavusans','','tahoma.php');
 		//$this->AddFont('dejavusans','B','tahomabd.php');
 
-		$this->SetFont('freesans');
+		$this->SetFont($format['font-family']);
 		//$this->SetFont('dejavusans','B');
 
 		$this->SetMargins(0,0); 
@@ -112,6 +112,7 @@ class PDF_Label extends TCPDF{
 		$this->_Width 		= $this->_Convert_Metric($format['width'], $format['metric']);
 		$this->_Height	 	= $this->_Convert_Metric($format['height'], $format['metric']);
 		$this->Set_Font_Size($format['font-size']);
+		$this->FontFamily	= $format['font-family'];
 		$this->_Padding		= $this->_Convert_Metric(3, 'mm');
 	}
 
@@ -188,7 +189,7 @@ class PDF_Label extends TCPDF{
 		  $txtid=str_replace("\n","",$txtid);
 		  $txtid=preg_replace('/.*ID:([0-9]+).*/','ID:\1 ',$txtid);
 		  $text=preg_replace('/ID:[0-9]+\n/','',$text);
-		  $this->SetFont('freesans','B');
+		  $this->SetFont($this->FontFamily);
 		  $this->SetTextColor(0,0,0); 
 		  $this->Set_Font_Size($idfontsize);
 
@@ -240,7 +241,8 @@ class PDF_Label extends TCPDF{
 
 		if ($raligntext) {
 			//$this->SetXY($_PosX+$barcodesize-2, $Y+$qz-3);
-			$this->SetFont('freesans','B');
+			//$this->SetFont('freesans','B');
+		    $this->SetFont($this->FontFamily,'8');
 			$this->SetXY($_PosX+$barcodesize, $Y+$qz);
 			$this->MultiCell($this->_Width-(2*$padding), $this->_Line_Height, $txtid,0,'L');
 			$this->SetX($_PosX+$barcodesize); //position to the left border, we are now under the logo image hopefully
@@ -249,7 +251,7 @@ class PDF_Label extends TCPDF{
 			$this->SetX($_PosX); //position to the left border, we are now under the logo image hopefully
 		}
 
-		$this->SetFont('freesans');
+	    $this->SetFont($this->FontFamily);
 		$this->SetTextColor(0,0,0); 
 		$this->Set_Font_Size($fontsize);
 

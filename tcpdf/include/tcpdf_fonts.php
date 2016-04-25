@@ -1,13 +1,13 @@
 <?php
 //============================================================+
 // File name   : tcpdf_fonts.php
-// Version     : 1.0.010
+// Version     : 1.1.0
 // Begin       : 2008-01-01
-// Last Update : 2013-11-10
+// Last Update : 2014-12-10
 // Author      : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
 // License     : GNU-LGPL v3 (http://www.gnu.org/copyleft/lesser.html)
 // -------------------------------------------------------------------
-// Copyright (C) 2008-2013 Nicola Asuni - Tecnick.com LTD
+// Copyright (C) 2008-2014 Nicola Asuni - Tecnick.com LTD
 //
 // This file is part of TCPDF software library.
 //
@@ -42,7 +42,7 @@
  * @class TCPDF_FONTS
  * Font methods for TCPDF library.
  * @package com.tecnick.tcpdf
- * @version 1.0.010
+ * @version 1.1.0
  * @author Nicola Asuni - info@tecnick.com
  */
 class TCPDF_FONTS {
@@ -154,7 +154,7 @@ class TCPDF_FONTS {
 				$enc_target = TCPDF_FONT_DATA::$encmap[$enc];
 				$last = 0;
 				for ($i = 32; $i <= 255; ++$i) {
-					if ($enc_target != $enc_ref[$i]) {
+					if ($enc_target[$i] != $enc_ref[$i]) {
 						if ($i != ($last + 1)) {
 							$fmetric['diff'] .= $i.' ';
 						}
@@ -186,7 +186,7 @@ class TCPDF_FONTS {
 			$data .= $encrypted;
 			// store compressed font
 			$fmetric['file'] .= '.z';
-			$fp = fopen($outpath.$fmetric['file'], 'wb');
+			$fp = TCPDF_STATIC::fopenLocal($outpath.$fmetric['file'], 'wb');
 			fwrite($fp, gzcompress($data));
 			fclose($fp);
 			// get font info
@@ -354,6 +354,11 @@ class TCPDF_FONTS {
 			$fmetric['AvgWidth'] = round($fmetric['AvgWidth'] / count($cwidths));
 		} else {
 			// ---------- TRUE TYPE ----------
+			$offset = 0; // offset position of the font data
+			if (TCPDF_STATIC::_getULONG($font, $offset) != 0x10000) {
+				// sfnt version must be 0x00010000 for TrueType version 1.0.
+				return false;
+			}
 			if ($fmetric['type'] != 'cidfont0') {
 				if ($link) {
 					// creates a symbolic link to the existing font
@@ -361,15 +366,10 @@ class TCPDF_FONTS {
 				} else {
 					// store compressed font
 					$fmetric['file'] .= '.z';
-					$fp = fopen($outpath.$fmetric['file'], 'wb');
+					$fp = TCPDF_STATIC::fopenLocal($outpath.$fmetric['file'], 'wb');
 					fwrite($fp, gzcompress($font));
 					fclose($fp);
 				}
-			}
-			$offset = 0; // offset position of the font data
-			if (TCPDF_STATIC::_getULONG($font, $offset) != 0x10000) {
-				// sfnt version must be 0x00010000 for TrueType version 1.0.
-				return false;
 			}
 			$offset += 4;
 			// get number of tables
@@ -435,6 +435,10 @@ class TCPDF_FONTS {
 				$tot_num_glyphs = floor($table['loca']['length'] / 2); // numGlyphs + 1
 				for ($i = 0; $i < $tot_num_glyphs; ++$i) {
 					$indexToLoc[$i] = TCPDF_STATIC::_getUSHORT($font, $offset) * 2;
+					if (isset($indexToLoc[($i - 1)]) && ($indexToLoc[$i] == $indexToLoc[($i - 1)])) {
+						// the last glyph didn't have an outline
+						unset($indexToLoc[($i - 1)]);
+					}
 					$offset += 2;
 				}
 			} else {
@@ -442,6 +446,10 @@ class TCPDF_FONTS {
 				$tot_num_glyphs = floor($table['loca']['length'] / 4); // numGlyphs + 1
 				for ($i = 0; $i < $tot_num_glyphs; ++$i) {
 					$indexToLoc[$i] = TCPDF_STATIC::_getULONG($font, $offset);
+					if (isset($indexToLoc[($i - 1)]) && ($indexToLoc[$i] == $indexToLoc[($i - 1)])) {
+						// the last glyph didn't have an outline
+						unset($indexToLoc[($i - 1)]);
+					}
 					$offset += 4;
 				}
 			}
@@ -792,6 +800,7 @@ class TCPDF_FONTS {
 			}
 			$fmetric['MissingWidth'] = $cw[0];
 			$fmetric['cw'] = '';
+			$fmetric['cbbox'] = '';
 			for ($cid = 0; $cid <= 65535; ++$cid) {
 				if (isset($ctg[$cid])) {
 					if (isset($cw[$ctg[$cid]])) {
@@ -809,7 +818,7 @@ class TCPDF_FONTS {
 			}
 		} // end of true type
 		if (($fmetric['type'] == 'TrueTypeUnicode') AND (count($ctg) == 256)) {
-			$fmetric['type'] == 'TrueType';
+			$fmetric['type'] = 'TrueType';
 		}
 		// ---------- create php font file ----------
 		$pfile = '<'.'?'.'php'."\n";
@@ -876,7 +885,7 @@ class TCPDF_FONTS {
 					$cidtogidmap = self::updateCIDtoGIDmap($cidtogidmap, $cid, $ctg[$cid]);
 				}
 				// store compressed CIDToGIDMap
-				$fp = fopen($outpath.$fmetric['ctg'], 'wb');
+				$fp = TCPDF_STATIC::fopenLocal($outpath.$fmetric['ctg'], 'wb');
 				fwrite($fp, gzcompress($cidtogidmap));
 				fclose($fp);
 			}
@@ -896,13 +905,13 @@ class TCPDF_FONTS {
 		$pfile .= '\'MaxWidth\'=>'.$fmetric['MaxWidth'].',';
 		$pfile .= '\'MissingWidth\'=>'.$fmetric['MissingWidth'].'';
 		$pfile .= ');'."\n";
-		if (isset($fmetric['cbbox'])) {
+		if (!empty($fmetric['cbbox'])) {
 			$pfile .= '$cbbox=array('.substr($fmetric['cbbox'], 1).');'."\n";
 		}
 		$pfile .= '$cw=array('.substr($fmetric['cw'], 1).');'."\n";
 		$pfile .= '// --- EOF ---'."\n";
 		// store file
-		$fp = fopen($outpath.$font_name.'.php', 'w');
+		$fp = TCPDF_STATIC::fopenLocal($outpath.$font_name.'.php', 'w');
 		fwrite($fp, $pfile);
 		fclose($fp);
 		// return TCPDF font name
@@ -1140,7 +1149,7 @@ class TCPDF_FONTS {
 								$subsetglyphs[$g] = true;
 							}
 						}
-					}
+					}	
 					break;
 				}
 				case 6: { // Format 6: Trimmed table mapping
@@ -1481,6 +1490,171 @@ class TCPDF_FONTS {
 		return '/W ['.$w.' ]';
 	}
 
+
+
+
+	/**
+	 * Update the CIDToGIDMap string with a new value.
+	 * @param $map (string) CIDToGIDMap.
+	 * @param $cid (int) CID value.
+	 * @param $gid (int) GID value.
+	 * @return (string) CIDToGIDMap.
+	 * @author Nicola Asuni
+	 * @since 5.9.123 (2011-09-29)
+	 * @public static
+	 */
+	public static function updateCIDtoGIDmap($map, $cid, $gid) {
+		if (($cid >= 0) AND ($cid <= 0xFFFF) AND ($gid >= 0)) {
+			if ($gid > 0xFFFF) {
+				$gid -= 0x10000;
+			}
+			$map[($cid * 2)] = chr($gid >> 8);
+			$map[(($cid * 2) + 1)] = chr($gid & 0xFF);
+		}
+		return $map;
+	}
+
+	/**
+	 * Return fonts path
+	 * @return string
+	 * @public static
+	 */
+	public static function _getfontpath() {
+		if (!defined('K_PATH_FONTS') AND is_dir($fdir = realpath(dirname(__FILE__).'/../fonts'))) {
+			if (substr($fdir, -1) != '/') {
+				$fdir .= '/';
+			}
+			define('K_PATH_FONTS', $fdir);
+		}
+		return defined('K_PATH_FONTS') ? K_PATH_FONTS : '';
+	}
+
+
+
+	/**
+	 * Return font full path
+	 * @param $file (string) Font file name.
+	 * @param $fontdir (string) Font directory (set to false fto search on default directories)
+	 * @return string Font full path or empty string
+	 * @author Nicola Asuni
+	 * @since 6.0.025
+	 * @public static
+	 */
+	public static function getFontFullPath($file, $fontdir=false) {
+		$fontfile = '';
+		// search files on various directories
+		if (($fontdir !== false) AND @file_exists($fontdir.$file)) {
+			$fontfile = $fontdir.$file;
+		} elseif (@file_exists(self::_getfontpath().$file)) {
+			$fontfile = self::_getfontpath().$file;
+		} elseif (@file_exists($file)) {
+			$fontfile = $file;
+		}
+		return $fontfile;
+	}
+
+
+
+
+	/**
+	 * Get a reference font size.
+	 * @param $size (string) String containing font size value.
+	 * @param $refsize (float) Reference font size in points.
+	 * @return float value in points
+	 * @public static
+	 */
+	public static function getFontRefSize($size, $refsize=12) {
+		switch ($size) {
+			case 'xx-small': {
+				$size = ($refsize - 4);
+				break;
+			}
+			case 'x-small': {
+				$size = ($refsize - 3);
+				break;
+			}
+			case 'small': {
+				$size = ($refsize - 2);
+				break;
+			}
+			case 'medium': {
+				$size = $refsize;
+				break;
+			}
+			case 'large': {
+				$size = ($refsize + 2);
+				break;
+			}
+			case 'x-large': {
+				$size = ($refsize + 4);
+				break;
+			}
+			case 'xx-large': {
+				$size = ($refsize + 6);
+				break;
+			}
+			case 'smaller': {
+				$size = ($refsize - 3);
+				break;
+			}
+			case 'larger': {
+				$size = ($refsize + 3);
+				break;
+			}
+		}
+		return $size;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ====================================================================================================================
+// REIMPLEMENTED
+// ====================================================================================================================
+
+
+
+
+
+
+
+
 	/**
 	 * Returns the unicode caracter specified by the value
 	 * @param $c (int) UTF-8 value
@@ -1603,9 +1777,9 @@ class TCPDF_FONTS {
 	 */
 	public static function UTF8ArrayToUniArray($ta, $isunicode=true) {
 		if ($isunicode) {
-			return array_map(array('self', 'unichrUnicode'), $ta);
+			return array_map(array('TCPDF_FONTS', 'unichrUnicode'), $ta);
 		}
-		return array_map(array('self', 'unichrASCII'), $ta);
+		return array_map(array('TCPDF_FONTS', 'unichrASCII'), $ta);
 	}
 
 	/**
@@ -1652,64 +1826,6 @@ class TCPDF_FONTS {
 			$string .= $uniarr[$i];
 		}
 		return $string;
-	}
-
-	/**
-	 * Update the CIDToGIDMap string with a new value.
-	 * @param $map (string) CIDToGIDMap.
-	 * @param $cid (int) CID value.
-	 * @param $gid (int) GID value.
-	 * @return (string) CIDToGIDMap.
-	 * @author Nicola Asuni
-	 * @since 5.9.123 (2011-09-29)
-	 * @public static
-	 */
-	public static function updateCIDtoGIDmap($map, $cid, $gid) {
-		if (($cid >= 0) AND ($cid <= 0xFFFF) AND ($gid >= 0)) {
-			if ($gid > 0xFFFF) {
-				$gid -= 0x10000;
-			}
-			$map[($cid * 2)] = chr($gid >> 8);
-			$map[(($cid * 2) + 1)] = chr($gid & 0xFF);
-		}
-		return $map;
-	}
-
-	/**
-	 * Return fonts path
-	 * @return string
-	 * @public static
-	 */
-	public static function _getfontpath() {
-		if (!defined('K_PATH_FONTS') AND is_dir($fdir = realpath(dirname(__FILE__).'/../fonts'))) {
-			if (substr($fdir, -1) != '/') {
-				$fdir .= '/';
-			}
-			define('K_PATH_FONTS', $fdir);
-		}
-		return defined('K_PATH_FONTS') ? K_PATH_FONTS : '';
-	}
-
-	/**
-	 * Return font full path
-	 * @param $file (string) Font file name.
-	 * @param $fontdir (string) Font directory (set to false fto search on default directories)
-	 * @return string Font full path or empty string
-	 * @author Nicola Asuni
-	 * @since 6.0.025
-	 * @public static
-	 */
-	public static function getFontFullPath($file, $fontdir=false) {
-		$fontfile = '';
-		// search files on various directories
-		if (($fontdir !== false) AND @file_exists($fontdir.$file)) {
-			$fontfile = $fontdir.$file;
-		} elseif (@file_exists(self::_getfontpath().$file)) {
-			$fontfile = self::_getfontpath().$file;
-		} elseif (@file_exists($file)) {
-			$fontfile = $file;
-		}
-		return $fontfile;
 	}
 
 	/**
@@ -1882,7 +1998,7 @@ class TCPDF_FONTS {
 		if ($isunicode) {
 			// requires PCRE unicode support turned on
 			$chars = TCPDF_STATIC::pregSplit('//','u', $str, -1, PREG_SPLIT_NO_EMPTY);
-			$carr = array_map(array('self', 'uniord'), $chars);
+			$carr = array_map(array('TCPDF_FONTS', 'uniord'), $chars);
 		} else {
 			$chars = str_split($str);
 			$carr = array_map('ord', $chars);
@@ -2524,55 +2640,6 @@ class TCPDF_FONTS {
 			$currentfont['subsetchars'][$cd['char']] = true;
 		}
 		return $ordarray;
-	}
-
-	/**
-	 * Get a reference font size.
-	 * @param $size (string) String containing font size value.
-	 * @param $refsize (float) Reference font size in points.
-	 * @return float value in points
-	 * @public static
-	 */
-	public static function getFontRefSize($size, $refsize=12) {
-		switch ($size) {
-			case 'xx-small': {
-				$size = ($refsize - 4);
-				break;
-			}
-			case 'x-small': {
-				$size = ($refsize - 3);
-				break;
-			}
-			case 'small': {
-				$size = ($refsize - 2);
-				break;
-			}
-			case 'medium': {
-				$size = $refsize;
-				break;
-			}
-			case 'large': {
-				$size = ($refsize + 2);
-				break;
-			}
-			case 'x-large': {
-				$size = ($refsize + 4);
-				break;
-			}
-			case 'xx-large': {
-				$size = ($refsize + 6);
-				break;
-			}
-			case 'smaller': {
-				$size = ($refsize - 3);
-				break;
-			}
-			case 'larger': {
-				$size = ($refsize + 3);
-				break;
-			}
-		}
-		return $size;
 	}
 
 } // END OF TCPDF_FONTS CLASS

@@ -39,7 +39,9 @@ $pdf=new PDF_Label(array(
   'SpaceY'=>($vpitch-$lheight),
   'width'=>$lwidth,
   'height'=>$lheight,
-  'font-size'=>$fontsize));
+  'font-size'=>$fontsize,
+  'font-family'=>$tcpdf_font, 
+  ));
 
 $pdf->AddPage();
 $pdf->SetAuthor('ITDB Asset Management');

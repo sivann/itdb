@@ -812,7 +812,8 @@ else if ($action=="edititem") {
       <table width='100%' class='brdr' id='itemslisttbl'>
       <thead><tr><th><?php te("Rel");?></th><th><?php te("ID");?></th><th><?php te("Type");?></th><th><?php te("Manufacturer");?></th>
                  <th><?php te("Model");?></th><th><?php te("Label");?></th><th><?php te("DNS");?></th>
-                 <th><?php te("Users");?></th><th><?php te("S/N");?></th></tr></thead>
+                 <th><?php te("Users");?></th><th><?php te("S/N");?></th></tr>
+	  </thead>
       <tbody>
 <?php 
 //////////////////////////////////////////////

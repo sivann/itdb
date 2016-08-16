@@ -123,6 +123,17 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
     db_exec($dbh,$sql);
   }
 
+  // user relations
+  if (!isset($_POST['userlnk'])) $userlnk=array();
+  //update software - item links (installed into)
+  //remove old links for this object
+  $sql="delete from users2soft where softid=$id";
+  db_exec($dbh,$sql);
+  //add new links for each checked checkbox
+  for ($i=0;$i<count($userlnk);$i++) {
+    $sql="INSERT into users2soft (softid,userid) values ($id,".$userlnk[$i].")";
+    db_exec($dbh,$sql);
+  }
 
   //invoice relations
   if (!isset($_POST['invlnk'])) $invlnk=array();
@@ -209,6 +220,7 @@ else
   <ul>
   <li><a href="#tab1"><?php te("Software Data");?></a></li>
   <li><a href="#tab2"><?php te("Item Associations");?></a></li>
+  <li><a href="#tab6"><?php te("User Associations");?></a></li>
   <li><a href="#tab3"><?php te("Invoice Associations");?></a></li>
   <li><a href="#tab4"><?php te("Contract Associations");?></a></li>
   <li><a href="#tab5"><?php te("Upload Files");?></a></li>
@@ -296,12 +308,27 @@ else
   if ($lictype=="1") {$t1="checked";$t0="";$t2="";}
   if ($lictype=="2") {$t2="checked";$t0="";$t1="";}
   ?>
-    <tr>
+ <tr>
     <td class='tdt'>License Per:</td>
     <td>
-    <input style='width:10%' type=radio <?php echo $t0?> name='lictype' value='0'>Box
-    <input style='width:10%' type=radio <?php echo $t1?> name='lictype' value='1'>CPU
-    <input style='width:10%' type=radio <?php echo $t2?> name='lictype' value='2'>Core
+        <table>
+            <tr>
+                <td>
+                    <input style='width:10%' type='radio' <?php echo $t0?> name='lictype' value='0'/>Box
+                </td>
+                <td>
+                    <input style='width:10%' type='radio' <?php echo $t1?> name='lictype' value='1'/>CPU
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input style='width:10%' type='radio' <?php echo $t2?> name='lictype' value='2'/>Core
+                </td>
+                <td>
+                    <input style='width:10%' type='radio' <?php echo $t3?> name='lictype' value='3'/>User
+                </td>
+            </tr>
+        </table>
     </td>
     </tr>
 

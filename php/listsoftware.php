@@ -67,14 +67,19 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   foreach($r as $k => $v) { ${$k} = $v; } // get all columns as variables
 
   //print a table row
+  if ($lictype<3) {
   $sql="SELECT items.id i_id, status,manufacturerid,model,dnsname,cpuno,corespercpu from items,item2soft ".
        " where item2soft.itemid=items.id  AND item2soft.softid={$r['id']}";
+  } else {
+  $sql="SELECT users.id i_id, userdesc from users,users2soft ".
+       " where users2soft.userid=users.id  AND users2soft.softid={$r['id']}";
+  }
   $sthi=db_execute($dbh,$sql);
   $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
   $nitems=count($ri);
   $institems="";
   $licitems=0;
-
+  
   for ($i=0;$i<$nitems;$i++) {
     $rstatus=(int)$ri[$i]['status'];
     if ($rstatus==1) { $attr="style='background-color:green;font-weight:bold;color:#efefef' title='Status: Stored'"; }
@@ -82,17 +87,23 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
     elseif ($rstatus==3) { $attr="style='background-color:#cecece;font-weight:bold;' title='Status: Obsolete'"; }
     else { $attr=" title='Status: In Use' "; }
 
+    if ($lictype<3) {
     $x=($i+1).": <span $attr >({$ri[$i]['i_id']}) </span>".$agents[$ri[$i]['manufacturerid']]['title']." ".$ri[$i]['model']." ".$ri[$i]['dnsname'];
-
+    $action = 'edititem';
+    } else {
+    $x=($i+1).": <span $attr >({$ri[$i]['i_id']}) </span>".$ri[$i]['userdesc'];
+    $action = 'edituser';
+    }
     if ($i%2) $bcolor="#D9E3F6";
     //if ($i%2) $bcolor="#ECF1FB";
     else $bcolor="#ffffff";
     $institems.="<div style='margin:0;padding:0;background-color:$bcolor'>".
-                "<a href='$scriptname?action=edititem&amp;id={$ri[$i]['i_id']}'>$x</a></div>";
+                "<a href='$scriptname?action=$action&amp;id={$ri[$i]['i_id']}'>$x</a></div>";
 
     if (empty($lictype) || $lictype==0) { $licitems++; } //per box
     elseif ($lictype==1) { $licitems+=$ri[$i]['cpuno']; } //per cpu
     elseif ($lictype==2) { $licitems+=$ri[$i]['cpuno']*$ri[$i]['corespercpu']; } //per core
+    elseif ($lictype==3) { $licitems++; } //per user
   }//items
 
 
@@ -128,7 +139,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   if ($licqty<$licitems) $style="style='font-weight:bold;color:red'";
   elseif ($licqty==$licitems) $style="style='font-weight:normal;color:black'";
   elseif ($licqty>$licitems) $style="style='font-weight:bold;color:#00aa00'";
-
+ 
   $mend=strlen($maintend)?date($dateparam,$maintend):"";
   $mendkey=strlen($maintend)?date("Ymd",$maintend):"0";
   $d=strlen($purchdate)?date($dateparam,$purchdate):"";

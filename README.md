@@ -51,7 +51,7 @@ if the answer is no to at least one of the above then probably you don't need th
 Any pull requests fixing the following would be welcome. Please open a discussion before starting to code.
 
 ### Major contributions
-* rewrite the DB requests using PDO
+* rewrite the DB requests using PDO (and prepared statements)
 * rewrite the item associations tables using datatables with server-side AJAX
 * update datatables to the most recent version
 * rewrite the front controller and auth using a framework (e.g. slim)

@@ -16,6 +16,9 @@ Please consider that my free time is now extremely limited, and so even valid pu
 # Status
 As I no longer have enough time to improve ITDB, I can only provide bug fixes for newer PHP or browser versions. Please do not ask for new features.
  
+# Security
+Do *NOT* expose ITDB to the public internet. It is not secure, it is aimed for intranets. If you need to do so, please configure an HTTP auth password on your web server so it will be hidden behind a password.
+ 
 ## Scope of pull requests
 Thank you for your time to consider contributing. Please take into account ITDB is only an inventory software. It may offer some basic reporting by quering 
 its own data because it may have access to invoices, users and equipment.

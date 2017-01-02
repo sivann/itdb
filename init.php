@@ -201,7 +201,7 @@ if (!$demomode ) {
   }
   elseif (isset($_POST['authusername'])){ //logging in
        $username=$_POST['authusername'];
-       $password=$_POST['authpassword'];
+       $password=hash("sha256", $_POST['authpassword'];
 
         if ($settings['useldap'] && $username != 'admin') {
             $r=connect_to_ldap_server($settings['ldap_server'],$username,$password,$settings['ldap_dn']);

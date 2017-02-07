@@ -149,6 +149,27 @@ if (isset($_POST['itemtypeid']) && ($_GET['id']!="new") && isvalidfrm()) {
   $sql="UPDATE items set $set WHERE id=$id";
   db_exec($dbh,$sql); 
 
+  //update IP from DNS when usedns and autoupdate = 1
+  $dns_usage=usedns();
+  $dns_update=dns_autoupdate();
+  if(($dns_usage) && ($dns_update))
+  {
+      //Get new DNS Name for IP lookup (necessary when dnsname of item changed)
+      $sql ="SELECT dnsname FROM items where id=$id";
+      $sth=db_execute($dbh,$sql);
+      $r=$sth->fetch(PDO::FETCH_ASSOC);
+      $newdnsname=$r['dnsname'];
+
+      //Get IP for (new) hostname
+      $newipv4 = getipv4fromdns($newdnsname);
+      //Make sure valid IP address is found and if yes update it
+      if(!(is_array($newipv4))) {
+        //Update new IPv4 for item
+        $sql="UPDATE items SET ipv4='$newipv4' WHERE id=$id";
+        db_exec($dbh,$sql);
+      }
+  }
+
   //Add new action entry
   //if not exists already for today
   $sql="SELECT itemid,entrydate,description, isauto FROM actions WHERE itemid='$id' ORDER BY entrydate DESC LIMIT 1";

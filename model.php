@@ -651,4 +651,49 @@ function dbversion() {
   $ver=$r['dbversion'];
   return $ver;
 }
+
+function usedns() {
+  global $dbh;
+
+  $sql="SELECT * from settings";
+  $sth=db_execute($dbh,$sql);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  $sth->closeCursor();
+  $usedns=$r['usedns'];
+  return $usedns;
+}
+
+function dns_servers() {
+  global $dbh;
+
+  $sql="SELECT * from settings";
+  $sth=db_execute($dbh,$sql);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  $sth->closeCursor();
+  $dns_servers=$r['dns_servers'];
+  return $dns_servers;
+}
+
+function dns_suffix() {
+  global $dbh;
+
+  $sql="SELECT * from settings";
+  $sth=db_execute($dbh,$sql);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  $sth->closeCursor();
+  $dns_suffix=$r['dns_suffix'];
+  return $dns_suffix;
+}
+
+function dns_autoupdate() {
+  global $dbh;
+
+  $sql="SELECT * from settings";
+  $sth=db_execute($dbh,$sql);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  $sth->closeCursor();
+  $dns_autoupdate=$r['dns_autoupdate'];
+  return $dns_autoupdate;
+}
+
 ?>

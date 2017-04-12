@@ -121,6 +121,7 @@ for ($row=1;$row<=$rows;$row++) {
 	if ($wantnotext) {
 		$headertext='';
 		$labeltext='';
+		$image="";
 	}
     
 

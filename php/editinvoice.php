@@ -87,8 +87,8 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update invoice
   $d=ymd2sec($date);
 
   if ($_POST['id']=="new")  {//if we came from a post (save) then add invoice 
-    $sql="INSERT into invoices (vendorid,buyerid,number,description,date)".
-         " VALUEs ('$vendorid','$buyerid','$number','$description','$d')";
+    $sql="INSERT into invoices (vendorid,buyerid,number,inv_total,description,date)".
+         " VALUEs ('$vendorid','$buyerid','$number','$inv_total','$description','$d')";
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
     print "\n<br><b>Added Invoice <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>\n";
@@ -97,7 +97,7 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update invoice
   }
   else {
     $sql="UPDATE invoices SET vendorid='$vendorid', buyerid='$buyerid', ".
-       " number='$number', description='$description', date='$d' WHERE id=$id";
+       " number='$number', inv_total='$inv_total',description='$description', date='$d' WHERE id=$id";
     db_exec($dbh,$sql);
   }
 
@@ -153,7 +153,7 @@ $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 if (($id !="new") && (count($r)<5)) {echo "ERROR: non-existent ID";exit;}
 
-$number=$r['number'];$date=$r['date'];$vendorid=$r['vendorid'];$buyerid=$r['buyerid'];$description=$r['description'];
+$number=$r['number'];$date=$r['date'];$vendorid=$r['vendorid'];$buyerid=$r['buyerid'];$inv_total=$r['inv_total'];$description=$r['description'];
 
 echo "\n<form id='mainform' method=post  action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
 
@@ -266,7 +266,7 @@ else
 	  <td class="tdt"><?php te("Date");?>*:</td> <td><input  class='dateinp mandatory' validate='required:true' size=10 id='date' title='<?php echo $datetitle?>' type=text name='date' value='<?php echo $d?>'>
 	  </td>
       </tr>
-
+      	<tr><td class="tdt"><?php te("Total (");?><?php echo $settings['currency']?>):</td> <td><input class='inv_total' validate='required:false' size=10 type=text name='inv_total' value="<?php echo $inv_total?>"></td></tr> 
       <tr><td class="tdt"><?php te("Description");?>:</td> <td colspan=2> <textarea name='description' class='tarea2' wrap='soft'><?php echo $description?></textarea> </td></tr>
 
       </table>
@@ -486,7 +486,7 @@ else
   //////////////////////////////////////////////
   //connect to Items
   $sql=" SELECT COALESCE((SELECT contractid FROM contract2inv WHERE invid='$id' AND contractid=contracts.id ),0) islinked , ".
-       " contracts.id, contracts.title AS ctitle, agents.title AS agtitle  ".
+       " contracts.id, contracts.title AS ctitle, contracts.number AS cnumber, agents.title AS agtitle  ".
        " FROM contracts,agents WHERE agents.id=contracts.contractorid ".
        " ORDER BY islinked desc,contractorid,ctitle";
   $sth=db_execute($dbh,$sql);
@@ -494,7 +494,7 @@ else
   <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
      <table width='100%' class='tbl2 brdr sortable'  id='contrlisttbl'>
        <thead>
-          <tr><th width='5%'><?php te("Associated");?></th><th><?php te("ID");?></th><th><?php te("Contractor");?></th><th><?php te("Title");?></th>
+          <tr><th width='5%'><?php te("Associated");?></th><th><?php te("ID");?></th><th><?php te("Contractor");?></th><th><?php te("Contract Number");?></th><th><?php te("Title");?></th>
           </tr>
         </thead>
         <tbody>
@@ -515,6 +515,7 @@ else
     echo $ir['id'];
     echo "</a></td>".
      "<td $cls>".$ir['agtitle'].  "&nbsp;</td>".
+     "<td $cls>".$ir['cnumber'].  "&nbsp;</td>".
      "<td $cls>".$ir['ctitle']."&nbsp;</td></tr>\n";
   }
   ?>
@@ -534,7 +535,7 @@ else
       <!-- file upload -->
       <tr><td class="tdc">
       <iframe class="upload_frame" name="upload_frame" 
-	    src="php/uploadframe.php?id=<?php echo $id?>&amp;type=invoice&amp;assoctable=invoice2file&amp;colname=invoiceid&amp;defdate=<?php echo urlencode($d)?>"  
+	    src="php/uploadframe.php?id=<?php echo $id?>&amp;assoctable=invoice2file&amp;colname=invoiceid&amp;defdate=<?php echo urlencode($d)?>"  
 	    frameborder="0" allowtransparency="true"></iframe>
       </td>
       </tr>

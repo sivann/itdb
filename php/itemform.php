@@ -180,7 +180,7 @@ else if ($action=="edititem") {
 
     ?>
       <td class='tdt'><?php te("Is Part");?>:<sup class='red'>*</sup></td>
-      <td title='Select yes for parts/components'>
+      <td title='<?php te("Select yes for parts or components");?>'>
       <div class='mandatory'>
 	<input  validate='required:true' <?php echo $y?> class='radio' type=radio name='ispart' value='1'><?php te("Yes");?>
 	<input  class='radio' type=radio <?php echo $n?> name='ispart' value='0'><?php te("No");?>
@@ -245,7 +245,7 @@ else if ($action=="edititem") {
     <?php 
     //usize
     ?>
-      <td class='tdt' class='tdt'><?php te("Size (U)");?>:</td><td>
+      <td class='tdt' class='tdt' <?php te("Size (U)");?>:</td><td>
       <select name='usize'>
       <option value=''><?php te("Select");?></option>
 
@@ -411,7 +411,7 @@ else if ($action=="edititem") {
 	}); 
       </script>
 
-      Rack:</td>
+      <?php te("Rack");?>:</td>
       <td>
       <select id='rackid' name='rackid'>
       <option value=''><?php te("Select");?></option>
@@ -500,13 +500,13 @@ else if ($action=="edititem") {
       </tr>
       <tr> <td class='tdt'><?php te("Warranty&nbsp;Months");?>:</td><td><input type=text size=15 value='<?php echo $warrantymonths?>' name='warrantymonths'></td> </tr>
       <tr><td class="tdt"><?php te("Warranty Info");?>:</td> <td><input  size=12 type=text name='warrinfo' value="<?php echo $warrinfo?>"></td></tr>
-      <tr><tr><td colspan=2 style='padding-top:10px'><h3>Misc</h3></td> </tr>
-      <tr><td class='tdt'><?php te("HDs (TB)");?></td><td  title='Comma separated. E.g. Enter "2, 0.6" for 1x2T+1x600G'><input type=text size=15 value='<?php echo $hd?>' name='hd'></td> </tr>
+      <tr><tr><td colspan=2 style='padding-top:10px'><h3><?php te("Misc");?></h3></td> </tr>
+      <tr><td class='tdt'><?php te("HDs (TB)");?>:</td><td  title='Comma separated. E.g. Enter "2, 0.6" for 1x2T+1x600G'><input type=text size=15 value='<?php echo $hd?>' name='hd'></td> </tr>
       <tr><td class='tdt' class='tdt'><?php te("RAM (GB)");?>:</td><td><input type=text size=15 value='<?php echo $ram?>' name='ram'></td> </tr>
       <tr><td class='tdt' class='tdt'><?php te("CPU Model");?>:</td><td title='e.g. Intel E5450'><input type=text size=15 value='<?php echo $cpu?>' name='cpu'></td> </tr>
 
-      <tr><td class='tdt' class='tdt' title='Number of installed CPUs (used for licensing)'><?php te("# CPUs");?>:</td>
-	  <td title='Number of installed CPUs (used for licensing)'>
+      <tr><td class='tdt' class='tdt' title='<?php te("Number of installed CPUs (used for licensing)");?>'><?php te("CPUs");?>:</td>
+	  <td title='<?php te("Number of installed CPUs (used for licensing)");?>'>
 	  <select name='cpuno'>
 	  <option value='0'><?php te("Select");?></option>
 	<?php 
@@ -540,10 +540,10 @@ else if ($action=="edititem") {
       <table border='0' class=tbl2> <!-- 3-Network -->
       <tr><td colspan=2 ><h3><?php te("Network");?></h3></td></tr>
       <tr> <td class='tdt'><?php te("DNS Name");?>:</td><td><input type=text size=15 value='<?php echo $dnsname?>' name='dnsname'></td> </tr>
-      <tr> <td class='tdt'>MACs:</td><td><input type=text size=15 value='<?php echo $macs?>' name='macs'></td> </tr>
-      <tr> <td class='tdt'>IPv4:</td><td><input type=text size=15 value='<?php echo $ipv4?>' name='ipv4'></td> </tr>
-      <tr> <td class='tdt'>IPv6:</td><td><input type=text size=15 value='<?php echo $ipv6?>' name='ipv6'></td> </tr>
-      <tr> <td class='tdt'>Rem.Adm.IP:</td><td title='<?php te("Remote Administration IP");?>'><input type=text size=15 value='<?php echo $remadmip?>' name='remadmip'></td> </tr>
+      <tr> <td class='tdt'><?php te("MACs");?>:</td><td><input type=text size=15 value='<?php echo $macs?>' name='macs'></td> </tr>
+      <tr> <td class='tdt'><?php te("IPv4");?>:</td><td><input type=text size=15 value='<?php echo $ipv4?>' name='ipv4'></td> </tr>
+      <tr> <td class='tdt'><?php te("IPv6");?>:</td><td><input type=text size=15 value='<?php echo $ipv6?>' name='ipv6'></td> </tr>
+      <tr> <td class='tdt'><?php te("Rem.Adm.IP");?>:</td><td title='<?php te("Remote Administration IP");?>'><input type=text size=15 value='<?php echo $remadmip?>' name='remadmip'></td> </tr>
       <tr> <td class='tdt'><?php te("Ptch.PnlPrt");?>:</td><td title='<?php te("Patch Panel Port");?>'><input type=text size=15 value='<?php echo $panelport?>' name='panelport'></td> </tr>
 
       <tr>
@@ -705,7 +705,7 @@ else if ($action=="edititem") {
 
     <!-- tags -->
     <td class='tdtop' colspan=1>
-      <h3>Tags <span title='Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the "Tags" menu for that.' style='font-weight:normal;font-size:70%'>(<a class="edit-tags" href="">edit tags</a>)</span></h3>
+      <h3><?php te("Tags");?> <span title='Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the "Tags" menu for that.' style='font-weight:normal;font-size:70%'>(<a class="edit-tags" href=""><?php te("edit tags");?></a>)</span></h3>
       
       <?php 
       echo showtags("item",$id);
@@ -803,8 +803,8 @@ else if ($action=="edititem") {
 <div id='tab2' class='tab_content'><!-- Associations -->
 
   <table border='0' class='tbl2' style='width:100%;border-bottom:1px solid #cecece'><!-- connect to other items -->
-    <tr><td colspan=2 title='Add hierarchical or sibling relations to: parts, cards, monitors, et.c.'><h2>Connected To<sup>1</sup>
-    <input style='color:#909090' id="itemsfilter" name="itemsfilter" value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+    <tr><td colspan=2 title='<?php te("Add hierarchical or sibling relations to: parts, cards, monitors, et.c.");?>'><h2><?php te("Connected To");?><sup>1</sup>
+    <input style='color:#909090' id="itemsfilter" name="itemsfilter" value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
       <span style='font-weight:normal;' class='nres'></span>
     </h2></td></tr>
     <tr><td colspan=2>
@@ -896,7 +896,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
     <tr>
     <td colspan=2 style='text-align:center;' title='Select invoice(s) related to this item'>
       <h2>
-      <input style='color:#909090' id="invoicefilter" name="invoicefilter" value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+      <input style='color:#909090' id="invoicefilter" name="invoicefilter" value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
       <span style='font-weight:normal;' class='nres'></span>
       </h2>
     </td>
@@ -1001,7 +1001,7 @@ else {
 
 <div id='tab5' class='tab_content'>
   <h2><input style='color:#909090' id="softfilter" name="softfilter" class='filter' 
-             value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+             value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
       <span style='font-weight:normal;' class='nres'></span>
   </h2>
   <?php 
@@ -1053,7 +1053,7 @@ $xx=0;
 <div id='tab6' class='tab_content'>
 
   <h2><input style='color:#909090' id="contrfilter" name="contrfilter" class='filter' 
-             value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+             value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
       <span style='font-weight:normal;' class='nres'></span>
   </h2>
   <?php 

@@ -46,10 +46,12 @@ Associated Files #管理文件
 Associated Files#关联文件
 Associated Items#关联硬件
 Associated Software#关联软件
-Associated#关联于
+Associated#关联
 Associations (items/racks)#关联（硬件/机架）
 Associations Overview#关联概览
 Associations#关联
+Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#添加层级关系：例如板卡、零件、部件、配件、显示器，等等
+Action Date#接收日期
 Barcode Size#硬件大小
 Blank passwords prohibit login#禁止空密码登录
 Border Color (0-255)#边框颜色（0-255）
@@ -66,7 +68,7 @@ Click on Item count column on the left to display associated items#点击左侧�
 Click on Software count column on the left to display associated software#点击左侧的软件数量列来显示关联的软件
 Click 'Show Labels'#点击'显示标签'
 Clone#复制
-Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor & Buyer</u>: will be listed in invoices & Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Cntrl+Click 为代理选取多个角色 <br><br><u>供应商 & 采购者</u>: 将显示在 单据 & 合同 <br><br><u>硬件厂商.</u>: 将在编辑硬件时显示 <br><br><u>软件厂商.</u>: 将在编辑软件时显示 <br><br><u>承揽人</u>: 将在合同中显示
+Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor & Buyer</u>: will be listed in invoices & Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Cntrl+Click 为代理选取多个角色 <br><br><u>供应商 & 采购者</u>: 将显示在 单据 & 合同 <br><br><u>硬件厂商.</u>: 将在编辑硬件时显示 <br><br><u>软件厂商.</u>: 将在编辑软件时显示 <br><br><u>乙方</u>: 将在合同中显示
 Cntrl+Click to select multiple roles for an agent#Cntrl+Click 为代理选取多个角色
 Columns#列
 Comments#注释
@@ -86,16 +88,19 @@ Contract Properties#合同属性
 Contract Title is missing#缺少合同名称
 Contract Type is missing#缺少合同类型
 Contract Types#合同类型
-Contractor is missing#缺少承揽人
-Contractor#承揽人
+Contractor is missing#缺少乙方
+Contractor#乙方
 Contracts#合同
 CONTRACTS#合同
+CPUs#CPU数量
+Number of installed CPUs (used for licensing)#安装的CPU数量（使用时授权）
 Cores per CPU (used for licensing)#单颗CPU核数(授权时使用)
-Cores/CPU#核数/颗树
+Cores/CPU#CPU/核芯数
 CPU Model#CPU型号
 Currency#货币
 Current End Date of contract is missing#缺少合同当前结束日期
 Current EndDate#当前结束日期
+Connected To#连接到
 Data Browser#数据浏览
 Date Entered#进入日期
 Date Format#日期格式
@@ -108,7 +113,7 @@ Depth of rack occupation. (F)ront, (M)iddle, (B)ack#占用机架深度。 (F)前
 Depth#深度
 describe the purpose of this item#描述该硬件的用途
 Description#描述
-DNS Name#DNS 名称
+DNS Name#主机名
 DNS#DNS
 DnsName#Dns名称
 Do you really want to remove this row?#您确定要删除这条记录么？
@@ -121,13 +126,14 @@ Download#下载
 e.g. like donator, etc. Vendor info is best to be provided in the related invoice#诸如捐赠者、供应商之类信息最好在相关单据中录入
 Edit Contract Types#修改合同类型
 Edit File Types#修改文件类型
-Edit ID#修改编号
+Edit ID#编号
 Edit Item Types#修改硬件类型
 Edit Software#修改软件
 Edit Status Types#修改状态类型
 edit tags#编辑标记
 Edit Tags#编辑标记
 Edit#编辑
+edit rack#编辑机架
 Effective date#有效日期
 Email#电子邮件
 End Date#结束日期
@@ -141,6 +147,7 @@ Entered By#登记人
 Event End#事件结束
 Event History#事件历史
 Event Start#事件开始
+Entry Date#录入日期
 File Maintenance#文件维护
 File title is missing#缺少文件名称
 File Type is missing#缺少文件类型
@@ -148,7 +155,7 @@ File Types#文件类型
 File#文件
 Filename#文件名称
 Files#文件
-Filter#过滤
+Filter#筛选
 Find#查找
 Floor Plan#建筑平面图
 Floor#楼层
@@ -161,7 +168,7 @@ H/W & S/W Manufacturers & Vendors, Buyers, Contractors#软硬件厂商，供应�
 H/W Manufacturer#硬件厂商
 H/W Manufacturers#软硬件厂商
 Hardware#硬件
-HDs (TB)#HDs (TB)
+HDs (TB)#硬盘 (TB)
 Header (from conf.php)#标题 (from conf.php)
 Header FontSize#标题字体大小
 Header Image#页头图片
@@ -182,7 +189,7 @@ Installed on#安装于
 Installed#安装
 Integration#集成
 Interface Language#界面语言
-Inter-Item Associations#内部硬件关联
+Inter-Item Associations#关联内部硬件
 Intrinsic Properties#内在特性
 Invoice  Data#单据数据
 Invoice Associations#关联单据
@@ -195,8 +202,8 @@ INVOICES (vendor)#单据 (供应商)
 Invoices (vendors)#单据 (供应方)
 Invoices#单据
 INVOICES#单据
-IPv4#IPv4
-IPv6#IPv6
+IPv4#IPv4地址
+IPv6#IPv6地址
 Is Part#从属部件
 Issue Date#签署日期
 ITDB Settings#ITDB 设置
@@ -211,7 +218,10 @@ Items without location#无地点的硬件
 items#硬件
 Items#硬件
 ITEMS#硬件
-IT ITems DataBase#IT资产管理系统
+Item#硬件
+Invoice info#发票信息
+Item Log  #系统日志
+IT ITems DataBase#资产管理系统
 Label properties#标签属性
 Label#标签
 labels#标签
@@ -232,7 +242,7 @@ Location#地点
 Locations#地点
 Log/Journal#日志
 Logout#注销
-MACs#MACs
+MACs#MAC地址
 Maint. End#维护结束
 maintenance end date#维护截至日期
 Maintenance Instructions#维护说明
@@ -247,6 +257,7 @@ Manufact.#厂商
 Manufacturer is missing#缺少厂商
 Manufacturer#厂商
 Model#型号
+Misc#杂项
 Name#名称
 Network Ports#网络端口
 Network#网络
@@ -255,7 +266,7 @@ No areas defined#未定义区域
 No racks in location#在该地点无机架
 No#否
 Notes#说明
-Number of cores per CPU (used for licensing)#单颗CPU核数(授权时使用)
+Number of cores per CPU (used for licensing)#单颗CPU核芯数(使用时授权)
 Number of installed Software per Manufacturer (Agent)#每个厂商已安装的软件数量(代理)
 Number of invoices per Vendor (Agent)#每个供应商的单据数量(代理)
 Number of items per Location#每个地点的硬件数量
@@ -263,6 +274,7 @@ Number of items per Manufacturer (Agent)#每个厂商的硬件数量(代理)
 Number of Items under support#在保的硬件数量
 Number#数量
 Numbering#编号
+No data available in table#空空如也
 Occupation#在用
 Order By#订购人
 Order No#订单编号
@@ -276,7 +288,8 @@ Paper Size#纸张大小
 Parent ID#上级编号
 Parent#上级
 Password#口令
-Patch Panel Port#插线板端口
+Patch Panel Port#配线架端口
+Ptch.PnlPrt#配线架端口
 Path To Switchmap#交换机图路径
 Phone numbers#电话号码
 Please check if this item can be rackmounted#请检查该硬件是否能够被放置于机架内
@@ -289,7 +302,6 @@ Preset Name#预置名称
 Presets#预置
 Print Labels#打印标签
 Property#属性
-Ptch.PnlPrt#Ptch.PnlPrt
 Purchace Price (#采购价格(
 Purchase Date#采购日期
 PurchaseDate#采购日期
@@ -301,17 +313,18 @@ Rack depth is missing#缺少机架深度
 Rack height is missing#缺少机架高度
 Rack label is missing#缺少机架标签
 Rack location is missing#缺少机架位置
-Rack Pos. (topmost)#机架位置. (从顶部算起)
+Rack Pos. (topmost)#机架位置(由上往下)
 Rack#机架
 Rackmountable#机架式
 Racks#机架
 RAM (GB)#内存 (GB)
 Read Only#只读
 Recent History#最近历史记录
-Rel#Rel
+Rel#关联
 Related#相关于
 RemAdmIP#远程管理IP
 Remote Administration IP#远程管理IP
+Rem.Adm.IP#远程管理IP
 Renewals#备件
 Reports#报告
 Right Margin#右边距
@@ -329,7 +342,7 @@ Save#保存
 Select & Print#保存并打印
 Select & Print#选择并打印
 select and print labels for your items#保存并打印您的硬件的标签
-Select Cores/CPU#选择 核数/CPU
+Select Cores/CPU#选择 CPU/核芯数
 Select items from the list above#从上面选取硬件
 Select Items#选取硬件
 Select Label properties (manual or preset)#选择标签属性(手册或预设)
@@ -344,7 +357,8 @@ Shop/Origin#商店/自有
 show also this text on printable labels#在可打印表格上也显示此文本
 Show Labels#显示标签
 Sibling#同类
-Size (U)#大小 (U)
+Size (U)#大小(单位U)
+18 U equals 900cm#18U约等于900cm
 Skip#忽略
 Software Associations#软件关联
 Software Data#软件数据
@@ -367,6 +381,7 @@ Supports<br>Software#支持<br>软件
 Switch Port#交换机端口
 Switch#交换机
 SwitchMap Integration#交换机图集成
+Select yes for parts or components#选择是表示该硬件是零件或部件，反之选否
 TAG#标记
 Tags#标记
 taken from related invoice#从相关单据获取
@@ -415,8 +430,12 @@ Warr. Rem. days#维保剩余天数
 Warranty Info#维保信息
 Warranty Months#维保月数
 Warranty#维保
-Warranty Months#维保月数
 Width#宽度
+Warning! All associations and orphaned files will be removed too. Write YES if you want to delete this : #危险警告!即将删除全部原始文档和关联文档，默认NO不删除。输入大写YES三个字母作最后确认：
+Write YES if you want to delete id #输入大写YES三个字母删除 id
+ABORTED...#已取消...
+Are you sure you want to delete id #您确定想删除 id 
+Are you sure you want to clone item id #您确定想复制硬件 id 
 Yes#是
 Ymd#年月日
 You forgot to select the file?#您忘记选择文件?

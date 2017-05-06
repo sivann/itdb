@@ -91,17 +91,17 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $ftypes[$r['id']]=$r;
 <input type="hidden" name="id" value="<?php echo $id?>"> 
 <table  style='width:380px;' border=0>
   <tr>
-    <td class="tdt">File:</td>
+    <td class="tdt"><?php te("File");?>:</td>
     <td><input name="file" id="file" size="25" type="file"></td>
-    <td><button type="submit" name="action" ><img src='../images/upload.png'><span style='color:black'>Upload</button></td>
+    <td><button type="submit" name="action" ><img src='../images/upload.png'><span style='color:black'><?php te("Upload");?></button></td>
   </tr>
   <tr>
-    <td class="tdt">Title:</td>
+    <td class="tdt"><?php te("Title");?>:</td>
     <td colspan=2><input name="title" id="title" class='mandatory' size="20" style='width:140px;' type="text">
 
     <input title='Issue Date' name="date" class='dateinp mandatory' value='<?php  echo $defdate ?>' id="aa0" size="10" type="text">
     <select class='mandatory' name='ftype'>
-    <option value=''>Type</option>
+    <option value=''><?php te("Type");?></option>
 <?php 
   if (count($ftypes)==1) $s="selected"; else $s=""; //if just 1 type, pre-select it
 

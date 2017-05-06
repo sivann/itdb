@@ -101,6 +101,7 @@ Currency#货币
 Current End Date of contract is missing#缺少合同当前结束日期
 Current EndDate#当前结束日期
 Connected To#连接到
+Contract Event History#合同历史记录
 Data Browser#数据浏览
 Date Entered#进入日期
 Date Format#日期格式
@@ -399,10 +400,11 @@ Tree Explorer#树浏览器
 Type Names#类型名称
 Type#类型
 Type(s)#类型
-Upload a File#上传文件
+Upload a File#文件上传
 Upload a Floor Plan#上传楼层平面图
-Upload Files#上传文件
-Uploaded by#上传人
+Upload Files#文件上传
+Uploaded by#上传者
+Upload#上传
 Usage#使用
 Use the string 'service'  on the description to display this url on the item edit page#在硬件修改页面使用描述中的“service”字段显示此链接
 use when the top labels have already been printed#当顶部标签已经被打印过时使用

@@ -1101,7 +1101,7 @@ $xx=0;
 
 <div id='tab7' class='tab_content'>
     <table class="tbl2" width='100%'>
-    <tr><td colspan=2><h2>Upload a File</h2></td></tr>
+    <tr><td colspan=2><h2><?php te("Upload a File");?></h2></td></tr>
     <!-- file upload -->
     <tr><td class="tdc">
     <iframe class="upload_frame" name="upload_frame" 

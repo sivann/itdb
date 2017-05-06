@@ -241,7 +241,8 @@ if ($dlg && $authstatus) {
 </div>
 
 <span id=logo>
-IT ITems DataBase
+<img width=100px height=60px src="images/IT.jpg" title="LOGO">
+<?php te("IT ITems DataBase")?>
 </span>
 
 <hr class='green1'>

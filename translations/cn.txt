@@ -211,6 +211,7 @@ Items without location#无地点的硬件
 items#硬件
 Items#硬件
 ITEMS#硬件
+IT ITems DataBase#IT资产管理系统
 Label properties#标签属性
 Label#标签
 labels#标签

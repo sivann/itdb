@@ -614,7 +614,7 @@ else
 
 
 <div id="tab2" class="tab_content"><!-- contract events -->
-<h2> Contract Event History </h2>
+<h2> <?php te("Contract Event History");?> </h2>
 
   <div id='eventsdiv' style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
 
@@ -801,7 +801,7 @@ else
 
 <div id='tab6' class='tab_content'>
     <table class="tbl2" width='100%'>
-    <tr><td colspan=2><h2>Upload a File</h2></td></tr>
+    <tr><td colspan=2><h2><?php te("Upload a File");?></h2></td></tr>
     <tr><td class="tdc">
     <iframe class="upload_frame" name="upload_frame" 
           src="php/uploadframe.php?id=<?php echo $id?>&amp;assoctable=contract2file&amp;colname=contractid"  

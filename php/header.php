@@ -38,13 +38,13 @@ function BodyLoad() {
 
 function delconfirm(what,delurl) {
 
-  var answer = confirm("Are you sure you want to delete id " + what + " ?")
+  var answer = confirm("<?php te("Are you sure you want to delete id ");?>" + what + " ?")
   if (answer) window.location = delurl;
 }
 
 function cloneconfirm(what,cloneurl) {
 
-  var answer = confirm("Are you sure you want to clone item id " + what + " ?")
+  var answer = confirm("<?php te("Are you sure you want to clone item id ");?>" + what + " ?")
   if (answer) window.location = cloneurl;
 }
 
@@ -54,15 +54,15 @@ function delconfirm2(what,delurl,msg)
 {
   var mesg;
   if (arguments.length<3) 
-    mesg="Warning! All associations and orphaned files will be removed too. Write YES if you want to delete this : " + what;
+    mesg="<?php te("Warning! All associations and orphaned files will be removed too. Write YES if you want to delete this : ");?>" + what;
   else 
-    mesg=msg+" Write YES if you want to delete id "+what;
+    mesg=msg+"<?php te("Write YES if you want to delete id ");?>"+what;
 
   $i=window.prompt(mesg,'NO');
   if ($i=='YES') 
     window.location = delurl;
   else
-    alert('ABORTED...');
+    alert('<?php te("ABORTED...");?>');
 }
 
 function showid(n){

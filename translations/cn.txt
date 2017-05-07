@@ -12,25 +12,25 @@
 0:black, 255:white#0:黑色, 255:白色
 About#关于
 Accounting#帐目
-Add Agent#增加代理
-Add Contract#增加协议
-Add File#增加文件
-Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#增加层级或平均关系到：部件，板卡，显示器等。
-Add Invoice#增加单据
-Add new Agent#增加新代理
-Add new Contract#增加新协议
-Add new File#增加新文件
-Add new Invoice#增加新单据
-Add new item#增加新硬件
-Add new Item#增加新硬件
-Add New Item#增加新硬件
-Add new Location#增加新地点
-Add new software#增加新软件
-Add new Software#增加新软件
-Add Row#增加行
-Add Software#增加软件
-Add#增加
-Add/View#增加/查看
+Add Agent#新增代理
+Add Contract#新增协议
+Add File#新增文件
+Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#新增层级或平均关系到：部件，板卡，显示器等。
+Add Invoice#新增单据
+Add new Agent#新增代理
+Add new Contract#新增协议
+Add new File#新增文件
+Add new Invoice#新增单据
+Add new item#新增硬件
+Add new Item#新增硬件
+Add New Item#新增硬件
+Add new Location#新增地点
+Add new software#新增软件
+Add new Software#新增软件
+Add Row#新增行
+Add Software#新增软件
+Add#新增
+Add/View#新增/查看
 Address, Phone number, other info, etc#地址，电话号码，其余信息
 Agent Properties#代理属性
 Agents#代理
@@ -59,17 +59,16 @@ Bottom Margin#边框边距
 Browse Data#浏览数据
 Browse#浏览
 Building Name#建筑名称
-Buyer#采购者
-Buyers#采购者
-Cannot add log entries to unsaved items.#不能为未保存的硬件增加日志记录。
+Buyer#采购人
+Buyers#采购人
+Cannot add log entries to unsaved items.#不能为未保存的硬件新增日志记录。
 Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the Tags menu for that.#更改将立即保存。<br>可以使用标记菜单删除未关联的标记。
 Click 'Make Item Labels'#点击'Make Item Labels'
 Click on Item count column on the left to display associated items#点击左侧的硬件数量列来显示关联的硬件
 Click on Software count column on the left to display associated software#点击左侧的软件数量列来显示关联的软件
 Click 'Show Labels'#点击'显示标签'
 Clone#复制
-Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor & Buyer</u>: will be listed in invoices & Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#Cntrl+Click 为代理选取多个角色 <br><br><u>供应商 & 采购者</u>: 将显示在 单据 & 合同 <br><br><u>硬件厂商.</u>: 将在编辑硬件时显示 <br><br><u>软件厂商.</u>: 将在编辑软件时显示 <br><br><u>乙方</u>: 将在合同中显示
-Cntrl+Click to select multiple roles for an agent#Cntrl+Click 为代理选取多个角色
+Cntrl+Click to select multiple roles for an agent #Cntrl+Click 为代理选取多个角色 
 Columns#列
 Comments#注释
 Company Title#公司名称
@@ -102,6 +101,7 @@ Current End Date of contract is missing#缺少合同当前结束日期
 Current EndDate#当前结束日期
 Connected To#连接到
 Contract Event History#合同历史记录
+Cannot upload files to unsaved items.#因硬件信息未保存故文档无法上传。
 Data Browser#数据浏览
 Date Entered#进入日期
 Date Format#日期格式
@@ -109,6 +109,8 @@ Date of Purchase#采购日期
 Date of purhcase is missing#缺少采购日期
 Date#日期
 Delete Event?#删除事件？
+Delete Invoice#删除发票
+delete#删除
 Delete#删除
 Depth of rack occupation. (F)ront, (M)iddle, (B)ack#占用机架深度。 (F)前, (M)中, (B)后
 Depth#深度
@@ -124,6 +126,7 @@ Download & print the resulting PDF#下载并打印生成的PDF
 Download a complete installation backup (much larger)#下载完全备份(非常大)
 Download DataBase file. Contains all data except uploaded files/documents#下载数据库文件。包含除上传到文件（文档）外的所有数据
 Download#下载
+Don't forget: press the <b>'UPLOAD'</b> button (not save) to complete the upload!#别忘了：点击<b>'上传'</b>按钮（不是保存按钮哦）以完成上传！
 e.g. like donator, etc. Vendor info is best to be provided in the related invoice#诸如捐赠者、供应商之类信息最好在相关单据中录入
 Edit Contract Types#修改合同类型
 Edit File Types#修改文件类型
@@ -135,6 +138,7 @@ edit tags#编辑标记
 Edit Tags#编辑标记
 Edit#编辑
 edit rack#编辑机架
+There are errors in your form submission, please see below for details.#您提交的表单信息有误，详见下方提示信息。
 Effective date#有效日期
 Email#电子邮件
 End Date#结束日期
@@ -149,6 +153,7 @@ Event End#事件结束
 Event History#事件历史
 Event Start#事件开始
 Entry Date#录入日期
+ERROR:ID not defined#错误：ID未定义
 File Maintenance#文件维护
 File title is missing#缺少文件名称
 File Type is missing#缺少文件类型
@@ -164,8 +169,9 @@ FontSize#字体大小
 Full Access#完全访问
 Function#功能
 GO#GO
-H/W & S/W Manufacturers & Vendors, Buyers, Contractors#软硬件厂商，供应商、采购者、承包商
-H/W & S/W Manufacturers & Vendors, Buyers, Contractors#软硬件厂商，供应商、采购者、承包商
+Go back#请返回
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#软硬件厂商，供应商、采购人、承包商
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#软硬件厂商，供应商、采购人、承包商
 H/W Manufacturer#硬件厂商
 H/W Manufacturers#软硬件厂商
 Hardware#硬件
@@ -197,7 +203,7 @@ Invoice Associations#关联单据
 Invoice Description / File(s)#单据描述 / 文件
 Invoice Properties#单据属性
 Invoice#单据
-INVOICES (buyer)#单据 (采购者)
+INVOICES (buyer)#单据 (采购人)
 Invoices (buyers)#单据 (采购方)
 INVOICES (vendor)#单据 (供应商)
 Invoices (vendors)#单据 (供应方)
@@ -276,6 +282,7 @@ Number of Items under support#在保的硬件数量
 Number#数量
 Numbering#编号
 No data available in table#空空如也
+Name and type are missing.#没填写名称和类型。
 Occupation#在用
 Order By#订购人
 Order No#订单编号
@@ -405,6 +412,7 @@ Upload a Floor Plan#上传楼层平面图
 Upload Files#文件上传
 Uploaded by#上传者
 Upload#上传
+Uploaded#已上传
 Usage#使用
 Use the string 'service'  on the description to display this url on the item edit page#在硬件修改页面使用描述中的“service”字段显示此链接
 use when the top labels have already been printed#当顶部标签已经被打印过时使用
@@ -420,7 +428,7 @@ Users, Tags, Dates, Currency,...#用户, 标记, 日期, 货币,...
 Value#价格
 Vendor#供应商
 Vendors#供应商
-Vendors/Buyers/ Manufacturers#供应商/采购者/厂商
+Vendors/Buyers/ Manufacturers#供应商/采购/厂商
 Version#版本
 Vert. Pitch#Vert. Pitch
 View items by type, by user, by agent#按类型、用户、代理查看硬件

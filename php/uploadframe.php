@@ -69,7 +69,7 @@ isset($_GET['defdate'])?$defdate=$_GET['defdate']:$defdate="";
 $id=$_GET['id'];
 
 if (!is_numeric($id)) {
-  echo "Cannot upload files to unsaved items.";
+  echo t("Cannot upload files to unsaved items.");
   exit;
 }
 if ($type == "invoice")

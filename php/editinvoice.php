@@ -167,7 +167,7 @@ else
 <!-- error errcontainer -->
 <div class='errcontainer ui-state-error ui-corner-all' style='padding: 0 .7em;width:700px;margin-bottom:3px;'>
         <p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span>
-        <h4>There are errors in your form submission, please see below for details.</h4>
+        <h4><?php te("There are errors in your form submission, please see below for details.");?></h4>
         <ol>
                 <li><label for="vendorid" class="error"><?php te("Contract Title is missing");?></label></li>
                 <li><label for="buyerid" class="error"><?php te("Contract number is missing");?></label></li>
@@ -281,7 +281,7 @@ else
 
     <div class="scrltblcontainer4" >
 
-    <div  id='items' class='relatedlist'>ITEMS</div>
+    <div  id='items' class='relatedlist'><?php te("ITEMS");?></div>
     <?php 
     if (is_numeric($id)) {
       $sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.typedesc || ', ID:' || items.id || ']' as txt ".
@@ -367,7 +367,7 @@ else
 
 <div id="tab2" class="tab_content">
   <h2> <input style='color:#909090' id="itemsfilter" name="itemsfilter" class='filter' 
-             value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+             value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
       <span style='font-weight:normal;' class='nres'></span>
   </h2>
   <?php 
@@ -427,7 +427,7 @@ else
 
 <div id="tab3" class="tab_content">
   <h2><input style='color:#909090' id="softfilter" name="softfilter" class='filter' 
-             value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+             value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
       <span style='font-weight:normal;' class='nres'></span>
   </h2>
 
@@ -479,7 +479,7 @@ else
 <div id="tab4" class="tab_content">
 
   <h2><input style='color:#909090' id="contrfilter" name="contrfilter" class='filter' 
-             value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
+             value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
       <span style='font-weight:normal;' class='nres'></span>
   </h2>
   <?php 
@@ -549,7 +549,7 @@ else
   <tr><td><button type="submit"><img src="images/save.png" alt="Save" > <?php te("Save Invoice");?></button></td>
   <?php 
   echo "\n<td><button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid={$r['id']}\");'>".
-       "<img title='delete' src='images/delete.png' border=0> Delete Invoice</button></td>\n</tr>\n";
+       "<img title='".te("delete")."' src='images/delete.png' border=0> ".te("Delete Invoice")."</button></td>\n</tr>\n";
   echo "\n</table>\n";
   echo "\n<input type=hidden name='action' value='$action'>";
   echo "\n<input type=hidden name='id' value='$id'>";

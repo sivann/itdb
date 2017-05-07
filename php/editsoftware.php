@@ -195,7 +195,7 @@ else
 <!-- error errcontainer -->
 <div class='errcontainer ui-state-error ui-corner-all' style='padding: 0 .7em;width:700px;margin-bottom:3px;'>
         <p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span>
-        <h4>There are errors in your form submission, please see below for details.</h4>
+        <h4><?php te("There are errors in your form submission, please see below for details.");?></h4>
         <ol>
                 <li><label for="manufacturerid" class="error"><?php te("S/W Manufacturer is missing");?></label></li>
                 <li><label for="stitle" class="error"><?php te("Software title is missing");?></label></li>

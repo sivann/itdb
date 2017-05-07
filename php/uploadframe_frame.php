@@ -30,9 +30,9 @@ if (strlen($errstr)){
   echo "<span style='color:red;font-weight:bold;'>ERROR:$errstr</span>";
 }
 elseif (strlen($fn)) 
-  echo "Uploaded: $fn";
+  echo t("Uploaded").": $fn";
 else 
-  echo "Don't forget: press the <b>'UPLOAD'</b> button (not save) to complete the upload!";
+  echo t("Don't forget: press the <b>'UPLOAD'</b> button (not save) to complete the upload!");
 
 /*
 echo "<pre>\n";

@@ -546,16 +546,28 @@ else
 </div><!-- tab container -->
 
 <table>
-  <tr><td><button type="submit"><img src="images/save.png" alt="Save" > <?php te("Save Invoice");?></button></td>
+  <tr>
+    <td>
+	  <button type="submit"><img src="images/save.png" alt="Save" > <?php te("Save Invoice");?></button></td>
   <?php 
+  /*
   echo "\n<td><button type='button' onclick='javascript:delconfirm2(\"{$r['id']}\",\"$scriptname?action=$action&amp;delid={$r['id']}\");'>".
        "<img title='".te("delete")."' src='images/delete.png' border=0> ".te("Delete Invoice")."</button></td>\n</tr>\n";
   echo "\n</table>\n";
   echo "\n<input type=hidden name='action' value='$action'>";
   echo "\n<input type=hidden name='id' value='$id'>";
+  */
   ?>
-
-  </form>
+    <td>
+      <button type='button' onclick='javascript:delconfirm2("<?php $r['id'];?>","<?php $scriptname;?>?action=<?php $action;?>&amp;delid=<?php $r['id'];?>");'>
+        <img title='<?php te("delete");?>' src='images/delete.png' border=0><?php te("Delete Invoice");?>
+      </button>
+    </td>
+  </tr>
+</table>
+<input type=hidden name='action' value='$action'>
+<input type=hidden name='id' value='<?php $id;?>'>
+</form>
 
 </body>
 </html>

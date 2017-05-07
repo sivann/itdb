@@ -390,6 +390,8 @@ Switch Port#交换机端口
 Switch#交换机
 SwitchMap Integration#交换机图集成
 Select yes for parts or components#选择是表示该硬件是零件或部件，反之选否
+server time#页速
+secs</span>#秒</span>
 TAG#标记
 Tags#标记
 taken from related invoice#从相关单据获取

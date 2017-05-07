@@ -6,7 +6,7 @@
 	  $row.find('input,select').each(function() {
 		  if (jQuery(this).val()) filled++;
 	  });
-	  if (filled) return confirm('Do you really want to remove this row?');
+	  if (filled) return confirm(<?php te('Do you really want to remove this row?');?>);
 	  return true;
   };
 

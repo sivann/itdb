@@ -423,7 +423,9 @@ $itdb_end=getmicrotime();
 
 echo "</div>";// <!-- end of #mainpage -->
 
-echo "<span style='color:#aaa'>server time = ".number_format(($itdb_end - $itdb_start),3)." secs</span>"; 
+// echo "<span style='color:#aaa'>".te("server time = ").number_format(($itdb_end - $itdb_start),3) .te("secs</span>");
+// echo "<span style='color:#aaa'>".te("server time")." = ".number_format(($itdb_end - $itdb_start),3).te("secs")."</span>";
+echo "<span style='color:#aaa'>".t("server time")." = ".number_format(($itdb_end - $itdb_start),3).t("secs</span>");
 
 ?>
 </body>

@@ -257,15 +257,15 @@ else
   <td class="tdtop">
 
       <table class="tbl2" style='width:300px;'>
-      <tr><td colspan=2><h3>Software Properties</h3></td></tr>
-      <tr><td class="tdt">ID:</td> <td><input  class='input2' type=text name='id' value='<?php echo $id?>' readonly size=3></td></tr>
+      <tr><td colspan=2><h3><?php te("Software Properties");?></h3></td></tr>
+      <tr><td class="tdt"><?php te("ID");?>:</td> <td><input  class='input2' type=text name='id' value='<?php echo $id?>' readonly size=3></td></tr>
       <tr><td class="tdt">
      <?php   if (is_numeric($manufacturerid))
        echo "<a title='edit manufacturer (agent)' href='$scriptname?action=editagent&amp;id=$manufacturerid'><img src='images/edit.png'></a> "; ?>
       
-      <?php te('Manufacturer');?>:</td> <td title='Add more manufacturers at the "Agents" menu'>
+      <?php te('Manufacturer');?>:</td> <td title='<?php te("Add more manufacturers at the 【Agents】 menu");?>'>
 	   <select validate='required:true' class='mandatory' name='manufacturerid'>
-	   <option value=''>Select</option>
+	   <option value=''><?php te("Select");?></option>
 	  <?php 
 	    foreach ($agents as $a) {
 	      if (!($a['type']&2)) continue; //show only manufacturers
@@ -297,11 +297,11 @@ else
   if ($lictype=="2") {$t2="checked";$t0="";$t1="";}
   ?>
     <tr>
-    <td class='tdt'>License Per:</td>
+    <td class='tdt'><?php te("License Per");?>:</td>
     <td>
-    <input style='width:10%' type=radio <?php echo $t0?> name='lictype' value='0'>Box
-    <input style='width:10%' type=radio <?php echo $t1?> name='lictype' value='1'>CPU
-    <input style='width:10%' type=radio <?php echo $t2?> name='lictype' value='2'>Core
+    <input style='width:10%' type=radio <?php echo $t0?> name='lictype' value='0'><?php te("Box");?>
+    <input style='width:10%' type=radio <?php echo $t1?> name='lictype' value='1'><?php te("CPU");?>
+    <input style='width:10%' type=radio <?php echo $t2?> name='lictype' value='2'><?php te("Core");?>
     </td>
     </tr>
 
@@ -323,7 +323,7 @@ else
 
     <div class="scrltblcontainer4" >
 
-    <div  id='items' class='relatedlist'>ITEMS</div>
+    <div  id='items' class='relatedlist'><?php te("ITEMS");?></div>
     <?php 
     if (is_numeric($id)) {
       $sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.typedesc || ', ID:' || items.id || ']' as txt ".
@@ -344,7 +344,7 @@ else
     }
     ?>
 
-   <div id='invoices1' class='relatedlist'>INVOICES</div>
+   <div id='invoices1' class='relatedlist'><?php te("INVOICES");?></div>
     <?php 
     if (is_numeric($id)) {
       //print a table row
@@ -365,7 +365,7 @@ else
     }
     ?>
 
-   <div id='contracts' class='relatedlist'>CONTRACTS</div>
+   <div id='contracts' class='relatedlist'><?php te("CONTRACTS");?></div>
     <?php 
     if (is_numeric($id)) {
       //print a table row
@@ -391,7 +391,7 @@ else
 
 
   <td rowspan=1 class="tdtop"> <!-- related start -->
-    <h3>Tags <span title='<?php te("Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the Tags menu for that.");?>' style='font-weight:normal;font-size:70%'>(<a class="edit-tags" href=""><?php te("edit tags");?></a>)</span></h3>
+    <h3><?php te("Tags");?> <span title='<?php te("Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the Tags menu for that.");?>' style='font-weight:normal;font-size:70%'>(<a class="edit-tags" href=""><?php te("edit tags");?></a>)</span></h3>
 
 
 

@@ -52,6 +52,7 @@ Associations Overview#关联概览
 Associations#关联
 Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#添加层级关系：例如板卡、零件、部件、配件、显示器，等等
 Action Date#接收日期
+Add more manufacturers at the 【Agents】 menu#点击左侧菜单 【代理】 可创建更多代理商
 Barcode Size#硬件大小
 Blank passwords prohibit login#禁止空密码登录
 Border Color (0-255)#边框颜色（0-255）
@@ -249,6 +250,7 @@ Location#地点
 Locations#地点
 Log/Journal#日志
 Logout#注销
+License Per#授权许可
 MACs#MAC地址
 Maint. End#维护结束
 maintenance end date#维护截至日期
@@ -392,6 +394,7 @@ SwitchMap Integration#交换机图集成
 Select yes for parts or components#选择是表示该硬件是零件或部件，反之选否
 server time#页速
 secs</span>#秒</span>
+Software Properties#软件性能
 TAG#标记
 Tags#标记
 taken from related invoice#从相关单据获取

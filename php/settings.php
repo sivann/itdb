@@ -111,6 +111,9 @@ echo "\n<h1>".t("Settings")."</h1>\n";
 
       <?php if ($settings['currency']=="kr") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='NOK' value='<?php echo htmlentities("kr");?>'>NOK</option>
+	
+      <?php if ($settings['currency']=="&#122;&#322;") $s="SELECTED"; else $s="" ?>
+      <option <?php echo $s?> title='PLN' value='<?php echo htmlentities("&#122;&#322;");?>'>&#122;&#322;</option>
 
     </select></td></tr>
     <tr><td class="tdt"><?php te("Interface Language")?></td><td>

@@ -3,9 +3,6 @@
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
-
-
-
 /// get item types
 $sql="SELECT * from itemtypes order by typedesc";
 $sth=db_execute($dbh,$sql);

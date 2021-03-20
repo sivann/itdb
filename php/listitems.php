@@ -1,105 +1,78 @@
 <script>
-var oTable;
+  $(document).ready(function() {
+    var mTable = $('#itemlisttbl').dataTable( {
+      "pagingType": "full_numbers",
+      "scrollCollapse": true,
+      "scrollY": "400px",
+      "scrollX": true,
+      //"fixedColumns": true,
+      "displayLength": 25,
+      "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+      "lengthChange": true,
+      "bFilter": true,
+      "bSort": true,
+      "bInfo": true,
+      //dom: 'lBfrtip',
+      "dom": '<"top"Bf>lrt<"bottom"ip><"clear">',
+      "buttons": [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+      ],
+      "columnDefs": [ 
+        { "width": "70px", "targets": [0]},
+        { "orderable": [ "desc","asc" ], "targets": [0]},
+        { "type": "title-numeric", "targets": [7]}
+      ],
+      "processing": true,
+      "serverSide": true,
+      "sAjaxSource": "php/datatables_listitems_ajax.php",
+      
+    });
 
-$(document).ready(function() {
-	oTable = $('#itemlisttbl').dataTable( {
-                "sPaginationType": "full_numbers",
-                "bJQueryUI": true,
-                "iDisplayLength": 18,
-				"aLengthMenu": [[10,18, 25, 50, 100, -1], [10,18, 25, 50, 100, "All"]],
-                "bLengthChange": true,
-                "bFilter": true,
-                "bSort": true,
-                "bInfo": true,
-                //"sDom": '<"H"CTlpf>rt<"F"ip>',
-                "sDom": '<"H"Tlpf>rt<"F"ip>',
-                "oTableTools": {
-                        "sSwfPath": "swf/copy_cvs_xls_pdf.swf"
-/*
+    $.fn.dataTableExt.oSort['title-numeric-asc']  = function(a,b) {
+      var x = a.match(/title="*(-?[0-9]+)/)[1];
+      var y = b.match(/title="*(-?[0-9]+)/)[1];
+      x = parseFloat( x );
+      y = parseFloat( y );
+      return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+    };
 
-			"aButtons": [ {
-			  "sExtends": "ajax",
-			  "sButtonText": "Download CSV",
-			  "fnClick": function () {
-			    var iframe = document.createElement('iframe');
-			    iframe.style.height = "0px";
-			    iframe.style.width = "0px";
-			    iframe.src = "/php/datatables_listitems_ajax_csv.php";
-			    document.body.appendChild( iframe );
-			  }
-			  //"sAjaxUrl": "php/datatables_listitems_ajax_csv.php",
-			} ]
-*/
-                },
-		"aoColumnDefs": [ 
-			{ "sWidth": "70px", "aTargets": [ 0 ] },
-			{ "asSorting": [ "desc","asc" ], "aTargets": [ 0 ] },
-			{ "sType": "title-numeric", "aTargets": [ 7 ] }
-		],
-		//"oColVis": { "buttonText": "+/-", },
-		"bProcessing": true,
-		"bServerSide": true,
-		"sAjaxSource": "php/datatables_listitems_ajax.php",
-		//"sScrollY": "550px", "bScrollCollapse": true,
-		"sScrollX": "100%",
-		"sScrollXInner": "180%",
-		"bScrollCollapse": true,
-	} );
-
-	jQuery.fn.dataTableExt.oSort['title-numeric-asc']  = function(a,b) {
-		var x = a.match(/title="*(-?[0-9]+)/)[1];
-		var y = b.match(/title="*(-?[0-9]+)/)[1];
-		x = parseFloat( x );
-		y = parseFloat( y );
-		return ((x < y) ? -1 : ((x > y) ?  1 : 0));
-	};
-
-	jQuery.fn.dataTableExt.oSort['title-numeric-desc'] = function(a,b) {
-		var x = a.match(/title="*(-?[0-9]+)/)[1];
-		var y = b.match(/title="*(-?[0-9]+)/)[1];
-		x = parseFloat( x );
-		y = parseFloat( y );
-		return ((x < y) ?  1 : ((x > y) ? -1 : 0));
-	};
-
-/*
-       	new FixedColumns( oTable, {
- 		"iLeftColumns": 1,
-		"iLeftWidth": 70
- 	} );
-*/
+    $.fn.dataTableExt.oSort['title-numeric-desc'] = function(a,b) {
+      var x = a.match(/title="*(-?[0-9]+)/)[1];
+      var y = b.match(/title="*(-?[0-9]+)/)[1];
+      x = parseFloat( x );
+      y = parseFloat( y );
+      return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+    };
 
     $('input.column_filter').keyup(function () {
-		oTable.fnFilter( this.value, $(this).parents('tr').attr('data-column') ); 
+    mTable.fnFilter( this.value, $(this).parents('tr').attr('data-column')); 
 
-    } );
+    });
 
-	var thArray=[];
-	$('.colhead').each(function(i){
-		var txt=$(this).text();
-		if (txt)
-			thArray.push(txt);
-	})
+    var thArray=[];
+    $('.colhead').each(function(i){
+      var txt=$(this).text();
+      if (txt)
+        thArray.push(txt);
+    })
 
-	$('#colfiltertbl td.col_filt_name').each(function( index ) {
-		var colidx=$(this).parents('tr').attr('data-column');
-		$(this).text(thArray[colidx])
-		//console.log($(this).parents('tr').attr('data-column'));
-	});
+    $('#colfiltertbl td.col_filt_name').each(function(index) {
+      var colidx=$(this).parents('tr').attr('data-column');
+      $(this).text(thArray[colidx])
+      //console.log($(this).parents('tr').attr('data-column'));
+    });
 
-    $('#togglefilter').click(function() {
-		$('#colfiltertbl').toggle();
-	});
-} );
+      $('#togglefilter').click(function() {
+      $('#colfiltertbl').toggle();
+    });
+  });
 </script>
 
 <h1>
-<?php te("Items");?> <a title='Old Interface' style='font-size:0.5em' href="?action=listitems2">2</a>
-<a title='<?php te("Add new item");?>' href='<?php echo $scriptname;?>?action=edititem&amp;id=new'><img border=0 src='images/add.png'></a>
-<button style='margin-left:15px;font-weight:normal' class='filterbtn' id='togglefilter' style='font-weight:normal;font-size:1em'><?php te("Filter")?></button> 
+<?php te("Items");?><a title='Old Interface' style='font-size:0.5em' href="?action=listitems2">2</a>
+<a title='<?php te("Add new item");?>' href='<?php echo $scriptname;?>?action=edititem&amp;id=new'><img src='images/add.png'></a>
+<button style='margin-left:15px;font-weight:normal;font-size:0.7em' class='filterbtn' id='togglefilter'><?php te("Filter");?></button> 
 </h1>
-
-
 
 <table id='colfiltertbl' style='display:none'>
 <tr>
@@ -108,7 +81,7 @@ $(document).ready(function() {
 		<?php
 		for ($i1=0;$i1<=20;$i1+=2) {
 		?>
-		<tr id="filter_col_<?php echo $i1?>" data-column="<?php echo $i1?>">
+		<tr id="filter_col_<?=$i1?>" data-column="<?=$i1?>">
 			<td class='col_filt_name'>Name</td>
 			<td align="center"><input type="text" class="column_filter"></td>
 		</tr>
@@ -123,7 +96,7 @@ $(document).ready(function() {
 		<?php
 		for ($i2=1;$i2<=20;$i2+=2) {
 		?>
-		<tr id="filter_col_<?php echo $i2?>" data-column="<?php echo $i2?>">
+		<tr id="filter_col_<?=$i2?>" data-column="<?=$i2?>">
 			<td class='col_filt_name'>Name</td>
 			<td align="center"><input type="text" class="column_filter"></td>
 		</tr>
@@ -135,7 +108,6 @@ $(document).ready(function() {
 
 </tr>
 </table>
-
 
 <table id='itemlisttbl' class="display">
 <thead>

@@ -1,48 +1,43 @@
-<SCRIPT LANGUAGE="JavaScript"> 
+<script> 
 $(function () {
- //$('input#contlistfilter').quicksearch('table#contlisttbl tbody tr');
   $('table#contlisttbl').dataTable({
-                "sPaginationType": "full_numbers",
-                "bJQueryUI": true,
-                "iDisplayLength": 25,
-                "aLengthMenu": [[10,25, 50, 100, -1], [10,25, 50, 100, "All"]],
-                "bLengthChange": true,
-                "bFilter": true,
-                "bSort": true,
-                "bInfo": true,
-                "bAutoWidth": true, 
-                "sDom": '<"H"Tlpf>rt<"F"ip>',
-                "oTableTools": {
-                        "sSwfPath": "swf/copy_cvs_xls_pdf.swf"
-                },
-                "aoColumns": [ 
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        { "sType": "title-numeric" },
-                        { "sType": "title-numeric" },
-                ]
+    "pagingType": "full_numbers",
+    "displayLength": 25,
+    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+    "lengthChange": true,
+    "bFilter": true,
+    "bSort": true,
+    "bInfo": true,
+    "autoWidth": true, 
+    "dom": '<"top"Bf>lrt<"bottom"ip><"clear">',
+    "columns": [ 
+      null,
+      null,
+      null,
+      null,
+      null,
+      { "type": "title-numeric" },
+      { "type": "title-numeric" },
+    ]
 
   });
 
 
 //for date sort
   jQuery.fn.dataTableExt.oSort['title-numeric-asc']  = function(a,b) {
-          var x = a.match(/title="*(-?[0-9]+)/)[1];
-          var y = b.match(/title="*(-?[0-9]+)/)[1];
-          x = parseFloat( x );
-          y = parseFloat( y );
-          return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+    var x = a.match(/title="*(-?[0-9]+)/)[1];
+    var y = b.match(/title="*(-?[0-9]+)/)[1];
+    x = parseFloat( x );
+    y = parseFloat( y );
+    return ((x < y) ? -1 : ((x > y) ?  1 : 0));
   };
 
   jQuery.fn.dataTableExt.oSort['title-numeric-desc'] = function(a,b) {
-          var x = a.match(/title="*(-?[0-9]+)/)[1];
-          var y = b.match(/title="*(-?[0-9]+)/)[1];
-          x = parseFloat( x );
-          y = parseFloat( y );
-          return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+    var x = a.match(/title="*(-?[0-9]+)/)[1];
+    var y = b.match(/title="*(-?[0-9]+)/)[1];
+    x = parseFloat( x );
+    y = parseFloat( y );
+    return ((x < y) ?  1 : ((x > y) ? -1 : 0));
   };
 
 });

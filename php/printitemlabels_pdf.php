@@ -5,9 +5,7 @@
 require("../init.php");
 require_once('PDF_Label.php');
 
-
 set_time_limit(15);
-
 
 //create the list of previously selected ids to get info from db
 $ids="";
@@ -16,17 +14,12 @@ for ($i=0;$i<count($selitems);$i++)  {
   if ($i<count($selitems)-1) $ids.=", ";
 }
 
-
-
-
 //$sql="SELECT items.id,model,sn,sn3,itemtypeid,dnsname,ipv4,ipv6,label, agents.title as agtitle FROM items,agents ".
 //     " WHERE agents.id=items.manufacturerid AND items.id in ($ids) order by itemtypeid, agtitle, model,sn,sn2,sn3";
 $sql="SELECT items.id,model,sn,sn3,itemtypeid,dnsname,ipv4,ipv6,label, agents.title as agtitle FROM items,agents ".
      " WHERE agents.id=items.manufacturerid AND items.id in ($ids) order by items.id";
 $sth=db_execute($dbh,$sql);
 $idx=0;
-
-
 
 $pdf=new PDF_Label(array(
   'paper-size'=>"$labelpapersize", 
@@ -129,18 +122,6 @@ for ($row=1;$row<=$rows;$row++) {
                     $headerfontsize,$fontsize,$idfontsize,
 		    $barcode, $nbw,$bh,$barcodesize,$wantraligntext );
 
-
-    // for code39 barcodes: check if barcode fits inside label, allowing space for its quiet zone
-    //2 narrow spacings if nbw>0.29, + 1 char checksum +2 chars start/stop (*) +10 bars quiet zone on each side
-/*
-    if ($barcodewidth>=$lwidth) {
-      $pdf->Ln();
-      $pdf->Cell(0,20,"Required barcode width ($barcodewidth mm) too wide for label width ($lwidth mm)",1,1,'C');
-      break;
-
-    }
-*/
-
   }
 
   if (($row==$rows)) {
@@ -149,16 +130,12 @@ for ($row=1;$row<=$rows;$row++) {
     $pages++;
     //$pdf->AddPage('P','A4');
   }
-
-
 }
 
 $dstr=date('Y-m-d_his');
 $pdf->Output("labels-$dstr.pdf",'D');
 
 ?>
-
-
 
 </body>
 </html>

@@ -13,15 +13,13 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 $(function () {
 	$("#tree1").jstree({ 
 		"themes" : {
-			"theme" : "apple", //apple, classic, default
+			"theme" : "classic", //apple, classic, default
 			"dots" : true,
 			"icons" : true
 		},
 		"core" : {
-		        "animation" : 0
+      "animation" : 0
 		},
-
-
 		"html_data" : {
 			"ajax" : {
 				"url" : "php/browse_queries.php",
@@ -30,8 +28,6 @@ $(function () {
 				}
 			}
 		},
-
-	
 		"plugins" : [ "themes", "html_data" ]
 
 	});

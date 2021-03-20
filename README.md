@@ -7,8 +7,6 @@ an intranet tool.
 
 ITDB comes with sources and is distributed under the GNU Public license.
 
-First Update & Renewall 20/03/2021
-
 # Homepage 
 http://www.sivann.gr/software/itdb/
 
@@ -17,6 +15,11 @@ Please consider that my free time is now extremely limited, and so even valid pu
 
 # Status
 As I no longer have enough time to improve ITDB, I can only provide bug fixes for newer PHP or browser versions. Please do not ask for new features.
+
+First Update & Renewal 20/03/2021 with future :
+  1. Remove Flash elements.
+  2. Update TCPDF to version 6.3.5.
+  3. Minor update Datatables format.
  
 # Security
 Do *NOT* expose ITDB to the public internet. It is not secure, it is aimed for intranets. If you need to do so, please configure an HTTP auth password on your web server so it will be hidden behind a password.

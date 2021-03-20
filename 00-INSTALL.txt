@@ -1,8 +1,8 @@
 
 Prerequisites
 -------------------
--Apache 2.2 on a posix system (linux, solaris, etc) (apache 2.0 may also work)
--php > 5.2.x
+-Apache 2.4 on a posix system (linux, solaris, etc) (apache 2.2 may also work)
+-php > 7.0.x
 -php sqlite pdo, sqlite >3.6.14.1
 -for some installations, you may have to install also the php-posix package
 -for recent fedora systems, define short_open_tag=On in php.ini (this will -not be necessary in the next version)

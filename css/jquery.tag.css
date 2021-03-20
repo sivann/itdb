@@ -1,0 +1,84 @@
+ul.tags {
+  padding:0;
+  margin:0;
+  max-width:250px;
+}
+
+.tags a{
+  font-family: arial !important;
+
+}
+
+.tags:hover a:hover {
+	background-color: #0063DC;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.tags li {
+	display: inline;
+	float: left;
+	margin-right: 9px;
+	min-height: 18px;
+	position: relative;
+	color: #444444;
+	font-size: 12px;
+	line-height: 18px;
+	list-style-type: none;
+	background: url("data:image/gif;base64,R0lGODlhBgAGALMAAOHh4YSEhJ6enuDg4MDAwJ2dnXp6evf393l5ef///wAAAAAAAAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAAGAAYAAAQQMMkpD5gnmCIHMsgkIAQ1RQA7") no-repeat scroll 100% 50% transparent;
+	padding-right: 11px;
+}
+
+.tags li.last {
+	background: none;
+	margin-right: 0px;
+	padding-right: 0;
+}
+
+.tags a {
+	word-wrap: break-word;
+	color: #444444;
+	text-decoration: none;
+	padding:2px;
+}
+
+.tags:hover a {
+	color: #0063DC;
+	padding:2px;
+}
+
+.tags .edit-mode,
+.tags .add-mode {
+	padding-right: 0;
+	background: none;
+}
+
+.tags .add-mode {
+	margin: 0 0 0 9px;
+}
+
+.tags .delete-tag {
+	background-image: url("../images/xgray.png") ;
+	background-repeat:no-repeat;
+	background-position:center; 
+	display: inline-block;
+	background-color: #FFFFFF !important;
+	margin-left: 5px;
+	width: 8px;
+	z-index: 2;
+}
+
+.tags a.delete-tag:hover {
+	background-image: url("../images/xred.png") ;
+	background-repeat:no-repeat;
+	background-position:center; 
+}
+
+.tags .delete-tag {
+	/*text-indent: -999em; overflow: hidden;*/
+}
+
+.tags .add-tag {
+	margin-left: 8px;
+	color: #0063DC;
+}

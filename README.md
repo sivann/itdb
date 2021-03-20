@@ -7,31 +7,23 @@ an intranet tool.
 
 ITDB comes with sources and is distributed under the GNU Public license.
 
-# Homepage 
+# Original Homepage
 http://www.sivann.gr/software/itdb/
+
 
 # Contributing
 Please consider that my free time is now extremely limited, and so even valid pull requests may not be addressed for a long time.
 
-# Status
-As I no longer have enough time to improve ITDB, I can only provide bug fixes for newer PHP or browser versions. Please do not ask for new features.
 
-First Update & Renewal 20/03/2021 with future :
+# First Update & Renewal 20/03/2021 with future :
   1. Remove Flash elements.
   2. Update TCPDF to version 6.3.5.
   3. Minor update Datatables format.
+  4. Update UI format.
  
+
 # Security
 Do *NOT* expose ITDB to the public internet. It is not secure, it is aimed for intranets. If you need to do so, please configure an HTTP auth password on your web server so it will be hidden behind a password.
- 
-## Scope of pull requests
-Thank you for your time to consider contributing. Please take into account ITDB is only an inventory software. It may offer some basic reporting by quering 
-its own data because it may have access to invoices, users and equipment.
-ITDB tries to adhere to the [do one thing](https://en.wikipedia.org/wiki/Unix_philosophy#Do_One_Thing_and_Do_It_Well) philisophy.
-ITDB does not and should not aim to provide the functionality of other software e.g. network monitoring tools, finance software or network diagnostics software. 
-
-## Extent of pull request 
-Pull requests should fix 1 and only 1 thing. Otherwise it is extremely difficult to test and review.
 
 ### Bug fixes
 Please take the time to consider the following when submitting a bug:
@@ -43,17 +35,6 @@ Please take the time to consider the following when submitting a bug:
 * how does your fix work with Firefox/Chrome/IE ?
 * how does your fix scale with lots of items?
 
-
-### New UI fields pull requests:
-Please take the time to consider the following when submitting a generic pull-request :
-* Is your new  field universally useful? Can you think of cases where it doesn't make sense?
-* Can your functionality be already addressed by the current fields?
-* Does  your field have specific search needs?
-
-if the answer is no to at least one of the above then probably you don't need that field. ITDB has a lot of fields on the "no" category, let's not add any more.
-
-## Welcomed pull requests
-Any pull requests fixing the following would be welcome. Please open a discussion before starting to code.
 
 ### Major contributions
 * rewrite the DB requests using PDO (and prepared statements)

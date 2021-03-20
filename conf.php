@@ -22,11 +22,4 @@ $uploaddirwww="data/files/"; /* how to access uploaded files from web browser (m
 $dbfile="$scriptdir/data/itdb.db"; /* sqlite db file */
 $demomode=0;
 
-//Font for labels. Choose one from tcpdf/fonts directory.
-$tcpdf_font='freesans';
-
-// for chineese uncomment one of the following:
-// $tcpdf_font='kozgopromedium';
-// $tcpdf_font='cid0ct';
-
 ?>

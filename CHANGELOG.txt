@@ -9,7 +9,7 @@ B:bugfix
 
 1.23 -> 1.24 20/03/2021
 -------------------------------------------------------------------------------------------------------
-+:Remove flash
++:Remove flash elements
 +:Add IDR/Rp (Indonesian currency)
 +:Update tcpdf to 6.3.5
 +:Some update with datatables

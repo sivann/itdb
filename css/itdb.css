@@ -1,16 +1,3 @@
-/*
-@font-face {
-  font-family: "GraublauWeb";
-  src: url("GraublauWeb-Regular.otf") format("opentype");
-}
-
-@font-face {
-  font-family: "GraublauWeb";
-  font-weight: bold;
-  src: url("GraublauWeb-Bold.otf") format("opentype") ;
-}
-
-*/
 
 image {
 border:0;
@@ -21,7 +8,6 @@ button{
   font-weight:bold;
   color:#444;
 }
-
 
 .red {
   color: #f00;
@@ -49,8 +35,6 @@ hr.light1 {
   height: 1px;
   width: 50px;
 }
-
-
 
 td.tdtop {
   vertical-align: top ;
@@ -80,13 +64,12 @@ th {
   font-family:Verdana,Arial,Helvetica;
   font-weight:700;
   line-height:normal;
-  text-align:center;
+  text-align:center !important;
 }
 
 .center {
   text-align:center;
 }
-
 
 .tita {
   text-align:center;
@@ -110,7 +93,6 @@ th {
   margin: 0px;
 }
 
-
 .tdtit {
   text-align:center;
   font-weight:700;
@@ -121,7 +103,6 @@ th {
   /*border:1px solid #cecece;*/
 }
 
-
 input {
   font-size:8pt;
 }
@@ -130,7 +111,6 @@ input {
 table.tbl2 input[type=text], table.tbl2 input[type=password], table.tbl2 textarea ,  table.tbl2 div.mandatory  {
   width:150px;
 }
-
 
 table.tbl2 select {
   width:153px;
@@ -148,16 +128,10 @@ table.tbl2 input.dateinp {
   margin-left:-20px;
 }
 
-
-
-
 table.tbl2 input.radio {
   width:20px !important;
   margin:3px;
 }
-
-
-
 
 input[type=text],input[type=password],textarea,select {
   border:1px solid #CCCCCC ; 
@@ -168,8 +142,6 @@ input[type=text],input[type=password],textarea,select {
 option {
   border:0;
 }
-
-
 
 .monospaced {
   font-size:8pt;
@@ -194,7 +166,6 @@ textarea.tarea3 {
   width: 350px; 
   height: 50px;
 }
-
 
 input.input1 {
   width: 130px; 
@@ -231,7 +202,6 @@ div.relatedlist {
   padding-top:1px;
   padding-bottom:1px;
 }
-
 
 div.fileslist, div.fileslist2, div.fileslist3 {
   float:left;
@@ -278,15 +248,16 @@ body.mainbody {
   margin:0;
   padding:0;
 }
- 
 
 h1 {
-  color:#F36522;
-  background-color:#EBEFF9;
-  border-top:1px solid #6B90DA;
-  border-bottom:1px solid #6B90DA;
+  text-align:left;
+  border:0;
+  color:#000000;
+  background-color:white;
+  /* border-top:1px solid #6B90DA; */
+  border-bottom:1px dashed rgb(0, 0, 0);
   border-collapse:collapse;
-  font-size:16pt;
+  font-size:12pt;
   font-weight:bold;
   font-family:Verdana,Arial,Helvetica;
   margin:0;
@@ -294,7 +265,7 @@ h1 {
 
   padding-bottom: 5px;
   padding-top: 5px;
-  text-shadow:3px 3px 4px #eCCCCC;
+  text-shadow:3px 3px 4px #cCCCCC;
   width:100%;
 }
 
@@ -324,7 +295,6 @@ h3 {
   vertical-align:bottom;
   border-bottom:2px solid #3594F0;
 }
-
 
 sup {font-size: 80%; line-height: 80%;}
 
@@ -371,9 +341,6 @@ td {
   background-color:#336699; 
 } /*dark blue*/
 
-
-
-
 .disclaimer { 
   font-weight:normal; 
   font-family:Verdana,Arial,Helvetica;
@@ -393,14 +360,12 @@ td {
   font-size:7pt !important;
 }
 
-
 .small {
   font-family:Verdana,Arial,Helvetica;
   font-size:8pt;
   text-decoration:none;
   color:#001319;
 }
-
 
 .asmall {
   font-family:Verdana,Arial,Helvetica;
@@ -419,13 +384,26 @@ td.tdt { /*left column*/
   background-color:#EDEDED;
 }
 
+td.tdt2 { /*left column*/
+  color:#000000;
+  font-size:8pt;
+  font-family:Verdana,Arial,Helvetica;
+  vertical-align:top;
+  text-align:right;
+  line-height:90%;
+  background-color:#EDEDED;
+}
+
 td.tdd { /*right (data) column*/
   color:#000000;
   font-size:8pt;
   font-weight:normal;;
   font-family:Verdana,Arial,Helvetica;
   vertical-align:middle;
-  /*padding-right:5px; padding-left:15px; padding-top:4px; padding-bottom:4px;*/
+  /* padding-right:5px;
+  padding-left:15px;
+  padding-top:4px;
+  padding-bottom:4px; */
   line-height:90%;
   text-align: justify;
 }
@@ -445,7 +423,6 @@ td.tdc {
   text-align:center;
   vertical-align:top;
 }
-
 
 table.propstable {
   border:0;
@@ -542,7 +519,6 @@ table.brdr td {
   font-size:8pt;
 }
 
-
 table.brdr tr.dark td { /*dark cells for tr.dark*/
   background-color:#EDF3FF;
 }
@@ -563,6 +539,7 @@ table.rack th {
   background-color: #888;
   color:#fff;
 }
+
 table.rack td {
   padding: 1px;
   border-width: 1px;
@@ -633,8 +610,6 @@ td.bld {
   height: 40px;
 }
 
-
-
 a.ahdr {
   color:#fff;
   font-size:8pt;
@@ -654,7 +629,6 @@ a.ahdr:hover {
   padding-right:2px;
 }
 
-
 #logo {
   font-family:Arial,Helvetica;
   font-size:12pt;
@@ -662,7 +636,6 @@ a.ahdr:hover {
   color:white;
   text-shadow:2px 2px 4px #0000CC;
 }
-
 
 #leftcolumn {
   position:absolute;
@@ -712,7 +685,6 @@ a.ahdr:hover {
   -webkit-border-radius:10px 10px 0px 0px;
 }
 
-
 @media screen {
   #mainpage {
     position:relative;
@@ -761,7 +733,6 @@ iframe.iframe1{
 
 }
 
-
 @media print{
   div.scrltblcontainer {
 	  width: 100%;		/* table width will be 99% of this*/
@@ -779,10 +750,7 @@ iframe.iframe1{
     border:1px solid #ccc;
   }
 
-
 }
-
-
 
 @media screen{
   div.scrltblcontainer {
@@ -791,7 +759,6 @@ iframe.iframe1{
 	  overflow: auto;
 	  margin: 0 0;
   }
-
 
 /*
   div.scrtblcontainerlist {
@@ -806,7 +773,6 @@ iframe.iframe1{
   }
 
 }
-
 
 @media screen{
 
@@ -823,7 +789,6 @@ iframe.iframe1{
 	margin: 0 auto;
 	}
 }
-
 
 div.scrltblcontainer4 a {
   color:#2233dd;
@@ -844,7 +809,6 @@ div.scrltblcontainer3 {
 	}
 }
 
-
 @media print{
 div.scrltblcontainer2 {
 	width: 100%;		/* table width will be 99% of this*/
@@ -853,8 +817,6 @@ div.scrltblcontainer2 {
 	margin: 0 auto;
 	}
 }
-
-
 
 @media screen{
 div.scrltblcontainer2 {
@@ -883,7 +845,6 @@ input.filter {
 ul li {
   padding-bottom:3px;
 }
-
 
 @media print {
     .ui-tabs {display:block!important;}
@@ -1020,7 +981,6 @@ div.bigblockdesc {
   clear:both;
 }
 
-
 img.bigblock {
   height:70px;
 }
@@ -1044,9 +1004,6 @@ img.bigblock {
 #selitems {
   width:600px;
 }
-
-
-
 
 div.labellist {
 text-align:left;
@@ -1128,7 +1085,7 @@ table.propstable th {
   color:#000;
   font-weight:normal;
   height:25px;
-  background: url("../images/blue1.png") repeat-x scroll left top #fff;
+  background: url("../images/bluepsbg.png") repeat-x scroll left top #fff;
   font-size:9pt;
 }
 
@@ -1136,7 +1093,6 @@ table.propstable td {
   border:1px solid #E4E4E4;
   padding:0px 5px 0px 5px;
 }
-
 
 table.propstable caption {
   text-align:left;
@@ -1147,7 +1103,6 @@ table.propstable caption {
   font-size:9pt;
   color:#444;
 }
-
 
 div.blue {
   border-radius:8px;

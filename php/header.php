@@ -13,11 +13,9 @@
 <link rel="stylesheet" href="css/sweetTitles.css" type="text/css">
 <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" >
 <link rel="stylesheet" href="css/itdb.css" type="text/css">
-<!-- <link rel="stylesheet" href="css/theme.css" type="text/css"> -->
 <!-- Datatables -->
 <link rel="stylesheet" href="css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="css/buttons.dataTables.min.css">
-<link rel="stylesheet" href="css/fixedColumns.dataTables.min.css" type="text/css">
 
 <?php
   if (isset($_GET['nomenu']) && ($_GET['nomenu'])) {
@@ -69,7 +67,6 @@ function showid(n){
 <script src="js/jquery-ui.min.js"></script>
 <!-- Datatables -->
 <script src="js/jquery.dataTables.min.js"></script>
-<script src="js/dataTables.fixedColumns.min.js"></script>
 <script src="js/jszip.min.js"></script>
 <script src="js/pdfmake.min.js"></script>
 <script src="js/vfs_fonts.js"></script>

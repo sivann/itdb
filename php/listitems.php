@@ -5,7 +5,6 @@
       "scrollCollapse": true,
       "scrollY": "400px",
       "scrollX": true,
-      //"fixedColumns": true,
       "displayLength": 25,
       "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
       "lengthChange": true,
@@ -19,7 +18,7 @@
       ],
       "columnDefs": [ 
         { "width": "70px", "targets": [0]},
-        { "orderable": [ "desc","asc" ], "targets": [0]},
+        { "searchable": [ "desc","asc" ], "targets": [0]},
         { "type": "title-numeric", "targets": [7]}
       ],
       "processing": true,
@@ -75,68 +74,70 @@
 </h1>
 
 <table id='colfiltertbl' style='display:none'>
-<tr>
-<td style='vertical-align:top'>
-	<table>
-		<?php
-		for ($i1=0;$i1<=20;$i1+=2) {
-		?>
-		<tr id="filter_col_<?=$i1?>" data-column="<?=$i1?>">
-			<td class='col_filt_name'>Name</td>
-			<td align="center"><input type="text" class="column_filter"></td>
-		</tr>
-		<?php
-		}
-		?>
-	</table>
-</td>
+  <tr>
+    <td style='vertical-align:top'>
+      <table>
+        <?php
+        for ($i1=0;$i1<=20;$i1+=2) {
+        ?>
+        <tr id="filter_col_<?=$i1?>" data-column="<?=$i1?>">
+          <td class='col_filt_name'>Name</td>
+          <td align="center"><input type="text" class="column_filter"></td>
+        </tr>
+        <?php
+        }
+        ?>
+      </table>
+    </td>
 
-<td style='vertical-align:top'>
-	<table>
-		<?php
-		for ($i2=1;$i2<=20;$i2+=2) {
-		?>
-		<tr id="filter_col_<?=$i2?>" data-column="<?=$i2?>">
-			<td class='col_filt_name'>Name</td>
-			<td align="center"><input type="text" class="column_filter"></td>
-		</tr>
-		<?php
-		}
-		?>
-	</table>
-</td>
+    <td style='vertical-align:top'>
+      <table>
+        <?php
+        for ($i2=1;$i2<=20;$i2+=2) {
+        ?>
+        <tr id="filter_col_<?=$i2?>" data-column="<?=$i2?>">
+          <td class='col_filt_name'>Name</td>
+          <td align="center"><input type="text" class="column_filter"></td>
+        </tr>
+        <?php
+        }
+        ?>
+      </table>
+    </td>
 
-</tr>
+  </tr>
 </table>
 
-<table id='itemlisttbl' class="display">
-<thead>
-	<tr>
-	<th class='colhead'><?php te("ID");?></th>
-	<th class='colhead'><?php te("Label");?></th>
-	<th class='colhead'><?php te("Item Type");?></th>
-	<th class='colhead'><?php te("Manufacturer");?></th>
-	<th class='colhead'><?php te("Model");?></th>
-	<th class='colhead'><?php te("DnsName");?></th>
-	<th class='colhead'><?php te("S/N");?></th>
-	<th class='colhead'><?php te("PurchaseDate");?></th>
-	<th class='colhead'><?php te("Warr. Rem. days");?></th>
-	<th class='colhead'><?php te("User");?></th>
-	<th class='colhead'><?php te("Status");?></th>
-	<th class='colhead'><?php te("Location");?></th>
-	<th class='colhead'><?php te("Area");?></th>
-	<th class='colhead'><?php te("Rack");?></th>
-	<th class='colhead'><?php te("PurchPrice");?></th>
-	<th class='colhead'><?php te("MACs");?></th>
-	<th class='colhead'><?php te("IPv4");?></th>
-	<th class='colhead'><?php te("IPv6");?></th>
-	<th class='colhead'><?php te("RemAdmIP");?></th>
-	<th class='colhead'><?php te("Tags");?></th>
-	<th class='colhead'><?php te("Software");?></th>
-	</tr>
-</thead>
+<table class="display" width='100%' border=0 id='itemlisttbl'>
+  <thead>
+    <tr>
+    <th class='colhead'><?php te("ID");?></th>
+    <th class='colhead'><?php te("Label");?></th>
+    <th class='colhead'><?php te("Item Type");?></th>
+    <th class='colhead'><?php te("Manufacturer");?></th>
+    <th class='colhead'><?php te("Model");?></th>
+    <th class='colhead'><?php te("DnsName");?></th>
+    <th class='colhead'><?php te("S/N");?></th>
+    <th class='colhead'><?php te("PurchaseDate");?></th>
+    <th class='colhead'><?php te("Warr. Rem. days");?></th>
+    <th class='colhead'><?php te("User");?></th>
+    <th class='colhead'><?php te("Status");?></th>
+    <th class='colhead'><?php te("Location");?></th>
+    <th class='colhead'><?php te("Area");?></th>
+    <th class='colhead'><?php te("Rack");?></th>
+    <th class='colhead'><?php te("PurchPrice");?></th>
+    <th class='colhead'><?php te("MACs");?></th>
+    <th class='colhead'><?php te("IPv4");?></th>
+    <th class='colhead'><?php te("IPv6");?></th>
+    <th class='colhead'><?php te("RemAdmIP");?></th>
+    <th class='colhead'><?php te("Tags");?></th>
+    <th class='colhead'><?php te("Software");?></th>
+    </tr>
+  </thead>
 <tbody>
-	<tr> <td colspan="21" class="dataTables_empty"><?php te("Loading data from server");?></td> </tr>
+	<tr>
+    <td colspan="21" class="dataTables_empty"><?php te("Loading data from server");?></td>
+  </tr>
 </tbody>
 </table>
 

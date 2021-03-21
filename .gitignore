@@ -1,3 +1,4 @@
 *.swp
 #data/files/*
 data/itdb.db
+**/.DS_Store

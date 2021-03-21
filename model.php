@@ -1,7 +1,6 @@
 <?php
 /********************************* DB QUERIES IN FUNCTION FORM ****************************************/
 
-
 function getstatusidofitem($itemid,$dbh)
 {
   $sql="SELECT status FROM items WHERE items.id='$itemid'";
@@ -28,7 +27,6 @@ function attrofstatus($statusid,$dbh)
 
 }
 
-
 function ftype2str($typeid,$dbh) {
 
   $sql="SELECT typedesc from filetypes WHERE ".
@@ -41,6 +39,7 @@ function ftype2str($typeid,$dbh) {
   return ucfirst($typestr);
 
 }
+
 //returns files array from invoice id
 function invid2files($invid,$dbh) {
   $sql="SELECT files.* from files,invoice2file WHERE ".
@@ -71,7 +70,6 @@ function softid2invoicefiles($softid,$dbh) {
   return $f;
 }
 
-
 function softid2contractfiles($softid,$dbh) {
     $sql="SELECT files.* from files,contract2file,contract2soft WHERE ".
         " contract2soft.softid='$softid' AND ".
@@ -81,9 +79,6 @@ function softid2contractfiles($softid,$dbh) {
     $f=$sthi->fetchAll(PDO::FETCH_ASSOC);
     return $f;
 }
-
-
-
 
 //returns files array from item id
 function itemid2files($itemid,$dbh) {
@@ -115,8 +110,6 @@ function itemid2contractfiles($itemid,$dbh) {
     return $f;
 }
 
-
-
 //returns files array from contract id
 function contractid2files($contractid,$dbh) {
   $sql="SELECT files.* from files,contract2file WHERE ".
@@ -126,8 +119,6 @@ function contractid2files($contractid,$dbh) {
   $fn=$sth->fetchAll(PDO::FETCH_ASSOC);
   return $fn;
 }
-
-
 
 //returns number of connected items/racks with a locationid
 function countloclinks($locid,$dbh) {
@@ -193,7 +184,6 @@ function countfileidlinks($fileid,$dbh) {
   return $count;
 }
 
-
 function delfile($fileid,$dbh) {
 global $uploaddir;
   //delete inter-item links
@@ -202,7 +192,6 @@ global $uploaddir;
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $fname=$r['fname'];
-
 
   $sql="DELETE from files where id=$fileid";
   $sth=db_exec($dbh,$sql);
@@ -243,8 +232,6 @@ function countsoftwaretags($tagid) {
   return $r['count'];
 }
 
-
-
 function tagid2name($id) {
   global $dbh;
   $sql="SELECT name from tags where id = '$id'";
@@ -254,7 +241,6 @@ function tagid2name($id) {
   $name=$r['name'];
   return $name;
 }
-
 
 function tagname2id($name) {
   global $dbh;
@@ -287,19 +273,18 @@ function showtags($type="item",$id,$lnk=1) {
     for ($i=0;$i<count($tags)-1 ; $i++) {
 
       if ($lnk)
-	$ret.= "    <li><a href=''>{$tags[$i]}</a></li>\n";
+	$ret.= "<li><a href=''>{$tags[$i]}</a></li>\n";
       else
-	$ret.= "    <li>{$tags[$i]}</li>\n";
+	$ret.= "<li>{$tags[$i]}</li>\n";
     }
     if ($lnk)
-      $ret.= "    <li class='last'><a href=''>{$tags[$i]}</a></li>\n";
+      $ret.= "<li class='last'><a href=''>{$tags[$i]}</a></li>\n";
     else
-      $ret.= "    <li class='last'>{$tags[$i]}</li>\n";
+      $ret.= "<li class='last'>{$tags[$i]}</li>\n";
   }
-  $ret.= "  </ul>\n  ";
+  $ret.= "</ul>\n";
   return $ret;
 }
-
 
 function countitemsinrack($rackid) {
   global $dbh;
@@ -361,13 +346,13 @@ global $dateparam,$scriptname,$action,$id,$uploaddirwww,$dbh;
    if ($wantdel) 
      $flnk.="<a title='Remove association. If file is orphaned (nothing links to it), it gets deleted.' ".
 	   "href='javascript:delconfirm2(\"[$fid] $fname\",\"$scriptname?action=$action&amp;id=$id&amp;delfid=$fid\");'>".
-	 "<img src='images/delete.png'></a> ";
+	   "<img src='images/delete.png'></a> ";
    $flnk.= "<a target=_blank title='Edit File $fid' href='$scriptname?action=editfile&amp;id=$fid'><img  src='images/edit.png'></a>".
-	 " <a target=_blank title='Download $fname' href='".$uploaddirwww.$fname."'><img src='images/down.png'></a>".
-	 "<br>Type:<b>$ftypestr</b>".
-	 "<br>Date:<b>$fdate</b>".
-	 "<br>Title:$ftitle\n".
-	 "</div>\n ";
+	  " <a target=_blank title='Download $fname' href='".$uploaddirwww.$fname."'><img src='images/down.png'></a>".
+	  "<br>Type:<b>$ftypestr</b>".
+	  "<br>Date:<b>$fdate</b>".
+	  "<br>Title:$ftitle\n".
+	  "</div>\n ";
   }
 
   return $flnk;
@@ -404,7 +389,6 @@ function calcremdays($purchdate_ts,$warrantymonths) {
 
 	return array('string'=>$exp_interval_str,'days'=>$exp_interval_days);
 }
-
 
 function showremdays($remdays) {
   if (abs($remdays)>360) $remw=sprintf("%.1f",($remdays/360))."yr";
@@ -476,7 +460,6 @@ function getagenthwmanufacturers() {
   return $r;
 }
 
-
 function gethwmanufacturerbyname ($name) {
   global $dbh;
 
@@ -493,7 +476,6 @@ function gethwmanufacturerbyname ($name) {
 	else 
 		return $r;
 }
-
 
 function getuseridbyname ($name) {
   global $dbh;
@@ -546,10 +528,8 @@ function getitemtypeidbyname ($name) {
 		return $r['id'];
 }
 
-
 function getstatustypeidbyname ($name) {
   global $dbh;
-
 
 	$name=trim(strtolower($name));
 	if (!strlen($name))
@@ -599,7 +579,6 @@ function getlocidsbynames ($locname,$areaname) {
 
 }
 
-
 function getuserbyname ($name) {
   global $dbh;
 
@@ -616,8 +595,6 @@ function getuserbyname ($name) {
 		return $r;
     }
 }
-
-
 
 /* return URL of an agent which has a specific $tag description. E.g. "Service Tag" */
 function getagenturlbytag($agenturl,$tagstr) {
@@ -639,7 +616,6 @@ function getagenturlbytag($agenturl,$tagstr) {
   }
   return "";
 }
-
 
 function dbversion() {
   global $dbh;

@@ -16,18 +16,18 @@ $(document).ready(function() {
   }
 
   $reports=array (
-  'itemperagent' => t('Number of items per Manufacturer (Agent)'),
-  'softwareperagent' => t('Number of installed Software per Manufacturer (Agent)'),
-  'invoicesperagent' => t('Number of invoices per Vendor (Agent)'),
-  'itemsperlocation' => t('Number of items per Location'),
-  'percsupitems' => t('Number of Items under support'),
-  'itemlistperlocation' => t('Item list per location'),
-  'itemsendwarranty' => t('Items with warranty end date close to (before or after) today'),
-  'allips' => t('List items with defined IPv4 numbers'),
-  'noinvoice' => t('Items without invoices'),
-  'nolocation' => t('Items without location'),
-  'depreciation3' => t('Item depreciation value 3 years'),
-  'depreciation5' => t('Item depreciation value 5 years'),
+    'itemperagent' => t('Number of items per Manufacturer (Agent)'),
+    'softwareperagent' => t('Number of installed Software per Manufacturer (Agent)'),
+    'invoicesperagent' => t('Number of invoices per Vendor (Agent)'),
+    'itemsperlocation' => t('Number of items per Location'),
+    'percsupitems' => t('Number of Items under support'),
+    'itemlistperlocation' => t('Item list per location'),
+    'itemsendwarranty' => t('Items with warranty end date close to (before or after) today'),
+    'allips' => t('List items with defined IPv4 numbers'),
+    'noinvoice' => t('Items without invoices'),
+    'nolocation' => t('Items without location'),
+    'depreciation3' => t('Item depreciation value 3 years'),
+    'depreciation5' => t('Item depreciation value 5 years'),
   );
 
 ?>
@@ -84,7 +84,7 @@ $(document).ready(function() {
       break;
 
       case "nolocation":
-      $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model ".
+      $sql="select items.id as ID, typedesc as Type, agents.title as Manufacturer, Model ".
           " FROM items,itemtypes,agents ".
           " WHERE agents.id=manufacturerid AND itemtypes.id=items.itemtypeid AND (locationid='' OR locationid is null)";
       $editlnk="$scriptname?action=edititem&id";
@@ -211,7 +211,7 @@ $(document).ready(function() {
           
           if (($graph['type']=='pie') && $graph['limit']-->0) {
             if (!($r[$graph['colx']]=='Total'))  { //don't include totals in pies
-        $plot_param.="['".$r[$graph['colx']]."',".$r[$graph['coly']]."],";
+              $plot_param.="['".$r[$graph['colx']]."',".$r[$graph['coly']]."],";
             }
           }
 
@@ -229,7 +229,7 @@ $(document).ready(function() {
         }
 
         if (isset($graph['type'])) {
-          $plot_param[strlen($plot_param)-1]=" "; //eat last comma
+          $plot_param[strlen($plot_param)-1]=""; //eat last comma
           $plot_param.="];\n";
         }
 
@@ -245,14 +245,18 @@ $(document).ready(function() {
     if (strlen($plot_param)) {
   ?>
   $(document).ready(function() {
-    line1 = <?php  echo $plot_param; ?> ;
+    line1 = <?php echo $plot_param ?> ;
     $.jqplot.config.enablePlugins = true;
     $.jqplot.config.catchErrors = true;
     plot1 = $.jqplot('chartdiv', [line1], {
-        //title: 'Default Pie Chart',
-        seriesDefaults:{renderer:$.jqplot.PieRenderer,rendererOptions:{sliceMargin:3}},
-        grid:{background:'#ffffff', borderWidth:0,shadow:false},
-        legend:{show:true,rowSpacing : '0.1em'}
+      seriesDefaults:{
+        renderer:$.jqplot.PieRenderer,rendererOptions:{
+          sliceMargin: 3,
+          showDataLabels: true
+        }
+      },
+      grid:{background:'#ffffff', borderWidth:0,shadow:false},
+      legend:{show:true,rowSpacing : '0.1em'}
     });
   });
 
@@ -260,4 +264,3 @@ $(document).ready(function() {
   }
   ?>
 </script>
-

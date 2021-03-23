@@ -50,8 +50,10 @@ echo "\n<h1>".t("Settings")."</h1>\n";
 
     <table class="tbl2" >
     <tr><td colspan=2><h3><?php te("Settings"); ?></h3></td></tr>
-    <tr><td class="tdt"><?php te("Company Title ");?>:</td> 
-        <td><input  class='input2 ' size=20 type=text name='companytitle' value="<?php echo $settings['companytitle']?>"></td></tr>
+    <tr>
+      <td class="tdt"><?php te("Company Title ");?>:</td> 
+      <td><input  class='input2 ' size=20 type=text name='companytitle' value="<?php echo $settings['companytitle']?>"></td>
+    </tr>
     <tr><td class="tdt"><?php te("Date Format ")?>:</td><td>
     <select  name='dateformat'>
       <?php if ($settings['dateformat']=="dmy") $s="SELECTED"; else $s="" ?>
@@ -74,6 +76,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <tr><td class="tdt"><?php te("Currency ")?>:</td><td>
 
     <select  name='currency'>
+
       <?php if ($settings['currency']=="&#82;&#112;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='IDR' value='<?php echo htmlentities("&#82;&#112;");?>'>&#82;&#112;</option>
 

@@ -5,7 +5,14 @@ IT assets. It is not or targets for ITIL/CMDB compliance (yet), but it has
 served me for years and hopefully it will do the same for you :-) It is aimed as 
 an intranet tool.
 
-ITDB comes with sources and is distributed under the GNU Public license. 
+ITDB comes with sources and is distributed under the GNU Public license.
+
+# Major Update 25 March 2021
+1. Remove flash element
+2. Remove swf folder & files >> no needed
+3. Update datatables to new version
+4. Update tcpdf to version 6.3.5
+5. Minor cuscomize UI
 
 # Homepage 
 http://www.sivann.gr/software/itdb/

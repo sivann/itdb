@@ -40,6 +40,10 @@
 // If you define the constant K_TCPDF_EXTERNAL_CONFIG, all the following settings will be ignored.
 // If you use the tcpdf_autoconfig.php, then you can overwrite some values here.
 
+/**
+ * Define the following constant to ignore the default configuration file.
+ */
+define ('K_TCPDF_EXTERNAL_CONFIG', true);
 
 /**
  * Installation path (/var/www/tcpdf/).
@@ -64,12 +68,13 @@
  * By default it is automatically set but you can also set it as a fixed string to improve performances.
  */
 //define ('K_PATH_IMAGES', '');
+define ('K_PATH_IMAGES', dirname(__FILE__).'tcpdf/images/');
 
 /**
  * Deafult image logo used be the default Header() method.
  * Please set here your own logo or an empty string to disable it.
  */
-//define ('PDF_HEADER_LOGO', '');
+define ('PDF_HEADER_LOGO', 'itdb.png');
 
 /**
  * Header logo image width in user units.
@@ -79,8 +84,6 @@
 /**
  * Cache directory for temporary files (full path).
  */
-//define ('K_PATH_CACHE', '/tmp/');
-
 define ('K_PATH_CACHE', sys_get_temp_dir().'/');
 
 /**
@@ -212,7 +215,7 @@ define('K_THAI_TOPCHARS', true);
  * If true allows to call TCPDF methods using HTML syntax
  * IMPORTANT: For security reason, disable this feature if you are printing user HTML content.
  */
-define('K_TCPDF_CALLS_IN_HTML', true);
+define('K_TCPDF_CALLS_IN_HTML', false);
 
 /**
  * If true and PHP version is greater than 5, then the Error() method throw new exception instead of terminating the execution.

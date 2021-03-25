@@ -1,6 +1,8 @@
 <!doctype html>
 
 <!-- (c) dev 2021 -->
+<!-- (c) Spiros Ioannou 2008-2009 -->
+<!-- sivann at gmail . com  -->
 <!-- poer.mrn at gmail . com  -->
 <html itemscope="" lang="en-ID">
 <head>

@@ -17,7 +17,6 @@ A new version of this library is under development at https://github.com/tecnick
 This version should be considered obsolete, new projects should use the new version as soon it will become stable.
 
 
-
 ## Description
 
 PHP library for generating PDF documents on-the-fly.

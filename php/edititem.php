@@ -56,8 +56,8 @@ if (isset($_GET['delid'])) {
 }
 
 if (isset($_GET['cloneid'])) { 
-  $cols="itemtypeid , function, manufacturerid ,model,origin,warrantymonths ,purchasedate ,purchprice, maintenanceinfo,".
-        "comments,ispart ,hd,cpu,ram,locationid ,usize ,rackmountable ,label,status,cpuno , corespercpu , warrinfo";
+  $cols="itemtypeid, function, manufacturerid, model, origin, warrantymonths, purchasedate, purchprice, maintenanceinfo,".
+        "comments, ispart , hd, cpu, ram, locationid , usize, rackmountable, label, status, cpuno, corespercpu, warrinfo";
 
   $sql="insert into items ($cols) ".
      " select $cols from items ".
@@ -70,13 +70,6 @@ if (isset($_GET['cloneid'])) {
   echo "<a href='$scriptname?action=edititem&amp;id=$newid'>Go here</a></body></html>"; 
   exit;
 }
-
-
-
-
-
-
-
 
 /* delete associated file */
 if (isset($_GET['delfid'])) { /* displayed from showfiles() */
@@ -127,8 +120,6 @@ if (isset($_POST['itemtypeid']) && ($_GET['id']!="new") && isvalidfrm()) {
   if (!isset($_POST['itlnk'])) $itlnk=array();
   if (!isset($_POST['invlnk'])) $invlnk=array();
 
-
-
   $sql="SELECT items.userid,users.username from users,items where userid=users.id and items.id='$id'";
   $sth=db_execute($dbh,$sql);
   $curruser=$sth->fetchAll(PDO::FETCH_ASSOC);
@@ -159,7 +150,6 @@ if (isset($_POST['itemtypeid']) && ($_GET['id']!="new") && isvalidfrm()) {
   $ldesc=$laction[0]['description'];
   $ldate=date("Ymd",$laction[0]['entrydate']);
   $ndate=date("Ymd",time());
-
 
   if (($upstr != $ldesc) && ($ldate != $ndate) ) {
     //add new action entry
@@ -234,9 +224,6 @@ elseif (isset($_POST['itemtypeid']) && ($_GET['id']=="new")&&isvalidfrm()) {
   $warrantymonths=(int)$warrantymonths;
   if (!$warrantymonths || !strlen($warrantymonths) || !is_integer($warrantymonths)) $warrantymonths="NULL";
 
-
-
-
   //// STORE DATA
   $sql="INSERT into items (label, itemtypeid, function, manufacturerid, ".
   " warrinfo, model, sn, sn2, sn3, origin, warrantymonths, purchasedate, purchprice, ".
@@ -298,7 +285,6 @@ elseif (isset($_POST['itemtypeid']) && ($_GET['id']=="new")&&isvalidfrm()) {
     db_exec($dbh,$sql);
   }
 
-
   //add new action entry
   $sql="INSERT into actions (itemid, actiondate,description,invoiceinfo,isauto,entrydate) values ".
        "($lastid,".time().",'Added by {$_COOKIE["itdbuser"]}' , '',1,".time().")";
@@ -324,7 +310,7 @@ global $dbh,$disperr,$err,$_POST;
 
 
   $myid=$_GET['id'];
-  if ($myid != "new" && is_numeric($myid) && (strlen(trim($_POST['sn'])) || strlen(trim($_POST['sn2'])))) {
+  if ($myid != "new" && is_numeric($myid) && (strlen($_POST['sn']) || strlen($_POST['sn2']))) {
 	  $sql="SELECT id from items where  id <> $myid AND ((length(sn)>0 AND sn in ('{$_POST['sn']}', '{$_POST['sn2']}')) OR (length(sn2)>0 AND sn2 in ('{$_POST['sn']}', '{$_POST['sn2']}')))  LIMIT 1";
 	  $sth=db_execute($dbh,$sql);
 	  $dups=$sth->fetchAll(PDO::FETCH_ASSOC);
@@ -332,9 +318,6 @@ global $dbh,$disperr,$err,$_POST;
 		  $err.="Duplicate SN with id <a href='$scriptname?action=edititem&amp;id={$dups[0]['id']}'><b><u>{$dups[0]['id']}</u></b></a>";
 	  }
   }
-
-
-
 
   if (strlen($err)) {
       $disperr= "

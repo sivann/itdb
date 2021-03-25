@@ -1,8 +1,6 @@
-<SCRIPT LANGUAGE="JavaScript"> 
+<script> 
 
 $(document).ready(function() {
-
-
 
 <?php
 if (isset($_POST['dateformat']) ) { //if we came from a post (save), refresh to show new language
@@ -11,7 +9,7 @@ if (isset($_POST['dateformat']) ) { //if we came from a post (save), refresh to 
 ?>
 
 });
-</SCRIPT>
+</script>
 <?php 
 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
@@ -52,9 +50,9 @@ echo "\n<h1>".t("Settings")."</h1>\n";
 
     <table class="tbl2" >
     <tr><td colspan=2><h3><?php te("Settings"); ?></h3></td></tr>
-    <tr><td class="tdt"><?php te("Company Title");?>:</td> 
+    <tr><td class="tdt"><?php te("Company Title ");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='companytitle' value="<?php echo $settings['companytitle']?>"></td></tr>
-    <tr><td class="tdt"><?php te("Date Format")?></td><td>
+    <tr><td class="tdt"><?php te("Date Format ")?>:</td><td>
     <select  name='dateformat'>
       <?php if ($settings['dateformat']=="dmy") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> value='dmy'>Day/Month/Year</option>
@@ -65,7 +63,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     </select>
     </td>
     </tr>
-    <!--tr><td class="tdt"><?php te("Time Format")?></td><td>
+    <!--tr><td class="tdt"><?php te("Time Format ")?></td><td>
     <select  name='timeformat'>
       <?php if ($settings['timeformat']=="hh:mm:ss") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> value='hh:mm:ss'>hh:mm:ss</option>
@@ -73,9 +71,12 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     </td>
     </tr-->
 
-    <tr><td class="tdt"><?php te("Currency")?></td><td>
+    <tr><td class="tdt"><?php te("Currency ")?>:</td><td>
 
     <select  name='currency'>
+      <?php if ($settings['currency']=="&#82;&#112;") $s="SELECTED"; else $s="" ?>
+      <option <?php echo $s?> title='IDR' value='<?php echo htmlentities("&#82;&#112;");?>'>&#82;&#112;</option>
+
       <?php if ($settings['currency']=="&euro;") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> title='Euro' value='<?php echo htmlentities("&euro;");?>'>&euro;</option>
 
@@ -113,7 +114,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
       <option <?php echo $s?> title='NOK' value='<?php echo htmlentities("kr");?>'>NOK</option>
 
     </select></td></tr>
-    <tr><td class="tdt"><?php te("Interface Language")?></td><td>
+    <tr><td class="tdt"><?php te("Interface Language ")?>:</td><td>
     <select  name='lang'>
       <?php if ($settings['lang']=="en") $s="SELECTED"; else $s="" ?>
       <option <?php echo $s?> value='en'>en</option>
@@ -132,7 +133,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     </td>
 
     </tr>
-    <tr><td class="tdt" title='Timezone based on 3 alpha abbreviation. (e.g. MST, EST, UTC, etc)'><?php te("Timezone (Abbreviation)");?>:</td><td>
+    <tr><td class="tdt" title='Timezone based on 3 alpha abbreviation. (e.g. MST, EST, UTC, etc)'><?php te("Timezone (Abbreviation) ");?>:</td><td>
     <select name='timezone'>
 <?php
       $tz_array=file("php/timezones.txt");
@@ -167,7 +168,7 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <tr><td class="tdt" title='Provide the full path to the switches directory within the SwitchMap directory.'><?php te("Path To Switchmap");?>:</td><td><input  class='input2 ' size=20 type=text name='switchmapdir' value="<?php echo $settings['switchmapdir']?>"></td></tr>
 
 -->
-    <tr><td class="tdt"><?php te("Use LDAP");?>:</td> 
+    <tr><td class="tdt"><?php te("Use LDAP ");?>:</td> 
         <td><select  name='useldap'>
         <?php
         if ($settings['useldap']==1) $s1='SELECTED';
@@ -178,13 +179,13 @@ echo "\n<h1>".t("Settings")."</h1>\n";
         </select>
         (for authentication only, except user admin which is local)</td></tr>
 
-    <tr><td class="tdt"><?php te("LDAP Server");?>:</td> 
+    <tr><td class="tdt"><?php te("LDAP Server ");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='ldap_server' value="<?php echo $settings['ldap_server']?>"> e.g.: ldap.mydomain.com</td></tr>
-    <tr><td class="tdt"><?php te("LDAP DN");?>:</td> 
+    <tr><td class="tdt"><?php te("LDAP DN ");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='ldap_dn' value="<?php echo $settings['ldap_dn']?>"> For user authentication.e.g.: ou=People,dc=mydomain,dc=com</td></tr>
-    <tr><td class="tdt"><?php te("LDAP Search for users");?>:</td> 
+    <tr><td class="tdt"><?php te("LDAP Search for users ");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='ldap_getusers' value="<?php echo $settings['ldap_getusers']?>"> e.g.: ou=People,dc=mydomain,dc=com</td></tr>
-    <tr><td class="tdt"><?php te("LDAP User filter");?>:</td> 
+    <tr><td class="tdt"><?php te("LDAP User filter ");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='ldap_getusers_filter' value="<?php echo $settings['ldap_getusers_filter']?>"> e.g.: (&amp; (uid=*) (IsActive=TRUE))</td></tr>
 
 

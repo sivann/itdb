@@ -53,7 +53,7 @@ switch ($_GET['action']) {
     break;
   case "listitems": 
     $title="Find Item";
-    $head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
+    $head.="<link rel='stylesheet' href='css/jquery.tag.list.css' />\n";
     break;
   case "listagents": 
     $title="List Agents";
@@ -64,24 +64,24 @@ switch ($_GET['action']) {
   case "edititem": 
     $title="Edit Item";
     $stitle="Item";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
-	   "<link rel='stylesheet' type='text/css' href='css/jquery.tag.css' />\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+    $head.="<script src='js/jquery.tag.js'></script>\n".
+	   "<link rel='stylesheet' href='css/jquery.tag.css' />\n".
+	   "<script src='js/jquery.metadata.js'></script>\n".
+	   "<script src='js/jquery.validate.js'></script>\n".
+	   "<script src='js/jquery.validate.front.js'></script>\n";
     break;
   case "editsoftware": 
     $title="Edit Software";
     $stitle="Software";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.tag.js'></script>\n".
-	   "<link rel='stylesheet' type='text/css' href='css/jquery.tag.css' />\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+    $head.="<script src='js/jquery.tag.js'></script>\n".
+	   "<link rel='stylesheet' href='css/jquery.tag.css' />\n".
+	   "<script src='js/jquery.metadata.js'></script>\n".
+	   "<script src='js/jquery.validate.js'></script>\n".
+	   "<script src='js/jquery.validate.front.js'></script>\n";
     break;
   case "listsoftware": 
     $title="List Software";
-    $head.="<link rel='stylesheet' type='text/css' href='css/jquery.tag.list.css' />\n";
+    $head.="<link rel='stylesheet' href='css/jquery.tag.list.css' />\n";
     break;
   case "listcontracts": 
     $title="List Contracts";
@@ -92,9 +92,9 @@ switch ($_GET['action']) {
   case "editinvoice": 
     $title="Edit Invoice";
     $stitle="Invoice";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+    $head.="<script src='js/jquery.metadata.js'></script>\n".
+	   "<script src='js/jquery.validate.js'></script>\n".
+	   "<script src='js/jquery.validate.front.js'></script>\n";
     break;
   case "listfiles": 
     $title="List Files";
@@ -102,9 +102,9 @@ switch ($_GET['action']) {
   case "editfile": 
     $title="Edit File";
     $stitle="File";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+    $head.="<script src='js/jquery.metadata.js'></script>\n".
+	   "<script src='js/jquery.validate.js'></script>\n".
+	   "<script src='js/jquery.validate.front.js'></script>\n";
     break;
   case "listusers": 
     $title="List Users";
@@ -125,17 +125,17 @@ switch ($_GET['action']) {
   case "edituser": 
     $stitle="User";
     $title="Edit User";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+    $head.="<script src='js/jquery.metadata.js'></script>\n".
+	   "<script src='js/jquery.validate.js'></script>\n".
+	   "<script src='js/jquery.validate.front.js'></script>\n";
     break;
 
   case "editrack": 
     $stitle="Rack";
     $title="Edit Rack";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+    $head.="<script src='js/jquery.metadata.js'></script>\n".
+	   "<script src='js/jquery.validate.js'></script>\n".
+	   "<script src='js/jquery.validate.front.js'></script>\n";
     break;
 
   case "edititypes": 
@@ -144,9 +144,9 @@ switch ($_GET['action']) {
   case "editcontract": 
     $title="Edit Contract";
     $stitle="Contract";
-    $head.="<script language='javascript' type='text/javascript' src='js/jquery.metadata.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.js'></script>\n".
-	   "<script language='javascript' type='text/javascript' src='js/jquery.validate.front.js'></script>\n";
+    $head.="<script src='js/jquery.metadata.js'></script>\n".
+	   "<script src='js/jquery.validate.js'></script>\n".
+	   "<script src='js/jquery.validate.front.js'></script>\n";
     break;
   case "editcontracttypes": 
     $title="Edit Contract Types";
@@ -174,11 +174,10 @@ switch ($_GET['action']) {
     break;
   case "reports": 
     $title="Reports";
-    $head.="<script language='javascript' type='text/javascript' src='js/jqplot/jquery.jqplot.js'></script>\n".
-	   "<script type='text/javascript' src='js/jqplot/plugins/jqplot.pieRenderer.js'></script>\n".
-	   "<script type='text/javascript' src='js/jqplot/plugins/jqplot.barRenderer.js'></script>\n".
-	   "<!--[if lt IE 9]><script language='javascript' type='text/javascript' src='js/jqplot/excanvas.js'></script><![endif]-->\n".
-	   "<link rel='stylesheet' type='text/css' href='css/jquery.jqplot.css' />";
+    $head.="<script type='text/javascript' src='js/jquery.jqplot.min.js'></script>\n".
+	   "<script type='text/javascript' src='js/jqplot.pieRenderer.min.js'></script>\n".
+	   "<script type='text/javascript' src='js/jqplot.barRenderer.min.js'></script>\n".
+	   "<link rel='stylesheet' href='css/jquery.jqplot.min.css' />";
     break;
   case "showhist": 
     $title="History";
@@ -336,9 +335,9 @@ else {
   echo "\n<form name=itdbloginfrm method=post>".
    "<input name=authusername size=10 onfocus=\"this.value='';\" ".
    "value='$itdbuser'>\n<br>".
-   "<input name=authpassword size=10  type=password onfocus=\"this.value='';\" ".
+   "<input name=authpassword size=10 type=password onfocus=\"this.value='';\" ".
    "value=''>\n".
-   "<br><br><button type=submit><img src='images/key.png'> Login</button>";
+   "<br><br><button type=submit><img src='images/key.png'>".t("Login")."</button>";
    "\n";
 }
 

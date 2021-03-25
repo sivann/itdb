@@ -6,8 +6,8 @@ if (!isset($authstatus) || (!$authstatus)) {echo "<big><b>Not logged in</b></big
 
 
 header('Content-Type: application/x-gzip');
-$content_disp = ( ereg('MSIE ([0-9].[0-9]{1,2})', $HTTP_USER_AGENT) == 'IE') ? 'inline' : 'attachment';
-$now = date("Ymd");
+$content_disp = ( preg_match('MSIE ([0-9].[0-9]{1,2})', $HTTP_USER_AGENT) == 'IE') ? 'inline' : 'attachment';
+$now = date("dmY");
 header('Content-Disposition: ' . $content_disp . "; filename=\"itdb-$now.tar.gz\"");
 header('Pragma: no-cache');
 header('Expires: 0');

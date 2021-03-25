@@ -60,7 +60,6 @@ if (!strlen($procusername))
 //to work without register_globals
 foreach($_REQUEST as $k => $v) { ${$k} = $v; }
 
-
 if (!file_exists($dbfile)) {
   echo "$dbfile not found<br>";
   echo "<b><big>if this is a fresh install, copy pure.db to $dbfile</b></big><br>";
@@ -83,16 +82,6 @@ if (!$demomode) {
     exit;
   }
 
-  /*
-  if (!is_writable("$scriptdir/tcpdf/cache")) {
-    echo "$scriptdir is not writeable by apache<br>";
-    echo "<b><big>make $scriptdir/tcpdf/cache writeable by the user running the web server</big></b><br>";
-    echo "in unix:<br><pre> chown -R $procusername $scriptdir/tcpdf/cache; chmod u+w $scriptdir/tcpdf/cache/</pre>";
-    exit;
-  }
-  */
-
-
   if (!is_writable($uploaddir)) {
     echo "$scriptdir is not writeable by apache<br>";
     echo "<b><big>make $uploaddir writeable by the user running the web server</big></b><br>";
@@ -106,8 +95,6 @@ if (!$demomode) {
     echo "in unix: <br><pre>chown -R $procusername $scriptdir/translations; chmod u+w $scriptdir/translations</pre>";
     exit;
   }
-
-
 
 }
 
@@ -124,12 +111,10 @@ $error = $dbh->errorInfo();
 if($error[0] && isset($error[2]))  echo "Error 00: ".$error[2]."<br>";
 
 //$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-
 //some configuration
 $ret = $dbh->exec("PRAGMA case_sensitive_like = 0;");
 $ret = $dbh->exec("PRAGMA encoding = \"UTF-8\";");
 //$ret = $dbh->exec("PRAGMA foreign_keys = ON");
-
 
 $uploadErrors = array(
     UPLOAD_ERR_OK => 'There is no error, the file uploaded with success.',
@@ -142,13 +127,11 @@ $uploadErrors = array(
     UPLOAD_ERR_EXTENSION => 'File upload stopped by extension.',
 );
 
-
 $sql="SELECT * FROM settings";
 $sth=db_execute($dbh,$sql,1);
 $settings=$sth->fetchAll(PDO::FETCH_ASSOC);
 
 $settings=$settings[0];
-
 
 if($settings['dateformat']=="ymd") {
   $datetitle="y-m-d or yyyy";
@@ -172,26 +155,25 @@ else {
 date_default_timezone_set($settings['timezone']);
 
 read_trans($settings['lang']);
-if (get_magic_quotes_gpc()) {
-    function stripslashes_deep($value)
-    {
-        $value = is_array($value) ?
-                    array_map('stripslashes_deep', $value) :
-                    //sqlite_escape_string(stripslashes($value));
-                    strenc(stripslashes($value)); /* take care of special chars + quotes */
-                    //stripslashes($value);
+// if (get_magic_quotes_gpc()) {
+function stripslashes_deep($value){
+  {
+    $value = is_array($value) ?
+            array_map('stripslashes_deep', $value) :
+            //sqlite_escape_string(stripslashes($value));
+            strenc(stripslashes($value)); /* take care of special chars + quotes */
+            //stripslashes($value);
 
-        return $value;
-    }
+    return $value;
+  }
 
-    $_POST = array_map('stripslashes_deep', $_POST);
-    $_GET = array_map('stripslashes_deep', $_GET); /* careful, this may interfere with  serialize()/unserialize() */
-    $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
-    $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
+  $_POST = array_map('stripslashes_deep', $_POST);
+  $_GET = array_map('stripslashes_deep', $_GET); /* careful, this may interfere with  serialize()/unserialize() */
+  $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
+  $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 }
 
-
-///////////cookies///////////
+// cookies
 $authstatus=0;
 $authmsg="Not logged in";
 if (!$demomode ) {
@@ -200,66 +182,66 @@ if (!$demomode ) {
      header("Location: $scriptname"); //eat get parameters
   }
   elseif (isset($_POST['authusername'])){ //logging in
-       $username=$_POST['authusername'];
-       $password=$_POST['authpassword'];
+    $username=$_POST['authusername'];
+    $password=$_POST['authpassword'];
 
-        if ($settings['useldap'] && $username != 'admin') {
-            $r=connect_to_ldap_server($settings['ldap_server'],$username,$password,$settings['ldap_dn']);
-            //echo "HERE. r=".var_dump($r)."\n";
-            if ($r == false) {
-                $authstatus=0;
-                $authmsg="Wrong Password";
-            }
-            else {
-                 $rnd=mt_rand(); //create a random
-                 $u=getuserbyname($username);
-                 if ($u==-1) { //user not found, it's an LDAP user, add him
-                     db_execute2($dbh,
-                         "INSERT into users (username,cookie1,usertype) values (:username,:cookie1,:usertype)",
-                         array('username'=>$username,'cookie1'=>$rnd,'usertype'=>2));
-                 }
-                 db_exec($dbh,"UPDATE users set cookie1='$rnd' where username='$username'",1,1);
-                 setcookie("itdbcookie1",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
-                 setcookie("itdbuser",$username, time()+3600*24*60,$wscriptdir); //username
-                 $authstatus=1;
-                 $authmsg="User Authenticated";
-            }
+    if ($settings['useldap'] && $username != 'admin') {
+        $r=connect_to_ldap_server($settings['ldap_server'],$username,$password,$settings['ldap_dn']);
+        //echo "HERE. r=".var_dump($r)."\n";
+        if ($r == false) {
+            $authstatus=0;
+            $authmsg="Wrong Password";
         }
-
-        if (!$authstatus) { //try local users
-		   $username=str_replace(";","",$username);
-		   $username=str_replace("%","",$username);
-		   $username=str_replace("'","",$username);
-           $sth=db_execute($dbh,"SELECT * from users where username='$username' limit 1",1);
-           $userdata=$sth->fetchAll(PDO::FETCH_ASSOC);
-           $nr=count($userdata);
-           if ((!$nr) || $userdata[0]['username']!=$username) {
-              $authstatus=0;
-              $authmsg="Invalid username";
-           }
-           elseif (($userdata[0]['pass']==$password) && strlen($password)) { //correct password
-             $rnd=mt_rand(); //create a random
-             //store random in db
-             db_exec($dbh,"UPDATE users set cookie1='$rnd' where username='$username'",1,1);
-
-             //store random in browser
-             setcookie("itdbcookie1",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
-             setcookie("itdbuser",$username, time()+3600*24*60,$wscriptdir); //username
-             $authstatus=1;
-             $authmsg="User Authenticated";
-           }
-           else { //wrong password
-             $authstatus=0;
-             $authmsg="Wrong Password";
-           }
+        else {
+          $rnd=mt_rand(); //create a random
+          $u=getuserbyname($username);
+          if ($u==-1) { //user not found, it's an LDAP user, add him
+            db_execute2($dbh,
+                "INSERT into users (username,cookie1,usertype) values (:username,:cookie1,:usertype)",
+                array('username'=>$username,'cookie1'=>$rnd,'usertype'=>2));
+          }
+          db_exec($dbh,"UPDATE users set cookie1='$rnd' where username='$username'",1,1);
+          setcookie("itdbcookie1",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
+          setcookie("itdbuser",$username, time()+3600*24*60,$wscriptdir); //username
+          $authstatus=1;
+          $authmsg="User Authenticated";
         }
+    }
 
+    if (!$authstatus) { //try local users
+      $username=str_replace(";","",$username);
+      $username=str_replace("%","",$username);
+      $username=str_replace("'","",$username);
+      $sth=db_execute($dbh,"SELECT * from users where username='$username' limit 1",1);
+      $userdata=$sth->fetchAll(PDO::FETCH_ASSOC);
+      $nr=count($userdata);
+      if ((!$nr) || $userdata[0]['username']!=$username) {
+        $authstatus=0;
+        $authmsg="Invalid username";
+      }
+      elseif (($userdata[0]['pass']==$password) && strlen($password)) { //correct password
+        $rnd=mt_rand(); //create a random
+        //store random in db
+        db_exec($dbh,"UPDATE users set cookie1='$rnd' where username='$username'",1,1);
 
-  } //logging in 
+        //store random in browser
+        setcookie("itdbcookie1",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
+        setcookie("itdbuser",$username, time()+3600*24*60,$wscriptdir); //username
+        $authstatus=1;
+        $authmsg="User Authenticated";
+      }
+      else { //wrong password
+        $authstatus=0;
+        $authmsg="Wrong Password";
+      }
+    }
+  } //logging in
+
   elseif (isset($_COOKIE["itdbuser"]) && ! isset($_COOKIE["itdbcookie1"])) {
     $authstatus=0;
     $authmsg="Session Expired";
-  } 
+  }
+
   elseif (isset($_COOKIE["itdbuser"])) { //& isset itdbookie1, check if valid
     $sql="SELECT * from users where username='".$_COOKIE["itdbuser"]."' limit 1";
     $sth=db_execute($dbh,$sql,1);

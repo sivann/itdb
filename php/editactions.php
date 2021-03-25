@@ -102,8 +102,8 @@ else
   $det="";
 
 echo "\n<form method=post name='actionaddfrm'>\n";
-echo "<table align=center class=brdr border=0>\n";
-echo "\n<caption><h2>Item Log  (Item $itemid)</h2>$det</caption>\n";
+echo "<table align=center class='brdr sortable' border=0>\n";
+echo "\n<caption><h2>Item Log (Item $itemid)</h2>$det</caption>\n";
 echo "\n<tr><th>&nbsp;</th><th>Action Date</th><th>Description</th><th>Invoice info</th><th>Entry Date</th></tr>\n";
 
 

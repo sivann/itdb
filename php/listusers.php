@@ -1,23 +1,20 @@
-<SCRIPT LANGUAGE="JavaScript"> 
+<script> 
 $(function () {
   $('table#userslisttbl').dataTable({
-	"sPaginationType": "full_numbers",
-	"bJQueryUI": true,
-	"iDisplayLength": 25,
-	"bLengthChange": true,
-	"bFilter": true,
-	"bSort": true,
-	"bInfo": true,
-	"sDom": '<"H"Tlpf>rt<"F"ip>',
-	"aaSorting": [],
-	"oTableTools": {
-	    "sSwfPath": "swf/copy_cvs_xls_pdf.swf"
-	}
+    "pagingType": "full_numbers",
+    "displayLength": 25,
+    //"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+    "lengthChange": true,
+    "bFilter": true,
+    "bSort": true,
+    "bInfo": true,
+    //"dom": '<"top"Bf>lrt<"bottom"ip><"clear">',
+    "aaSorting": []
 
   });
 });
 
-</SCRIPT>
+</script>
 <?php 
 
 if (!isset($initok)) {echo "do not run this script directly";exit;}

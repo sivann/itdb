@@ -1,18 +1,19 @@
 <script type="text/javascript">
 $(function () {
   $('table#histtbl').dataTable({
-                "sPaginationType": "full_numbers",
-                "bJQueryUI": true,
-                "iDisplayLength": 25,
-                "bLengthChange": true,
-                "bFilter": true,
-                "bSort": true,
-                "bInfo": true,
-                //"sDom": '<"H"lfr>t<"F"ip>',
-                "sDom": '<"H"Tlpf>rt<"F"ip>',
-                "oTableTools": {
-                        "sSwfPath": "swf/copy_cvs_xls_pdf.swf"
-                }
+    "pagingType": "full_numbers",
+    "scrollCollapse": true,
+    "scrollY": "430px",
+    "scrollX": true,
+    "displayLength": 25,
+    "lengthChange": true,
+    "bFilter": true,
+    "bSort": true,
+    "bInfo": true,
+    dom: 'lfrtip'
+    // buttons: [
+    //     'copy', 'csv', 'excel', 'pdf', 'print'
+    // ]
 
   });
 });
@@ -34,22 +35,18 @@ else {
 ?>
 <h1>History of Changes</h1>
 <table class='display' width='100%' id='histtbl'>
-<thead>
-<tr><th>ID</th>
-     <th>Date</th>
-     <th>SQL</th>
-     <th>IP</th>
-     <th>User</th>
-     </tr>
-
-
-</thead>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Date</th>
+      <th>SQL</th>
+      <th>IP</th>
+      <th>User</th>
+    </tr>
+  </thead>
 <tbody>
 
-
 <?php
-
-
 $sql="SELECT * FROM history  $where order by id desc ";
 
 /// make db query
@@ -59,7 +56,6 @@ $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   //2seconds
   $d=strlen($r['date'])?date($dateparam,$r['date']):"-"; 
-
 
   //table row
   echo "\n<tr>".

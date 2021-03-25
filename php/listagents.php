@@ -1,4 +1,4 @@
-<script type="text/javascript" language="javascript"> 
+<script> 
 $(function () {
   $('table#agentlisttbl').DataTable({
     "pagingType": "full_numbers",

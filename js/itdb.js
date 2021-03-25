@@ -1,7 +1,6 @@
 
 $("document").ready(function() {
 
-
   //prevent enter on inputs to submit form
   $("input[type=text]").keypress(function(e)
   {
@@ -11,7 +10,6 @@ $("document").ready(function() {
 	return false;
       }
   });
-
 
     //used in "item types" for example. Association tables are handled by quicksearch.js
     $("table.brdr tr:even").addClass("even");

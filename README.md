@@ -13,6 +13,7 @@ ITDB comes with sources and is distributed under the GNU Public license.
 3. Update datatables to new version
 4. Update tcpdf to version 6.3.5
 5. Minor cuscomize UI
+6. Add IDR/Rp cuurency
 
 # Homepage 
 http://www.sivann.gr/software/itdb/

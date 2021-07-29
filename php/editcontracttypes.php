@@ -2,7 +2,7 @@
 //print_r($_REQUEST);
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
-/* Spiros Ioannou 2009 , sivann _at_ gmail.com */
+/* PoerOne 2021 , poer_dot_one _at_ gmail.com */
 
 $internaltypes=1;
 
@@ -82,8 +82,6 @@ elseif (isset($savesubtype)) {
     }
   }
 
-
-
 }
 
 //echo "<pre>"; print_r($_GET); echo "</pre>";
@@ -96,74 +94,72 @@ $contracttypes=$sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <form method=post name='typeaddfrm'>
-<input type=hidden name=action value="<?php echo $_GET["action"]?>">
-<h1><?php te("Edit Contract Types");?></h1>
+    <input type=hidden name=action value="<?php echo $_GET["action"]?>">
+    <h1><?php te("Edit Contract Types");?></h1>
 
-<div style='width:80%;border:0px solid red;margin-left:auto;margin-right:auto;'>
-  <div style='float:left;margin-right:15px;'>
-  <table border=0 class='brdr' >
-  <tr><th>&nbsp;</th><th><?php te("Type Names");?></th><th></th></tr>
+    <div style='float:left;margin-right:15px;'>
+        <table border=0 class='brdr' >
+            <tr><th>&nbsp;</th><th><?php te("Type Names");?></th><th></th></tr>
 
-  <?php 
-  //print contract type list
-  for ($i=0;$i<count($contracttypes);$i++) {
-    $dbid=$contracttypes[$i]['id'];
-    $itype=$contracttypes[$i]['name']; 
-  if ($dbid>$internaltypes) //change this to remove X from internal types
-    echo "\n<tr><td><a href='javascript:delconfirm(\"$itype\",\"$scriptname?action=$action&amp;deltype=$dbid\");'><img title='delete ID:$dbid' src='images/delete.png' border=0></a></td>";
-  else 
-    echo "\n\n<tr><td title='ID:$dbid'>-</td>";
+            <?php 
+            //print contract type list
+            for ($i=0;$i<count($contracttypes);$i++) {
+                $dbid=$contracttypes[$i]['id'];
+                $itype=$contracttypes[$i]['name']; 
+            if ($dbid>$internaltypes) //change this to remove X from internal types
+                echo "\n<tr><td><a href='javascript:delconfirm(\"$itype\",\"$scriptname?action=$action&amp;deltype=$dbid\");'><img title='delete ID:$dbid' src='images/delete.png' border=0></a></td>";
+            else 
+                echo "\n\n<tr><td title='ID:$dbid'>-</td>";
 
-    if ($contracttypes[$i]['hassoftware']) $s="selected"; else $s="";
+                if ($contracttypes[$i]['hassoftware']) $s="selected"; else $s="";
 
-    echo "<td><input size=30 type='text' name='descs[]' ".
-    "value=\"".$contracttypes[$i]['name']."\">\n".
-    "\n<input type=hidden name='ids[]' value='$dbid' >\n";
-    echo "</td>";
-    echo "<td><button type=submit name='subtypesof' value='$dbid'>".t("View/Edit Subtypes")."</button></td>";
-    echo "</tr>";
-  }
+                echo "<td><input size=30 type='text' name='descs[]' ".
+                "value=\"".$contracttypes[$i]['name']."\">\n".
+                "\n<input type=hidden name='ids[]' value='$dbid' >\n";
+                echo "</td>";
+                echo "<td><button type=submit name='subtypesof' value='$dbid'>".t("View/Edit Subtypes")."</button></td>";
+                echo "</tr>";
+            }
 
-  ?>
+            ?>
 
-  <tr><td><?php te("New");?></td><td><input size='30' name='newtype' type='text'></td></tr>
+            <tr><td><?php te("New");?></td><td><input size='30' name='newtype' type='text'></td></tr>
 
-  <tr><td style='text-align: right' colspan=4><button name='savetype' type="submit"><img src="images/save.png" alt="Save" > <?php te("Save");?></button></td></tr>
-  </form>
-  </table>
-  </div>
+            <tr><td style='text-align: right' colspan=4><button name='savetype' type="submit"><img src="images/save.png" alt="Save" > <?php te("Save");?></button></td></tr>
+            </form>
+        </table>
+    </div>
 
-  <?php 
-    if (isset($_POST['subtypesof'])) {
-  ?>
-      <div style='float:left;'>
-      <form method=post name='subtypeaddfrm'>
-      <table class='brdr'> <!-- subtypes -->
-      <tr><th>&nbsp;</th><th>ID</th><th><?php te("Subtypes of  type ");?><?php echo $subtypesof?> <?php te("Names");?></th></tr>
-      <?php 
-      $subtypesof=$_POST['subtypesof'];
-      $sql="SELECT * from contractsubtypes  WHERE contypeid=$subtypesof order by name";
-      $sth = $dbh->query($sql);
-      $contractsubtypes=$sth->fetchAll(PDO::FETCH_ASSOC);
-      echo "<input type=hidden name='subtypesof' value='$subtypesof' >\n";
+    <?php 
+        if (isset($_POST['subtypesof'])) {
+    ?>
+    <div style='float:left;'>
+        <form method=post name='subtypeaddfrm'>
+        <table class='brdr'> <!-- subtypes -->
+        <tr><th>&nbsp;</th><th>ID</th><th><?php te("Subtypes of  type ");?><?php echo $subtypesof?> <?php te("Names");?></th></tr>
+        <?php 
+        $subtypesof=$_POST['subtypesof'];
+        $sql="SELECT * from contractsubtypes  WHERE contypeid=$subtypesof order by name";
+        $sth = $dbh->query($sql);
+        $contractsubtypes=$sth->fetchAll(PDO::FETCH_ASSOC);
+        echo "<input type=hidden name='subtypesof' value='$subtypesof' >\n";
 
-      for ($i=0;$i<count($contractsubtypes);$i++) {
-	$dbid=$contractsubtypes[$i]['id'];
-	$itype=$contractsubtypes[$i]['name']; 
-	echo "\n<tr><td><a href='javascript:delconfirm(\"$itype\",\"$scriptname?action=$action&amp;delsubtype=$dbid\");'><img title='delete' src='images/delete.png' border=0></a></td>";
-	echo "\n<td>$dbid</td>".
-	"<td><input size=30 type='text' name='subdescs[]' ".
-	"value=\"".$contractsubtypes[$i]['name']."\">\n".
-	"\n<input type=hidden name='subids[]' value='$dbid' >\n";
-      }
-      ?>
-      <tr><td>&nbsp;</td><td><?php te("New");?></td><td><input size='30' name='newsubtype' type='text'></td></tr>
-      <tr><td style='text-align: right' colspan=4><button type='submit' name='savesubtype'><img src='images/save.png' alt='Save' > <?php te("Save");?></button></td></tr>
-      <?php 
-    }
-  ?>
-  </table>
-  </div>
-  </form>
-</div>
+        for ($i=0;$i<count($contractsubtypes);$i++) {
+        $dbid=$contractsubtypes[$i]['id'];
+        $itype=$contractsubtypes[$i]['name']; 
+        echo "\n<tr><td><a href='javascript:delconfirm(\"$itype\",\"$scriptname?action=$action&amp;delsubtype=$dbid\");'><img title='delete' src='images/delete.png' border=0></a></td>";
+        echo "\n<td>$dbid</td>".
+        "<td><input size=30 type='text' name='subdescs[]' ".
+        "value=\"".$contractsubtypes[$i]['name']."\">\n".
+        "\n<input type=hidden name='subids[]' value='$dbid' >\n";
+        }
+        ?>
+        <tr><td>&nbsp;</td><td><?php te("New");?></td><td><input size='30' name='newsubtype' type='text'></td></tr>
+        <tr><td style='text-align: right' colspan=4><button type='submit' name='savesubtype'><img src='images/save.png' alt='Save' > <?php te("Save");?></button></td></tr>
+        <?php 
+        }
+    ?>
+    </table>
+    </div>
+</form>
 

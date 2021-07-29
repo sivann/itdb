@@ -7,6 +7,16 @@ LEGEND:
 I:improvement 
 B:bugfix
 
+1.23 -> 1.24 25/03/2021
+-------------------------------------------------------------------------------------------------------
++:Remove flash element
++:Remove swf folder & files >> no needed
++:Update datatables to new version
++:Update tcpdf to version 6.3.5
++:Minor cuscomize UI
++:Minor cuscomize UI
++:Add IDR/Rp cuurency
+
 1.12 -> 1.13 20/10/2014
 -------------------------------------------------------------------------------------------------------
 +:pdf labels: allow for text to the right of QR, no text at all

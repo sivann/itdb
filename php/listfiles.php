@@ -1,20 +1,14 @@
-<SCRIPT LANGUAGE="JavaScript"> 
+<script> 
 $(function () {
- //$('input#fileslistfilter').quicksearch('table#fileslisttbl tbody tr');
   $('table#fileslisttbl').dataTable({
-                "sPaginationType": "full_numbers",
-                "bJQueryUI": true,
-                "iDisplayLength": 25,
-                "aLengthMenu": [[10,25, 50, 100, -1], [10,25, 50, 100, "All"]],
-                "bLengthChange": true,
-                "bFilter": true,
-                "bSort": true,
-                "bInfo": true,
-                "sDom": '<"H"Tlpf>rt<"F"ip>',
-                "oTableTools": {
-                        "sSwfPath": "swf/copy_cvs_xls_pdf.swf"
-                }
-                //"bAutoWidth": true, 
+    "pagingType": "full_numbers",
+    "displayLength": 25,
+    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+    "lengthChange": true,
+    "bFilter": true,
+    "bSort": true,
+    "bInfo": true,
+    "dom": '<"top"Bf>lrt<"bottom"ip><"clear">',
 
   });
 });
@@ -32,7 +26,6 @@ $sth=db_execute($dbh,$sql);
 
 <h1><?php te("Files");?> <a title='<?php te("Add new File");?>' href='<?php echo $scriptname?>?action=editfile&amp;id=new'><img border=0 src='images/add.png' ></a>
 </h1>
-
 
 <table class='display' width="100%" id='fileslisttbl'>
 

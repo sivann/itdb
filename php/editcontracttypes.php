@@ -135,7 +135,7 @@ $contracttypes=$sth->fetchAll(PDO::FETCH_ASSOC);
     <?php 
         if (isset($_POST['subtypesof'])) {
     ?>
-        <div style='float:left;'>
+    <div style='float:left;'>
         <form method=post name='subtypeaddfrm'>
         <table class='brdr'> <!-- subtypes -->
         <tr><th>&nbsp;</th><th>ID</th><th><?php te("Subtypes of  type ");?><?php echo $subtypesof?> <?php te("Names");?></th></tr>

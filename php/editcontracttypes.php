@@ -2,7 +2,7 @@
 //print_r($_REQUEST);
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
-/* Spiros Ioannou 2009 , sivann _at_ gmail.com */
+/* PoerOne 2021 , poer_dot_one _at_ gmail.com */
 
 $internaltypes=1;
 
@@ -81,8 +81,6 @@ elseif (isset($savesubtype)) {
 
     }
   }
-
-
 
 }
 

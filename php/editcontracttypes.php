@@ -99,7 +99,6 @@ $contracttypes=$sth->fetchAll(PDO::FETCH_ASSOC);
 <input type=hidden name=action value="<?php echo $_GET["action"]?>">
 <h1><?php te("Edit Contract Types");?></h1>
 
-<div style='width:80%;border:0px solid red;margin-left:auto;margin-right:auto;'>
   <div style='float:left;margin-right:15px;'>
   <table border=0 class='brdr' >
   <tr><th>&nbsp;</th><th><?php te("Type Names");?></th><th></th></tr>
@@ -164,6 +163,5 @@ $contracttypes=$sth->fetchAll(PDO::FETCH_ASSOC);
   ?>
   </table>
   </div>
-  </form>
-</div>
+</form>
 

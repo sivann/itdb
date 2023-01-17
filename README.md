@@ -1,6 +1,5 @@
-ITDB - IT Items Database - Free IT Asset Management Software  function printmail(host,username) { document.write('&lt;a class=tl href="mailto:'+ username+'@'+host+'"&gt;'+username+'@'+host+'&lt;/a&gt;'); } 
+# ITDB - IT Items Database - Free IT Asset Management Software  
 
-ITDB \- IT ITems DataBase _The free asset inventory_
 
 [Back to software list](/software.php)
 

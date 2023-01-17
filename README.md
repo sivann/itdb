@@ -1,7 +1,7 @@
-# ITDB - IT Items Database - Free IT Asset Management Software  
+## ITDB:  IT Items Database - Free IT Asset Management Software  
 
+**Note, this is no longer maintained**
 
-[Back to software list](/software.php)
 
 About
 =====

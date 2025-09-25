@@ -74,7 +74,7 @@ $fixtypes=$sth->fetchAll(PDO::FETCH_ASSOC);
 
 
 echo "<form method=post id='typeaddfrm' action='?action=edititypes&amp;dlg=$dlg' name='typeaddfrm'>";
-echo "<input type=hidden name=action value='".$_POST["action"]."'>";
+echo "<input type=hidden name=action value='".(isset($_POST["action"]) ? $_POST["action"] : '')."'>";
 ?>
 
 <h1><?php te("Edit Item Types");?></h1>

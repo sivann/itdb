@@ -26,10 +26,12 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
 
+$agents = [];
 $sql="SELECT id,title FROM agents";
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $agents[$r['id']]=$r;
 
+$invoices = [];
 $sql="SELECT * FROM invoices";
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $invoices[$r['id']]=$r;
@@ -129,11 +131,19 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   elseif ($licqty==$licitems) $style="style='font-weight:normal;color:black'";
   elseif ($licqty>$licitems) $style="style='font-weight:bold;color:#00aa00'";
 
-  $mend=strlen($maintend)?date($dateparam,$maintend):"";
-  $mendkey=strlen($maintend)?date("Ymd",$maintend):"0";
+  $mend=!empty($maintend)?date($dateparam,$maintend):"";
+  $mendkey=!empty($maintend)?date("Ymd",$maintend):"0";
   $d=strlen($purchdate)?date($dateparam,$purchdate):"";
   $dkey=strlen($purchdate)?date("Ymd",$purchdate):"0";
-  $vendor=$agents[$invoices[$invoiceid]['vendorid']]['title'];
+  $vendor = "";
+  if (!empty($invoiceid) && isset($invoices[$invoiceid])) {
+    if (isset($invoices[$invoiceid]['vendorid'])) {
+        $vendorid = $invoices[$invoiceid]['vendorid'];
+        if (isset($agents[$vendorid])) {
+            $vendor = $agents[$vendorid]['title'];
+        }
+    }
+  }
 
   //show red dates for expired maintenance contracts
   $nowymd=date("Ymd");

@@ -9,6 +9,8 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
 
+$query = isset($_GET['query']) ? $_GET['query'] : '';
+
 
 if (isset($sqlsrch) && !empty($sqlsrch)) 
   $where = "where sql like '%$sqlsrch%'";

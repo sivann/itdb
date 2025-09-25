@@ -149,11 +149,19 @@ if (!isset($_REQUEST['id'])) {echo "ERROR:ID not defined";exit;}
 $id=$_REQUEST['id'];
 
 $sql="SELECT * FROM invoices WHERE id='$id'";
-$sth=db_execute($dbh,$sql);
-$r=$sth->fetch(PDO::FETCH_ASSOC);
+  $sth=db_execute($dbh,$sql);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  if ($r === false) {
+      $r = []; // Initialize as empty array if no results found
+  }
+  foreach($r as $k => $v) { ${$k} = $v; } // get all columns as variables
 if (($id !="new") && (count($r)<5)) {echo "ERROR: non-existent ID";exit;}
 
-$number=$r['number'];$date=$r['date'];$vendorid=$r['vendorid'];$buyerid=$r['buyerid'];$description=$r['description'];
+$number = isset($r['number']) ? $r['number'] : '';
+$date = isset($r['date']) ? $r['date'] : '';
+$vendorid = isset($r['vendorid']) ? $r['vendorid'] : '';
+$buyerid = isset($r['buyerid']) ? $r['buyerid'] : '';
+$description = isset($r['description']) ? $r['description'] : '';
 
 echo "\n<form id='mainform' method=post  action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
 

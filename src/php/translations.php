@@ -117,6 +117,9 @@ if (strlen($lang)&&($lang!="en"))
 
 $fn="translations/$lang.txt";
 
+$tt1 = []; // Initialize $tt1
+$tt2 = []; // Initialize $tt2
+
 if (strlen($lang) && ($lang !="en")) {
 	if (is_readable($fn) && (($handle = fopen($fn, "r")) !== FALSE)) {
     while ($line=trim(fgets($handle))) {

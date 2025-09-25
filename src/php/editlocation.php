@@ -161,10 +161,12 @@ $id=$_REQUEST['id'];
 
 $sql="SELECT * FROM locations where  locations.id='$id'";
 $sth=db_execute($dbh,$sql);
-$r=$sth->fetch(PDO::FETCH_ASSOC);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  if ($r === false) {
+      $r = []; // Initialize as empty array if no results found
+  }
 
-if (($id !="new") && (count($r)<3)) {echo "ERROR: non-existent ID<br>($sql)";exit;}
-echo "\n<form method=post  action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
+if (($id !="new") && (count($r)<3)) {echo "ERROR: non-existent ID<br>($sql)";exit;}echo "\n<form method=post  action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
 
 ?>
 
@@ -273,7 +275,7 @@ else
 
 <td>
 <?php 
-if (strlen($r['floorplanfn'])) {?>
+if (!empty($r['floorplanfn'])) {?>
 <img width=600 src='<?php  echo $fuploaddirwww.$r['floorplanfn']; ?>'>
 <?php  }?>
 

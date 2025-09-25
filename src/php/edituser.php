@@ -92,10 +92,12 @@ $id=$_REQUEST['id'];
 //$sql="SELECT * FROM racks where racks.id='$id'";
 $sql="SELECT * from users where users.id='$id'";
 $sth=db_execute($dbh,$sql);
-$r=$sth->fetch(PDO::FETCH_ASSOC);
+  $r=$sth->fetch(PDO::FETCH_ASSOC);
+  if ($r === false) {
+      $r = []; // Initialize as empty array if no results found
+  }
 
 if (($id !="new") && (count($r)<2)) {echo "ERROR: non-existent ID<br>($sql)";exit;}
-
 echo "\n<form id='mainform' method=post  action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
 
 if ($id=="new")

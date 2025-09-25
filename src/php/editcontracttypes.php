@@ -114,7 +114,8 @@ $contracttypes=$sth->fetchAll(PDO::FETCH_ASSOC);
   else 
     echo "\n\n<tr><td title='ID:$dbid'>-</td>";
 
-    if ($contracttypes[$i]['hassoftware']) $s="selected"; else $s="";
+    $hassoftware = isset($contracttypes[$i]['hassoftware']) ? $contracttypes[$i]['hassoftware'] : 0;
+    if ($hassoftware) $s="selected"; else $s="";
 
     echo "<td><input size=30 type='text' name='descs[]' ".
     "value=\"".$contracttypes[$i]['name']."\">\n".

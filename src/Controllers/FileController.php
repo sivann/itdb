@@ -58,19 +58,28 @@ class FileController extends BaseController
         // Get paginated files using FileModel
         $result = $this->fileModel->getPaginated($page, $perPage, $filters);
 
-        // Get uploaders for filter dropdown - use FileModel method
+        // Get uploaders for filter dropdown
         $uploaders = $this->fileModel->getUploaders();
+
+        // Get file types for filter dropdown
+        $fileTypes = $this->fileModel->getFileTypes();
 
         return $this->render($response, 'files/index.twig', [
             'user' => $user,
             'files' => $result['data'],
-            'total' => $result['total'],
-            'page' => $result['page'],
-            'total_pages' => $result['total_pages'],
-            'search' => $queryParams['search'] ?? '',
-            'type_filter' => $queryParams['type'] ?? '',
-            'uploader_filter' => $queryParams['uploader'] ?? '',
-            'uploaders' => $uploaders,
+            'pagination' => [
+                'current_page' => $result['page'],
+                'per_page' => $result['per_page'],
+                'total' => $result['total'],
+                'last_page' => $result['total_pages'],
+                'from' => ($result['page'] - 1) * $result['per_page'] + 1,
+                'to' => min($result['page'] * $result['per_page'], $result['total'])
+            ],
+            'query' => $queryParams,
+            'filters' => [
+                'file_types' => $fileTypes,
+                'uploaders' => $uploaders
+            ]
         ]);
     }
 
@@ -132,7 +141,7 @@ class FileController extends BaseController
         if (empty($data['title'])) {
             $errors[] = 'Title is required';
         }
-        if (empty($data['ftype'])) {
+        if (empty($data['type'])) {
             $errors[] = 'File type is required';
         }
 
@@ -165,13 +174,12 @@ class FileController extends BaseController
             $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
             $sanitizedExtension = preg_replace('/[^a-z0-9]/', '', $extension);
 
-            // Convert ftype to integer
-            $ftypeInt = !empty($data['ftype']) ? (int) $data['ftype'] : null;
+            // Convert type to integer
+            $typeInt = !empty($data['type']) ? (int) $data['type'] : null;
 
             // Create temporary file record to get ID
             $tempFileId = $this->fileModel->create([
-                'ftype' => $ftypeInt,
-                'type' => $this->getFileTypeName($ftypeInt), // Legacy type field
+                'type' => $typeInt, // Integer foreign key to filetypes.id
                 'title' => $this->sanitizeString($data['title']),
                 'filename' => $originalName,
                 'description' => $this->sanitizeString($data['description'] ?? ''),
@@ -183,7 +191,7 @@ class FileController extends BaseController
             ]);
 
             // Generate proper filename: ID_filetype_randomstring.extension
-            $fileTypeCode = $this->getFileTypeCode($ftypeInt);
+            $fileTypeCode = $this->getFileTypeCode($typeInt);
             $randomString = substr(uniqid(), -8);
             $properFilename = sprintf('%d_%s_%s.%s',
                 $tempFileId,
@@ -223,7 +231,7 @@ class FileController extends BaseController
                         'id' => $fileId,
                         'fname' => $properFilename,
                         'title' => $this->sanitizeString($data['title']),
-                        'ftype' => $ftypeInt,
+                        'type' => $typeInt,
                     ]
                 ]);
             }
@@ -311,12 +319,11 @@ class FileController extends BaseController
         }
 
         try {
-            // Convert ftype to integer
-            $ftypeInt = !empty($data['ftype']) ? (int) $data['ftype'] : null;
+            // Convert type to integer
+            $typeInt = !empty($data['type']) ? (int) $data['type'] : null;
 
             $updateData = [
-                'ftype' => $ftypeInt,
-                'type' => $this->getFileTypeName($ftypeInt), // Legacy type field
+                'type' => $typeInt, // Integer foreign key to filetypes.id
                 'title' => $this->sanitizeString($data['title']),
                 'description' => $this->sanitizeString($data['description'] ?? ''),
             ];
@@ -329,7 +336,7 @@ class FileController extends BaseController
 
             $this->logUserAction('file_updated', ['file_id' => $id]);
             $this->addFlashMessage('success', 'File updated successfully');
-            return $this->redirectToRoute($request, $response, 'files.edit', ['id' => $file->id]);
+            return $this->redirectToRoute($request, $response, 'files.edit', ['id' => $id]);
 
         } catch (\Exception $e) {
             $this->logger->error('Error updating file', ['error' => $e->getMessage()]);
@@ -412,6 +419,43 @@ class FileController extends BaseController
             $this->logger->error('Error downloading file', ['error' => $e->getMessage()]);
             $this->addFlashMessage('error', 'Error downloading file');
             return $this->redirectToRoute($request, $response, 'files.edit', ['id' => $id]);
+        }
+    }
+
+    /**
+     * Preview/view file in browser
+     */
+    public function preview(Request $request, Response $response, array $args): Response
+    {
+        $id = (int) $args['id'];
+
+        $file = $this->fileModel->find($id);
+        if (!$file) {
+            return $response->withStatus(404)->getBody()->write('File not found');
+        }
+
+        $filePath = $this->fileModel->getFilePath($file);
+        if (!$this->fileModel->fileExists($file)) {
+            return $response->withStatus(404)->getBody()->write('File not found on disk');
+        }
+
+        try {
+            $this->logUserAction('file_previewed', ['file_id' => $file['id']]);
+
+            $fileContent = file_get_contents($filePath);
+            $response->getBody()->write($fileContent);
+
+            // Get MIME type based on file extension
+            $extension = strtolower(pathinfo($file['fname'], PATHINFO_EXTENSION));
+            $mimeType = $this->getMimeType($extension);
+
+            return $response
+                ->withHeader('Content-Type', $mimeType)
+                ->withHeader('Content-Length', (string) strlen($fileContent));
+
+        } catch (\Exception $e) {
+            $this->logger->error('Error previewing file', ['error' => $e->getMessage()]);
+            return $response->withStatus(500)->getBody()->write('Error loading file');
         }
     }
 
@@ -556,5 +600,36 @@ class FileController extends BaseController
         }
 
         return null;
+    }
+
+    /**
+     * Get MIME type based on file extension
+     */
+    private function getMimeType(string $extension): string
+    {
+        $mimeTypes = [
+            'pdf' => 'application/pdf',
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'svg' => 'image/svg+xml',
+            'txt' => 'text/plain',
+            'html' => 'text/html',
+            'htm' => 'text/html',
+            'css' => 'text/css',
+            'js' => 'text/javascript',
+            'json' => 'application/json',
+            'xml' => 'application/xml',
+            'zip' => 'application/zip',
+            'doc' => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls' => 'application/vnd.ms-excel',
+            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'ppt' => 'application/vnd.ms-powerpoint',
+            'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        ];
+
+        return $mimeTypes[$extension] ?? 'application/octet-stream';
     }
 }

@@ -101,15 +101,19 @@
                             </div>
                         </td>
                         <td>
-                            {% if file.type %}
+                            {% if file.type_name %}
+                                <span class="badge bg-info">{{ file.type_name }}</span>
+                            {% elseif file.type %}
                                 <span class="badge bg-info">{{ file.type }}</span>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if file.file_size %}
+                            {% if file.file_size and file.file_size > 0 %}
                                 <span class="text-muted">{{ file.file_size }} bytes</span>
+                            {% elseif file.filesize and file.filesize > 0 %}
+                                <span class="text-muted">{{ file.filesize }} bytes</span>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
@@ -154,11 +158,13 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="/files/{{ file.id }}"
-                                   class="btn btn-outline-primary btn-sm"
-                                   title="View Details">
+                                <button type="button"
+                                        class="btn btn-outline-primary btn-sm"
+                                        title="Preview File"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#previewModal{{ file.id }}">
                                     <i class="bi bi-eye"></i>
-                                </a>
+                                </button>
                                 <a href="/files/{{ file.id }}/download"
                                    class="btn btn-outline-success btn-sm"
                                    title="Download">
@@ -303,6 +309,104 @@
     </div>
     {% endfor %}
 {% endif %}
+
+<!-- File Preview Modals -->
+{% for file in files %}
+<div class="modal fade" id="previewModal{{ file.id }}" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-file-earmark-text me-2"></i>
+                    {{ file.title }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="border rounded p-3 mb-3" style="min-height: 400px;">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status" id="spinner{{ file.id }}">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div id="previewContent{{ file.id }}" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>File Details</h6>
+                        <table class="table table-sm table-bordered">
+                            <tr>
+                                <td style="width: 40%;"><strong>Filename:</strong></td>
+                                <td style="width: 60%; word-break: break-all;"><code>{{ file.fname }}</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type:</strong></td>
+                                <td>
+                                    {% if file.type %}
+                                        <span class="badge bg-info">{{ file.type }}</span>
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Size:</strong></td>
+                                <td>
+                                    {% if file.file_size %}
+                                        {{ file.file_size }} bytes
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Uploaded By:</strong></td>
+                                <td>
+                                    {% if file.uploader_user %}
+                                        {{ file.uploader_user.display_name|default(file.uploader_user.username) }}
+                                    {% else %}
+                                        <span class="text-muted">Unknown</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Upload Date:</strong></td>
+                                <td>
+                                    {% if file.uploaddate %}
+                                        {{ file.uploaddate|date('M j, Y g:i A') }}
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% if file.description %}
+                            <tr>
+                                <td><strong>Description:</strong></td>
+                                <td>{{ file.description }}</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+
+                        <div class="d-grid gap-2">
+                            <a href="/files/{{ file.id }}/download" class="btn btn-success btn-sm">
+                                <i class="bi bi-download me-1"></i>Download
+                            </a>
+                            {% if user and user.usertype >= 1 %}
+                            <a href="/files/{{ file.id }}/edit" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-pencil me-1"></i>Edit Details
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 {% endblock %}
 
 {% block scripts %}
@@ -319,6 +423,64 @@ document.addEventListener('DOMContentLoaded', function() {
             this.form.submit();
         }
     });
+
+    // File preview modal handler
+    document.querySelectorAll('[data-bs-target^="#previewModal"]').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const fileId = this.getAttribute('data-bs-target').replace('#previewModal', '');
+            loadFilePreview(fileId);
+        });
+    });
+
+    function loadFilePreview(fileId) {
+        const spinner = document.getElementById('spinner' + fileId);
+        const content = document.getElementById('previewContent' + fileId);
+
+        // Reset state
+        spinner.style.display = 'block';
+        content.style.display = 'none';
+        content.innerHTML = '';
+
+        // Load preview
+        fetch('/files/' + fileId + '/preview')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load preview');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                const mimeType = blob.type;
+
+                spinner.style.display = 'none';
+                content.style.display = 'block';
+
+                if (mimeType.startsWith('image/')) {
+                    content.innerHTML = '<img src="' + url + '" class="img-fluid" alt="File preview">';
+                } else if (mimeType === 'application/pdf') {
+                    content.innerHTML = '<embed src="' + url + '" type="application/pdf" width="100%" height="400px">';
+                } else if (mimeType.startsWith('text/') || mimeType.includes('json') || mimeType.includes('xml')) {
+                    blob.text().then(text => {
+                        content.innerHTML = '<pre class="bg-light p-3 rounded text-start" style="max-height: 400px; overflow-y: auto;"><code>' +
+                                          text.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code></pre>';
+                    });
+                } else {
+                    content.innerHTML = '<div class="text-center text-muted py-5">' +
+                                      '<i class="bi bi-file-earmark display-4 mb-3"></i><br>' +
+                                      '<p>Preview not available for this file type.</p>' +
+                                      '<p>Use the download button to view the file.</p></div>';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading preview:', error);
+                spinner.style.display = 'none';
+                content.style.display = 'block';
+                content.innerHTML = '<div class="text-center text-danger py-5">' +
+                                  '<i class="bi bi-exclamation-triangle display-4 mb-3"></i><br>' +
+                                  '<p>Error loading preview</p></div>';
+            });
+    }
 });
 </script>
 {% endblock %}

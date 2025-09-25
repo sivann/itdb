@@ -381,11 +381,18 @@
                                 {% if mode == 'edit' %}
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">Current File</label>
-                                    <div class="p-2 bg-light rounded">
-                                        <i class="bi bi-file-earmark-text me-2"></i>
-                                        <code>{{ file.fname }}</code>
-                                        {% if file.file_size %}
-                                        <span class="text-muted ms-2">({{ file.file_size|format_bytes }})</span>
+                                    <div class="p-2 bg-light rounded d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="bi bi-file-earmark-text me-2"></i>
+                                            <code>{{ file.fname }}</code>
+                                            {% if file.file_size %}
+                                            <span class="text-muted ms-2">({{ file.file_size|format_bytes }})</span>
+                                            {% endif %}
+                                        </div>
+                                        {% if file.file_exists %}
+                                        <a href="/files/{{ file.id }}/download" class="btn btn-sm btn-success">
+                                            <i class="bi bi-download me-1"></i>Download
+                                        </a>
                                         {% endif %}
                                     </div>
                                     <div class="form-text">
@@ -435,18 +442,18 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="ftype" class="form-label">File Type <span class="text-danger">*</span></label>
-                                    <select class="form-select{% if errors.ftype %} is-invalid{% endif %}"
-                                            id="ftype"
-                                            name="ftype"
+                                    <label for="type" class="form-label">File Type <span class="text-danger">*</span></label>
+                                    <select class="form-select{% if errors.type %} is-invalid{% endif %}"
+                                            id="type"
+                                            name="type"
                                             required>
                                         <option value="">Select file type...</option>
                                         {% for type in file_types %}
-                                        <option value="{{ type.id }}" {% if (file.ftype|default(0)) == type.id %}selected{% endif %}>{{ type.name }}</option>
+                                        <option value="{{ type.id }}" {% if (file.type|default(0)) == type.id %}selected{% endif %}>{{ type.name }}</option>
                                         {% endfor %}
                                     </select>
-                                    {% if errors.ftype %}
-                                    <div class="invalid-feedback">{{ errors.ftype }}</div>
+                                    {% if errors.type %}
+                                    <div class="invalid-feedback">{{ errors.type }}</div>
                                     {% endif %}
                                     <div class="form-text">Select the type of file being uploaded.</div>
                                 </div>

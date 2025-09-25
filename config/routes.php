@@ -120,6 +120,7 @@ return function (App $app) {
             $group->post('', [FileController::class, 'store'])->setName('files.store');
             $group->get('/{id}', [FileController::class, 'show'])->setName('files.show');
             $group->get('/{id}/edit', [FileController::class, 'edit'])->setName('files.edit');
+            $group->get('/{id}/preview', [FileController::class, 'preview'])->setName('files.preview');
             $group->get('/{id}/download', [FileController::class, 'download'])->setName('files.download');
             $group->post('/{id}', [FileController::class, 'update'])->setName('files.update');
             $group->delete('/{id}', [FileController::class, 'destroy'])->setName('files.destroy');

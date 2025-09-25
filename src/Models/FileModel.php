@@ -23,7 +23,7 @@ class FileModel
         $file = $this->db->fetchOne(
             "SELECT f.*, ft.typedesc as type_name
              FROM files f
-             LEFT JOIN filetypes ft ON f.ftype = ft.id
+             LEFT JOIN filetypes ft ON f.type = ft.id
              WHERE f.id = :id",
             ['id' => $id]
         );
@@ -61,32 +61,33 @@ class FileModel
 
         // Build WHERE conditions
         if (!empty($filters['search'])) {
-            $whereConditions[] = "(title LIKE :search OR fname LIKE :search OR type LIKE :search)";
+            $whereConditions[] = "(f.title LIKE :search OR f.fname LIKE :search OR ft.typedesc LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
         if (!empty($filters['type'])) {
-            $whereConditions[] = "type = :type";
-            $params['type'] = $filters['type'];
+            $whereConditions[] = "f.type = :type";
+            $params['type'] = (int) $filters['type'];
         }
 
         if (!empty($filters['uploader'])) {
-            $whereConditions[] = "uploader = :uploader";
+            $whereConditions[] = "f.uploader = :uploader";
             $params['uploader'] = $filters['uploader'];
         }
 
         $whereClause = !empty($whereConditions) ? 'WHERE ' . implode(' AND ', $whereConditions) : '';
 
         // Get total count
-        $totalSql = "SELECT COUNT(*) FROM files $whereClause";
+        $totalSql = "SELECT COUNT(*) FROM files f LEFT JOIN filetypes ft ON f.type = ft.id $whereClause";
         $total = (int) $this->db->fetchColumn($totalSql, $params);
 
-        // Get files with limit
+        // Get files with limit and enhanced data
         $sql = "
-            SELECT *
-            FROM files
+            SELECT f.*, ft.typedesc as type_name
+            FROM files f
+            LEFT JOIN filetypes ft ON f.type = ft.id
             $whereClause
-            ORDER BY uploaddate DESC, id DESC
+            ORDER BY f.uploaddate DESC, f.id DESC
             LIMIT :limit OFFSET :offset
         ";
 
@@ -94,6 +95,29 @@ class FileModel
         $params['offset'] = $offset;
 
         $files = $this->db->fetchAll($sql, $params);
+
+        // Enhance each file with additional data
+        foreach ($files as &$file) {
+            // Add uploader_user object for template compatibility
+            if ($file['uploader']) {
+                // Try to get display name from users table if uploader is a username
+                $user = $this->db->fetchOne(
+                    "SELECT username, userdesc FROM users WHERE username = :username",
+                    ['username' => $file['uploader']]
+                );
+
+                $file['uploader_user'] = [
+                    'username' => $file['uploader'],
+                    'display_name' => $user['userdesc'] ?? $file['uploader']
+                ];
+            }
+
+            // Add file size from disk
+            $file['file_size'] = $this->getFileSize($file);
+
+            // Add file existence check
+            $file['file_exists'] = $this->fileExists($file);
+        }
 
         return [
             'data' => $files,
@@ -110,7 +134,7 @@ class FileModel
     public function create(array $data): int
     {
         $allowedFields = [
-            'type', 'ftype', 'title', 'fname', 'filename', 'description', 'filesize',
+            'type', 'title', 'fname', 'filename', 'description', 'filesize',
             'uploader', 'uploaddate', 'date'
         ];
 
@@ -125,7 +149,7 @@ class FileModel
     public function update(int $id, array $data): bool
     {
         $allowedFields = [
-            'type', 'ftype', 'title', 'fname', 'filename', 'description', 'filesize',
+            'type', 'title', 'fname', 'filename', 'description', 'filesize',
             'uploader', 'uploaddate', 'date'
         ];
 
@@ -188,7 +212,7 @@ class FileModel
         // Basic search
         if (!empty($filters['search'])) {
             $search = $filters['search'];
-            $whereConditions[] = "(f.title LIKE :search OR f.fname LIKE :search OR f.type LIKE :search" .
+            $whereConditions[] = "(f.title LIKE :search OR f.fname LIKE :search OR ft.typedesc LIKE :search" .
                                 (is_numeric($search) ? " OR f.id = :search_id" : "") . ")";
             $params['search'] = "%{$search}%";
             if (is_numeric($search)) {
@@ -209,7 +233,7 @@ class FileModel
         $sql = "
             SELECT f.*, ft.typedesc as type_name
             FROM files f
-            LEFT JOIN filetypes ft ON f.ftype = ft.id
+            LEFT JOIN filetypes ft ON f.type = ft.id
             $whereClause
             ORDER BY f.uploaddate DESC
             LIMIT :limit

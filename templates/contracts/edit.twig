@@ -140,7 +140,7 @@
                                     {{ contract.currentenddate|date('F j, Y') }}
                                     {% if contract.status.status == 'active' %}
                                         <br><small class="text-success">{{ contract.status.days }} days remaining</small>
-                                    {% elseif contract.status.status == 'expired' %}
+                                    {% elseif contract.status.status == 'expired' and contract.status.days is not null %}
                                         <br><small class="text-danger">Expired {{ contract.status.days|abs }} days ago</small>
                                     {% endif %}
                                 </div>
@@ -229,9 +229,14 @@
                     {% if contract.currentenddate %}
                     <div class="text-center mb-3">
                         {% if contract.status.status == 'active' %}
-                            <div class="h2 text-success">{{ contract.status.days }}</div>
-                            <div class="text-muted">Days Remaining</div>
-                        {% else %}
+                            {% if contract.status.days is not null %}
+                                <div class="h2 text-success">{{ contract.status.days }}</div>
+                                <div class="text-muted">Days Remaining</div>
+                            {% else %}
+                                <div class="h2 text-success">∞</div>
+                                <div class="text-muted">No End Date</div>
+                            {% endif %}
+                        {% elseif contract.status.days is not null %}
                             <div class="h2 text-danger">{{ contract.status.days|abs }}</div>
                             <div class="text-muted">Days Overdue</div>
                         {% endif %}
@@ -656,9 +661,11 @@
                                                     {% if contract.status.days <= 30 %}
                                                     <div class="mt-1"><small class="text-warning">Expires in {{ contract.status.days }} days</small></div>
                                                     {% endif %}
-                                                {% else %}
+                                                {% elseif contract.status.days is not null %}
                                                     <span class="badge bg-danger">Expired</span>
                                                     <div class="mt-1"><small class="text-danger">{{ contract.status.days|abs }} days ago</small></div>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">No End Date</span>
                                                 {% endif %}
                                             </div>
                                         </div>

@@ -274,6 +274,9 @@ class ContractModel
         $contract['parent'] = $contract['parent_title'] ?
             (object)['title' => $contract['parent_title']] : null;
 
+        // Add type_name for template compatibility
+        $contract['type_name'] = $contract['contract_type_name'] ?? null;
+
         // Format dates for display
         if ($contract['startdate']) {
             $contract['start_date_formatted'] = date('Y-m-d', $contract['startdate']);
@@ -284,6 +287,30 @@ class ContractModel
             $contract['is_active'] = $contract['currentenddate'] > time();
         } else {
             $contract['is_active'] = true;
+        }
+
+        // Calculate status for templates
+        $currentTime = time();
+
+        if ($contract['currentenddate']) {
+            $daysUntilEnd = ceil(($contract['currentenddate'] - $currentTime) / 86400);
+
+            if ($daysUntilEnd > 0) {
+                $status = 'active';
+            } else {
+                $status = 'expired';
+            }
+
+            $contract['status'] = [
+                'status' => $status,
+                'days' => $daysUntilEnd
+            ];
+        } else {
+            // No end date means active indefinitely
+            $contract['status'] = [
+                'status' => 'active',
+                'days' => null
+            ];
         }
 
         return $contract;

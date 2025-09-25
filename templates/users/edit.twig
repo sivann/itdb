@@ -319,10 +319,12 @@
                                             name="usertype"
                                             required>
                                         <option value="">Select user type...</option>
-                                        <option value="1" {% if (old.usertype|default(user_data.usertype|default(''))) == 1 %}selected{% endif %}>Administrator</option>
-                                        <option value="2" {% if (old.usertype|default(user_data.usertype|default(''))) == 2 %}selected{% endif %}>LDAP User</option>
-                                        <option value="3" {% if (old.usertype|default(user_data.usertype|default(''))) == 3 %}selected{% endif %}>Regular User</option>
-                                        <option value="0" {% if (old.usertype|default(user_data.usertype|default(''))) == 0 %}selected{% endif %}>Inactive</option>
+                                        {% for type_id, type_name in user_types %}
+                                        <option value="{{ type_id }}" {% if (old.usertype|default(user_data.usertype|default(''))) == type_id %}selected{% endif %}>{{ type_name }}</option>
+                                        {% endfor %}
+                                        {% if user_data.usertype and user_data.usertype not in user_types|keys %}
+                                        <option value="{{ user_data.usertype }}" selected>Legacy User Type ({{ user_data.usertype }})</option>
+                                        {% endif %}
                                     </select>
                                     {% if errors.usertype %}
                                     <div class="invalid-feedback">{{ errors.usertype }}</div>

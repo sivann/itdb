@@ -169,7 +169,10 @@ return function (App $app) {
             $group->get('', [UserController::class, 'index'])->setName('users.index');
             $group->get('/create', [UserController::class, 'create'])->setName('users.create');
             $group->post('', [UserController::class, 'store'])->setName('users.store');
-            $group->get('/{id}', [UserController::class, 'show'])->setName('users.show');
+            $group->get('/{id}', function($request, $response, $args) {
+                $id = $args['id'];
+                return $response->withStatus(302)->withHeader('Location', "/users/{$id}/edit");
+            })->setName('users.show');
             $group->get('/{id}/edit', [UserController::class, 'edit'])->setName('users.edit');
             $group->put('/{id}', [UserController::class, 'update'])->setName('users.update');
             $group->delete('/{id}', [UserController::class, 'destroy'])->setName('users.destroy');

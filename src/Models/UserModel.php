@@ -27,7 +27,7 @@ class UserModel
         // Build WHERE conditions
         if (!empty($filters['search'])) {
             $search = '%' . $filters['search'] . '%';
-            $conditions[] = "(username LIKE :search OR realname LIKE :search OR comments LIKE :search)";
+            $conditions[] = "(username LIKE :search OR userdesc LIKE :search)";
             $params['search'] = $search;
         }
 
@@ -63,6 +63,11 @@ class UserModel
 
         $users = $this->db->fetchAll($sql, $params);
 
+        // Add display_name field for template compatibility
+        foreach ($users as &$user) {
+            $user['display_name'] = !empty($user['userdesc']) ? $user['userdesc'] : $user['username'];
+        }
+
         return [
             'data' => $users,
             'total' => $total,
@@ -79,7 +84,13 @@ class UserModel
     {
         $sql = "SELECT * FROM users WHERE id = :id LIMIT 1";
         $result = $this->db->fetchAll($sql, ['id' => $id]);
-        return $result ? $result[0] : null;
+        if ($result) {
+            $user = $result[0];
+            // Add display_name field for template compatibility
+            $user['display_name'] = !empty($user['userdesc']) ? $user['userdesc'] : $user['username'];
+            return $user;
+        }
+        return null;
     }
 
     /**
@@ -111,16 +122,15 @@ class UserModel
     public function create(array $data): int
     {
         $sql = "
-            INSERT INTO users (username, realname, usertype, password, comments)
-            VALUES (:username, :realname, :usertype, :password, :comments)
+            INSERT INTO users (username, userdesc, usertype, pass)
+            VALUES (:username, :userdesc, :usertype, :pass)
         ";
 
         $params = [
             'username' => $data['username'],
-            'realname' => $data['realname'] ?? null,
+            'userdesc' => $data['userdesc'] ?? null,
             'usertype' => $data['usertype'] ?? 0,
-            'password' => $data['password'] ?? null,
-            'comments' => $data['comments'] ?? null
+            'pass' => $data['password'] ?? null
         ];
 
         $this->db->execute($sql, $params);
@@ -135,17 +145,15 @@ class UserModel
         $sql = "
             UPDATE users SET
                 username = :username,
-                realname = :realname,
-                usertype = :usertype,
-                comments = :comments
+                userdesc = :userdesc,
+                usertype = :usertype
             WHERE id = :id
         ";
 
         $params = [
             'username' => $data['username'],
-            'realname' => $data['realname'] ?? null,
+            'userdesc' => $data['userdesc'] ?? null,
             'usertype' => $data['usertype'] ?? 0,
-            'comments' => $data['comments'] ?? null,
             'id' => $id
         ];
 

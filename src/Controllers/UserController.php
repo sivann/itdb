@@ -62,47 +62,19 @@ class UserController extends BaseController
         return $this->render($response, 'users/index.twig', [
             'user' => $user,
             'users' => $result['data'],
-            'total' => $result['total'],
-            'page' => $result['page'],
-            'total_pages' => $result['total_pages'],
-            'search' => $queryParams['search'] ?? '',
-            'usertype_filter' => $queryParams['usertype'] ?? '',
-            'user_types' => [
-                0 => 'Inactive',
-                1 => 'Admin',
-                2 => 'LDAP User'
+            'pagination' => [
+                'current_page' => $result['page'],
+                'per_page' => $result['per_page'],
+                'total' => $result['total'],
+                'last_page' => $result['total_pages'],
+                'from' => ($result['page'] - 1) * $result['per_page'] + 1,
+                'to' => min($result['page'] * $result['per_page'], $result['total'])
             ],
-        ]);
-    }
-
-    /**
-     * Show user details
-     */
-    public function show(Request $request, Response $response, array $args): Response
-    {
-        $currentUser = $this->authService->getCurrentUser();
-        $id = (int) $args['id'];
-
-        // Users can only view their own profile unless they're admin
-        if (!$currentUser->isAdmin() && $currentUser->id !== $id) {
-            $this->addFlashMessage('error', 'Access denied');
-            return $this->redirectToRoute($request, $response, 'dashboard');
-        }
-
-        $user = $this->userModel->findWithCounts($id);
-        if (!$user) {
-            $this->addFlashMessage('error', 'User not found');
-            return $this->redirectToRoute($request, $response, 'users.index');
-        }
-
-        // Get recent items assigned to this user
-        $recentItems = $this->userModel->getRecentItems($id, 10);
-
-        return $this->render($response, 'users/edit.twig', [
-            'mode' => 'view',
-            'user' => $currentUser,
-            'profile_user' => $user,
-            'recent_items' => $recentItems,
+            'query' => $queryParams,
+            'user_types' => [
+                0 => 'Full Access',
+                1 => 'Readonly'
+            ],
         ]);
     }
 
@@ -217,12 +189,11 @@ class UserController extends BaseController
         return $this->render($response, 'users/edit.twig', [
             'mode' => 'edit',
             'user' => $currentUser,
-            'profile_user' => $user,
+            'user_data' => $user,
             'csrf_token' => $this->generateCsrfToken(),
             'user_types' => [
-                0 => 'Inactive',
-                1 => 'Admin',
-                2 => 'LDAP User'
+                0 => 'Full Access',
+                1 => 'Readonly'
             ],
             'can_edit_usertype' => $currentUser->isAdmin(),
         ]);

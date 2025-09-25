@@ -14,6 +14,10 @@ return function (App $app) {
     // Add routing middleware
     $app->addRoutingMiddleware();
 
+    // Method override middleware (for _method field in forms) - must run before routing
+    $methodOverrideMiddleware = new \Slim\Middleware\MethodOverrideMiddleware();
+    $app->add($methodOverrideMiddleware);
+
     // CORS middleware (if needed for API)
     $app->add(CorsMiddleware::class);
 

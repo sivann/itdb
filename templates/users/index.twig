@@ -86,26 +86,26 @@
                             <div class="d-flex align-items-center">
                                 <i class="bi bi-person-circle me-3 text-primary fs-4"></i>
                                 <div>
-                                    <a href="/users/{{ user_item.id }}" class="fw-bold text-decoration-none">
+                                    <a href="/users/{{ user_item.id }}/edit" class="fw-bold text-decoration-none">
                                         {{ user_item.display_name }}
                                     </a>
                                     {% if user_item.username != user_item.display_name %}
-                                        <br><small class="text-muted">@{{ user_item.username }}</small>
+                                        <small class="text-muted">({{ user_item.username }})</small>
                                     {% endif %}
                                 </div>
                             </div>
                         </td>
                         <td>
-                            {% if user_item.usertype == 1 %}
-                                <span class="badge bg-danger">Admin</span>
-                            {% elseif user_item.usertype == 2 %}
-                                <span class="badge bg-info">LDAP User</span>
+                            {% if user_item.usertype == 0 %}
+                                <span class="badge bg-success">Full Access</span>
+                            {% elseif user_item.usertype == 1 %}
+                                <span class="badge bg-warning">Readonly</span>
                             {% else %}
-                                <span class="badge bg-secondary">Regular</span>
+                                <span class="badge bg-secondary">Legacy ({{ user_item.usertype }})</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if user_item.usertype > 0 %}
+                            {% if user_item.usertype == 0 or user_item.usertype == 1 %}
                                 <span class="badge bg-success">Active</span>
                             {% else %}
                                 <span class="badge bg-danger">Inactive</span>
@@ -129,11 +129,6 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="/users/{{ user_item.id }}"
-                                   class="btn btn-outline-primary btn-sm"
-                                   title="View Details">
-                                    <i class="bi bi-eye"></i>
-                                </a>
                                 {% if user and user.isAdmin() %}
                                 <a href="/users/{{ user_item.id }}/edit"
                                    class="btn btn-outline-secondary btn-sm"

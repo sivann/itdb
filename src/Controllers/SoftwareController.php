@@ -159,7 +159,6 @@ class SoftwareController extends BaseController
                 'lictype' => !empty($data['lictype']) ? (int) $data['lictype'] : 0,
                 'stype' => $this->sanitizeString($data['stype'] ?? ''),
                 'manufacturerid' => !empty($data['manufacturerid']) ? (int) $data['manufacturerid'] : null,
-                'invoiceid' => !empty($data['invoiceid']) ? (int) $data['invoiceid'] : null,
                 'purchdate' => !empty($data['purchdate']) ? strtotime($data['purchdate']) : null,
             ];
 
@@ -255,7 +254,6 @@ class SoftwareController extends BaseController
                 'slicensetype' => !empty($data['slicensetype']) ? (int) $data['slicensetype'] : 0,
                 'stype' => $this->sanitizeString($data['stype'] ?? ''),
                 'manufacturerid' => !empty($data['manufacturerid']) ? (int) $data['manufacturerid'] : null,
-                'invoiceid' => !empty($data['invoiceid']) ? (int) $data['invoiceid'] : null,
             ];
 
 

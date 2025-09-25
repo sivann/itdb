@@ -243,15 +243,17 @@
 				/* Special output formatting for 'version' column */
 				//$row[] = "<small>". $aRow[$aColumns[$i]] ."</small>";
 				$w=$aRow[$aColumns[$i]];
-				$arr = preg_split("/[\s,]+/", $w,5);
-				foreach ($arr as &$v)
-				  if (strlen($v)) $v=substr($v, 0, 5).". ";
+				$w2 = '';
+				if ($w) {
+					$arr = preg_split("/[\s,]+/", $w,5);
+					foreach ($arr as &$v)
+					  if (strlen($v)) $v=substr($v, 0, 5).". ";
 
-				$w2=implode("",$arr);
-				if (strlen($w2)) $w2.="...";
+					$w2=implode("",$arr);
+					if (strlen($w2)) $w2.="...";
+				}
 				
-
-				$row[] = "<small><div title='$w'>". $w2. "</div></small>";
+				$row[] = "<small><div title='".htmlspecialchars($w ?? '', ENT_QUOTES)."'>". htmlspecialchars($w2, ENT_QUOTES). "</div></small>";
 			}
 			else if ( $aColumns[$i] != ' ' )
 			{

@@ -49,8 +49,10 @@ $fuploaddirwww="$prot://$servername:$serverport".dirname($scriptname)."/$uploadd
 // find out our username
 $procusername="";
 if (function_exists('posix_getgid')) {
-  $procuserinfo = posix_getpwuid(posix_getgid()); 
-  $procusername=$procuserinfo['name'];
+  $procuserinfo = posix_getpwuid(posix_getgid());
+  if (is_array($procuserinfo)) {
+    $procusername=$procuserinfo['name'];
+  }
 }
 
 if (!strlen($procusername))
@@ -172,7 +174,6 @@ else {
 date_default_timezone_set($settings['timezone']);
 
 read_trans($settings['lang']);
-if (get_magic_quotes_gpc()) {
     function stripslashes_deep($value)
     {
         $value = is_array($value) ?
@@ -188,7 +189,6 @@ if (get_magic_quotes_gpc()) {
     $_GET = array_map('stripslashes_deep', $_GET); /* careful, this may interfere with  serialize()/unserialize() */
     $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
     $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
-}
 
 
 ///////////cookies///////////
@@ -261,8 +261,8 @@ if (!$demomode ) {
     $authmsg="Session Expired";
   } 
   elseif (isset($_COOKIE["itdbuser"])) { //& isset itdbookie1, check if valid
-    $sql="SELECT * from users where username='".$_COOKIE["itdbuser"]."' limit 1";
-    $sth=db_execute($dbh,$sql,1);
+    $sql="SELECT * from users where username=:username limit 1";
+    $sth=db_execute2($dbh,$sql,array('username'=>$_COOKIE["itdbuser"]));
     $userdata=$sth->fetchAll(PDO::FETCH_ASSOC);
     //$dbg= "db cookie:".$userdata[0]['cookie1'] . "<br>browser cookie:".$_COOKIE["itdbcookie1"];
 

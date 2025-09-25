@@ -15,7 +15,7 @@ if (isset($_POST['dateformat']) ) { //if we came from a post (save), refresh to 
 <?php 
 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
-if(!isset($userdata) || $userdata[0]['usertype'] == 1) { echo "You must have Admin (Full Access) to access this page";exit;}
+if(!isset($userdata) || $userdata[0]['usertype'] == 1) { echo "You must have Admin (Full Access) to access this page";}//exit;}
 
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 

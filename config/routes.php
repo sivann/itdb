@@ -175,6 +175,7 @@ return function (App $app) {
             })->setName('users.show');
             $group->get('/{id}/edit', [UserController::class, 'edit'])->setName('users.edit');
             $group->put('/{id}', [UserController::class, 'update'])->setName('users.update');
+            $group->post('/{id}', [UserController::class, 'update'])->setName('users.update.post');
             $group->delete('/{id}', [UserController::class, 'destroy'])->setName('users.destroy');
         });
 

@@ -327,14 +327,46 @@ class SoftwareModel
     {
         $sql = "
             SELECT f.id, f.title, f.filename, f.fname, f.description, f.uploaddate, f.filesize,
-                   f.type, f.ftype, ft.typedesc as type_name
+                   f.type, ft.typedesc as type_name, f.uploader
             FROM software2file s2f
             INNER JOIN files f ON s2f.fileid = f.id
-            LEFT JOIN filetypes ft ON f.ftype = ft.id
+            LEFT JOIN filetypes ft ON f.type = ft.id
             WHERE s2f.softwareid = ?
             ORDER BY f.uploaddate DESC, f.id DESC
         ";
-        return $this->db->fetchAll($sql, [$softwareId]);
+        $files = $this->db->fetchAll($sql, [$softwareId]);
+
+        // Enhance each file with template-compatible data
+        foreach ($files as &$file) {
+            // Add fileType object for template compatibility
+            $file['fileType'] = [
+                'name' => $file['type_name']
+            ];
+
+            // Add file_size from disk or database
+            $file['file_size'] = $file['filesize'] ?? 0;
+
+            // Format upload date
+            if ($file['uploaddate']) {
+                $file['uploaddate_formatted'] = date('M j, Y g:i A', (int) $file['uploaddate']);
+            } else {
+                $file['uploaddate_formatted'] = null;
+            }
+
+            // Add uploader info (if needed in future)
+            if ($file['uploader']) {
+                $user = $this->db->fetchOne(
+                    "SELECT username, userdesc FROM users WHERE username = :username",
+                    ['username' => $file['uploader']]
+                );
+                $file['uploader_user'] = [
+                    'username' => $file['uploader'],
+                    'display_name' => $user['userdesc'] ?? $file['uploader']
+                ];
+            }
+        }
+
+        return $files;
     }
 
     /**

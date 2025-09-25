@@ -96,7 +96,7 @@ return function (App $app) {
             $group->get('/{id}', [ContractController::class, 'show'])->setName('contracts.show');
             $group->get('/{id}/edit', [ContractController::class, 'edit'])->setName('contracts.edit');
             $group->get('/{id}/events', [ContractController::class, 'events'])->setName('contracts.events');
-            $group->put('/{id}', [ContractController::class, 'update'])->setName('contracts.update');
+            $group->post('/{id}', [ContractController::class, 'update'])->setName('contracts.update');
             $group->delete('/{id}', [ContractController::class, 'destroy'])->setName('contracts.destroy');
         });
 

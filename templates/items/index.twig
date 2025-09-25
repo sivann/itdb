@@ -185,11 +185,6 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="/items/{{ item.id }}"
-                                   class="btn btn-outline-primary btn-sm"
-                                   title="View Details">
-                                    <i class="bi bi-eye"></i>
-                                </a>
                                 {% if user and ((user.usertype >= 1 and item.userid == user.id) or user.isAdmin()) %}
                                 <a href="/items/{{ item.id }}/edit"
                                    class="btn btn-outline-secondary btn-sm"

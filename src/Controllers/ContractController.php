@@ -279,7 +279,7 @@ class ContractController extends BaseController
             $errors[] = 'Invalid parent contract';
         }
 
-        if (!empty($data['contractorid']) && !$this->agentModel->find($data['contractorid'])) {
+        if (!empty($data['contractorid']) && !$this->agentModel->find((int)$data['contractorid'])) {
             $errors[] = 'Invalid contractor';
         }
 

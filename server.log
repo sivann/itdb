@@ -13117,3 +13117,261 @@ Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->pre
 [Thu Sep 25 13:59:54 2025] [::1]:62880 Closing
 [Thu Sep 25 13:59:54 2025] [::1]:62881 [204]: GET /favicon.ico
 [Thu Sep 25 13:59:54 2025] [::1]:62881 Closing
+[Thu Sep 25 14:00:11 2025] [::1]:62953 Accepted
+[Thu Sep 25 14:00:11 2025] [::1]:62953 [302]: GET /items/1165
+[Thu Sep 25 14:00:11 2025] [::1]:62953 Closing
+[Thu Sep 25 14:00:11 2025] [::1]:62954 Accepted
+[Thu Sep 25 14:00:11 2025] Slim Application Error
+Type: PDOException
+Code: HY000
+Message: SQLSTATE[HY000]: General error: 1 no such column: la.name
+File: /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php
+Line: 38
+Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->prepare('\n            SE...')
+#1 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(68): App\Services\DatabaseManager->execute('\n            SE...', Array)
+#2 /Users/sivann/sbx/itdb2/src/Models/ItemModel.php(155): App\Services\DatabaseManager->fetchAll('\n            SE...', Array)
+#3 /Users/sivann/sbx/itdb2/src/Controllers/ItemController.php(217): App\Models\ItemModel->findWithRelations(1165)
+#4 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ItemController->edit(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#13 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#16 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#18 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#26 {main}
+[Thu Sep 25 14:00:11 2025] [::1]:62954 [500]: GET /items/1165/edit
+[Thu Sep 25 14:00:11 2025] [::1]:62954 Closing
+[Thu Sep 25 14:00:11 2025] [::1]:62955 Accepted
+[Thu Sep 25 14:00:11 2025] [::1]:62955 [204]: GET /favicon.ico
+[Thu Sep 25 14:00:11 2025] [::1]:62955 Closing
+[Thu Sep 25 14:00:14 2025] [::1]:62972 Accepted
+[Thu Sep 25 14:00:14 2025] [::1]:62973 Accepted
+[Thu Sep 25 14:00:14 2025] [::1]:62972 [200]: GET /items?page=1
+[Thu Sep 25 14:00:14 2025] [::1]:62972 Closing
+[Thu Sep 25 14:00:14 2025] [::1]:62973 [204]: GET /favicon.ico
+[Thu Sep 25 14:00:14 2025] [::1]:62973 Closing
+[Thu Sep 25 14:02:49 2025] [::1]:63650 Accepted
+[Thu Sep 25 14:02:49 2025] [::1]:63651 Accepted
+[Thu Sep 25 14:02:49 2025] [::1]:63650 [200]: GET /items?page=1
+[Thu Sep 25 14:02:49 2025] [::1]:63650 Closing
+[Thu Sep 25 14:02:49 2025] [::1]:63651 [204]: GET /favicon.ico
+[Thu Sep 25 14:02:49 2025] [::1]:63651 Closing
+[Thu Sep 25 14:02:51 2025] [::1]:63661 Accepted
+[Thu Sep 25 14:02:51 2025] Slim Application Error
+Type: PDOException
+Code: HY000
+Message: SQLSTATE[HY000]: General error: 1 no such column: la.name
+File: /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php
+Line: 38
+Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->prepare('\n            SE...')
+#1 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(68): App\Services\DatabaseManager->execute('\n            SE...', Array)
+#2 /Users/sivann/sbx/itdb2/src/Models/ItemModel.php(155): App\Services\DatabaseManager->fetchAll('\n            SE...', Array)
+#3 /Users/sivann/sbx/itdb2/src/Controllers/ItemController.php(217): App\Models\ItemModel->findWithRelations(1165)
+#4 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ItemController->edit(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#13 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#16 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#18 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#26 {main}
+[Thu Sep 25 14:02:51 2025] [::1]:63661 [500]: GET /items/1165/edit
+[Thu Sep 25 14:02:51 2025] [::1]:63661 Closing
+[Thu Sep 25 14:02:51 2025] [::1]:63662 Accepted
+[Thu Sep 25 14:02:51 2025] [::1]:63662 [204]: GET /favicon.ico
+[Thu Sep 25 14:02:51 2025] [::1]:63662 Closing
+[Thu Sep 25 14:09:45 2025] [::1]:65450 Accepted
+[Thu Sep 25 14:09:45 2025] [::1]:65451 Accepted
+[Thu Sep 25 14:09:45 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:09:45 2025] [::1]:65450 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:09:45 2025] [::1]:65450 Closing
+[Thu Sep 25 14:09:45 2025] [::1]:65451 [204]: GET /favicon.ico
+[Thu Sep 25 14:09:45 2025] [::1]:65451 Closing
+[Thu Sep 25 14:23:50 2025] [::1]:52657 Accepted
+[Thu Sep 25 14:23:50 2025] [::1]:52658 Accepted
+[Thu Sep 25 14:23:50 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:23:50 2025] [::1]:52657 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:23:50 2025] [::1]:52657 Closing
+[Thu Sep 25 14:23:50 2025] [::1]:52658 [204]: GET /favicon.ico
+[Thu Sep 25 14:23:50 2025] [::1]:52658 Closing
+[Thu Sep 25 14:23:54 2025] [::1]:52676 Accepted
+[Thu Sep 25 14:23:54 2025] [::1]:52677 Accepted
+[Thu Sep 25 14:23:54 2025] 405 Method Not Allowed
+Type: Slim\Exception\HttpMethodNotAllowedException
+Code: 405
+Message: Method not allowed. Must be one of: GET, DELETE, PUT
+File: /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php
+Line: 79
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(44): Slim\Middleware\RoutingMiddleware->performRouting(Object(Slim\Psr7\Request))
+#1 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#2 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#3 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#4 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#12 {main}
+[Thu Sep 25 14:23:54 2025] [::1]:52676 [405]: POST /contracts/1
+[Thu Sep 25 14:23:54 2025] [::1]:52676 Closing
+[Thu Sep 25 14:23:54 2025] [::1]:52677 [204]: GET /favicon.ico
+[Thu Sep 25 14:23:54 2025] [::1]:52677 Closing
+[Thu Sep 25 14:24:02 2025] [::1]:52715 Accepted
+[Thu Sep 25 14:24:02 2025] [::1]:52716 Accepted
+[Thu Sep 25 14:24:02 2025] [::1]:52715 [200]: GET /items/1165/edit
+[Thu Sep 25 14:24:02 2025] [::1]:52715 Closing
+[Thu Sep 25 14:24:02 2025] [::1]:52716 [204]: GET /favicon.ico
+[Thu Sep 25 14:24:02 2025] [::1]:52716 Closing
+[Thu Sep 25 14:24:35 2025] [::1]:52854 Accepted
+[Thu Sep 25 14:24:35 2025] [::1]:52855 Accepted
+[Thu Sep 25 14:24:35 2025] [::1]:52854 [200]: GET /items/1165/edit
+[Thu Sep 25 14:24:35 2025] [::1]:52854 Closing
+[Thu Sep 25 14:24:35 2025] [::1]:52855 [204]: GET /favicon.ico
+[Thu Sep 25 14:24:35 2025] [::1]:52855 Closing
+[Thu Sep 25 14:41:30 2025] [::1]:57477 Accepted
+[Thu Sep 25 14:41:30 2025] [::1]:57478 Accepted
+[Thu Sep 25 14:41:30 2025] [::1]:57477 [302]: GET /contracts/1
+[Thu Sep 25 14:41:30 2025] [::1]:57477 Closing
+[Thu Sep 25 14:41:30 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:41:30 2025] [::1]:57478 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:41:30 2025] [::1]:57478 Closing
+[Thu Sep 25 14:41:31 2025] [::1]:57483 Accepted
+[Thu Sep 25 14:41:31 2025] [::1]:57483 [204]: GET /favicon.ico
+[Thu Sep 25 14:41:31 2025] [::1]:57483 Closing
+[Thu Sep 25 14:41:34 2025] [::1]:57497 Accepted
+[Thu Sep 25 14:41:34 2025] [::1]:57498 Accepted
+[Thu Sep 25 14:41:34 2025] Slim Application Error
+Type: TypeError
+Code: 0
+Message: App\Models\AgentModel::find(): Argument #1 ($id) must be of type int, string given, called in /Users/sivann/sbx/itdb2/src/Controllers/ContractController.php on line 282
+File: /Users/sivann/sbx/itdb2/src/Models/AgentModel.php
+Line: 21
+Trace: #0 /Users/sivann/sbx/itdb2/src/Controllers/ContractController.php(282): App\Models\AgentModel->find('6')
+#1 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ContractController->update(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#2 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#3 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#4 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#13 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#15 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#22 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#23 {main}
+[Thu Sep 25 14:41:34 2025] [::1]:57497 [500]: POST /contracts/1
+[Thu Sep 25 14:41:34 2025] [::1]:57497 Closing
+[Thu Sep 25 14:41:34 2025] [::1]:57498 [204]: GET /favicon.ico
+[Thu Sep 25 14:41:34 2025] [::1]:57498 Closing
+[Thu Sep 25 14:42:30 2025] [::1]:57730 Accepted
+[Thu Sep 25 14:42:30 2025] [::1]:57731 Accepted
+[Thu Sep 25 14:42:30 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:42:30 2025] [::1]:57730 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:42:30 2025] [::1]:57730 Closing
+[Thu Sep 25 14:42:30 2025] [::1]:57731 [204]: GET /favicon.ico
+[Thu Sep 25 14:42:30 2025] [::1]:57731 Closing
+[Thu Sep 25 14:42:33 2025] [::1]:57744 Accepted
+[Thu Sep 25 14:42:33 2025] [::1]:57745 Accepted
+[Thu Sep 25 14:42:33 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:42:33 2025] [::1]:57744 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:42:33 2025] [::1]:57744 Closing
+[Thu Sep 25 14:42:33 2025] [::1]:57745 [204]: GET /favicon.ico
+[Thu Sep 25 14:42:33 2025] [::1]:57745 Closing
+[Thu Sep 25 14:42:35 2025] [::1]:57754 Accepted
+[Thu Sep 25 14:42:35 2025] [::1]:57755 Accepted
+[Thu Sep 25 14:42:35 2025] [::1]:57754 [302]: POST /contracts/1
+[Thu Sep 25 14:42:35 2025] [::1]:57754 Closing
+[Thu Sep 25 14:42:35 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:42:35 2025] [::1]:57755 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:42:35 2025] [::1]:57755 Closing
+[Thu Sep 25 14:42:35 2025] [::1]:57756 Accepted
+[Thu Sep 25 14:42:35 2025] [::1]:57756 [204]: GET /favicon.ico
+[Thu Sep 25 14:42:35 2025] [::1]:57756 Closing
+[Thu Sep 25 14:42:45 2025] [::1]:57801 Accepted
+[Thu Sep 25 14:42:45 2025] [::1]:57802 Accepted
+[Thu Sep 25 14:42:45 2025] [::1]:57801 [302]: POST /contracts/1
+[Thu Sep 25 14:42:45 2025] [::1]:57801 Closing
+[Thu Sep 25 14:42:45 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:42:45 2025] [::1]:57802 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:42:45 2025] [::1]:57802 Closing
+[Thu Sep 25 14:42:46 2025] [::1]:57807 Accepted
+[Thu Sep 25 14:42:46 2025] [::1]:57807 [204]: GET /favicon.ico
+[Thu Sep 25 14:42:46 2025] [::1]:57807 Closing
+[Thu Sep 25 14:42:46 2025] [::1]:57808 Accepted
+[Thu Sep 25 14:42:46 2025] [::1]:57809 Accepted
+[Thu Sep 25 14:42:47 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:42:47 2025] [::1]:57808 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:42:47 2025] [::1]:57808 Closing
+[Thu Sep 25 14:42:47 2025] [::1]:57809 [204]: GET /favicon.ico
+[Thu Sep 25 14:42:47 2025] [::1]:57809 Closing
+[Thu Sep 25 14:42:50 2025] [::1]:57822 Accepted
+[Thu Sep 25 14:42:50 2025] [::1]:57823 Accepted
+[Thu Sep 25 14:42:50 2025] [::1]:57822 [302]: POST /contracts/1
+[Thu Sep 25 14:42:50 2025] [::1]:57822 Closing
+[Thu Sep 25 14:42:50 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:42:50 2025] [::1]:57823 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:42:50 2025] [::1]:57823 Closing
+[Thu Sep 25 14:42:50 2025] [::1]:57828 Accepted
+[Thu Sep 25 14:42:50 2025] [::1]:57828 [204]: GET /favicon.ico
+[Thu Sep 25 14:42:50 2025] [::1]:57828 Closing
+[Thu Sep 25 14:42:54 2025] [::1]:57845 Accepted
+[Thu Sep 25 14:42:54 2025] [::1]:57846 Accepted
+[Thu Sep 25 14:42:54 2025] [::1]:57845 [302]: POST /contracts/1
+[Thu Sep 25 14:42:54 2025] [::1]:57845 Closing
+[Thu Sep 25 14:42:54 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:42:54 2025] [::1]:57846 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:42:54 2025] [::1]:57846 Closing
+[Thu Sep 25 14:42:54 2025] [::1]:57848 Accepted
+[Thu Sep 25 14:42:54 2025] [::1]:57848 [204]: GET /favicon.ico
+[Thu Sep 25 14:42:54 2025] [::1]:57848 Closing
+[Thu Sep 25 14:42:55 2025] [::1]:57853 Accepted
+[Thu Sep 25 14:42:55 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 14:42:55 2025] [::1]:57853 [200]: GET /contracts/1/edit
+[Thu Sep 25 14:42:55 2025] [::1]:57853 Closing
+[Thu Sep 25 14:42:55 2025] [::1]:57854 Accepted
+[Thu Sep 25 14:42:55 2025] [::1]:57854 [204]: GET /favicon.ico
+[Thu Sep 25 14:42:55 2025] [::1]:57854 Closing

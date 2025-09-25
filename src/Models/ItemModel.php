@@ -137,15 +137,13 @@ class ItemModel
                    it.name as itemtype_name,
                    st.statusdesc as status_name,
                    l.name as location_name,
-                   la.name as locationarea_name,
-                   r.name as rack_name,
+                   r.label as rack_name,
                    a.title as manufacturer_name
             FROM items i
             LEFT JOIN users u ON i.userid = u.id
             LEFT JOIN itemtypes it ON i.itemtypeid = it.id
             LEFT JOIN statustypes st ON i.status = st.id
             LEFT JOIN locations l ON i.locationid = l.id
-            LEFT JOIN locareas la ON i.locareaid = la.id
             LEFT JOIN racks r ON i.rackid = r.id
             LEFT JOIN agents a ON i.manufacturerid = a.id
             WHERE i.id = ?

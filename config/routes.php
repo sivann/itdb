@@ -144,7 +144,7 @@ return function (App $app) {
             $group->post('', [LocationController::class, 'store'])->setName('locations.store');
             $group->get('/{id}', [LocationController::class, 'show'])->setName('locations.show');
             $group->get('/{id}/edit', [LocationController::class, 'edit'])->setName('locations.edit');
-            $group->put('/{id}', [LocationController::class, 'update'])->setName('locations.update');
+            $group->post('/{id}', [LocationController::class, 'update'])->setName('locations.update');
             $group->delete('/{id}', [LocationController::class, 'destroy'])->setName('locations.destroy');
         });
 

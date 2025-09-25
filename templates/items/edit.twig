@@ -37,16 +37,11 @@
                             <h6 class="text-muted mb-3">Basic Information</h6>
 
                             <div class="mb-3">
-                                <label for="function" class="form-label">Item Name</label>
-                                <input type="text" class="form-control" id="function" name="function" value="{{ item.function }}">
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="itemtypeid" class="form-label">Item Type</label>
                                 <select class="form-select" id="itemtypeid" name="itemtypeid">
                                     <option value="">Select item type...</option>
                                     {% for type in form_options.item_types %}
-                                    <option value="{{ type.id }}" {% if item.itemtypeid == type.id %}selected{% endif %}>{{ type.typedesc }}</option>
+                                    <option value="{{ type.id }}" {% if item.itemtypeid == type.id %}selected{% endif %}>{{ type.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -55,7 +50,7 @@
                                 <label for="status" class="form-label">Status</label>
                                 <select class="form-select" id="status" name="status">
                                     {% for status in form_options.status_types %}
-                                    <option value="{{ status.id }}" {% if item.status == status.id %}selected{% endif %}>{{ status.statusdesc }}</option>
+                                    <option value="{{ status.id }}" {% if item.status == status.id %}selected{% endif %}>{{ status.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -85,7 +80,7 @@
                                 <select class="form-select" id="userid" name="userid">
                                     <option value="">Unassigned</option>
                                     {% for user in form_options.users %}
-                                    <option value="{{ user.id }}" {% if item.userid == user.id %}selected{% endif %}>{{ user.userdesc|default(user.username) }}</option>
+                                    <option value="{{ user.id }}" {% if item.userid == user.id %}selected{% endif %}>{{ user.username }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -149,6 +144,11 @@
                                 <label for="warrantymonths" class="form-label">Warranty Period (months)</label>
                                 <input type="number" class="form-control" id="warrantymonths" name="warrantymonths" min="0" value="{{ item.warrantymonths }}">
                             </div>
+
+                            <div class="mb-3">
+                                <label for="updated_at" class="form-label">Last Updated</label>
+                                <input type="text" class="form-control" id="updated_at" name="updated_at" value="{{ item.updated_at|date('Y-m-d H:i:s') }}" readonly>
+                            </div>
                         </div>
                     </div>
 
@@ -157,6 +157,11 @@
                     <div class="mb-3">
                         <label for="comments" class="form-label">Comments</label>
                         <textarea class="form-control" id="comments" name="comments" rows="4">{{ item.comments }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="function" class="form-label">Item Function</label>
+                        <input type="text" class="form-control" id="function" name="function" value="{{ item.function }}">
                     </div>
 
                     <div class="mb-3">

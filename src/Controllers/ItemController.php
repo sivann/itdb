@@ -226,22 +226,11 @@ class ItemController extends BaseController
         }
 
         // Get form options from ItemModel
-        $filterOptions = $this->itemModel->getFilterOptions();
-        $itemTypes = $filterOptions['item_types'];
-        $statusTypes = $filterOptions['status_types'];
-        $locations = $filterOptions['locations'];
-        $users = $filterOptions['users'];
-        $manufacturers = $filterOptions['manufacturers'];
+        $formOptions = $this->itemModel->getFilterOptions();
 
         return $this->render($response, 'items/edit.twig', [
             'item' => $item,
-            'form_options' => [
-                'item_types' => $itemTypes,
-                'status_types' => $statusTypes,
-                'locations' => $locations,
-                'users' => $users,
-                'manufacturers' => $manufacturers,
-            ],
+            'form_options' => $formOptions,
             'user' => $user,
             'csrf_token' => $this->generateCsrfToken(),
         ]);

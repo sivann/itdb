@@ -13375,3 +13375,819 @@ Trace: #0 /Users/sivann/sbx/itdb2/src/Controllers/ContractController.php(282): A
 [Thu Sep 25 14:42:55 2025] [::1]:57854 Accepted
 [Thu Sep 25 14:42:55 2025] [::1]:57854 [204]: GET /favicon.ico
 [Thu Sep 25 14:42:55 2025] [::1]:57854 Closing
+[Thu Sep 25 14:43:47 2025] [::1]:58063 Accepted
+[Thu Sep 25 14:43:47 2025] [::1]:58064 Accepted
+[Thu Sep 25 14:43:47 2025] [::1]:58063 [200]: GET /items/1165/edit
+[Thu Sep 25 14:43:47 2025] [::1]:58063 Closing
+[Thu Sep 25 14:43:47 2025] [::1]:58064 [204]: GET /favicon.ico
+[Thu Sep 25 14:43:47 2025] [::1]:58064 Closing
+[Thu Sep 25 14:43:49 2025] [::1]:58073 Accepted
+[Thu Sep 25 14:43:49 2025] [::1]:58073 [200]: GET /items
+[Thu Sep 25 14:43:49 2025] [::1]:58073 Closing
+[Thu Sep 25 14:43:49 2025] [::1]:58074 Accepted
+[Thu Sep 25 14:43:49 2025] [::1]:58074 [204]: GET /favicon.ico
+[Thu Sep 25 14:43:49 2025] [::1]:58074 Closing
+[Thu Sep 25 14:43:53 2025] [::1]:58091 Accepted
+[Thu Sep 25 14:43:53 2025] [::1]:58092 Accepted
+[Thu Sep 25 14:43:53 2025] [::1]:58091 [200]: GET /items/1142/edit
+[Thu Sep 25 14:43:53 2025] [::1]:58091 Closing
+[Thu Sep 25 14:43:53 2025] [::1]:58092 [204]: GET /favicon.ico
+[Thu Sep 25 14:43:53 2025] [::1]:58092 Closing
+[Thu Sep 25 14:43:56 2025] [::1]:58105 Accepted
+[Thu Sep 25 14:43:56 2025] [::1]:58106 Accepted
+[Thu Sep 25 14:43:56 2025] [::1]:58105 [200]: GET /items
+[Thu Sep 25 14:43:56 2025] [::1]:58105 Closing
+[Thu Sep 25 14:43:56 2025] [::1]:58106 [204]: GET /favicon.ico
+[Thu Sep 25 14:43:56 2025] [::1]:58106 Closing
+[Thu Sep 25 14:43:57 2025] [::1]:58115 Accepted
+[Thu Sep 25 14:43:57 2025] [::1]:58116 Accepted
+[Thu Sep 25 14:43:57 2025] [::1]:58115 [302]: GET /items/1165
+[Thu Sep 25 14:43:57 2025] [::1]:58115 Closing
+[Thu Sep 25 14:43:57 2025] [::1]:58116 [200]: GET /items/1165/edit
+[Thu Sep 25 14:43:57 2025] [::1]:58116 Closing
+[Thu Sep 25 14:43:57 2025] [::1]:58117 Accepted
+[Thu Sep 25 14:43:57 2025] [::1]:58117 [204]: GET /favicon.ico
+[Thu Sep 25 14:43:57 2025] [::1]:58117 Closing
+[Thu Sep 25 14:44:06 2025] [::1]:58154 Accepted
+[Thu Sep 25 14:44:06 2025] [::1]:58155 Accepted
+[Thu Sep 25 14:44:06 2025] [::1]:58154 [200]: GET /items
+[Thu Sep 25 14:44:06 2025] [::1]:58154 Closing
+[Thu Sep 25 14:44:06 2025] [::1]:58155 [204]: GET /favicon.ico
+[Thu Sep 25 14:44:06 2025] [::1]:58155 Closing
+[Thu Sep 25 14:44:08 2025] [::1]:58160 Accepted
+[Thu Sep 25 14:44:08 2025] [::1]:58161 Accepted
+[Thu Sep 25 14:44:08 2025] [::1]:58160 [302]: GET /items/1165
+[Thu Sep 25 14:44:08 2025] [::1]:58160 Closing
+[Thu Sep 25 14:44:08 2025] [::1]:58161 [200]: GET /items/1165/edit
+[Thu Sep 25 14:44:08 2025] [::1]:58161 Closing
+[Thu Sep 25 14:44:08 2025] [::1]:58162 Accepted
+[Thu Sep 25 14:44:08 2025] [::1]:58162 [204]: GET /favicon.ico
+[Thu Sep 25 14:44:08 2025] [::1]:58162 Closing
+[Thu Sep 25 14:44:10 2025] [::1]:58176 Accepted
+[Thu Sep 25 14:44:10 2025] [::1]:58177 Accepted
+[Thu Sep 25 14:44:10 2025] [::1]:58176 [200]: GET /items
+[Thu Sep 25 14:44:10 2025] [::1]:58176 Closing
+[Thu Sep 25 14:44:11 2025] [::1]:58177 [204]: GET /favicon.ico
+[Thu Sep 25 14:44:11 2025] [::1]:58177 Closing
+[Thu Sep 25 14:44:12 2025] [::1]:58186 Accepted
+[Thu Sep 25 14:44:12 2025] [::1]:58186 [200]: GET /items/1164/edit
+[Thu Sep 25 14:44:12 2025] [::1]:58186 Closing
+[Thu Sep 25 14:44:12 2025] [::1]:58187 Accepted
+[Thu Sep 25 14:44:12 2025] [::1]:58187 [204]: GET /favicon.ico
+[Thu Sep 25 14:44:12 2025] [::1]:58187 Closing
+[Thu Sep 25 14:44:46 2025] [::1]:58329 Accepted
+[Thu Sep 25 14:44:46 2025] [::1]:58329 [200]: GET /items/1164/edit
+[Thu Sep 25 14:44:46 2025] [::1]:58329 Closing
+[Thu Sep 25 14:44:46 2025] [::1]:58330 Accepted
+[Thu Sep 25 14:44:46 2025] [::1]:58330 [204]: GET /favicon.ico
+[Thu Sep 25 14:44:46 2025] [::1]:58330 Closing
+[Thu Sep 25 14:45:22 2025] [::1]:58473 Accepted
+[Thu Sep 25 14:45:22 2025] [::1]:58474 Accepted
+[Thu Sep 25 14:45:22 2025] [::1]:58473 [200]: GET /items
+[Thu Sep 25 14:45:22 2025] [::1]:58473 Closing
+[Thu Sep 25 14:45:22 2025] [::1]:58474 [204]: GET /favicon.ico
+[Thu Sep 25 14:45:22 2025] [::1]:58474 Closing
+[Thu Sep 25 14:45:41 2025] [::1]:58557 Accepted
+[Thu Sep 25 14:45:41 2025] [::1]:58557 [200]: GET /items/1165/edit
+[Thu Sep 25 14:45:41 2025] [::1]:58557 Closing
+[Thu Sep 25 14:45:41 2025] [::1]:58558 Accepted
+[Thu Sep 25 14:45:42 2025] [::1]:58558 [204]: GET /favicon.ico
+[Thu Sep 25 14:45:42 2025] [::1]:58558 Closing
+[Thu Sep 25 14:49:18 2025] [::1]:59473 Accepted
+[Thu Sep 25 14:49:18 2025] [::1]:59474 Accepted
+[Thu Sep 25 14:49:18 2025] [::1]:59473 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:18 2025] [::1]:59473 Closing
+[Thu Sep 25 14:49:18 2025] [::1]:59474 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:18 2025] [::1]:59474 Closing
+[Thu Sep 25 14:49:18 2025] [::1]:59479 Accepted
+[Thu Sep 25 14:49:18 2025] [::1]:59480 Accepted
+[Thu Sep 25 14:49:18 2025] [::1]:59479 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:18 2025] [::1]:59479 Closing
+[Thu Sep 25 14:49:19 2025] [::1]:59480 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:19 2025] [::1]:59480 Closing
+[Thu Sep 25 14:49:19 2025] [::1]:59481 Accepted
+[Thu Sep 25 14:49:19 2025] [::1]:59482 Accepted
+[Thu Sep 25 14:49:19 2025] [::1]:59481 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:19 2025] [::1]:59481 Closing
+[Thu Sep 25 14:49:19 2025] [::1]:59482 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:19 2025] [::1]:59482 Closing
+[Thu Sep 25 14:49:19 2025] [::1]:59483 Accepted
+[Thu Sep 25 14:49:19 2025] [::1]:59484 Accepted
+[Thu Sep 25 14:49:19 2025] [::1]:59483 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:19 2025] [::1]:59483 Closing
+[Thu Sep 25 14:49:19 2025] [::1]:59484 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:19 2025] [::1]:59484 Closing
+[Thu Sep 25 14:49:36 2025] [::1]:59554 Accepted
+[Thu Sep 25 14:49:36 2025] [::1]:59555 Accepted
+[Thu Sep 25 14:49:36 2025] [::1]:59554 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:36 2025] [::1]:59554 Closing
+[Thu Sep 25 14:49:36 2025] [::1]:59555 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:36 2025] [::1]:59555 Closing
+[Thu Sep 25 14:49:39 2025] [::1]:59573 Accepted
+[Thu Sep 25 14:49:39 2025] [::1]:59574 Accepted
+[Thu Sep 25 14:49:39 2025] [::1]:59573 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:39 2025] [::1]:59573 Closing
+[Thu Sep 25 14:49:39 2025] [::1]:59574 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:39 2025] [::1]:59574 Closing
+[Thu Sep 25 14:49:41 2025] [::1]:59580 Accepted
+[Thu Sep 25 14:49:41 2025] [::1]:59581 Accepted
+[Thu Sep 25 14:49:41 2025] [::1]:59580 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:41 2025] [::1]:59580 Closing
+[Thu Sep 25 14:49:41 2025] [::1]:59581 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:41 2025] [::1]:59581 Closing
+[Thu Sep 25 14:49:42 2025] [::1]:59590 Accepted
+[Thu Sep 25 14:49:42 2025] [::1]:59591 Accepted
+[Thu Sep 25 14:49:42 2025] [::1]:59590 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:42 2025] [::1]:59590 Closing
+[Thu Sep 25 14:49:42 2025] [::1]:59591 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:42 2025] [::1]:59591 Closing
+[Thu Sep 25 14:49:43 2025] [::1]:59592 Accepted
+[Thu Sep 25 14:49:43 2025] [::1]:59593 Accepted
+[Thu Sep 25 14:49:43 2025] [::1]:59592 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:43 2025] [::1]:59592 Closing
+[Thu Sep 25 14:49:43 2025] [::1]:59593 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:43 2025] [::1]:59593 Closing
+[Thu Sep 25 14:49:43 2025] [::1]:59594 Accepted
+[Thu Sep 25 14:49:43 2025] [::1]:59595 Accepted
+[Thu Sep 25 14:49:43 2025] [::1]:59594 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:43 2025] [::1]:59594 Closing
+[Thu Sep 25 14:49:43 2025] [::1]:59595 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:43 2025] [::1]:59595 Closing
+[Thu Sep 25 14:49:43 2025] [::1]:59600 Accepted
+[Thu Sep 25 14:49:43 2025] [::1]:59601 Accepted
+[Thu Sep 25 14:49:44 2025] [::1]:59600 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:44 2025] [::1]:59600 Closing
+[Thu Sep 25 14:49:44 2025] [::1]:59601 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:44 2025] [::1]:59601 Closing
+[Thu Sep 25 14:49:44 2025] [::1]:59602 Accepted
+[Thu Sep 25 14:49:44 2025] [::1]:59603 Accepted
+[Thu Sep 25 14:49:44 2025] [::1]:59602 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:44 2025] [::1]:59602 Closing
+[Thu Sep 25 14:49:44 2025] [::1]:59603 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:44 2025] [::1]:59603 Closing
+[Thu Sep 25 14:49:44 2025] [::1]:59608 Accepted
+[Thu Sep 25 14:49:44 2025] [::1]:59609 Accepted
+[Thu Sep 25 14:49:44 2025] [::1]:59608 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:44 2025] [::1]:59608 Closing
+[Thu Sep 25 14:49:44 2025] [::1]:59609 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:44 2025] [::1]:59609 Closing
+[Thu Sep 25 14:49:44 2025] [::1]:59610 Accepted
+[Thu Sep 25 14:49:44 2025] [::1]:59611 Accepted
+[Thu Sep 25 14:49:44 2025] [::1]:59610 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:44 2025] [::1]:59610 Closing
+[Thu Sep 25 14:49:44 2025] [::1]:59611 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:44 2025] [::1]:59611 Closing
+[Thu Sep 25 14:49:45 2025] [::1]:59612 Accepted
+[Thu Sep 25 14:49:45 2025] [::1]:59613 Accepted
+[Thu Sep 25 14:49:45 2025] [::1]:59612 [200]: GET /items/1164/edit
+[Thu Sep 25 14:49:45 2025] [::1]:59612 Closing
+[Thu Sep 25 14:49:45 2025] [::1]:59613 [204]: GET /favicon.ico
+[Thu Sep 25 14:49:45 2025] [::1]:59613 Closing
+[Thu Sep 25 14:49:50 2025] [::1]:59637 Accepted
+[Thu Sep 25 14:50:25 2025] [::1]:60003 Accepted
+[Thu Sep 25 14:50:25 2025] [::1]:59637 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:25 2025] [::1]:59637 Closing
+[Thu Sep 25 14:50:25 2025] [::1]:60003 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:25 2025] [::1]:60003 Closing
+[Thu Sep 25 14:50:26 2025] [::1]:60005 Accepted
+[Thu Sep 25 14:50:26 2025] [::1]:60006 Accepted
+[Thu Sep 25 14:50:26 2025] [::1]:60005 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:26 2025] [::1]:60005 Closing
+[Thu Sep 25 14:50:26 2025] [::1]:60006 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:26 2025] [::1]:60006 Closing
+[Thu Sep 25 14:50:26 2025] [::1]:60007 Accepted
+[Thu Sep 25 14:50:26 2025] [::1]:60008 Accepted
+[Thu Sep 25 14:50:26 2025] [::1]:60007 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:26 2025] [::1]:60007 Closing
+[Thu Sep 25 14:50:26 2025] [::1]:60008 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:26 2025] [::1]:60008 Closing
+[Thu Sep 25 14:50:26 2025] [::1]:60013 Accepted
+[Thu Sep 25 14:50:26 2025] [::1]:60014 Accepted
+[Thu Sep 25 14:50:26 2025] [::1]:60013 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:26 2025] [::1]:60013 Closing
+[Thu Sep 25 14:50:26 2025] [::1]:60014 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:26 2025] [::1]:60014 Closing
+[Thu Sep 25 14:50:27 2025] [::1]:60015 Accepted
+[Thu Sep 25 14:50:27 2025] [::1]:60016 Accepted
+[Thu Sep 25 14:50:27 2025] [::1]:60015 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:27 2025] [::1]:60015 Closing
+[Thu Sep 25 14:50:27 2025] [::1]:60016 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:27 2025] [::1]:60016 Closing
+[Thu Sep 25 14:50:27 2025] [::1]:60017 Accepted
+[Thu Sep 25 14:50:27 2025] [::1]:60017 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:27 2025] [::1]:60017 Closing
+[Thu Sep 25 14:50:27 2025] [::1]:60018 Accepted
+[Thu Sep 25 14:50:27 2025] [::1]:60018 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:27 2025] [::1]:60018 Closing
+[Thu Sep 25 14:50:27 2025] [::1]:60019 Accepted
+[Thu Sep 25 14:50:27 2025] [::1]:60020 Accepted
+[Thu Sep 25 14:50:27 2025] [::1]:60019 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:27 2025] [::1]:60019 Closing
+[Thu Sep 25 14:50:27 2025] [::1]:60020 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:27 2025] [::1]:60020 Closing
+[Thu Sep 25 14:50:29 2025] [::1]:60029 Accepted
+[Thu Sep 25 14:50:29 2025] [::1]:60029 [200]: GET /invoices/1/edit
+[Thu Sep 25 14:50:29 2025] [::1]:60029 Closing
+[Thu Sep 25 14:50:29 2025] [::1]:60030 Accepted
+[Thu Sep 25 14:50:29 2025] [::1]:60030 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:29 2025] [::1]:60030 Closing
+[Thu Sep 25 14:50:33 2025] [::1]:60048 Accepted
+[Thu Sep 25 14:50:33 2025] [::1]:60049 Accepted
+[Thu Sep 25 14:50:33 2025] [::1]:60048 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:33 2025] [::1]:60048 Closing
+[Thu Sep 25 14:50:33 2025] [::1]:60049 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:33 2025] [::1]:60049 Closing
+[Thu Sep 25 14:50:45 2025] [::1]:60102 Accepted
+[Thu Sep 25 14:50:45 2025] [::1]:60103 Accepted
+[Thu Sep 25 14:50:45 2025] [::1]:60102 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:45 2025] [::1]:60102 Closing
+[Thu Sep 25 14:50:45 2025] [::1]:60103 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:45 2025] [::1]:60103 Closing
+[Thu Sep 25 14:50:46 2025] [::1]:60108 Accepted
+[Thu Sep 25 14:50:46 2025] [::1]:60109 Accepted
+[Thu Sep 25 14:50:46 2025] [::1]:60108 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:46 2025] [::1]:60108 Closing
+[Thu Sep 25 14:50:46 2025] [::1]:60109 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:46 2025] [::1]:60109 Closing
+[Thu Sep 25 14:50:46 2025] [::1]:60110 Accepted
+[Thu Sep 25 14:50:46 2025] [::1]:60111 Accepted
+[Thu Sep 25 14:50:46 2025] [::1]:60110 [200]: GET /items/1164/edit
+[Thu Sep 25 14:50:46 2025] [::1]:60110 Closing
+[Thu Sep 25 14:50:46 2025] [::1]:60111 [204]: GET /favicon.ico
+[Thu Sep 25 14:50:46 2025] [::1]:60111 Closing
+[Thu Sep 25 14:51:48 2025] [::1]:60364 Accepted
+[Thu Sep 25 14:53:18 2025] [::1]:60364 Closed without sending a request; it was probably just an unused speculative preconnection
+[Thu Sep 25 14:53:18 2025] [::1]:60364 Closing
+[Thu Sep 25 14:55:24 2025] [::1]:62240 Accepted
+[Thu Sep 25 14:55:24 2025] [::1]:62241 Accepted
+[Thu Sep 25 14:55:24 2025] [::1]:62240 [200]: GET /items/1164/edit
+[Thu Sep 25 14:55:24 2025] [::1]:62240 Closing
+[Thu Sep 25 14:55:24 2025] [::1]:62241 [204]: GET /favicon.ico
+[Thu Sep 25 14:55:24 2025] [::1]:62241 Closing
+[Thu Sep 25 15:00:08 2025] [::1]:64110 Accepted
+[Thu Sep 25 15:00:08 2025] [::1]:64111 Accepted
+[Thu Sep 25 15:00:08 2025] [::1]:64110 [200]: GET /items/1165/edit
+[Thu Sep 25 15:00:08 2025] [::1]:64110 Closing
+[Thu Sep 25 15:00:08 2025] [::1]:64111 [204]: GET /favicon.ico
+[Thu Sep 25 15:00:08 2025] [::1]:64111 Closing
+[Thu Sep 25 15:00:12 2025] [::1]:64129 Accepted
+[Thu Sep 25 15:00:12 2025] [::1]:64130 Accepted
+[Thu Sep 25 15:00:12 2025] [::1]:64129 [200]: GET /items/1165/edit
+[Thu Sep 25 15:00:12 2025] [::1]:64129 Closing
+[Thu Sep 25 15:00:12 2025] [::1]:64130 [204]: GET /favicon.ico
+[Thu Sep 25 15:00:12 2025] [::1]:64130 Closing
+[Thu Sep 25 15:00:14 2025] [::1]:64135 Accepted
+[Thu Sep 25 15:00:14 2025] [::1]:64136 Accepted
+[Thu Sep 25 15:00:14 2025] [::1]:64135 [200]: GET /items/1165/edit
+[Thu Sep 25 15:00:14 2025] [::1]:64135 Closing
+[Thu Sep 25 15:00:14 2025] [::1]:64136 [204]: GET /favicon.ico
+[Thu Sep 25 15:00:14 2025] [::1]:64136 Closing
+[Thu Sep 25 15:00:14 2025] [::1]:64141 Accepted
+[Thu Sep 25 15:00:14 2025] [::1]:64142 Accepted
+[Thu Sep 25 15:00:14 2025] [::1]:64141 [200]: GET /items/1165/edit
+[Thu Sep 25 15:00:14 2025] [::1]:64141 Closing
+[Thu Sep 25 15:00:14 2025] [::1]:64142 [204]: GET /favicon.ico
+[Thu Sep 25 15:00:14 2025] [::1]:64142 Closing
+[Thu Sep 25 15:04:04 2025] [::1]:65331 Accepted
+[Thu Sep 25 15:04:04 2025] [::1]:65332 Accepted
+[Thu Sep 25 15:04:04 2025] [::1]:65331 [200]: GET /items
+[Thu Sep 25 15:04:04 2025] [::1]:65331 Closing
+[Thu Sep 25 15:04:04 2025] [::1]:65332 [204]: GET /favicon.ico
+[Thu Sep 25 15:04:04 2025] [::1]:65332 Closing
+[Thu Sep 25 15:04:06 2025] [::1]:65337 Accepted
+[Thu Sep 25 15:04:06 2025] [::1]:65337 [302]: GET /items/1165
+[Thu Sep 25 15:04:06 2025] [::1]:65337 Closing
+[Thu Sep 25 15:04:06 2025] [::1]:65338 Accepted
+[Thu Sep 25 15:04:06 2025] [::1]:65338 [200]: GET /items/1165/edit
+[Thu Sep 25 15:04:06 2025] [::1]:65338 Closing
+[Thu Sep 25 15:04:06 2025] [::1]:65339 Accepted
+[Thu Sep 25 15:04:06 2025] [::1]:65339 [204]: GET /favicon.ico
+[Thu Sep 25 15:04:06 2025] [::1]:65339 Closing
+[Thu Sep 25 15:05:32 2025] [::1]:49336 Accepted
+[Thu Sep 25 15:05:32 2025] [::1]:49337 Accepted
+[Thu Sep 25 15:05:33 2025] [::1]:49336 [200]: GET /items
+[Thu Sep 25 15:05:33 2025] [::1]:49336 Closing
+[Thu Sep 25 15:05:33 2025] [::1]:49337 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:33 2025] [::1]:49337 Closing
+[Thu Sep 25 15:05:35 2025] [::1]:49346 Accepted
+[Thu Sep 25 15:05:35 2025] [::1]:49346 [200]: GET /software
+[Thu Sep 25 15:05:35 2025] [::1]:49346 Closing
+[Thu Sep 25 15:05:35 2025] [::1]:49347 Accepted
+[Thu Sep 25 15:05:35 2025] [::1]:49347 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:35 2025] [::1]:49347 Closing
+[Thu Sep 25 15:05:36 2025] [::1]:49356 Accepted
+[Thu Sep 25 15:05:36 2025] [::1]:49356 [302]: GET /software/52
+[Thu Sep 25 15:05:36 2025] [::1]:49356 Closing
+[Thu Sep 25 15:05:36 2025] [::1]:49357 Accepted
+[Thu Sep 25 15:05:36 2025] [::1]:49357 [200]: GET /software/52/edit
+[Thu Sep 25 15:05:36 2025] [::1]:49357 Closing
+[Thu Sep 25 15:05:36 2025] [::1]:49358 Accepted
+[Thu Sep 25 15:05:36 2025] [::1]:49358 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:36 2025] [::1]:49358 Closing
+[Thu Sep 25 15:05:37 2025] [::1]:49363 Accepted
+[Thu Sep 25 15:05:37 2025] [::1]:49363 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:37 2025] [::1]:49363 Closing
+[Thu Sep 25 15:05:37 2025] [::1]:49364 Accepted
+[Thu Sep 25 15:05:37 2025] [::1]:49364 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:37 2025] [::1]:49364 Closing
+[Thu Sep 25 15:05:38 2025] [::1]:49369 Accepted
+[Thu Sep 25 15:05:38 2025] [::1]:49369 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:38 2025] [::1]:49369 Closing
+[Thu Sep 25 15:05:38 2025] [::1]:49370 Accepted
+[Thu Sep 25 15:05:38 2025] [::1]:49370 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:38 2025] [::1]:49370 Closing
+[Thu Sep 25 15:05:39 2025] [::1]:49375 Accepted
+[Thu Sep 25 15:05:39 2025] [::1]:49375 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:39 2025] [::1]:49375 Closing
+[Thu Sep 25 15:05:40 2025] [::1]:49376 Accepted
+[Thu Sep 25 15:05:40 2025] [::1]:49377 Accepted
+[Thu Sep 25 15:05:40 2025] [::1]:49376 [200]: GET /invoices
+[Thu Sep 25 15:05:40 2025] [::1]:49376 Closing
+[Thu Sep 25 15:05:40 2025] [::1]:49377 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:40 2025] [::1]:49377 Closing
+[Thu Sep 25 15:05:42 2025] [::1]:49390 Accepted
+[Thu Sep 25 15:05:42 2025] [::1]:49390 [200]: GET /agents
+[Thu Sep 25 15:05:42 2025] [::1]:49390 Closing
+[Thu Sep 25 15:05:42 2025] [::1]:49391 Accepted
+[Thu Sep 25 15:05:42 2025] [::1]:49391 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:42 2025] [::1]:49391 Closing
+[Thu Sep 25 15:05:44 2025] [::1]:49400 Accepted
+[Thu Sep 25 15:05:45 2025] [::1]:49400 [200]: GET /agents/37/edit
+[Thu Sep 25 15:05:45 2025] [::1]:49400 Closing
+[Thu Sep 25 15:05:45 2025] [::1]:49401 Accepted
+[Thu Sep 25 15:05:45 2025] [::1]:49401 [204]: GET /favicon.ico
+[Thu Sep 25 15:05:45 2025] [::1]:49401 Closing
+[Thu Sep 25 15:06:59 2025] [::1]:49825 Accepted
+[Thu Sep 25 15:06:59 2025] [::1]:49826 Accepted
+[Thu Sep 25 15:06:59 2025] [::1]:49825 [200]: GET /items/1165/edit
+[Thu Sep 25 15:06:59 2025] [::1]:49825 Closing
+[Thu Sep 25 15:07:00 2025] [::1]:49826 [204]: GET /favicon.ico
+[Thu Sep 25 15:07:00 2025] [::1]:49826 Closing
+[Thu Sep 25 15:07:35 2025] [::1]:49975 Accepted
+[Thu Sep 25 15:07:35 2025] [::1]:49976 Accepted
+[Thu Sep 25 15:07:35 2025] [::1]:49975 [200]: GET /items/1165/edit
+[Thu Sep 25 15:07:35 2025] [::1]:49975 Closing
+[Thu Sep 25 15:07:35 2025] [::1]:49976 [204]: GET /favicon.ico
+[Thu Sep 25 15:07:35 2025] [::1]:49976 Closing
+[Thu Sep 25 15:07:37 2025] [::1]:49981 Accepted
+[Thu Sep 25 15:07:37 2025] [::1]:49981 [200]: GET /items/1165/edit
+[Thu Sep 25 15:07:37 2025] [::1]:49981 Closing
+[Thu Sep 25 15:07:37 2025] [::1]:49982 Accepted
+[Thu Sep 25 15:07:37 2025] [::1]:49982 [204]: GET /favicon.ico
+[Thu Sep 25 15:07:37 2025] [::1]:49982 Closing
+[Thu Sep 25 15:07:41 2025] [::1]:50004 Accepted
+[Thu Sep 25 15:07:41 2025] [::1]:50005 Accepted
+[Thu Sep 25 15:07:41 2025] [::1]:50004 [200]: GET /items
+[Thu Sep 25 15:07:41 2025] [::1]:50004 Closing
+[Thu Sep 25 15:07:41 2025] [::1]:50005 [204]: GET /favicon.ico
+[Thu Sep 25 15:07:41 2025] [::1]:50005 Closing
+[Thu Sep 25 15:07:45 2025] [::1]:50018 Accepted
+[Thu Sep 25 15:07:45 2025] [::1]:50018 [200]: GET /items/1165/edit
+[Thu Sep 25 15:07:45 2025] [::1]:50018 Closing
+[Thu Sep 25 15:07:45 2025] [::1]:50019 Accepted
+[Thu Sep 25 15:07:45 2025] [::1]:50019 [204]: GET /favicon.ico
+[Thu Sep 25 15:07:45 2025] [::1]:50019 Closing
+[Thu Sep 25 15:08:06 2025] [::1]:50110 Accepted
+[Thu Sep 25 15:08:07 2025] [::1]:50110 [200]: GET /items
+[Thu Sep 25 15:08:07 2025] [::1]:50110 Closing
+[Thu Sep 25 15:08:07 2025] [::1]:50111 Accepted
+[Thu Sep 25 15:08:07 2025] [::1]:50111 [204]: GET /favicon.ico
+[Thu Sep 25 15:08:07 2025] [::1]:50111 Closing
+[Thu Sep 25 15:08:08 2025] [::1]:50120 Accepted
+[Thu Sep 25 15:08:08 2025] [::1]:50121 Accepted
+[Thu Sep 25 15:08:08 2025] [::1]:50120 [200]: GET /items/1164/edit
+[Thu Sep 25 15:08:08 2025] [::1]:50120 Closing
+[Thu Sep 25 15:08:08 2025] [::1]:50121 [204]: GET /favicon.ico
+[Thu Sep 25 15:08:08 2025] [::1]:50121 Closing
+[Thu Sep 25 15:10:18 2025] [::1]:50936 Accepted
+[Thu Sep 25 15:10:18 2025] [::1]:50936 [200]: GET /items/1164/edit
+[Thu Sep 25 15:10:18 2025] [::1]:50936 Closing
+[Thu Sep 25 15:10:18 2025] [::1]:50937 Accepted
+[Thu Sep 25 15:10:19 2025] [::1]:50937 [204]: GET /favicon.ico
+[Thu Sep 25 15:10:19 2025] [::1]:50937 Closing
+[Thu Sep 25 15:21:19 2025] [::1]:53882 Accepted
+[Thu Sep 25 15:21:19 2025] [::1]:53883 Accepted
+[Thu Sep 25 15:21:19 2025] [::1]:53882 [200]: GET /agents/37/edit
+[Thu Sep 25 15:21:19 2025] [::1]:53882 Closing
+[Thu Sep 25 15:21:19 2025] [::1]:53883 [204]: GET /favicon.ico
+[Thu Sep 25 15:21:19 2025] [::1]:53883 Closing
+[Thu Sep 25 15:22:27 2025] [::1]:54170 Accepted
+[Thu Sep 25 15:22:27 2025] [::1]:54171 Accepted
+[Thu Sep 25 15:22:27 2025] [::1]:54170 [200]: GET /items/1164/edit
+[Thu Sep 25 15:22:27 2025] [::1]:54170 Closing
+[Thu Sep 25 15:22:27 2025] [::1]:54171 [204]: GET /favicon.ico
+[Thu Sep 25 15:22:27 2025] [::1]:54171 Closing
+[Thu Sep 25 15:22:28 2025] [::1]:54172 Accepted
+[Thu Sep 25 15:22:28 2025] [::1]:54173 Accepted
+[Thu Sep 25 15:22:28 2025] [::1]:54172 [200]: GET /items/1164/edit
+[Thu Sep 25 15:22:28 2025] [::1]:54172 Closing
+[Thu Sep 25 15:22:28 2025] [::1]:54173 [204]: GET /favicon.ico
+[Thu Sep 25 15:22:28 2025] [::1]:54173 Closing
+[Thu Sep 25 15:22:28 2025] [::1]:54178 Accepted
+[Thu Sep 25 15:22:28 2025] [::1]:54179 Accepted
+[Thu Sep 25 15:22:28 2025] [::1]:54178 [200]: GET /items/1164/edit
+[Thu Sep 25 15:22:28 2025] [::1]:54178 Closing
+[Thu Sep 25 15:22:28 2025] [::1]:54179 [204]: GET /favicon.ico
+[Thu Sep 25 15:22:28 2025] [::1]:54179 Closing
+[Thu Sep 25 15:22:29 2025] [::1]:54180 Accepted
+[Thu Sep 25 15:22:29 2025] [::1]:54180 [200]: GET /items/1164/edit
+[Thu Sep 25 15:22:29 2025] [::1]:54180 Closing
+[Thu Sep 25 15:22:29 2025] [::1]:54181 Accepted
+[Thu Sep 25 15:22:29 2025] [::1]:54181 [204]: GET /favicon.ico
+[Thu Sep 25 15:22:29 2025] [::1]:54181 Closing
+[Thu Sep 25 15:22:39 2025] [::1]:54228 Accepted
+[Thu Sep 25 15:22:39 2025] [::1]:54229 Accepted
+[Thu Sep 25 15:22:39 2025] [::1]:54228 [200]: GET /items/1164/edit
+[Thu Sep 25 15:22:39 2025] [::1]:54228 Closing
+[Thu Sep 25 15:22:39 2025] [::1]:54229 [204]: GET /favicon.ico
+[Thu Sep 25 15:22:39 2025] [::1]:54229 Closing
+[Thu Sep 25 15:23:15 2025] [::1]:54378 Accepted
+[Thu Sep 25 15:23:15 2025] [::1]:54379 Accepted
+[Thu Sep 25 15:23:15 2025] [::1]:54378 [200]: GET /items/1164/edit
+[Thu Sep 25 15:23:15 2025] [::1]:54378 Closing
+[Thu Sep 25 15:23:15 2025] [::1]:54379 [204]: GET /favicon.ico
+[Thu Sep 25 15:23:15 2025] [::1]:54379 Closing
+[Thu Sep 25 15:24:32 2025] [::1]:54725 Accepted
+[Thu Sep 25 15:24:32 2025] [::1]:54726 Accepted
+[Thu Sep 25 15:24:32 2025] [::1]:54725 [200]: GET /items/1164/edit
+[Thu Sep 25 15:24:32 2025] [::1]:54725 Closing
+[Thu Sep 25 15:24:32 2025] [::1]:54726 [204]: GET /favicon.ico
+[Thu Sep 25 15:24:32 2025] [::1]:54726 Closing
+[Thu Sep 25 15:24:32 2025] [::1]:54731 Accepted
+[Thu Sep 25 15:24:32 2025] [::1]:54732 Accepted
+[Thu Sep 25 15:24:32 2025] [::1]:54731 [200]: GET /items/1164/edit
+[Thu Sep 25 15:24:32 2025] [::1]:54731 Closing
+[Thu Sep 25 15:24:33 2025] [::1]:54732 [204]: GET /favicon.ico
+[Thu Sep 25 15:24:33 2025] [::1]:54732 Closing
+[Thu Sep 25 15:24:33 2025] [::1]:54733 Accepted
+[Thu Sep 25 15:24:33 2025] [::1]:54734 Accepted
+[Thu Sep 25 15:24:33 2025] [::1]:54733 [200]: GET /items/1164/edit
+[Thu Sep 25 15:24:33 2025] [::1]:54733 Closing
+[Thu Sep 25 15:24:33 2025] [::1]:54734 [204]: GET /favicon.ico
+[Thu Sep 25 15:24:33 2025] [::1]:54734 Closing
+[Thu Sep 25 15:24:34 2025] [::1]:54739 Accepted
+[Thu Sep 25 15:24:34 2025] [::1]:54740 Accepted
+[Thu Sep 25 15:24:34 2025] [::1]:54739 [200]: GET /items/1164/edit
+[Thu Sep 25 15:24:34 2025] [::1]:54739 Closing
+[Thu Sep 25 15:24:34 2025] [::1]:54740 [204]: GET /favicon.ico
+[Thu Sep 25 15:24:34 2025] [::1]:54740 Closing
+[Thu Sep 25 15:26:13 2025] [::1]:55199 Accepted
+[Thu Sep 25 15:26:13 2025] [::1]:55200 Accepted
+[Thu Sep 25 15:26:13 2025] [::1]:55199 [200]: GET /items/1164/edit
+[Thu Sep 25 15:26:13 2025] [::1]:55199 Closing
+[Thu Sep 25 15:26:13 2025] [::1]:55200 [204]: GET /favicon.ico
+[Thu Sep 25 15:26:13 2025] [::1]:55200 Closing
+[Thu Sep 25 15:26:24 2025] [::1]:55250 Accepted
+[Thu Sep 25 15:26:24 2025] [::1]:55251 Accepted
+[Thu Sep 25 15:26:24 2025] [::1]:55250 [200]: GET /admin/item-types
+[Thu Sep 25 15:26:24 2025] [::1]:55250 Closing
+[Thu Sep 25 15:26:24 2025] [::1]:55251 [204]: GET /favicon.ico
+[Thu Sep 25 15:26:24 2025] [::1]:55251 Closing
+[Thu Sep 25 15:26:29 2025] [::1]:55274 Accepted
+[Thu Sep 25 15:26:29 2025] [::1]:55275 Accepted
+[Thu Sep 25 15:26:29 2025] [::1]:55274 [200]: GET /items
+[Thu Sep 25 15:26:29 2025] [::1]:55274 Closing
+[Thu Sep 25 15:26:29 2025] [::1]:55275 [204]: GET /favicon.ico
+[Thu Sep 25 15:26:29 2025] [::1]:55275 Closing
+[Thu Sep 25 15:26:31 2025] [::1]:55280 Accepted
+[Thu Sep 25 15:26:31 2025] [::1]:55285 Accepted
+[Thu Sep 25 15:26:31 2025] [::1]:55280 [200]: GET /items/1165/edit
+[Thu Sep 25 15:26:31 2025] [::1]:55280 Closing
+[Thu Sep 25 15:26:31 2025] [::1]:55285 [204]: GET /favicon.ico
+[Thu Sep 25 15:26:31 2025] [::1]:55285 Closing
+[Thu Sep 25 15:26:36 2025] [::1]:55306 Accepted
+[Thu Sep 25 15:26:36 2025] [::1]:55306 [200]: GET /admin/item-types
+[Thu Sep 25 15:26:36 2025] [::1]:55306 Closing
+[Thu Sep 25 15:26:36 2025] [::1]:55307 Accepted
+[Thu Sep 25 15:26:36 2025] [::1]:55307 [204]: GET /favicon.ico
+[Thu Sep 25 15:26:36 2025] [::1]:55307 Closing
+[Thu Sep 25 15:26:41 2025] [::1]:55328 Accepted
+[Thu Sep 25 15:26:41 2025] [::1]:55328 [200]: GET /admin/item-types/5
+[Thu Sep 25 15:26:41 2025] [::1]:55328 Closing
+[Thu Sep 25 15:26:41 2025] [::1]:55329 Accepted
+[Thu Sep 25 15:26:41 2025] [::1]:55329 [204]: GET /favicon.ico
+[Thu Sep 25 15:26:41 2025] [::1]:55329 Closing
+[Thu Sep 25 15:26:44 2025] [::1]:55343 Accepted
+[Thu Sep 25 15:26:44 2025] [::1]:55343 [200]: GET /admin/item-types/5/edit
+[Thu Sep 25 15:26:44 2025] [::1]:55343 Closing
+[Thu Sep 25 15:26:44 2025] [::1]:55344 Accepted
+[Thu Sep 25 15:26:44 2025] [::1]:55344 [204]: GET /favicon.ico
+[Thu Sep 25 15:26:44 2025] [::1]:55344 Closing
+[Thu Sep 25 16:25:09 2025] [::1]:62091 Accepted
+[Thu Sep 25 16:25:09 2025] [::1]:62092 Accepted
+[Thu Sep 25 16:25:09 2025] [::1]:62091 [200]: GET /items/1164/edit
+[Thu Sep 25 16:25:09 2025] [::1]:62091 Closing
+[Thu Sep 25 16:25:09 2025] [::1]:62092 [204]: GET /favicon.ico
+[Thu Sep 25 16:25:09 2025] [::1]:62092 Closing
+[Thu Sep 25 17:22:15 2025] [::1]:50558 Accepted
+[Thu Sep 25 17:22:15 2025] [::1]:50559 Accepted
+[Thu Sep 25 17:22:15 2025] [::1]:50558 [200]: GET /items/1164/edit
+[Thu Sep 25 17:22:15 2025] [::1]:50558 Closing
+[Thu Sep 25 17:22:15 2025] [::1]:50559 [204]: GET /favicon.ico
+[Thu Sep 25 17:22:15 2025] [::1]:50559 Closing
+[Thu Sep 25 17:25:43 2025] [::1]:51415 Accepted
+[Thu Sep 25 17:25:43 2025] [::1]:51416 Accepted
+[Thu Sep 25 17:25:43 2025] [::1]:51415 [200]: GET /items/1164/edit
+[Thu Sep 25 17:25:43 2025] [::1]:51415 Closing
+[Thu Sep 25 17:25:43 2025] [::1]:51416 [204]: GET /favicon.ico
+[Thu Sep 25 17:25:43 2025] [::1]:51416 Closing
+[Thu Sep 25 17:28:01 2025] [::1]:52252 Accepted
+[Thu Sep 25 17:28:01 2025] [::1]:52252 [200]: GET /invoices
+[Thu Sep 25 17:28:01 2025] [::1]:52252 Closing
+[Thu Sep 25 17:28:01 2025] [::1]:52253 Accepted
+[Thu Sep 25 17:28:01 2025] [::1]:52253 [204]: GET /favicon.ico
+[Thu Sep 25 17:28:01 2025] [::1]:52253 Closing
+[Thu Sep 25 17:28:04 2025] [::1]:52266 Accepted
+[Thu Sep 25 17:28:04 2025] [::1]:52267 Accepted
+[Thu Sep 25 17:28:04 2025] [::1]:52266 [302]: GET /invoices/1
+[Thu Sep 25 17:28:04 2025] [::1]:52266 Closing
+[Thu Sep 25 17:28:04 2025] [::1]:52267 [200]: GET /invoices/1/edit
+[Thu Sep 25 17:28:04 2025] [::1]:52267 Closing
+[Thu Sep 25 17:28:04 2025] [::1]:52268 Accepted
+[Thu Sep 25 17:28:04 2025] [::1]:52268 [204]: GET /favicon.ico
+[Thu Sep 25 17:28:04 2025] [::1]:52268 Closing
+[Thu Sep 25 17:28:32 2025] [::1]:52385 Accepted
+[Thu Sep 25 17:28:33 2025] [::1]:52385 [200]: GET /software
+[Thu Sep 25 17:28:33 2025] [::1]:52385 Closing
+[Thu Sep 25 17:28:33 2025] [::1]:52386 Accepted
+[Thu Sep 25 17:28:33 2025] [::1]:52386 [204]: GET /favicon.ico
+[Thu Sep 25 17:28:33 2025] [::1]:52386 Closing
+[Thu Sep 25 17:28:34 2025] [::1]:52395 Accepted
+[Thu Sep 25 17:28:35 2025] [::1]:52395 [200]: GET /software/52/edit
+[Thu Sep 25 17:28:35 2025] [::1]:52395 Closing
+[Thu Sep 25 17:28:35 2025] [::1]:52400 Accepted
+[Thu Sep 25 17:28:35 2025] [::1]:52400 [204]: GET /favicon.ico
+[Thu Sep 25 17:28:35 2025] [::1]:52400 Closing
+[Thu Sep 25 17:28:41 2025] [::1]:52425 Accepted
+[Thu Sep 25 17:28:41 2025] [::1]:52426 Accepted
+[Thu Sep 25 17:28:41 2025] [::1]:52425 [302]: POST /software/52
+[Thu Sep 25 17:28:41 2025] [::1]:52425 Closing
+[Thu Sep 25 17:28:41 2025] [::1]:52426 [200]: GET /software/52/edit
+[Thu Sep 25 17:28:41 2025] [::1]:52426 Closing
+[Thu Sep 25 17:28:41 2025] [::1]:52427 Accepted
+[Thu Sep 25 17:28:41 2025] [::1]:52427 [204]: GET /favicon.ico
+[Thu Sep 25 17:28:41 2025] [::1]:52427 Closing
+[Thu Sep 25 17:28:48 2025] [::1]:52456 Accepted
+[Thu Sep 25 17:28:48 2025] [::1]:52456 [200]: GET /items
+[Thu Sep 25 17:28:48 2025] [::1]:52456 Closing
+[Thu Sep 25 17:28:48 2025] [::1]:52457 Accepted
+[Thu Sep 25 17:28:48 2025] [::1]:52457 [204]: GET /favicon.ico
+[Thu Sep 25 17:28:48 2025] [::1]:52457 Closing
+[Thu Sep 25 17:28:50 2025] [::1]:52466 Accepted
+[Thu Sep 25 17:28:50 2025] [::1]:52467 Accepted
+[Thu Sep 25 17:28:50 2025] [::1]:52466 [200]: GET /items/1164/edit
+[Thu Sep 25 17:28:50 2025] [::1]:52466 Closing
+[Thu Sep 25 17:28:51 2025] [::1]:52467 [204]: GET /favicon.ico
+[Thu Sep 25 17:28:51 2025] [::1]:52467 Closing
+[Thu Sep 25 17:30:03 2025] [::1]:52843 Accepted
+[Thu Sep 25 17:30:03 2025] [::1]:52844 Accepted
+[Thu Sep 25 17:30:03 2025] [::1]:52843 [200]: GET /items/1164/edit
+[Thu Sep 25 17:30:03 2025] [::1]:52843 Closing
+[Thu Sep 25 17:30:03 2025] [::1]:52844 [204]: GET /favicon.ico
+[Thu Sep 25 17:30:03 2025] [::1]:52844 Closing
+[Thu Sep 25 17:30:27 2025] [::1]:52971 Accepted
+[Thu Sep 25 17:30:27 2025] [::1]:52972 Accepted
+[Thu Sep 25 17:30:27 2025] [::1]:52971 [200]: GET /items/1164/edit
+[Thu Sep 25 17:30:27 2025] [::1]:52971 Closing
+[Thu Sep 25 17:30:27 2025] [::1]:52972 [204]: GET /favicon.ico
+[Thu Sep 25 17:30:27 2025] [::1]:52972 Closing
+[Thu Sep 25 17:31:22 2025] [::1]:53234 Accepted
+[Thu Sep 25 17:31:22 2025] [::1]:53235 Accepted
+[Thu Sep 25 17:31:22 2025] [::1]:53234 [200]: GET /items/1164/edit
+[Thu Sep 25 17:31:22 2025] [::1]:53234 Closing
+[Thu Sep 25 17:31:22 2025] [::1]:53235 [204]: GET /favicon.ico
+[Thu Sep 25 17:31:22 2025] [::1]:53235 Closing
+[Thu Sep 25 17:31:24 2025] [::1]:53244 Accepted
+[Thu Sep 25 17:31:24 2025] [::1]:53245 Accepted
+[Thu Sep 25 17:31:24 2025] [::1]:53244 [302]: POST /items/1164
+[Thu Sep 25 17:31:24 2025] [::1]:53244 Closing
+[Thu Sep 25 17:31:24 2025] [::1]:53245 [200]: GET /items/1164/edit
+[Thu Sep 25 17:31:24 2025] [::1]:53245 Closing
+[Thu Sep 25 17:31:24 2025] [::1]:53246 Accepted
+[Thu Sep 25 17:31:24 2025] [::1]:53246 [204]: GET /favicon.ico
+[Thu Sep 25 17:31:24 2025] [::1]:53246 Closing
+[Thu Sep 25 17:31:28 2025] [::1]:53268 Accepted
+[Thu Sep 25 17:31:28 2025] [::1]:53269 Accepted
+[Thu Sep 25 17:31:28 2025] [::1]:53268 [302]: POST /items/1164
+[Thu Sep 25 17:31:28 2025] [::1]:53268 Closing
+[Thu Sep 25 17:31:28 2025] [::1]:53269 [200]: GET /items/1164/edit
+[Thu Sep 25 17:31:28 2025] [::1]:53269 Closing
+[Thu Sep 25 17:31:28 2025] [::1]:53270 Accepted
+[Thu Sep 25 17:31:28 2025] [::1]:53270 [204]: GET /favicon.ico
+[Thu Sep 25 17:31:28 2025] [::1]:53270 Closing
+[Thu Sep 25 17:31:47 2025] [::1]:53343 Accepted
+[Thu Sep 25 17:31:47 2025] [::1]:53344 Accepted
+[Thu Sep 25 17:31:47 2025] [::1]:53343 [302]: POST /items/1164
+[Thu Sep 25 17:31:47 2025] [::1]:53343 Closing
+[Thu Sep 25 17:31:47 2025] [::1]:53344 [200]: GET /items/1164/edit
+[Thu Sep 25 17:31:47 2025] [::1]:53344 Closing
+[Thu Sep 25 17:31:47 2025] [::1]:53345 Accepted
+[Thu Sep 25 17:31:47 2025] [::1]:53345 [204]: GET /favicon.ico
+[Thu Sep 25 17:31:47 2025] [::1]:53345 Closing
+[Thu Sep 25 17:32:06 2025] [::1]:53427 Accepted
+[Thu Sep 25 17:32:07 2025] [::1]:53427 [200]: GET /locations
+[Thu Sep 25 17:32:07 2025] [::1]:53427 Closing
+[Thu Sep 25 17:32:07 2025] [::1]:53428 Accepted
+[Thu Sep 25 17:32:07 2025] [::1]:53428 [204]: GET /favicon.ico
+[Thu Sep 25 17:32:07 2025] [::1]:53428 Closing
+[Thu Sep 25 17:32:12 2025] [::1]:53450 Accepted
+[Thu Sep 25 17:32:13 2025] [::1]:53450 [200]: GET /locations/4
+[Thu Sep 25 17:32:13 2025] [::1]:53450 Closing
+[Thu Sep 25 17:32:13 2025] [::1]:53455 Accepted
+[Thu Sep 25 17:32:13 2025] [::1]:53455 [204]: GET /favicon.ico
+[Thu Sep 25 17:32:13 2025] [::1]:53455 Closing
+[Thu Sep 25 17:32:15 2025] [::1]:53464 Accepted
+[Thu Sep 25 17:32:15 2025] [::1]:53464 [200]: GET /locations/4/edit
+[Thu Sep 25 17:32:15 2025] [::1]:53464 Closing
+[Thu Sep 25 17:32:15 2025] [::1]:53469 Accepted
+[Thu Sep 25 17:32:15 2025] [::1]:53469 [204]: GET /favicon.ico
+[Thu Sep 25 17:32:15 2025] [::1]:53469 Closing
+[Thu Sep 25 17:32:19 2025] [::1]:53482 Accepted
+[Thu Sep 25 17:32:19 2025] [::1]:53483 Accepted
+[Thu Sep 25 17:32:19 2025] 405 Method Not Allowed
+Type: Slim\Exception\HttpMethodNotAllowedException
+Code: 405
+Message: Method not allowed. Must be one of: GET, DELETE, PUT
+File: /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php
+Line: 79
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(44): Slim\Middleware\RoutingMiddleware->performRouting(Object(Slim\Psr7\Request))
+#1 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#2 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#3 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#4 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#12 {main}
+[Thu Sep 25 17:32:19 2025] [::1]:53482 [405]: POST /locations/4
+[Thu Sep 25 17:32:19 2025] [::1]:53482 Closing
+[Thu Sep 25 17:32:19 2025] [::1]:53483 [204]: GET /favicon.ico
+[Thu Sep 25 17:32:19 2025] [::1]:53483 Closing
+[Thu Sep 25 17:32:59 2025] [::1]:53675 Accepted
+[Thu Sep 25 17:32:59 2025] [::1]:53676 Accepted
+[Thu Sep 25 17:32:59 2025] 405 Method Not Allowed
+Type: Slim\Exception\HttpMethodNotAllowedException
+Code: 405
+Message: Method not allowed. Must be one of: GET, DELETE, PUT
+File: /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php
+Line: 79
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(44): Slim\Middleware\RoutingMiddleware->performRouting(Object(Slim\Psr7\Request))
+#1 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#2 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#3 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#4 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#12 {main}
+[Thu Sep 25 17:32:59 2025] [::1]:53675 [405]: POST /locations/4
+[Thu Sep 25 17:32:59 2025] [::1]:53675 Closing
+[Thu Sep 25 17:32:59 2025] [::1]:53676 [204]: GET /favicon.ico
+[Thu Sep 25 17:32:59 2025] [::1]:53676 Closing
+[Thu Sep 25 17:33:02 2025] [::1]:53690 Accepted
+[Thu Sep 25 17:33:02 2025] [::1]:53691 Accepted
+[Thu Sep 25 17:33:02 2025] 405 Method Not Allowed
+Type: Slim\Exception\HttpMethodNotAllowedException
+Code: 405
+Message: Method not allowed. Must be one of: GET, DELETE, PUT
+File: /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php
+Line: 79
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(44): Slim\Middleware\RoutingMiddleware->performRouting(Object(Slim\Psr7\Request))
+#1 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#2 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#3 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#4 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#12 {main}
+[Thu Sep 25 17:33:02 2025] [::1]:53690 [405]: POST /locations/4
+[Thu Sep 25 17:33:02 2025] [::1]:53690 Closing
+[Thu Sep 25 17:33:02 2025] [::1]:53691 [204]: GET /favicon.ico
+[Thu Sep 25 17:33:02 2025] [::1]:53691 Closing
+[Thu Sep 25 17:33:08 2025] [::1]:53718 Accepted
+[Thu Sep 25 17:33:08 2025] [::1]:53719 Accepted
+[Thu Sep 25 17:33:08 2025] 405 Method Not Allowed
+Type: Slim\Exception\HttpMethodNotAllowedException
+Code: 405
+Message: Method not allowed. Must be one of: GET, DELETE, PUT
+File: /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php
+Line: 79
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(44): Slim\Middleware\RoutingMiddleware->performRouting(Object(Slim\Psr7\Request))
+#1 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#2 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#3 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#4 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#12 {main}
+[Thu Sep 25 17:33:08 2025] [::1]:53718 [405]: POST /locations/4
+[Thu Sep 25 17:33:08 2025] [::1]:53718 Closing
+[Thu Sep 25 17:33:08 2025] [::1]:53719 [204]: GET /favicon.ico
+[Thu Sep 25 17:33:08 2025] [::1]:53719 Closing
+[Thu Sep 25 17:33:12 2025] [::1]:53736 Accepted
+[Thu Sep 25 17:33:12 2025] [::1]:53737 Accepted
+[Thu Sep 25 17:33:12 2025] 405 Method Not Allowed
+Type: Slim\Exception\HttpMethodNotAllowedException
+Code: 405
+Message: Method not allowed. Must be one of: GET, DELETE, PUT
+File: /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php
+Line: 79
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(44): Slim\Middleware\RoutingMiddleware->performRouting(Object(Slim\Psr7\Request))
+#1 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#2 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#3 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#4 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#12 {main}
+[Thu Sep 25 17:33:12 2025] [::1]:53736 [405]: POST /locations/4
+[Thu Sep 25 17:33:12 2025] [::1]:53736 Closing
+[Thu Sep 25 17:33:12 2025] [::1]:53737 [204]: GET /favicon.ico
+[Thu Sep 25 17:33:12 2025] [::1]:53737 Closing
+[Thu Sep 25 17:33:37 2025] [::1]:53860 Accepted
+[Thu Sep 25 17:33:37 2025] [::1]:53861 Accepted
+[Thu Sep 25 17:33:37 2025] 405 Method Not Allowed
+Type: Slim\Exception\HttpMethodNotAllowedException
+Code: 405
+Message: Method not allowed. Must be one of: GET, DELETE, PUT
+File: /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php
+Line: 79
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(44): Slim\Middleware\RoutingMiddleware->performRouting(Object(Slim\Psr7\Request))
+#1 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#2 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#3 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#4 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#12 {main}
+[Thu Sep 25 17:33:37 2025] [::1]:53860 [405]: POST /locations/4
+[Thu Sep 25 17:33:37 2025] [::1]:53860 Closing
+[Thu Sep 25 17:33:37 2025] [::1]:53861 [204]: GET /favicon.ico
+[Thu Sep 25 17:33:37 2025] [::1]:53861 Closing
+[Thu Sep 25 17:34:25 2025] [::1]:54085 Accepted
+[Thu Sep 25 17:34:25 2025] [::1]:54086 Accepted
+[Thu Sep 25 17:34:25 2025] [::1]:54085 [302]: POST /locations/4
+[Thu Sep 25 17:34:25 2025] [::1]:54085 Closing
+[Thu Sep 25 17:34:25 2025] [::1]:54086 [200]: GET /locations/4
+[Thu Sep 25 17:34:25 2025] [::1]:54086 Closing
+[Thu Sep 25 17:34:25 2025] [::1]:54087 Accepted
+[Thu Sep 25 17:34:25 2025] [::1]:54087 [204]: GET /favicon.ico
+[Thu Sep 25 17:34:25 2025] [::1]:54087 Closing
+[Thu Sep 25 17:34:33 2025] [::1]:54129 Accepted
+[Thu Sep 25 17:34:33 2025] [::1]:54130 Accepted
+[Thu Sep 25 17:34:34 2025] [::1]:54129 [200]: GET /software
+[Thu Sep 25 17:34:34 2025] [::1]:54129 Closing
+[Thu Sep 25 17:34:34 2025] [::1]:54130 [204]: GET /favicon.ico
+[Thu Sep 25 17:34:34 2025] [::1]:54130 Closing
+[Thu Sep 25 17:34:35 2025] [::1]:54139 Accepted
+[Thu Sep 25 17:34:35 2025] [::1]:54141 Accepted
+[Thu Sep 25 17:34:35 2025] [::1]:54139 [302]: GET /software/52
+[Thu Sep 25 17:34:35 2025] [::1]:54139 Closing
+[Thu Sep 25 17:34:35 2025] [::1]:54141 [200]: GET /software/52/edit
+[Thu Sep 25 17:34:35 2025] [::1]:54141 Closing
+[Thu Sep 25 17:34:35 2025] [::1]:54142 Accepted
+[Thu Sep 25 17:34:35 2025] [::1]:54142 [204]: GET /favicon.ico
+[Thu Sep 25 17:34:35 2025] [::1]:54142 Closing
+[Thu Sep 25 17:34:37 2025] [::1]:54147 Accepted
+[Thu Sep 25 17:34:37 2025] [::1]:54147 [204]: GET /favicon.ico
+[Thu Sep 25 17:34:37 2025] [::1]:54147 Closing
+[Thu Sep 25 17:34:46 2025] [::1]:54184 Accepted
+[Thu Sep 25 17:34:46 2025] [::1]:54184 [200]: POST /files
+[Thu Sep 25 17:34:46 2025] [::1]:54184 Closing
+[Thu Sep 25 17:34:46 2025] [::1]:54185 Accepted
+[Thu Sep 25 17:34:46 2025] [::1]:54185 [501]: POST /software/52/associations
+[Thu Sep 25 17:34:46 2025] [::1]:54185 Closing
+[Thu Sep 25 17:34:51 2025] [::1]:54210 Accepted
+[Thu Sep 25 17:34:51 2025] [::1]:54210 [204]: GET /favicon.ico
+[Thu Sep 25 17:34:51 2025] [::1]:54210 Closing
+[Thu Sep 25 17:34:54 2025] [::1]:54219 Accepted
+[Thu Sep 25 17:34:54 2025] [::1]:54219 [204]: GET /favicon.ico
+[Thu Sep 25 17:34:54 2025] [::1]:54219 Closing

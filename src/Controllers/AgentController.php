@@ -67,24 +67,12 @@ class AgentController extends BaseController
     }
 
     /**
-     * Show agent details
+     * Show agent details (redirect to edit)
      */
     public function show(Request $request, Response $response, array $args): Response
     {
-        $user = $this->authService->getCurrentUser();
         $id = (int) $args['id'];
-
-        $agent = $this->agentModel->findWithTypes($id);
-        if (!$agent) {
-            $this->addFlashMessage('error', 'Agent not found');
-            return $this->redirectToRoute($request, $response, 'agents.index');
-        }
-
-        return $this->render($response, 'agents/edit.twig', [
-            'mode' => 'view',
-            'user' => $user,
-            'agent' => $agent,
-        ]);
+        return $this->redirectToRoute($request, $response, 'agents.edit', ['id' => $id]);
     }
 
     /**
@@ -236,7 +224,7 @@ class AgentController extends BaseController
 
             $this->logUserAction('agent_updated', ['agent_id' => $id]);
             $this->addFlashMessage('success', 'Agent updated successfully');
-            return $this->redirectToRoute($request, $response, 'agents.show', ['id' => $id]);
+            return $this->redirectToRoute($request, $response, 'agents.edit', ['id' => $id]);
 
         } catch (PDOException $e) {
             $this->logger->error('Database error updating agent', ['error' => $e->getMessage()]);

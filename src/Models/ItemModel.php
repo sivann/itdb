@@ -269,7 +269,7 @@ class ItemModel
         $itemTypes = $this->db->fetchAll("SELECT id, name FROM itemtypes ORDER BY name");
         $statusTypes = $this->db->fetchAll("SELECT id, statusdesc as name FROM statustypes ORDER BY statusdesc");
         $locations = $this->db->fetchAll("SELECT id, name FROM locations ORDER BY name");
-        $users = $this->db->fetchAll("SELECT id, username FROM users WHERE usertype > 0 ORDER BY username");
+        $users = $this->db->fetchAll("SELECT id, username FROM users ORDER BY username");
 
         // Get hardware manufacturers (agents with hardware_manufacturer type)
         $manufacturers = $this->db->fetchAll("

@@ -431,10 +431,7 @@ class ContractController extends BaseController
         $limit = min(20, max(1, (int) ($queryParams['limit'] ?? 20)));
 
         // Search contracts
-        $contracts = [];
-        if (!empty($query)) {
-            $contracts = $this->contractModel->search($query, $limit);
-        }
+        $contracts = $this->contractModel->search($query, $limit);
 
         // Format results for frontend
         $results = [];

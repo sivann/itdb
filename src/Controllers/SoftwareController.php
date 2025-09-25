@@ -395,6 +395,13 @@ class SoftwareController extends BaseController
                     break;
 
                 case 'contract':
+                    if ($action === 'add') {
+                        $success = $this->softwareModel->associateContract($id, $itemId);
+                    } else {
+                        $success = $this->softwareModel->dissociateContract($id, $itemId);
+                    }
+                    break;
+
                 case 'file':
                     // TODO: Implement other association types
                     return $this->json($response, ['error' => 'Association type not yet implemented'], 501);

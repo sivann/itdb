@@ -12302,3 +12302,162 @@ Trace: #0 /Users/sivann/sbx/itdb2/config/container.php(187): App\Models\Software
 [Thu Sep 25 13:16:50 2025] [::1]:51286 Closing
 [Thu Sep 25 13:16:50 2025] [::1]:51287 [204]: GET /favicon.ico
 [Thu Sep 25 13:16:50 2025] [::1]:51287 Closing
+[Thu Sep 25 13:16:59 2025] [::1]:51329 Accepted
+[Thu Sep 25 13:16:59 2025] [::1]:51329 [204]: GET /favicon.ico
+[Thu Sep 25 13:16:59 2025] [::1]:51329 Closing
+[Thu Sep 25 13:17:11 2025] [::1]:51378 Accepted
+[Thu Sep 25 13:17:11 2025] [::1]:51379 Accepted
+[Thu Sep 25 13:17:11 2025] [::1]:51378 [200]: GET /contracts
+[Thu Sep 25 13:17:11 2025] [::1]:51378 Closing
+[Thu Sep 25 13:17:11 2025] [::1]:51379 [204]: GET /favicon.ico
+[Thu Sep 25 13:17:11 2025] [::1]:51379 Closing
+[Thu Sep 25 13:17:13 2025] [::1]:51388 Accepted
+[Thu Sep 25 13:17:13 2025] [::1]:51389 Accepted
+[Thu Sep 25 13:17:13 2025] [::1]:51388 [200]: GET /software/52/edit?tab=contracts
+[Thu Sep 25 13:17:13 2025] [::1]:51388 Closing
+[Thu Sep 25 13:17:13 2025] [::1]:51389 [204]: GET /favicon.ico
+[Thu Sep 25 13:17:13 2025] [::1]:51389 Closing
+[Thu Sep 25 13:17:14 2025] [::1]:51394 Accepted
+[Thu Sep 25 13:17:14 2025] [::1]:51394 [200]: GET /contracts/search?exclude_software=52
+[Thu Sep 25 13:17:14 2025] [::1]:51394 Closing
+[Thu Sep 25 13:18:15 2025] [::1]:51643 Accepted
+[Thu Sep 25 13:18:15 2025] [::1]:51644 Accepted
+[Thu Sep 25 13:18:15 2025] Slim Application Error
+Type: PDOException
+Code: HY000
+Message: SQLSTATE[HY000]: General error: 1 no such column: la.name
+File: /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php
+Line: 38
+Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->prepare('\n            SE...')
+#1 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(68): App\Services\DatabaseManager->execute('\n            SE...', Array)
+#2 /Users/sivann/sbx/itdb2/src/Models/ItemModel.php(130): App\Services\DatabaseManager->fetchAll('\n            SE...', Array)
+#3 /Users/sivann/sbx/itdb2/src/Controllers/ItemController.php(217): App\Models\ItemModel->findWithRelations(1165)
+#4 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ItemController->edit(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#13 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#16 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#18 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#26 {main}
+[Thu Sep 25 13:18:15 2025] [::1]:51643 [500]: GET /items/1165/edit
+[Thu Sep 25 13:18:15 2025] [::1]:51643 Closing
+[Thu Sep 25 13:18:15 2025] [::1]:51644 [204]: GET /favicon.ico
+[Thu Sep 25 13:18:15 2025] [::1]:51644 Closing
+[Thu Sep 25 13:18:20 2025] [::1]:51667 Accepted
+[Thu Sep 25 13:20:44 2025] [::1]:52307 Accepted
+[Thu Sep 25 13:20:44 2025] [::1]:51667 Closed without sending a request; it was probably just an unused speculative preconnection
+[Thu Sep 25 13:20:44 2025] [::1]:51667 Closing
+[Thu Sep 25 13:20:44 2025] [::1]:52308 Accepted
+[Thu Sep 25 13:20:44 2025] [::1]:52307 [200]: GET /software/52/edit?tab=contracts
+[Thu Sep 25 13:20:44 2025] [::1]:52307 Closing
+[Thu Sep 25 13:20:44 2025] [::1]:52308 [204]: GET /favicon.ico
+[Thu Sep 25 13:20:44 2025] [::1]:52308 Closing
+[Thu Sep 25 13:20:47 2025] [::1]:52317 Accepted
+[Thu Sep 25 13:20:47 2025] [::1]:52317 [200]: GET /contracts/search?exclude_software=52
+[Thu Sep 25 13:20:47 2025] [::1]:52317 Closing
+[Thu Sep 25 13:21:47 2025] [::1]:52570 Accepted
+[Thu Sep 25 13:21:47 2025] [::1]:52571 Accepted
+[Thu Sep 25 13:21:47 2025] [::1]:52570 [200]: GET /software/52/edit?tab=contracts
+[Thu Sep 25 13:21:47 2025] [::1]:52570 Closing
+[Thu Sep 25 13:21:47 2025] [::1]:52571 [204]: GET /favicon.ico
+[Thu Sep 25 13:21:47 2025] [::1]:52571 Closing
+[Thu Sep 25 13:21:48 2025] [::1]:52576 Accepted
+[Thu Sep 25 13:21:48 2025] [::1]:52576 [200]: GET /contracts/search?exclude_software=52
+[Thu Sep 25 13:21:48 2025] [::1]:52576 Closing
+[Thu Sep 25 13:21:51 2025] [::1]:52589 Accepted
+[Thu Sep 25 13:21:51 2025] [::1]:52589 [200]: GET /contracts/search?exclude_software=52
+[Thu Sep 25 13:21:51 2025] [::1]:52589 Closing
+[Thu Sep 25 13:21:52 2025] [::1]:52598 Accepted
+[Thu Sep 25 13:21:52 2025] [::1]:52598 [200]: GET /contracts
+[Thu Sep 25 13:21:52 2025] [::1]:52598 Closing
+[Thu Sep 25 13:21:52 2025] [::1]:52599 Accepted
+[Thu Sep 25 13:21:52 2025] [::1]:52599 [204]: GET /favicon.ico
+[Thu Sep 25 13:21:52 2025] [::1]:52599 Closing
+[Thu Sep 25 13:21:54 2025] [::1]:52608 Accepted
+[Thu Sep 25 13:21:54 2025] [::1]:52609 Accepted
+[Thu Sep 25 13:21:54 2025] [::1]:52608 [200]: GET /software/52/edit?tab=contracts
+[Thu Sep 25 13:21:54 2025] [::1]:52608 Closing
+[Thu Sep 25 13:21:54 2025] [::1]:52609 [204]: GET /favicon.ico
+[Thu Sep 25 13:21:54 2025] [::1]:52609 Closing
+[Thu Sep 25 13:21:56 2025] [::1]:52614 Accepted
+[Thu Sep 25 13:21:56 2025] [::1]:52614 [200]: GET /contracts/search?exclude_software=52
+[Thu Sep 25 13:21:56 2025] [::1]:52614 Closing
+[Thu Sep 25 13:21:57 2025] [::1]:52619 Accepted
+[Thu Sep 25 13:21:57 2025] [::1]:52619 [200]: GET /contracts/search?q=re&exclude_software=52
+[Thu Sep 25 13:21:57 2025] [::1]:52619 Closing
+[Thu Sep 25 13:21:59 2025] [::1]:52632 Accepted
+[Thu Sep 25 13:21:59 2025] [::1]:52632 [200]: GET /contracts/search?exclude_software=52
+[Thu Sep 25 13:21:59 2025] [::1]:52632 Closing
+[Thu Sep 25 13:22:01 2025] [::1]:52637 Accepted
+[Thu Sep 25 13:22:01 2025] [::1]:52637 [200]: GET /contracts/search?exclude_software=52
+[Thu Sep 25 13:22:01 2025] [::1]:52637 Closing
+[Thu Sep 25 13:22:08 2025] [::1]:52667 Accepted
+[Thu Sep 25 13:22:08 2025] [::1]:52667 [200]: GET /contracts/search?q=re&exclude_software=52
+[Thu Sep 25 13:22:08 2025] [::1]:52667 Closing
+[Thu Sep 25 13:22:10 2025] [::1]:52676 Accepted
+[Thu Sep 25 13:22:10 2025] [::1]:52676 [200]: POST /software/52/associations
+[Thu Sep 25 13:22:10 2025] [::1]:52676 Closing
+[Thu Sep 25 13:22:11 2025] [::1]:52681 Accepted
+[Thu Sep 25 13:22:11 2025] [::1]:52682 Accepted
+[Thu Sep 25 13:22:11 2025] [::1]:52681 [200]: GET /software/52/edit?tab=contracts
+[Thu Sep 25 13:22:11 2025] [::1]:52681 Closing
+[Thu Sep 25 13:22:11 2025] [::1]:52682 [204]: GET /favicon.ico
+[Thu Sep 25 13:22:11 2025] [::1]:52682 Closing
+[Thu Sep 25 13:22:19 2025] [::1]:52715 Accepted
+[Thu Sep 25 13:22:19 2025] [::1]:52715 [200]: GET /contracts/search?exclude_software=52
+[Thu Sep 25 13:22:19 2025] [::1]:52715 Closing
+[Thu Sep 25 13:22:20 2025] [::1]:52720 Accepted
+[Thu Sep 25 13:22:20 2025] [::1]:52720 [200]: GET /contracts/search?q=re&exclude_software=52
+[Thu Sep 25 13:22:20 2025] [::1]:52720 Closing
+[Thu Sep 25 13:22:21 2025] [::1]:52725 Accepted
+[Thu Sep 25 13:22:21 2025] [::1]:52725 [400]: POST /software/52/associations
+[Thu Sep 25 13:22:21 2025] [::1]:52725 Closing
+[Thu Sep 25 13:22:25 2025] [::1]:52742 Accepted
+[Thu Sep 25 13:22:25 2025] [::1]:52742 [200]: DELETE /software/52/associations
+[Thu Sep 25 13:22:25 2025] [::1]:52742 Closing
+[Thu Sep 25 13:22:27 2025] [::1]:52751 Accepted
+[Thu Sep 25 13:22:27 2025] [::1]:52752 Accepted
+[Thu Sep 25 13:22:27 2025] [::1]:52751 [200]: GET /software/52/edit?tab=contracts
+[Thu Sep 25 13:22:27 2025] [::1]:52751 Closing
+[Thu Sep 25 13:22:27 2025] [::1]:52752 [204]: GET /favicon.ico
+[Thu Sep 25 13:22:27 2025] [::1]:52752 Closing
+[Thu Sep 25 13:23:34 2025] [::1]:53033 Accepted
+[Thu Sep 25 13:23:34 2025] [::1]:53033 [200]: GET /contracts/search?exclude_software=52
+[Thu Sep 25 13:23:34 2025] [::1]:53033 Closing
+[Thu Sep 25 13:24:11 2025] [::1]:53186 Accepted
+[Thu Sep 25 13:24:11 2025] [::1]:53186 [200]: GET /contracts/search?q=re&exclude_software=52
+[Thu Sep 25 13:24:11 2025] [::1]:53186 Closing
+[Thu Sep 25 13:24:13 2025] [::1]:53191 Accepted
+[Thu Sep 25 13:24:13 2025] [::1]:53192 Accepted
+[Thu Sep 25 13:24:13 2025] [::1]:53191 [200]: GET /software/52/edit?tab=contracts
+[Thu Sep 25 13:24:13 2025] [::1]:53191 Closing
+[Thu Sep 25 13:24:13 2025] [::1]:53192 [204]: GET /favicon.ico
+[Thu Sep 25 13:24:13 2025] [::1]:53192 Closing
+[Thu Sep 25 13:24:14 2025] [::1]:53201 Accepted
+[Thu Sep 25 13:24:14 2025] [::1]:53201 [200]: GET /contracts/search?exclude_software=52
+[Thu Sep 25 13:24:14 2025] [::1]:53201 Closing
+[Thu Sep 25 13:24:17 2025] [::1]:53214 Accepted
+[Thu Sep 25 13:24:17 2025] [::1]:53214 [200]: POST /software/52/associations
+[Thu Sep 25 13:24:17 2025] [::1]:53214 Closing
+[Thu Sep 25 13:24:18 2025] [::1]:53219 Accepted
+[Thu Sep 25 13:24:18 2025] [::1]:53220 Accepted
+[Thu Sep 25 13:24:19 2025] [::1]:53219 [200]: GET /software/52/edit?tab=contracts
+[Thu Sep 25 13:24:19 2025] [::1]:53219 Closing
+[Thu Sep 25 13:24:19 2025] [::1]:53220 [204]: GET /favicon.ico
+[Thu Sep 25 13:24:19 2025] [::1]:53220 Closing

@@ -308,7 +308,7 @@ class SoftwareModel
     public function getAssociatedContracts(int $softwareId): array
     {
         $sql = "
-            SELECT c.id, c.number as contractid, c.title as contractname, c.startdate, c.currentenddate as enddate,
+            SELECT c.id, c.number, c.title, c.startdate, c.currentenddate as enddate,
                    ct.name as type_name, a.title as contractor_name
             FROM contract2soft c2s
             INNER JOIN contracts c ON c2s.contractid = c.id
@@ -395,6 +395,26 @@ class SoftwareModel
     {
         $sql = "DELETE FROM soft2inv WHERE softid = ? AND invid = ?";
         $stmt = $this->db->execute($sql, [$softwareId, $invoiceId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Add association between software and contract
+     */
+    public function associateContract(int $softwareId, int $contractId): bool
+    {
+        $sql = "INSERT OR IGNORE INTO contract2soft (softid, contractid) VALUES (?, ?)";
+        $stmt = $this->db->execute($sql, [$softwareId, $contractId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Remove association between software and contract
+     */
+    public function dissociateContract(int $softwareId, int $contractId): bool
+    {
+        $sql = "DELETE FROM contract2soft WHERE softid = ? AND contractid = ?";
+        $stmt = $this->db->execute($sql, [$softwareId, $contractId]);
         return $stmt->rowCount() > 0;
     }
 

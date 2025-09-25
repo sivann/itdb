@@ -12973,3 +12973,147 @@ Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->pre
 [Thu Sep 25 13:53:51 2025] [::1]:61210 Accepted
 [Thu Sep 25 13:53:51 2025] [::1]:61210 [204]: GET /favicon.ico
 [Thu Sep 25 13:53:51 2025] [::1]:61210 Closing
+[Thu Sep 25 13:54:38 2025] [::1]:61403 Accepted
+[Thu Sep 25 13:54:38 2025] [::1]:61403 [200]: GET /items
+[Thu Sep 25 13:54:38 2025] [::1]:61403 Closing
+[Thu Sep 25 13:54:38 2025] [::1]:61404 Accepted
+[Thu Sep 25 13:54:38 2025] [::1]:61404 [204]: GET /favicon.ico
+[Thu Sep 25 13:54:38 2025] [::1]:61404 Closing
+[Thu Sep 25 13:55:24 2025] [::1]:61598 Accepted
+[Thu Sep 25 13:57:36 2025] [::1]:61598 Closed without sending a request; it was probably just an unused speculative preconnection
+[Thu Sep 25 13:57:36 2025] [::1]:61598 Closing
+[Thu Sep 25 13:58:09 2025] [::1]:62428 Accepted
+[Thu Sep 25 13:58:09 2025] [::1]:62429 Accepted
+[Thu Sep 25 13:58:09 2025] [::1]:62428 [200]: GET /items
+[Thu Sep 25 13:58:09 2025] [::1]:62428 Closing
+[Thu Sep 25 13:58:09 2025] [::1]:62429 [204]: GET /favicon.ico
+[Thu Sep 25 13:58:09 2025] [::1]:62429 Closing
+[Thu Sep 25 13:58:10 2025] [::1]:62434 Accepted
+[Thu Sep 25 13:58:10 2025] [::1]:62435 Accepted
+[Thu Sep 25 13:58:10 2025] [::1]:62434 [200]: GET /items
+[Thu Sep 25 13:58:10 2025] [::1]:62434 Closing
+[Thu Sep 25 13:58:10 2025] [::1]:62435 [204]: GET /favicon.ico
+[Thu Sep 25 13:58:10 2025] [::1]:62435 Closing
+[Thu Sep 25 13:58:23 2025] [::1]:62490 Accepted
+[Thu Sep 25 13:58:23 2025] [::1]:62491 Accepted
+[Thu Sep 25 13:58:23 2025] [::1]:62490 [200]: GET /items
+[Thu Sep 25 13:58:23 2025] [::1]:62490 Closing
+[Thu Sep 25 13:58:23 2025] [::1]:62491 [204]: GET /favicon.ico
+[Thu Sep 25 13:58:23 2025] [::1]:62491 Closing
+[Thu Sep 25 13:59:28 2025] [::1]:62762 Accepted
+[Thu Sep 25 13:59:28 2025] [::1]:62763 Accepted
+[Thu Sep 25 13:59:28 2025] [::1]:62762 [200]: GET /items
+[Thu Sep 25 13:59:28 2025] [::1]:62762 Closing
+[Thu Sep 25 13:59:29 2025] [::1]:62763 [204]: GET /favicon.ico
+[Thu Sep 25 13:59:29 2025] [::1]:62763 Closing
+[Thu Sep 25 13:59:37 2025] [::1]:62796 Accepted
+[Thu Sep 25 13:59:37 2025] [::1]:62796 [200]: GET /items?page=44
+[Thu Sep 25 13:59:37 2025] [::1]:62796 Closing
+[Thu Sep 25 13:59:37 2025] [::1]:62797 Accepted
+[Thu Sep 25 13:59:37 2025] [::1]:62797 [204]: GET /favicon.ico
+[Thu Sep 25 13:59:37 2025] [::1]:62797 Closing
+[Thu Sep 25 13:59:40 2025] [::1]:62814 Accepted
+[Thu Sep 25 13:59:40 2025] [::1]:62814 [200]: GET /items?page=3
+[Thu Sep 25 13:59:40 2025] [::1]:62814 Closing
+[Thu Sep 25 13:59:40 2025] [::1]:62815 Accepted
+[Thu Sep 25 13:59:40 2025] [::1]:62815 [204]: GET /favicon.ico
+[Thu Sep 25 13:59:40 2025] [::1]:62815 Closing
+[Thu Sep 25 13:59:42 2025] [::1]:62824 Accepted
+[Thu Sep 25 13:59:42 2025] [::1]:62825 Accepted
+[Thu Sep 25 13:59:42 2025] [::1]:62824 [200]: GET /items?page=1
+[Thu Sep 25 13:59:42 2025] [::1]:62824 Closing
+[Thu Sep 25 13:59:42 2025] [::1]:62825 [204]: GET /favicon.ico
+[Thu Sep 25 13:59:42 2025] [::1]:62825 Closing
+[Thu Sep 25 13:59:48 2025] [::1]:62847 Accepted
+[Thu Sep 25 13:59:48 2025] [::1]:62847 [302]: GET /items/1165
+[Thu Sep 25 13:59:48 2025] [::1]:62847 Closing
+[Thu Sep 25 13:59:48 2025] [::1]:62848 Accepted
+[Thu Sep 25 13:59:48 2025] Slim Application Error
+Type: PDOException
+Code: HY000
+Message: SQLSTATE[HY000]: General error: 1 no such column: la.name
+File: /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php
+Line: 38
+Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->prepare('\n            SE...')
+#1 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(68): App\Services\DatabaseManager->execute('\n            SE...', Array)
+#2 /Users/sivann/sbx/itdb2/src/Models/ItemModel.php(155): App\Services\DatabaseManager->fetchAll('\n            SE...', Array)
+#3 /Users/sivann/sbx/itdb2/src/Controllers/ItemController.php(217): App\Models\ItemModel->findWithRelations(1165)
+#4 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ItemController->edit(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#13 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#16 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#18 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#26 {main}
+[Thu Sep 25 13:59:48 2025] [::1]:62848 [500]: GET /items/1165/edit
+[Thu Sep 25 13:59:48 2025] [::1]:62848 Closing
+[Thu Sep 25 13:59:48 2025] [::1]:62849 Accepted
+[Thu Sep 25 13:59:48 2025] [::1]:62849 [204]: GET /favicon.ico
+[Thu Sep 25 13:59:48 2025] [::1]:62849 Closing
+[Thu Sep 25 13:59:50 2025] [::1]:62864 Accepted
+[Thu Sep 25 13:59:50 2025] [::1]:62865 Accepted
+[Thu Sep 25 13:59:50 2025] [::1]:62864 [200]: GET /items?page=1
+[Thu Sep 25 13:59:50 2025] [::1]:62864 Closing
+[Thu Sep 25 13:59:50 2025] [::1]:62865 [204]: GET /favicon.ico
+[Thu Sep 25 13:59:50 2025] [::1]:62865 Closing
+[Thu Sep 25 13:59:52 2025] [::1]:62870 Accepted
+[Thu Sep 25 13:59:52 2025] [::1]:62871 Accepted
+[Thu Sep 25 13:59:52 2025] Slim Application Error
+Type: PDOException
+Code: HY000
+Message: SQLSTATE[HY000]: General error: 1 no such column: la.name
+File: /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php
+Line: 38
+Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->prepare('\n            SE...')
+#1 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(68): App\Services\DatabaseManager->execute('\n            SE...', Array)
+#2 /Users/sivann/sbx/itdb2/src/Models/ItemModel.php(155): App\Services\DatabaseManager->fetchAll('\n            SE...', Array)
+#3 /Users/sivann/sbx/itdb2/src/Controllers/ItemController.php(217): App\Models\ItemModel->findWithRelations(1165)
+#4 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ItemController->edit(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#13 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#16 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#18 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#26 {main}
+[Thu Sep 25 13:59:52 2025] [::1]:62870 [500]: GET /items/1165/edit
+[Thu Sep 25 13:59:52 2025] [::1]:62870 Closing
+[Thu Sep 25 13:59:52 2025] [::1]:62871 [204]: GET /favicon.ico
+[Thu Sep 25 13:59:52 2025] [::1]:62871 Closing
+[Thu Sep 25 13:59:54 2025] [::1]:62880 Accepted
+[Thu Sep 25 13:59:54 2025] [::1]:62881 Accepted
+[Thu Sep 25 13:59:54 2025] [::1]:62880 [200]: GET /items?page=1
+[Thu Sep 25 13:59:54 2025] [::1]:62880 Closing
+[Thu Sep 25 13:59:54 2025] [::1]:62881 [204]: GET /favicon.ico
+[Thu Sep 25 13:59:54 2025] [::1]:62881 Closing

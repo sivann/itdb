@@ -121,56 +121,56 @@
                             <div class="d-flex align-items-center">
                                 <div>
                                     <a href="/items/{{ item.id }}" class="fw-bold text-decoration-none">
-                                        {{ item.display_title }}
+                                        {{ item.function|default(item.model) }}
                                     </a>
-                                    {% if item.model %}
-                                        <br><small class="text-muted">{{ item.model }}</small>
+                                    {% if item.label %}
+                                        <br><small class="text-muted">#{{ item.label }}</small>
                                     {% endif %}
-                                    {% if item.serial %}
-                                        <br><small class="text-muted">S/N: {{ item.serial }}</small>
+                                    {% if item.sn %}
+                                        <br><small class="text-muted">S/N: {{ item.sn }}</small>
                                     {% endif %}
                                 </div>
                             </div>
                         </td>
                         <td>
-                            {% if item.itemType %}
-                                <span class="badge bg-info">{{ item.itemType.name }}</span>
+                            {% if item.itemtype_name %}
+                                <span class="badge bg-info">{{ item.itemtype_name }}</span>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if item.statusType %}
+                            {% if item.status_name %}
                                 {% set status_class = item.status == 1 ? 'success' : (item.status == 0 ? 'danger' : 'secondary') %}
-                                <span class="badge bg-{{ status_class }}">{{ item.statusType.name }}</span>
+                                <span class="badge bg-{{ status_class }}">{{ item.status_name }}</span>
                             {% else %}
                                 <span class="badge bg-secondary">Unknown</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if item.user %}
+                            {% if item.username %}
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-person-circle me-2"></i>
-                                    {{ item.user.name|default(item.user.username) }}
+                                    {{ item.username }}
                                 </div>
                             {% else %}
                                 <span class="text-muted">Unassigned</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if item.location %}
-                                <i class="bi bi-geo-alt me-1"></i>{{ item.location.name }}
+                            {% if item.location_name %}
+                                <i class="bi bi-geo-alt me-1"></i>{{ item.location_name }}
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if item.warranty_status.status == 'active' %}
+                            {% if item.warranty_status == 'Active' %}
                                 <span class="text-success">
                                     <i class="bi bi-shield-check me-1"></i>
-                                    {{ item.warranty_status.days }} days
+                                    {{ item.warranty_days_left }} days
                                 </span>
-                            {% elseif item.warranty_status.status == 'expired' %}
+                            {% elseif item.warranty_status == 'Expired' %}
                                 <span class="text-danger">
                                     <i class="bi bi-shield-x me-1"></i>Expired
                                 </span>
@@ -179,13 +179,9 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if item.changed %}
-                                <small class="text-muted">
-                                    {{ item.changed|date('M j, Y') }}
-                                </small>
-                            {% else %}
-                                <span class="text-muted">-</span>
-                            {% endif %}
+                            <small class="text-muted">
+                                {{ item.last_updated }}
+                            </small>
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm">

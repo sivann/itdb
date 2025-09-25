@@ -92,8 +92,33 @@ class ItemModel
 
         $items = $this->db->fetchAll($sql, $params);
 
+        // Transform items for display
+        $transformedItems = array_map(function ($item) {
+            // Calculate warranty
+            if ($item['purchasedate'] && $item['warrantymonths']) {
+                $purchaseDate = new \DateTime(date('Y-m-d', $item['purchasedate']));
+                $warrantyEnd = $purchaseDate->add(new \DateInterval('P' . $item['warrantymonths'] . 'M'));
+                $now = new \DateTime();
+                $diff = $now->diff($warrantyEnd);
+                $item['warranty_status'] = $diff->invert ? 'Expired' : 'Active';
+                $item['warranty_days_left'] = $diff->invert ? 0 : $diff->days;
+            } else {
+                $item['warranty_status'] = 'N/A';
+                $item['warranty_days_left'] = null;
+            }
+
+            // Format last updated
+            if ($item['updated_at']) {
+                $item['last_updated'] = date('Y-m-d', $item['updated_at']);
+            } else {
+                $item['last_updated'] = 'N/A';
+            }
+
+            return $item;
+        }, $items);
+
         return [
-            'data' => $items,
+            'data' => $transformedItems,
             'total' => $total,
             'page' => $page,
             'per_page' => $perPage,

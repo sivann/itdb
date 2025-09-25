@@ -376,6 +376,26 @@ class SoftwareModel
     }
 
     /**
+     * Add association between software and invoice
+     */
+    public function associateInvoice(int $softwareId, int $invoiceId): bool
+    {
+        $sql = "INSERT OR IGNORE INTO soft2inv (softid, invid) VALUES (?, ?)";
+        $stmt = $this->db->execute($sql, [$softwareId, $invoiceId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Remove association between software and invoice
+     */
+    public function dissociateInvoice(int $softwareId, int $invoiceId): bool
+    {
+        $sql = "DELETE FROM soft2inv WHERE softid = ? AND invid = ?";
+        $stmt = $this->db->execute($sql, [$softwareId, $invoiceId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
      * Get total count of software
      */
     public function getCount(): int

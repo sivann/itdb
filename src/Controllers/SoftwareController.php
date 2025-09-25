@@ -387,6 +387,13 @@ class SoftwareController extends BaseController
                     break;
 
                 case 'invoice':
+                    if ($action === 'add') {
+                        $success = $this->softwareModel->associateInvoice($id, $itemId);
+                    } else {
+                        $success = $this->softwareModel->dissociateInvoice($id, $itemId);
+                    }
+                    break;
+
                 case 'contract':
                 case 'file':
                     // TODO: Implement other association types

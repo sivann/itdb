@@ -11388,3 +11388,63 @@ Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->pre
 [Thu Sep 25 13:08:42 2025] [::1]:49208 Accepted
 [Thu Sep 25 13:08:42 2025] [::1]:49208 [200]: GET /invoices/search?exclude_software=52
 [Thu Sep 25 13:08:42 2025] [::1]:49208 Closing
+[Thu Sep 25 13:09:29 2025] [::1]:49404 Accepted
+[Thu Sep 25 13:09:29 2025] [::1]:49404 [200]: GET /invoices/search?exclude_software=52
+[Thu Sep 25 13:09:29 2025] [::1]:49404 Closing
+[Thu Sep 25 13:09:30 2025] [::1]:49409 Accepted
+[Thu Sep 25 13:09:30 2025] [::1]:49410 Accepted
+[Thu Sep 25 13:09:30 2025] [::1]:49409 [200]: GET /invoices
+[Thu Sep 25 13:09:30 2025] [::1]:49409 Closing
+[Thu Sep 25 13:09:30 2025] [::1]:49410 [204]: GET /favicon.ico
+[Thu Sep 25 13:09:30 2025] [::1]:49410 Closing
+[Thu Sep 25 13:09:32 2025] [::1]:49420 Accepted
+[Thu Sep 25 13:09:32 2025] [::1]:49421 Accepted
+[Thu Sep 25 13:09:32 2025] [::1]:49420 [302]: GET /invoices/1
+[Thu Sep 25 13:09:32 2025] [::1]:49420 Closing
+[Thu Sep 25 13:09:33 2025] [::1]:49421 [200]: GET /invoices/1/edit
+[Thu Sep 25 13:09:33 2025] [::1]:49421 Closing
+[Thu Sep 25 13:09:33 2025] [::1]:49422 Accepted
+[Thu Sep 25 13:09:33 2025] [::1]:49422 [204]: GET /favicon.ico
+[Thu Sep 25 13:09:33 2025] [::1]:49422 Closing
+[Thu Sep 25 13:09:39 2025] [::1]:49453 Accepted
+[Thu Sep 25 13:09:39 2025] [::1]:49453 [200]: GET /software
+[Thu Sep 25 13:09:39 2025] [::1]:49453 Closing
+[Thu Sep 25 13:09:39 2025] [::1]:49454 Accepted
+[Thu Sep 25 13:09:39 2025] [::1]:49454 [204]: GET /favicon.ico
+[Thu Sep 25 13:09:39 2025] [::1]:49454 Closing
+[Thu Sep 25 13:09:58 2025] [::1]:49532 Accepted
+[Thu Sep 25 13:09:58 2025] [::1]:49532 [302]: GET /software/52
+[Thu Sep 25 13:09:58 2025] [::1]:49532 Closing
+[Thu Sep 25 13:09:58 2025] [::1]:49533 Accepted
+[Thu Sep 25 13:09:58 2025] [::1]:49533 [200]: GET /software/52/edit
+[Thu Sep 25 13:09:58 2025] [::1]:49533 Closing
+[Thu Sep 25 13:09:58 2025] [::1]:49534 Accepted
+[Thu Sep 25 13:09:58 2025] [::1]:49534 [204]: GET /favicon.ico
+[Thu Sep 25 13:09:58 2025] [::1]:49534 Closing
+[Thu Sep 25 13:10:00 2025] [::1]:49543 Accepted
+[Thu Sep 25 13:10:00 2025] [::1]:49543 [204]: GET /favicon.ico
+[Thu Sep 25 13:10:00 2025] [::1]:49543 Closing
+[Thu Sep 25 13:10:02 2025] [::1]:49552 Accepted
+[Thu Sep 25 13:10:02 2025] [::1]:49552 [200]: GET /invoices/search?exclude_software=52
+[Thu Sep 25 13:10:02 2025] [::1]:49552 Closing
+[Thu Sep 25 13:10:05 2025] [::1]:49565 Accepted
+[Thu Sep 25 13:10:05 2025] [::1]:49565 [501]: POST /software/52/associations
+[Thu Sep 25 13:10:05 2025] [::1]:49565 Closing
+[Thu Sep 25 13:11:42 2025] [::1]:49972 Accepted
+[Thu Sep 25 13:11:42 2025] [::1]:49972 [200]: POST /software/52/associations
+[Thu Sep 25 13:11:42 2025] [::1]:49972 Closing
+[Thu Sep 25 13:11:44 2025] [::1]:49977 Accepted
+[Thu Sep 25 13:11:44 2025] [::1]:49978 Accepted
+[Thu Sep 25 13:11:44 2025] [::1]:49977 [200]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:11:44 2025] [::1]:49977 Closing
+[Thu Sep 25 13:11:44 2025] [::1]:49978 [204]: GET /favicon.ico
+[Thu Sep 25 13:11:44 2025] [::1]:49978 Closing
+[Thu Sep 25 13:11:47 2025] [::1]:49995 Accepted
+[Thu Sep 25 13:11:48 2025] [::1]:49995 [302]: GET /invoices/1
+[Thu Sep 25 13:11:48 2025] [::1]:49995 Closing
+[Thu Sep 25 13:11:48 2025] [::1]:49996 Accepted
+[Thu Sep 25 13:11:48 2025] [::1]:49996 [200]: GET /invoices/1/edit
+[Thu Sep 25 13:11:48 2025] [::1]:49996 Closing
+[Thu Sep 25 13:11:48 2025] [::1]:49997 Accepted
+[Thu Sep 25 13:11:48 2025] [::1]:49997 [204]: GET /favicon.ico
+[Thu Sep 25 13:11:48 2025] [::1]:49997 Closing

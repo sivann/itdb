@@ -346,11 +346,7 @@ class InvoiceController extends BaseController
         $limit = min(20, max(1, (int) ($queryParams['limit'] ?? 20)));
 
         // Search invoices using model
-        $invoices = [];
-        if (!empty($query)) {
-            // Simple search for now - could be enhanced in InvoiceModel
-            $invoices = $this->invoiceModel->getPaginated(1, $limit, ['search' => $query])['data'];
-        }
+        $invoices = $this->invoiceModel->getPaginated(1, $limit, ['search' => $query])['data'];
 
         // Format results for frontend
         $results = [];

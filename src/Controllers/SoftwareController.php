@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\SoftwareModel;
 use App\Models\AgentModel;
+use App\Models\LicenseTypeModel;
 use App\Services\AuthService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -17,18 +18,21 @@ class SoftwareController extends BaseController
     private AuthService $authService;
     private SoftwareModel $softwareModel;
     private AgentModel $agentModel;
+    private LicenseTypeModel $licenseTypeModel;
 
     public function __construct(
         LoggerInterface $logger,
         Environment $twig,
         AuthService $authService,
         SoftwareModel $softwareModel,
-        AgentModel $agentModel
+        AgentModel $agentModel,
+        LicenseTypeModel $licenseTypeModel
     ) {
         parent::__construct($logger, $twig);
         $this->authService = $authService;
         $this->softwareModel = $softwareModel;
         $this->agentModel = $agentModel;
+        $this->licenseTypeModel = $licenseTypeModel;
     }
 
     /**
@@ -192,41 +196,20 @@ class SoftwareController extends BaseController
             return $this->redirectToRoute($request, $response, 'software.index');
         }
 
-        if (!$this->canUserEditSoftware($user, $software)) {
-            $this->addFlashMessage('error', 'You do not have permission to edit this software.');
-            return $this->redirectToRoute($request, $response, 'software.index');
-        }
-
-        // Get software manufacturers
+        // Get form options
         $manufacturers = $this->agentModel->getSoftwareManufacturers();
-
-        // Load association data for active tab and provide actual data for template
-        $associationData = [];
-
-        // Always load the actual association data for template display
-        $software['items'] = $this->softwareModel->getAssociatedItems($id);
-        $software['invoices'] = $this->softwareModel->getAssociatedInvoices($id);
-        $software['contracts'] = $this->softwareModel->getAssociatedContracts($id);
-        $software['files'] = $this->softwareModel->getAssociatedFiles($id);
-
-        // Load additional data based on current tab for search functionality
-        if ($tab === 'items') {
-            $associationData['available_items'] = $this->softwareModel->getAvailableItems($id);
-        } elseif ($tab === 'invoices') {
-            // Could add available invoices search here
-        } elseif ($tab === 'contracts') {
-            // Could add available contracts search here
-        } elseif ($tab === 'files') {
-            // Could add available files search here
-        }
+        $licenseTypes = $this->licenseTypeModel->getAll();
 
         return $this->render($response, 'software/edit.twig', [
             'software' => $software,
+            'form_options' => [
+                'manufacturers' => $manufacturers,
+                'license_types' => $licenseTypes,
+            ],
             'user' => $user,
             'csrf_token' => $this->generateCsrfToken(),
             'current_tab' => $tab,
-            'manufacturers' => $manufacturers,
-        ] + $associationData);
+        ]);
     }
 
     /**
@@ -260,14 +243,13 @@ class SoftwareController extends BaseController
             $updateData = [
                 'stitle' => $this->sanitizeString($data['stitle']),
                 'sversion' => $this->sanitizeString($data['sversion'] ?? ''),
-                'sinfo' => $this->sanitizeString($data['sinfo'] ?? ''),
-                'slicenseinfo' => $this->sanitizeString($data['slicenseinfo'] ?? ''),
+                'scomments' => $this->sanitizeString($data['scomments'] ?? ''),
+                'slicense' => $this->sanitizeString($data['slicense'] ?? ''),
                 'licqty' => !empty($data['licqty']) ? (int) $data['licqty'] : 1,
-                'lictype' => !empty($data['lictype']) ? (int) $data['lictype'] : 0,
+                'slicensetype' => !empty($data['slicensetype']) ? (int) $data['slicensetype'] : 0,
                 'stype' => $this->sanitizeString($data['stype'] ?? ''),
                 'manufacturerid' => !empty($data['manufacturerid']) ? (int) $data['manufacturerid'] : null,
                 'invoiceid' => !empty($data['invoiceid']) ? (int) $data['invoiceid'] : null,
-                'purchdate' => !empty($data['purchdate']) ? strtotime($data['purchdate']) : null,
             ];
 
 

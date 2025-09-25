@@ -93,9 +93,13 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="manufacturerid" class="form-label">Manufacturer ID</label>
-                                        <input type="number" class="form-control" id="manufacturerid" name="manufacturerid" value="{{ software.manufacturerid }}">
-                                        <div class="form-text">Reference to manufacturer in database</div>
+                                        <label for="manufacturerid" class="form-label">Manufacturer</label>
+                                        <select class="form-select" id="manufacturerid" name="manufacturerid">
+                                            <option value="">Select a manufacturer...</option>
+                                            {% for manufacturer in form_options.manufacturers %}
+                                            <option value="{{ manufacturer.id }}" {% if software.manufacturerid == manufacturer.id %}selected{% endif %}>{{ manufacturer.title }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
 
@@ -108,12 +112,12 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="lictype" class="form-label">License Type</label>
-                                        <select class="form-select" id="lictype" name="lictype">
-                                            <option value="0" {{ software.lictype == 0 ? 'selected' : '' }}>Per Device</option>
-                                            <option value="1" {{ software.lictype == 1 ? 'selected' : '' }}>Per User</option>
-                                            <option value="2" {{ software.lictype == 2 ? 'selected' : '' }}>Site License</option>
-                                            <option value="3" {{ software.lictype == 3 ? 'selected' : '' }}>Volume License</option>
+                                        <label for="slicensetype" class="form-label">License Type</label>
+                                        <select class="form-select" id="slicensetype" name="slicensetype">
+                                            <option value="">Select a license type...</option>
+                                            {% for type in form_options.license_types %}
+                                            <option value="{{ type.id }}" {% if software.slicensetype == type.id %}selected{% endif %}>{{ type.name }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
 
@@ -124,9 +128,9 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="purchdate" class="form-label">Purchase Date</label>
-                                        <input type="date" class="form-control" id="purchdate" name="purchdate"
-                                               value="{% if software.purchdate %}{{ software.purchdate|date('Y-m-d') }}{% endif %}">
+                                        <label for="updated_at" class="form-label">Last Updated</label>
+                                        <input type="date" class="form-control" id="updated_at" name="updated_at"
+                                               value="{% if software.updated_at %}{{ software.updated_at|date('Y-m-d') }}{% endif %}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -136,15 +140,15 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="sinfo" class="form-label">Description</label>
-                                        <textarea class="form-control" id="sinfo" name="sinfo" rows="4">{{ software.sinfo }}</textarea>
+                                        <label for="scomments" class="form-label">Comments</label>
+                                        <textarea class="form-control" id="scomments" name="scomments" rows="4">{{ software.scomments }}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="slicenseinfo" class="form-label">License Information</label>
-                                        <textarea class="form-control" id="slicenseinfo" name="slicenseinfo" rows="4">{{ software.slicenseinfo }}</textarea>
+                                        <label for="slicense" class="form-label">License Info</label>
+                                        <textarea class="form-control" id="slicense" name="slicense" rows="4">{{ software.slicense }}</textarea>
                                         <div class="form-text">License terms, restrictions, or notes</div>
                                     </div>
                                 </div>

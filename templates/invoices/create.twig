@@ -33,16 +33,21 @@
                             <h6 class="text-muted mb-3">Invoice Information</h6>
 
                             <div class="mb-3">
-                                <label for="title" class="form-label">Invoice Title <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="title" name="title" required>
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="vendorid" class="form-label">Vendor</label>
                                 <select class="form-select" id="vendorid" name="vendorid">
                                     <option value="">Select a vendor...</option>
                                     {% for vendor in form_options.vendors %}
-                                    <option value="{{ vendor.id }}">{{ vendor.name }}</option>
+                                    <option value="{{ vendor.id }}">{{ vendor.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="buyerid" class="form-label">Buyer</label>
+                                <select class="form-select" id="buyerid" name="buyerid">
+                                    <option value="">Select a buyer...</option>
+                                    {% for buyer in form_options.buyers %}
+                                    <option value="{{ buyer.id }}">{{ buyer.title }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -56,7 +61,7 @@
                                 <label for="total" class="form-label">Total Amount</label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="number" class="form-control" id="total" name="total" step="0.01" min="0">
+                                    <input type="number" class="form-control" id="total" name="totalcost" step="0.01" min="0">
                                 </div>
                             </div>
                         </div>
@@ -65,13 +70,8 @@
                             <h6 class="text-muted mb-3">Additional Information</h6>
 
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" name="description" rows="4"></textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="notes" class="form-label">Notes</label>
-                                <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                                <label for="description" class="form-label">Comments</label>
+                                <textarea class="form-control" id="description" name="comments" rows="4"></textarea>
                             </div>
                         </div>
                     </div>
@@ -94,9 +94,6 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-focus on title field
-    document.getElementById('title').focus();
-
     // Auto-calculate total if needed (can be extended)
     document.getElementById('total').addEventListener('blur', function() {
         if (this.value) {

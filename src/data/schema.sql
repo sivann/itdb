@@ -1,5 +1,5 @@
 CREATE TABLE sqlite_sequence(name,seq);
-CREATE TABLE files (id INTEGER PRIMARY KEY AUTOINCREMENT,type,title,fname, uploader, uploaddate, date integer);
+CREATE TABLE files (id INTEGER PRIMARY KEY AUTOINCREMENT,type,title,fname, uploader, uploaddate, date integer, filename TEXT, description TEXT, filesize INTEGER, ftype INTEGER);
 CREATE TABLE filetypes (id INTEGER PRIMARY KEY AUTOINCREMENT, typedesc);
 CREATE TABLE history (id INTEGER PRIMARY KEY AUTOINCREMENT, date integer, sql, authuser, ip);
 CREATE TABLE invoice2file(invoiceid INTEGER,fileid INTEGER);
@@ -38,7 +38,7 @@ CREATE TABLE users (
 CREATE TABLE itemtypes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
-);
+, typedesc TEXT DEFAULT '', hassoftware INTEGER DEFAULT 0);
 CREATE TABLE contracttypes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
@@ -99,7 +99,7 @@ CREATE TABLE items (
     rackposdepth INTEGER,
     warrinfo TEXT,
     locareaid NUMBER,
-    coa TEXT,
+    coa TEXT, updated_at INTEGER,
 
     -- Foreign key constraints
     FOREIGN KEY (itemtypeid) REFERENCES itemtypes(id) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -115,7 +115,7 @@ CREATE TABLE software (
     url TEXT,
     slicensetype TEXT,
     scat TEXT,
-    manufacturerid INTEGER,
+    manufacturerid INTEGER, updated_at INTEGER,
 
     -- Foreign key constraints
     FOREIGN KEY (manufacturerid) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -126,7 +126,7 @@ CREATE TABLE invoices (
     vendorid INTEGER,
     buyerid INTEGER,
     comments TEXT,
-    totalcost REAL,
+    totalcost REAL, updated_at INTEGER,
 
     -- Foreign key constraints
     FOREIGN KEY (vendorid) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -146,7 +146,7 @@ CREATE TABLE contracts (
     currentenddate INTEGER,
     renewals TEXT,
     subtype INTEGER,
-    vendorid INTEGER,
+    vendorid INTEGER, updated_at INTEGER,
 
     -- Foreign key constraints
     FOREIGN KEY (type) REFERENCES contracttypes(id) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -236,3 +236,14 @@ CREATE INDEX idx_tag2item_item ON tag2item(itemid);
 CREATE INDEX idx_contractevents_contract ON contractevents(contractid);
 CREATE INDEX idx_actions_item ON actions(itemid);
 CREATE INDEX idx_actions_user ON actions(userid);
+CREATE TABLE license_types (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, description TEXT);
+CREATE TABLE audit_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    asset_type TEXT NOT NULL,
+    asset_id INTEGER,
+    action TEXT NOT NULL,
+    details TEXT,
+    timestamp INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+    ip_address TEXT
+);

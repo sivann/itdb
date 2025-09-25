@@ -111,12 +111,14 @@ class InvoiceController extends BaseController
             return $this->redirectToRoute($request, $response, 'invoices.index');
         }
 
-        // Get form options - only vendors
+        // Get form options
         $vendors = $this->agentModel->getVendors();
+        $buyers = $this->agentModel->getBuyers();
 
         return $this->render($response, 'invoices/create.twig', [
             'form_options' => [
                 'vendors' => $vendors,
+                'buyers' => $buyers,
             ],
             'user' => $user,
             'csrf_token' => $this->generateCsrfToken(),
@@ -155,7 +157,7 @@ class InvoiceController extends BaseController
                 'buyerid' => !empty($data['buyerid']) ? (int) $data['buyerid'] : null,
                 'totalcost' => !empty($data['totalcost']) ? (float) $data['totalcost'] : 0.00,
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
-                'date' => !empty($data['date']) ? strtotime($data['date']) : time(),
+                'date' => !empty($data['invoicedate']) ? strtotime($data['invoicedate']) : time(),
             ];
 
             $invoiceId = $this->invoiceModel->create($invoiceData);
@@ -194,13 +196,15 @@ class InvoiceController extends BaseController
             return $this->redirectToRoute($request, $response, 'invoices.edit', ['id' => $id]);
         }
 
-        // Get form options - only vendors
+        // Get form options
         $vendors = $this->agentModel->getVendors();
+        $buyers = $this->agentModel->getBuyers();
 
         return $this->render($response, 'invoices/edit.twig', [
             'invoice' => $invoice,
             'form_options' => [
                 'vendors' => $vendors,
+                'buyers' => $buyers,
             ],
             'user' => $user,
             'csrf_token' => $this->generateCsrfToken(),
@@ -240,7 +244,7 @@ class InvoiceController extends BaseController
                 'buyerid' => !empty($data['buyerid']) ? (int) $data['buyerid'] : null,
                 'totalcost' => !empty($data['totalcost']) ? (float) $data['totalcost'] : 0.00,
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
-                'date' => !empty($data['date']) ? strtotime($data['date']) : null,
+                'date' => !empty($data['invoicedate']) ? strtotime($data['invoicedate']) : null,
             ];
 
             $this->invoiceModel->update($id, $updateData);

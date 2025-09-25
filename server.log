@@ -10050,3 +10050,1341 @@ Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->pre
 [Thu Sep 25 12:31:42 2025] [::1]:55613 Closing
 [Thu Sep 25 12:31:42 2025] [::1]:55614 [204]: GET /favicon.ico
 [Thu Sep 25 12:31:42 2025] [::1]:55614 Closing
+[Thu Sep 25 12:32:39 2025] [::1]:55857 Accepted
+[Thu Sep 25 12:32:39 2025] [::1]:55858 Accepted
+[Thu Sep 25 12:32:39 2025] [::1]:55857 [200]: GET /invoices/create
+[Thu Sep 25 12:32:39 2025] [::1]:55857 Closing
+[Thu Sep 25 12:32:39 2025] [::1]:55858 [204]: GET /favicon.ico
+[Thu Sep 25 12:32:39 2025] [::1]:55858 Closing
+[Thu Sep 25 12:32:44 2025] [::1]:55879 Accepted
+[Thu Sep 25 12:32:44 2025] [::1]:55880 Accepted
+[Thu Sep 25 12:32:44 2025] [::1]:55879 [302]: POST /invoices
+[Thu Sep 25 12:32:44 2025] [::1]:55879 Closing
+[Thu Sep 25 12:32:44 2025] [::1]:55880 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:32:44 2025] [::1]:55880 Closing
+[Thu Sep 25 12:32:44 2025] [::1]:55885 Accepted
+[Thu Sep 25 12:32:44 2025] [::1]:55885 [204]: GET /favicon.ico
+[Thu Sep 25 12:32:44 2025] [::1]:55885 Closing
+[Thu Sep 25 12:32:47 2025] [::1]:55894 Accepted
+[Thu Sep 25 12:32:47 2025] [::1]:55895 Accepted
+[Thu Sep 25 12:32:47 2025] [::1]:55894 [200]: GET /invoices
+[Thu Sep 25 12:32:47 2025] [::1]:55894 Closing
+[Thu Sep 25 12:32:47 2025] [::1]:55895 [204]: GET /favicon.ico
+[Thu Sep 25 12:32:47 2025] [::1]:55895 Closing
+[Thu Sep 25 12:33:06 2025] [::1]:55979 Accepted
+[Thu Sep 25 12:33:06 2025] [::1]:55980 Accepted
+[Thu Sep 25 12:33:06 2025] [::1]:55979 [200]: GET /invoices
+[Thu Sep 25 12:33:06 2025] [::1]:55979 Closing
+[Thu Sep 25 12:33:06 2025] [::1]:55980 [204]: GET /favicon.ico
+[Thu Sep 25 12:33:06 2025] [::1]:55980 Closing
+[Thu Sep 25 12:33:07 2025] [::1]:55987 Accepted
+[Thu Sep 25 12:33:07 2025] [::1]:55988 Accepted
+[Thu Sep 25 12:33:07 2025] [::1]:55987 [200]: GET /invoices
+[Thu Sep 25 12:33:07 2025] [::1]:55987 Closing
+[Thu Sep 25 12:33:07 2025] [::1]:55988 [204]: GET /favicon.ico
+[Thu Sep 25 12:33:07 2025] [::1]:55988 Closing
+[Thu Sep 25 12:33:07 2025] [::1]:55993 Accepted
+[Thu Sep 25 12:33:07 2025] [::1]:55994 Accepted
+[Thu Sep 25 12:33:07 2025] [::1]:55993 [200]: GET /invoices
+[Thu Sep 25 12:33:07 2025] [::1]:55993 Closing
+[Thu Sep 25 12:33:07 2025] [::1]:55994 [204]: GET /favicon.ico
+[Thu Sep 25 12:33:07 2025] [::1]:55994 Closing
+[Thu Sep 25 12:33:08 2025] [::1]:55995 Accepted
+[Thu Sep 25 12:33:08 2025] [::1]:55996 Accepted
+[Thu Sep 25 12:33:08 2025] [::1]:55995 [200]: GET /invoices
+[Thu Sep 25 12:33:08 2025] [::1]:55995 Closing
+[Thu Sep 25 12:33:08 2025] [::1]:55996 [204]: GET /favicon.ico
+[Thu Sep 25 12:33:08 2025] [::1]:55996 Closing
+[Thu Sep 25 12:34:51 2025] [::1]:56451 Accepted
+[Thu Sep 25 12:34:51 2025] [::1]:56452 Accepted
+[Thu Sep 25 12:34:51 2025] [::1]:56451 [200]: GET /invoices
+[Thu Sep 25 12:34:51 2025] [::1]:56451 Closing
+[Thu Sep 25 12:34:51 2025] [::1]:56452 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:51 2025] [::1]:56452 Closing
+[Thu Sep 25 12:34:51 2025] [::1]:56453 Accepted
+[Thu Sep 25 12:34:51 2025] [::1]:56453 [200]: GET /invoices
+[Thu Sep 25 12:34:51 2025] [::1]:56453 Closing
+[Thu Sep 25 12:34:51 2025] [::1]:56454 Accepted
+[Thu Sep 25 12:34:51 2025] [::1]:56454 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:51 2025] [::1]:56454 Closing
+[Thu Sep 25 12:34:52 2025] [::1]:56459 Accepted
+[Thu Sep 25 12:34:52 2025] [::1]:56460 Accepted
+[Thu Sep 25 12:34:52 2025] [::1]:56459 [200]: GET /invoices
+[Thu Sep 25 12:34:52 2025] [::1]:56459 Closing
+[Thu Sep 25 12:34:52 2025] [::1]:56460 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:52 2025] [::1]:56460 Closing
+[Thu Sep 25 12:34:52 2025] [::1]:56461 Accepted
+[Thu Sep 25 12:34:52 2025] [::1]:56462 Accepted
+[Thu Sep 25 12:34:52 2025] [::1]:56461 [200]: GET /invoices
+[Thu Sep 25 12:34:52 2025] [::1]:56461 Closing
+[Thu Sep 25 12:34:52 2025] [::1]:56462 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:52 2025] [::1]:56462 Closing
+[Thu Sep 25 12:34:53 2025] [::1]:56467 Accepted
+[Thu Sep 25 12:34:53 2025] [::1]:56467 [200]: GET /invoices
+[Thu Sep 25 12:34:53 2025] [::1]:56467 Closing
+[Thu Sep 25 12:34:53 2025] [::1]:56468 Accepted
+[Thu Sep 25 12:34:53 2025] [::1]:56468 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:53 2025] [::1]:56468 Closing
+[Thu Sep 25 12:34:56 2025] [::1]:56481 Accepted
+[Thu Sep 25 12:34:56 2025] [::1]:56482 Accepted
+[Thu Sep 25 12:34:56 2025] [::1]:56481 [200]: GET /invoices
+[Thu Sep 25 12:34:56 2025] [::1]:56481 Closing
+[Thu Sep 25 12:34:56 2025] [::1]:56482 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:56 2025] [::1]:56482 Closing
+[Thu Sep 25 12:34:56 2025] [::1]:56483 Accepted
+[Thu Sep 25 12:34:56 2025] [::1]:56484 Accepted
+[Thu Sep 25 12:34:56 2025] [::1]:56483 [200]: GET /invoices
+[Thu Sep 25 12:34:56 2025] [::1]:56483 Closing
+[Thu Sep 25 12:34:56 2025] [::1]:56484 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:56 2025] [::1]:56484 Closing
+[Thu Sep 25 12:34:56 2025] [::1]:56485 Accepted
+[Thu Sep 25 12:34:56 2025] [::1]:56486 Accepted
+[Thu Sep 25 12:34:56 2025] [::1]:56485 [200]: GET /invoices
+[Thu Sep 25 12:34:56 2025] [::1]:56485 Closing
+[Thu Sep 25 12:34:56 2025] [::1]:56486 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:56 2025] [::1]:56486 Closing
+[Thu Sep 25 12:34:56 2025] [::1]:56487 Accepted
+[Thu Sep 25 12:34:56 2025] [::1]:56487 [200]: GET /invoices
+[Thu Sep 25 12:34:56 2025] [::1]:56487 Closing
+[Thu Sep 25 12:34:56 2025] [::1]:56488 Accepted
+[Thu Sep 25 12:34:56 2025] [::1]:56488 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:56 2025] [::1]:56488 Closing
+[Thu Sep 25 12:34:57 2025] [::1]:56493 Accepted
+[Thu Sep 25 12:34:57 2025] [::1]:56494 Accepted
+[Thu Sep 25 12:34:57 2025] [::1]:56493 [200]: GET /invoices
+[Thu Sep 25 12:34:57 2025] [::1]:56493 Closing
+[Thu Sep 25 12:34:57 2025] [::1]:56494 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:57 2025] [::1]:56494 Closing
+[Thu Sep 25 12:34:57 2025] [::1]:56495 Accepted
+[Thu Sep 25 12:34:57 2025] [::1]:56496 Accepted
+[Thu Sep 25 12:34:57 2025] [::1]:56495 [200]: GET /invoices
+[Thu Sep 25 12:34:57 2025] [::1]:56495 Closing
+[Thu Sep 25 12:34:57 2025] [::1]:56496 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:57 2025] [::1]:56496 Closing
+[Thu Sep 25 12:34:57 2025] [::1]:56497 Accepted
+[Thu Sep 25 12:34:57 2025] [::1]:56498 Accepted
+[Thu Sep 25 12:34:57 2025] [::1]:56497 [200]: GET /invoices
+[Thu Sep 25 12:34:57 2025] [::1]:56497 Closing
+[Thu Sep 25 12:34:57 2025] [::1]:56498 [204]: GET /favicon.ico
+[Thu Sep 25 12:34:57 2025] [::1]:56498 Closing
+[Thu Sep 25 12:36:12 2025] [::1]:56823 Accepted
+[Thu Sep 25 12:36:12 2025] [::1]:56823 [200]: GET /invoices
+[Thu Sep 25 12:36:12 2025] [::1]:56823 Closing
+[Thu Sep 25 12:36:12 2025] [::1]:56824 Accepted
+[Thu Sep 25 12:36:12 2025] [::1]:56824 [204]: GET /favicon.ico
+[Thu Sep 25 12:36:12 2025] [::1]:56824 Closing
+[Thu Sep 25 12:36:13 2025] [::1]:56829 Accepted
+[Thu Sep 25 12:36:13 2025] [::1]:56830 Accepted
+[Thu Sep 25 12:36:13 2025] [::1]:56829 [200]: GET /invoices
+[Thu Sep 25 12:36:13 2025] [::1]:56829 Closing
+[Thu Sep 25 12:36:13 2025] [::1]:56830 [204]: GET /favicon.ico
+[Thu Sep 25 12:36:13 2025] [::1]:56830 Closing
+[Thu Sep 25 12:36:14 2025] [::1]:56835 Accepted
+[Thu Sep 25 12:36:14 2025] [::1]:56836 Accepted
+[Thu Sep 25 12:36:14 2025] [::1]:56835 [200]: GET /invoices
+[Thu Sep 25 12:36:14 2025] [::1]:56835 Closing
+[Thu Sep 25 12:36:14 2025] [::1]:56836 [204]: GET /favicon.ico
+[Thu Sep 25 12:36:14 2025] [::1]:56836 Closing
+[Thu Sep 25 12:36:15 2025] [::1]:56837 Accepted
+[Thu Sep 25 12:36:15 2025] [::1]:56838 Accepted
+[Thu Sep 25 12:36:15 2025] [::1]:56837 [200]: GET /invoices
+[Thu Sep 25 12:36:15 2025] [::1]:56837 Closing
+[Thu Sep 25 12:36:15 2025] [::1]:56838 [204]: GET /favicon.ico
+[Thu Sep 25 12:36:15 2025] [::1]:56838 Closing
+[Thu Sep 25 12:36:24 2025] [::1]:56880 Accepted
+[Thu Sep 25 12:36:24 2025] [::1]:56881 Accepted
+[Thu Sep 25 12:36:24 2025] [::1]:56880 [302]: GET /invoices/1
+[Thu Sep 25 12:36:24 2025] [::1]:56880 Closing
+[Thu Sep 25 12:36:24 2025] [::1]:56881 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:36:24 2025] [::1]:56881 Closing
+[Thu Sep 25 12:36:24 2025] [::1]:56882 Accepted
+[Thu Sep 25 12:36:24 2025] [::1]:56882 [204]: GET /favicon.ico
+[Thu Sep 25 12:36:24 2025] [::1]:56882 Closing
+[Thu Sep 25 12:36:36 2025] [::1]:56931 Accepted
+[Thu Sep 25 12:36:36 2025] [::1]:56932 Accepted
+[Thu Sep 25 12:36:36 2025] [::1]:56931 [200]: GET /invoices
+[Thu Sep 25 12:36:36 2025] [::1]:56931 Closing
+[Thu Sep 25 12:36:36 2025] [::1]:56932 [204]: GET /favicon.ico
+[Thu Sep 25 12:36:36 2025] [::1]:56932 Closing
+[Thu Sep 25 12:36:48 2025] [::1]:56984 Accepted
+[Thu Sep 25 12:36:48 2025] [::1]:56985 Accepted
+[Thu Sep 25 12:36:48 2025] [::1]:56984 [302]: POST /invoices/1
+[Thu Sep 25 12:36:48 2025] [::1]:56984 Closing
+[Thu Sep 25 12:36:48 2025] [::1]:56985 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:36:48 2025] [::1]:56985 Closing
+[Thu Sep 25 12:36:48 2025] [::1]:56986 Accepted
+[Thu Sep 25 12:36:48 2025] [::1]:56986 [204]: GET /favicon.ico
+[Thu Sep 25 12:36:48 2025] [::1]:56986 Closing
+[Thu Sep 25 12:36:50 2025] [::1]:56995 Accepted
+[Thu Sep 25 12:36:50 2025] [::1]:56995 [200]: GET /invoices
+[Thu Sep 25 12:36:50 2025] [::1]:56995 Closing
+[Thu Sep 25 12:36:50 2025] [::1]:56996 Accepted
+[Thu Sep 25 12:36:50 2025] [::1]:56996 [204]: GET /favicon.ico
+[Thu Sep 25 12:36:50 2025] [::1]:56996 Closing
+[Thu Sep 25 12:36:57 2025] [::1]:57022 Accepted
+[Thu Sep 25 12:36:57 2025] [::1]:57023 Accepted
+[Thu Sep 25 12:36:57 2025] Slim Application Error
+Type: PDOException
+Code: HY000
+Message: SQLSTATE[HY000]: General error: 1 no such column: la.name
+File: /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php
+Line: 38
+Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->prepare('\n            SE...')
+#1 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(68): App\Services\DatabaseManager->execute('\n            SE...', Array)
+#2 /Users/sivann/sbx/itdb2/src/Models/ItemModel.php(130): App\Services\DatabaseManager->fetchAll('\n            SE...', Array)
+#3 /Users/sivann/sbx/itdb2/src/Controllers/ItemController.php(217): App\Models\ItemModel->findWithRelations(1165)
+#4 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ItemController->edit(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#13 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#16 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#18 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#26 {main}
+[Thu Sep 25 12:36:57 2025] [::1]:57022 [500]: GET /items/1165/edit
+[Thu Sep 25 12:36:57 2025] [::1]:57022 Closing
+[Thu Sep 25 12:36:57 2025] [::1]:57023 [204]: GET /favicon.ico
+[Thu Sep 25 12:36:57 2025] [::1]:57023 Closing
+[Thu Sep 25 12:36:58 2025] [::1]:57032 Accepted
+[Thu Sep 25 12:36:58 2025] [::1]:57033 Accepted
+[Thu Sep 25 12:36:58 2025] Slim Application Error
+Type: PDOException
+Code: HY000
+Message: SQLSTATE[HY000]: General error: 1 no such column: la.name
+File: /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php
+Line: 38
+Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->prepare('\n            SE...')
+#1 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(68): App\Services\DatabaseManager->execute('\n            SE...', Array)
+#2 /Users/sivann/sbx/itdb2/src/Models/ItemModel.php(130): App\Services\DatabaseManager->fetchAll('\n            SE...', Array)
+#3 /Users/sivann/sbx/itdb2/src/Controllers/ItemController.php(217): App\Models\ItemModel->findWithRelations(1165)
+#4 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ItemController->edit(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#13 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#16 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#18 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#26 {main}
+[Thu Sep 25 12:36:58 2025] [::1]:57032 [500]: GET /items/1165/edit
+[Thu Sep 25 12:36:58 2025] [::1]:57032 Closing
+[Thu Sep 25 12:36:58 2025] [::1]:57033 [204]: GET /favicon.ico
+[Thu Sep 25 12:36:58 2025] [::1]:57033 Closing
+[Thu Sep 25 12:37:01 2025] [::1]:57044 Accepted
+[Thu Sep 25 12:37:02 2025] [::1]:57044 Closed without sending a request; it was probably just an unused speculative preconnection
+[Thu Sep 25 12:37:02 2025] [::1]:57044 Closing
+[Thu Sep 25 12:37:24 2025] [::1]:57223 Accepted
+[Thu Sep 25 12:37:24 2025] [::1]:57223 [302]: GET /invoices/1
+[Thu Sep 25 12:37:24 2025] [::1]:57223 Closing
+[Thu Sep 25 12:37:24 2025] [::1]:57224 Accepted
+[Thu Sep 25 12:37:24 2025] [::1]:57224 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:37:24 2025] [::1]:57224 Closing
+[Thu Sep 25 12:37:24 2025] [::1]:57225 Accepted
+[Thu Sep 25 12:37:24 2025] [::1]:57225 [204]: GET /favicon.ico
+[Thu Sep 25 12:37:24 2025] [::1]:57225 Closing
+[Thu Sep 25 12:37:55 2025] [::1]:57353 Accepted
+[Thu Sep 25 12:37:55 2025] [::1]:57354 Accepted
+[Thu Sep 25 12:37:55 2025] [::1]:57353 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:37:55 2025] [::1]:57353 Closing
+[Thu Sep 25 12:37:55 2025] [::1]:57354 [204]: GET /favicon.ico
+[Thu Sep 25 12:37:55 2025] [::1]:57354 Closing
+[Thu Sep 25 12:37:55 2025] [::1]:57359 Accepted
+[Thu Sep 25 12:37:55 2025] [::1]:57360 Accepted
+[Thu Sep 25 12:37:55 2025] [::1]:57359 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:37:55 2025] [::1]:57359 Closing
+[Thu Sep 25 12:37:56 2025] [::1]:57360 [204]: GET /favicon.ico
+[Thu Sep 25 12:37:56 2025] [::1]:57360 Closing
+[Thu Sep 25 12:37:56 2025] [::1]:57361 Accepted
+[Thu Sep 25 12:37:56 2025] [::1]:57362 Accepted
+[Thu Sep 25 12:37:56 2025] [::1]:57361 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:37:56 2025] [::1]:57361 Closing
+[Thu Sep 25 12:37:56 2025] [::1]:57362 [204]: GET /favicon.ico
+[Thu Sep 25 12:37:56 2025] [::1]:57362 Closing
+[Thu Sep 25 12:37:57 2025] [::1]:57371 Accepted
+[Thu Sep 25 12:37:57 2025] [::1]:57372 Accepted
+[Thu Sep 25 12:37:57 2025] [::1]:57371 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:37:57 2025] [::1]:57371 Closing
+[Thu Sep 25 12:37:57 2025] [::1]:57372 [204]: GET /favicon.ico
+[Thu Sep 25 12:37:57 2025] [::1]:57372 Closing
+[Thu Sep 25 12:37:58 2025] [::1]:57373 Accepted
+[Thu Sep 25 12:37:58 2025] [::1]:57374 Accepted
+[Thu Sep 25 12:37:58 2025] [::1]:57373 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:37:58 2025] [::1]:57373 Closing
+[Thu Sep 25 12:37:58 2025] [::1]:57374 [204]: GET /favicon.ico
+[Thu Sep 25 12:37:58 2025] [::1]:57374 Closing
+[Thu Sep 25 12:38:02 2025] [::1]:57391 Accepted
+[Thu Sep 25 12:38:02 2025] [::1]:57392 Accepted
+[Thu Sep 25 12:38:02 2025] [::1]:57391 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:38:02 2025] [::1]:57391 Closing
+[Thu Sep 25 12:38:02 2025] [::1]:57392 [204]: GET /favicon.ico
+[Thu Sep 25 12:38:02 2025] [::1]:57392 Closing
+[Thu Sep 25 12:38:03 2025] [::1]:57401 Accepted
+[Thu Sep 25 12:38:03 2025] [::1]:57401 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:38:03 2025] [::1]:57401 Closing
+[Thu Sep 25 12:38:03 2025] [::1]:57402 Accepted
+[Thu Sep 25 12:38:03 2025] [::1]:57402 [204]: GET /favicon.ico
+[Thu Sep 25 12:38:03 2025] [::1]:57402 Closing
+[Thu Sep 25 12:38:15 2025] [::1]:57458 Accepted
+[Thu Sep 25 12:38:16 2025] [::1]:57459 Accepted
+[Thu Sep 25 12:38:16 2025] [::1]:57458 [200]: GET /invoices
+[Thu Sep 25 12:38:16 2025] [::1]:57458 Closing
+[Thu Sep 25 12:38:16 2025] [::1]:57459 [204]: GET /favicon.ico
+[Thu Sep 25 12:38:16 2025] [::1]:57459 Closing
+[Thu Sep 25 12:38:17 2025] [::1]:57468 Accepted
+[Thu Sep 25 12:38:17 2025] [::1]:57469 Accepted
+[Thu Sep 25 12:38:17 2025] [::1]:57468 [200]: GET /invoices
+[Thu Sep 25 12:38:17 2025] [::1]:57468 Closing
+[Thu Sep 25 12:38:17 2025] [::1]:57469 [204]: GET /favicon.ico
+[Thu Sep 25 12:38:17 2025] [::1]:57469 Closing
+[Thu Sep 25 12:38:21 2025] [::1]:57485 Accepted
+[Thu Sep 25 12:38:21 2025] [::1]:57486 Accepted
+[Thu Sep 25 12:38:21 2025] [::1]:57485 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:38:21 2025] [::1]:57485 Closing
+[Thu Sep 25 12:38:21 2025] [::1]:57486 [204]: GET /favicon.ico
+[Thu Sep 25 12:38:21 2025] [::1]:57486 Closing
+[Thu Sep 25 12:38:22 2025] [::1]:57492 Accepted
+[Thu Sep 25 12:38:22 2025] [::1]:57492 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:38:22 2025] [::1]:57492 Closing
+[Thu Sep 25 12:38:22 2025] [::1]:57493 Accepted
+[Thu Sep 25 12:38:22 2025] [::1]:57493 [204]: GET /favicon.ico
+[Thu Sep 25 12:38:22 2025] [::1]:57493 Closing
+[Thu Sep 25 12:38:26 2025] [::1]:57513 Accepted
+[Thu Sep 25 12:38:26 2025] [::1]:57514 Accepted
+[Thu Sep 25 12:38:26 2025] [::1]:57513 [302]: POST /invoices/1
+[Thu Sep 25 12:38:26 2025] [::1]:57513 Closing
+[Thu Sep 25 12:38:26 2025] [::1]:57514 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:38:26 2025] [::1]:57514 Closing
+[Thu Sep 25 12:38:26 2025] [::1]:57515 Accepted
+[Thu Sep 25 12:38:26 2025] [::1]:57515 [204]: GET /favicon.ico
+[Thu Sep 25 12:38:26 2025] [::1]:57515 Closing
+[Thu Sep 25 12:38:27 2025] [::1]:57520 Accepted
+[Thu Sep 25 12:38:27 2025] [::1]:57521 Accepted
+[Thu Sep 25 12:38:27 2025] [::1]:57520 [200]: GET /invoices
+[Thu Sep 25 12:38:27 2025] [::1]:57520 Closing
+[Thu Sep 25 12:38:27 2025] [::1]:57521 [204]: GET /favicon.ico
+[Thu Sep 25 12:38:27 2025] [::1]:57521 Closing
+[Thu Sep 25 12:38:29 2025] [::1]:57530 Accepted
+[Thu Sep 25 12:38:29 2025] [::1]:57530 [200]: GET /invoices
+[Thu Sep 25 12:38:29 2025] [::1]:57530 Closing
+[Thu Sep 25 12:38:29 2025] [::1]:57531 Accepted
+[Thu Sep 25 12:38:29 2025] [::1]:57531 [204]: GET /favicon.ico
+[Thu Sep 25 12:38:29 2025] [::1]:57531 Closing
+[Thu Sep 25 12:39:06 2025] [::1]:57714 Accepted
+[Thu Sep 25 12:39:06 2025] [::1]:57715 Accepted
+[Thu Sep 25 12:39:06 2025] [::1]:57714 [200]: GET /invoices
+[Thu Sep 25 12:39:06 2025] [::1]:57714 Closing
+[Thu Sep 25 12:39:07 2025] [::1]:57715 [204]: GET /favicon.ico
+[Thu Sep 25 12:39:07 2025] [::1]:57715 Closing
+[Thu Sep 25 12:39:30 2025] [::1]:57827 Accepted
+[Thu Sep 25 12:39:30 2025] [::1]:57828 Accepted
+[Thu Sep 25 12:39:30 2025] [::1]:57827 [200]: GET /invoices
+[Thu Sep 25 12:39:30 2025] [::1]:57827 Closing
+[Thu Sep 25 12:39:30 2025] [::1]:57828 [204]: GET /favicon.ico
+[Thu Sep 25 12:39:30 2025] [::1]:57828 Closing
+[Thu Sep 25 12:39:34 2025] [::1]:57848 Accepted
+[Thu Sep 25 12:39:34 2025] [::1]:57848 [302]: GET /invoices/1
+[Thu Sep 25 12:39:34 2025] [::1]:57848 Closing
+[Thu Sep 25 12:39:34 2025] [::1]:57850 Accepted
+[Thu Sep 25 12:39:34 2025] [::1]:57850 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:39:34 2025] [::1]:57850 Closing
+[Thu Sep 25 12:39:34 2025] [::1]:57855 Accepted
+[Thu Sep 25 12:39:34 2025] [::1]:57855 [204]: GET /favicon.ico
+[Thu Sep 25 12:39:34 2025] [::1]:57855 Closing
+[Thu Sep 25 12:41:09 2025] [::1]:58259 Accepted
+[Thu Sep 25 12:41:09 2025] [::1]:58260 Accepted
+[Thu Sep 25 12:41:09 2025] [::1]:58259 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:41:09 2025] [::1]:58259 Closing
+[Thu Sep 25 12:41:09 2025] [::1]:58260 [204]: GET /favicon.ico
+[Thu Sep 25 12:41:09 2025] [::1]:58260 Closing
+[Thu Sep 25 12:41:14 2025] [::1]:58282 Accepted
+[Thu Sep 25 12:41:14 2025] [::1]:58283 Accepted
+[Thu Sep 25 12:41:14 2025] [::1]:58282 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:41:14 2025] [::1]:58282 Closing
+[Thu Sep 25 12:41:14 2025] [::1]:58283 [204]: GET /favicon.ico
+[Thu Sep 25 12:41:14 2025] [::1]:58283 Closing
+[Thu Sep 25 12:41:14 2025] [::1]:58288 Accepted
+[Thu Sep 25 12:41:14 2025] [::1]:58289 Accepted
+[Thu Sep 25 12:41:14 2025] [::1]:58288 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:41:14 2025] [::1]:58288 Closing
+[Thu Sep 25 12:41:14 2025] [::1]:58289 [204]: GET /favicon.ico
+[Thu Sep 25 12:41:14 2025] [::1]:58289 Closing
+[Thu Sep 25 12:41:14 2025] [::1]:58290 Accepted
+[Thu Sep 25 12:41:14 2025] [::1]:58291 Accepted
+[Thu Sep 25 12:41:14 2025] [::1]:58290 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:41:14 2025] [::1]:58290 Closing
+[Thu Sep 25 12:41:14 2025] [::1]:58291 [204]: GET /favicon.ico
+[Thu Sep 25 12:41:14 2025] [::1]:58291 Closing
+[Thu Sep 25 12:41:31 2025] [::1]:58358 Accepted
+[Thu Sep 25 12:41:31 2025] [::1]:58358 [302]: POST /invoices/1
+[Thu Sep 25 12:41:31 2025] [::1]:58358 Closing
+[Thu Sep 25 12:41:31 2025] [::1]:58359 Accepted
+[Thu Sep 25 12:41:31 2025] [::1]:58359 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:41:31 2025] [::1]:58359 Closing
+[Thu Sep 25 12:41:31 2025] [::1]:58364 Accepted
+[Thu Sep 25 12:41:31 2025] [::1]:58364 [204]: GET /favicon.ico
+[Thu Sep 25 12:41:31 2025] [::1]:58364 Closing
+[Thu Sep 25 12:41:33 2025] [::1]:58369 Accepted
+[Thu Sep 25 12:41:33 2025] [::1]:58369 [302]: GET /invoices/1
+[Thu Sep 25 12:41:33 2025] [::1]:58369 Closing
+[Thu Sep 25 12:41:33 2025] [::1]:58374 Accepted
+[Thu Sep 25 12:41:33 2025] [::1]:58374 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:41:33 2025] [::1]:58374 Closing
+[Thu Sep 25 12:41:33 2025] [::1]:58375 Accepted
+[Thu Sep 25 12:41:33 2025] [::1]:58375 [204]: GET /favicon.ico
+[Thu Sep 25 12:41:33 2025] [::1]:58375 Closing
+[Thu Sep 25 12:41:35 2025] [::1]:58384 Accepted
+[Thu Sep 25 12:41:35 2025] [::1]:58385 Accepted
+[Thu Sep 25 12:41:35 2025] [::1]:58384 [200]: GET /invoices
+[Thu Sep 25 12:41:35 2025] [::1]:58384 Closing
+[Thu Sep 25 12:41:35 2025] [::1]:58385 [204]: GET /favicon.ico
+[Thu Sep 25 12:41:35 2025] [::1]:58385 Closing
+[Thu Sep 25 12:41:39 2025] [::1]:58398 Accepted
+[Thu Sep 25 12:41:39 2025] [::1]:58399 Accepted
+[Thu Sep 25 12:41:39 2025] [::1]:58398 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:41:39 2025] [::1]:58398 Closing
+[Thu Sep 25 12:41:39 2025] [::1]:58399 [204]: GET /favicon.ico
+[Thu Sep 25 12:41:39 2025] [::1]:58399 Closing
+[Thu Sep 25 12:41:47 2025] [::1]:58437 Accepted
+[Thu Sep 25 12:41:47 2025] [::1]:58437 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:41:47 2025] [::1]:58437 Closing
+[Thu Sep 25 12:41:47 2025] [::1]:58438 Accepted
+[Thu Sep 25 12:41:47 2025] [::1]:58438 [204]: GET /favicon.ico
+[Thu Sep 25 12:41:47 2025] [::1]:58438 Closing
+[Thu Sep 25 12:41:53 2025] [::1]:58463 Accepted
+[Thu Sep 25 12:41:53 2025] [::1]:58464 Accepted
+[Thu Sep 25 12:41:53 2025] [::1]:58463 [302]: POST /invoices/1
+[Thu Sep 25 12:41:53 2025] [::1]:58463 Closing
+[Thu Sep 25 12:41:53 2025] [::1]:58464 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:41:53 2025] [::1]:58464 Closing
+[Thu Sep 25 12:41:53 2025] [::1]:58465 Accepted
+[Thu Sep 25 12:41:53 2025] [::1]:58465 [204]: GET /favicon.ico
+[Thu Sep 25 12:41:53 2025] [::1]:58465 Closing
+[Thu Sep 25 12:42:25 2025] [::1]:58599 Accepted
+[Thu Sep 25 12:42:25 2025] [::1]:58600 Accepted
+[Thu Sep 25 12:42:25 2025] [::1]:58599 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:42:25 2025] [::1]:58599 Closing
+[Thu Sep 25 12:42:25 2025] [::1]:58600 [204]: GET /favicon.ico
+[Thu Sep 25 12:42:25 2025] [::1]:58600 Closing
+[Thu Sep 25 12:42:29 2025] [::1]:58617 Accepted
+[Thu Sep 25 12:42:29 2025] [::1]:58618 Accepted
+[Thu Sep 25 12:42:29 2025] [::1]:58617 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:42:29 2025] [::1]:58617 Closing
+[Thu Sep 25 12:42:29 2025] [::1]:58618 [204]: GET /favicon.ico
+[Thu Sep 25 12:42:29 2025] [::1]:58618 Closing
+[Thu Sep 25 12:42:30 2025] [::1]:58623 Accepted
+[Thu Sep 25 12:42:30 2025] [::1]:58624 Accepted
+[Thu Sep 25 12:42:30 2025] [::1]:58623 [302]: POST /invoices/1
+[Thu Sep 25 12:42:30 2025] [::1]:58623 Closing
+[Thu Sep 25 12:42:30 2025] [::1]:58624 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:42:30 2025] [::1]:58624 Closing
+[Thu Sep 25 12:42:30 2025] [::1]:58625 Accepted
+[Thu Sep 25 12:42:30 2025] [::1]:58625 [204]: GET /favicon.ico
+[Thu Sep 25 12:42:30 2025] [::1]:58625 Closing
+[Thu Sep 25 12:43:16 2025] [::1]:58821 Accepted
+[Thu Sep 25 12:43:16 2025] [::1]:58822 Accepted
+[Thu Sep 25 12:43:16 2025] [::1]:58821 [200]: GET /agents
+[Thu Sep 25 12:43:16 2025] [::1]:58821 Closing
+[Thu Sep 25 12:43:16 2025] [::1]:58822 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:16 2025] [::1]:58822 Closing
+[Thu Sep 25 12:43:20 2025] [::1]:58839 Accepted
+[Thu Sep 25 12:43:20 2025] [::1]:58840 Accepted
+[Thu Sep 25 12:43:20 2025] [::1]:58839 [200]: GET /agents?search=&type=8
+[Thu Sep 25 12:43:20 2025] [::1]:58839 Closing
+[Thu Sep 25 12:43:20 2025] [::1]:58840 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:20 2025] [::1]:58840 Closing
+[Thu Sep 25 12:43:22 2025] [::1]:58849 Accepted
+[Thu Sep 25 12:43:22 2025] [::1]:58850 Accepted
+[Thu Sep 25 12:43:22 2025] [::1]:58849 [200]: GET /agents/37/edit
+[Thu Sep 25 12:43:22 2025] [::1]:58849 Closing
+[Thu Sep 25 12:43:22 2025] [::1]:58850 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:22 2025] [::1]:58850 Closing
+[Thu Sep 25 12:43:25 2025] [::1]:58868 Accepted
+[Thu Sep 25 12:43:26 2025] [::1]:58868 [200]: GET /agents
+[Thu Sep 25 12:43:26 2025] [::1]:58868 Closing
+[Thu Sep 25 12:43:26 2025] [::1]:58869 Accepted
+[Thu Sep 25 12:43:26 2025] [::1]:58869 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:26 2025] [::1]:58869 Closing
+[Thu Sep 25 12:43:28 2025] [::1]:58878 Accepted
+[Thu Sep 25 12:43:28 2025] [::1]:58878 [200]: GET /agents?search=inaccess&type=
+[Thu Sep 25 12:43:28 2025] [::1]:58878 Closing
+[Thu Sep 25 12:43:28 2025] [::1]:58879 Accepted
+[Thu Sep 25 12:43:28 2025] [::1]:58879 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:28 2025] [::1]:58879 Closing
+[Thu Sep 25 12:43:32 2025] [::1]:58896 Accepted
+[Thu Sep 25 12:43:32 2025] [::1]:58897 Accepted
+[Thu Sep 25 12:43:32 2025] [::1]:58896 [200]: GET /agents?search=ian&type=
+[Thu Sep 25 12:43:32 2025] [::1]:58896 Closing
+[Thu Sep 25 12:43:32 2025] [::1]:58897 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:32 2025] [::1]:58897 Closing
+[Thu Sep 25 12:43:37 2025] [::1]:58918 Accepted
+[Thu Sep 25 12:43:37 2025] [::1]:58918 [200]: GET /agents?search=ina&type=
+[Thu Sep 25 12:43:37 2025] [::1]:58918 Closing
+[Thu Sep 25 12:43:37 2025] [::1]:58919 Accepted
+[Thu Sep 25 12:43:37 2025] [::1]:58919 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:37 2025] [::1]:58919 Closing
+[Thu Sep 25 12:43:40 2025] [::1]:58936 Accepted
+[Thu Sep 25 12:43:40 2025] [::1]:58937 Accepted
+[Thu Sep 25 12:43:41 2025] [::1]:58936 [200]: GET /agents?search=power&type=
+[Thu Sep 25 12:43:41 2025] [::1]:58936 Closing
+[Thu Sep 25 12:43:41 2025] [::1]:58937 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:41 2025] [::1]:58937 Closing
+[Thu Sep 25 12:43:44 2025] [::1]:58950 Accepted
+[Thu Sep 25 12:43:44 2025] [::1]:58951 Accepted
+[Thu Sep 25 12:43:44 2025] [::1]:58950 [200]: GET /agents?search=ina&type=
+[Thu Sep 25 12:43:44 2025] [::1]:58950 Closing
+[Thu Sep 25 12:43:44 2025] [::1]:58951 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:44 2025] [::1]:58951 Closing
+[Thu Sep 25 12:43:47 2025] [::1]:58965 Accepted
+[Thu Sep 25 12:43:47 2025] [::1]:58966 Accepted
+[Thu Sep 25 12:43:47 2025] [::1]:58965 [200]: GET /agents
+[Thu Sep 25 12:43:47 2025] [::1]:58965 Closing
+[Thu Sep 25 12:43:47 2025] [::1]:58966 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:47 2025] [::1]:58966 Closing
+[Thu Sep 25 12:43:49 2025] [::1]:58975 Accepted
+[Thu Sep 25 12:43:49 2025] [::1]:58975 [200]: GET /agents/37/edit
+[Thu Sep 25 12:43:49 2025] [::1]:58975 Closing
+[Thu Sep 25 12:43:49 2025] [::1]:58976 Accepted
+[Thu Sep 25 12:43:49 2025] [::1]:58976 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:49 2025] [::1]:58976 Closing
+[Thu Sep 25 12:43:54 2025] [::1]:58997 Accepted
+[Thu Sep 25 12:43:54 2025] [::1]:58998 Accepted
+[Thu Sep 25 12:43:54 2025] [::1]:58997 [302]: POST /agents/37
+[Thu Sep 25 12:43:54 2025] [::1]:58997 Closing
+[Thu Sep 25 12:43:54 2025] [::1]:58998 [200]: GET /agents/37
+[Thu Sep 25 12:43:54 2025] [::1]:58998 Closing
+[Thu Sep 25 12:43:54 2025] [::1]:58999 Accepted
+[Thu Sep 25 12:43:54 2025] [::1]:58999 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:54 2025] [::1]:58999 Closing
+[Thu Sep 25 12:43:57 2025] [::1]:59012 Accepted
+[Thu Sep 25 12:43:58 2025] [::1]:59012 [200]: GET /agents/37/edit
+[Thu Sep 25 12:43:58 2025] [::1]:59012 Closing
+[Thu Sep 25 12:43:58 2025] [::1]:59017 Accepted
+[Thu Sep 25 12:43:58 2025] [::1]:59017 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:58 2025] [::1]:59017 Closing
+[Thu Sep 25 12:43:59 2025] [::1]:59022 Accepted
+[Thu Sep 25 12:43:59 2025] [::1]:59022 [200]: GET /agents
+[Thu Sep 25 12:43:59 2025] [::1]:59022 Closing
+[Thu Sep 25 12:43:59 2025] [::1]:59023 Accepted
+[Thu Sep 25 12:43:59 2025] [::1]:59023 [204]: GET /favicon.ico
+[Thu Sep 25 12:43:59 2025] [::1]:59023 Closing
+[Thu Sep 25 12:44:02 2025] [::1]:59036 Accepted
+[Thu Sep 25 12:44:02 2025] [::1]:59036 [200]: GET /agents/37/edit
+[Thu Sep 25 12:44:02 2025] [::1]:59036 Closing
+[Thu Sep 25 12:44:02 2025] [::1]:59037 Accepted
+[Thu Sep 25 12:44:02 2025] [::1]:59037 [204]: GET /favicon.ico
+[Thu Sep 25 12:44:02 2025] [::1]:59037 Closing
+[Thu Sep 25 12:44:04 2025] [::1]:59046 Accepted
+[Thu Sep 25 12:44:04 2025] [::1]:59046 [200]: GET /agents
+[Thu Sep 25 12:44:04 2025] [::1]:59046 Closing
+[Thu Sep 25 12:44:04 2025] [::1]:59047 Accepted
+[Thu Sep 25 12:44:04 2025] [::1]:59047 [204]: GET /favicon.ico
+[Thu Sep 25 12:44:04 2025] [::1]:59047 Closing
+[Thu Sep 25 12:47:59 2025] [::1]:60062 Accepted
+[Thu Sep 25 12:47:59 2025] [::1]:60063 Accepted
+[Thu Sep 25 12:47:59 2025] [::1]:60062 [200]: GET /invoices
+[Thu Sep 25 12:47:59 2025] [::1]:60062 Closing
+[Thu Sep 25 12:47:59 2025] [::1]:60063 [204]: GET /favicon.ico
+[Thu Sep 25 12:47:59 2025] [::1]:60063 Closing
+[Thu Sep 25 12:47:59 2025] [::1]:60064 Accepted
+[Thu Sep 25 12:47:59 2025] [::1]:60065 Accepted
+[Thu Sep 25 12:47:59 2025] [::1]:60064 [200]: GET /invoices
+[Thu Sep 25 12:47:59 2025] [::1]:60064 Closing
+[Thu Sep 25 12:47:59 2025] [::1]:60065 [204]: GET /favicon.ico
+[Thu Sep 25 12:47:59 2025] [::1]:60065 Closing
+[Thu Sep 25 12:47:59 2025] [::1]:60070 Accepted
+[Thu Sep 25 12:47:59 2025] [::1]:60071 Accepted
+[Thu Sep 25 12:48:00 2025] [::1]:60070 [200]: GET /invoices
+[Thu Sep 25 12:48:00 2025] [::1]:60070 Closing
+[Thu Sep 25 12:48:00 2025] [::1]:60071 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:00 2025] [::1]:60071 Closing
+[Thu Sep 25 12:48:00 2025] [::1]:60072 Accepted
+[Thu Sep 25 12:48:00 2025] [::1]:60073 Accepted
+[Thu Sep 25 12:48:00 2025] [::1]:60072 [200]: GET /invoices
+[Thu Sep 25 12:48:00 2025] [::1]:60072 Closing
+[Thu Sep 25 12:48:00 2025] [::1]:60073 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:00 2025] [::1]:60073 Closing
+[Thu Sep 25 12:48:01 2025] [::1]:60078 Accepted
+[Thu Sep 25 12:48:01 2025] [::1]:60079 Accepted
+[Thu Sep 25 12:48:01 2025] [::1]:60078 [200]: GET /invoices
+[Thu Sep 25 12:48:01 2025] [::1]:60078 Closing
+[Thu Sep 25 12:48:01 2025] [::1]:60079 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:01 2025] [::1]:60079 Closing
+[Thu Sep 25 12:48:01 2025] [::1]:60080 Accepted
+[Thu Sep 25 12:48:01 2025] [::1]:60081 Accepted
+[Thu Sep 25 12:48:01 2025] [::1]:60080 [200]: GET /invoices
+[Thu Sep 25 12:48:01 2025] [::1]:60080 Closing
+[Thu Sep 25 12:48:01 2025] [::1]:60081 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:01 2025] [::1]:60081 Closing
+[Thu Sep 25 12:48:01 2025] [::1]:60086 Accepted
+[Thu Sep 25 12:48:01 2025] [::1]:60087 Accepted
+[Thu Sep 25 12:48:01 2025] [::1]:60086 [200]: GET /invoices
+[Thu Sep 25 12:48:01 2025] [::1]:60086 Closing
+[Thu Sep 25 12:48:01 2025] [::1]:60087 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:01 2025] [::1]:60087 Closing
+[Thu Sep 25 12:48:02 2025] [::1]:60088 Accepted
+[Thu Sep 25 12:48:02 2025] [::1]:60089 Accepted
+[Thu Sep 25 12:48:02 2025] [::1]:60088 [200]: GET /invoices
+[Thu Sep 25 12:48:02 2025] [::1]:60088 Closing
+[Thu Sep 25 12:48:02 2025] [::1]:60089 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:02 2025] [::1]:60089 Closing
+[Thu Sep 25 12:48:02 2025] [::1]:60090 Accepted
+[Thu Sep 25 12:48:02 2025] [::1]:60091 Accepted
+[Thu Sep 25 12:48:02 2025] [::1]:60090 [200]: GET /invoices
+[Thu Sep 25 12:48:02 2025] [::1]:60090 Closing
+[Thu Sep 25 12:48:02 2025] [::1]:60091 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:02 2025] [::1]:60091 Closing
+[Thu Sep 25 12:48:02 2025] [::1]:60092 Accepted
+[Thu Sep 25 12:48:02 2025] [::1]:60093 Accepted
+[Thu Sep 25 12:48:02 2025] [::1]:60092 [200]: GET /invoices
+[Thu Sep 25 12:48:02 2025] [::1]:60092 Closing
+[Thu Sep 25 12:48:02 2025] [::1]:60093 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:02 2025] [::1]:60093 Closing
+[Thu Sep 25 12:48:02 2025] [::1]:60094 Accepted
+[Thu Sep 25 12:48:02 2025] [::1]:60094 [200]: GET /invoices
+[Thu Sep 25 12:48:02 2025] [::1]:60094 Closing
+[Thu Sep 25 12:48:02 2025] [::1]:60095 Accepted
+[Thu Sep 25 12:48:02 2025] [::1]:60095 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:02 2025] [::1]:60095 Closing
+[Thu Sep 25 12:48:02 2025] [::1]:60096 Accepted
+[Thu Sep 25 12:48:02 2025] [::1]:60097 Accepted
+[Thu Sep 25 12:48:02 2025] [::1]:60096 [200]: GET /invoices
+[Thu Sep 25 12:48:02 2025] [::1]:60096 Closing
+[Thu Sep 25 12:48:02 2025] [::1]:60097 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:02 2025] [::1]:60097 Closing
+[Thu Sep 25 12:48:10 2025] [::1]:60137 Accepted
+[Thu Sep 25 12:48:10 2025] [::1]:60137 [200]: GET /invoices
+[Thu Sep 25 12:48:10 2025] [::1]:60137 Closing
+[Thu Sep 25 12:48:10 2025] [::1]:60138 Accepted
+[Thu Sep 25 12:48:10 2025] [::1]:60138 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:10 2025] [::1]:60138 Closing
+[Thu Sep 25 12:48:12 2025] [::1]:60147 Accepted
+[Thu Sep 25 12:48:12 2025] [::1]:60147 [302]: GET /invoices/1
+[Thu Sep 25 12:48:12 2025] [::1]:60147 Closing
+[Thu Sep 25 12:48:12 2025] [::1]:60148 Accepted
+[Thu Sep 25 12:48:12 2025] [::1]:60148 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:48:12 2025] [::1]:60148 Closing
+[Thu Sep 25 12:48:12 2025] [::1]:60149 Accepted
+[Thu Sep 25 12:48:12 2025] [::1]:60149 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:12 2025] [::1]:60149 Closing
+[Thu Sep 25 12:48:24 2025] [::1]:60197 Accepted
+[Thu Sep 25 12:48:24 2025] [::1]:60197 [200]: GET /agents
+[Thu Sep 25 12:48:24 2025] [::1]:60197 Closing
+[Thu Sep 25 12:48:24 2025] [::1]:60202 Accepted
+[Thu Sep 25 12:48:24 2025] [::1]:60202 [204]: GET /favicon.ico
+[Thu Sep 25 12:48:24 2025] [::1]:60202 Closing
+[Thu Sep 25 12:49:41 2025] [::1]:60540 Accepted
+[Thu Sep 25 12:49:41 2025] [::1]:60541 Accepted
+[Thu Sep 25 12:49:41 2025] [::1]:60540 [200]: GET /invoices
+[Thu Sep 25 12:49:41 2025] [::1]:60540 Closing
+[Thu Sep 25 12:49:41 2025] [::1]:60541 [204]: GET /favicon.ico
+[Thu Sep 25 12:49:41 2025] [::1]:60541 Closing
+[Thu Sep 25 12:49:42 2025] [::1]:60546 Accepted
+[Thu Sep 25 12:49:42 2025] [::1]:60546 [302]: GET /invoices/1
+[Thu Sep 25 12:49:42 2025] [::1]:60546 Closing
+[Thu Sep 25 12:49:42 2025] [::1]:60547 Accepted
+[Thu Sep 25 12:49:42 2025] [::1]:60547 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:49:42 2025] [::1]:60547 Closing
+[Thu Sep 25 12:49:42 2025] [::1]:60548 Accepted
+[Thu Sep 25 12:49:42 2025] [::1]:60548 [204]: GET /favicon.ico
+[Thu Sep 25 12:49:42 2025] [::1]:60548 Closing
+[Thu Sep 25 12:53:47 2025] [::1]:61622 Accepted
+[Thu Sep 25 12:53:47 2025] [::1]:61623 Accepted
+[Thu Sep 25 12:53:47 2025] [::1]:61622 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:53:47 2025] [::1]:61622 Closing
+[Thu Sep 25 12:53:48 2025] [::1]:61623 [204]: GET /favicon.ico
+[Thu Sep 25 12:53:48 2025] [::1]:61623 Closing
+[Thu Sep 25 12:53:48 2025] [::1]:61628 Accepted
+[Thu Sep 25 12:53:48 2025] [::1]:61629 Accepted
+[Thu Sep 25 12:53:48 2025] [::1]:61628 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:53:48 2025] [::1]:61628 Closing
+[Thu Sep 25 12:53:48 2025] [::1]:61629 [204]: GET /favicon.ico
+[Thu Sep 25 12:53:48 2025] [::1]:61629 Closing
+[Thu Sep 25 12:53:57 2025] [::1]:61668 Accepted
+[Thu Sep 25 12:53:58 2025] [::1]:61668 [200]: GET /agents
+[Thu Sep 25 12:53:58 2025] [::1]:61668 Closing
+[Thu Sep 25 12:53:58 2025] [::1]:61669 Accepted
+[Thu Sep 25 12:53:58 2025] [::1]:61669 [204]: GET /favicon.ico
+[Thu Sep 25 12:53:58 2025] [::1]:61669 Closing
+[Thu Sep 25 12:54:02 2025] [::1]:61686 Accepted
+[Thu Sep 25 12:54:02 2025] [::1]:61686 [200]: GET /agents/37/edit
+[Thu Sep 25 12:54:02 2025] [::1]:61686 Closing
+[Thu Sep 25 12:54:02 2025] [::1]:61687 Accepted
+[Thu Sep 25 12:54:02 2025] [::1]:61687 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:02 2025] [::1]:61687 Closing
+[Thu Sep 25 12:54:04 2025] [::1]:61700 Accepted
+[Thu Sep 25 12:54:04 2025] [::1]:61701 Accepted
+[Thu Sep 25 12:54:04 2025] [::1]:61700 [302]: POST /agents/37
+[Thu Sep 25 12:54:04 2025] [::1]:61700 Closing
+[Thu Sep 25 12:54:04 2025] [::1]:61701 [200]: GET /agents/37
+[Thu Sep 25 12:54:04 2025] [::1]:61701 Closing
+[Thu Sep 25 12:54:04 2025] [::1]:61702 Accepted
+[Thu Sep 25 12:54:04 2025] [::1]:61702 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:04 2025] [::1]:61702 Closing
+[Thu Sep 25 12:54:09 2025] [::1]:61725 Accepted
+[Thu Sep 25 12:54:09 2025] [::1]:61726 Accepted
+[Thu Sep 25 12:54:09 2025] [::1]:61725 [200]: GET /agents/37/edit
+[Thu Sep 25 12:54:09 2025] [::1]:61725 Closing
+[Thu Sep 25 12:54:09 2025] [::1]:61726 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:09 2025] [::1]:61726 Closing
+[Thu Sep 25 12:54:11 2025] [::1]:61735 Accepted
+[Thu Sep 25 12:54:11 2025] [::1]:61735 [200]: GET /agents
+[Thu Sep 25 12:54:11 2025] [::1]:61735 Closing
+[Thu Sep 25 12:54:11 2025] [::1]:61736 Accepted
+[Thu Sep 25 12:54:11 2025] [::1]:61736 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:11 2025] [::1]:61736 Closing
+[Thu Sep 25 12:54:13 2025] [::1]:61749 Accepted
+[Thu Sep 25 12:54:13 2025] [::1]:61749 [200]: GET /agents/16/edit
+[Thu Sep 25 12:54:13 2025] [::1]:61749 Closing
+[Thu Sep 25 12:54:13 2025] [::1]:61750 Accepted
+[Thu Sep 25 12:54:13 2025] [::1]:61750 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:13 2025] [::1]:61750 Closing
+[Thu Sep 25 12:54:17 2025] [::1]:61767 Accepted
+[Thu Sep 25 12:54:17 2025] [::1]:61768 Accepted
+[Thu Sep 25 12:54:17 2025] [::1]:61767 [302]: POST /agents/16
+[Thu Sep 25 12:54:17 2025] [::1]:61767 Closing
+[Thu Sep 25 12:54:17 2025] [::1]:61768 [200]: GET /agents/16
+[Thu Sep 25 12:54:17 2025] [::1]:61768 Closing
+[Thu Sep 25 12:54:17 2025] [::1]:61769 Accepted
+[Thu Sep 25 12:54:17 2025] [::1]:61769 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:17 2025] [::1]:61769 Closing
+[Thu Sep 25 12:54:19 2025] [::1]:61778 Accepted
+[Thu Sep 25 12:54:19 2025] [::1]:61778 [200]: GET /agents
+[Thu Sep 25 12:54:19 2025] [::1]:61778 Closing
+[Thu Sep 25 12:54:19 2025] [::1]:61779 Accepted
+[Thu Sep 25 12:54:19 2025] [::1]:61779 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:19 2025] [::1]:61779 Closing
+[Thu Sep 25 12:54:26 2025] [::1]:61809 Accepted
+[Thu Sep 25 12:54:27 2025] [::1]:61809 [200]: GET /agents/55/edit
+[Thu Sep 25 12:54:27 2025] [::1]:61809 Closing
+[Thu Sep 25 12:54:27 2025] [::1]:61810 Accepted
+[Thu Sep 25 12:54:27 2025] [::1]:61810 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:27 2025] [::1]:61810 Closing
+[Thu Sep 25 12:54:30 2025] [::1]:61828 Accepted
+[Thu Sep 25 12:54:30 2025] [::1]:61829 Accepted
+[Thu Sep 25 12:54:30 2025] [::1]:61828 [302]: POST /agents/55
+[Thu Sep 25 12:54:30 2025] [::1]:61828 Closing
+[Thu Sep 25 12:54:30 2025] [::1]:61829 [200]: GET /agents/55
+[Thu Sep 25 12:54:30 2025] [::1]:61829 Closing
+[Thu Sep 25 12:54:31 2025] [::1]:61830 Accepted
+[Thu Sep 25 12:54:31 2025] [::1]:61830 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:31 2025] [::1]:61830 Closing
+[Thu Sep 25 12:54:33 2025] [::1]:61843 Accepted
+[Thu Sep 25 12:54:34 2025] [::1]:61844 Accepted
+[Thu Sep 25 12:54:34 2025] [::1]:61843 [200]: GET /agents
+[Thu Sep 25 12:54:34 2025] [::1]:61843 Closing
+[Thu Sep 25 12:54:34 2025] [::1]:61844 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:34 2025] [::1]:61844 Closing
+[Thu Sep 25 12:54:36 2025] [::1]:61854 Accepted
+[Thu Sep 25 12:54:36 2025] [::1]:61859 Accepted
+[Thu Sep 25 12:54:36 2025] [::1]:61854 [200]: GET /agents?page=3
+[Thu Sep 25 12:54:36 2025] [::1]:61854 Closing
+[Thu Sep 25 12:54:36 2025] [::1]:61859 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:36 2025] [::1]:61859 Closing
+[Thu Sep 25 12:54:38 2025] [::1]:61864 Accepted
+[Thu Sep 25 12:54:38 2025] [::1]:61864 [200]: GET /agents/5/edit
+[Thu Sep 25 12:54:38 2025] [::1]:61864 Closing
+[Thu Sep 25 12:54:38 2025] [::1]:61865 Accepted
+[Thu Sep 25 12:54:38 2025] [::1]:61865 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:38 2025] [::1]:61865 Closing
+[Thu Sep 25 12:54:40 2025] [::1]:61878 Accepted
+[Thu Sep 25 12:54:40 2025] [::1]:61879 Accepted
+[Thu Sep 25 12:54:40 2025] [::1]:61878 [302]: POST /agents/5
+[Thu Sep 25 12:54:40 2025] [::1]:61878 Closing
+[Thu Sep 25 12:54:41 2025] [::1]:61879 [200]: GET /agents/5
+[Thu Sep 25 12:54:41 2025] [::1]:61879 Closing
+[Thu Sep 25 12:54:41 2025] [::1]:61880 Accepted
+[Thu Sep 25 12:54:41 2025] [::1]:61880 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:41 2025] [::1]:61880 Closing
+[Thu Sep 25 12:54:42 2025] [::1]:61889 Accepted
+[Thu Sep 25 12:54:42 2025] [::1]:61889 [200]: GET /agents
+[Thu Sep 25 12:54:42 2025] [::1]:61889 Closing
+[Thu Sep 25 12:54:42 2025] [::1]:61890 Accepted
+[Thu Sep 25 12:54:42 2025] [::1]:61890 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:42 2025] [::1]:61890 Closing
+[Thu Sep 25 12:54:48 2025] [::1]:61915 Accepted
+[Thu Sep 25 12:54:48 2025] [::1]:61916 Accepted
+[Thu Sep 25 12:54:48 2025] [::1]:61915 [200]: GET /agents?search=ibm&type=
+[Thu Sep 25 12:54:48 2025] [::1]:61915 Closing
+[Thu Sep 25 12:54:49 2025] [::1]:61916 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:49 2025] [::1]:61916 Closing
+[Thu Sep 25 12:54:50 2025] [::1]:61925 Accepted
+[Thu Sep 25 12:54:50 2025] [::1]:61926 Accepted
+[Thu Sep 25 12:54:50 2025] [::1]:61925 [200]: GET /agents/1/edit
+[Thu Sep 25 12:54:50 2025] [::1]:61925 Closing
+[Thu Sep 25 12:54:51 2025] [::1]:61926 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:51 2025] [::1]:61926 Closing
+[Thu Sep 25 12:54:57 2025] [::1]:61957 Accepted
+[Thu Sep 25 12:54:57 2025] [::1]:61958 Accepted
+[Thu Sep 25 12:54:57 2025] [::1]:61957 [302]: POST /agents/1
+[Thu Sep 25 12:54:57 2025] [::1]:61957 Closing
+[Thu Sep 25 12:54:57 2025] [::1]:61958 [200]: GET /agents/1
+[Thu Sep 25 12:54:57 2025] [::1]:61958 Closing
+[Thu Sep 25 12:54:57 2025] [::1]:61959 Accepted
+[Thu Sep 25 12:54:57 2025] [::1]:61959 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:57 2025] [::1]:61959 Closing
+[Thu Sep 25 12:54:58 2025] [::1]:61965 Accepted
+[Thu Sep 25 12:54:59 2025] [::1]:61965 [200]: GET /agents
+[Thu Sep 25 12:54:59 2025] [::1]:61965 Closing
+[Thu Sep 25 12:54:59 2025] [::1]:61966 Accepted
+[Thu Sep 25 12:54:59 2025] [::1]:61966 [204]: GET /favicon.ico
+[Thu Sep 25 12:54:59 2025] [::1]:61966 Closing
+[Thu Sep 25 12:55:00 2025] [::1]:61971 Accepted
+[Thu Sep 25 12:55:00 2025] [::1]:61972 Accepted
+[Thu Sep 25 12:55:00 2025] [::1]:61971 [200]: GET /agents/create
+[Thu Sep 25 12:55:00 2025] [::1]:61971 Closing
+[Thu Sep 25 12:55:00 2025] [::1]:61972 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:00 2025] [::1]:61972 Closing
+[Thu Sep 25 12:55:06 2025] [::1]:62007 Accepted
+[Thu Sep 25 12:55:06 2025] [::1]:62008 Accepted
+[Thu Sep 25 12:55:06 2025] [::1]:62007 [302]: POST /agents
+[Thu Sep 25 12:55:06 2025] [::1]:62007 Closing
+[Thu Sep 25 12:55:06 2025] [::1]:62008 [200]: GET /agents/70/edit
+[Thu Sep 25 12:55:06 2025] [::1]:62008 Closing
+[Thu Sep 25 12:55:06 2025] [::1]:62009 Accepted
+[Thu Sep 25 12:55:06 2025] [::1]:62009 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:06 2025] [::1]:62009 Closing
+[Thu Sep 25 12:55:09 2025] [::1]:62025 Accepted
+[Thu Sep 25 12:55:09 2025] [::1]:62025 [200]: GET /agents
+[Thu Sep 25 12:55:09 2025] [::1]:62025 Closing
+[Thu Sep 25 12:55:09 2025] [::1]:62026 Accepted
+[Thu Sep 25 12:55:09 2025] [::1]:62026 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:09 2025] [::1]:62026 Closing
+[Thu Sep 25 12:55:12 2025] [::1]:62039 Accepted
+[Thu Sep 25 12:55:13 2025] [::1]:62039 [200]: GET /invoices
+[Thu Sep 25 12:55:13 2025] [::1]:62039 Closing
+[Thu Sep 25 12:55:13 2025] [::1]:62040 Accepted
+[Thu Sep 25 12:55:13 2025] [::1]:62040 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:13 2025] [::1]:62040 Closing
+[Thu Sep 25 12:55:14 2025] [::1]:62049 Accepted
+[Thu Sep 25 12:55:14 2025] [::1]:62049 [302]: GET /invoices/1
+[Thu Sep 25 12:55:14 2025] [::1]:62049 Closing
+[Thu Sep 25 12:55:14 2025] [::1]:62050 Accepted
+[Thu Sep 25 12:55:14 2025] [::1]:62050 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:55:14 2025] [::1]:62050 Closing
+[Thu Sep 25 12:55:14 2025] [::1]:62051 Accepted
+[Thu Sep 25 12:55:14 2025] [::1]:62051 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:14 2025] [::1]:62051 Closing
+[Thu Sep 25 12:55:17 2025] [::1]:62064 Accepted
+[Thu Sep 25 12:55:17 2025] [::1]:62065 Accepted
+[Thu Sep 25 12:55:17 2025] [::1]:62064 [302]: POST /invoices/1
+[Thu Sep 25 12:55:17 2025] [::1]:62064 Closing
+[Thu Sep 25 12:55:17 2025] [::1]:62065 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:55:17 2025] [::1]:62065 Closing
+[Thu Sep 25 12:55:17 2025] [::1]:62066 Accepted
+[Thu Sep 25 12:55:17 2025] [::1]:62066 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:17 2025] [::1]:62066 Closing
+[Thu Sep 25 12:55:19 2025] [::1]:62075 Accepted
+[Thu Sep 25 12:55:19 2025] [::1]:62076 Accepted
+[Thu Sep 25 12:55:19 2025] [::1]:62075 [200]: GET /invoices
+[Thu Sep 25 12:55:19 2025] [::1]:62075 Closing
+[Thu Sep 25 12:55:19 2025] [::1]:62076 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:19 2025] [::1]:62076 Closing
+[Thu Sep 25 12:55:21 2025] [::1]:62085 Accepted
+[Thu Sep 25 12:55:21 2025] [::1]:62085 [302]: GET /invoices/1
+[Thu Sep 25 12:55:21 2025] [::1]:62085 Closing
+[Thu Sep 25 12:55:21 2025] [::1]:62086 Accepted
+[Thu Sep 25 12:55:21 2025] [::1]:62086 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:55:21 2025] [::1]:62086 Closing
+[Thu Sep 25 12:55:21 2025] [::1]:62087 Accepted
+[Thu Sep 25 12:55:21 2025] [::1]:62087 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:21 2025] [::1]:62087 Closing
+[Thu Sep 25 12:55:22 2025] [::1]:62089 Accepted
+[Thu Sep 25 12:55:22 2025] [::1]:62089 [302]: GET /invoices/1
+[Thu Sep 25 12:55:22 2025] [::1]:62089 Closing
+[Thu Sep 25 12:55:22 2025] [::1]:62093 Accepted
+[Thu Sep 25 12:55:22 2025] [::1]:62093 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:55:22 2025] [::1]:62093 Closing
+[Thu Sep 25 12:55:22 2025] [::1]:62094 Accepted
+[Thu Sep 25 12:55:22 2025] [::1]:62094 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:22 2025] [::1]:62094 Closing
+[Thu Sep 25 12:55:23 2025] [::1]:62095 Accepted
+[Thu Sep 25 12:55:23 2025] [::1]:62095 [302]: GET /invoices/1
+[Thu Sep 25 12:55:23 2025] [::1]:62095 Closing
+[Thu Sep 25 12:55:23 2025] [::1]:62096 Accepted
+[Thu Sep 25 12:55:23 2025] [::1]:62096 [200]: GET /invoices/1/edit
+[Thu Sep 25 12:55:23 2025] [::1]:62096 Closing
+[Thu Sep 25 12:55:23 2025] [::1]:62097 Accepted
+[Thu Sep 25 12:55:23 2025] [::1]:62097 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:23 2025] [::1]:62097 Closing
+[Thu Sep 25 12:55:23 2025] [::1]:62102 Accepted
+[Thu Sep 25 12:55:23 2025] [::1]:62102 [200]: GET /invoices
+[Thu Sep 25 12:55:23 2025] [::1]:62102 Closing
+[Thu Sep 25 12:55:23 2025] [::1]:62103 Accepted
+[Thu Sep 25 12:55:23 2025] [::1]:62103 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:23 2025] [::1]:62103 Closing
+[Thu Sep 25 12:55:33 2025] [::1]:62142 Accepted
+[Thu Sep 25 12:55:33 2025] [::1]:62142 [200]: GET /software
+[Thu Sep 25 12:55:33 2025] [::1]:62142 Closing
+[Thu Sep 25 12:55:33 2025] [::1]:62143 Accepted
+[Thu Sep 25 12:55:33 2025] [::1]:62143 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:33 2025] [::1]:62143 Closing
+[Thu Sep 25 12:55:34 2025] [::1]:62148 Accepted
+[Thu Sep 25 12:55:34 2025] [::1]:62148 [302]: GET /software/52
+[Thu Sep 25 12:55:34 2025] [::1]:62148 Closing
+[Thu Sep 25 12:55:34 2025] [::1]:62149 Accepted
+[Thu Sep 25 12:55:34 2025] [::1]:62149 [200]: GET /software/52/edit
+[Thu Sep 25 12:55:34 2025] [::1]:62149 Closing
+[Thu Sep 25 12:55:34 2025] [::1]:62154 Accepted
+[Thu Sep 25 12:55:34 2025] [::1]:62154 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:34 2025] [::1]:62154 Closing
+[Thu Sep 25 12:55:35 2025] [::1]:62159 Accepted
+[Thu Sep 25 12:55:35 2025] [::1]:62159 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:35 2025] [::1]:62159 Closing
+[Thu Sep 25 12:55:37 2025] [::1]:62168 Accepted
+[Thu Sep 25 12:55:37 2025] [::1]:62168 [200]: GET /invoices/search?exclude_software=52
+[Thu Sep 25 12:55:37 2025] [::1]:62168 Closing
+[Thu Sep 25 12:55:41 2025] [::1]:62181 Accepted
+[Thu Sep 25 12:55:41 2025] [::1]:62181 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:41 2025] [::1]:62181 Closing
+[Thu Sep 25 12:55:41 2025] [::1]:62186 Accepted
+[Thu Sep 25 12:55:42 2025] [::1]:62187 Accepted
+[Thu Sep 25 12:55:42 2025] [::1]:62186 [200]: GET /software
+[Thu Sep 25 12:55:42 2025] [::1]:62186 Closing
+[Thu Sep 25 12:55:42 2025] [::1]:62187 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:42 2025] [::1]:62187 Closing
+[Thu Sep 25 12:55:43 2025] [::1]:62192 Accepted
+[Thu Sep 25 12:55:43 2025] [::1]:62192 [302]: GET /software/52
+[Thu Sep 25 12:55:43 2025] [::1]:62192 Closing
+[Thu Sep 25 12:55:43 2025] [::1]:62193 Accepted
+[Thu Sep 25 12:55:43 2025] [::1]:62193 [200]: GET /software/52/edit
+[Thu Sep 25 12:55:43 2025] [::1]:62193 Closing
+[Thu Sep 25 12:55:43 2025] [::1]:62198 Accepted
+[Thu Sep 25 12:55:43 2025] [::1]:62198 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:43 2025] [::1]:62198 Closing
+[Thu Sep 25 12:55:48 2025] [::1]:62215 Accepted
+[Thu Sep 25 12:55:48 2025] [::1]:62215 [200]: GET /software
+[Thu Sep 25 12:55:48 2025] [::1]:62215 Closing
+[Thu Sep 25 12:55:48 2025] [::1]:62216 Accepted
+[Thu Sep 25 12:55:48 2025] [::1]:62216 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:48 2025] [::1]:62216 Closing
+[Thu Sep 25 12:55:50 2025] [::1]:62225 Accepted
+[Thu Sep 25 12:55:50 2025] [::1]:62225 [302]: GET /software/52
+[Thu Sep 25 12:55:50 2025] [::1]:62225 Closing
+[Thu Sep 25 12:55:50 2025] [::1]:62230 Accepted
+[Thu Sep 25 12:55:50 2025] [::1]:62230 [200]: GET /software/52/edit
+[Thu Sep 25 12:55:50 2025] [::1]:62230 Closing
+[Thu Sep 25 12:55:50 2025] [::1]:62231 Accepted
+[Thu Sep 25 12:55:50 2025] [::1]:62231 [204]: GET /favicon.ico
+[Thu Sep 25 12:55:50 2025] [::1]:62231 Closing
+[Thu Sep 25 12:57:58 2025] [::1]:62764 Accepted
+[Thu Sep 25 12:57:58 2025] [::1]:62765 Accepted
+[Thu Sep 25 12:57:58 2025] [::1]:62764 [302]: POST /software/52
+[Thu Sep 25 12:57:58 2025] [::1]:62764 Closing
+[Thu Sep 25 12:57:58 2025] [::1]:62765 [200]: GET /software/52/edit
+[Thu Sep 25 12:57:58 2025] [::1]:62765 Closing
+[Thu Sep 25 12:57:58 2025] [::1]:62766 Accepted
+[Thu Sep 25 12:57:58 2025] [::1]:62766 [204]: GET /favicon.ico
+[Thu Sep 25 12:57:58 2025] [::1]:62766 Closing
+[Thu Sep 25 12:58:03 2025] [::1]:62788 Accepted
+[Thu Sep 25 12:58:03 2025] [::1]:62789 Accepted
+[Thu Sep 25 12:58:03 2025] [::1]:62788 [302]: POST /software/52
+[Thu Sep 25 12:58:03 2025] [::1]:62788 Closing
+[Thu Sep 25 12:58:03 2025] [::1]:62789 [200]: GET /software/52/edit
+[Thu Sep 25 12:58:03 2025] [::1]:62789 Closing
+[Thu Sep 25 12:58:03 2025] [::1]:62790 Accepted
+[Thu Sep 25 12:58:03 2025] [::1]:62790 [204]: GET /favicon.ico
+[Thu Sep 25 12:58:03 2025] [::1]:62790 Closing
+[Thu Sep 25 12:59:51 2025] [::1]:63246 Accepted
+[Thu Sep 25 12:59:51 2025] [::1]:63247 Accepted
+[Thu Sep 25 12:59:51 2025] [::1]:63246 [302]: POST /software/52
+[Thu Sep 25 12:59:51 2025] [::1]:63246 Closing
+[Thu Sep 25 12:59:51 2025] [::1]:63247 [200]: GET /software/52/edit
+[Thu Sep 25 12:59:51 2025] [::1]:63247 Closing
+[Thu Sep 25 12:59:51 2025] [::1]:63248 Accepted
+[Thu Sep 25 12:59:51 2025] [::1]:63248 [204]: GET /favicon.ico
+[Thu Sep 25 12:59:51 2025] [::1]:63248 Closing
+[Thu Sep 25 13:01:58 2025] [::1]:63795 Accepted
+[Thu Sep 25 13:01:58 2025] [::1]:63795 [200]: GET /software/50/edit
+[Thu Sep 25 13:01:58 2025] [::1]:63795 Closing
+[Thu Sep 25 13:01:58 2025] [::1]:63796 Accepted
+[Thu Sep 25 13:01:58 2025] [::1]:63796 [204]: GET /favicon.ico
+[Thu Sep 25 13:01:58 2025] [::1]:63796 Closing
+[Thu Sep 25 13:02:02 2025] [::1]:63817 Accepted
+[Thu Sep 25 13:02:02 2025] [::1]:63818 Accepted
+[Thu Sep 25 13:02:02 2025] [::1]:63817 [200]: GET /software/52/edit
+[Thu Sep 25 13:02:02 2025] [::1]:63817 Closing
+[Thu Sep 25 13:02:02 2025] [::1]:63818 [204]: GET /favicon.ico
+[Thu Sep 25 13:02:02 2025] [::1]:63818 Closing
+[Thu Sep 25 13:03:46 2025] [::1]:64257 Accepted
+[Thu Sep 25 13:03:46 2025] [::1]:64257 [204]: GET /favicon.ico
+[Thu Sep 25 13:03:46 2025] [::1]:64257 Closing
+[Thu Sep 25 13:03:53 2025] [::1]:64286 Accepted
+[Thu Sep 25 13:03:53 2025] [::1]:64286 [204]: GET /favicon.ico
+[Thu Sep 25 13:03:53 2025] [::1]:64286 Closing
+[Thu Sep 25 13:03:54 2025] [::1]:64292 Accepted
+[Thu Sep 25 13:03:54 2025] [::1]:64292 [204]: GET /favicon.ico
+[Thu Sep 25 13:03:54 2025] [::1]:64292 Closing
+[Thu Sep 25 13:03:54 2025] [::1]:64293 Accepted
+[Thu Sep 25 13:03:54 2025] [::1]:64293 [204]: GET /favicon.ico
+[Thu Sep 25 13:03:54 2025] [::1]:64293 Closing
+[Thu Sep 25 13:03:55 2025] [::1]:64298 Accepted
+[Thu Sep 25 13:03:55 2025] [::1]:64298 [204]: GET /favicon.ico
+[Thu Sep 25 13:03:55 2025] [::1]:64298 Closing
+[Thu Sep 25 13:03:55 2025] [::1]:64299 Accepted
+[Thu Sep 25 13:03:55 2025] [::1]:64299 [204]: GET /favicon.ico
+[Thu Sep 25 13:03:55 2025] [::1]:64299 Closing
+[Thu Sep 25 13:04:03 2025] [::1]:64333 Accepted
+[Thu Sep 25 13:04:03 2025] [::1]:64334 Accepted
+[Thu Sep 25 13:04:04 2025] [::1]:64333 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:04 2025] [::1]:64333 Closing
+[Thu Sep 25 13:04:04 2025] [::1]:64334 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:04 2025] [::1]:64334 Closing
+[Thu Sep 25 13:04:05 2025] [::1]:64343 Accepted
+[Thu Sep 25 13:04:05 2025] [::1]:64344 Accepted
+[Thu Sep 25 13:04:05 2025] [::1]:64343 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:05 2025] [::1]:64343 Closing
+[Thu Sep 25 13:04:05 2025] [::1]:64344 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:05 2025] [::1]:64344 Closing
+[Thu Sep 25 13:04:08 2025] [::1]:64358 Accepted
+[Thu Sep 25 13:04:08 2025] [::1]:64359 Accepted
+[Thu Sep 25 13:04:08 2025] [::1]:64358 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:08 2025] [::1]:64358 Closing
+[Thu Sep 25 13:04:08 2025] [::1]:64359 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:08 2025] [::1]:64359 Closing
+[Thu Sep 25 13:04:09 2025] [::1]:64364 Accepted
+[Thu Sep 25 13:04:09 2025] [::1]:64365 Accepted
+[Thu Sep 25 13:04:09 2025] [::1]:64364 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:09 2025] [::1]:64364 Closing
+[Thu Sep 25 13:04:09 2025] [::1]:64365 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:09 2025] [::1]:64365 Closing
+[Thu Sep 25 13:04:11 2025] [::1]:64375 Accepted
+[Thu Sep 25 13:04:11 2025] [::1]:64376 Accepted
+[Thu Sep 25 13:04:11 2025] [::1]:64375 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:11 2025] [::1]:64375 Closing
+[Thu Sep 25 13:04:11 2025] [::1]:64376 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:11 2025] [::1]:64376 Closing
+[Thu Sep 25 13:04:11 2025] [::1]:64377 Accepted
+[Thu Sep 25 13:04:11 2025] [::1]:64378 Accepted
+[Thu Sep 25 13:04:11 2025] [::1]:64377 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:11 2025] [::1]:64377 Closing
+[Thu Sep 25 13:04:11 2025] [::1]:64378 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:11 2025] [::1]:64378 Closing
+[Thu Sep 25 13:04:12 2025] [::1]:64383 Accepted
+[Thu Sep 25 13:04:12 2025] [::1]:64383 [404]: GET /.well-known/appspecific/com.chrome.devtools.json
+[Thu Sep 25 13:04:12 2025] [::1]:64383 Closing
+[Thu Sep 25 13:04:12 2025] [::1]:64384 Accepted
+[Thu Sep 25 13:04:12 2025] [::1]:64385 Accepted
+[Thu Sep 25 13:04:12 2025] [::1]:64384 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:12 2025] [::1]:64384 Closing
+[Thu Sep 25 13:04:12 2025] [::1]:64385 [404]: GET /.well-known/appspecific/com.chrome.devtools.json
+[Thu Sep 25 13:04:12 2025] [::1]:64385 Closing
+[Thu Sep 25 13:04:12 2025] [::1]:64386 Accepted
+[Thu Sep 25 13:04:12 2025] [::1]:64386 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:12 2025] [::1]:64386 Closing
+[Thu Sep 25 13:04:13 2025] [::1]:64391 Accepted
+[Thu Sep 25 13:04:13 2025] [::1]:64392 Accepted
+[Thu Sep 25 13:04:13 2025] [::1]:64391 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:13 2025] [::1]:64391 Closing
+[Thu Sep 25 13:04:13 2025] [::1]:64392 [404]: GET /.well-known/appspecific/com.chrome.devtools.json
+[Thu Sep 25 13:04:13 2025] [::1]:64392 Closing
+[Thu Sep 25 13:04:13 2025] [::1]:64393 Accepted
+[Thu Sep 25 13:04:13 2025] [::1]:64393 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:13 2025] [::1]:64393 Closing
+[Thu Sep 25 13:04:13 2025] [::1]:64394 Accepted
+[Thu Sep 25 13:04:13 2025] [::1]:64395 Accepted
+[Thu Sep 25 13:04:13 2025] [::1]:64394 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:13 2025] [::1]:64394 Closing
+[Thu Sep 25 13:04:13 2025] [::1]:64395 [404]: GET /.well-known/appspecific/com.chrome.devtools.json
+[Thu Sep 25 13:04:13 2025] [::1]:64395 Closing
+[Thu Sep 25 13:04:13 2025] [::1]:64396 Accepted
+[Thu Sep 25 13:04:13 2025] [::1]:64396 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:13 2025] [::1]:64396 Closing
+[Thu Sep 25 13:04:14 2025] [::1]:64397 Accepted
+[Thu Sep 25 13:04:14 2025] [::1]:64398 Accepted
+[Thu Sep 25 13:04:14 2025] [::1]:64397 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:14 2025] [::1]:64397 Closing
+[Thu Sep 25 13:04:14 2025] [::1]:64398 [404]: GET /.well-known/appspecific/com.chrome.devtools.json
+[Thu Sep 25 13:04:14 2025] [::1]:64398 Closing
+[Thu Sep 25 13:04:14 2025] [::1]:64403 Accepted
+[Thu Sep 25 13:04:14 2025] [::1]:64403 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:14 2025] [::1]:64403 Closing
+[Thu Sep 25 13:04:14 2025] [::1]:64404 Accepted
+[Thu Sep 25 13:04:14 2025] [::1]:64404 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:14 2025] [::1]:64404 Closing
+[Thu Sep 25 13:04:14 2025] [::1]:64405 Accepted
+[Thu Sep 25 13:04:14 2025] [::1]:64405 [404]: GET /.well-known/appspecific/com.chrome.devtools.json
+[Thu Sep 25 13:04:14 2025] [::1]:64405 Closing
+[Thu Sep 25 13:04:14 2025] [::1]:64406 Accepted
+[Thu Sep 25 13:04:14 2025] [::1]:64406 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:14 2025] [::1]:64406 Closing
+[Thu Sep 25 13:04:17 2025] [::1]:64419 Accepted
+[Thu Sep 25 13:04:17 2025] [::1]:64420 Accepted
+[Thu Sep 25 13:04:17 2025] [::1]:64419 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:17 2025] [::1]:64419 Closing
+[Thu Sep 25 13:04:17 2025] [::1]:64420 [404]: GET /.well-known/appspecific/com.chrome.devtools.json
+[Thu Sep 25 13:04:17 2025] [::1]:64420 Closing
+[Thu Sep 25 13:04:18 2025] [::1]:64421 Accepted
+[Thu Sep 25 13:04:18 2025] [::1]:64421 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:18 2025] [::1]:64421 Closing
+[Thu Sep 25 13:04:18 2025] [::1]:64426 Accepted
+[Thu Sep 25 13:04:18 2025] [::1]:64427 Accepted
+[Thu Sep 25 13:04:18 2025] [::1]:64426 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:18 2025] [::1]:64426 Closing
+[Thu Sep 25 13:04:18 2025] [::1]:64427 [404]: GET /.well-known/appspecific/com.chrome.devtools.json
+[Thu Sep 25 13:04:18 2025] [::1]:64427 Closing
+[Thu Sep 25 13:04:18 2025] [::1]:64428 Accepted
+[Thu Sep 25 13:04:18 2025] [::1]:64428 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:18 2025] [::1]:64428 Closing
+[Thu Sep 25 13:04:35 2025] [::1]:64497 Accepted
+[Thu Sep 25 13:04:35 2025] [::1]:64498 Accepted
+[Thu Sep 25 13:04:35 2025] [::1]:64497 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:35 2025] [::1]:64497 Closing
+[Thu Sep 25 13:04:35 2025] [::1]:64498 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:35 2025] [::1]:64498 Closing
+[Thu Sep 25 13:04:36 2025] [::1]:64504 Accepted
+[Thu Sep 25 13:04:36 2025] [::1]:64505 Accepted
+[Thu Sep 25 13:04:36 2025] [::1]:64504 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:36 2025] [::1]:64504 Closing
+[Thu Sep 25 13:04:36 2025] [::1]:64505 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:36 2025] [::1]:64505 Closing
+[Thu Sep 25 13:04:37 2025] [::1]:64506 Accepted
+[Thu Sep 25 13:04:37 2025] [::1]:64507 Accepted
+[Thu Sep 25 13:04:37 2025] [::1]:64506 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:37 2025] [::1]:64506 Closing
+[Thu Sep 25 13:04:37 2025] [::1]:64507 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:37 2025] [::1]:64507 Closing
+[Thu Sep 25 13:04:37 2025] [::1]:64512 Accepted
+[Thu Sep 25 13:04:37 2025] [::1]:64513 Accepted
+[Thu Sep 25 13:04:37 2025] [::1]:64512 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:37 2025] [::1]:64512 Closing
+[Thu Sep 25 13:04:37 2025] [::1]:64513 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:37 2025] [::1]:64513 Closing
+[Thu Sep 25 13:04:38 2025] [::1]:64514 Accepted
+[Thu Sep 25 13:04:38 2025] [::1]:64515 Accepted
+[Thu Sep 25 13:04:38 2025] [::1]:64514 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:38 2025] [::1]:64514 Closing
+[Thu Sep 25 13:04:38 2025] [::1]:64515 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:38 2025] [::1]:64515 Closing
+[Thu Sep 25 13:04:38 2025] [::1]:64520 Accepted
+[Thu Sep 25 13:04:38 2025] [::1]:64521 Accepted
+[Thu Sep 25 13:04:38 2025] [::1]:64520 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:38 2025] [::1]:64520 Closing
+[Thu Sep 25 13:04:38 2025] [::1]:64521 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:38 2025] [::1]:64521 Closing
+[Thu Sep 25 13:04:40 2025] [::1]:64531 Accepted
+[Thu Sep 25 13:04:40 2025] [::1]:64532 Accepted
+[Thu Sep 25 13:04:40 2025] [::1]:64531 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:40 2025] [::1]:64531 Closing
+[Thu Sep 25 13:04:40 2025] [::1]:64532 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:40 2025] [::1]:64532 Closing
+[Thu Sep 25 13:04:40 2025] [::1]:64533 Accepted
+[Thu Sep 25 13:04:40 2025] [::1]:64534 Accepted
+[Thu Sep 25 13:04:40 2025] [::1]:64533 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:40 2025] [::1]:64533 Closing
+[Thu Sep 25 13:04:40 2025] [::1]:64534 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:40 2025] [::1]:64534 Closing
+[Thu Sep 25 13:04:40 2025] [::1]:64535 Accepted
+[Thu Sep 25 13:04:40 2025] [::1]:64536 Accepted
+[Thu Sep 25 13:04:40 2025] [::1]:64535 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:40 2025] [::1]:64535 Closing
+[Thu Sep 25 13:04:40 2025] [::1]:64536 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:40 2025] [::1]:64536 Closing
+[Thu Sep 25 13:04:41 2025] [::1]:64537 Accepted
+[Thu Sep 25 13:04:41 2025] [::1]:64538 Accepted
+[Thu Sep 25 13:04:41 2025] [::1]:64537 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:04:41 2025] [::1]:64537 Closing
+[Thu Sep 25 13:04:41 2025] [::1]:64538 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:41 2025] [::1]:64538 Closing
+[Thu Sep 25 13:04:42 2025] [::1]:64547 Accepted
+[Thu Sep 25 13:04:42 2025] [::1]:64548 Accepted
+[Thu Sep 25 13:04:42 2025] [::1]:64547 [200]: GET /software
+[Thu Sep 25 13:04:42 2025] [::1]:64547 Closing
+[Thu Sep 25 13:04:42 2025] [::1]:64548 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:42 2025] [::1]:64548 Closing
+[Thu Sep 25 13:04:43 2025] [::1]:64553 Accepted
+[Thu Sep 25 13:04:43 2025] [::1]:64553 [302]: GET /software/52
+[Thu Sep 25 13:04:43 2025] [::1]:64553 Closing
+[Thu Sep 25 13:04:43 2025] [::1]:64554 Accepted
+[Thu Sep 25 13:04:44 2025] [::1]:64554 [200]: GET /software/52/edit
+[Thu Sep 25 13:04:44 2025] [::1]:64554 Closing
+[Thu Sep 25 13:04:44 2025] [::1]:64555 Accepted
+[Thu Sep 25 13:04:44 2025] [::1]:64555 [204]: GET /favicon.ico
+[Thu Sep 25 13:04:44 2025] [::1]:64555 Closing
+[Thu Sep 25 13:05:02 2025] [::1]:64634 Accepted
+[Thu Sep 25 13:05:02 2025] [::1]:64634 [204]: GET /favicon.ico
+[Thu Sep 25 13:05:02 2025] [::1]:64634 Closing
+[Thu Sep 25 13:05:03 2025] [::1]:64639 Accepted
+[Thu Sep 25 13:05:03 2025] [::1]:64639 [204]: GET /favicon.ico
+[Thu Sep 25 13:05:03 2025] [::1]:64639 Closing
+[Thu Sep 25 13:05:04 2025] [::1]:64640 Accepted
+[Thu Sep 25 13:05:04 2025] [::1]:64640 [204]: GET /favicon.ico
+[Thu Sep 25 13:05:04 2025] [::1]:64640 Closing
+[Thu Sep 25 13:05:06 2025] [::1]:64654 Accepted
+[Thu Sep 25 13:05:06 2025] [::1]:64654 [204]: GET /favicon.ico
+[Thu Sep 25 13:05:06 2025] [::1]:64654 Closing
+[Thu Sep 25 13:05:08 2025] [::1]:64663 Accepted
+[Thu Sep 25 13:05:08 2025] [::1]:64663 [204]: GET /favicon.ico
+[Thu Sep 25 13:05:08 2025] [::1]:64663 Closing
+[Thu Sep 25 13:05:09 2025] [::1]:64668 Accepted
+[Thu Sep 25 13:05:09 2025] [::1]:64668 [204]: GET /favicon.ico
+[Thu Sep 25 13:05:09 2025] [::1]:64668 Closing
+[Thu Sep 25 13:05:11 2025] [::1]:64674 Accepted
+[Thu Sep 25 13:05:11 2025] [::1]:64674 [204]: GET /favicon.ico
+[Thu Sep 25 13:05:11 2025] [::1]:64674 Closing
+[Thu Sep 25 13:05:22 2025] [::1]:64723 Accepted
+[Thu Sep 25 13:05:22 2025] [::1]:64724 Accepted
+[Thu Sep 25 13:05:22 2025] [::1]:64723 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:05:22 2025] [::1]:64723 Closing
+[Thu Sep 25 13:05:22 2025] [::1]:64724 [204]: GET /favicon.ico
+[Thu Sep 25 13:05:22 2025] [::1]:64724 Closing
+[Thu Sep 25 13:05:51 2025] [::1]:64851 Accepted
+[Thu Sep 25 13:05:51 2025] [::1]:64851 [204]: GET /favicon.ico
+[Thu Sep 25 13:05:51 2025] [::1]:64851 Closing
+[Thu Sep 25 13:06:15 2025] [::1]:64951 Accepted
+[Thu Sep 25 13:06:15 2025] [::1]:64951 [204]: GET /favicon.ico
+[Thu Sep 25 13:06:15 2025] [::1]:64951 Closing
+[Thu Sep 25 13:06:24 2025] [::1]:64992 Accepted
+[Thu Sep 25 13:06:24 2025] [::1]:64993 Accepted
+[Thu Sep 25 13:06:24 2025] [::1]:64992 [302]: POST /software/52
+[Thu Sep 25 13:06:24 2025] [::1]:64992 Closing
+[Thu Sep 25 13:06:24 2025] [::1]:64993 [200]: GET /software/52/edit
+[Thu Sep 25 13:06:24 2025] [::1]:64993 Closing
+[Thu Sep 25 13:06:24 2025] [::1]:64994 Accepted
+[Thu Sep 25 13:06:24 2025] [::1]:64994 [204]: GET /favicon.ico
+[Thu Sep 25 13:06:24 2025] [::1]:64994 Closing
+[Thu Sep 25 13:06:26 2025] [::1]:64999 Accepted
+[Thu Sep 25 13:06:26 2025] [::1]:64999 [204]: GET /favicon.ico
+[Thu Sep 25 13:06:26 2025] [::1]:64999 Closing
+[Thu Sep 25 13:07:07 2025] [::1]:65170 Accepted
+[Thu Sep 25 13:07:07 2025] [::1]:65171 Accepted
+[Thu Sep 25 13:07:07 2025] [::1]:65170 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:07:07 2025] [::1]:65170 Closing
+[Thu Sep 25 13:07:07 2025] [::1]:65171 [204]: GET /favicon.ico
+[Thu Sep 25 13:07:07 2025] [::1]:65171 Closing
+[Thu Sep 25 13:07:08 2025] [::1]:65176 Accepted
+[Thu Sep 25 13:07:08 2025] [::1]:65177 Accepted
+[Thu Sep 25 13:07:08 2025] [::1]:65176 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:07:08 2025] [::1]:65176 Closing
+[Thu Sep 25 13:07:08 2025] [::1]:65177 [204]: GET /favicon.ico
+[Thu Sep 25 13:07:08 2025] [::1]:65177 Closing
+[Thu Sep 25 13:07:32 2025] [::1]:65283 Accepted
+[Thu Sep 25 13:07:32 2025] [::1]:65284 Accepted
+[Thu Sep 25 13:07:32 2025] [::1]:65283 [200]: GET /software/52/edit?tab=data
+[Thu Sep 25 13:07:32 2025] [::1]:65283 Closing
+[Thu Sep 25 13:07:33 2025] [::1]:65284 [204]: GET /favicon.ico
+[Thu Sep 25 13:07:33 2025] [::1]:65284 Closing
+[Thu Sep 25 13:07:33 2025] [::1]:65285 Accepted
+[Thu Sep 25 13:07:33 2025] [::1]:65285 [204]: GET /favicon.ico
+[Thu Sep 25 13:07:33 2025] [::1]:65285 Closing
+[Thu Sep 25 13:07:38 2025] [::1]:65306 Accepted
+[Thu Sep 25 13:07:38 2025] [::1]:65306 [200]: GET /items/search?exclude_software=52
+[Thu Sep 25 13:07:38 2025] [::1]:65306 Closing
+[Thu Sep 25 13:07:42 2025] [::1]:65324 Accepted
+[Thu Sep 25 13:07:42 2025] [::1]:65324 [200]: POST /software/52/associations
+[Thu Sep 25 13:07:42 2025] [::1]:65324 Closing
+[Thu Sep 25 13:07:44 2025] [::1]:65334 Accepted
+[Thu Sep 25 13:07:44 2025] [::1]:65335 Accepted
+[Thu Sep 25 13:07:44 2025] [::1]:65334 [200]: GET /software/52/edit?tab=items
+[Thu Sep 25 13:07:44 2025] [::1]:65334 Closing
+[Thu Sep 25 13:07:44 2025] [::1]:65335 [204]: GET /favicon.ico
+[Thu Sep 25 13:07:44 2025] [::1]:65335 Closing
+[Thu Sep 25 13:07:52 2025] [::1]:65368 Accepted
+[Thu Sep 25 13:07:52 2025] [::1]:65368 [302]: GET /items/1165
+[Thu Sep 25 13:07:52 2025] [::1]:65368 Closing
+[Thu Sep 25 13:07:52 2025] [::1]:65369 Accepted
+[Thu Sep 25 13:07:52 2025] Slim Application Error
+Type: PDOException
+Code: HY000
+Message: SQLSTATE[HY000]: General error: 1 no such column: la.name
+File: /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php
+Line: 38
+Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->prepare('\n            SE...')
+#1 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(68): App\Services\DatabaseManager->execute('\n            SE...', Array)
+#2 /Users/sivann/sbx/itdb2/src/Models/ItemModel.php(130): App\Services\DatabaseManager->fetchAll('\n            SE...', Array)
+#3 /Users/sivann/sbx/itdb2/src/Controllers/ItemController.php(217): App\Models\ItemModel->findWithRelations(1165)
+#4 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ItemController->edit(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#13 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#16 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#18 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#26 {main}
+[Thu Sep 25 13:07:52 2025] [::1]:65369 [500]: GET /items/1165/edit
+[Thu Sep 25 13:07:52 2025] [::1]:65369 Closing
+[Thu Sep 25 13:07:52 2025] [::1]:65370 Accepted
+[Thu Sep 25 13:07:52 2025] [::1]:65370 [204]: GET /favicon.ico
+[Thu Sep 25 13:07:52 2025] [::1]:65370 Closing
+[Thu Sep 25 13:08:01 2025] [::1]:65407 Accepted
+[Thu Sep 25 13:08:01 2025] [::1]:65407 [200]: GET /items/search?exclude_software=52
+[Thu Sep 25 13:08:01 2025] [::1]:65407 Closing
+[Thu Sep 25 13:08:06 2025] [::1]:65430 Accepted
+[Thu Sep 25 13:08:06 2025] [::1]:65430 [200]: POST /software/52/associations
+[Thu Sep 25 13:08:06 2025] [::1]:65430 Closing
+[Thu Sep 25 13:08:08 2025] [::1]:65439 Accepted
+[Thu Sep 25 13:08:08 2025] [::1]:65440 Accepted
+[Thu Sep 25 13:08:08 2025] [::1]:65439 [200]: GET /software/52/edit?tab=items
+[Thu Sep 25 13:08:08 2025] [::1]:65439 Closing
+[Thu Sep 25 13:08:08 2025] [::1]:65440 [204]: GET /favicon.ico
+[Thu Sep 25 13:08:08 2025] [::1]:65440 Closing
+[Thu Sep 25 13:08:15 2025] [::1]:65471 Accepted
+[Thu Sep 25 13:08:15 2025] [::1]:65471 [200]: DELETE /software/52/associations
+[Thu Sep 25 13:08:15 2025] [::1]:65471 Closing
+[Thu Sep 25 13:08:17 2025] [::1]:65480 Accepted
+[Thu Sep 25 13:08:17 2025] [::1]:65481 Accepted
+[Thu Sep 25 13:08:17 2025] [::1]:65480 [200]: GET /software/52/edit?tab=items
+[Thu Sep 25 13:08:17 2025] [::1]:65480 Closing
+[Thu Sep 25 13:08:17 2025] [::1]:65481 [204]: GET /favicon.ico
+[Thu Sep 25 13:08:17 2025] [::1]:65481 Closing
+[Thu Sep 25 13:08:18 2025] [::1]:65486 Accepted
+[Thu Sep 25 13:08:18 2025] [::1]:65486 [200]: GET /items/search?exclude_software=52
+[Thu Sep 25 13:08:18 2025] [::1]:65486 Closing
+[Thu Sep 25 13:08:33 2025] [::1]:49166 Accepted
+[Thu Sep 25 13:08:33 2025] [::1]:49166 [200]: POST /software/52/associations
+[Thu Sep 25 13:08:33 2025] [::1]:49166 Closing
+[Thu Sep 25 13:08:35 2025] [::1]:49176 Accepted
+[Thu Sep 25 13:08:35 2025] [::1]:49177 Accepted
+[Thu Sep 25 13:08:35 2025] [::1]:49176 [200]: GET /software/52/edit?tab=items
+[Thu Sep 25 13:08:35 2025] [::1]:49176 Closing
+[Thu Sep 25 13:08:35 2025] [::1]:49177 [204]: GET /favicon.ico
+[Thu Sep 25 13:08:35 2025] [::1]:49177 Closing
+[Thu Sep 25 13:08:40 2025] [::1]:49198 Accepted
+[Thu Sep 25 13:08:40 2025] [::1]:49198 [204]: GET /favicon.ico
+[Thu Sep 25 13:08:40 2025] [::1]:49198 Closing
+[Thu Sep 25 13:08:42 2025] [::1]:49208 Accepted
+[Thu Sep 25 13:08:42 2025] [::1]:49208 [200]: GET /invoices/search?exclude_software=52
+[Thu Sep 25 13:08:42 2025] [::1]:49208 Closing

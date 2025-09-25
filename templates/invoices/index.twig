@@ -49,7 +49,7 @@
                     {% for vendor in filters.vendors %}
                     <option value="{{ vendor.id }}"
                             {% if query.vendor|default('') == vendor.id %}selected{% endif %}>
-                        {{ vendor.name }}
+                        {{ vendor.title }}
                     </option>
                     {% endfor %}
                 </select>
@@ -91,38 +91,38 @@
                             <div class="d-flex align-items-center">
                                 <div>
                                     <a href="/invoices/{{ invoice.id }}" class="fw-bold text-decoration-none">
-                                        {{ invoice.title }}
+                                        Invoice #{{ invoice.id }}
                                     </a>
-                                    {% if invoice.notes %}
-                                        <br><small class="text-muted">{{ invoice.notes }}</small>
+                                    {% if invoice.comments %}
+                                        <br><small class="text-muted">{{ invoice.comments }}</small>
                                     {% endif %}
                                 </div>
                             </div>
                         </td>
                         <td>
                             {% if invoice.vendor %}
-                                {{ invoice.vendor.name }}
+                                {{ invoice.vendor.title }}
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if invoice.invoicedate %}
-                                <span>{{ invoice.invoicedate|date('M j, Y') }}</span>
+                            {% if invoice.date_formatted %}
+                                <span>{{ invoice.date_formatted }}</span>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if invoice.total %}
+                            {% if invoice.totalcost %}
                                 <span class="fw-bold">${{ invoice.total_formatted }}</span>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if invoice.description %}
-                                {{ invoice.description|slice(0, 50) }}{% if invoice.description|length > 50 %}...{% endif %}
+                            {% if invoice.comments %}
+                                {{ invoice.comments|slice(0, 50) }}{% if invoice.comments|length > 50 %}...{% endif %}
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}

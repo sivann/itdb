@@ -49,7 +49,7 @@ class InvoiceModel
 
         // Build WHERE conditions
         if (!empty($filters['search'])) {
-            $whereConditions[] = "(i.comments LIKE :search)";
+            $whereConditions[] = "(i.comments LIKE :search OR i.id LIKE :search OR vendor.title LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 

@@ -123,8 +123,14 @@ class SoftwareModel
 
         $software = $result[0];
 
-        // Add association counts
+        // Enrich with associations
         $software = $this->enrichSoftwareWithAssociations($software);
+
+        // Get full association data
+        $software['items'] = $this->getAssociatedItems($id);
+        $software['invoices'] = $this->getAssociatedInvoices($id);
+        $software['contracts'] = $this->getAssociatedContracts($id);
+        $software['files'] = $this->getAssociatedFiles($id);
 
         return $software;
     }

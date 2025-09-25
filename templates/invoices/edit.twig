@@ -1,13 +1,13 @@
 {% extends "base.twig" %}
 
-{% block title %}Edit {{ invoice.title }}{% endblock %}
+{% block title %}Edit Invoice #{{ invoice.id }}{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="/invoices">Invoices</a></li>
-            <li class="breadcrumb-item"><a href="/invoices/{{ invoice.id }}">{{ invoice.title }}</a></li>
+            <li class="breadcrumb-item"><a href="/invoices/{{ invoice.id }}">Invoice #{{ invoice.id }}</a></li>
             <li class="breadcrumb-item active">Edit</li>
         </ol>
     </nav>
@@ -24,7 +24,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-0">
-                    <i class="bi bi-pencil me-2"></i>Edit Invoice: {{ invoice.title }}
+                    <i class="bi bi-pencil me-2"></i>Edit Invoice: #{{ invoice.id }}
                 </h5>
             </div>
             <div class="card-body">
@@ -36,16 +36,21 @@
                             <h6 class="text-muted mb-3">Invoice Information</h6>
 
                             <div class="mb-3">
-                                <label for="title" class="form-label">Invoice Title <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="title" name="title" value="{{ invoice.title }}" required>
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="vendorid" class="form-label">Vendor</label>
                                 <select class="form-select" id="vendorid" name="vendorid">
                                     <option value="">Select a vendor...</option>
                                     {% for vendor in form_options.vendors %}
-                                    <option value="{{ vendor.id }}" {% if invoice.vendorid == vendor.id %}selected{% endif %}>{{ vendor.name }}</option>
+                                    <option value="{{ vendor.id }}" {% if invoice.vendorid == vendor.id %}selected{% endif %}>{{ vendor.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="buyerid" class="form-label">Buyer</label>
+                                <select class="form-select" id="buyerid" name="buyerid">
+                                    <option value="">Select a buyer...</option>
+                                    {% for buyer in form_options.buyers %}
+                                    <option value="{{ buyer.id }}" {% if invoice.buyerid == buyer.id %}selected{% endif %}>{{ buyer.title }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -53,14 +58,14 @@
                             <div class="mb-3">
                                 <label for="invoicedate" class="form-label">Invoice Date</label>
                                 <input type="date" class="form-control" id="invoicedate" name="invoicedate"
-                                       value="{% if invoice.invoicedate %}{{ invoice.invoicedate|date('Y-m-d') }}{% endif %}">
+                                       value="{% if invoice.date %}{{ invoice.date|date('Y-m-d') }}{% endif %}">
                             </div>
 
                             <div class="mb-3">
                                 <label for="total" class="form-label">Total Amount</label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="number" class="form-control" id="total" name="total" step="0.01" min="0" value="{{ invoice.total|default('') }}">
+                                    <input type="number" class="form-control" id="total" name="totalcost" step="0.01" min="0" value="{{ invoice.totalcost|default('') }}">
                                 </div>
                             </div>
                         </div>
@@ -69,13 +74,8 @@
                             <h6 class="text-muted mb-3">Additional Information</h6>
 
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" name="description" rows="4">{{ invoice.description }}</textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="notes" class="form-label">Notes</label>
-                                <textarea class="form-control" id="notes" name="notes" rows="3">{{ invoice.notes }}</textarea>
+                                <label for="description" class="form-label">Comments</label>
+                                <textarea class="form-control" id="description" name="comments" rows="4">{{ invoice.comments }}</textarea>
                             </div>
                         </div>
                     </div>

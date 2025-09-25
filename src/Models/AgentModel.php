@@ -183,33 +183,17 @@ class AgentModel
      */
     public function getByType(string $typeCode): array
     {
-        // Support both new agent type system and legacy bitwise
-        $typeBitMapping = [
-            'vendor' => 1,
-            'software_manufacturer' => 2,
-            'hardware_manufacturer' => 4,
-            'buyer' => 8,
-            'contractor' => 16
-        ];
-
         $sql = "
-            SELECT DISTINCT agents.*,
-                   GROUP_CONCAT(at.name, ', ') as agent_types
-            FROM agents
-            LEFT JOIN agent_agent_type aat ON agents.id = aat.agent_id
-            LEFT JOIN agent_types at ON aat.agent_type_id = at.id
-            WHERE (EXISTS(
-                SELECT 1 FROM agent_agent_type aat2
-                JOIN agent_types at2 ON aat2.agent_type_id = at2.id
-                WHERE aat2.agent_id = agents.id AND at2.code = :type_code
-            ) OR (agents.type & :bit_value) > 0)
-            GROUP BY agents.id
-            ORDER BY agents.title
+            SELECT a.*
+            FROM agents a
+            INNER JOIN agent_agent_type aat ON a.id = aat.agent_id
+            INNER JOIN agent_types at ON aat.agent_type_id = at.id
+            WHERE at.code = :type_code
+            ORDER BY a.title
         ";
 
         return $this->db->fetchAll($sql, [
-            'type_code' => $typeCode,
-            'bit_value' => $typeBitMapping[$typeCode] ?? 0
+            'type_code' => $typeCode
         ]);
     }
 
@@ -219,6 +203,14 @@ class AgentModel
     public function getVendors(): array
     {
         return $this->getByType('vendor');
+    }
+
+    /**
+     * Get buyers (for dropdowns)
+     */
+    public function getBuyers(): array
+    {
+        return $this->getByType('buyer');
     }
 
     /**

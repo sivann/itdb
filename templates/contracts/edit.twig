@@ -1,0 +1,969 @@
+{% extends "base.twig" %}
+
+{% block title %}
+    {% if mode == 'create' %}
+        Create New Contract
+    {% elseif mode == 'edit' %}
+        Edit Contract: {{ contract.title }}
+    {% else %}
+        {{ contract.title }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/contracts">Contracts</a></li>
+            {% if mode == 'create' %}
+                <li class="breadcrumb-item active">Create New Contract</li>
+            {% elseif mode == 'edit' %}
+                <li class="breadcrumb-item"><a href="/contracts/{{ contract.id }}">{{ contract.title }}</a></li>
+                <li class="breadcrumb-item active">Edit</li>
+            {% else %}
+                <li class="breadcrumb-item active">{{ contract.title }}</li>
+            {% endif %}
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        {% if mode == 'view' %}
+            {% if user and user.usertype >= 1 %}
+            <a href="/contracts/{{ contract.id }}/edit" class="btn btn-primary">
+                <i class="bi bi-pencil me-1"></i>Edit Contract
+            </a>
+            {% endif %}
+            <a href="/contracts" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Contracts
+            </a>
+        {% elseif mode == 'edit' %}
+            <a href="/contracts/{{ contract.id }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Contract
+            </a>
+        {% else %}
+            <a href="/contracts" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Contracts
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+{% if mode == 'view' %}
+    <!-- VIEW MODE -->
+    <div class="row">
+        <!-- Main Information -->
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-file-text me-2"></i>{{ contract.title }}
+                        {% if contract.status.status == 'active' %}
+                            <span class="badge bg-success ms-2">Active</span>
+                        {% elseif contract.status.status == 'expired' %}
+                            <span class="badge bg-danger ms-2">Expired</span>
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Contract Information</h6>
+
+                            {% if contract.number %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Contract Number</label>
+                                <div><code>{{ contract.number }}</code></div>
+                            </div>
+                            {% endif %}
+
+                            {% if contract.type_name %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Contract Type</label>
+                                <div>
+                                    <span class="badge bg-info">{{ contract.type_name }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if contract.subtype %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Sub Type</label>
+                                <div>{{ contract.subtype }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if contract.totalcost %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Total Cost</label>
+                                <div class="h5 text-success mb-0">${{ contract.totalcost|number_format(2) }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if contract.parent %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Parent Contract</label>
+                                <div>
+                                    <a href="/contracts/{{ contract.parent.id }}" class="text-decoration-none">
+                                        <i class="bi bi-file-text me-1"></i>{{ contract.parent.title }}
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Contractor & Dates</h6>
+
+                            {% if contract.contractor %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Contractor</label>
+                                <div>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-building me-2"></i>
+                                        {{ contract.contractor.title }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if contract.startdate %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Start Date</label>
+                                <div>{{ contract.startdate|date('F j, Y') }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if contract.currentenddate %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">End Date</label>
+                                <div>
+                                    {{ contract.currentenddate|date('F j, Y') }}
+                                    {% if contract.status.status == 'active' %}
+                                        <br><small class="text-success">{{ contract.status.days }} days remaining</small>
+                                    {% elseif contract.status.status == 'expired' %}
+                                        <br><small class="text-danger">Expired {{ contract.status.days|abs }} days ago</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if contract.renewals %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Renewals</label>
+                                <div>{{ contract.renewals }}</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if contract.description %}
+                    <hr>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Description</label>
+                        <div class="bg-light p-3 rounded">{{ contract.description|nl2br }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% if contract.comments %}
+                    <hr>
+                    <div class="mb-0">
+                        <label class="form-label fw-bold">Comments</label>
+                        <div class="bg-light p-3 rounded">{{ contract.comments|nl2br }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Child Contracts -->
+            {% if contract.children|length > 0 %}
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-diagram-3 me-2"></i>Child Contracts
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for child in contract.children %}
+                        <div class="list-group-item px-0">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <a href="/contracts/{{ child.id }}" class="fw-semibold text-decoration-none">
+                                        {{ child.title }}
+                                    </a>
+                                    {% if child.number %}
+                                    <br><small class="text-muted">{{ child.number }}</small>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    {% if child.status.status == 'active' %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Expired</span>
+                                    {% endif %}
+                                    {% if child.totalcost %}
+                                    <div class="text-end mt-1">
+                                        <small class="text-muted">${{ child.totalcost|number_format(2) }}</small>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar Information -->
+        <div class="col-lg-4">
+            <!-- Contract Status -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-info-circle me-2"></i>Contract Status
+                    </h6>
+                </div>
+                <div class="card-body">
+                    {% if contract.currentenddate %}
+                    <div class="text-center mb-3">
+                        {% if contract.status.status == 'active' %}
+                            <div class="h2 text-success">{{ contract.status.days }}</div>
+                            <div class="text-muted">Days Remaining</div>
+                        {% else %}
+                            <div class="h2 text-danger">{{ contract.status.days|abs }}</div>
+                            <div class="text-muted">Days Overdue</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="progress mb-3">
+                        {% if contract.startdate and contract.currentenddate %}
+                            {% set total_days = ((contract.currentenddate - contract.startdate) / 86400)|round %}
+                            {% set elapsed_days = ((date().timestamp - contract.startdate) / 86400)|round %}
+                            {% set progress_percent = total_days > 0 ? ((elapsed_days / total_days) * 100)|round : 0 %}
+                            {% if progress_percent > 100 %}{% set progress_percent = 100 %}{% endif %}
+                            {% if progress_percent < 0 %}{% set progress_percent = 0 %}{% endif %}
+
+                            <div class="progress-bar {% if contract.status.status == 'expired' %}bg-danger{% else %}bg-success{% endif %}"
+                                 role="progressbar"
+                                 style="width: {{ progress_percent }}%">
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <div class="text-center text-muted py-3">
+                        <i class="bi bi-calendar-x display-6 mb-2"></i>
+                        <div>No end date specified</div>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex justify-content-between text-small">
+                        <span class="text-muted">
+                            {% if contract.startdate %}
+                                Start: {{ contract.startdate|date('M j, Y') }}
+                            {% endif %}
+                        </span>
+                        <span class="text-muted">
+                            {% if contract.currentenddate %}
+                                End: {{ contract.currentenddate|date('M j, Y') }}
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Associated Items -->
+            {% if contract.items|length > 0 %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-laptop me-2"></i>Associated Items
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for item in contract.items|slice(0, 5) %}
+                        <div class="list-group-item px-0">
+                            <a href="/items/{{ item.id }}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-laptop me-2 text-primary"></i>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold">{{ item.display_title }}</div>
+                                        {% if item.model %}
+                                        <small class="text-muted">{{ item.model }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                        {% if contract.items|length > 5 %}
+                        <div class="list-group-item px-0 text-center">
+                            <span class="text-muted">And {{ contract.items|length - 5 }} more items...</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Associated Software -->
+            {% if contract.software|length > 0 %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-code-square me-2"></i>Associated Software
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for software in contract.software|slice(0, 5) %}
+                        <div class="list-group-item px-0">
+                            <a href="/software/{{ software.id }}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-code-square me-2 text-success"></i>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold">{{ software.title }}</div>
+                                        {% if software.version %}
+                                        <small class="text-muted">v{{ software.version }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                        {% if contract.software|length > 5 %}
+                        <div class="list-group-item px-0 text-center">
+                            <span class="text-muted">And {{ contract.software|length - 5 }} more software...</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Quick Actions -->
+            {% if user and user.usertype >= 1 %}
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-gear me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="/contracts/{{ contract.id }}/edit" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil me-1"></i>Edit Contract
+                        </a>
+                        {% if not contract.children|length %}
+                        <a href="/contracts/create?parent={{ contract.id }}" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-plus me-1"></i>Add Child Contract
+                        </a>
+                        {% endif %}
+                        <a href="/items?contract={{ contract.id }}" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-laptop me-1"></i>View Associated Items
+                        </a>
+                        {% if user.isAdmin() %}
+                        <button type="button"
+                                class="btn btn-outline-danger btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                            <i class="bi bi-trash me-1"></i>Delete Contract
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% elseif mode == 'edit' or mode == 'create' %}
+    <!-- EDIT/CREATE MODE -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        {% if mode == 'create' %}
+                            <i class="bi bi-plus-circle me-2"></i>Create New Contract
+                        {% else %}
+                            <i class="bi bi-pencil me-2"></i>Edit Contract: {{ contract.title }}
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% if mode == 'create' %}/contracts{% else %}/contracts/{{ contract.id }}{% endif %}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        {% if mode == 'edit' %}
+                        <input type="hidden" name="_method" value="PUT">
+                        {% endif %}
+
+                        <div class="row">
+                            <!-- Basic Information -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Basic Information</h6>
+
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Contract Title <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                           class="form-control{% if errors.title %} is-invalid{% endif %}"
+                                           id="title"
+                                           name="title"
+                                           value="{{ old.title|default(contract.title|default('')) }}"
+                                           required
+                                           maxlength="255">
+                                    {% if errors.title %}
+                                    <div class="invalid-feedback">{{ errors.title }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Descriptive name for this contract.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="number" class="form-label">Contract Number</label>
+                                    <input type="text"
+                                           class="form-control{% if errors.number %} is-invalid{% endif %}"
+                                           id="number"
+                                           name="number"
+                                           value="{{ old.number|default(contract.number|default('')) }}"
+                                           maxlength="100">
+                                    {% if errors.number %}
+                                    <div class="invalid-feedback">{{ errors.number }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Official contract number or reference.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="type" class="form-label">Contract Type</label>
+                                    <select class="form-select{% if errors.type %} is-invalid{% endif %}"
+                                            id="type"
+                                            name="type">
+                                        <option value="">Select contract type...</option>
+                                        {% for type in form_options.contract_types %}
+                                        <option value="{{ type.id }}"
+                                                {% if (old.type|default(contract.type|default(''))) == type.id %}selected{% endif %}>
+                                            {{ type.name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if errors.type %}
+                                    <div class="invalid-feedback">{{ errors.type }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="subtype" class="form-label">Sub Type</label>
+                                    <input type="text"
+                                           class="form-control{% if errors.subtype %} is-invalid{% endif %}"
+                                           id="subtype"
+                                           name="subtype"
+                                           value="{{ old.subtype|default(contract.subtype|default('')) }}"
+                                           maxlength="100">
+                                    {% if errors.subtype %}
+                                    <div class="invalid-feedback">{{ errors.subtype }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Optional sub-category or classification.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="parentid" class="form-label">Parent Contract</label>
+                                    <select class="form-select{% if errors.parentid %} is-invalid{% endif %}"
+                                            id="parentid"
+                                            name="parentid">
+                                        <option value="">None (Root Contract)</option>
+                                        {% for parent in form_options.contracts %}
+                                            {% if mode == 'create' or parent.id != contract.id %}
+                                            <option value="{{ parent.id }}"
+                                                    {% if (old.parentid|default(contract.parentid|default(''))) == parent.id %}selected{% endif %}>
+                                                {{ parent.title }}
+                                                {% if parent.number %} ({{ parent.number }}){% endif %}
+                                            </option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    {% if errors.parentid %}
+                                    <div class="invalid-feedback">{{ errors.parentid }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Select if this is a child/sub-contract of another contract.</div>
+                                </div>
+                            </div>
+
+                            <!-- Financial & Contractor Information -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Financial & Contractor Information</h6>
+
+                                <div class="mb-3">
+                                    <label for="contractorid" class="form-label">Contractor</label>
+                                    <select class="form-select{% if errors.contractorid %} is-invalid{% endif %}"
+                                            id="contractorid"
+                                            name="contractorid">
+                                        <option value="">Select contractor...</option>
+                                        {% if contractors is defined and contractors|length > 0 %}
+                                            {% for agent in contractors %}
+                                            <option value="{{ agent.id }}"
+                                                    {% if (old.contractorid|default(contract.contractorid|default(''))) == agent.id %}selected{% endif %}>
+                                                {{ agent.title }}
+                                                {% if agent.type_description %} ({{ agent.type_description }}){% endif %}
+                                            </option>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </select>
+                                    {% if errors.contractorid %}
+                                    <div class="invalid-feedback">{{ errors.contractorid }}</div>
+                                    {% endif %}
+                                    <div class="form-text">The external organization providing contracted services.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="vendorid" class="form-label">Vendor</label>
+                                    <select class="form-select{% if errors.vendorid %} is-invalid{% endif %}"
+                                            id="vendorid"
+                                            name="vendorid">
+                                        <option value="">Select vendor...</option>
+                                        {% if vendors is defined and vendors|length > 0 %}
+                                            {% for agent in vendors %}
+                                            <option value="{{ agent.id }}"
+                                                    {% if (old.vendorid|default(contract.vendorid|default(''))) == agent.id %}selected{% endif %}>
+                                                {{ agent.title }}
+                                                {% if agent.type_description %} ({{ agent.type_description }}){% endif %}
+                                            </option>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </select>
+                                    {% if errors.vendorid %}
+                                    <div class="invalid-feedback">{{ errors.vendorid }}</div>
+                                    {% endif %}
+                                    <div class="form-text">The external organization providing products or supplies.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="totalcost" class="form-label">Total Cost</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number"
+                                               class="form-control{% if errors.totalcost %} is-invalid{% endif %}"
+                                               id="totalcost"
+                                               name="totalcost"
+                                               value="{{ old.totalcost|default(contract.totalcost|default('')) }}"
+                                               step="0.01"
+                                               min="0">
+                                    </div>
+                                    {% if errors.totalcost %}
+                                    <div class="invalid-feedback">{{ errors.totalcost }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Total contract value in dollars.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="startdate" class="form-label">Start Date</label>
+                                    <input type="date"
+                                           class="form-control{% if errors.startdate %} is-invalid{% endif %}"
+                                           id="startdate"
+                                           name="startdate"
+                                           value="{{ old.startdate|default(contract.startdate|date('Y-m-d')) }}">
+                                    {% if errors.startdate %}
+                                    <div class="invalid-feedback">{{ errors.startdate }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="currentenddate" class="form-label">End Date</label>
+                                    <input type="date"
+                                           class="form-control{% if errors.currentenddate %} is-invalid{% endif %}"
+                                           id="currentenddate"
+                                           name="currentenddate"
+                                           value="{{ old.currentenddate|default(contract.currentenddate|date('Y-m-d')) }}">
+                                    {% if errors.currentenddate %}
+                                    <div class="invalid-feedback">{{ errors.currentenddate }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Leave empty for contracts with no end date.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="renewals" class="form-label">Renewals</label>
+                                    <input type="text"
+                                           class="form-control{% if errors.renewals %} is-invalid{% endif %}"
+                                           id="renewals"
+                                           name="renewals"
+                                           value="{{ old.renewals|default(contract.renewals|default('')) }}"
+                                           maxlength="255">
+                                    {% if errors.renewals %}
+                                    <div class="invalid-feedback">{{ errors.renewals }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Renewal terms and conditions.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <!-- Description -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Description</h6>
+
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control{% if errors.description %} is-invalid{% endif %}"
+                                              id="description"
+                                              name="description"
+                                              rows="6">{{ old.description|default(contract.description|default('')) }}</textarea>
+                                    {% if errors.description %}
+                                    <div class="invalid-feedback">{{ errors.description }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Detailed description of the contract scope and services.</div>
+                                </div>
+                            </div>
+
+                            <!-- Comments -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Comments</h6>
+
+                                <div class="mb-3">
+                                    <label for="comments" class="form-label">Comments</label>
+                                    <textarea class="form-control{% if errors.comments %} is-invalid{% endif %}"
+                                              id="comments"
+                                              name="comments"
+                                              rows="6">{{ old.comments|default(contract.comments|default('')) }}</textarea>
+                                    {% if errors.comments %}
+                                    <div class="invalid-feedback">{{ errors.comments }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Internal notes and additional information.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if mode == 'edit' %}
+                        <hr>
+
+                        <!-- Current Status -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">Current Information</h6>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Contract ID</label>
+                                            <div><code>#{{ contract.id }}</code></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Status</label>
+                                            <div>
+                                                {% if contract.status.status == 'active' %}
+                                                    <span class="badge bg-success">Active</span>
+                                                    {% if contract.status.days <= 30 %}
+                                                    <div class="mt-1"><small class="text-warning">Expires in {{ contract.status.days }} days</small></div>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="badge bg-danger">Expired</span>
+                                                    <div class="mt-1"><small class="text-danger">{{ contract.status.days|abs }} days ago</small></div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Associations</label>
+                                            <div>
+                                                {% set total = (contract.items|length) + (contract.software|length) %}
+                                                <span class="badge bg-info">{{ total }} records</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Child Contracts</label>
+                                            <div>
+                                                <span class="badge bg-secondary">{{ contract.children|length }}</span>
+                                                {% if contract.children|length > 0 %}
+                                                <a href="#childContracts" class="btn btn-sm btn-outline-primary ms-2">
+                                                    <i class="bi bi-eye"></i> View
+                                                </a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Associations -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">Update Associations</h6>
+                                <p class="text-muted">Modify which records this contract is associated with:</p>
+
+                                <div class="row">
+                                    <!-- Associate with Items -->
+                                    {% if form_options.items %}
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="items" class="form-label">Associate with Items</label>
+                                            <select class="form-select"
+                                                    id="items"
+                                                    name="items[]"
+                                                    multiple
+                                                    size="4">
+                                                {% for item in form_options.items %}
+                                                <option value="{{ item.id }}"
+                                                        {% if item.id in contract.item_ids %}selected{% endif %}>
+                                                    {{ item.display_title }}
+                                                    {% if item.model %} - {{ item.model }}{% endif %}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="form-text">Hold Ctrl/Cmd to select multiple items.</div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Associate with Software -->
+                                    {% if form_options.software %}
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="software" class="form-label">Associate with Software</label>
+                                            <select class="form-select"
+                                                    id="software"
+                                                    name="software[]"
+                                                    multiple
+                                                    size="4">
+                                                {% for sw in form_options.software %}
+                                                <option value="{{ sw.id }}"
+                                                        {% if sw.id in contract.software_ids %}selected{% endif %}>
+                                                    {{ sw.title }}
+                                                    {% if sw.version %} v{{ sw.version }}{% endif %}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="form-text">Hold Ctrl/Cmd to select multiple software.</div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Child Contracts Info -->
+                        {% if contract.children|length > 0 %}
+                        <div class="row" id="childContracts">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">Child Contracts</h6>
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    This contract has {{ contract.children|length }} child contracts. Changes to the parent may affect child contracts.
+                                </div>
+                                <div class="list-group">
+                                    {% for child in contract.children %}
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>{{ child.title }}</strong>
+                                                {% if child.number %}<br><small class="text-muted">{{ child.number }}</small>{% endif %}
+                                            </div>
+                                            <div>
+                                                <a href="/contracts/{{ child.id }}" class="btn btn-sm btn-outline-primary">View</a>
+                                                <a href="/contracts/{{ child.id }}/edit" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        {% endif %}
+                        {% endif %}
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                {% if mode == 'create' %}
+                                <a href="/contracts" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                {% else %}
+                                <a href="/contracts/{{ contract.id }}" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {% if mode == 'edit' and user and user.isAdmin() %}
+                                <button type="button"
+                                        class="btn btn-outline-danger me-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal">
+                                    <i class="bi bi-trash me-1"></i>Delete Contract
+                                </button>
+                                {% endif %}
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-lg me-1"></i>{% if mode == 'create' %}Create Contract{% else %}Update Contract{% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Action Modals -->
+{% if mode == 'view' and user and user.usertype >= 1 and user.isAdmin() %}
+    <!-- Delete Modal for View Mode -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this contract?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ contract.title }}</strong>
+                        {% if contract.number %}<br>Number: {{ contract.number }}{% endif %}
+                        {% if contract.totalcost %}<br>Total Cost: ${{ contract.totalcost|number_format(2) }}{% endif %}
+                        {% if contract.children|length > 0 %}
+                        <br><strong>Warning:</strong> This contract has {{ contract.children|length }} child contracts
+                        {% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. Associated items and software will be unlinked.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/contracts/{{ contract.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete Contract
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% elseif mode == 'edit' and user and user.isAdmin() %}
+    <!-- Delete Modal for Edit Mode -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this contract?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ contract.title }}</strong>
+                        {% if contract.number %}<br>Number: {{ contract.number }}{% endif %}
+                        {% if contract.totalcost %}<br>Total Cost: ${{ contract.totalcost|number_format(2) }}{% endif %}
+                        {% if contract.children|length > 0 %}
+                        <br><strong>Warning:</strong> This contract has {{ contract.children|length }} child contracts
+                        {% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. Associated items and software will be unlinked.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/contracts/{{ contract.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete Contract
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if mode == 'edit' or mode == 'create' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on title field
+    document.getElementById('title').focus();
+
+    // Date validation
+    const startDateField = document.getElementById('startdate');
+    const endDateField = document.getElementById('currentenddate');
+
+    function validateDates() {
+        if (startDateField.value && endDateField.value) {
+            const startDate = new Date(startDateField.value);
+            const endDate = new Date(endDateField.value);
+
+            if (endDate <= startDate) {
+                endDateField.setCustomValidity('End date must be after start date');
+            } else {
+                endDateField.setCustomValidity('');
+            }
+        } else {
+            endDateField.setCustomValidity('');
+        }
+    }
+
+    startDateField.addEventListener('change', validateDates);
+    endDateField.addEventListener('change', validateDates);
+
+    // Cost formatting
+    const costField = document.getElementById('totalcost');
+    costField.addEventListener('blur', function() {
+        if (this.value) {
+            const value = parseFloat(this.value);
+            if (!isNaN(value)) {
+                this.value = value.toFixed(2);
+            }
+        }
+    });
+
+    // Parent contract warning
+    const parentField = document.getElementById('parentid');
+    {% if mode == 'edit' %}
+    const currentParent = '{{ contract.parentid|default("") }}';
+    {% else %}
+    const currentParent = '';
+    {% endif %}
+
+    parentField.addEventListener('change', function() {
+        const warningDiv = document.getElementById('parentWarning');
+        if (warningDiv) {
+            warningDiv.remove();
+        }
+
+        if (this.value && this.value != currentParent) {
+            const warning = document.createElement('div');
+            warning.id = 'parentWarning';
+            warning.className = 'alert alert-warning mt-2';
+            warning.innerHTML = '<i class="bi bi-exclamation-triangle me-1"></i><strong>Parent Change:</strong> Changing the parent contract may affect the contract hierarchy.';
+            this.parentNode.appendChild(warning);
+        } else if (this.value) {
+            const warning = document.createElement('div');
+            warning.id = 'parentWarning';
+            warning.className = 'alert alert-info mt-2';
+            warning.innerHTML = '<i class="bi bi-info-circle me-1"></i><strong>Child Contract:</strong> This contract is a sub-contract of the selected parent.';
+            this.parentNode.appendChild(warning);
+        }
+    });
+
+    // Trigger parent validation on load
+    if (parentField.value) {
+        parentField.dispatchEvent(new Event('change'));
+    }
+});
+</script>
+{% endif %}
+{% endblock %}

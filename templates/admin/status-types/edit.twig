@@ -1,0 +1,54 @@
+{% extends "base.twig" %}
+
+{% block title %}Edit {{ status_type.statusdesc }} - Status Type{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/admin/status-types">Status Types</a></li>
+            <li class="breadcrumb-item"><a href="/admin/status-types/{{ status_type.id }}">{{ status_type.statusdesc }}</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        <a href="/admin/status-types/{{ status_type.id }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to Details
+        </a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-pencil me-2"></i>Edit Status Type: {{ status_type.statusdesc }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/admin/status-types/{{ status_type.id }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="mb-3">
+                        <label for="statusdesc" class="form-label">Status Description <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="statusdesc" name="statusdesc" value="{{ status_type.statusdesc }}" required>
+                        <div class="form-text">Enter a descriptive name for this status type (e.g., "Active", "In Maintenance", "Retired").</div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/admin/status-types/{{ status_type.id }}" class="btn btn-secondary">
+                            <i class="bi bi-x-lg me-1"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>Update Status Type
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

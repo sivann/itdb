@@ -158,13 +158,15 @@ function opendb($dbfile) {
     //open db
     try {
       $dbh = new PDO("sqlite:$dbfile");
-    } 
+      // Enable foreign key constraints
+      $dbh->exec('PRAGMA foreign_keys = ON;');
+    }
     catch (PDOException $e) {
       print "Open database Error!: " . $e->getMessage() . "<br>";
       die();
     }
-    return $dbh;
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+    return $dbh;
 
 
     //$ret = $dbh->exec("PRAGMA case_sensitive_like = 0;");

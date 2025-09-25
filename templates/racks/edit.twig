@@ -1,0 +1,1123 @@
+{% extends "base.twig" %}
+
+{% block title %}
+    {% if mode == 'create' %}
+        Create New Rack
+    {% elseif mode == 'edit' %}
+        Edit Rack: {{ rack.display_name }}
+    {% else %}
+        {{ rack.display_name }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/racks">Racks</a></li>
+            {% if mode == 'create' %}
+                <li class="breadcrumb-item active">Create New Rack</li>
+            {% elseif mode == 'edit' %}
+                <li class="breadcrumb-item"><a href="/racks/{{ rack.id }}">{{ rack.display_name }}</a></li>
+                <li class="breadcrumb-item active">Edit</li>
+            {% else %}
+                <li class="breadcrumb-item active">{{ rack.display_name }}</li>
+            {% endif %}
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        {% if mode == 'view' %}
+            {% if user and user.usertype >= 1 %}
+            <a href="/racks/{{ rack.id }}/edit" class="btn btn-primary">
+                <i class="bi bi-pencil me-1"></i>Edit Rack
+            </a>
+            {% endif %}
+            <a href="/racks" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Racks
+            </a>
+        {% elseif mode == 'edit' %}
+            <a href="/racks/{{ rack.id }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Rack
+            </a>
+        {% else %}
+            <a href="/racks" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Racks
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+{% if mode == 'view' %}
+    <!-- VIEW MODE -->
+    <div class="row">
+        <!-- Main Information -->
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-server me-2"></i>{{ rack.display_name }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Rack Information</h6>
+
+                            {% if rack.label %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Label</label>
+                                <div><code>{{ rack.label }}</code></div>
+                            </div>
+                            {% endif %}
+
+                            {% if rack.model %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Model</label>
+                                <div>{{ rack.model }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if rack.usize %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Rack Size</label>
+                                <div>
+                                    <span class="badge bg-secondary fs-6">{{ rack.usize }}U</span>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if rack.depth %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Depth</label>
+                                <div>{{ rack.depth }} inches</div>
+                            </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Rack ID</label>
+                                <div><code>#{{ rack.id }}</code></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Location & Configuration</h6>
+
+                            {% if rack.location %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Location</label>
+                                <div>
+                                    <a href="/locations/{{ rack.location.id }}" class="text-decoration-none">
+                                        <i class="bi bi-geo-alt me-1"></i>{{ rack.location.name }}
+                                    </a>
+                                    {% if rack.location.floor %}
+                                        <br><small class="text-muted">Floor: {{ rack.location.floor }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if rack.locationArea %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Location Area</label>
+                                <div>{{ rack.locationArea.name }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if rack.revnums %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Reverse Numbering</label>
+                                <div>
+                                    {% if rack.revnums == 1 %}
+                                        <span class="badge bg-info">Enabled</span>
+                                        <br><small class="text-muted">Units numbered from top to bottom</small>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Disabled</span>
+                                        <br><small class="text-muted">Units numbered from bottom to top (standard)</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if rack.comments %}
+                    <hr>
+                    <div class="mb-0">
+                        <label class="form-label fw-bold">Comments</label>
+                        <div class="bg-light p-3 rounded">{{ rack.comments|nl2br }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Rack Visualization -->
+            {% if rack.usize %}
+            <div class="card mt-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-diagram-3 me-2"></i>Rack Layout
+                    </h6>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-secondary active" id="frontView">Front</button>
+                        <button class="btn btn-outline-secondary" id="rearView">Rear</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="rack-visualization">
+                        <div class="d-flex justify-content-center">
+                            <div class="rack-frame">
+                                <!-- Rack Units -->
+                                {% set rack_units = rack.usize %}
+                                {% for u in 1..rack_units %}
+                                    {% set unit_number = rack.revnums ? u : (rack_units - u + 1) %}
+                                    {% set has_item = false %}
+                                    {% set unit_item = null %}
+                                    {% for item in rack.items %}
+                                        {% if item.rackposition == unit_number %}
+                                            {% set has_item = true %}
+                                            {% set unit_item = item %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    <div class="rack-unit {% if has_item %}occupied{% endif %}"
+                                         data-unit="{{ unit_number }}"
+                                         {% if has_item %}title="{{ unit_item.display_title }}"{% endif %}>
+                                        <div class="unit-number">{{ unit_number }}</div>
+                                        <div class="unit-content">
+                                            {% if has_item %}
+                                                <a href="/items/{{ unit_item.id }}" class="text-decoration-none text-white">
+                                                    <i class="bi bi-laptop"></i>
+                                                    <span class="unit-label">{{ unit_item.display_title|slice(0, 12) }}{% if unit_item.display_title|length > 12 %}...{% endif %}</span>
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Items in Rack -->
+            {% if rack.items|length > 0 %}
+            <div class="card mt-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-laptop me-2"></i>Items in Rack
+                    </h6>
+                    <a href="/items?rack={{ rack.id }}" class="btn btn-sm btn-outline-primary">
+                        View All {{ rack.items|length }}
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Item</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Assigned To</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in rack.items|sort((a, b) => a.rackposition <=> b.rackposition) %}
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-info">{{ item.rackposition }}U</span>
+                                    </td>
+                                    <td>
+                                        <a href="/items/{{ item.id }}" class="text-decoration-none">
+                                            {{ item.display_title }}
+                                        </a>
+                                        {% if item.model %}
+                                        <br><small class="text-muted">{{ item.model }}</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.itemType %}
+                                            <span class="badge bg-info bg-opacity-25 text-dark">{{ item.itemType.name }}</span>
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.statusType %}
+                                            {% set status_class = item.status == 1 ? 'success' : (item.status == 0 ? 'danger' : 'secondary') %}
+                                            <span class="badge bg-{{ status_class }} bg-opacity-25 text-dark">{{ item.statusType.name }}</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary bg-opacity-25 text-dark">Unknown</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.user %}
+                                            {{ item.user.display_name|default(item.user.username) }}
+                                        {% else %}
+                                            <span class="text-muted">Unassigned</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="/items/{{ item.id }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar Information -->
+        <div class="col-lg-4">
+            <!-- Rack Utilization -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-pie-chart me-2"></i>Rack Utilization
+                    </h6>
+                </div>
+                <div class="card-body">
+                    {% if rack.capacity %}
+                    <div class="text-center mb-3">
+                        <div class="h2 mb-0
+                            {% if rack.capacity.utilization_percent > 80 %}text-danger
+                            {% elseif rack.capacity.utilization_percent > 60 %}text-warning
+                            {% else %}text-success{% endif %}">
+                            {{ rack.capacity.utilization_percent }}%
+                        </div>
+                        <div class="text-muted">Utilized</div>
+                    </div>
+
+                    <div class="progress mb-3" style="height: 10px;">
+                        <div class="progress-bar
+                            {% if rack.capacity.utilization_percent > 80 %}bg-danger
+                            {% elseif rack.capacity.utilization_percent > 60 %}bg-warning
+                            {% else %}bg-success{% endif %}"
+                             role="progressbar"
+                             style="width: {{ rack.capacity.utilization_percent }}%">
+                        </div>
+                    </div>
+
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="h4 mb-0 text-primary">{{ rack.capacity.used }}</div>
+                            <small class="text-muted">Used</small>
+                        </div>
+                        <div class="col-4">
+                            <div class="h4 mb-0 text-success">{{ rack.capacity.available }}</div>
+                            <small class="text-muted">Available</small>
+                        </div>
+                        <div class="col-4">
+                            <div class="h4 mb-0 text-secondary">{{ rack.capacity.total }}</div>
+                            <small class="text-muted">Total</small>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="text-center text-muted py-3">
+                        <i class="bi bi-question-circle display-6 mb-2"></i>
+                        <div>Rack size not specified</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Rack Statistics -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-graph-up me-2"></i>Statistics
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="h3 mb-0 text-primary">{{ rack.items|length }}</div>
+                            <small class="text-muted">Items</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="h3 mb-0 text-info">{{ rack.unique_item_types|default(0) }}</div>
+                            <small class="text-muted">Types</small>
+                        </div>
+                    </div>
+                    <hr class="my-3">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="h3 mb-0 text-success">{{ rack.active_items|default(0) }}</div>
+                            <small class="text-muted">Active</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="h3 mb-0 text-warning">{{ rack.maintenance_items|default(0) }}</div>
+                            <small class="text-muted">Maintenance</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            {% if user and user.usertype >= 1 %}
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-gear me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="/racks/{{ rack.id }}/edit" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil me-1"></i>Edit Rack
+                        </a>
+                        <a href="/items?rack={{ rack.id }}" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-laptop me-1"></i>View Items
+                        </a>
+                        <a href="/items/create?rack={{ rack.id }}" class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-plus me-1"></i>Add Item to Rack
+                        </a>
+                        {% if rack.location %}
+                        <a href="/locations/{{ rack.location.id }}" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-geo-alt me-1"></i>View Location
+                        </a>
+                        {% endif %}
+                        {% if rack.capacity and rack.capacity.available > 0 %}
+                        <a href="/items?move_to_rack={{ rack.id }}" class="btn btn-outline-warning btn-sm">
+                            <i class="bi bi-arrow-right me-1"></i>Move Items Here
+                        </a>
+                        {% endif %}
+                        {% if user.isAdmin() %}
+                        <button type="button"
+                                class="btn btn-outline-danger btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                            <i class="bi bi-trash me-1"></i>Delete Rack
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% elseif mode == 'edit' or mode == 'create' %}
+    <!-- EDIT/CREATE MODE -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        {% if mode == 'create' %}
+                            <i class="bi bi-plus-circle me-2"></i>Create New Rack
+                        {% else %}
+                            <i class="bi bi-pencil me-2"></i>Edit Rack: {{ rack.display_name }}
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% if mode == 'create' %}/racks{% else %}/racks/{{ rack.id }}{% endif %}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        {% if mode == 'edit' %}
+                        <input type="hidden" name="_method" value="PUT">
+                        {% endif %}
+
+                        <div class="row">
+                            <!-- Basic Information -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Basic Information</h6>
+
+                                <div class="mb-3">
+                                    <label for="label" class="form-label">Rack Label</label>
+                                    <input type="text"
+                                           class="form-control{% if errors.label %} is-invalid{% endif %}"
+                                           id="label"
+                                           name="label"
+                                           value="{{ old.label|default(rack.label|default('')) }}"
+                                           maxlength="100">
+                                    {% if errors.label %}
+                                    <div class="invalid-feedback">{{ errors.label }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Unique identifier for this rack.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="model" class="form-label">Model</label>
+                                    <input type="text"
+                                           class="form-control{% if errors.model %} is-invalid{% endif %}"
+                                           id="model"
+                                           name="model"
+                                           value="{{ old.model|default(rack.model|default('')) }}"
+                                           maxlength="100">
+                                    {% if errors.model %}
+                                    <div class="invalid-feedback">{{ errors.model }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Manufacturer and model of the rack.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="locationid" class="form-label">Location <span class="text-danger">*</span></label>
+                                    <select class="form-select{% if errors.locationid %} is-invalid{% endif %}"
+                                            id="locationid"
+                                            name="locationid"
+                                            required>
+                                        <option value="">Select location...</option>
+                                        {% for location in form_options.locations %}
+                                        <option value="{{ location.id }}"
+                                                {% if (old.locationid|default(rack.locationid|default(''))) == location.id %}selected{% endif %}>
+                                            {{ location.name }}
+                                            {% if location.floor %} ({{ location.floor }}){% endif %}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if errors.locationid %}
+                                    <div class="invalid-feedback">{{ errors.locationid }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Physical location where this rack is installed.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="locareaid" class="form-label">Location Area</label>
+                                    <select class="form-select{% if errors.locareaid %} is-invalid{% endif %}"
+                                            id="locareaid"
+                                            name="locareaid">
+                                        <option value="">No specific area</option>
+                                        {% for area in form_options.location_areas %}
+                                        <option value="{{ area.id }}"
+                                                {% if (old.locareaid|default(rack.locareaid|default(''))) == area.id %}selected{% endif %}
+                                                data-location="{{ area.locationid }}">
+                                            {{ area.name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if errors.locareaid %}
+                                    <div class="invalid-feedback">{{ errors.locareaid }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Specific area within the location (optional).</div>
+                                </div>
+                            </div>
+
+                            <!-- Technical Specifications -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Technical Specifications</h6>
+
+                                <div class="mb-3">
+                                    <label for="usize" class="form-label">Rack Size (Units) <span class="text-danger">*</span></label>
+                                    <select class="form-select{% if errors.usize %} is-invalid{% endif %}"
+                                            id="usize"
+                                            name="usize"
+                                            required>
+                                        <option value="">Select rack size...</option>
+                                        {% set current_usize = old.usize|default(rack.usize|default('')) %}
+                                        <option value="4" {% if current_usize == 4 %}selected{% endif %}>4U - Network Switch Rack</option>
+                                        <option value="6" {% if current_usize == 6 %}selected{% endif %}>6U - Small Equipment Rack</option>
+                                        <option value="9" {% if current_usize == 9 %}selected{% endif %}>9U - Wall Mount Rack</option>
+                                        <option value="12" {% if current_usize == 12 %}selected{% endif %}>12U - Small Server Rack</option>
+                                        <option value="18" {% if current_usize == 18 %}selected{% endif %}>18U - Medium Rack</option>
+                                        <option value="24" {% if current_usize == 24 %}selected{% endif %}>24U - Standard Rack</option>
+                                        <option value="42" {% if current_usize == 42 %}selected{% endif %}>42U - Full Server Rack (Standard)</option>
+                                        <option value="45" {% if current_usize == 45 %}selected{% endif %}>45U - Tall Server Rack</option>
+                                        <option value="48" {% if current_usize == 48 %}selected{% endif %}>48U - Extra Tall Rack</option>
+                                        {% if current_usize and current_usize not in [4, 6, 9, 12, 18, 24, 42, 45, 48] %}
+                                        <option value="{{ current_usize }}" selected>{{ current_usize }}U - Custom Size</option>
+                                        {% endif %}
+                                        <option value="custom">Custom Size...</option>
+                                    </select>
+                                    {% if errors.usize %}
+                                    <div class="invalid-feedback">{{ errors.usize }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Number of rack units (1U = 1.75 inches).</div>
+                                </div>
+
+                                <div class="mb-3" id="custom-size-field" style="display: none;">
+                                    <label for="custom_usize" class="form-label">Custom Size (Units)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="custom_usize"
+                                           name="custom_usize"
+                                           min="1"
+                                           max="100">
+                                    <div class="form-text">Enter custom number of rack units (1-100).</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="depth" class="form-label">Rack Depth (inches)</label>
+                                    <select class="form-select{% if errors.depth %} is-invalid{% endif %}"
+                                            id="depth"
+                                            name="depth">
+                                        <option value="">Select depth...</option>
+                                        {% set current_depth = old.depth|default(rack.depth|default('')) %}
+                                        <option value="24" {% if current_depth == 24 %}selected{% endif %}>24" - Shallow Network Rack</option>
+                                        <option value="30" {% if current_depth == 30 %}selected{% endif %}>30" - Standard Network Rack</option>
+                                        <option value="32" {% if current_depth == 32 %}selected{% endif %}>32" - Medium Server Rack</option>
+                                        <option value="36" {% if current_depth == 36 %}selected{% endif %}>36" - Standard Server Rack</option>
+                                        <option value="42" {% if current_depth == 42 %}selected{% endif %}>42" - Deep Server Rack</option>
+                                        <option value="48" {% if current_depth == 48 %}selected{% endif %}>48" - Extra Deep Rack</option>
+                                        {% if current_depth and current_depth not in [24, 30, 32, 36, 42, 48] %}
+                                        <option value="{{ current_depth }}" selected>{{ current_depth }}" - Custom Depth</option>
+                                        {% endif %}
+                                    </select>
+                                    {% if errors.depth %}
+                                    <div class="invalid-feedback">{{ errors.depth }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Depth of the rack from front to back.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input{% if errors.revnums %} is-invalid{% endif %}"
+                                               type="checkbox"
+                                               id="revnums"
+                                               name="revnums"
+                                               value="1"
+                                               {% if (old.revnums|default(rack.revnums|default(''))) == 1 %}checked{% endif %}>
+                                        <label class="form-check-label" for="revnums">
+                                            Reverse Unit Numbering
+                                        </label>
+                                        {% if errors.revnums %}
+                                        <div class="invalid-feedback">{{ errors.revnums }}</div>
+                                        {% endif %}
+                                        <div class="form-text">
+                                            Check if units are numbered from top to bottom instead of bottom to top.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if mode == 'edit' %}
+                        <hr>
+
+                        <!-- Current Status -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">Current Status</h6>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Rack ID</label>
+                                            <div><code>#{{ rack.id }}</code></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Current Size</label>
+                                            <div>
+                                                {% if rack.usize %}
+                                                    <span class="badge bg-secondary">{{ rack.usize }}U</span>
+                                                {% else %}
+                                                    <span class="text-muted">Not specified</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Utilization</label>
+                                            <div>
+                                                {% if rack.capacity %}
+                                                    <span class="badge
+                                                        {% if rack.capacity.utilization_percent > 80 %}bg-danger
+                                                        {% elseif rack.capacity.utilization_percent > 60 %}bg-warning
+                                                        {% else %}bg-success{% endif %}">
+                                                        {{ rack.capacity.utilization_percent }}%
+                                                    </span>
+                                                {% else %}
+                                                    <span class="text-muted">Unknown</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Items Installed</label>
+                                            <div>
+                                                <span class="badge bg-info">{{ rack.items|length }}</span>
+                                                {% if rack.items|length > 0 %}
+                                                <a href="/items?rack={{ rack.id }}" class="btn btn-sm btn-outline-primary ms-2">
+                                                    <i class="bi bi-eye"></i> View
+                                                </a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% if rack.items|length > 0 %}
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle me-1"></i>
+                                    <strong>Rack In Use:</strong> This rack currently has {{ rack.items|length }} items installed.
+                                    {% if rack.capacity %}
+                                    Changing the rack size may affect item positions and utilization calculations.
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <hr>
+
+                        <!-- Comments -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">Additional Information</h6>
+
+                                <div class="mb-3">
+                                    <label for="comments" class="form-label">Comments</label>
+                                    <textarea class="form-control{% if errors.comments %} is-invalid{% endif %}"
+                                              id="comments"
+                                              name="comments"
+                                              rows="4">{{ old.comments|default(rack.comments|default('')) }}</textarea>
+                                    {% if errors.comments %}
+                                    <div class="invalid-feedback">{{ errors.comments }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Additional notes about this rack.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if mode == 'edit' and rack.usize %}
+                        <hr>
+
+                        <!-- Rack Visualization Preview -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">Current Rack Layout</h6>
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div id="rack-preview">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="rack-frame-preview">
+                                                    <div class="rack-info mb-2 text-center">
+                                                        <strong>{{ rack.usize }}U Rack</strong>
+                                                        {% if rack.depth %} - {{ rack.depth }}" Deep{% endif %}
+                                                    </div>
+                                                    {% set rack_units = rack.usize %}
+                                                    {% for u in 1..rack_units|slice(0, 10) %}
+                                                        {% set unit_number = rack.revnums ? u : (rack_units - u + 1) %}
+                                                        {% set has_item = false %}
+                                                        {% for item in rack.items %}
+                                                            {% if item.rackposition == unit_number %}
+                                                                {% set has_item = true %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        <div class="rack-unit-preview {% if has_item %}occupied{% endif %}">
+                                                            <span class="unit-number">{{ unit_number }}</span>
+                                                            {% if has_item %}<i class="bi bi-laptop"></i>{% endif %}
+                                                        </div>
+                                                    {% endfor %}
+                                                    {% if rack_units > 10 %}
+                                                    <div class="rack-ellipsis">⋮ ({{ rack_units - 10 }} more units)</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                {% if mode == 'create' %}
+                                <a href="/racks" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                {% else %}
+                                <a href="/racks/{{ rack.id }}" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {% if mode == 'edit' and user and user.isAdmin() and rack.items|length == 0 %}
+                                <button type="button"
+                                        class="btn btn-outline-danger me-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal">
+                                    <i class="bi bi-trash me-1"></i>Delete Rack
+                                </button>
+                                {% endif %}
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-lg me-1"></i>{% if mode == 'create' %}Create Rack{% else %}Update Rack{% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Action Modals -->
+{% if mode == 'view' and user and user.usertype >= 1 and user.isAdmin() %}
+    <!-- Delete Modal for View Mode -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this rack?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ rack.display_name }}</strong>
+                        {% if rack.location %}<br>Location: {{ rack.location.name }}{% endif %}
+                        {% if rack.usize %}<br>Size: {{ rack.usize }}U{% endif %}
+                        {% if rack.items|length > 0 %}
+                        <br><strong>Warning:</strong> This rack has {{ rack.items|length }} assigned items
+                        {% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. Items in this rack will become unassigned to racks.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/racks/{{ rack.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete Rack
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% elseif mode == 'edit' and user and user.isAdmin() and rack.items|length == 0 %}
+    <!-- Delete Modal for Edit Mode -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this rack?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ rack.display_name }}</strong>
+                        {% if rack.location %}<br>Location: {{ rack.location.name }}{% endif %}
+                        {% if rack.usize %}<br>Size: {{ rack.usize }}U{% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. The rack configuration will be permanently removed.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/racks/{{ rack.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete Rack
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Rack Visualization Styles -->
+{% if mode == 'view' %}
+<style>
+.rack-visualization {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.rack-frame {
+    background: #343a40;
+    border-radius: 4px;
+    padding: 10px 5px;
+    min-width: 300px;
+}
+
+.rack-unit {
+    height: 20px;
+    margin-bottom: 2px;
+    background: #6c757d;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border: 1px solid #495057;
+}
+
+.rack-unit.occupied {
+    background: #0d6efd;
+    border-color: #0a58ca;
+}
+
+.unit-number {
+    width: 30px;
+    text-align: center;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    background: #495057;
+    border-radius: 2px 0 0 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.rack-unit.occupied .unit-number {
+    background: #0a58ca;
+}
+
+.unit-content {
+    flex: 1;
+    padding: 0 5px;
+    color: white;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.unit-label {
+    margin-left: 5px;
+}
+
+.rack-unit:hover {
+    opacity: 0.8;
+}
+</style>
+{% endif %}
+
+{% if mode == 'edit' or mode == 'create' %}
+<style>
+.rack-frame-preview {
+    background: #343a40;
+    border-radius: 4px;
+    padding: 10px 5px;
+    min-width: 200px;
+}
+
+.rack-unit-preview {
+    height: 12px;
+    margin-bottom: 1px;
+    background: #6c757d;
+    border: 1px solid #495057;
+    border-radius: 1px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-size: 8px;
+    color: white;
+    padding: 0 5px;
+}
+
+.rack-unit-preview.occupied {
+    background: #0d6efd;
+    border-color: #0a58ca;
+}
+
+.rack-unit-preview .unit-number {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.rack-ellipsis {
+    text-align: center;
+    color: #6c757d;
+    font-size: 12px;
+    padding: 5px 0;
+}
+
+.rack-info {
+    font-size: 0.9rem;
+    color: #495057;
+}
+</style>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if mode == 'view' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Rack view toggle (front/rear) - placeholder for future functionality
+    const frontViewBtn = document.getElementById('frontView');
+    const rearViewBtn = document.getElementById('rearView');
+
+    if (frontViewBtn && rearViewBtn) {
+        frontViewBtn.addEventListener('click', function() {
+            this.classList.add('active');
+            rearViewBtn.classList.remove('active');
+            // Future: Toggle to front view
+        });
+
+        rearViewBtn.addEventListener('click', function() {
+            this.classList.add('active');
+            frontViewBtn.classList.remove('active');
+            // Future: Toggle to rear view
+        });
+    }
+
+    // Rack unit hover effects
+    document.querySelectorAll('.rack-unit').forEach(function(unit) {
+        unit.addEventListener('mouseenter', function() {
+            const unitNumber = this.dataset.unit;
+            this.style.transform = 'scale(1.02)';
+            this.style.zIndex = '10';
+        });
+
+        unit.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+            this.style.zIndex = '';
+        });
+    });
+});
+</script>
+{% endif %}
+
+{% if mode == 'edit' or mode == 'create' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on label field
+    document.getElementById('label').focus();
+
+    // Handle custom size selection
+    const usizeSelect = document.getElementById('usize');
+    const customSizeField = document.getElementById('custom-size-field');
+    const customUsizeInput = document.getElementById('custom_usize');
+
+    usizeSelect.addEventListener('change', function() {
+        if (this.value === 'custom') {
+            customSizeField.style.display = 'block';
+            customUsizeInput.required = true;
+            customUsizeInput.focus();
+        } else {
+            customSizeField.style.display = 'none';
+            customUsizeInput.required = false;
+            customUsizeInput.value = '';
+        }
+    });
+
+    // Initialize custom field if needed
+    if (usizeSelect.value === 'custom') {
+        customSizeField.style.display = 'block';
+        customUsizeInput.required = true;
+    }
+
+    // Filter location areas based on selected location
+    const locationSelect = document.getElementById('locationid');
+    const areaSelect = document.getElementById('locareaid');
+
+    function filterAreas() {
+        const selectedLocationId = locationSelect.value;
+        const areaOptions = areaSelect.querySelectorAll('option[data-location]');
+
+        // Show/hide area options based on selected location
+        areaOptions.forEach(function(option) {
+            if (option.dataset.location === selectedLocationId) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+
+        // Reset area selection if it's not valid for the current location
+        const currentAreaOption = areaSelect.querySelector(`option[value="${areaSelect.value}"]`);
+        if (currentAreaOption && currentAreaOption.dataset.location !== selectedLocationId && selectedLocationId) {
+            areaSelect.value = '';
+        }
+
+        // Disable area select if no location is selected
+        areaSelect.disabled = !selectedLocationId;
+    }
+
+    locationSelect.addEventListener('change', filterAreas);
+
+    // Initialize area filtering
+    filterAreas();
+
+    // Form validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        let rackSize = usizeSelect.value;
+
+        if (rackSize === 'custom') {
+            rackSize = customUsizeInput.value;
+            if (!rackSize || rackSize < 1 || rackSize > 100) {
+                e.preventDefault();
+                alert('Please enter a valid custom rack size (1-100 units).');
+                customUsizeInput.focus();
+                return false;
+            }
+            // Set the actual value for submission
+            usizeSelect.innerHTML += `<option value="${rackSize}" selected></option>`;
+        }
+
+        if (!locationSelect.value) {
+            e.preventDefault();
+            alert('Please select a location for the rack.');
+            locationSelect.focus();
+            return false;
+        }
+
+        {% if mode == 'edit' %}
+        // Warn about size changes if rack has items
+        const originalSize = {{ rack.usize|default(0) }};
+        const newSize = parseInt(rackSize);
+        const hasItems = {{ rack.items|length }};
+
+        if (hasItems > 0 && originalSize !== newSize) {
+            const confirmed = confirm(
+                'Warning: This rack currently has items installed. Changing the rack size may affect item positions and cause issues with the rack layout.\n\n' +
+                'Are you sure you want to proceed?'
+            );
+            if (!confirmed) {
+                e.preventDefault();
+                return false;
+            }
+        }
+        {% endif %}
+    });
+
+    {% if mode == 'edit' %}
+    // Location change warning
+    const originalLocationId = '{{ rack.locationid|default("") }}';
+    locationSelect.addEventListener('change', function() {
+        const newLocationId = this.value;
+        const hasItems = {{ rack.items|length }};
+
+        if (hasItems > 0 && originalLocationId && originalLocationId !== newLocationId) {
+            const warningDiv = document.getElementById('locationWarning');
+            if (warningDiv) {
+                warningDiv.remove();
+            }
+
+            if (newLocationId !== originalLocationId) {
+                const warning = document.createElement('div');
+                warning.id = 'locationWarning';
+                warning.className = 'alert alert-warning mt-2';
+                warning.innerHTML = '<i class="bi bi-exclamation-triangle me-1"></i><strong>Location Change:</strong> Moving this rack will affect the physical location of all {{ rack.items|length }} installed items.';
+                this.parentNode.appendChild(warning);
+            }
+        }
+    });
+    {% endif %}
+});
+</script>
+{% endif %}
+{% endblock %}

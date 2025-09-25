@@ -1,0 +1,403 @@
+{% extends "base.twig" %}
+
+{% block title %}Create Contract{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/contracts">Contracts</a></li>
+            <li class="breadcrumb-item active">Create New Contract</li>
+        </ol>
+    </nav>
+
+    <a href="/contracts" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Back to Contracts
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-plus-lg me-2"></i>Create New Contract
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/contracts">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="row">
+                        <!-- Basic Information -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Basic Information</h6>
+
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Contract Title <span class="text-danger">*</span></label>
+                                <input type="text"
+                                       class="form-control{% if errors.title %} is-invalid{% endif %}"
+                                       id="title"
+                                       name="title"
+                                       value="{{ old.title|default('') }}"
+                                       required
+                                       maxlength="255">
+                                {% if errors.title %}
+                                <div class="invalid-feedback">{{ errors.title }}</div>
+                                {% endif %}
+                                <div class="form-text">Descriptive name for this contract.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="number" class="form-label">Contract Number</label>
+                                <input type="text"
+                                       class="form-control{% if errors.number %} is-invalid{% endif %}"
+                                       id="number"
+                                       name="number"
+                                       value="{{ old.number|default('') }}"
+                                       maxlength="100">
+                                {% if errors.number %}
+                                <div class="invalid-feedback">{{ errors.number }}</div>
+                                {% endif %}
+                                <div class="form-text">Official contract number or reference.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="type" class="form-label">Contract Type</label>
+                                <select class="form-select{% if errors.type %} is-invalid{% endif %}"
+                                        id="type"
+                                        name="type">
+                                    <option value="">Select contract type...</option>
+                                    {% for type in form_options.contract_types %}
+                                    <option value="{{ type.id }}"
+                                            {% if old.type|default('') == type.id %}selected{% endif %}>
+                                        {{ type.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                {% if errors.type %}
+                                <div class="invalid-feedback">{{ errors.type }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="subtype" class="form-label">Sub Type</label>
+                                <input type="text"
+                                       class="form-control{% if errors.subtype %} is-invalid{% endif %}"
+                                       id="subtype"
+                                       name="subtype"
+                                       value="{{ old.subtype|default('') }}"
+                                       maxlength="100">
+                                {% if errors.subtype %}
+                                <div class="invalid-feedback">{{ errors.subtype }}</div>
+                                {% endif %}
+                                <div class="form-text">Optional sub-category or classification.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="parentid" class="form-label">Parent Contract</label>
+                                <select class="form-select{% if errors.parentid %} is-invalid{% endif %}"
+                                        id="parentid"
+                                        name="parentid">
+                                    <option value="">None (Root Contract)</option>
+                                    {% for parent in form_options.contracts %}
+                                    <option value="{{ parent.id }}"
+                                            {% if old.parentid|default(query.parent|default('')) == parent.id %}selected{% endif %}>
+                                        {{ parent.title }}
+                                        {% if parent.number %} ({{ parent.number }}){% endif %}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                {% if errors.parentid %}
+                                <div class="invalid-feedback">{{ errors.parentid }}</div>
+                                {% endif %}
+                                <div class="form-text">Select if this is a child/sub-contract of another contract.</div>
+                            </div>
+                        </div>
+
+                        <!-- Financial & Contractor Information -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Financial & Contractor Information</h6>
+
+                            <div class="mb-3">
+                                <label for="contractorid" class="form-label">Contractor</label>
+                                <select class="form-select{% if errors.contractorid %} is-invalid{% endif %}"
+                                        id="contractorid"
+                                        name="contractorid">
+                                    <option value="">Select contractor...</option>
+                                    {% if contractors is defined and contractors|length > 0 %}
+                                        {% for agent in contractors %}
+                                        <option value="{{ agent.id }}"
+                                                {% if old.contractorid|default('') == agent.id %}selected{% endif %}>
+                                            {{ agent.title }}
+                                            {% if agent.type_description %} ({{ agent.type_description }}){% endif %}
+                                        </option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                {% if errors.contractorid %}
+                                <div class="invalid-feedback">{{ errors.contractorid }}</div>
+                                {% endif %}
+                                <div class="form-text">The external organization providing contracted services.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="vendorid" class="form-label">Vendor</label>
+                                <select class="form-select{% if errors.vendorid %} is-invalid{% endif %}"
+                                        id="vendorid"
+                                        name="vendorid">
+                                    <option value="">Select vendor...</option>
+                                    {% if vendors is defined and vendors|length > 0 %}
+                                        {% for agent in vendors %}
+                                        <option value="{{ agent.id }}"
+                                                {% if old.vendorid|default('') == agent.id %}selected{% endif %}>
+                                            {{ agent.title }}
+                                            {% if agent.type_description %} ({{ agent.type_description }}){% endif %}
+                                        </option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                {% if errors.vendorid %}
+                                <div class="invalid-feedback">{{ errors.vendorid }}</div>
+                                {% endif %}
+                                <div class="form-text">The external organization providing products or supplies.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="totalcost" class="form-label">Total Cost</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number"
+                                           class="form-control{% if errors.totalcost %} is-invalid{% endif %}"
+                                           id="totalcost"
+                                           name="totalcost"
+                                           value="{{ old.totalcost|default('') }}"
+                                           step="0.01"
+                                           min="0">
+                                </div>
+                                {% if errors.totalcost %}
+                                <div class="invalid-feedback">{{ errors.totalcost }}</div>
+                                {% endif %}
+                                <div class="form-text">Total contract value in dollars.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="startdate" class="form-label">Start Date</label>
+                                <input type="date"
+                                       class="form-control{% if errors.startdate %} is-invalid{% endif %}"
+                                       id="startdate"
+                                       name="startdate"
+                                       value="{{ old.startdate|default('') }}">
+                                {% if errors.startdate %}
+                                <div class="invalid-feedback">{{ errors.startdate }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="currentenddate" class="form-label">End Date</label>
+                                <input type="date"
+                                       class="form-control{% if errors.currentenddate %} is-invalid{% endif %}"
+                                       id="currentenddate"
+                                       name="currentenddate"
+                                       value="{{ old.currentenddate|default('') }}">
+                                {% if errors.currentenddate %}
+                                <div class="invalid-feedback">{{ errors.currentenddate }}</div>
+                                {% endif %}
+                                <div class="form-text">Leave empty for contracts with no end date.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="renewals" class="form-label">Renewals</label>
+                                <input type="text"
+                                       class="form-control{% if errors.renewals %} is-invalid{% endif %}"
+                                       id="renewals"
+                                       name="renewals"
+                                       value="{{ old.renewals|default('') }}"
+                                       maxlength="255">
+                                {% if errors.renewals %}
+                                <div class="invalid-feedback">{{ errors.renewals }}</div>
+                                {% endif %}
+                                <div class="form-text">Renewal terms and conditions.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <!-- Description -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Description</h6>
+
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control{% if errors.description %} is-invalid{% endif %}"
+                                          id="description"
+                                          name="description"
+                                          rows="6">{{ old.description|default('') }}</textarea>
+                                {% if errors.description %}
+                                <div class="invalid-feedback">{{ errors.description }}</div>
+                                {% endif %}
+                                <div class="form-text">Detailed description of the contract scope and services.</div>
+                            </div>
+                        </div>
+
+                        <!-- Comments -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Comments</h6>
+
+                            <div class="mb-3">
+                                <label for="comments" class="form-label">Comments</label>
+                                <textarea class="form-control{% if errors.comments %} is-invalid{% endif %}"
+                                          id="comments"
+                                          name="comments"
+                                          rows="6">{{ old.comments|default('') }}</textarea>
+                                {% if errors.comments %}
+                                <div class="invalid-feedback">{{ errors.comments }}</div>
+                                {% endif %}
+                                <div class="form-text">Internal notes and additional information.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Associations -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-3">Associate with Records (Optional)</h6>
+                            <p class="text-muted">You can associate this contract with existing records now, or add associations later:</p>
+
+                            <div class="row">
+                                <!-- Associate with Items -->
+                                {% if form_options.items %}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="items" class="form-label">Associate with Items</label>
+                                        <select class="form-select"
+                                                id="items"
+                                                name="items[]"
+                                                multiple
+                                                size="4">
+                                            {% for item in form_options.items %}
+                                            <option value="{{ item.id }}">
+                                                {{ item.display_title }}
+                                                {% if item.model %} - {{ item.model }}{% endif %}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="form-text">Hold Ctrl/Cmd to select multiple items.</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <!-- Associate with Software -->
+                                {% if form_options.software %}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="software" class="form-label">Associate with Software</label>
+                                        <select class="form-select"
+                                                id="software"
+                                                name="software[]"
+                                                multiple
+                                                size="4">
+                                            {% for sw in form_options.software %}
+                                            <option value="{{ sw.id }}">
+                                                {{ sw.title }}
+                                                {% if sw.version %} v{{ sw.version }}{% endif %}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="form-text">Hold Ctrl/Cmd to select multiple software.</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/contracts" class="btn btn-secondary">
+                            <i class="bi bi-x-lg me-1"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>Create Contract
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on title field
+    document.getElementById('title').focus();
+
+    // Date validation
+    const startDateField = document.getElementById('startdate');
+    const endDateField = document.getElementById('currentenddate');
+
+    function validateDates() {
+        if (startDateField.value && endDateField.value) {
+            const startDate = new Date(startDateField.value);
+            const endDate = new Date(endDateField.value);
+
+            if (endDate <= startDate) {
+                endDateField.setCustomValidity('End date must be after start date');
+            } else {
+                endDateField.setCustomValidity('');
+            }
+        } else {
+            endDateField.setCustomValidity('');
+        }
+    }
+
+    startDateField.addEventListener('change', validateDates);
+    endDateField.addEventListener('change', validateDates);
+
+    // Auto-populate contract number based on title
+    const titleField = document.getElementById('title');
+    const numberField = document.getElementById('number');
+
+    titleField.addEventListener('blur', function() {
+        if (this.value && !numberField.value) {
+            // Generate a simple contract number from title
+            const contractNumber = 'CTR-' + this.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().substr(0, 8) + '-' + new Date().getFullYear();
+            numberField.value = contractNumber;
+        }
+    });
+
+    // Cost formatting
+    const costField = document.getElementById('totalcost');
+    costField.addEventListener('blur', function() {
+        if (this.value) {
+            const value = parseFloat(this.value);
+            if (!isNaN(value)) {
+                this.value = value.toFixed(2);
+            }
+        }
+    });
+
+    // Parent contract warning
+    const parentField = document.getElementById('parentid');
+    parentField.addEventListener('change', function() {
+        const warningDiv = document.getElementById('parentWarning');
+        if (warningDiv) {
+            warningDiv.remove();
+        }
+
+        if (this.value) {
+            const warning = document.createElement('div');
+            warning.id = 'parentWarning';
+            warning.className = 'alert alert-info mt-2';
+            warning.innerHTML = '<i class="bi bi-info-circle me-1"></i><strong>Child Contract:</strong> This contract will be a sub-contract of the selected parent.';
+            this.parentNode.appendChild(warning);
+        }
+    });
+});
+</script>
+{% endblock %}

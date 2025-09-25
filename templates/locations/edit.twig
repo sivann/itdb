@@ -1,0 +1,827 @@
+{% extends "base.twig" %}
+
+{% block title %}
+    {% if mode == 'create' %}
+        Create New Location
+    {% elseif mode == 'edit' %}
+        Edit Location: {{ location.name }}
+    {% else %}
+        {{ location.name }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/locations">Locations</a></li>
+            {% if mode == 'create' %}
+                <li class="breadcrumb-item active">Create New Location</li>
+            {% elseif mode == 'edit' %}
+                <li class="breadcrumb-item"><a href="/locations/{{ location.id }}/edit">{{ location.name }}</a></li>
+                <li class="breadcrumb-item active">Edit</li>
+            {% else %}
+                <li class="breadcrumb-item active">{{ location.name }}</li>
+            {% endif %}
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        {% if mode == 'view' %}
+            {% if user and user.usertype >= 1 %}
+            <a href="/locations/{{ location.id }}/edit" class="btn btn-primary">
+                <i class="bi bi-pencil me-1"></i>Edit Location
+            </a>
+            {% endif %}
+            <a href="/locations" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Locations
+            </a>
+        {% elseif mode == 'edit' %}
+            <a href="/locations/{{ location.id }}/edit" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Location
+            </a>
+        {% else %}
+            <a href="/locations" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Locations
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+{% if mode == 'view' %}
+    <!-- VIEW MODE -->
+    <div class="row">
+        <!-- Main Information -->
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-geo-alt me-2"></i>{{ location.name }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Location Information</h6>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Location Name</label>
+                                <div>{{ location.name }}</div>
+                            </div>
+
+                            {% if location.floor %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Floor</label>
+                                <div>
+                                    <span class="badge bg-info">{{ location.floor }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Location ID</label>
+                                <div><code>#{{ location.id }}</code></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Floor Plan</h6>
+
+                            {% if location.has_floor_plan %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Floor Plan File</label>
+                                <div>
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-image me-1"></i>Available
+                                    </span>
+                                    <div class="mt-2">
+                                        <code>{{ location.floorplanfn }}</code>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="text-center text-muted py-3">
+                                <i class="bi bi-image display-6 mb-2"></i>
+                                <div>No floor plan available</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floor Plan Display -->
+            {% if location.has_floor_plan %}
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-image me-2"></i>Floor Plan
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    <img src="/locations/{{ location.id }}/floorplan"
+                         alt="Floor plan for {{ location.name }}"
+                         class="img-fluid rounded shadow-sm"
+                         style="max-height: 500px;"
+                         onclick="openFloorPlanModal()">
+                    <div class="mt-2">
+                        <small class="text-muted">Click image to view full size</small>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Items in Location -->
+            {% if location.items|length > 0 %}
+            <div class="card mt-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-laptop me-2"></i>Items in Location
+                    </h6>
+                    <a href="/items?location={{ location.id }}" class="btn btn-sm btn-outline-primary">
+                        View All {{ location.items|length }}
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Assigned To</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in location.items|slice(0, 10) %}
+                                <tr>
+                                    <td>
+                                        <a href="/items/{{ item.id }}" class="text-decoration-none">
+                                            {{ item.display_title }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {% if item.itemType %}
+                                            <span class="badge bg-info bg-opacity-25 text-dark">{{ item.itemType.name }}</span>
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.statusType %}
+                                            {% set status_class = item.status == 1 ? 'success' : (item.status == 0 ? 'danger' : 'secondary') %}
+                                            <span class="badge bg-{{ status_class }} bg-opacity-25 text-dark">{{ item.statusType.name }}</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary bg-opacity-25 text-dark">Unknown</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.user %}
+                                            {{ item.user.display_name|default(item.user.username) }}
+                                        {% else %}
+                                            <span class="text-muted">Unassigned</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="/items/{{ item.id }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% if location.items|length > 10 %}
+                    <div class="text-center mt-3">
+                        <a href="/items?location={{ location.id }}" class="btn btn-outline-primary">
+                            View All {{ location.items|length }} Items
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Racks in Location -->
+            {% if location.racks|length > 0 %}
+            <div class="card mt-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-server me-2"></i>Racks in Location
+                    </h6>
+                    <a href="/racks?location={{ location.id }}" class="btn btn-sm btn-outline-success">
+                        View All {{ location.racks|length }}
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for rack in location.racks %}
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <a href="/racks/{{ rack.id }}" class="text-decoration-none">
+                                            {{ rack.display_name }}
+                                        </a>
+                                    </h6>
+                                    {% if rack.model %}
+                                    <p class="card-text text-muted mb-1">{{ rack.model }}</p>
+                                    {% endif %}
+                                    {% if rack.usize %}
+                                    <p class="card-text mb-1">
+                                        <small class="text-muted">{{ rack.usize }}U capacity</small>
+                                    </p>
+                                    {% endif %}
+                                    {% if rack.capacity %}
+                                    <div class="progress mb-2" style="height: 5px;">
+                                        <div class="progress-bar"
+                                             role="progressbar"
+                                             style="width: {{ rack.capacity.utilization_percent }}%">
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">{{ rack.capacity.utilization_percent }}% utilized</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar Information -->
+        <div class="col-lg-4">
+            <!-- Location Statistics -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-graph-up me-2"></i>Statistics
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="h3 mb-0 text-primary">{{ location.items_count|default(0) }}</div>
+                            <small class="text-muted">Items</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="h3 mb-0 text-success">{{ location.racks_count|default(0) }}</div>
+                            <small class="text-muted">Racks</small>
+                        </div>
+                    </div>
+                    <hr class="my-3">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="h3 mb-0 text-warning">{{ location.areas_count|default(0) }}</div>
+                            <small class="text-muted">Areas</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="h3 mb-0 text-info">
+                                {% if location.items_count > 0 %}
+                                    {{ ((location.items_count / (location.items_count + location.available_capacity|default(10))) * 100)|round }}%
+                                {% else %}
+                                    0%
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">Utilization</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Areas -->
+            {% if location.areas|length > 0 %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-grid me-2"></i>Location Areas
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for area in location.areas %}
+                        <div class="list-group-item px-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-semibold">{{ area.name }}</div>
+                                    {% if area.description %}
+                                    <small class="text-muted">{{ area.description }}</small>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <span class="badge bg-secondary">{{ area.racks_count|default(0) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Quick Actions -->
+            {% if user and user.usertype >= 1 %}
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-gear me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="/locations/{{ location.id }}/edit" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil me-1"></i>Edit Location
+                        </a>
+                        <a href="/items?location={{ location.id }}" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-laptop me-1"></i>View Items
+                        </a>
+                        <a href="/racks?location={{ location.id }}" class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-server me-1"></i>View Racks
+                        </a>
+                        <a href="/racks/create?location={{ location.id }}" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-plus me-1"></i>Add Rack
+                        </a>
+                        {% if location.has_floor_plan %}
+                        <button class="btn btn-outline-info btn-sm" onclick="openFloorPlanModal()">
+                            <i class="bi bi-image me-1"></i>View Floor Plan
+                        </button>
+                        {% endif %}
+                        {% if user.isAdmin() %}
+                        <button type="button"
+                                class="btn btn-outline-danger btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                            <i class="bi bi-trash me-1"></i>Delete Location
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% elseif mode == 'edit' or mode == 'create' %}
+    <!-- EDIT/CREATE MODE -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        {% if mode == 'create' %}
+                            <i class="bi bi-plus-circle me-2"></i>Create New Location
+                        {% else %}
+                            <i class="bi bi-pencil me-2"></i>Edit Location: {{ location.name }}
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% if mode == 'create' %}/locations{% else %}/locations/{{ location.id }}{% endif %}" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        {% if mode == 'edit' %}
+                        <input type="hidden" name="_method" value="PUT">
+                        {% endif %}
+
+                        <div class="row">
+                            <!-- Basic Information -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Basic Information</h6>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Location Name <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                           class="form-control{% if errors.name %} is-invalid{% endif %}"
+                                           id="name"
+                                           name="name"
+                                           value="{{ old.name|default(location.name|default('')) }}"
+                                           required
+                                           maxlength="255">
+                                    {% if errors.name %}
+                                    <div class="invalid-feedback">{{ errors.name }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Descriptive name for this location.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="floor" class="form-label">Floor</label>
+                                    <input type="text"
+                                           class="form-control{% if errors.floor %} is-invalid{% endif %}"
+                                           id="floor"
+                                           name="floor"
+                                           value="{{ old.floor|default(location.floor|default('')) }}"
+                                           maxlength="50"
+                                           list="floorSuggestions">
+                                    {% if errors.floor %}
+                                    <div class="invalid-feedback">{{ errors.floor }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Floor designation (e.g., "1", "Ground", "B1").</div>
+
+                                    <datalist id="floorSuggestions">
+                                        <option value="Ground">
+                                        <option value="1">
+                                        <option value="2">
+                                        <option value="3">
+                                        <option value="4">
+                                        <option value="5">
+                                        <option value="B1">
+                                        <option value="B2">
+                                        <option value="Basement">
+                                        <option value="Mezzanine">
+                                        <option value="Penthouse">
+                                    </datalist>
+                                </div>
+
+                                {% if mode == 'edit' %}
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Location ID</label>
+                                    <div><code>#{{ location.id }}</code></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Current Usage</label>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            <div class="h5 mb-0 text-primary">{{ location.items_count|default(0) }}</div>
+                                            <small class="text-muted">Items</small>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <div class="h5 mb-0 text-success">{{ location.racks_count|default(0) }}</div>
+                                            <small class="text-muted">Racks</small>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <div class="h5 mb-0 text-warning">{{ location.areas_count|default(0) }}</div>
+                                            <small class="text-muted">Areas</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Floor Plan Management -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Floor Plan Management</h6>
+
+                                {% if mode == 'edit' and location.has_floor_plan %}
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Current Floor Plan</label>
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <img src="/locations/{{ location.id }}/floorplan"
+                                                 alt="Current floor plan"
+                                                 class="img-fluid rounded"
+                                                 style="max-height: 150px;"
+                                                 onclick="openCurrentPlanModal()">
+                                            <div class="mt-2">
+                                                <code>{{ location.floorplanfn }}</code>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="openCurrentPlanModal()">
+                                                    <i class="bi bi-eye"></i> View Full Size
+                                                </button>
+                                                {% if user.isAdmin() %}
+                                                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#removePlanModal">
+                                                    <i class="bi bi-trash"></i> Remove
+                                                </button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <div class="mb-3">
+                                    <label for="floorplan" class="form-label">
+                                        {% if mode == 'edit' and location.has_floor_plan %}Replace Floor Plan{% else %}Upload Floor Plan{% endif %}
+                                    </label>
+                                    <input type="file"
+                                           class="form-control{% if errors.floorplan %} is-invalid{% endif %}"
+                                           id="floorplan"
+                                           name="floorplan"
+                                           accept="image/*,.pdf">
+                                    {% if errors.floorplan %}
+                                    <div class="invalid-feedback">{{ errors.floorplan }}</div>
+                                    {% endif %}
+                                    <div class="form-text">
+                                        {% if mode == 'edit' and location.has_floor_plan %}
+                                            Leave empty to keep current floor plan.<br>
+                                        {% endif %}
+                                        Supported formats: JPG, PNG, GIF, PDF<br>
+                                        Maximum size: {{ max_file_size|format_bytes|default('10MB') }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3" id="floorplan-preview" style="display: none;">
+                                    <label class="form-label fw-bold">New Floor Plan Preview</label>
+                                    <div class="border rounded p-2 text-center">
+                                        <img id="preview-image" src="" alt="New floor plan preview" class="img-fluid" style="max-height: 200px;">
+                                    </div>
+                                </div>
+
+                                {% if mode == 'create' or (mode == 'edit' and not location.has_floor_plan) %}
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    <strong>{% if mode == 'create' %}Optional:{% else %}No floor plan uploaded.{% endif %}</strong> You can upload one to help visualize the physical layout of this location.
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if mode == 'edit' %}
+                        <hr>
+
+                        <!-- Usage Warning -->
+                        {% if location.items_count > 0 or location.racks_count > 0 %}
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-1"></i>
+                            <strong>Location In Use:</strong>
+                            This location currently has
+                            {% if location.items_count > 0 %}{{ location.items_count }} items{% endif %}
+                            {% if location.items_count > 0 and location.racks_count > 0 %} and {% endif %}
+                            {% if location.racks_count > 0 %}{{ location.racks_count }} racks{% endif %}
+                            assigned to it. Changes to the location name may affect reports and item organization.
+                        </div>
+                        {% endif %}
+                        {% endif %}
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                {% if mode == 'create' %}
+                                <a href="/locations" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                {% else %}
+                                <a href="/locations/{{ location.id }}/edit" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {% if mode == 'edit' and user and user.isAdmin() and location.items_count == 0 and location.racks_count == 0 %}
+                                <button type="button"
+                                        class="btn btn-outline-danger me-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal">
+                                    <i class="bi bi-trash me-1"></i>Delete Location
+                                </button>
+                                {% endif %}
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-lg me-1"></i>{% if mode == 'create' %}Create Location{% else %}Update Location{% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Action Modals -->
+{% if mode == 'view' and user and user.usertype >= 1 and user.isAdmin() %}
+    <!-- Delete Modal for View Mode -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this location?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ location.name }}</strong>
+                        {% if location.floor %}<br>Floor: {{ location.floor }}{% endif %}
+                        {% if location.items_count > 0 %}
+                        <br><strong>Warning:</strong> This location has {{ location.items_count }} assigned items
+                        {% endif %}
+                        {% if location.racks_count > 0 %}
+                        <br><strong>Warning:</strong> This location has {{ location.racks_count }} racks
+                        {% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. Items and racks in this location will become unassigned.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/locations/{{ location.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete Location
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% elseif mode == 'edit' and user and user.isAdmin() and location.items_count == 0 and location.racks_count == 0 %}
+    <!-- Delete Modal for Edit Mode -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this location?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ location.name }}</strong>
+                        {% if location.floor %}<br>Floor: {{ location.floor }}{% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. The location and its floor plan will be permanently deleted.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/locations/{{ location.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete Location
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Floor Plan Modal -->
+{% if mode == 'view' and location.has_floor_plan %}
+<div class="modal fade" id="floorPlanModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Floor Plan: {{ location.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="/locations/{{ location.id }}/floorplan"
+                     alt="Floor plan for {{ location.name }}"
+                     class="img-fluid">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="/locations/{{ location.id }}/floorplan" download class="btn btn-primary">
+                    <i class="bi bi-download me-1"></i>Download
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Current Floor Plan Modal for Edit Mode -->
+{% if mode == 'edit' and location.has_floor_plan %}
+<div class="modal fade" id="currentPlanModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Current Floor Plan: {{ location.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="/locations/{{ location.id }}/floorplan"
+                     alt="Current floor plan"
+                     class="img-fluid">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="/locations/{{ location.id }}/floorplan" download class="btn btn-primary">
+                    <i class="bi bi-download me-1"></i>Download
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Remove Floor Plan Modal -->
+{% if user.isAdmin() %}
+<div class="modal fade" id="removePlanModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remove Floor Plan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to remove the current floor plan?</p>
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    This action cannot be undone. The floor plan file will be permanently deleted.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="/locations/{{ location.id }}/remove-floorplan" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Remove Floor Plan
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if mode == 'view' and location.has_floor_plan %}
+<script>
+function openFloorPlanModal() {
+    const modal = new bootstrap.Modal(document.getElementById('floorPlanModal'));
+    modal.show();
+}
+</script>
+{% endif %}
+
+{% if mode == 'edit' or mode == 'create' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on name field
+    document.getElementById('name').focus();
+
+    // Floor plan preview
+    const floorplanInput = document.getElementById('floorplan');
+    const previewDiv = document.getElementById('floorplan-preview');
+    const previewImage = document.getElementById('preview-image');
+
+    floorplanInput.addEventListener('change', function() {
+        const file = this.files[0];
+
+        if (file) {
+            // File size validation
+            const maxSize = {{ max_file_size|default(10485760) }}; // Default 10MB in bytes
+            if (file.size > maxSize) {
+                alert('File size (' + formatBytes(file.size) + ') exceeds the maximum allowed size of ' + formatBytes(maxSize));
+                this.value = '';
+                previewDiv.style.display = 'none';
+                return;
+            }
+
+            // File type validation
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Please select a valid image file (JPG, PNG, GIF) or PDF.');
+                this.value = '';
+                previewDiv.style.display = 'none';
+                return;
+            }
+
+            // Show preview for images
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewDiv.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else if (file.type === 'application/pdf') {
+                // Show PDF icon for PDF files
+                previewImage.src = 'data:image/svg+xml;base64,' + btoa(`
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                        <path d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.135.74z"/>
+                    </svg>
+                `);
+                previewDiv.style.display = 'block';
+            }
+        } else {
+            previewDiv.style.display = 'none';
+        }
+    });
+
+    // Format bytes helper function
+    function formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+});
+
+{% if mode == 'edit' and location.has_floor_plan %}
+function openCurrentPlanModal() {
+    const modal = new bootstrap.Modal(document.getElementById('currentPlanModal'));
+    modal.show();
+}
+{% endif %}
+</script>
+{% endif %}
+{% endblock %}

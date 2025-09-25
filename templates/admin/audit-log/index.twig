@@ -1,0 +1,228 @@
+{% extends "base.twig" %}
+
+{% block title %}Audit Log{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item active">Audit Log</li>
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        <a href="/admin/audit-log/export?{{ query | url_encode }}" class="btn btn-outline-primary">
+            <i class="bi bi-download me-1"></i>Export CSV
+        </a>
+        <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#cleanModal">
+            <i class="bi bi-trash me-1"></i>Clean Old Logs
+        </button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="bi bi-journal-text me-2"></i>System Audit Log
+        </h5>
+    </div>
+    <div class="card-body">
+        <!-- Filters -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <form method="GET" action="/admin/audit-log" class="row g-3">
+                    <div class="col-md-3">
+                        <label for="asset_type" class="form-label">Asset Type</label>
+                        <select class="form-select" id="asset_type" name="asset_type">
+                            <option value="">All Types</option>
+                            {% for type in filters.asset_types %}
+                            <option value="{{ type.asset_type }}" {{ current_filters.asset_type == type.asset_type ? 'selected' : '' }}>
+                                {{ type.asset_type | title }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="user_id" class="form-label">User</label>
+                        <select class="form-select" id="user_id" name="user_id">
+                            <option value="">All Users</option>
+                            {% for usr in filters.users %}
+                            <option value="{{ usr.id }}" {{ current_filters.user_id == usr.id ? 'selected' : '' }}>
+                                {{ usr.display_name ?? usr.username }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="action" class="form-label">Action</label>
+                        <select class="form-select" id="action" name="action">
+                            <option value="">All Actions</option>
+                            {% for act in filters.actions %}
+                            <option value="{{ act.action }}" {{ current_filters.action == act.action ? 'selected' : '' }}>
+                                {{ act.action | replace('_', ' ') | title }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="date_from" class="form-label">From Date</label>
+                        <input type="date" class="form-control" id="date_from" name="date_from" value="{{ current_filters.date_from }}">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="date_to" class="form-label">To Date</label>
+                        <input type="date" class="form-control" id="date_to" name="date_to" value="{{ current_filters.date_to }}">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-funnel"></i> Filter
+                        </button>
+                        <a href="/admin/audit-log" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-lg"></i> Clear
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Results Info -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">
+                Showing {{ pagination.from }}-{{ pagination.to }} of {{ pagination.total }} entries
+            </span>
+            <div class="btn-group btn-group-sm">
+                <a href="?{{ query | merge({'per_page': 25}) | url_encode }}"
+                   class="btn {{ query.per_page == '25' ? 'btn-primary' : 'btn-outline-secondary' }}">25</a>
+                <a href="?{{ query | merge({'per_page': 50}) | url_encode }}"
+                   class="btn {{ query.per_page == '50' or query.per_page is empty ? 'btn-primary' : 'btn-outline-secondary' }}">50</a>
+                <a href="?{{ query | merge({'per_page': 100}) | url_encode }}"
+                   class="btn {{ query.per_page == '100' ? 'btn-primary' : 'btn-outline-secondary' }}">100</a>
+            </div>
+        </div>
+
+        <!-- Audit Log Table -->
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>User</th>
+                        <th>Asset</th>
+                        <th>Action</th>
+                        <th>Details</th>
+                        <th>IP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in audit_logs %}
+                    <tr>
+                        <td>
+                            <small class="text-nowrap">{{ log.formatted_timestamp }}</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary">{{ log.user_display }}</span>
+                        </td>
+                        <td>
+                            <span class="text-primary">{{ log.asset_type }}</span>
+                            {% if log.asset_id %}
+                                <small class="text-muted">#{{ log.asset_id }}</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% set action_class = 'bg-info' %}
+                            {% if log.action contains 'delete' %}
+                                {% set action_class = 'bg-danger' %}
+                            {% elseif log.action contains 'create' %}
+                                {% set action_class = 'bg-success' %}
+                            {% elseif log.action contains 'update' %}
+                                {% set action_class = 'bg-warning' %}
+                            {% endif %}
+                            <span class="badge {{ action_class }}">
+                                {{ log.action | replace('_', ' ') | title }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if log.details_array %}
+                                <small class="text-muted">
+                                    {% for key, value in log.details_array | slice(0, 3) %}
+                                        <strong>{{ key }}:</strong> {{ value | slice(0, 30) }}{% if value | length > 30 %}...{% endif %}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                    {% if log.details_array | length > 3 %}
+                                        <span class="text-muted">... +{{ log.details_array | length - 3 }} more</span>
+                                    {% endif %}
+                                </small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <small class="text-muted">{{ log.ip_address ?? '-' }}</small>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">
+                            No audit log entries found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if pagination.total > pagination.per_page %}
+        <nav aria-label="Audit log pagination">
+            <ul class="pagination justify-content-center">
+                {% if pagination.current_page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="?{{ query | merge({'page': pagination.current_page - 1}) | url_encode }}">Previous</a>
+                </li>
+                {% endif %}
+
+                {% for i in range(max(1, pagination.current_page - 2), min(pagination.last_page, pagination.current_page + 2)) %}
+                <li class="page-item {{ i == pagination.current_page ? 'active' : '' }}">
+                    <a class="page-link" href="?{{ query | merge({'page': i}) | url_encode }}">{{ i }}</a>
+                </li>
+                {% endfor %}
+
+                {% if pagination.current_page < pagination.last_page %}
+                <li class="page-item">
+                    <a class="page-link" href="?{{ query | merge({'page': pagination.current_page + 1}) | url_encode }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Clean Old Logs Modal -->
+<div class="modal fade" id="cleanModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Clean Old Audit Logs</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="/admin/audit-log/clean">
+                <div class="modal-body">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <div class="mb-3">
+                        <label for="days_to_keep" class="form-label">Days to Keep</label>
+                        <input type="number" class="form-control" id="days_to_keep" name="days_to_keep"
+                               value="365" min="30" max="3650" required>
+                        <div class="form-text">Audit logs older than this many days will be permanently deleted.</div>
+                    </div>
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        This action cannot be undone. Please ensure you have exported any logs you need to keep.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">Clean Old Logs</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

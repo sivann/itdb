@@ -1,0 +1,137 @@
+{% extends "base.twig" %}
+
+{% block title %}Agent Types Administration{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/admin">Administration</a></li>
+            <li class="breadcrumb-item active">Agent Types</li>
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        {% if user and user.isAdmin() %}
+        <a href="/admin/agent-types/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>New Agent Type
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Agent Types</h5>
+    </div>
+    <div class="card-body">
+        {% if agent_types is empty %}
+            <div class="text-center py-4 text-muted">
+                <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                <p>No agent types found.</p>
+                {% if user and user.isAdmin() %}
+                <a href="/admin/agent-types/create" class="btn btn-outline-primary">
+                    <i class="bi bi-plus-lg me-1"></i>Create First Agent Type
+                </a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Agents</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for agent_type in agent_types %}
+                        <tr class="{{ not agent_type.is_active ? 'table-secondary' : '' }}">
+                            <td>
+                                <span class="badge bg-light text-dark">{{ agent_type.display_order }}</span>
+                            </td>
+                            <td>
+                                <strong>{{ agent_type.name }}</strong>
+                            </td>
+                            <td>
+                                <code>{{ agent_type.code }}</code>
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ agent_type.description|default('—') }}</small>
+                            </td>
+                            <td>
+                                {% if agent_type.is_active %}
+                                    <span class="badge bg-success">Active</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge bg-info">{{ agent_type.agents|length }}</span>
+                            </td>
+                            <td class="text-end">
+                                <div class="btn-group btn-group-sm">
+                                    {% if user and user.isAdmin() %}
+                                        <a href="/admin/agent-types/{{ agent_type.id }}/edit"
+                                           class="btn btn-outline-secondary"
+                                           title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <button type="button"
+                                                class="btn btn-outline-danger"
+                                                title="Delete"
+                                                onclick="confirmDelete({{ agent_type.id }}, '{{ agent_type.name|escape('js') }}')">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the agent type "<span id="deleteItemName"></span>"?</p>
+                <p class="text-warning small">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    This action cannot be undone. Make sure no agents are assigned to this type.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" style="display: inline;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmDelete(typeId, typeName) {
+    document.getElementById('deleteItemName').textContent = typeName;
+    document.getElementById('deleteForm').action = '/admin/agent-types/' + typeId + '/delete';
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.twig" %}
+
+{% block title %}Admin - Types{% endblock %}
+{% block page_title %}Type Management{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Manage Types</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="list-group">
+                            <a href="/admin/item-types" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Item Types</h6>
+                                    <small><i class="bi bi-tags"></i></small>
+                                </div>
+                                <p class="mb-1">Manage item categories and types</p>
+                            </a>
+
+                            <a href="/admin/status-types" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Status Types</h6>
+                                    <small><i class="bi bi-circle-fill"></i></small>
+                                </div>
+                                <p class="mb-1">Manage item status definitions</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="list-group">
+                            <a href="/admin/contract-types" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Contract Types</h6>
+                                    <small><i class="bi bi-file-text"></i></small>
+                                </div>
+                                <p class="mb-1">Manage contract categories</p>
+                            </a>
+
+                            <a href="/admin/file-types" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">File Types</h6>
+                                    <small><i class="bi bi-file-earmark"></i></small>
+                                </div>
+                                <p class="mb-1">Manage file type definitions</p>
+                            </a>
+
+                            <a href="/admin/agent-types" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Agent Types</h6>
+                                    <small><i class="bi bi-people"></i></small>
+                                </div>
+                                <p class="mb-1">Manage agent categories (vendors, manufacturers, contractors)</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -5,7 +5,7 @@
     $('input#invfilter').quicksearch('table#invlisttbl tbody tr');
     $('input#contrfilter').quicksearch('table#contrlisttbl tbody tr');
 
-    $("#tabs").tabs();
+    // Bootstrap tabs don't need initialization - they work automatically
     $("#tabs").show();
 
  });
@@ -193,8 +193,8 @@ else
 ?>
 
 <!-- error errcontainer -->
-<div class='errcontainer ui-state-error ui-corner-all' style='padding: 0 .7em;width:700px;margin-bottom:3px;'>
-        <p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span>
+<div class='errcontainer alert alert-danger' style='width:700px;margin-bottom:3px;'>
+        <p><i class='bi bi-exclamation-triangle-fill' style='margin-right: .3em;'></i>
         <h4>There are errors in your form submission, please see below for details.</h4>
         <ol>
                 <li><label for="manufacturerid" class="error"><?php te("S/W Manufacturer is missing");?></label></li>
@@ -206,16 +206,39 @@ else
 
 
 <div id="tabs">
-  <ul>
-  <li><a href="#tab1"><?php te("Software Data");?></a></li>
-  <li><a href="#tab2"><?php te("Item Associations");?></a></li>
-  <li><a href="#tab3"><?php te("Invoice Associations");?></a></li>
-  <li><a href="#tab4"><?php te("Contract Associations");?></a></li>
-  <li><a href="#tab5"><?php te("Upload Files");?></a></li>
+  <!-- Bootstrap Tab Navigation -->
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+        <?php te("Software Data");?>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+        <?php te("Item Associations");?>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+        <?php te("Invoice Associations");?>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab4-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">
+        <?php te("Contract Associations");?>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab5-tab" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="tab5" aria-selected="false">
+        <?php te("Upload Files");?>
+      </button>
+    </li>
   </ul>
 
+  <!-- Bootstrap Tab Content -->
+  <div class="tab-content" id="myTabContent">
 
-<div id="tab1" class="tab_content">
+<div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
   <?php 
   echo "<table class=tbl1 border=0>";
 
@@ -425,11 +448,11 @@ else
   </table>
 </div>
 
-<div id='tab2' class='tab_content'>
+<div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
   <table>
   <tr>
-    <td colspan=3><h2> <?php te("Installed Into");?><sup>1</sup>
-	<input style='color:#909090' id="itemsfilter" name="itemsfilter" class='filter' 
+    <td colspan=3><h2><?php te("Item Associations");?> - <?php te("Select items where this software is installed");?>
+	<input style='color:#909090' id="itemsfilter" name="itemsfilter" class='filter'
 	       value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
 	 <span style='font-weight:normal;' class='nres'></span>
     </h2>
@@ -440,10 +463,24 @@ else
     //////////////////////////////////////////////
     //connect to Items
     $sql=" SELECT COALESCE((SELECT itemid from item2soft where softid='$id'  AND itemid=items.id ),0) islinked , ".
-	 " items.id,status,manufacturerid,model,itemtypeid,sn || ' '||sn2 ||' ' || sn3 as sn,dnsname,users.username ,label ".
-	 " FROM items,itemtypes,users  WHERE items.itemtypeid=itemtypes.id AND itemtypes.hassoftware=1 AND users.id=userid ".
+	 " items.id,items.status,items.manufacturerid,items.model,items.itemtypeid,items.sn || ' '||items.sn2 ||' ' || items.sn3 as sn,items.dnsname,users.username ,items.label ".
+	 " FROM items,itemtypes,users  WHERE items.itemtypeid=itemtypes.id AND itemtypes.hassoftware=1 AND users.id=items.userid ".
 	 " order by islinked desc,itemtypeid,items.id desc, manufacturerid,model, dnsname ";
     $sth=db_execute($dbh,$sql);
+
+    // Check if we have any results - if not, try without the hassoftware restriction
+    $results = $sth->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($results)) {
+        $sql=" SELECT COALESCE((SELECT itemid from item2soft where softid='$id'  AND itemid=items.id ),0) islinked , ".
+             " items.id,items.status,items.manufacturerid,items.model,items.itemtypeid,items.sn || ' '||items.sn2 ||' ' || items.sn3 as sn,items.dnsname,users.username ,items.label ".
+             " FROM items,itemtypes,users  WHERE items.itemtypeid=itemtypes.id AND users.id=items.userid ".
+             " order by islinked desc,itemtypeid,items.id desc, manufacturerid,model, dnsname ";
+        $sth=db_execute($dbh,$sql);
+        $results = $sth->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($results)) {
+            echo "<p><strong>Note:</strong> Showing all items since no items have software support enabled in their item type. To enable software associations, edit the item type and enable 'Software Support'.</p>";
+        }
+    }
 
     ?>
     <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
@@ -455,40 +492,46 @@ else
 	    </tr>
 	  </thead>
 	  <tbody>
-    <?php 
+    <?php
 
-    while ($ir=$sth->fetch(PDO::FETCH_ASSOC)) {
-      if ($ir['islinked']) {
-	$cls="class='bld'";
-      }
-      else 
-	$cls="";
+    if (empty($results)) {
+        echo "<tr><td colspan='9' style='text-align:center;padding:20px;'>";
+        echo "<em>" . t("No items found in the database that can have software installed.") . "</em><br>";
+        echo "<small>" . t("Create some items first, or enable 'Software Support' on existing item types.") . "</small>";
+        echo "</td></tr>";
+    } else {
+        foreach ($results as $ir) {
+          if ($ir['islinked']) {
+            $cls="class='bld'";
+          }
+          else
+            $cls="";
 
+          $x=attrofstatus((int)$ir['status'],$dbh);
+          $attr=$x[0];
+          $statustxt=$x[1];
 
-      $x=attrofstatus((int)$ir['status'],$dbh);
-      $attr=$x[0];
-      $statustxt=$x[1];
-
-      echo "\n <tr><td><input name='softlnk[]' value='".$ir['id']."' ";
-      if ($ir['islinked']) echo " checked ";
-      echo  " type='checkbox' /></td>".
-       "<td nowrap $cls style='white-space: nowrap;'><span $attr>&nbsp;</span><a title='Edit item {$ir['id']} in a new window' ".
-       "target=_blank href='$scriptname?action=edititem&id=".$ir['id']."'><div class='editid'>".
-       $ir['id'].
-       "</div></a></td>";
-       echo "<td $cls>".$typeid2name[$ir['itemtypeid']].
-       "<td $cls>".$agents[$ir['manufacturerid']]['title']. "&nbsp;</td>".
-       "<td $cls>".$ir['model'].  "&nbsp;</td>".
-       "<td $cls>".$ir['label']."&nbsp;</td>".
-       "<td $cls>".$ir['dnsname']."&nbsp;</td>".
-       "<td $cls>".$ir['username']."&nbsp;</td>".
-       "<td $cls>".$ir['sn']."&nbsp;</td></tr>\n";
+          echo "\n <tr><td><input name='softlnk[]' value='".$ir['id']."' ";
+          if ($ir['islinked']) echo " checked ";
+          echo  " type='checkbox' /></td>".
+           "<td nowrap $cls style='white-space: nowrap;'><span $attr>&nbsp;</span><a title='Edit item {$ir['id']} in a new window' ".
+           "target=_blank href='$scriptname?action=edititem&id=".$ir['id']."'><div class='editid'>".
+           $ir['id'].
+           "</div></a></td>";
+           echo "<td $cls>".$typeid2name[$ir['itemtypeid']].
+           "<td $cls>".$agents[$ir['manufacturerid']]['title']. "&nbsp;</td>".
+           "<td $cls>".$ir['model'].  "&nbsp;</td>".
+           "<td $cls>".$ir['label']."&nbsp;</td>".
+           "<td $cls>".$ir['dnsname']."&nbsp;</td>".
+           "<td $cls>".$ir['username']."&nbsp;</td>".
+           "<td $cls>".$ir['sn']."&nbsp;</td></tr>\n";
+        }
     }
     echo "\n</tbody></table>\n";
     echo "</div>\n";
     ?>
 
-    <sup>1</sup><?php te("Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.");?>
+    <p style="margin-top: 10px;"><em><?php te("Check the boxes for items where this software is installed, then click Save. Only items with 'software support' in their item type are shown.");?></em></p>
     </td>
 
   </tr>
@@ -496,11 +539,10 @@ else
 
 </div><!-- tab2 -->
 
+<div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
 
-<div id='tab3' class='tab_content'>
-
-  <h2>
-      <input style='color:#909090' id="invfilter" name="invfilter" class='filter' 
+  <h2><?php te("Invoice Associations");?> - <?php te("Select invoices related to this software");?>
+      <input style='color:#909090' id="invfilter" name="invfilter" class='filter'
              value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
 	 <span style='font-weight:normal;' class='nres'></span>
   </h2>
@@ -548,11 +590,14 @@ else
   </table>
   </div>
 
+  <p style="margin-top: 10px;"><em><?php te("Check the boxes for invoices that should be associated with this software, then click Save.");?></em></p>
+
 </div><!-- tab3-->
 
-<div id='tab4' class='tab_content'>
+<div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
 
-  <h2><input style='color:#909090' id="contrfilter" name="contrfilter" class='filter' 
+  <h2><?php te("Contract Associations");?> - <?php te("Select contracts related to this software");?>
+      <input style='color:#909090' id="contrfilter" name="contrfilter" class='filter'
              value='Filter' onclick='this.style.color="#000"; this.value=""' size="20">
 	 <span style='font-weight:normal;' class='nres'></span>
   </h2>
@@ -597,16 +642,46 @@ else
   </table>
   </div>
 
+  <p style="margin-top: 10px;"><em><?php te("Check the boxes for contracts that should be associated with this software, then click Save.");?></em></p>
 
 </div><!-- tab4-->
 
-<div id='tab5' class='tab_content'>
+<div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="tab5-tab">
       <table class="tbl2" width='100%'>
-      <tr><td colspan=2><h2>Upload a File</h2></td></tr>
+      <tr><td colspan=2><h2>Associated Files</h2></td></tr>
+      <tr><td class="tdc">
+        <?php
+        if (is_numeric($id)) {
+          $f = softid2files($id, $dbh);
+          if (count($f) > 0) {
+            echo "<div class='scrltblcontainer3'>";
+            echo "<table width='100%' class='brdr sortable'>";
+            echo "<thead><tr><th>Filename</th><th>Size</th><th>Date</th><th>Action</th></tr></thead>";
+            echo "<tbody>";
+            foreach ($f as $file) {
+              $fsize = isset($file['fsize']) ? number_format($file['fsize']) . ' bytes' : 'Unknown';
+              $fdate = isset($file['fdate']) ? date('Y-m-d H:i', $file['fdate']) : 'Unknown';
+              echo "<tr>";
+              echo "<td><a href='php/getfile.php?id={$file['id']}'>{$file['fname']}</a></td>";
+              echo "<td>$fsize</td>";
+              echo "<td>$fdate</td>";
+              echo "<td><a href='$scriptname?action=$action&amp;id=$id&amp;delfid={$file['id']}' ";
+              echo "onclick='return confirm(\"Remove this file association?\")' title='Remove association and delete file if no other associations exist'>";
+              echo "<img src='images/delete.png' alt='Delete'></a></td>";
+              echo "</tr>";
+            }
+            echo "</tbody></table></div><br>";
+          } else {
+            echo "<p><i>No files associated with this software yet.</i></p><br>";
+          }
+        }
+        ?>
+      </td></tr>
+      <tr><td colspan=2><h2>Upload a New File</h2></td></tr>
       <!-- file upload -->
       <tr><td class="tdc">
-      <iframe class="upload_frame" name="upload_frame" 
-	    src="php/uploadframe.php?id=<?php echo $id?>&amp;assoctable=software2file&amp;colname=softwareid"  
+      <iframe class="upload_frame" name="upload_frame"
+	    src="php/uploadframe.php?id=<?php echo $id?>&amp;assoctable=software2file&amp;colname=softwareid"
 	    frameborder="0" allowtransparency="true"></iframe>
       </td>
       </tr>
@@ -614,8 +689,8 @@ else
 
 </div>
 
-
-</div> <!-- tab container -->
+  </div> <!-- Bootstrap tab-content -->
+</div> <!-- tabs container -->
 
 <table>
 <tr><td colspan=2><button type="submit"><img src="images/save.png" alt="Save"> <?php te("Save");?></button></td>

@@ -1,0 +1,306 @@
+{% extends "base.twig" %}
+
+{% block title %}Create Location{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/locations">Locations</a></li>
+            <li class="breadcrumb-item active">Create New Location</li>
+        </ol>
+    </nav>
+
+    <a href="/locations" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Back to Locations
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-plus-lg me-2"></i>Create New Location
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/locations" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="row">
+                        <!-- Basic Information -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Basic Information</h6>
+
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Location Name <span class="text-danger">*</span></label>
+                                <input type="text"
+                                       class="form-control{% if errors.name %} is-invalid{% endif %}"
+                                       id="name"
+                                       name="name"
+                                       value="{{ old.name|default('') }}"
+                                       required
+                                       maxlength="255">
+                                {% if errors.name %}
+                                <div class="invalid-feedback">{{ errors.name }}</div>
+                                {% endif %}
+                                <div class="form-text">Descriptive name for this location (e.g., "Main Building", "Server Room A").</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="floor" class="form-label">Floor</label>
+                                <input type="text"
+                                       class="form-control{% if errors.floor %} is-invalid{% endif %}"
+                                       id="floor"
+                                       name="floor"
+                                       value="{{ old.floor|default('') }}"
+                                       maxlength="50"
+                                       list="floorSuggestions">
+                                {% if errors.floor %}
+                                <div class="invalid-feedback">{{ errors.floor }}</div>
+                                {% endif %}
+                                <div class="form-text">Floor designation (e.g., "1", "Ground", "B1", "Mezzanine").</div>
+
+                                <datalist id="floorSuggestions">
+                                    <option value="Ground">
+                                    <option value="1">
+                                    <option value="2">
+                                    <option value="3">
+                                    <option value="4">
+                                    <option value="5">
+                                    <option value="B1">
+                                    <option value="B2">
+                                    <option value="Basement">
+                                    <option value="Mezzanine">
+                                    <option value="Penthouse">
+                                </datalist>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-1"></i>
+                                <strong>Location Purpose:</strong> Locations are used to organize and track where your items and equipment are physically located within your facilities.
+                            </div>
+                        </div>
+
+                        <!-- Floor Plan Upload -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Floor Plan (Optional)</h6>
+
+                            <div class="mb-3">
+                                <label for="floorplan" class="form-label">Upload Floor Plan</label>
+                                <input type="file"
+                                       class="form-control{% if errors.floorplan %} is-invalid{% endif %}"
+                                       id="floorplan"
+                                       name="floorplan"
+                                       accept="image/*,.pdf">
+                                {% if errors.floorplan %}
+                                <div class="invalid-feedback">{{ errors.floorplan }}</div>
+                                {% endif %}
+                                <div class="form-text">
+                                    Upload an image or PDF of the floor plan for this location.<br>
+                                    Supported formats: JPG, PNG, GIF, PDF<br>
+                                    Maximum size: {{ max_file_size|format_bytes|default('10MB') }}
+                                </div>
+                            </div>
+
+                            <div class="mb-3" id="floorplan-preview" style="display: none;">
+                                <label class="form-label fw-bold">Preview</label>
+                                <div class="border rounded p-2 text-center">
+                                    <img id="preview-image" src="" alt="Floor plan preview" class="img-fluid" style="max-height: 200px;">
+                                </div>
+                            </div>
+
+                            <div class="alert alert-light">
+                                <i class="bi bi-lightbulb me-1"></i>
+                                <strong>Tip:</strong> Floor plans help visualize the physical layout of your location and can be referenced when planning equipment placement or maintenance activities.
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Quick Setup Options -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-3">Quick Setup Options</h6>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                <i class="bi bi-server me-2"></i>Add Racks After Creation
+                                            </h6>
+                                            <p class="card-text">After creating this location, you can add server racks and equipment cabinets to organize your items.</p>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="create_rack" name="create_rack">
+                                                <label class="form-check-label" for="create_rack">
+                                                    Redirect to create rack after location creation
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                <i class="bi bi-laptop me-2"></i>Move Existing Items
+                                            </h6>
+                                            <p class="card-text">After creating this location, you can move existing items from other locations to this new location.</p>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="move_items" name="move_items">
+                                                <label class="form-check-label" for="move_items">
+                                                    Show item management after creation
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-circle me-1"></i>
+                        <strong>Best Practices:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Use clear, descriptive names that are easy to understand</li>
+                            <li>Include building or area identifiers if you have multiple facilities</li>
+                            <li>Upload floor plans to help with equipment placement and maintenance</li>
+                            <li>Organize locations hierarchically (Building → Floor → Room)</li>
+                        </ul>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/locations" class="btn btn-secondary">
+                            <i class="bi bi-x-lg me-1"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>Create Location
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on name field
+    document.getElementById('name').focus();
+
+    // Floor plan preview
+    const floorplanInput = document.getElementById('floorplan');
+    const previewDiv = document.getElementById('floorplan-preview');
+    const previewImage = document.getElementById('preview-image');
+
+    floorplanInput.addEventListener('change', function() {
+        const file = this.files[0];
+
+        if (file) {
+            // File size validation
+            const maxSize = {{ max_file_size|default(10485760) }}; // Default 10MB in bytes
+            if (file.size > maxSize) {
+                alert('File size (' + formatBytes(file.size) + ') exceeds the maximum allowed size of ' + formatBytes(maxSize));
+                this.value = '';
+                previewDiv.style.display = 'none';
+                return;
+            }
+
+            // File type validation
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Please select a valid image file (JPG, PNG, GIF) or PDF.');
+                this.value = '';
+                previewDiv.style.display = 'none';
+                return;
+            }
+
+            // Show preview for images
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewDiv.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else if (file.type === 'application/pdf') {
+                // Show PDF icon for PDF files
+                previewImage.src = 'data:image/svg+xml;base64,' + btoa(`
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                        <path d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.135.74z"/>
+                    </svg>
+                `);
+                previewDiv.style.display = 'block';
+            }
+        } else {
+            previewDiv.style.display = 'none';
+        }
+    });
+
+    // Format bytes helper function
+    function formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    // Auto-generate suggestions for common location naming patterns
+    const nameField = document.getElementById('name');
+    const floorField = document.getElementById('floor');
+
+    nameField.addEventListener('input', function() {
+        const value = this.value.toLowerCase();
+
+        // Auto-suggest floor based on location name
+        if (value.includes('basement') || value.includes('b1')) {
+            floorField.value = floorField.value || 'B1';
+        } else if (value.includes('ground') || value.includes('main')) {
+            floorField.value = floorField.value || 'Ground';
+        } else if (value.includes('server') || value.includes('data')) {
+            // Server rooms are often in basements or ground floors
+            if (!floorField.value) {
+                floorField.placeholder = 'e.g., B1, Ground';
+            }
+        }
+    });
+
+    // Form validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const nameValue = nameField.value.trim();
+
+        if (!nameValue) {
+            e.preventDefault();
+            alert('Please enter a location name.');
+            nameField.focus();
+            return false;
+        }
+
+        // Check for potential duplicate names
+        if (nameValue.length < 3) {
+            if (!confirm('The location name is very short. Are you sure this is correct?')) {
+                e.preventDefault();
+                nameField.focus();
+                return false;
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

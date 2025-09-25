@@ -1,0 +1,461 @@
+{% extends "base.twig" %}
+
+{% block title %}Racks{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">
+        <i class="bi bi-server me-2"></i>Racks
+        <span class="badge bg-secondary ms-2">{{ pagination.total }}</span>
+    </h1>
+
+    {% if user and user.usertype >= 1 %}
+    <div class="btn-group">
+        <a href="/racks/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Add Rack
+        </a>
+        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="bi bi-download me-1"></i>Export
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/racks/export/csv">CSV Format</a></li>
+            <li><a class="dropdown-item" href="/racks/export/excel">Excel Format</a></li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Search and Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="/racks" class="row g-3">
+            <!-- Search -->
+            <div class="col-md-4">
+                <label for="search" class="form-label">Search</label>
+                <input type="text"
+                       class="form-control"
+                       id="search"
+                       name="search"
+                       value="{{ query.search|default('') }}"
+                       placeholder="Search racks, models, labels...">
+            </div>
+
+            <!-- Location Filter -->
+            <div class="col-md-3">
+                <label for="location" class="form-label">Location</label>
+                <select class="form-select" id="location" name="location">
+                    <option value="">All Locations</option>
+                    {% for location in filters.locations %}
+                    <option value="{{ location.id }}"
+                            {% if query.location|default('') == location.id %}selected{% endif %}>
+                        {{ location.name }}
+                        {% if location.floor %} ({{ location.floor }}){% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Size Filter -->
+            <div class="col-md-3">
+                <label for="size_range" class="form-label">Rack Size</label>
+                <select class="form-select" id="size_range" name="size_range">
+                    <option value="">All Sizes</option>
+                    <option value="small" {% if query.size_range|default('') == 'small' %}selected{% endif %}>Small (1-20U)</option>
+                    <option value="medium" {% if query.size_range|default('') == 'medium' %}selected{% endif %}>Medium (21-42U)</option>
+                    <option value="large" {% if query.size_range|default('') == 'large' %}selected{% endif %}>Large (43U+)</option>
+                </select>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="bi bi-search"></i> Filter
+                </button>
+                <a href="/racks" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Racks Grid/Table -->
+<div class="card">
+    <div class="card-body">
+        {% if racks|length > 0 %}
+        <!-- View Toggle -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="text-muted">
+                Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }} racks
+            </div>
+            <div class="btn-group" role="group">
+                <input type="radio" class="btn-check" name="viewType" id="gridView" autocomplete="off" checked>
+                <label class="btn btn-outline-secondary btn-sm" for="gridView">
+                    <i class="bi bi-grid"></i> Grid
+                </label>
+                <input type="radio" class="btn-check" name="viewType" id="tableView" autocomplete="off">
+                <label class="btn btn-outline-secondary btn-sm" for="tableView">
+                    <i class="bi bi-list"></i> List
+                </label>
+            </div>
+        </div>
+
+        <!-- Grid View -->
+        <div id="rack-grid-view" class="row">
+            {% for rack in racks %}
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+                <div class="card h-100 rack-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h6 class="card-title mb-0">
+                                <a href="/racks/{{ rack.id }}" class="text-decoration-none">
+                                    <i class="bi bi-server me-1"></i>{{ rack.display_name }}
+                                </a>
+                            </h6>
+                            <div class="btn-group btn-group-sm">
+                                <a href="/racks/{{ rack.id }}" class="btn btn-outline-primary btn-sm" title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                {% if user and user.usertype >= 1 %}
+                                <a href="/racks/{{ rack.id }}/edit" class="btn btn-outline-secondary btn-sm" title="Edit Rack">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if rack.model %}
+                        <p class="card-text text-muted small mb-1">{{ rack.model }}</p>
+                        {% endif %}
+
+                        <div class="mb-2">
+                            {% if rack.location %}
+                                <span class="badge bg-info bg-opacity-25 text-dark">
+                                    <i class="bi bi-geo-alt"></i> {{ rack.location.name }}
+                                </span>
+                            {% endif %}
+                            {% if rack.usize %}
+                                <span class="badge bg-secondary bg-opacity-25 text-dark">{{ rack.usize }}U</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Utilization Bar -->
+                        {% if rack.capacity %}
+                        <div class="mb-2">
+                            <div class="d-flex justify-content-between text-small mb-1">
+                                <span class="text-muted">Utilization</span>
+                                <span class="fw-semibold">{{ rack.capacity.utilization_percent }}%</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar
+                                    {% if rack.capacity.utilization_percent > 80 %}bg-danger
+                                    {% elseif rack.capacity.utilization_percent > 60 %}bg-warning
+                                    {% else %}bg-success{% endif %}"
+                                     role="progressbar"
+                                     style="width: {{ rack.capacity.utilization_percent }}%">
+                                </div>
+                            </div>
+                            <div class="text-small text-muted mt-1">
+                                {{ rack.capacity.used }}/{{ rack.capacity.total }}U used
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Rack Items -->
+                        {% if rack.items_count > 0 %}
+                        <div class="text-small">
+                            <span class="text-muted">Items: </span>
+                            <span class="badge bg-primary bg-opacity-25 text-dark">{{ rack.items_count }}</span>
+                            <a href="/items?rack={{ rack.id }}" class="btn btn-sm btn-outline-primary ms-1">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="text-small text-muted">No items assigned</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Table View -->
+        <div id="rack-table-view" class="table-responsive" style="display: none;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Rack</th>
+                        <th>Location</th>
+                        <th>Size</th>
+                        <th>Utilization</th>
+                        <th>Items</th>
+                        <th>Depth</th>
+                        <th width="120">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rack in racks %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-server me-3 text-primary fs-4"></i>
+                                <div>
+                                    <a href="/racks/{{ rack.id }}" class="fw-bold text-decoration-none">
+                                        {{ rack.display_name }}
+                                    </a>
+                                    {% if rack.model %}
+                                        <br><small class="text-muted">{{ rack.model }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if rack.location %}
+                                <span class="badge bg-info">{{ rack.location.name }}</span>
+                                {% if rack.location.floor %}
+                                    <br><small class="text-muted">{{ rack.location.floor }}</small>
+                                {% endif %}
+                            {% else %}
+                                <span class="text-muted">Not assigned</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rack.usize %}
+                                <span class="badge bg-secondary">{{ rack.usize }}U</span>
+                            {% else %}
+                                <span class="text-muted">Unknown</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rack.capacity %}
+                                <div class="d-flex align-items-center">
+                                    <div class="progress me-2" style="width: 60px; height: 8px;">
+                                        <div class="progress-bar
+                                            {% if rack.capacity.utilization_percent > 80 %}bg-danger
+                                            {% elseif rack.capacity.utilization_percent > 60 %}bg-warning
+                                            {% else %}bg-success{% endif %}"
+                                             style="width: {{ rack.capacity.utilization_percent }}%">
+                                        </div>
+                                    </div>
+                                    <small>{{ rack.capacity.utilization_percent }}%</small>
+                                </div>
+                                <small class="text-muted">{{ rack.capacity.used }}/{{ rack.capacity.total }}U</small>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rack.items_count > 0 %}
+                                <span class="badge bg-primary">{{ rack.items_count }}</span>
+                                <a href="/items?rack={{ rack.id }}" class="btn btn-sm btn-outline-primary ms-1">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            {% else %}
+                                <span class="text-muted">0</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rack.depth %}
+                                {{ rack.depth }}"
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="/racks/{{ rack.id }}"
+                                   class="btn btn-outline-primary btn-sm"
+                                   title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                {% if user and user.usertype >= 1 %}
+                                <a href="/racks/{{ rack.id }}/edit"
+                                   class="btn btn-outline-secondary btn-sm"
+                                   title="Edit Rack">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                {% if user.isAdmin() %}
+                                <button type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        title="Delete Rack"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal{{ rack.id }}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Simple Pagination -->
+        {% if pagination.last_page > 1 %}
+        <nav aria-label="Racks pagination" class="mt-3">
+            <ul class="pagination justify-content-center">
+                <!-- Previous Page -->
+                {% if pagination.current_page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="/racks?page={{ pagination.current_page - 1 }}">
+                        <i class="bi bi-chevron-left"></i> Previous
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-left"></i> Previous</span>
+                </li>
+                {% endif %}
+
+                <!-- Page Numbers -->
+                {% for page in 1..pagination.last_page %}
+                    {% if page == pagination.current_page %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page }}</span>
+                        </li>
+                    {% elseif page <= 3 or page >= pagination.last_page - 2 or (page >= pagination.current_page - 1 and page <= pagination.current_page + 1) %}
+                        <li class="page-item">
+                            <a class="page-link" href="/racks?page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% elseif page == 4 or page == pagination.last_page - 3 %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Next Page -->
+                {% if pagination.current_page < pagination.last_page %}
+                <li class="page-item">
+                    <a class="page-link" href="/racks?page={{ pagination.current_page + 1 }}">
+                        Next <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next <i class="bi bi-chevron-right"></i></span>
+                </li>
+                {% endif %}
+            </ul>
+
+            <!-- Page Info -->
+            <div class="text-center text-muted mt-2">
+                Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }} results
+            </div>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <!-- No Racks Found -->
+        <div class="text-center py-5">
+            <i class="bi bi-server display-4 text-muted mb-3"></i>
+            <h5 class="text-muted">No racks found</h5>
+            <p class="text-muted mb-3">
+                {% if query.search %}
+                    No racks match your search criteria.
+                {% else %}
+                    There are no racks in the system yet.
+                {% endif %}
+            </p>
+            {% if user and user.usertype >= 1 %}
+            <a href="/racks/create" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-2"></i>Add First Rack
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Modals -->
+{% if user and user.isAdmin() %}
+    {% for rack in racks %}
+    <div class="modal fade" id="deleteModal{{ rack.id }}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this rack?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ rack.display_name }}</strong>
+                        {% if rack.location %}<br>Location: {{ rack.location.name }}{% endif %}
+                        {% if rack.usize %}<br>Size: {{ rack.usize }}U{% endif %}
+                        {% if rack.items_count > 0 %}
+                        <br><strong>Warning:</strong> This rack has {{ rack.items_count }} assigned items
+                        {% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. Items in this rack will become unassigned to racks.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/racks/{{ rack.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete Rack
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-submit form on filter change
+    document.querySelectorAll('#location, #size_range').forEach(function(select) {
+        select.addEventListener('change', function() {
+            this.form.submit();
+        });
+    });
+
+    // Search with Enter key
+    document.getElementById('search').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            this.form.submit();
+        }
+    });
+
+    // View toggle functionality
+    const gridView = document.getElementById('gridView');
+    const tableView = document.getElementById('tableView');
+    const gridContainer = document.getElementById('rack-grid-view');
+    const tableContainer = document.getElementById('rack-table-view');
+
+    // Load saved view preference
+    const savedView = localStorage.getItem('racksViewType') || 'grid';
+    if (savedView === 'table') {
+        tableView.checked = true;
+        gridContainer.style.display = 'none';
+        tableContainer.style.display = 'block';
+    }
+
+    gridView.addEventListener('change', function() {
+        if (this.checked) {
+            gridContainer.style.display = 'block';
+            tableContainer.style.display = 'none';
+            localStorage.setItem('racksViewType', 'grid');
+        }
+    });
+
+    tableView.addEventListener('change', function() {
+        if (this.checked) {
+            gridContainer.style.display = 'none';
+            tableContainer.style.display = 'block';
+            localStorage.setItem('racksViewType', 'table');
+        }
+    });
+});
+</script>
+{% endblock %}

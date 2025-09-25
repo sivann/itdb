@@ -1,0 +1,169 @@
+{% extends "base.twig" %}
+
+{% block title %}Admin - Settings{% endblock %}
+{% block page_title %}System Settings{% endblock %}
+
+{% block content %}
+<form method="post" action="/admin/settings">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">General Settings</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="company_title" class="form-label">Company Title</label>
+                                <input type="text" class="form-control" id="company_title" name="company_title" value="{{ settings.company_title | default('IT Database') }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="date_format" class="form-label">Date Format</label>
+                                <select class="form-select" id="date_format" name="date_format">
+                                    <option value="dmy" {{ settings.date_format == 'dmy' ? 'selected' : '' }}>Day/Month/Year (DD/MM/YYYY)</option>
+                                    <option value="mdy" {{ settings.date_format == 'mdy' ? 'selected' : '' }}>Month/Day/Year (MM/DD/YYYY)</option>
+                                    <option value="ymd" {{ settings.date_format == 'ymd' ? 'selected' : '' }}>Year-Month-Day (YYYY-MM-DD)</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="currency" class="form-label">Currency</label>
+                                <select class="form-select" id="currency" name="currency">
+                                    <option value="€" {{ settings.currency == '€' ? 'selected' : '' }}>Euro (€)</option>
+                                    <option value="$" {{ settings.currency == '$' ? 'selected' : '' }}>Dollar ($)</option>
+                                    <option value="£" {{ settings.currency == '£' ? 'selected' : '' }}>Pound (£)</option>
+                                    <option value="¥" {{ settings.currency == '¥' ? 'selected' : '' }}>Yen (¥)</option>
+                                    <option value="₩" {{ settings.currency == '₩' ? 'selected' : '' }}>Won (₩)</option>
+                                    <option value="₹" {{ settings.currency == '₹' ? 'selected' : '' }}>Rupee (₹)</option>
+                                    <option value="₽" {{ settings.currency == '₽' ? 'selected' : '' }}>Ruble (₽)</option>
+                                    <option value="kr" {{ settings.currency == 'kr' ? 'selected' : '' }}>NOK (kr)</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="language" class="form-label">Interface Language</label>
+                                <select class="form-select" id="language" name="language">
+                                    <option value="en" {{ settings.language == 'en' ? 'selected' : '' }}>English</option>
+                                    <option value="de" {{ settings.language == 'de' ? 'selected' : '' }}>German</option>
+                                    <option value="es" {{ settings.language == 'es' ? 'selected' : '' }}>Spanish</option>
+                                    <option value="it" {{ settings.language == 'it' ? 'selected' : '' }}>Italian</option>
+                                    <option value="cn" {{ settings.language == 'cn' ? 'selected' : '' }}>Chinese</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="timezone" class="form-label">Timezone</label>
+                                <select class="form-select" id="timezone" name="timezone">
+                                    <option value="UTC" {{ settings.timezone == 'UTC' ? 'selected' : '' }}>UTC</option>
+                                    <option value="Europe/London" {{ settings.timezone == 'Europe/London' ? 'selected' : '' }}>Europe/London</option>
+                                    <option value="Europe/Paris" {{ settings.timezone == 'Europe/Paris' ? 'selected' : '' }}>Europe/Paris</option>
+                                    <option value="Europe/Berlin" {{ settings.timezone == 'Europe/Berlin' ? 'selected' : '' }}>Europe/Berlin</option>
+                                    <option value="Europe/Athens" {{ settings.timezone == 'Europe/Athens' ? 'selected' : '' }}>Europe/Athens</option>
+                                    <option value="America/New_York" {{ settings.timezone == 'America/New_York' ? 'selected' : '' }}>America/New_York</option>
+                                    <option value="America/Los_Angeles" {{ settings.timezone == 'America/Los_Angeles' ? 'selected' : '' }}>America/Los_Angeles</option>
+                                    <option value="Asia/Tokyo" {{ settings.timezone == 'Asia/Tokyo' ? 'selected' : '' }}>Asia/Tokyo</option>
+                                    <option value="Asia/Shanghai" {{ settings.timezone == 'Asia/Shanghai' ? 'selected' : '' }}>Asia/Shanghai</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="maintenance_mode" name="maintenance_mode" {{ settings.maintenance_mode ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="maintenance_mode">
+                                        Maintenance Mode
+                                    </label>
+                                    <div class="form-text">Temporarily disable public access</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="email_notifications" name="email_notifications" {{ settings.email_notifications | default(true) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="email_notifications">
+                                        Email Notifications
+                                    </label>
+                                    <div class="form-text">Send system notifications via email</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">LDAP Authentication</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="use_ldap" name="use_ldap" {{ settings.use_ldap ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="use_ldap">
+                                        Enable LDAP Authentication
+                                    </label>
+                                    <div class="form-text">Use LDAP for user authentication (admin user remains local)</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ldap_server" class="form-label">LDAP Server</label>
+                                <input type="text" class="form-control" id="ldap_server" name="ldap_server"
+                                       value="{{ settings.ldap_server | default('') }}" placeholder="ldap.example.com">
+                                <div class="form-text">LDAP server hostname or IP address</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ldap_dn" class="form-label">LDAP Base DN</label>
+                                <input type="text" class="form-control" id="ldap_dn" name="ldap_dn"
+                                       value="{{ settings.ldap_dn | default('') }}" placeholder="ou=People,dc=example,dc=com">
+                                <div class="form-text">Base Distinguished Name for user authentication</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="ldap_search_dn" class="form-label">LDAP Search DN</label>
+                                <input type="text" class="form-control" id="ldap_search_dn" name="ldap_search_dn"
+                                       value="{{ settings.ldap_search_dn | default('') }}" placeholder="ou=People,dc=example,dc=com">
+                                <div class="form-text">DN for searching users</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ldap_user_filter" class="form-label">LDAP User Filter</label>
+                                <input type="text" class="form-control" id="ldap_user_filter" name="ldap_user_filter"
+                                       value="{{ settings.ldap_user_filter | default('(& (uid=*) (IsActive=TRUE))') }}" placeholder="(& (uid=*) (IsActive=TRUE))">
+                                <div class="form-text">Filter to find active users</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check me-2"></i>Save Settings
+                </button>
+                <a href="/admin/types" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Back to Admin
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

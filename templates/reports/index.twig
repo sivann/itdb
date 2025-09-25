@@ -1,0 +1,94 @@
+{% extends "base.twig" %}
+
+{% block title %}Reports{% endblock %}
+{% block page_title %}Reports Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card stats-card">
+            <div class="card-body text-center">
+                <h3 class="stats-value">{{ stats.total_items }}</h3>
+                <div class="stats-label">Total Items</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stats-card">
+            <div class="card-body text-center">
+                <h3 class="stats-value">{{ stats.total_software }}</h3>
+                <div class="stats-label">Software Licenses</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stats-card">
+            <div class="card-body text-center">
+                <h3 class="stats-value">{{ stats.total_invoices }}</h3>
+                <div class="stats-label">Invoices</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stats-card">
+            <div class="card-body text-center">
+                <h3 class="stats-value">{{ stats.total_contracts }}</h3>
+                <div class="stats-label">Contracts</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Available Reports</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="list-group">
+                            <a href="/reports/items" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Items Report</h6>
+                                    <small><i class="bi bi-laptop"></i></small>
+                                </div>
+                                <p class="mb-1">Detailed inventory report with filtering options</p>
+                            </a>
+
+                            <a href="/reports/financial" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Financial Report</h6>
+                                    <small><i class="bi bi-currency-dollar"></i></small>
+                                </div>
+                                <p class="mb-1">Asset values and financial overview</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="list-group">
+                            <a href="/reports/utilization" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Utilization Report</h6>
+                                    <small><i class="bi bi-bar-chart"></i></small>
+                                </div>
+                                <p class="mb-1">Asset utilization and assignment statistics</p>
+                            </a>
+
+                            <a href="/reports/contracts" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Contracts Report</h6>
+                                    <small><i class="bi bi-file-text"></i></small>
+                                </div>
+                                <p class="mb-1">Contract status and expiration tracking</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,317 @@
+{% extends "base.twig" %}
+
+{% block title %}Items{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">
+        <i class="bi bi-laptop me-2"></i>Items
+        <span class="badge bg-secondary ms-2">{{ pagination.total }}</span>
+    </h1>
+
+    {% if user and user.usertype >= 1 %}
+    <div class="btn-group">
+        <a href="/items/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Add Item
+        </a>
+        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="bi bi-download me-1"></i>Export
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/items/export/csv">CSV Format</a></li>
+            <li><a class="dropdown-item" href="/items/export/excel">Excel Format</a></li>
+            <li><a class="dropdown-item" href="/items/export/pdf">PDF Report</a></li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Search and Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="/items" class="row g-3">
+            <!-- Search -->
+            <div class="col-md-4">
+                <label for="search" class="form-label">Search</label>
+                <input type="text"
+                       class="form-control"
+                       id="search"
+                       name="search"
+                       value="{{ query.search|default('') }}"
+                       placeholder="Search items, models, serial numbers...">
+            </div>
+
+            <!-- Item Type Filter -->
+            <div class="col-md-2">
+                <label for="type" class="form-label">Type</label>
+                <select class="form-select" id="type" name="type">
+                    <option value="">All Types</option>
+                    {% for type in filters.item_types %}
+                    <option value="{{ type.id }}"
+                            {% if query.type|default('') == type.id %}selected{% endif %}>
+                        {{ type.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Status Filter -->
+            <div class="col-md-2">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status">
+                    <option value="">All Statuses</option>
+                    {% for status in filters.status_types %}
+                    <option value="{{ status.id }}"
+                            {% if query.status|default('') == status.id %}selected{% endif %}>
+                        {{ status.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Location Filter -->
+            <div class="col-md-2">
+                <label for="location" class="form-label">Location</label>
+                <select class="form-select" id="location" name="location">
+                    <option value="">All Locations</option>
+                    {% for location in filters.locations %}
+                    <option value="{{ location.id }}"
+                            {% if query.location|default('') == location.id %}selected{% endif %}>
+                        {{ location.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="bi bi-search"></i> Filter
+                </button>
+                <a href="/items" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Items Table -->
+<div class="card">
+    <div class="card-body">
+        {% if items|length > 0 %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Assigned To</th>
+                        <th>Location</th>
+                        <th>Warranty</th>
+                        <th>Last Updated</th>
+                        <th width="120">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <a href="/items/{{ item.id }}" class="fw-bold text-decoration-none">
+                                        {{ item.display_title }}
+                                    </a>
+                                    {% if item.model %}
+                                        <br><small class="text-muted">{{ item.model }}</small>
+                                    {% endif %}
+                                    {% if item.serial %}
+                                        <br><small class="text-muted">S/N: {{ item.serial }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if item.itemType %}
+                                <span class="badge bg-info">{{ item.itemType.name }}</span>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.statusType %}
+                                {% set status_class = item.status == 1 ? 'success' : (item.status == 0 ? 'danger' : 'secondary') %}
+                                <span class="badge bg-{{ status_class }}">{{ item.statusType.name }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Unknown</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.user %}
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-person-circle me-2"></i>
+                                    {{ item.user.name|default(item.user.username) }}
+                                </div>
+                            {% else %}
+                                <span class="text-muted">Unassigned</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.location %}
+                                <i class="bi bi-geo-alt me-1"></i>{{ item.location.name }}
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.warranty_status.status == 'active' %}
+                                <span class="text-success">
+                                    <i class="bi bi-shield-check me-1"></i>
+                                    {{ item.warranty_status.days }} days
+                                </span>
+                            {% elseif item.warranty_status.status == 'expired' %}
+                                <span class="text-danger">
+                                    <i class="bi bi-shield-x me-1"></i>Expired
+                                </span>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.changed %}
+                                <small class="text-muted">
+                                    {{ item.changed|date('M j, Y') }}
+                                </small>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="/items/{{ item.id }}"
+                                   class="btn btn-outline-primary btn-sm"
+                                   title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                {% if user and ((user.usertype >= 1 and item.userid == user.id) or user.isAdmin()) %}
+                                <a href="/items/{{ item.id }}/edit"
+                                   class="btn btn-outline-secondary btn-sm"
+                                   title="Edit Item">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                {% endif %}
+                                {% if user and user.isAdmin() %}
+                                <button type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        title="Delete Item"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal{{ item.id }}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Simple Pagination -->
+        {% if pagination.last_page > 1 %}
+        <nav aria-label="Items pagination" class="mt-3">
+            <ul class="pagination justify-content-center">
+                <!-- Previous Page -->
+                {% if pagination.current_page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="/items?page={{ pagination.current_page - 1 }}">
+                        <i class="bi bi-chevron-left"></i> Previous
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-left"></i> Previous</span>
+                </li>
+                {% endif %}
+
+                <!-- Page Numbers -->
+                {% for page in 1..pagination.last_page %}
+                    {% if page == pagination.current_page %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page }}</span>
+                        </li>
+                    {% elseif page <= 3 or page >= pagination.last_page - 2 or (page >= pagination.current_page - 1 and page <= pagination.current_page + 1) %}
+                        <li class="page-item">
+                            <a class="page-link" href="/items?page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% elseif page == 4 or page == pagination.last_page - 3 %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Next Page -->
+                {% if pagination.current_page < pagination.last_page %}
+                <li class="page-item">
+                    <a class="page-link" href="/items?page={{ pagination.current_page + 1 }}">
+                        Next <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next <i class="bi bi-chevron-right"></i></span>
+                </li>
+                {% endif %}
+            </ul>
+
+            <!-- Page Info -->
+            <div class="text-center text-muted mt-2">
+                Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }} results
+            </div>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <!-- No Items Found -->
+        <div class="text-center py-5">
+            <i class="bi bi-laptop display-4 text-muted mb-3"></i>
+            <h5 class="text-muted">No items found</h5>
+            <p class="text-muted mb-3">
+                {% if query.search %}
+                    No items match your search criteria.
+                {% else %}
+                    There are no items in the system yet.
+                {% endif %}
+            </p>
+            {% if user and user.usertype >= 1 %}
+            <a href="/items/create" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-2"></i>Add First Item
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-submit form on filter change
+    document.querySelectorAll('#type, #status, #location').forEach(function(select) {
+        select.addEventListener('change', function() {
+            this.form.submit();
+        });
+    });
+
+    // Search with Enter key
+    document.getElementById('search').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            this.form.submit();
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ license_type.name }} - License Type Details{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/admin/license-types">License Types</a></li>
+            <li class="breadcrumb-item active">{{ license_type.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        <a href="/admin/license-types" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to List
+        </a>
+        <a href="/admin/license-types/{{ license_type.id }}/edit" class="btn btn-primary">
+            <i class="bi bi-pencil me-1"></i>Edit
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-key me-2"></i>{{ license_type.name }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>ID:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ license_type.id }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Name:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ license_type.name }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Description:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {% if license_type.description %}
+                            {{ license_type.description }}
+                        {% else %}
+                            <span class="text-muted">No description provided</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Usage Statistics</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <h2 class="text-primary">{{ license_type.software_count ?? 0 }}</h2>
+                    <p class="text-muted">Software entries using this license type</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Actions</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="/admin/license-types/{{ license_type.id }}/edit" class="btn btn-primary">
+                        <i class="bi bi-pencil me-2"></i>Edit License Type
+                    </a>
+                    <button type="button" class="btn btn-outline-danger" onclick="confirmDelete()">
+                        <i class="bi bi-trash me-2"></i>Delete License Type
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the license type <strong>{{ license_type.name }}</strong>?</p>
+                <p class="text-muted small">This action cannot be undone. Make sure no software is using this license type.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="/admin/license-types/{{ license_type.id }}/delete" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function confirmDelete() {
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>
+{% endblock %}

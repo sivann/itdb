@@ -1,0 +1,443 @@
+{% extends "base.twig" %}
+
+{% block title %}Create Software{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/software">Software</a></li>
+            <li class="breadcrumb-item active">Create New Software</li>
+        </ol>
+    </nav>
+
+    <a href="/software" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Back to Software
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-plus-lg me-2"></i>Create New Software
+                </h5>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="card-header bg-light p-0">
+                <ul class="nav nav-tabs card-header-tabs" id="softwareCreateTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'data' ? 'active' : '' }}"
+                                id="data-tab" data-bs-toggle="tab" data-bs-target="#data"
+                                type="button" role="tab" aria-controls="data" aria-selected="{{ current_tab == 'data' ? 'true' : 'false' }}">
+                            <i class="bi bi-info-circle me-1"></i>Software Data
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'items' ? 'active' : '' }}"
+                                id="items-tab" data-bs-toggle="tab" data-bs-target="#items"
+                                type="button" role="tab" aria-controls="items" aria-selected="{{ current_tab == 'items' ? 'true' : 'false' }}">
+                            <i class="bi bi-laptop me-1"></i>Associate Items
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'invoices' ? 'active' : '' }}"
+                                id="invoices-tab" data-bs-toggle="tab" data-bs-target="#invoices"
+                                type="button" role="tab" aria-controls="invoices" aria-selected="{{ current_tab == 'invoices' ? 'true' : 'false' }}">
+                            <i class="bi bi-receipt me-1"></i>Associate Invoices
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'contracts' ? 'active' : '' }}"
+                                id="contracts-tab" data-bs-toggle="tab" data-bs-target="#contracts"
+                                type="button" role="tab" aria-controls="contracts" aria-selected="{{ current_tab == 'contracts' ? 'true' : 'false' }}">
+                            <i class="bi bi-file-text me-1"></i>Associate Contracts
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'files' ? 'active' : '' }}"
+                                id="files-tab" data-bs-toggle="tab" data-bs-target="#files"
+                                type="button" role="tab" aria-controls="files" aria-selected="{{ current_tab == 'files' ? 'true' : 'false' }}">
+                            <i class="bi bi-file-earmark me-1"></i>Associate Files
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <form method="POST" action="/software" id="softwareCreateForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="softwareCreateTabContent">
+                    <!-- Software Data Tab -->
+                    <div class="tab-pane fade {{ current_tab == 'data' ? 'show active' : '' }}"
+                         id="data" role="tabpanel" aria-labelledby="data-tab">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-muted mb-3">Basic Information</h6>
+
+                                    <div class="mb-3">
+                                        <label for="stitle" class="form-label">Software Title <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="stitle" name="stitle" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="sversion" class="form-label">Version</label>
+                                        <input type="text" class="form-control" id="sversion" name="sversion">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="stype" class="form-label">Software Type</label>
+                                        <input type="text" class="form-control" id="stype" name="stype" placeholder="e.g., Operating System, Productivity, Security">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="manufacturerid" class="form-label">Manufacturer ID</label>
+                                        <input type="number" class="form-control" id="manufacturerid" name="manufacturerid">
+                                        <div class="form-text">Reference to manufacturer in database</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h6 class="text-muted mb-3">License Information</h6>
+
+                                    <div class="mb-3">
+                                        <label for="licqty" class="form-label">License Quantity</label>
+                                        <input type="number" class="form-control" id="licqty" name="licqty" min="1" value="1">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="lictype" class="form-label">License Type</label>
+                                        <select class="form-select" id="lictype" name="lictype">
+                                            <option value="0">Per Device</option>
+                                            <option value="1">Per User</option>
+                                            <option value="2">Site License</option>
+                                            <option value="3">Volume License</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="invoiceid" class="form-label">Invoice ID</label>
+                                        <input type="number" class="form-control" id="invoiceid" name="invoiceid">
+                                        <div class="form-text">Reference to purchase invoice</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="purchdate" class="form-label">Purchase Date</label>
+                                        <input type="date" class="form-control" id="purchdate" name="purchdate">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="sinfo" class="form-label">Description</label>
+                                        <textarea class="form-control" id="sinfo" name="sinfo" rows="4"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="slicenseinfo" class="form-label">License Information</label>
+                                        <textarea class="form-control" id="slicenseinfo" name="slicenseinfo" rows="4"></textarea>
+                                        <div class="form-text">License terms, restrictions, or notes</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Associate Items Tab -->
+                    <div class="tab-pane fade {{ current_tab == 'items' ? 'show active' : '' }}"
+                         id="items" role="tabpanel" aria-labelledby="items-tab">
+                        <div class="card-body">
+                            <h6 class="mb-3">Associate this software with items</h6>
+                            <p class="text-muted small">Select which items will have this software installed.</p>
+
+                            {% if available_items is defined and available_items|length > 0 %}
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <input type="text" class="form-control" id="itemSearch" placeholder="Search items...">
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="selectAllItems">
+                                        <label class="form-check-label" for="selectAllItems">Select/Deselect All</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                <table class="table table-sm table-hover">
+                                    <thead class="table-light sticky-top">
+                                        <tr>
+                                            <th width="50"></th>
+                                            <th>Item ID</th>
+                                            <th>Description</th>
+                                            <th>Type</th>
+                                            <th>Location</th>
+                                            <th>User</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in available_items %}
+                                        <tr class="item-row" data-search="{{ (item.id ~ ' ' ~ item.description ~ ' ' ~ item.itemType.typedesc ~ ' ' ~ item.location.name ~ ' ' ~ item.user.display_name)|lower }}">
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input item-checkbox" name="associated_items[]" value="{{ item.id }}" id="item_{{ item.id }}">
+                                                </div>
+                                            </td>
+                                            <td><label for="item_{{ item.id }}" class="form-label mb-0">#{{ item.id }}</label></td>
+                                            <td><label for="item_{{ item.id }}" class="form-label mb-0">{{ item.description|default('N/A') }}</label></td>
+                                            <td><label for="item_{{ item.id }}" class="form-label mb-0">{{ item.itemType.typedesc|default('N/A') }}</label></td>
+                                            <td><label for="item_{{ item.id }}" class="form-label mb-0">{{ item.location.name|default('N/A') }}</label></td>
+                                            <td><label for="item_{{ item.id }}" class="form-label mb-0">{{ item.user.display_name|default('Unassigned') }}</label></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center text-muted py-4">
+                                <i class="bi bi-laptop display-4 mb-3"></i>
+                                <p>No items available for association.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Associate Invoices Tab -->
+                    <div class="tab-pane fade {{ current_tab == 'invoices' ? 'show active' : '' }}"
+                         id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
+                        <div class="card-body">
+                            <h6 class="mb-3">Associate this software with invoices</h6>
+                            <p class="text-muted small">Select invoices related to this software purchase.</p>
+
+                            {% if available_invoices is defined and available_invoices|length > 0 %}
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                <table class="table table-sm table-hover">
+                                    <thead class="table-light sticky-top">
+                                        <tr>
+                                            <th width="50"></th>
+                                            <th>Invoice ID</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for invoice in available_invoices %}
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" name="associated_invoices[]" value="{{ invoice.id }}" id="invoice_{{ invoice.id }}">
+                                                </div>
+                                            </td>
+                                            <td><label for="invoice_{{ invoice.id }}" class="form-label mb-0">#{{ invoice.id }}</label></td>
+                                            <td><label for="invoice_{{ invoice.id }}" class="form-label mb-0">{{ invoice.date_formatted|default('N/A') }}</label></td>
+                                            <td><label for="invoice_{{ invoice.id }}" class="form-label mb-0">${{ invoice.amount|default('0.00') }}</label></td>
+                                            <td>
+                                                <span class="badge bg-{{ invoice.status == 'paid' ? 'success' : 'warning' }}">
+                                                    {{ invoice.status|default('pending') }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center text-muted py-4">
+                                <i class="bi bi-receipt display-4 mb-3"></i>
+                                <p>No invoices available for association.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Associate Contracts Tab -->
+                    <div class="tab-pane fade {{ current_tab == 'contracts' ? 'show active' : '' }}"
+                         id="contracts" role="tabpanel" aria-labelledby="contracts-tab">
+                        <div class="card-body">
+                            <h6 class="mb-3">Associate this software with contracts</h6>
+                            <p class="text-muted small">Select contracts related to this software.</p>
+
+                            {% if available_contracts is defined and available_contracts|length > 0 %}
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                <table class="table table-sm table-hover">
+                                    <thead class="table-light sticky-top">
+                                        <tr>
+                                            <th width="50"></th>
+                                            <th>Contract ID</th>
+                                            <th>Title</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for contract in available_contracts %}
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" name="associated_contracts[]" value="{{ contract.id }}" id="contract_{{ contract.id }}">
+                                                </div>
+                                            </td>
+                                            <td><label for="contract_{{ contract.id }}" class="form-label mb-0">#{{ contract.id }}</label></td>
+                                            <td><label for="contract_{{ contract.id }}" class="form-label mb-0">{{ contract.title|default('N/A') }}</label></td>
+                                            <td><label for="contract_{{ contract.id }}" class="form-label mb-0">{{ contract.startdate_formatted|default('N/A') }}</label></td>
+                                            <td><label for="contract_{{ contract.id }}" class="form-label mb-0">{{ contract.enddate_formatted|default('N/A') }}</label></td>
+                                            <td>
+                                                <span class="badge bg-{{ contract.status == 'active' ? 'success' : (contract.status == 'expired' ? 'danger' : 'warning') }}">
+                                                    {{ contract.status|default('pending') }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center text-muted py-4">
+                                <i class="bi bi-file-text display-4 mb-3"></i>
+                                <p>No contracts available for association.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Associate Files Tab -->
+                    <div class="tab-pane fade {{ current_tab == 'files' ? 'show active' : '' }}"
+                         id="files" role="tabpanel" aria-labelledby="files-tab">
+                        <div class="card-body">
+                            <h6 class="mb-3">Associate this software with files</h6>
+                            <p class="text-muted small">Select files to attach to this software (installers, documentation, etc.).</p>
+
+                            {% if available_files is defined and available_files|length > 0 %}
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                <table class="table table-sm table-hover">
+                                    <thead class="table-light sticky-top">
+                                        <tr>
+                                            <th width="50"></th>
+                                            <th>File Name</th>
+                                            <th>Title</th>
+                                            <th>Size</th>
+                                            <th>Upload Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for file in available_files %}
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" name="associated_files[]" value="{{ file.id }}" id="file_{{ file.id }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label for="file_{{ file.id }}" class="form-label mb-0">
+                                                    <i class="bi bi-file-earmark me-2"></i>{{ file.fname|default('N/A') }}
+                                                </label>
+                                            </td>
+                                            <td><label for="file_{{ file.id }}" class="form-label mb-0">{{ file.title|default('N/A') }}</label></td>
+                                            <td><label for="file_{{ file.id }}" class="form-label mb-0">{{ file.file_size ? (file.file_size ~ ' bytes') : 'N/A' }}</label></td>
+                                            <td><label for="file_{{ file.id }}" class="form-label mb-0">{{ file.uploaddate_formatted|default('N/A') }}</label></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center text-muted py-4">
+                                <i class="bi bi-file-earmark display-4 mb-3"></i>
+                                <p>No files available for association.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="card-body border-top">
+                    <div class="d-flex justify-content-between">
+                        <a href="/software" class="btn btn-secondary">
+                            <i class="bi bi-x-lg me-1"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>Create Software
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle tab switching with URL updates
+    const tabs = document.querySelectorAll('#softwareCreateTabs button[data-bs-toggle="tab"]');
+    tabs.forEach(tab => {
+        tab.addEventListener('shown.bs.tab', function (e) {
+            const tabId = e.target.getAttribute('aria-controls');
+            const url = new URL(window.location);
+            url.searchParams.set('tab', tabId);
+            window.history.replaceState({}, '', url);
+
+            // Load tab content if needed
+            if (tabId !== 'data' && !document.querySelector(`#${tabId} .table-responsive`)) {
+                window.location.reload();
+            }
+        });
+    });
+
+    // Auto-focus on title field when on data tab
+    const dataTab = document.getElementById('data-tab');
+    if (dataTab && dataTab.classList.contains('active')) {
+        const titleField = document.getElementById('stitle');
+        if (titleField) {
+            titleField.focus();
+        }
+    }
+
+    // Item search functionality
+    const itemSearch = document.getElementById('itemSearch');
+    if (itemSearch) {
+        itemSearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.item-row');
+
+            rows.forEach(row => {
+                const searchData = row.getAttribute('data-search');
+                if (searchData.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    // Select all items functionality
+    const selectAllItems = document.getElementById('selectAllItems');
+    if (selectAllItems) {
+        selectAllItems.addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.item-checkbox');
+            checkboxes.forEach(checkbox => {
+                const row = checkbox.closest('.item-row');
+                if (row.style.display !== 'none') {
+                    checkbox.checked = this.checked;
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

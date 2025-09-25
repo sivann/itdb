@@ -1,0 +1,324 @@
+{% extends "base.twig" %}
+
+{% block title %}Files{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">
+        <i class="bi bi-file-earmark me-2"></i>Files
+        <span class="badge bg-secondary ms-2">{{ pagination.total }}</span>
+    </h1>
+
+    {% if user and user.usertype >= 1 %}
+    <div class="btn-group">
+        <a href="/files/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Upload File
+        </a>
+        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="bi bi-download me-1"></i>Export
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/files/export/csv">CSV Format</a></li>
+            <li><a class="dropdown-item" href="/files/export/excel">Excel Format</a></li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Search and Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="/files" class="row g-3">
+            <!-- Search -->
+            <div class="col-md-6">
+                <label for="search" class="form-label">Search</label>
+                <input type="text"
+                       class="form-control"
+                       id="search"
+                       name="search"
+                       value="{{ query.search|default('') }}"
+                       placeholder="Search files, titles, descriptions...">
+            </div>
+
+            <!-- File Type Filter -->
+            <div class="col-md-4">
+                <label for="type" class="form-label">File Type</label>
+                <select class="form-select" id="type" name="type">
+                    <option value="">All Types</option>
+                    {% for type in filters.file_types %}
+                    <option value="{{ type.id }}"
+                            {% if query.type|default('') == type.id %}selected{% endif %}>
+                        {{ type.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="bi bi-search"></i> Filter
+                </button>
+                <a href="/files" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Files Table -->
+<div class="card">
+    <div class="card-body">
+        {% if files|length > 0 %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                        <th>Uploaded By</th>
+                        <th>Upload Date</th>
+                        <th>Associated</th>
+                        <th width="120">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in files %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-file-earmark-text me-3 text-primary fs-4"></i>
+                                <div>
+                                    <a href="/files/{{ file.id }}" class="fw-bold text-decoration-none">
+                                        {{ file.title }}
+                                    </a>
+                                    {% if file.fname %}
+                                        <br><small class="text-muted"><code>{{ file.fname }}</code></small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if file.type %}
+                                <span class="badge bg-info">{{ file.type }}</span>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if file.file_size %}
+                                <span class="text-muted">{{ file.file_size }} bytes</span>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if file.uploader_user %}
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-person-circle me-2"></i>
+                                    {{ file.uploader_user.display_name|default(file.uploader_user.username) }}
+                                </div>
+                            {% else %}
+                                <span class="text-muted">Unknown</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if file.uploaddate %}
+                                <small class="text-muted">
+                                    {{ file.uploaddate|date('M j, Y g:i A') }}
+                                </small>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                {% if file.items_count > 0 %}
+                                    <span class="badge bg-primary" title="Items">{{ file.items_count }} I</span>
+                                {% endif %}
+                                {% if file.software_count > 0 %}
+                                    <span class="badge bg-success" title="Software">{{ file.software_count }} S</span>
+                                {% endif %}
+                                {% if file.contracts_count > 0 %}
+                                    <span class="badge bg-warning" title="Contracts">{{ file.contracts_count }} C</span>
+                                {% endif %}
+                                {% if file.invoices_count > 0 %}
+                                    <span class="badge bg-info" title="Invoices">{{ file.invoices_count }} Inv</span>
+                                {% endif %}
+                                {% if file.items_count == 0 and file.software_count == 0 and file.contracts_count == 0 and file.invoices_count == 0 %}
+                                    <span class="text-muted">None</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="/files/{{ file.id }}"
+                                   class="btn btn-outline-primary btn-sm"
+                                   title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="/files/{{ file.id }}/download"
+                                   class="btn btn-outline-success btn-sm"
+                                   title="Download">
+                                    <i class="bi bi-download"></i>
+                                </a>
+                                {% if user and user.usertype >= 1 %}
+                                <a href="/files/{{ file.id }}/edit"
+                                   class="btn btn-outline-secondary btn-sm"
+                                   title="Edit File">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                {% if user.isAdmin() %}
+                                <button type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        title="Delete File"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal{{ file.id }}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Simple Pagination -->
+        {% if pagination.last_page > 1 %}
+        <nav aria-label="Files pagination" class="mt-3">
+            <ul class="pagination justify-content-center">
+                <!-- Previous Page -->
+                {% if pagination.current_page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="/files?page={{ pagination.current_page - 1 }}">
+                        <i class="bi bi-chevron-left"></i> Previous
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-left"></i> Previous</span>
+                </li>
+                {% endif %}
+
+                <!-- Page Numbers -->
+                {% for page in 1..pagination.last_page %}
+                    {% if page == pagination.current_page %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page }}</span>
+                        </li>
+                    {% elseif page <= 3 or page >= pagination.last_page - 2 or (page >= pagination.current_page - 1 and page <= pagination.current_page + 1) %}
+                        <li class="page-item">
+                            <a class="page-link" href="/files?page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% elseif page == 4 or page == pagination.last_page - 3 %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Next Page -->
+                {% if pagination.current_page < pagination.last_page %}
+                <li class="page-item">
+                    <a class="page-link" href="/files?page={{ pagination.current_page + 1 }}">
+                        Next <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next <i class="bi bi-chevron-right"></i></span>
+                </li>
+                {% endif %}
+            </ul>
+
+            <!-- Page Info -->
+            <div class="text-center text-muted mt-2">
+                Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }} results
+            </div>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <!-- No Files Found -->
+        <div class="text-center py-5">
+            <i class="bi bi-file-earmark display-4 text-muted mb-3"></i>
+            <h5 class="text-muted">No files found</h5>
+            <p class="text-muted mb-3">
+                {% if query.search %}
+                    No files match your search criteria.
+                {% else %}
+                    There are no files in the system yet.
+                {% endif %}
+            </p>
+            {% if user and user.usertype >= 1 %}
+            <a href="/files/create" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-2"></i>Upload First File
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Modals -->
+{% if user and user.isAdmin() %}
+    {% for file in files %}
+    <div class="modal fade" id="deleteModal{{ file.id }}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this file?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ file.title }}</strong>
+                        <br>Filename: <code>{{ file.fname }}</code>
+                        {% if file.items_count > 0 or file.software_count > 0 or file.contracts_count > 0 or file.invoices_count > 0 %}
+                        <br><strong>Warning:</strong> This file is associated with other records
+                        {% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. The physical file will also be deleted from disk.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/files/{{ file.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete File
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-submit form on filter change
+    document.getElementById('type').addEventListener('change', function() {
+        this.form.submit();
+    });
+
+    // Search with Enter key
+    document.getElementById('search').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            this.form.submit();
+        }
+    });
+});
+</script>
+{% endblock %}

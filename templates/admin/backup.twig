@@ -1,0 +1,97 @@
+{% extends "base.twig" %}
+
+{% block title %}Admin - Backup & Logs{% endblock %}
+{% block page_title %}Backup & Database Log{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Database Backup</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Backup functionality is not yet implemented.
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-success" disabled>
+                        <i class="bi bi-download me-2"></i>Download Database Backup
+                    </button>
+                    <button type="button" class="btn btn-warning" disabled>
+                        <i class="bi bi-upload me-2"></i>Restore from Backup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">System Logs</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Log viewing is not yet implemented.
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-primary" disabled>
+                        <i class="bi bi-file-text me-2"></i>View Error Log
+                    </button>
+                    <button type="button" class="btn btn-secondary" disabled>
+                        <i class="bi bi-activity me-2"></i>View Activity Log
+                    </button>
+                    <button type="button" class="btn btn-danger" disabled>
+                        <i class="bi bi-trash me-2"></i>Clear Logs
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Database Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <h4 class="text-primary">SQLite</h4>
+                        <small>Database Type</small>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h4 class="text-success">{{ "now"|date("Y-m-d") }}</h4>
+                        <small>Last Backup</small>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h4 class="text-info">N/A</h4>
+                        <small>Database Size</small>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h4 class="text-warning">Active</h4>
+                        <small>Status</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="d-flex gap-2">
+            <a href="/admin/types" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to Admin
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

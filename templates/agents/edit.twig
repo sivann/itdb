@@ -1,0 +1,224 @@
+{% extends "base.twig" %}
+
+{% block title %}
+    {% if mode == 'create' %}
+        Create New Agent
+    {% else %}
+        Edit Agent: {{ agent.title }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/agents">Agents</a></li>
+            {% if mode == 'create' %}
+                <li class="breadcrumb-item active">Create New Agent</li>
+            {% else %}
+                <li class="breadcrumb-item"><a href="/agents/{{ agent.id }}/edit">{{ agent.title }}</a></li>
+                <li class="breadcrumb-item active">Edit</li>
+            {% endif %}
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        <a href="/agents" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to Agents
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    {% if mode == 'create' %}
+                        <i class="bi bi-plus-lg me-2"></i>Create Agent
+                    {% else %}
+                        <i class="bi bi-pencil me-2"></i>Edit Agent
+                    {% endif %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{% if mode == 'create' %}/agents{% else %}/agents/{{ agent.id }}{% endif %}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Agent Name <span class="text-danger">*</span></label>
+                        <input type="text"
+                               class="form-control"
+                               id="title"
+                               name="title"
+                               value="{{ agent.title|default('') }}"
+                               required>
+                        <div class="form-text">The name or company name of the agent</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="agent_types" class="form-label">Agent Types</label>
+                        <div class="row">
+                            {% set agent_type_ids = (agent_types) ? agent_types|map(a => a.id) : [] %}
+                            {% for agent_type in available_agent_types %}
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           id="agent_type_{{ agent_type.id }}"
+                                           name="agent_types[]"
+                                           value="{{ agent_type.id }}"
+                                           {% if agent_type.id in agent_type_ids %}checked{% endif %}>
+                                    <label class="form-check-label" for="agent_type_{{ agent_type.id }}">
+                                        {{ agent_type.name }}
+                                        {% if agent_type.description %}
+                                            <small class="text-muted d-block">{{ agent_type.description }}</small>
+                                        {% endif %}
+                                    </label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-text">Select all applicable types for this agent</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contactinfo" class="form-label">Contact Information</label>
+                        <textarea class="form-control"
+                                  id="contactinfo"
+                                  name="contactinfo"
+                                  rows="3">{{ agent.contactinfo|default('') }}</textarea>
+                        <div class="form-text">Phone numbers, email addresses, physical addresses, etc.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contacts" class="form-label">Contact Persons</label>
+                        <textarea class="form-control"
+                                  id="contacts"
+                                  name="contacts"
+                                  rows="3">{{ agent.contacts|default('') }}</textarea>
+                        <div class="form-text">Names and details of key contact persons</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="urls" class="form-label">URLs</label>
+                        <textarea class="form-control"
+                                  id="urls"
+                                  name="urls"
+                                  rows="3">{{ agent.urls|default('') }}</textarea>
+                        <div class="form-text">Website URLs, one per line</div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        {% if mode == 'create' %}
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg me-1"></i>Create Agent
+                            </button>
+                        {% else %}
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg me-1"></i>Update Agent
+                            </button>
+                        {% endif %}
+                        <a href="/agents" class="btn btn-secondary">
+                            <i class="bi bi-x-lg me-1"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% if mode == 'edit' and agent %}
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="bi bi-info-circle me-1"></i>Agent Information
+                </h6>
+            </div>
+            <div class="card-body">
+                <dl class="row small">
+                    <dt class="col-sm-4">ID:</dt>
+                    <dd class="col-sm-8">{{ agent.id }}</dd>
+
+                    <dt class="col-sm-4">Types:</dt>
+                    <dd class="col-sm-8">
+                        {% if agent_types is not empty %}
+                            {% for type in agent_types %}
+                                <span class="badge bg-info me-1">{{ type.name }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="text-muted">No types assigned</span>
+                        {% endif %}
+                    </dd>
+
+                    <dt class="col-sm-4">Legacy Type:</dt>
+                    <dd class="col-sm-8">
+                        {% if agent.type %}
+                            <code>{{ agent.type }}</code>
+                        {% else %}
+                            <span class="text-muted">None</span>
+                        {% endif %}
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        {% if user and user.isAdmin() %}
+        <div class="card mt-3">
+            <div class="card-header bg-danger text-white">
+                <h6 class="mb-0">
+                    <i class="bi bi-exclamation-triangle me-1"></i>Danger Zone
+                </h6>
+            </div>
+            <div class="card-body">
+                <p class="small text-muted mb-3">
+                    Delete this agent permanently. This action cannot be undone.
+                </p>
+                <button type="button"
+                        class="btn btn-outline-danger btn-sm"
+                        onclick="confirmDelete()">
+                    <i class="bi bi-trash me-1"></i>Delete Agent
+                </button>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% if mode == 'edit' and agent %}
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the agent "{{ agent.title }}"?</p>
+                <p class="text-warning small">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    This action cannot be undone.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" action="/agents/{{ agent.id }}" style="display: inline;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmDelete() {
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>
+{% endif %}
+{% endblock %}

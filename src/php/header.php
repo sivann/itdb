@@ -10,7 +10,10 @@
 
 
 <link rel="stylesheet" href="css/sweetTitles.css">
-<link type="text/css" href="css/jquery-themes/blue2/jquery-ui-1.8.12.custom.css" rel="stylesheet" >
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 <link rel="stylesheet" href="css/itdb.css" type="text/css">
 <link rel="stylesheet" href="css/theme.css" type="text/css">
 
@@ -70,8 +73,13 @@ function showid(n){
 }
 </script>
 
-<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.8.12.custom.min.js"></script>
+<!-- Bootstrap JS Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery (updated version) -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap Datepicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-datepicker3.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/jquery.TableTools.min.js"></script>
 <!-- <script type="text/javascript" src="js/jquery.FixedColumns.min.js"></script> -->
@@ -96,23 +104,30 @@ function showid(n){
 <script>
 
 $(document).ready(function() {
-
-    $( ".dateinp" ).datepicker({
-	    showOn: "button",
-	    buttonImage: "images/calendar.png",
-	    buttonImageOnly: true,
-	    changeMonth: true,
-	    changeYear: true,
-	    dateFormat: '<?php echo $datecalparam?>',
-	    onClose: function() {$(this).valid();}, //for the validator plugin to validate gui-selected date
-
+    // Initialize Bootstrap datepicker
+    $(".dateinp").datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format: '<?php echo strtolower($datecalparam)?>',
+        container: 'body',
+        orientation: 'auto',
+        showOnFocus: false
     });
 
+    // Add calendar icon trigger
+    $(".dateinp").after('<span class="input-group-text datepicker-trigger" style="cursor:pointer;"><i class="bi bi-calendar"></i></span>');
+
+    // Trigger datepicker on icon click
+    $(document).on('click', '.datepicker-trigger', function() {
+        $(this).prev('.dateinp').datepicker('show');
+    });
+
+    // Input masking for date fields
     $.mask.definitions['d']='[0123]';
     $.mask.definitions['m']='[01]';
     $.mask.definitions['y']='[12]';
     $(".dateinp").mask('<?php echo $maskdateparam?>',{placeholder:"_"});
-  });
+});
 
 </script>
 

@@ -1,0 +1,347 @@
+{% extends "base.twig" %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/files">Files</a></li>
+            <li class="breadcrumb-item active">Upload New File</li>
+        </ol>
+    </nav>
+
+    <a href="/files" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Back to Files
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-plus-lg me-2"></i>Upload New File
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/files" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="row">
+                        <!-- File Upload -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">File Upload</h6>
+
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Select File <span class="text-danger">*</span></label>
+                                <input type="file"
+                                       class="form-control{% if errors.file %} is-invalid{% endif %}"
+                                       id="file"
+                                       name="file"
+                                       required
+                                       accept="*/*">
+                                {% if errors.file %}
+                                <div class="invalid-feedback">{{ errors.file }}</div>
+                                {% endif %}
+                                <div class="form-text">
+                                    Maximum file size: {{ max_file_size|format_bytes|default('50MB') }}<br>
+                                    Allowed types: All file types are supported
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="title" class="form-label">File Title <span class="text-danger">*</span></label>
+                                <input type="text"
+                                       class="form-control{% if errors.title %} is-invalid{% endif %}"
+                                       id="title"
+                                       name="title"
+                                       value="{{ old.title|default('') }}"
+                                       required
+                                       maxlength="255">
+                                {% if errors.title %}
+                                <div class="invalid-feedback">{{ errors.title }}</div>
+                                {% endif %}
+                                <div class="form-text">Descriptive title for this file.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="type" class="form-label">File Type</label>
+                                <input type="text"
+                                       class="form-control{% if errors.type %} is-invalid{% endif %}"
+                                       id="type"
+                                       name="type"
+                                       value="{{ old.type|default('') }}"
+                                       maxlength="50">
+                                {% if errors.type %}
+                                <div class="invalid-feedback">{{ errors.type }}</div>
+                                {% endif %}
+                                <div class="form-text">Optional file type or category (e.g., Manual, Invoice, Photo).</div>
+                            </div>
+                        </div>
+
+                        <!-- File Information -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Description</h6>
+
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control{% if errors.description %} is-invalid{% endif %}"
+                                          id="description"
+                                          name="description"
+                                          rows="6">{{ old.description|default('') }}</textarea>
+                                {% if errors.description %}
+                                <div class="invalid-feedback">{{ errors.description }}</div>
+                                {% endif %}
+                                <div class="form-text">Optional detailed description of the file contents.</div>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-1"></i>
+                                <strong>File Storage:</strong> Uploaded files are stored securely on the server.
+                                The original filename will be preserved for reference.
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Association Options -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-3">Associate with Records (Optional)</h6>
+                            <p class="text-muted">You can associate this file with existing records after upload, or select them now:</p>
+
+                            <div class="row">
+                                <!-- Associate with Items -->
+                                {% if form_options.items %}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="items" class="form-label">Associate with Items</label>
+                                        <select class="form-select"
+                                                id="items"
+                                                name="items[]"
+                                                multiple
+                                                size="4">
+                                            {% for item in form_options.items %}
+                                            <option value="{{ item.id }}">
+                                                {{ item.display_title }}
+                                                {% if item.model %} - {{ item.model }}{% endif %}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="form-text">Hold Ctrl/Cmd to select multiple items.</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <!-- Associate with Software -->
+                                {% if form_options.software %}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="software" class="form-label">Associate with Software</label>
+                                        <select class="form-select"
+                                                id="software"
+                                                name="software[]"
+                                                multiple
+                                                size="4">
+                                            {% for sw in form_options.software %}
+                                            <option value="{{ sw.id }}">
+                                                {{ sw.title }}
+                                                {% if sw.version %} v{{ sw.version }}{% endif %}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="form-text">Hold Ctrl/Cmd to select multiple software.</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="row">
+                                <!-- Associate with Contracts -->
+                                {% if form_options.contracts %}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="contracts" class="form-label">Associate with Contracts</label>
+                                        <select class="form-select"
+                                                id="contracts"
+                                                name="contracts[]"
+                                                multiple
+                                                size="4">
+                                            {% for contract in form_options.contracts %}
+                                            <option value="{{ contract.id }}">
+                                                {{ contract.title }}
+                                                {% if contract.number %} ({{ contract.number }}){% endif %}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="form-text">Hold Ctrl/Cmd to select multiple contracts.</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <!-- Associate with Invoices -->
+                                {% if form_options.invoices %}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="invoices" class="form-label">Associate with Invoices</label>
+                                        <select class="form-select"
+                                                id="invoices"
+                                                name="invoices[]"
+                                                multiple
+                                                size="4">
+                                            {% for invoice in form_options.invoices %}
+                                            <option value="{{ invoice.id }}">
+                                                {{ invoice.title }}
+                                                {% if invoice.number %} - {{ invoice.number }}{% endif %}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="form-text">Hold Ctrl/Cmd to select multiple invoices.</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        <strong>Important:</strong> Make sure you have the right to upload and store this file.
+                        Do not upload copyrighted material or sensitive data without proper authorization.
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/files" class="btn btn-secondary">
+                            <i class="bi bi-x-lg me-1"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary" id="uploadBtn">
+                            <i class="bi bi-cloud-upload me-1"></i>Upload File
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Progress Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Uploading File</h5>
+            </div>
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Uploading...</span>
+                </div>
+                <p class="mb-0">Please wait while your file is being uploaded...</p>
+                <div class="progress mt-3">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         style="width: 0%"
+                         id="uploadProgress">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('file');
+    const titleInput = document.getElementById('title');
+    const typeInput = document.getElementById('type');
+    const form = document.querySelector('form');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
+
+    // Auto-populate title when file is selected
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const file = this.files[0];
+
+            // Auto-populate title if empty
+            if (!titleInput.value) {
+                titleInput.value = file.name.replace(/\.[^/.]+$/, ""); // Remove extension
+            }
+
+            // Auto-populate type based on file extension
+            if (!typeInput.value) {
+                const extension = file.name.split('.').pop().toLowerCase();
+                const typeMap = {
+                    'pdf': 'Document',
+                    'doc': 'Document', 'docx': 'Document',
+                    'xls': 'Spreadsheet', 'xlsx': 'Spreadsheet',
+                    'ppt': 'Presentation', 'pptx': 'Presentation',
+                    'jpg': 'Image', 'jpeg': 'Image', 'png': 'Image', 'gif': 'Image',
+                    'txt': 'Text File',
+                    'zip': 'Archive', 'rar': 'Archive', '7z': 'Archive',
+                    'mp4': 'Video', 'avi': 'Video', 'mov': 'Video',
+                    'mp3': 'Audio', 'wav': 'Audio'
+                };
+
+                if (typeMap[extension]) {
+                    typeInput.value = typeMap[extension];
+                }
+            }
+
+            // File size validation
+            const maxSize = {{ max_file_size|default(52428800) }}; // Default 50MB in bytes
+            if (file.size > maxSize) {
+                alert('File size (' + formatBytes(file.size) + ') exceeds the maximum allowed size of ' + formatBytes(maxSize));
+                this.value = '';
+                titleInput.value = '';
+                typeInput.value = '';
+            }
+        }
+    });
+
+    // Format bytes helper function
+    function formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    // Show upload progress modal on form submit
+    form.addEventListener('submit', function() {
+        if (this.checkValidity()) {
+            uploadModal.show();
+            uploadBtn.disabled = true;
+
+            // Simulate progress (since we can't get real progress with standard form submit)
+            let progress = 0;
+            const progressBar = document.getElementById('uploadProgress');
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                progressBar.style.width = progress + '%';
+            }, 500);
+
+            // Stop the simulation after form submission
+            setTimeout(() => {
+                clearInterval(interval);
+                progressBar.style.width = '100%';
+            }, 2000);
+        }
+    });
+
+    // Auto-focus on file input
+    fileInput.focus();
+});
+</script>
+{% endblock %}

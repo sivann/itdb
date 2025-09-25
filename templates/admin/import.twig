@@ -1,0 +1,52 @@
+{% extends "base.twig" %}
+
+{% block title %}Admin - Import{% endblock %}
+{% block page_title %}Data Import{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Import Data</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Import functionality is not yet implemented. This feature will allow you to import data from CSV files or other formats.
+                </div>
+
+                <form method="post" action="/admin/import" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="mb-3">
+                        <label for="import_file" class="form-label">Select File</label>
+                        <input type="file" class="form-control" id="import_file" name="import_file" accept=".csv,.xlsx,.json" disabled>
+                        <div class="form-text">Supported formats: CSV, Excel, JSON</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="import_type" class="form-label">Import Type</label>
+                        <select class="form-select" id="import_type" name="import_type" disabled>
+                            <option value="">Select import type</option>
+                            <option value="items">Items</option>
+                            <option value="software">Software</option>
+                            <option value="agents">Agents</option>
+                            <option value="users">Users</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary" disabled>
+                            <i class="bi bi-upload me-2"></i>Import Data
+                        </button>
+                        <a href="/admin/types" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Admin
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

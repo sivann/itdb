@@ -1,0 +1,289 @@
+{% extends 'base.twig' %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Statistics Cards -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card stats-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="stats-value">{{ stats.items.total | number_format }}</p>
+                        <p class="stats-label mb-0">Total Items</p>
+                    </div>
+                    <div class="text-end">
+                        <i class="bi bi-laptop" style="font-size: 2rem; opacity: 0.7;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card stats-card" style="background: linear-gradient(135deg, #28a745, #20c997);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="stats-value">{{ stats.software.total | number_format }}</p>
+                        <p class="stats-label mb-0">Software Licenses</p>
+                    </div>
+                    <div class="text-end">
+                        <i class="bi bi-code-square" style="font-size: 2rem; opacity: 0.7;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card stats-card" style="background: linear-gradient(135deg, #ffc107, #fd7e14);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="stats-value">{{ stats.items.under_warranty | number_format }}</p>
+                        <p class="stats-label mb-0">Under Warranty</p>
+                    </div>
+                    <div class="text-end">
+                        <i class="bi bi-shield-check" style="font-size: 2rem; opacity: 0.7;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card stats-card" style="background: linear-gradient(135deg, #6f42c1, #e83e8c);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="stats-value">{{ stats.users.active | number_format }}</p>
+                        <p class="stats-label mb-0">Active Users</p>
+                    </div>
+                    <div class="text-end">
+                        <i class="bi bi-people" style="font-size: 2rem; opacity: 0.7;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Recent Items -->
+    <div class="col-lg-8 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-clock-history me-2"></i>Recent Items
+                </h5>
+                <a href="/items" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if recent_items is not empty %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Assigned To</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in recent_items %}
+                                    <tr>
+                                        <td>
+                                            <strong>{{ item.display_title | default('Untitled Item') }}</strong>
+                                            {% if item.serial %}
+                                                <br><small class="text-muted">S/N: {{ item.serial }}</small>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ item.item_type.typedesc | default('Unknown') }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ item.status == 1 ? 'success' : 'secondary' }}">
+                                                {{ item.status_type.statusdesc | default('Unknown') }}
+                                            </span>
+                                        </td>
+                                        <td>{{ item.user.display_name | default('Unassigned') }}</td>
+                                        <td class="text-muted">
+                                            {{ item.getTimeAgo('created') | default('Unknown') }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center text-muted py-4">
+                        <i class="bi bi-inbox" style="font-size: 3rem; opacity: 0.3;"></i>
+                        <p class="mt-2">No recent items found</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions & Alerts -->
+    <div class="col-lg-4 mb-4">
+        <!-- Quick Actions -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-plus-circle me-2"></i>Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="/items/create" class="btn btn-primary">
+                        <i class="bi bi-laptop me-2"></i>Add Item
+                    </a>
+                    <a href="/software/create" class="btn btn-success">
+                        <i class="bi bi-code-square me-2"></i>Add Software
+                    </a>
+                    <a href="/invoices/create" class="btn btn-info text-white">
+                        <i class="bi bi-receipt me-2"></i>Add Invoice
+                    </a>
+                    <a href="/contracts/create" class="btn btn-warning">
+                        <i class="bi bi-file-text me-2"></i>Add Contract
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expiring Warranties -->
+        {% if expiring_warranties is not empty %}
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Expiring Warranties
+                </h5>
+            </div>
+            <div class="card-body">
+                {% for item in expiring_warranties %}
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <strong>{{ item.display_title }}</strong>
+                            <br><small class="text-muted">{{ item.item_type.typedesc }}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-warning">
+                                {{ item.warranty_status.days }}d
+                            </span>
+                        </div>
+                    </div>
+                    {% if not loop.last %}<hr class="my-2">{% endif %}
+                {% endfor %}
+                <div class="text-center mt-3">
+                    <a href="/items?filter=warranty_expiring" class="btn btn-sm btn-outline-warning">View All</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Expiring Licenses -->
+        {% if expiring_licenses is not empty %}
+        <div class="card mt-3">
+            <div class="card-header bg-danger text-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Expiring Licenses
+                </h5>
+            </div>
+            <div class="card-body">
+                {% for software in expiring_licenses %}
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <strong>{{ software.display_title }}</strong>
+                            <br><small class="text-muted">{{ software.manufacturer }}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-danger">
+                                {{ software.license_status.days }}d
+                            </span>
+                        </div>
+                    </div>
+                    {% if not loop.last %}<hr class="my-2">{% endif %}
+                {% endfor %}
+                <div class="text-center mt-3">
+                    <a href="/software?filter=license_expiring" class="btn btn-sm btn-outline-danger">View All</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if my_items is not empty %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-person-check me-2"></i>My Assigned Items
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Location</th>
+                                <th>Warranty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in my_items %}
+                                <tr>
+                                    <td>
+                                        <a href="/items/{{ item.id }}" class="text-decoration-none">
+                                            {{ item.display_title }}
+                                        </a>
+                                        {% if item.serial %}
+                                            <br><small class="text-muted">S/N: {{ item.serial }}</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.item_type.typedesc | default('-') }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ item.status == 1 ? 'success' : 'secondary' }}">
+                                            {{ item.status_type.statusdesc | default('Unknown') }}
+                                        </span>
+                                    </td>
+                                    <td>{{ item.location.name | default('-') }}</td>
+                                    <td>
+                                        {% if item.warranty_status.expired %}
+                                            <span class="warranty-expired">Expired</span>
+                                        {% elseif item.warranty_status.days and item.warranty_status.days <= 60 %}
+                                            <span class="warranty-expiring">{{ item.warranty_status.days }}d</span>
+                                        {% elseif item.warranty_status.status == 'active' %}
+                                            <span class="warranty-active">Active</span>
+                                        {% else %}
+                                            <span class="text-muted">Unknown</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add any dashboard-specific JavaScript here
+    console.log('Dashboard loaded');
+});
+</script>
+{% endblock %}

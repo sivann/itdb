@@ -1,0 +1,544 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ software.display_title }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/software">Software</a></li>
+            <li class="breadcrumb-item active">{{ software.display_title }}</li>
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        {% if user and user.usertype >= 1 %}
+        <a href="/software/{{ software.id }}/edit" class="btn btn-primary">
+            <i class="bi bi-pencil me-1"></i>Edit Software
+        </a>
+        {% endif %}
+        <a href="/software" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to Software
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-pc-display me-2"></i>{{ software.display_title }}
+                </h5>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="card-header bg-light p-0">
+                <ul class="nav nav-tabs card-header-tabs" id="softwareViewTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'data' ? 'active' : '' }}"
+                                id="data-tab" data-bs-toggle="tab" data-bs-target="#data"
+                                type="button" role="tab" aria-controls="data" aria-selected="{{ current_tab == 'data' ? 'true' : 'false' }}">
+                            <i class="bi bi-info-circle me-1"></i>Software Data
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'items' ? 'active' : '' }}"
+                                id="items-tab" data-bs-toggle="tab" data-bs-target="#items"
+                                type="button" role="tab" aria-controls="items" aria-selected="{{ current_tab == 'items' ? 'true' : 'false' }}">
+                            <i class="bi bi-laptop me-1"></i>Associated Items <span class="badge bg-secondary">{{ software.items.count }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'invoices' ? 'active' : '' }}"
+                                id="invoices-tab" data-bs-toggle="tab" data-bs-target="#invoices"
+                                type="button" role="tab" aria-controls="invoices" aria-selected="{{ current_tab == 'invoices' ? 'true' : 'false' }}">
+                            <i class="bi bi-receipt me-1"></i>Invoices <span class="badge bg-secondary">{{ software.invoices.count }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'contracts' ? 'active' : '' }}"
+                                id="contracts-tab" data-bs-toggle="tab" data-bs-target="#contracts"
+                                type="button" role="tab" aria-controls="contracts" aria-selected="{{ current_tab == 'contracts' ? 'true' : 'false' }}">
+                            <i class="bi bi-file-text me-1"></i>Contracts <span class="badge bg-secondary">{{ software.contracts.count }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'files' ? 'active' : '' }}"
+                                id="files-tab" data-bs-toggle="tab" data-bs-target="#files"
+                                type="button" role="tab" aria-controls="files" aria-selected="{{ current_tab == 'files' ? 'true' : 'false' }}">
+                            <i class="bi bi-file-earmark me-1"></i>Files <span class="badge bg-secondary">{{ software.files.count }}</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="softwareViewTabContent">
+                <!-- Software Data Tab -->
+                <div class="tab-pane fade {{ current_tab == 'data' ? 'show active' : '' }}"
+                     id="data" role="tabpanel" aria-labelledby="data-tab">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-muted mb-3">Basic Information</h6>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Software Title</label>
+                                    <div class="form-control-plaintext">{{ software.stitle ?: 'N/A' }}</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Version</label>
+                                    <div class="form-control-plaintext">{{ software.sversion ? ('<code>' ~ software.sversion ~ '</code>')|raw : 'N/A' }}</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Software Type</label>
+                                    <div class="form-control-plaintext">{{ software.stype ?: 'N/A' }}</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Manufacturer ID</label>
+                                    <div class="form-control-plaintext">{{ software.manufacturerid ?: 'N/A' }}</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h6 class="text-muted mb-3">License Information</h6>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">License Quantity</label>
+                                    <div class="form-control-plaintext">
+                                        {% if software.licqty %}
+                                            <span class="badge bg-info">{{ software.licqty }} licenses</span>
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">License Type</label>
+                                    <div class="form-control-plaintext">
+                                        {% if software.lictype is not null %}
+                                            <span class="badge bg-secondary">{{ ['Per Device', 'Per User', 'Site License', 'Volume License'][software.lictype] ?: 'Unknown' }}</span>
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Invoice ID</label>
+                                    <div class="form-control-plaintext">
+                                        {% if software.invoiceid %}
+                                            <a href="/invoices/{{ software.invoiceid }}/edit" class="text-decoration-none">Invoice #{{ software.invoiceid }}</a>
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Purchase Date</label>
+                                    <div class="form-control-plaintext">{{ software.purchdate ? software.purchdate|date('M j, Y') : 'N/A' }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Description</label>
+                                    <div class="form-control-plaintext bg-light p-3 rounded" style="min-height: 100px;">
+                                        {{ software.sinfo ? software.sinfo : '<em class="text-muted">No description provided</em>' }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">License Information</label>
+                                    <div class="form-control-plaintext bg-light p-3 rounded" style="min-height: 100px;">
+                                        {{ software.slicenseinfo ? software.slicenseinfo : '<em class="text-muted">No license information provided</em>' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Usage Statistics -->
+                        {% if software.licqty %}
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-muted mb-3">Usage Statistics</h6>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Installations</label>
+                                    <div class="form-control-plaintext">
+                                        <span class="badge bg-secondary">{{ software.installations_count|default(0) }}</span>
+                                        <small class="text-muted">of {{ software.licqty }} available</small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Available Licenses</label>
+                                    <div class="form-control-plaintext">
+                                        {% if software.available_licenses > 0 %}
+                                            <span class="text-success">{{ software.available_licenses }} remaining</span>
+                                        {% elseif software.available_licenses == 0 %}
+                                            <span class="text-warning">No licenses available</span>
+                                        {% else %}
+                                            <span class="text-danger">Over-licensed by {{ software.available_licenses * -1 }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h6 class="text-muted mb-3">License Usage</h6>
+
+                                {% set usage_percent = software.licqty > 0 ? (software.installations_count / software.licqty * 100) : 0 %}
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Usage Percentage</label>
+                                    <div class="form-control-plaintext">
+                                        <div class="progress mb-2">
+                                            <div class="progress-bar {% if usage_percent > 90 %}bg-danger{% elseif usage_percent > 80 %}bg-warning{% else %}bg-primary{% endif %}"
+                                                 style="width: {{ usage_percent > 100 ? 100 : usage_percent }}%"></div>
+                                        </div>
+                                        <small class="text-muted">{{ usage_percent|number_format(1) }}% used</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Associated Items Tab -->
+                <div class="tab-pane fade {{ current_tab == 'items' ? 'show active' : '' }}"
+                     id="items" role="tabpanel" aria-labelledby="items-tab">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Items with this software installed</h6>
+                            {% if user and user.usertype >= 1 %}
+                            <a href="/software/{{ software.id }}/edit?tab=items" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil me-1"></i>Manage Associations
+                            </a>
+                            {% endif %}
+                        </div>
+
+                        {% if software.items|length > 0 %}
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Item ID</th>
+                                        <th>Description</th>
+                                        <th>Type</th>
+                                        <th>Location</th>
+                                        <th>User</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in software.items %}
+                                    <tr>
+                                        <td><a href="/items/{{ item.id }}/edit">#{{ item.id }}</a></td>
+                                        <td>{{ item.description|default('N/A') }}</td>
+                                        <td>{{ item.itemType.typedesc|default('N/A') }}</td>
+                                        <td>{{ item.location.name|default('N/A') }}</td>
+                                        <td>{{ item.user.display_name|default('Unassigned') }}</td>
+                                        <td>
+                                            <a href="/items/{{ item.id }}/edit" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-laptop display-4 mb-3"></i>
+                            <p>No items have this software installed yet.</p>
+                            {% if user and user.usertype >= 1 %}
+                            <a href="/software/{{ software.id }}/edit?tab=items" class="btn btn-primary">
+                                <i class="bi bi-plus-lg me-1"></i>Associate Items
+                            </a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Invoices Tab -->
+                <div class="tab-pane fade {{ current_tab == 'invoices' ? 'show active' : '' }}"
+                     id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Related invoices</h6>
+                            {% if user and user.usertype >= 1 %}
+                            <a href="/software/{{ software.id }}/edit?tab=invoices" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil me-1"></i>Manage Associations
+                            </a>
+                            {% endif %}
+                        </div>
+
+                        {% if software.invoices|length > 0 %}
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Invoice #</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for invoice in software.invoices %}
+                                    <tr>
+                                        <td><a href="/invoices/{{ invoice.id }}">#{{ invoice.id }}</a></td>
+                                        <td>{{ invoice.date_formatted|default('N/A') }}</td>
+                                        <td>${{ invoice.amount|default('0.00') }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ invoice.status == 'paid' ? 'success' : 'warning' }}">
+                                                {{ invoice.status|default('pending') }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="/invoices/{{ invoice.id }}" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-receipt display-4 mb-3"></i>
+                            <p>No invoices are associated with this software.</p>
+                            {% if user and user.usertype >= 1 %}
+                            <a href="/software/{{ software.id }}/edit?tab=invoices" class="btn btn-primary">
+                                <i class="bi bi-plus-lg me-1"></i>Associate Invoices
+                            </a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Contracts Tab -->
+                <div class="tab-pane fade {{ current_tab == 'contracts' ? 'show active' : '' }}"
+                     id="contracts" role="tabpanel" aria-labelledby="contracts-tab">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Related contracts</h6>
+                            {% if user and user.usertype >= 1 %}
+                            <a href="/software/{{ software.id }}/edit?tab=contracts" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil me-1"></i>Manage Associations
+                            </a>
+                            {% endif %}
+                        </div>
+
+                        {% if software.contracts|length > 0 %}
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Contract #</th>
+                                        <th>Title</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for contract in software.contracts %}
+                                    <tr>
+                                        <td><a href="/contracts/{{ contract.id }}">#{{ contract.id }}</a></td>
+                                        <td>{{ contract.title|default('N/A') }}</td>
+                                        <td>{{ contract.startdate_formatted|default('N/A') }}</td>
+                                        <td>{{ contract.enddate_formatted|default('N/A') }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ contract.status == 'active' ? 'success' : (contract.status == 'expired' ? 'danger' : 'warning') }}">
+                                                {{ contract.status|default('pending') }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="/contracts/{{ contract.id }}" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-file-text display-4 mb-3"></i>
+                            <p>No contracts are associated with this software.</p>
+                            {% if user and user.usertype >= 1 %}
+                            <a href="/software/{{ software.id }}/edit?tab=contracts" class="btn btn-primary">
+                                <i class="bi bi-plus-lg me-1"></i>Associate Contracts
+                            </a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Files Tab -->
+                <div class="tab-pane fade {{ current_tab == 'files' ? 'show active' : '' }}"
+                     id="files" role="tabpanel" aria-labelledby="files-tab">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Attached files</h6>
+                            {% if user and user.usertype >= 1 %}
+                            <a href="/software/{{ software.id }}/edit?tab=files" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil me-1"></i>Manage Associations
+                            </a>
+                            {% endif %}
+                        </div>
+
+                        {% if software.files|length > 0 %}
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Title</th>
+                                        <th>Size</th>
+                                        <th>Upload Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for file in software.files %}
+                                    <tr>
+                                        <td>
+                                            <i class="bi bi-file-earmark me-2"></i>
+                                            {{ file.fname|default('N/A') }}
+                                        </td>
+                                        <td>{{ file.title|default('N/A') }}</td>
+                                        <td>{{ file.file_size ? (file.file_size ~ ' bytes') : 'N/A' }}</td>
+                                        <td>{{ file.uploaddate_formatted|default('N/A') }}</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="/files/{{ file.id }}" class="btn btn-outline-primary" title="View">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <a href="/files/{{ file.id }}/download" class="btn btn-outline-success" title="Download">
+                                                    <i class="bi bi-download"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-file-earmark display-4 mb-3"></i>
+                            <p>No files are attached to this software.</p>
+                            {% if user and user.usertype >= 1 %}
+                            <a href="/software/{{ software.id }}/edit?tab=files" class="btn btn-primary">
+                                <i class="bi bi-plus-lg me-1"></i>Associate Files
+                            </a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Footer -->
+            {% if user and (user.usertype >= 1 or user.isAdmin()) %}
+            <div class="card-footer bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-muted small">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Use the tabs above to view all software data and associations
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        {% if user.usertype >= 1 %}
+                        <a href="/software/{{ software.id }}/edit" class="btn btn-outline-primary">
+                            <i class="bi bi-pencil me-1"></i>Edit
+                        </a>
+                        {% endif %}
+                        {% if user.isAdmin() %}
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="bi bi-trash me-1"></i>Delete
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Modal -->
+            {% if user.isAdmin() %}
+            <div class="modal fade" id="deleteModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirm Deletion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this software?</p>
+                            <div class="alert alert-warning">
+                                <strong>{{ software.display_title }}</strong>
+                                {% if software.sversion %}<br>Version: {{ software.sversion }}{% endif %}
+                                {% if software.items.count > 0 %}<br><strong>Warning:</strong> This software is installed on {{ software.items.count }} items{% endif %}
+                            </div>
+                            <p class="text-danger mb-0">
+                                <i class="bi bi-exclamation-triangle me-1"></i>
+                                This action cannot be undone and will remove all associations.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <form method="POST" action="/software/{{ software.id }}/delete" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash me-1"></i>Delete Software
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle tab switching with URL updates
+    const tabs = document.querySelectorAll('#softwareViewTabs button[data-bs-toggle="tab"]');
+    tabs.forEach(tab => {
+        tab.addEventListener('shown.bs.tab', function (e) {
+            const tabId = e.target.getAttribute('aria-controls');
+            const url = new URL(window.location);
+            url.searchParams.set('tab', tabId);
+            window.history.replaceState({}, '', url);
+        });
+    });
+});
+</script>
+{% endblock %}

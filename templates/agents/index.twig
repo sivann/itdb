@@ -1,0 +1,201 @@
+{% extends "base.twig" %}
+
+{% block title %}Agents{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item active">Agents</li>
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        {% if user and user.usertype >= 1 %}
+        <a href="/agents/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>New Agent
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Search and Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label for="search" class="form-label">Search</label>
+                <input type="text" class="form-control" id="search" name="search"
+                       value="{{ search }}" placeholder="Search agents...">
+            </div>
+            <div class="col-md-3">
+                <label for="type" class="form-label">Type Filter</label>
+                <select class="form-select" id="type" name="type">
+                    <option value="">All Types</option>
+                    <option value="1" {{ type_filter == '1' ? 'selected' : '' }}>Vendor</option>
+                    <option value="2" {{ type_filter == '2' ? 'selected' : '' }}>Software Manufacturer</option>
+                    <option value="4" {{ type_filter == '4' ? 'selected' : '' }}>Hardware Manufacturer</option>
+                    <option value="8" {{ type_filter == '8' ? 'selected' : '' }}>Buyer</option>
+                    <option value="16" {{ type_filter == '16' ? 'selected' : '' }}>Contractor</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-outline-primary me-2">Search</button>
+                <a href="/agents" class="btn btn-outline-secondary">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Agents List -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Agents ({{ total }})</h5>
+    </div>
+    <div class="card-body">
+        {% if agents is empty %}
+            <div class="text-center py-4 text-muted">
+                <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                <p>No agents found.</p>
+                {% if user and user.usertype >= 1 %}
+                <a href="/agents/create" class="btn btn-outline-primary">
+                    <i class="bi bi-plus-lg me-1"></i>Create First Agent
+                </a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Contact Info</th>
+                            <th>URLs</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for agent in agents %}
+                        <tr>
+                            <td>
+                                <strong>{{ agent.title }}</strong>
+                            </td>
+                            <td>
+                                <span class="badge bg-info">{{ agent.type_description }}</span>
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ agent.contactinfo|default('—') }}</small>
+                            </td>
+                            <td>
+                                {% if agent.urls %}
+                                    <small>
+                                        {% for url in agent.urls|split('\n') %}
+                                            {% if url|trim %}
+                                                <a href="{{ url|trim }}" target="_blank" rel="noopener">{{ url|trim }}</a>{% if not loop.last %}<br>{% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </small>
+                                {% else %}
+                                    <small class="text-muted">—</small>
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                <div class="btn-group btn-group-sm">
+                                    <a href="/agents/{{ agent.id }}/edit"
+                                       class="btn btn-outline-secondary"
+                                       title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    {% if user and user.isAdmin() %}
+                                        <button type="button"
+                                                class="btn btn-outline-danger"
+                                                title="Delete"
+                                                onclick="confirmDelete({{ agent.id }}, '{{ agent.title|escape('js') }}')">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if total_pages > 1 %}
+            <nav aria-label="Agents pagination" class="mt-3">
+                <ul class="pagination justify-content-center">
+                    {% if page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page - 1 }}{% if search %}&search={{ search|url_encode }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}">Previous</a>
+                        </li>
+                    {% endif %}
+
+                    {% for p in 1..total_pages %}
+                        {% if p == page %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ p }}</span>
+                            </li>
+                        {% elseif p <= 3 or p >= total_pages - 2 or (p >= page - 1 and p <= page + 1) %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ p }}{% if search %}&search={{ search|url_encode }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}">{{ p }}</a>
+                            </li>
+                        {% elseif p == 4 and page > 6 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% elseif p == total_pages - 3 and page < total_pages - 5 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page < total_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page + 1 }}{% if search %}&search={{ search|url_encode }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the agent "<span id="deleteItemName"></span>"?</p>
+                <p class="text-warning small">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    This action cannot be undone.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" style="display: inline;">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmDelete(agentId, agentName) {
+    document.getElementById('deleteItemName').textContent = agentName;
+    document.getElementById('deleteForm').action = '/agents/' + agentId;
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>
+{% endblock %}

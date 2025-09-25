@@ -1,0 +1,444 @@
+{% extends "base.twig" %}
+
+{% block title %}Create Rack{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/racks">Racks</a></li>
+            <li class="breadcrumb-item active">Create New Rack</li>
+        </ol>
+    </nav>
+
+    <a href="/racks" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Back to Racks
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-plus-lg me-2"></i>Create New Rack
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/racks">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="row">
+                        <!-- Basic Information -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Basic Information</h6>
+
+                            <div class="mb-3">
+                                <label for="label" class="form-label">Rack Label</label>
+                                <input type="text"
+                                       class="form-control{% if errors.label %} is-invalid{% endif %}"
+                                       id="label"
+                                       name="label"
+                                       value="{{ old.label|default('') }}"
+                                       maxlength="100">
+                                {% if errors.label %}
+                                <div class="invalid-feedback">{{ errors.label }}</div>
+                                {% endif %}
+                                <div class="form-text">Unique identifier for this rack (e.g., "R01", "Server-Rack-A").</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="model" class="form-label">Model</label>
+                                <input type="text"
+                                       class="form-control{% if errors.model %} is-invalid{% endif %}"
+                                       id="model"
+                                       name="model"
+                                       value="{{ old.model|default('') }}"
+                                       maxlength="100">
+                                {% if errors.model %}
+                                <div class="invalid-feedback">{{ errors.model }}</div>
+                                {% endif %}
+                                <div class="form-text">Manufacturer and model of the rack (e.g., "Dell 4220", "HP 42U").</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="locationid" class="form-label">Location <span class="text-danger">*</span></label>
+                                <select class="form-select{% if errors.locationid %} is-invalid{% endif %}"
+                                        id="locationid"
+                                        name="locationid"
+                                        required>
+                                    <option value="">Select location...</option>
+                                    {% for location in form_options.locations %}
+                                    <option value="{{ location.id }}"
+                                            {% if old.locationid|default(query.location|default('')) == location.id %}selected{% endif %}>
+                                        {{ location.name }}
+                                        {% if location.floor %} ({{ location.floor }}){% endif %}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                {% if errors.locationid %}
+                                <div class="invalid-feedback">{{ errors.locationid }}</div>
+                                {% endif %}
+                                <div class="form-text">Physical location where this rack is installed.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="locareaid" class="form-label">Location Area</label>
+                                <select class="form-select{% if errors.locareaid %} is-invalid{% endif %}"
+                                        id="locareaid"
+                                        name="locareaid">
+                                    <option value="">No specific area</option>
+                                    {% for area in form_options.location_areas %}
+                                    <option value="{{ area.id }}"
+                                            {% if old.locareaid|default('') == area.id %}selected{% endif %}
+                                            data-location="{{ area.locationid }}">
+                                        {{ area.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                {% if errors.locareaid %}
+                                <div class="invalid-feedback">{{ errors.locareaid }}</div>
+                                {% endif %}
+                                <div class="form-text">Specific area within the location (optional).</div>
+                            </div>
+                        </div>
+
+                        <!-- Technical Specifications -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Technical Specifications</h6>
+
+                            <div class="mb-3">
+                                <label for="usize" class="form-label">Rack Size (Units) <span class="text-danger">*</span></label>
+                                <select class="form-select{% if errors.usize %} is-invalid{% endif %}"
+                                        id="usize"
+                                        name="usize"
+                                        required>
+                                    <option value="">Select rack size...</option>
+                                    <option value="4" {% if old.usize|default('') == '4' %}selected{% endif %}>4U - Network Switch Rack</option>
+                                    <option value="6" {% if old.usize|default('') == '6' %}selected{% endif %}>6U - Small Equipment Rack</option>
+                                    <option value="9" {% if old.usize|default('') == '9' %}selected{% endif %}>9U - Wall Mount Rack</option>
+                                    <option value="12" {% if old.usize|default('') == '12' %}selected{% endif %}>12U - Small Server Rack</option>
+                                    <option value="18" {% if old.usize|default('') == '18' %}selected{% endif %}>18U - Medium Rack</option>
+                                    <option value="24" {% if old.usize|default('') == '24' %}selected{% endif %}>24U - Standard Rack</option>
+                                    <option value="42" {% if old.usize|default('') == '42' %}selected{% endif %}>42U - Full Server Rack (Standard)</option>
+                                    <option value="45" {% if old.usize|default('') == '45' %}selected{% endif %}>45U - Tall Server Rack</option>
+                                    <option value="48" {% if old.usize|default('') == '48' %}selected{% endif %}>48U - Extra Tall Rack</option>
+                                    <option value="custom">Custom Size...</option>
+                                </select>
+                                {% if errors.usize %}
+                                <div class="invalid-feedback">{{ errors.usize }}</div>
+                                {% endif %}
+                                <div class="form-text">Number of rack units (1U = 1.75 inches). Standard server racks are 42U.</div>
+                            </div>
+
+                            <div class="mb-3" id="custom-size-field" style="display: none;">
+                                <label for="custom_usize" class="form-label">Custom Size (Units)</label>
+                                <input type="number"
+                                       class="form-control"
+                                       id="custom_usize"
+                                       name="custom_usize"
+                                       min="1"
+                                       max="100">
+                                <div class="form-text">Enter custom number of rack units (1-100).</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="depth" class="form-label">Rack Depth (inches)</label>
+                                <select class="form-select{% if errors.depth %} is-invalid{% endif %}"
+                                        id="depth"
+                                        name="depth">
+                                    <option value="">Select depth...</option>
+                                    <option value="24" {% if old.depth|default('') == '24' %}selected{% endif %}>24" - Shallow Network Rack</option>
+                                    <option value="30" {% if old.depth|default('') == '30' %}selected{% endif %}>30" - Standard Network Rack</option>
+                                    <option value="32" {% if old.depth|default('') == '32' %}selected{% endif %}>32" - Medium Server Rack</option>
+                                    <option value="36" {% if old.depth|default('') == '36' %}selected{% endif %}>36" - Standard Server Rack</option>
+                                    <option value="42" {% if old.depth|default('') == '42' %}selected{% endif %}>42" - Deep Server Rack</option>
+                                    <option value="48" {% if old.depth|default('') == '48' %}selected{% endif %}>48" - Extra Deep Rack</option>
+                                </select>
+                                {% if errors.depth %}
+                                <div class="invalid-feedback">{{ errors.depth }}</div>
+                                {% endif %}
+                                <div class="form-text">Depth of the rack from front to back (optional but recommended).</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input{% if errors.revnums %} is-invalid{% endif %}"
+                                           type="checkbox"
+                                           id="revnums"
+                                           name="revnums"
+                                           value="1"
+                                           {% if old.revnums|default('') == '1' %}checked{% endif %}>
+                                    <label class="form-check-label" for="revnums">
+                                        Reverse Unit Numbering
+                                    </label>
+                                    {% if errors.revnums %}
+                                    <div class="invalid-feedback">{{ errors.revnums }}</div>
+                                    {% endif %}
+                                    <div class="form-text">
+                                        Check if units are numbered from top to bottom instead of bottom to top (standard).
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Comments -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-3">Additional Information</h6>
+
+                            <div class="mb-3">
+                                <label for="comments" class="form-label">Comments</label>
+                                <textarea class="form-control{% if errors.comments %} is-invalid{% endif %}"
+                                          id="comments"
+                                          name="comments"
+                                          rows="4">{{ old.comments|default('') }}</textarea>
+                                {% if errors.comments %}
+                                <div class="invalid-feedback">{{ errors.comments }}</div>
+                                {% endif %}
+                                <div class="form-text">Additional notes about this rack (installation details, special requirements, etc.).</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Rack Visualization Preview -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-3">Rack Preview</h6>
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <div id="rack-preview">
+                                        <p class="text-muted">Select a rack size to see preview</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-1"></i>
+                        <strong>Rack Configuration Tips:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Standard server racks are 42U tall and 19" wide</li>
+                            <li>1U equals 1.75 inches (44.45mm) in height</li>
+                            <li>Consider cable management and airflow when planning</li>
+                            <li>Leave space for future expansion</li>
+                            <li>Document power and cooling requirements</li>
+                        </ul>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/racks" class="btn btn-secondary">
+                            <i class="bi bi-x-lg me-1"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>Create Rack
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on label field
+    document.getElementById('label').focus();
+
+    // Handle custom size selection
+    const usizeSelect = document.getElementById('usize');
+    const customSizeField = document.getElementById('custom-size-field');
+    const customUsizeInput = document.getElementById('custom_usize');
+
+    usizeSelect.addEventListener('change', function() {
+        if (this.value === 'custom') {
+            customSizeField.style.display = 'block';
+            customUsizeInput.required = true;
+            customUsizeInput.focus();
+        } else {
+            customSizeField.style.display = 'none';
+            customUsizeInput.required = false;
+            customUsizeInput.value = '';
+        }
+        updateRackPreview();
+    });
+
+    // Filter location areas based on selected location
+    const locationSelect = document.getElementById('locationid');
+    const areaSelect = document.getElementById('locareaid');
+
+    locationSelect.addEventListener('change', function() {
+        const selectedLocationId = this.value;
+        const areaOptions = areaSelect.querySelectorAll('option[data-location]');
+
+        // Reset area selection
+        areaSelect.value = '';
+
+        // Show/hide area options based on selected location
+        areaOptions.forEach(function(option) {
+            if (option.dataset.location === selectedLocationId) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+
+        // Disable area select if no location is selected
+        areaSelect.disabled = !selectedLocationId;
+    });
+
+    // Initialize area select state
+    locationSelect.dispatchEvent(new Event('change'));
+
+    // Auto-generate label based on location and model
+    const labelField = document.getElementById('label');
+    const modelField = document.getElementById('model');
+
+    function generateLabel() {
+        if (!labelField.value) {
+            const location = locationSelect.options[locationSelect.selectedIndex]?.text || '';
+            const model = modelField.value;
+
+            if (location && model) {
+                // Extract first letters/numbers from location and model
+                const locationCode = location.replace(/[^A-Z0-9]/g, '').substring(0, 3);
+                const modelCode = model.replace(/[^A-Z0-9]/g, '').substring(0, 3);
+                const rackNumber = String(Math.floor(Math.random() * 99) + 1).padStart(2, '0');
+
+                labelField.value = `${locationCode}-${modelCode}-${rackNumber}`;
+            }
+        }
+    }
+
+    locationSelect.addEventListener('change', generateLabel);
+    modelField.addEventListener('blur', generateLabel);
+
+    // Rack preview functionality
+    function updateRackPreview() {
+        const previewDiv = document.getElementById('rack-preview');
+        let rackSize = usizeSelect.value;
+
+        if (rackSize === 'custom') {
+            rackSize = customUsizeInput.value;
+        }
+
+        if (rackSize && rackSize > 0) {
+            const units = parseInt(rackSize);
+            let previewHtml = '<div class="rack-preview-container">';
+            previewHtml += `<div class="rack-info mb-2"><strong>${units}U Rack Preview</strong></div>`;
+            previewHtml += '<div class="rack-frame-mini">';
+
+            // Show first few and last few units for large racks
+            if (units <= 12) {
+                for (let i = units; i >= 1; i--) {
+                    previewHtml += `<div class="rack-unit-mini">${i}</div>`;
+                }
+            } else {
+                // Show top 3 units
+                for (let i = units; i >= units - 2; i--) {
+                    previewHtml += `<div class="rack-unit-mini">${i}</div>`;
+                }
+                previewHtml += '<div class="rack-ellipsis">⋮</div>';
+                // Show bottom 3 units
+                for (let i = 3; i >= 1; i--) {
+                    previewHtml += `<div class="rack-unit-mini">${i}</div>`;
+                }
+            }
+
+            previewHtml += '</div>';
+            previewHtml += `<div class="rack-dimensions mt-2 text-muted small">`;
+            previewHtml += `Height: ${(units * 1.75).toFixed(1)}" | `;
+            previewHtml += `Depth: ${document.getElementById('depth').value || 'TBD'}"`;
+            previewHtml += '</div>';
+            previewHtml += '</div>';
+
+            previewDiv.innerHTML = previewHtml;
+        } else {
+            previewDiv.innerHTML = '<p class="text-muted">Select a rack size to see preview</p>';
+        }
+    }
+
+    // Update preview when size changes
+    customUsizeInput.addEventListener('input', updateRackPreview);
+    document.getElementById('depth').addEventListener('change', updateRackPreview);
+
+    // Form validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        let rackSize = usizeSelect.value;
+
+        if (rackSize === 'custom') {
+            rackSize = customUsizeInput.value;
+            if (!rackSize || rackSize < 1 || rackSize > 100) {
+                e.preventDefault();
+                alert('Please enter a valid custom rack size (1-100 units).');
+                customUsizeInput.focus();
+                return false;
+            }
+            // Set the actual value for submission
+            usizeSelect.innerHTML += `<option value="${rackSize}" selected></option>`;
+        }
+
+        if (!locationSelect.value) {
+            e.preventDefault();
+            alert('Please select a location for the rack.');
+            locationSelect.focus();
+            return false;
+        }
+    });
+});
+</script>
+
+<style>
+.rack-preview-container {
+    display: inline-block;
+}
+
+.rack-frame-mini {
+    background: #343a40;
+    border-radius: 4px;
+    padding: 5px;
+    display: inline-block;
+}
+
+.rack-unit-mini {
+    height: 8px;
+    width: 40px;
+    margin-bottom: 1px;
+    background: #6c757d;
+    border: 1px solid #495057;
+    border-radius: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6px;
+    color: white;
+    font-weight: bold;
+}
+
+.rack-ellipsis {
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    padding: 2px 0;
+}
+
+.rack-info {
+    font-size: 0.9rem;
+}
+
+.rack-dimensions {
+    font-size: 0.8rem;
+}
+</style>
+{% endblock %}

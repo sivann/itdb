@@ -1,0 +1,223 @@
+{% extends "base.twig" %}
+
+{% block title %}Create User{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/users">Users</a></li>
+            <li class="breadcrumb-item active">Create New User</li>
+        </ol>
+    </nav>
+
+    <a href="/users" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Back to Users
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-plus-lg me-2"></i>Create New User
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/users">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="row">
+                        <!-- Basic Information -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Basic Information</h6>
+
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                                <input type="text"
+                                       class="form-control{% if errors.username %} is-invalid{% endif %}"
+                                       id="username"
+                                       name="username"
+                                       value="{{ old.username|default('') }}"
+                                       required
+                                       minlength="3"
+                                       maxlength="50"
+                                       pattern="[a-zA-Z0-9_.-]+"
+                                       title="Username can only contain letters, numbers, dots, dashes, and underscores">
+                                {% if errors.username %}
+                                <div class="invalid-feedback">{{ errors.username }}</div>
+                                {% endif %}
+                                <div class="form-text">3-50 characters. Letters, numbers, dots, dashes, and underscores only.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="userdesc" class="form-label">Display Name</label>
+                                <input type="text"
+                                       class="form-control{% if errors.userdesc %} is-invalid{% endif %}"
+                                       id="userdesc"
+                                       name="userdesc"
+                                       value="{{ old.userdesc|default('') }}"
+                                       maxlength="100">
+                                {% if errors.userdesc %}
+                                <div class="invalid-feedback">{{ errors.userdesc }}</div>
+                                {% endif %}
+                                <div class="form-text">Full name or display name for this user.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="usertype" class="form-label">User Type <span class="text-danger">*</span></label>
+                                <select class="form-select{% if errors.usertype %} is-invalid{% endif %}"
+                                        id="usertype"
+                                        name="usertype"
+                                        required>
+                                    <option value="">Select user type...</option>
+                                    <option value="1" {% if old.usertype|default('') == '1' %}selected{% endif %}>Administrator</option>
+                                    <option value="2" {% if old.usertype|default('') == '2' %}selected{% endif %}>LDAP User</option>
+                                    <option value="3" {% if old.usertype|default('') == '3' %}selected{% endif %}>Regular User</option>
+                                </select>
+                                {% if errors.usertype %}
+                                <div class="invalid-feedback">{{ errors.usertype }}</div>
+                                {% endif %}
+                                <div class="form-text">
+                                    <strong>Administrator:</strong> Full system access<br>
+                                    <strong>LDAP User:</strong> Authenticates via LDAP<br>
+                                    <strong>Regular User:</strong> Standard user access
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Authentication -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Authentication</h6>
+
+                            <div class="mb-3" id="password-section">
+                                <label for="pass" class="form-label">Password <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="password"
+                                           class="form-control{% if errors.pass %} is-invalid{% endif %}"
+                                           id="pass"
+                                           name="pass"
+                                           required
+                                           minlength="4">
+                                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                                {% if errors.pass %}
+                                <div class="invalid-feedback">{{ errors.pass }}</div>
+                                {% endif %}
+                                <div class="form-text">Minimum 4 characters required.</div>
+                            </div>
+
+                            <div class="mb-3" id="confirm-password-section">
+                                <label for="pass_confirm" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                <input type="password"
+                                       class="form-control{% if errors.pass_confirm %} is-invalid{% endif %}"
+                                       id="pass_confirm"
+                                       name="pass_confirm"
+                                       required>
+                                {% if errors.pass_confirm %}
+                                <div class="invalid-feedback">{{ errors.pass_confirm }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-1"></i>
+                                <strong>Note:</strong> LDAP users will authenticate using their directory credentials.
+                                The password field will be used as a fallback.
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        <strong>Administrator users have full access to all system functions including user management, system settings, and data deletion.</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/users" class="btn btn-secondary">
+                            <i class="bi bi-x-lg me-1"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>Create User
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on username field
+    document.getElementById('username').focus();
+
+    // Password visibility toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('pass');
+    const icon = togglePassword.querySelector('i');
+
+    togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+
+        if (type === 'password') {
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        } else {
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        }
+    });
+
+    // Password confirmation validation
+    const confirmPassword = document.getElementById('pass_confirm');
+
+    function validatePasswordMatch() {
+        if (passwordField.value !== confirmPassword.value) {
+            confirmPassword.setCustomValidity("Passwords don't match");
+        } else {
+            confirmPassword.setCustomValidity('');
+        }
+    }
+
+    passwordField.addEventListener('change', validatePasswordMatch);
+    confirmPassword.addEventListener('keyup', validatePasswordMatch);
+
+    // User type change handler
+    const userTypeSelect = document.getElementById('usertype');
+    const passwordSection = document.getElementById('password-section');
+    const confirmPasswordSection = document.getElementById('confirm-password-section');
+
+    userTypeSelect.addEventListener('change', function() {
+        if (this.value === '2') {
+            // LDAP user - password optional
+            passwordField.removeAttribute('required');
+            confirmPassword.removeAttribute('required');
+            passwordSection.querySelector('.form-text').textContent = 'Optional for LDAP users (used as fallback).';
+        } else {
+            // Regular/Admin user - password required
+            passwordField.setAttribute('required', 'required');
+            confirmPassword.setAttribute('required', 'required');
+            passwordSection.querySelector('.form-text').textContent = 'Minimum 4 characters required.';
+        }
+    });
+
+    // Username validation
+    const usernameField = document.getElementById('username');
+    usernameField.addEventListener('input', function() {
+        // Convert to lowercase
+        this.value = this.value.toLowerCase();
+
+        // Remove invalid characters
+        this.value = this.value.replace(/[^a-z0-9_.-]/g, '');
+    });
+});
+</script>
+{% endblock %}

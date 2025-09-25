@@ -1,0 +1,54 @@
+{
+    "name": "itdb/slim-refactor",
+    "description": "ITDB IT Asset Management System - SlimPHP Refactor",
+    "type": "project",
+    "license": "GPL-3.0+",
+    "require": {
+        "php": "^8.1",
+        "slim/slim": "^4.12",
+        "slim/psr7": "^1.6",
+        "php-di/slim-bridge": "^3.4",
+        "twig/twig": "^3.8",
+        "monolog/monolog": "^3.5",
+        "symfony/validator": "^7.0",
+        "firebase/php-jwt": "^6.10",
+        "intervention/image": "^3.3",
+        "league/csv": "^9.15",
+        "tecnickcom/tcpdf": "^6.6",
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.48",
+        "squizlabs/php_codesniffer": "^3.8",
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public",
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-html coverage",
+        "phpstan": "phpstan analyse",
+        "cs:check": "php-cs-fixer fix --dry-run --diff",
+        "cs:fix": "php-cs-fixer fix",
+        "migrate": "php bin/migrate.php",
+        "seed": "php bin/seed.php"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

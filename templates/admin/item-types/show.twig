@@ -1,0 +1,115 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ item_type.typedesc }} - Item Type{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/admin/item-types">Item Types</a></li>
+            <li class="breadcrumb-item active">{{ item_type.typedesc }}</li>
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        <a href="/admin/item-types/{{ item_type.id }}/edit" class="btn btn-primary">
+            <i class="bi bi-pencil me-1"></i>Edit
+        </a>
+        <a href="/admin/item-types" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to List
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-tag me-2"></i>Item Type Details
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>ID:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ item_type.id }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Type Description:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ item_type.typedesc }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Items Count:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        <span class="badge bg-secondary">{{ item_type.items_count ?? 0 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Actions</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="/admin/item-types/{{ item_type.id }}/edit" class="btn btn-primary">
+                        <i class="bi bi-pencil me-2"></i>Edit Item Type
+                    </a>
+                    <a href="/items?type={{ item_type.id }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-list-ul me-2"></i>View Items of This Type
+                    </a>
+                    <button type="button" class="btn btn-outline-danger" onclick="confirmDelete()">
+                        <i class="bi bi-trash me-2"></i>Delete Item Type
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the item type <strong>{{ item_type.typedesc }}</strong>?</p>
+                <p class="text-muted small">This action cannot be undone. Make sure no items are using this type.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="/admin/item-types/{{ item_type.id }}/delete" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function confirmDelete() {
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>
+{% endblock %}

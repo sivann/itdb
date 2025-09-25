@@ -1,0 +1,185 @@
+{% extends "base.twig" %}
+
+{% block title %}Create Item{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/items">Items</a></li>
+            <li class="breadcrumb-item active">Create New Item</li>
+        </ol>
+    </nav>
+
+    <a href="/items" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Back to Items
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-plus-lg me-2"></i>Create New Item
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/items">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="row">
+                        <!-- Basic Information -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Basic Information</h6>
+
+                            <div class="mb-3">
+                                <label for="function" class="form-label">Item Name</label>
+                                <input type="text" class="form-control" id="function" name="function">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="itemtypeid" class="form-label">Item Type <span class="text-danger">*</span></label>
+                                <select class="form-select" id="itemtypeid" name="itemtypeid" required>
+                                    <option value="">Select item type...</option>
+                                    {% for type in form_options.item_types %}
+                                    <option value="{{ type.id }}">{{ type.typedesc }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                                <select class="form-select" id="status" name="status" required>
+                                    {% for status in form_options.status_types %}
+                                    <option value="{{ status.id }}" {% if status.id == 1 %}selected{% endif %}>{{ status.statusdesc }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="model" class="form-label">Model</label>
+                                <input type="text" class="form-control" id="model" name="model">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="sn" class="form-label">Serial Number</label>
+                                <input type="text" class="form-control" id="sn" name="sn">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="label" class="form-label">Asset Tag</label>
+                                <input type="text" class="form-control" id="label" name="label">
+                            </div>
+                        </div>
+
+                        <!-- Assignment & Location -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Assignment & Location</h6>
+
+                            <div class="mb-3">
+                                <label for="userid" class="form-label">Assigned To</label>
+                                <select class="form-select" id="userid" name="userid">
+                                    <option value="">Unassigned</option>
+                                    {% for user in form_options.users %}
+                                    <option value="{{ user.id }}">{{ user.userdesc|default(user.username) }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="locationid" class="form-label">Location</label>
+                                <select class="form-select" id="locationid" name="locationid">
+                                    <option value="">Select location...</option>
+                                    {% for location in form_options.locations %}
+                                    <option value="{{ location.id }}">{{ location.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ipv4" class="form-label">IP Address</label>
+                                <input type="text" class="form-control" id="ipv4" name="ipv4" placeholder="192.168.1.100">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="dnsname" class="form-label">DNS Name</label>
+                                <input type="text" class="form-control" id="dnsname" name="dnsname" placeholder="hostname.domain.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <!-- Hardware Specifications -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Hardware Specifications</h6>
+
+                            <div class="mb-3">
+                                <label for="cpu" class="form-label">CPU</label>
+                                <input type="text" class="form-control" id="cpu" name="cpu">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ram" class="form-label">Memory</label>
+                                <input type="text" class="form-control" id="ram" name="ram">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="hd" class="form-label">Storage</label>
+                                <input type="text" class="form-control" id="hd" name="hd">
+                            </div>
+                        </div>
+
+                        <!-- Warranty Information -->
+                        <div class="col-lg-6">
+                            <h6 class="text-muted mb-3">Warranty Information</h6>
+
+                            <div class="mb-3">
+                                <label for="purchasedate" class="form-label">Purchase Date</label>
+                                <input type="date" class="form-control" id="purchasedate" name="purchasedate">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="warrantymonths" class="form-label">Warranty Period (months)</label>
+                                <input type="number" class="form-control" id="warrantymonths" name="warrantymonths" min="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-3">
+                        <label for="comments" class="form-label">Comments</label>
+                        <textarea class="form-control" id="comments" name="comments" rows="4"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="maintenanceinfo" class="form-label">Maintenance Information</label>
+                        <textarea class="form-control" id="maintenanceinfo" name="maintenanceinfo" rows="3"></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/items" class="btn btn-secondary">
+                            <i class="bi bi-x-lg me-1"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>Create Item
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on function field
+    document.getElementById('function').focus();
+});
+</script>
+{% endblock %}

@@ -115,7 +115,7 @@ if (!$demomode) {
 //open db
 try {
   $dbh = new PDO("sqlite:$dbfile");
-} 
+}
 catch (PDOException $e) {
   print "Open database Error!: " . $e->getMessage() . "<br>";
   die();
@@ -128,7 +128,7 @@ if($error[0] && isset($error[2]))  echo "Error 00: ".$error[2]."<br>";
 //some configuration
 $ret = $dbh->exec("PRAGMA case_sensitive_like = 0;");
 $ret = $dbh->exec("PRAGMA encoding = \"UTF-8\";");
-//$ret = $dbh->exec("PRAGMA foreign_keys = ON");
+$ret = $dbh->exec("PRAGMA foreign_keys = ON");
 
 
 $uploadErrors = array(

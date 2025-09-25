@@ -1,0 +1,857 @@
+{% extends "base.twig" %}
+
+{% block title %}
+    {% if mode == 'create' %}
+        Upload New File
+    {% elseif mode == 'edit' %}
+        Edit File: {{ file.title }}
+    {% else %}
+        {{ file.title }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/files">Files</a></li>
+            {% if mode == 'create' %}
+                <li class="breadcrumb-item active">Upload New File</li>
+            {% elseif mode == 'edit' %}
+                <li class="breadcrumb-item"><a href="/files/{{ file.id }}/edit">{{ file.title }}</a></li>
+                <li class="breadcrumb-item active">Edit</li>
+            {% else %}
+                <li class="breadcrumb-item active">{{ file.title }}</li>
+            {% endif %}
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        {% if mode == 'view' %}
+            <a href="/files/{{ file.id }}/download" class="btn btn-success">
+                <i class="bi bi-download me-1"></i>Download File
+            </a>
+            {% if user and user.usertype >= 1 %}
+            <a href="/files/{{ file.id }}/edit" class="btn btn-primary">
+                <i class="bi bi-pencil me-1"></i>Edit File
+            </a>
+            {% endif %}
+            <a href="/files" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Files
+            </a>
+        {% elseif mode == 'edit' %}
+            <a href="/files/{{ file.id }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to File
+            </a>
+        {% else %}
+            <a href="/files" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Files
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+{% if mode == 'view' %}
+    <!-- VIEW MODE -->
+    <div class="row">
+        <!-- Main Information -->
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-file-earmark-text me-2"></i>{{ file.title }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">File Information</h6>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">File Name</label>
+                                <div><code>{{ file.fname }}</code></div>
+                            </div>
+
+                            {% if file.type %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">File Type</label>
+                                <div>
+                                    <span class="badge bg-info">{{ file.type }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if file.file_size %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">File Size</label>
+                                <div>{{ file.file_size|format_bytes }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if file.mime_type %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">MIME Type</label>
+                                <div><code>{{ file.mime_type }}</code></div>
+                            </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">File Status</label>
+                                <div>
+                                    {% if file.file_exists %}
+                                        <span class="badge bg-success">
+                                            <i class="bi bi-check-circle me-1"></i>Available
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-danger">
+                                            <i class="bi bi-x-circle me-1"></i>Missing
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Upload Information</h6>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Uploaded By</label>
+                                <div>
+                                    {% if file.uploader_user %}
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-person-circle me-2"></i>
+                                            {{ file.uploader_user.display_name|default(file.uploader_user.username) }}
+                                        </div>
+                                    {% else %}
+                                        <span class="text-muted">Unknown</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {% if file.uploaddate %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Upload Date</label>
+                                <div>{{ file.uploaddate|date('F j, Y g:i A') }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if file.date and file.date != file.uploaddate %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Date Modified</label>
+                                <div>{{ file.date|date('F j, Y g:i A') }}</div>
+                            </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">File ID</label>
+                                <div><code>#{{ file.id }}</code></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if file.description %}
+                    <hr>
+                    <div class="mb-0">
+                        <label class="form-label fw-bold">Description</label>
+                        <div class="bg-light p-3 rounded">{{ file.description|nl2br }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- File Preview (if applicable) -->
+            {% if file.is_image %}
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-image me-2"></i>Preview
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    <img src="/files/{{ file.id }}/preview"
+                         alt="{{ file.title }}"
+                         class="img-fluid rounded shadow-sm"
+                         style="max-height: 400px;">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar Information -->
+        <div class="col-lg-4">
+            <!-- Quick Actions -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-lightning me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="/files/{{ file.id }}/download" class="btn btn-success btn-sm">
+                            <i class="bi bi-download me-1"></i>Download File
+                        </a>
+                        {% if file.is_image %}
+                        <a href="/files/{{ file.id }}/preview" target="_blank" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-eye me-1"></i>View Full Size
+                        </a>
+                        {% endif %}
+                        {% if user and user.usertype >= 1 %}
+                        <a href="/files/{{ file.id }}/edit" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil me-1"></i>Edit File
+                        </a>
+                        {% if user.isAdmin() %}
+                        <button type="button"
+                                class="btn btn-outline-danger btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                            <i class="bi bi-trash me-1"></i>Delete File
+                        </button>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Associated Items -->
+            {% if file.items|length > 0 %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-laptop me-2"></i>Associated Items
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for item in file.items|slice(0, 5) %}
+                        <div class="list-group-item px-0">
+                            <a href="/items/{{ item.id }}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-laptop me-2 text-primary"></i>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold">{{ item.display_title }}</div>
+                                        {% if item.model %}
+                                        <small class="text-muted">{{ item.model }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                        {% if file.items|length > 5 %}
+                        <div class="list-group-item px-0 text-center">
+                            <span class="text-muted">And {{ file.items|length - 5 }} more items...</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Associated Software -->
+            {% if file.software|length > 0 %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-code-square me-2"></i>Associated Software
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for software in file.software|slice(0, 5) %}
+                        <div class="list-group-item px-0">
+                            <a href="/software/{{ software.id }}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-code-square me-2 text-success"></i>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold">{{ software.title }}</div>
+                                        {% if software.version %}
+                                        <small class="text-muted">v{{ software.version }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                        {% if file.software|length > 5 %}
+                        <div class="list-group-item px-0 text-center">
+                            <span class="text-muted">And {{ file.software|length - 5 }} more software...</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Associated Contracts -->
+            {% if file.contracts|length > 0 %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-file-text me-2"></i>Associated Contracts
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for contract in file.contracts|slice(0, 5) %}
+                        <div class="list-group-item px-0">
+                            <a href="/contracts/{{ contract.id }}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-file-text me-2 text-warning"></i>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold">{{ contract.title }}</div>
+                                        {% if contract.number %}
+                                        <small class="text-muted">{{ contract.number }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                        {% if file.contracts|length > 5 %}
+                        <div class="list-group-item px-0 text-center">
+                            <span class="text-muted">And {{ file.contracts|length - 5 }} more contracts...</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Statistics -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-graph-up me-2"></i>Statistics
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="h4 mb-0 text-primary">{{ file.items|length }}</div>
+                            <small class="text-muted">Items</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="h4 mb-0 text-success">{{ file.software|length }}</div>
+                            <small class="text-muted">Software</small>
+                        </div>
+                    </div>
+                    <hr class="my-2">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="h4 mb-0 text-warning">{{ file.contracts|length }}</div>
+                            <small class="text-muted">Contracts</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="h4 mb-0 text-info">{{ file.invoices|length }}</div>
+                            <small class="text-muted">Invoices</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% elseif mode == 'edit' or mode == 'create' %}
+    <!-- EDIT/CREATE MODE -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        {% if mode == 'create' %}
+                            <i class="bi bi-upload me-2"></i>Upload New File
+                        {% else %}
+                            <i class="bi bi-pencil me-2"></i>Edit File: {{ file.title }}
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% if mode == 'create' %}/files{% else %}/files/{{ file.id }}{% endif %}" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        {% if mode == 'edit' %}
+                        <input type="hidden" name="_method" value="PUT">
+                        {% endif %}
+
+                        <div class="row">
+                            <!-- File Information -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">File Information</h6>
+
+                                {% if mode == 'edit' %}
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Current File</label>
+                                    <div class="p-2 bg-light rounded">
+                                        <i class="bi bi-file-earmark-text me-2"></i>
+                                        <code>{{ file.fname }}</code>
+                                        {% if file.file_size %}
+                                        <span class="text-muted ms-2">({{ file.file_size|format_bytes }})</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-text">
+                                        Status:
+                                        {% if file.file_exists %}
+                                            <span class="text-success">Available</span>
+                                        {% else %}
+                                            <span class="text-danger">Missing from disk</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <div class="mb-3">
+                                    <label for="file" class="form-label">{% if mode == 'create' %}File <span class="text-danger">*</span>{% else %}Replace File (Optional){% endif %}</label>
+                                    <input type="file"
+                                           class="form-control{% if errors.file %} is-invalid{% endif %}"
+                                           id="file"
+                                           name="file"
+                                           {% if mode == 'create' %}required{% endif %}
+                                           accept="*/*">
+                                    {% if errors.file %}
+                                    <div class="invalid-feedback">{{ errors.file }}</div>
+                                    {% endif %}
+                                    <div class="form-text">
+                                        {% if mode == 'create' %}
+                                            Select file to upload. Maximum size: {{ max_file_size|format_bytes|default('50MB') }}
+                                        {% else %}
+                                            Leave empty to keep current file. Maximum size: {{ max_file_size|format_bytes|default('50MB') }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">File Title <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                           class="form-control{% if errors.title %} is-invalid{% endif %}"
+                                           id="title"
+                                           name="title"
+                                           value="{{ old.title|default(file.title|default('')) }}"
+                                           required
+                                           maxlength="255">
+                                    {% if errors.title %}
+                                    <div class="invalid-feedback">{{ errors.title }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Descriptive title for this file.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="type" class="form-label">File Type</label>
+                                    <input type="text"
+                                           class="form-control{% if errors.type %} is-invalid{% endif %}"
+                                           id="type"
+                                           name="type"
+                                           value="{{ old.type|default(file.type|default('')) }}"
+                                           maxlength="50">
+                                    {% if errors.type %}
+                                    <div class="invalid-feedback">{{ errors.type }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Optional file type or category (e.g., Manual, Invoice, Photo).</div>
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Description</h6>
+
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control{% if errors.description %} is-invalid{% endif %}"
+                                              id="description"
+                                              name="description"
+                                              rows="8">{{ old.description|default(file.description|default('')) }}</textarea>
+                                    {% if errors.description %}
+                                    <div class="invalid-feedback">{{ errors.description }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Optional detailed description of the file contents.</div>
+                                </div>
+
+                                {% if mode == 'edit' %}
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    <strong>File Replacement:</strong> If you upload a new file, it will completely replace the current one.
+                                    The original file will be permanently deleted.
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if mode == 'edit' %}
+                        <hr>
+
+                        <!-- Current Status -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">Current Information</h6>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">File ID</label>
+                                            <div><code>#{{ file.id }}</code></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Uploaded By</label>
+                                            <div>
+                                                {% if file.uploader_user %}
+                                                    {{ file.uploader_user.display_name|default(file.uploader_user.username) }}
+                                                {% else %}
+                                                    <span class="text-muted">Unknown</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Upload Date</label>
+                                            <div>
+                                                {% if file.uploaddate %}
+                                                    {{ file.uploaddate|date('M j, Y') }}
+                                                {% else %}
+                                                    <span class="text-muted">Unknown</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Associations</label>
+                                            <div>
+                                                {% set total = (file.items|length) + (file.software|length) + (file.contracts|length) + (file.invoices|length) %}
+                                                <span class="badge bg-info">{{ total }} records</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Association Management -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">Update Associations</h6>
+                                <p class="text-muted">Modify which records this file is associated with:</p>
+
+                                <div class="row">
+                                    <!-- Associate with Items -->
+                                    {% if form_options.items %}
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="items" class="form-label">Associate with Items</label>
+                                            <select class="form-select"
+                                                    id="items"
+                                                    name="items[]"
+                                                    multiple
+                                                    size="4">
+                                                {% for item in form_options.items %}
+                                                <option value="{{ item.id }}"
+                                                        {% if item.id in file.item_ids %}selected{% endif %}>
+                                                    {{ item.display_title }}
+                                                    {% if item.model %} - {{ item.model }}{% endif %}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="form-text">Hold Ctrl/Cmd to select multiple items.</div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Associate with Software -->
+                                    {% if form_options.software %}
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="software" class="form-label">Associate with Software</label>
+                                            <select class="form-select"
+                                                    id="software"
+                                                    name="software[]"
+                                                    multiple
+                                                    size="4">
+                                                {% for sw in form_options.software %}
+                                                <option value="{{ sw.id }}"
+                                                        {% if sw.id in file.software_ids %}selected{% endif %}>
+                                                    {{ sw.title }}
+                                                    {% if sw.version %} v{{ sw.version }}{% endif %}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="form-text">Hold Ctrl/Cmd to select multiple software.</div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="row">
+                                    <!-- Associate with Contracts -->
+                                    {% if form_options.contracts %}
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="contracts" class="form-label">Associate with Contracts</label>
+                                            <select class="form-select"
+                                                    id="contracts"
+                                                    name="contracts[]"
+                                                    multiple
+                                                    size="4">
+                                                {% for contract in form_options.contracts %}
+                                                <option value="{{ contract.id }}"
+                                                        {% if contract.id in file.contract_ids %}selected{% endif %}>
+                                                    {{ contract.title }}
+                                                    {% if contract.number %} ({{ contract.number }}){% endif %}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="form-text">Hold Ctrl/Cmd to select multiple contracts.</div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Associate with Invoices -->
+                                    {% if form_options.invoices %}
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="invoices" class="form-label">Associate with Invoices</label>
+                                            <select class="form-select"
+                                                    id="invoices"
+                                                    name="invoices[]"
+                                                    multiple
+                                                    size="4">
+                                                {% for invoice in form_options.invoices %}
+                                                <option value="{{ invoice.id }}"
+                                                        {% if invoice.id in file.invoice_ids %}selected{% endif %}>
+                                                    {{ invoice.title }}
+                                                    {% if invoice.number %} - {{ invoice.number }}{% endif %}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="form-text">Hold Ctrl/Cmd to select multiple invoices.</div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                {% if mode == 'create' %}
+                                <a href="/files" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                {% else %}
+                                <a href="/files/{{ file.id }}" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {% if mode == 'edit' and user and user.isAdmin() %}
+                                <button type="button"
+                                        class="btn btn-outline-danger me-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal">
+                                    <i class="bi bi-trash me-1"></i>Delete File
+                                </button>
+                                {% endif %}
+                                <button type="submit" class="btn btn-primary" id="updateBtn">
+                                    <i class="bi bi-check-lg me-1"></i>{% if mode == 'create' %}Upload File{% else %}Update File{% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Action Modals -->
+{% if mode == 'view' and user and user.isAdmin() %}
+    <!-- Delete Modal for View Mode -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this file?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ file.title }}</strong>
+                        <br>Filename: <code>{{ file.fname }}</code>
+                        {% set total_associations = file.items|length + file.software|length + file.contracts|length + file.invoices|length %}
+                        {% if total_associations > 0 %}
+                        <br><strong>Warning:</strong> This file is associated with {{ total_associations }} other records
+                        {% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. The physical file will also be deleted from disk.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/files/{{ file.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete File
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% elseif mode == 'edit' and user and user.isAdmin() %}
+    <!-- Delete Modal for Edit Mode -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this file?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ file.title }}</strong>
+                        <br>Filename: <code>{{ file.fname }}</code>
+                        {% set total_associations = (file.items|length) + (file.software|length) + (file.contracts|length) + (file.invoices|length) %}
+                        {% if total_associations > 0 %}
+                        <br><strong>Warning:</strong> This file is associated with {{ total_associations }} other records
+                        {% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. The physical file will also be deleted from disk.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/files/{{ file.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete File
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if mode == 'edit' or mode == 'create' %}
+<!-- Upload Progress Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% if mode == 'create' %}Uploading File{% else %}Updating File{% endif %}</h5>
+            </div>
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">{% if mode == 'create' %}Uploading{% else %}Updating{% endif %}...</span>
+                </div>
+                <p class="mb-0" id="uploadText">{% if mode == 'create' %}Please wait while your file is being uploaded...{% else %}Please wait while your changes are being saved...{% endif %}</p>
+                <div class="progress mt-3">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         style="width: 0%"
+                         id="uploadProgress">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if mode == 'edit' or mode == 'create' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('file');
+    const form = document.querySelector('form');
+    const updateBtn = document.getElementById('updateBtn');
+    const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
+    const uploadText = document.getElementById('uploadText');
+
+    // File change handler
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const file = this.files[0];
+
+            // File size validation
+            const maxSize = {{ max_file_size|default(52428800) }}; // Default 50MB in bytes
+            if (file.size > maxSize) {
+                alert('File size (' + formatBytes(file.size) + ') exceeds the maximum allowed size of ' + formatBytes(maxSize));
+                this.value = '';
+                return;
+            }
+
+            {% if mode == 'create' %}
+            uploadText.textContent = 'Please wait while your file is being uploaded...';
+            {% else %}
+            uploadText.textContent = 'Please wait while your file is being uploaded and saved...';
+            {% endif %}
+        } else {
+            {% if mode == 'create' %}
+            uploadText.textContent = 'Please select a file to upload.';
+            {% else %}
+            uploadText.textContent = 'Please wait while your changes are being saved...';
+            {% endif %}
+        }
+    });
+
+    // Format bytes helper function
+    function formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    // Show upload progress modal on form submit
+    form.addEventListener('submit', function() {
+        if (this.checkValidity()) {
+            uploadModal.show();
+            updateBtn.disabled = true;
+
+            // Simulate progress (since we can't get real progress with standard form submit)
+            let progress = 0;
+            const progressBar = document.getElementById('uploadProgress');
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                progressBar.style.width = progress + '%';
+            }, 500);
+
+            // Stop the simulation after form submission
+            setTimeout(() => {
+                clearInterval(interval);
+                progressBar.style.width = '100%';
+            }, 2000);
+        }
+    });
+
+    // Auto-focus on title field
+    {% if mode == 'create' %}
+    // Focus on file input for create mode
+    fileInput.focus();
+    {% else %}
+    // Focus on title field for edit mode
+    document.getElementById('title').focus();
+    {% endif %}
+});
+</script>
+{% endif %}
+{% endblock %}

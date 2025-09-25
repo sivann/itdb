@@ -1,0 +1,268 @@
+{% extends "base.twig" %}
+
+{% block title %}Software{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">
+        <i class="bi bi-pc-display me-2"></i>Software
+        <span class="badge bg-secondary ms-2">{{ pagination.total }}</span>
+    </h1>
+
+    {% if user and user.usertype >= 1 %}
+    <div class="btn-group">
+        <a href="/software/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Add Software
+        </a>
+        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="bi bi-download me-1"></i>Export
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/software/export/csv">CSV Format</a></li>
+            <li><a class="dropdown-item" href="/software/export/excel">Excel Format</a></li>
+            <li><a class="dropdown-item" href="/software/export/pdf">PDF Report</a></li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Search and Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="/software" class="row g-3">
+            <!-- Search -->
+            <div class="col-md-6">
+                <label for="search" class="form-label">Search</label>
+                <input type="text"
+                       class="form-control"
+                       id="search"
+                       name="search"
+                       value="{{ query.search|default('') }}"
+                       placeholder="Search software, versions, manufacturers...">
+            </div>
+
+            <!-- Manufacturer Filter -->
+            <div class="col-md-3">
+                <label for="manufacturer" class="form-label">Manufacturer</label>
+                <input type="text"
+                       class="form-control"
+                       id="manufacturer"
+                       name="manufacturer"
+                       value="{{ query.manufacturer|default('') }}"
+                       placeholder="Filter by manufacturer">
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="bi bi-search"></i> Filter
+                </button>
+                <a href="/software" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Software Table -->
+<div class="card">
+    <div class="card-body">
+        {% if software|length > 0 %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Software</th>
+                        <th>Manufacturer</th>
+                        <th>License</th>
+                        <th>Installations</th>
+                        <th>License Status</th>
+                        <th>Last Updated</th>
+                        <th width="120">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in software %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <a href="/software/{{ item.id }}" class="fw-bold text-decoration-none">
+                                        {{ item.display_title }}
+                                    </a>
+                                    {% if item.sinfo %}
+                                        <br><small class="text-muted">{{ item.sinfo }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if item.manufacturer_name %}
+                                {{ item.manufacturer_name }}
+                            {% elseif item.manufacturerid %}
+                                <span class="text-muted">ID: {{ item.manufacturerid }}</span>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.licqty %}
+                                <span class="badge bg-info">{{ item.licqty }} licenses</span>
+                                <br><small class="text-muted">Type: {{ ['Per Device', 'Per User', 'Site License', 'Volume License'][item.lictype] ?? 'Unknown' }}</small>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary">{{ item.installations_count|default(0) }}</span>
+                            {% if item.licqty and item.available_licenses < 5 %}
+                                <br><small class="text-warning">{{ item.available_licenses }} available</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.license_status.status == 'active' %}
+                                <span class="text-success">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    Active ({{ item.license_status.days }} days)
+                                </span>
+                            {% elseif item.license_status.status == 'expired' %}
+                                <span class="text-danger">
+                                    <i class="bi bi-x-circle me-1"></i>Expired
+                                </span>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.purchdate %}
+                                <small class="text-muted">
+                                    {{ item.purchdate|date('M j, Y') }}
+                                </small>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                {% if user and user.usertype >= 1 %}
+                                <a href="/software/{{ item.id }}/edit"
+                                   class="btn btn-outline-primary btn-sm"
+                                   title="Edit Software">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                {% endif %}
+                                {% if user and user.isAdmin() %}
+                                <button type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        title="Delete Software"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal{{ item.id }}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if pagination.last_page > 1 %}
+        <nav aria-label="Software pagination" class="mt-3">
+            <ul class="pagination justify-content-center">
+                <!-- Previous Page -->
+                {% if pagination.current_page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="/software?page={{ pagination.current_page - 1 }}">
+                        <i class="bi bi-chevron-left"></i> Previous
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-left"></i> Previous</span>
+                </li>
+                {% endif %}
+
+                <!-- Page Numbers -->
+                {% for page in 1..pagination.last_page %}
+                    {% if page == pagination.current_page %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page }}</span>
+                        </li>
+                    {% elseif page <= 3 or page >= pagination.last_page - 2 or (page >= pagination.current_page - 1 and page <= pagination.current_page + 1) %}
+                        <li class="page-item">
+                            <a class="page-link" href="/software?page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% elseif page == 4 or page == pagination.last_page - 3 %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Next Page -->
+                {% if pagination.current_page < pagination.last_page %}
+                <li class="page-item">
+                    <a class="page-link" href="/software?page={{ pagination.current_page + 1 }}">
+                        Next <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next <i class="bi bi-chevron-right"></i></span>
+                </li>
+                {% endif %}
+            </ul>
+
+            <!-- Page Info -->
+            <div class="text-center text-muted mt-2">
+                Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }} results
+            </div>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <!-- No Software Found -->
+        <div class="text-center py-5">
+            <i class="bi bi-pc-display display-4 text-muted mb-3"></i>
+            <h5 class="text-muted">No software found</h5>
+            <p class="text-muted mb-3">
+                {% if query.search %}
+                    No software matches your search criteria.
+                {% else %}
+                    There is no software in the system yet.
+                {% endif %}
+            </p>
+            {% if user and user.usertype >= 1 %}
+            <a href="/software/create" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-2"></i>Add First Software
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-submit form on filter change
+    document.getElementById('manufacturer').addEventListener('blur', function() {
+        if (this.value.length >= 2 || this.value.length === 0) {
+            this.form.submit();
+        }
+    });
+
+    // Search with Enter key
+    document.getElementById('search').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            this.form.submit();
+        }
+    });
+});
+</script>
+{% endblock %}

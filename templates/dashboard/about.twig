@@ -1,0 +1,201 @@
+{% extends 'base.twig' %}
+
+{% block page_title %}About{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header text-center bg-primary text-white">
+                <h1 class="card-title mb-0">
+                    <i class="bi bi-pc-display me-3"></i>{{ app_name }}
+                </h1>
+                <p class="mb-0 mt-2 opacity-75">IT Items Database - Free IT Asset Management Software</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="text-primary">
+                            <i class="bi bi-info-circle me-2"></i>About ITDB
+                        </h5>
+                        <p class="text-muted">
+                            ITDB is a web-based asset inventory management tool used to store information about assets found in office environments, with a focus—but not limited to—IT assets.
+                        </p>
+
+                        <p class="text-muted">
+                            This version has been modernized with SlimPHP framework, featuring improved security, performance, and maintainability while preserving all original functionality.
+                        </p>
+
+                        <h6 class="text-primary mt-4">Key Features:</h6>
+                        <ul class="text-muted small">
+                            <li><strong>Items Management:</strong> Specs, warranties, serial numbers, IP info, relationships</li>
+                            <li><strong>Software Licensing:</strong> License tracking, installation management</li>
+                            <li><strong>Contract Tracking:</strong> Support contracts, SLAs, renewals</li>
+                            <li><strong>Invoice Management:</strong> Purchase documentation, financial tracking</li>
+                            <li><strong>Location Management:</strong> Buildings, floors, rooms, racks</li>
+                            <li><strong>File Attachments:</strong> Documents, manuals, certificates</li>
+                            <li><strong>Reporting:</strong> Charts, analytics, export capabilities</li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h5 class="text-primary">
+                            <i class="bi bi-gear me-2"></i>System Information
+                        </h5>
+
+                        <table class="table table-sm">
+                            <tr>
+                                <td><strong>Application Version:</strong></td>
+                                <td><span class="badge bg-primary">{{ system_info.version }}</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Framework:</strong></td>
+                                <td>SlimPHP {{ system_info.slim_version | default('4.x') }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PHP Version:</strong></td>
+                                <td>{{ system_info.php_version }}</td>
+                            </tr>
+                            {% if system_info.database_info %}
+                            <tr>
+                                <td><strong>Database:</strong></td>
+                                <td>
+                                    {{ system_info.database_info.type }}
+                                    {% if system_info.database_info.version %}
+                                        (v{{ system_info.database_info.version }})
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% if system_info.database_info.size %}
+                            <tr>
+                                <td><strong>Database Size:</strong></td>
+                                <td>{{ system_info.database_info.size }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if system_info.database_info.tables %}
+                            <tr>
+                                <td><strong>Tables:</strong></td>
+                                <td>{{ system_info.database_info.tables }}</td>
+                            </tr>
+                            {% endif %}
+                            {% endif %}
+                        </table>
+
+                        {% if system_info.server_info %}
+                        <h6 class="text-primary mt-3">Server Environment:</h6>
+                        <table class="table table-sm small">
+                            <tr>
+                                <td><strong>Web Server:</strong></td>
+                                <td>{{ system_info.server_info.software | default('Unknown') }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Operating System:</strong></td>
+                                <td>{{ system_info.server_info.os }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PHP SAPI:</strong></td>
+                                <td>{{ system_info.server_info.php_sapi }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Memory Limit:</strong></td>
+                                <td>{{ system_info.server_info.memory_limit }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Upload Max Size:</strong></td>
+                                <td>{{ system_info.server_info.upload_max_filesize }}</td>
+                            </tr>
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded">
+                            <i class="bi bi-shield-check text-success" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2 text-primary">Secure</h6>
+                            <p class="text-muted small mb-0">Modern authentication, input validation, and security best practices</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded">
+                            <i class="bi bi-speedometer2 text-warning" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2 text-primary">Fast</h6>
+                            <p class="text-muted small mb-0">Optimized database queries and modern PHP framework architecture</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded">
+                            <i class="bi bi-phone text-info" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2 text-primary">Responsive</h6>
+                            <p class="text-muted small mb-0">Works seamlessly on desktop, tablet, and mobile devices</p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="text-center">
+                    <p class="text-muted small">
+                        <strong>License:</strong> GNU General Public License (GPL)<br>
+                        <strong>Original ITDB:</strong> Copyright © 2008-2016 Spiros Ioannou<br>
+                        <strong>SlimPHP Refactor:</strong> Enhanced for modern PHP development
+                    </p>
+
+                    <div class="mt-3">
+                        <a href="https://github.com/sivann/itdb" class="btn btn-outline-primary btn-sm me-2" target="_blank">
+                            <i class="bi bi-github me-1"></i>Original GitHub
+                        </a>
+                        {% if user and user.usertype == 1 %}
+                        <a href="/admin" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-gear me-1"></i>Administration
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if user and user.usertype == 1 %}
+        <!-- Admin-only system status -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-cpu me-2"></i>System Status
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">Database Statistics:</h6>
+                        {% if system_info.database_stats %}
+                            <ul class="small text-muted">
+                                <li>Total Tables: {{ system_info.database_stats.total_tables }}</li>
+                                {% for table, info in system_info.database_stats.tables %}
+                                    {% if info.rows > 0 %}
+                                        <li>{{ table|title }}: {{ info.rows }} records</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted small">Unable to retrieve database statistics</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">System Health:</h6>
+                        <ul class="small text-muted">
+                            <li class="text-success">✓ Database connection active</li>
+                            <li class="text-success">✓ Upload directory writable</li>
+                            <li class="text-success">✓ Session handling working</li>
+                            <li class="text-success">✓ Template engine functional</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

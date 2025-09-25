@@ -1,0 +1,54 @@
+{% extends "base.twig" %}
+
+{% block title %}Edit {{ file_type.typedesc }} - File Type{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/admin/file-types">File Types</a></li>
+            <li class="breadcrumb-item"><a href="/admin/file-types/{{ file_type.id }}">{{ file_type.typedesc }}</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        <a href="/admin/file-types/{{ file_type.id }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to Details
+        </a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-pencil me-2"></i>Edit File Type: {{ file_type.typedesc }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/admin/file-types/{{ file_type.id }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="mb-3">
+                        <label for="typedesc" class="form-label">Type Description <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="typedesc" name="typedesc" value="{{ file_type.typedesc }}" required>
+                        <div class="form-text">Enter a descriptive name for this file type (e.g., "Manual", "Invoice", "Warranty").</div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/admin/file-types/{{ file_type.id }}" class="btn btn-secondary">
+                            <i class="bi bi-x-lg me-1"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>Update File Type
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.twig" %}
+
+{% block title %}Admin - Translations{% endblock %}
+{% block page_title %}Translation Management{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Manage Translations</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Translation management is not yet implemented. This feature will allow you to manage multilingual content.
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Available Languages</h6>
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">English (EN)</h6>
+                                    <small class="text-success">Default</small>
+                                </div>
+                                <p class="mb-1">Primary language</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h6>Translation Statistics</h6>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-6">
+                                        <h4 class="text-primary">1</h4>
+                                        <small>Languages</small>
+                                    </div>
+                                    <div class="col-6">
+                                        <h4 class="text-success">100%</h4>
+                                        <small>Complete</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-primary" disabled>
+                        <i class="bi bi-plus me-2"></i>Add Language
+                    </button>
+                    <button type="button" class="btn btn-secondary" disabled>
+                        <i class="bi bi-translate me-2"></i>Manage Strings
+                    </button>
+                    <a href="/admin/types" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Back to Admin
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

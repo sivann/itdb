@@ -1,0 +1,142 @@
+{% extends "base.twig" %}
+
+{% block title %}Item Types Management{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item active">Item Types</li>
+        </ol>
+    </nav>
+
+    <a href="/admin/item-types/create" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i>New Item Type
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="bi bi-tags me-2"></i>Item Types Management
+        </h5>
+    </div>
+    <div class="card-body">
+        <!-- Search Form -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form method="GET" action="/admin/item-types">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="search" placeholder="Search item types..." value="{{ search }}">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        {% if search %}
+                        <a href="/admin/item-types" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Item Types Table -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Type Description</th>
+                        <th>Has S/W Support</th>
+                        <th>Items Count</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for type in item_types %}
+                    <tr>
+                        <td>{{ type.id }}</td>
+                        <td>
+                            <a href="/admin/item-types/{{ type.id }}" class="text-decoration-none">
+                                {{ type.typedesc }}
+                            </a>
+                        </td>
+                        <td>
+                            {% if type.hassoftware %}
+                                <span class="badge bg-success">
+                                    <i class="bi bi-check-lg me-1"></i>Yes
+                                </span>
+                            {% else %}
+                                <span class="badge bg-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>No
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary">{{ type.items_count ?? 0 }}</span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="/admin/item-types/{{ type.id }}" class="btn btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="/admin/item-types/{{ type.id }}/edit" class="btn btn-outline-secondary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <button type="button" class="btn btn-outline-danger" onclick="confirmDelete({{ type.id }}, '{{ type.typedesc }}')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            {% if search %}
+                                No item types found matching "{{ search }}".
+                            {% else %}
+                                No item types found. <a href="/admin/item-types/create">Create the first one</a>.
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the item type <strong id="deleteTypeName"></strong>?</p>
+                <p class="text-muted small">This action cannot be undone. Make sure no items are using this type.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" id="deleteForm" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function confirmDelete(typeId, typeName) {
+    document.getElementById('deleteTypeName').textContent = typeName;
+    document.getElementById('deleteForm').action = '/admin/item-types/' + typeId + '/delete';
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>
+{% endblock %}

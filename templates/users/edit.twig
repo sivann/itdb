@@ -1,0 +1,686 @@
+{% extends "base.twig" %}
+
+{% block title %}
+    {% if mode == 'create' %}
+        Create New User
+    {% elseif mode == 'edit' %}
+        Edit User: {{ user_data.display_name }}
+    {% else %}
+        {{ user_data.display_name }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/users">Users</a></li>
+            {% if mode == 'create' %}
+                <li class="breadcrumb-item active">Create New User</li>
+            {% elseif mode == 'edit' %}
+                <li class="breadcrumb-item"><a href="/users/{{ user_data.id }}/edit">{{ user_data.display_name }}</a></li>
+                <li class="breadcrumb-item active">Edit</li>
+            {% else %}
+                <li class="breadcrumb-item active">{{ user_data.display_name }}</li>
+            {% endif %}
+        </ol>
+    </nav>
+
+    <div class="btn-group">
+        {% if mode == 'view' %}
+            {% if user and user.isAdmin() %}
+            <a href="/users/{{ user_data.id }}/edit" class="btn btn-primary">
+                <i class="bi bi-pencil me-1"></i>Edit User
+            </a>
+            {% endif %}
+            <a href="/users" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Users
+            </a>
+        {% elseif mode == 'edit' %}
+            <a href="/users/{{ user_data.id }}/edit" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to User
+            </a>
+        {% else %}
+            <a href="/users" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Users
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+{% if mode == 'view' %}
+    <!-- VIEW MODE -->
+    <div class="row">
+        <!-- Main Information -->
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-person-circle me-2"></i>{{ user_data.display_name }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Basic Information</h6>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Username</label>
+                                <div><code>{{ user_data.username }}</code></div>
+                            </div>
+
+                            {% if user_data.userdesc %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Display Name</label>
+                                <div>{{ user_data.userdesc }}</div>
+                            </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">User Type</label>
+                                <div>
+                                    {% if user_data.usertype == 1 %}
+                                        <span class="badge bg-danger">Administrator</span>
+                                    {% elseif user_data.usertype == 2 %}
+                                        <span class="badge bg-info">LDAP User</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Regular User</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Account Status</label>
+                                <div>
+                                    {% if user_data.usertype > 0 %}
+                                        <span class="badge bg-success">
+                                            <i class="bi bi-check-circle me-1"></i>Active
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-danger">
+                                            <i class="bi bi-x-circle me-1"></i>Inactive
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Account Information</h6>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">User ID</label>
+                                <div><code>#{{ user_data.id }}</code></div>
+                            </div>
+
+                            {% if user_data.created %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Created</label>
+                                <div>{{ user_data.created|date('F j, Y g:i A') }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if user_data.changed %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Last Modified</label>
+                                <div>{{ user_data.changed|date('F j, Y g:i A') }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if user_data.last_login %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Last Login</label>
+                                <div>{{ user_data.last_login|date('F j, Y g:i A') }}</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Information -->
+        <div class="col-lg-4">
+            <!-- Assigned Items -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-laptop me-2"></i>Assigned Items
+                    </h6>
+                </div>
+                <div class="card-body">
+                    {% if user_data.items and user_data.items|length > 0 %}
+                        <div class="list-group list-group-flush">
+                            {% for item in user_data.items|slice(0, 5) %}
+                            <div class="list-group-item px-0">
+                                <a href="/items/{{ item.id }}" class="text-decoration-none">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-laptop me-2 text-primary"></i>
+                                        <div class="flex-grow-1">
+                                            <div class="fw-semibold">{{ item.display_title }}</div>
+                                            {% if item.model %}
+                                            <small class="text-muted">{{ item.model }}</small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+                            {% if user_data.items|length > 5 %}
+                            <div class="list-group-item px-0 text-center">
+                                <a href="/items?userid={{ user_data.id }}" class="text-primary text-decoration-none">
+                                    View all {{ user_data.items|length }} items
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted py-3">
+                            <i class="bi bi-laptop display-6 mb-2"></i>
+                            <div>No items assigned</div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-graph-up me-2"></i>Statistics
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="h4 mb-0 text-primary">{{ user_data.items_count|default(0) }}</div>
+                            <small class="text-muted">Items</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="h4 mb-0 text-success">{{ user_data.active_items_count|default(0) }}</div>
+                            <small class="text-muted">Active</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            {% if user and user.isAdmin() %}
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-gear me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="/users/{{ user_data.id }}/edit" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil me-1"></i>Edit User
+                        </a>
+                        <a href="/items?userid={{ user_data.id }}" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-laptop me-1"></i>View Items
+                        </a>
+                        {% if user_data.usertype == 1 %}
+                        <button class="btn btn-outline-warning btn-sm" disabled>
+                            <i class="bi bi-shield-exclamation me-1"></i>Admin User
+                        </button>
+                        {% elseif user_data.usertype == 0 %}
+                        <button type="button"
+                                class="btn btn-outline-success btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#activateModal">
+                            <i class="bi bi-check-circle me-1"></i>Activate User
+                        </button>
+                        {% else %}
+                        <button type="button"
+                                class="btn btn-outline-warning btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deactivateModal">
+                            <i class="bi bi-x-circle me-1"></i>Deactivate User
+                        </button>
+                        {% endif %}
+                        {% if user_data.id != user.id %}
+                        <button type="button"
+                                class="btn btn-outline-danger btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                            <i class="bi bi-trash me-1"></i>Delete User
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% elseif mode == 'edit' or mode == 'create' %}
+    <!-- EDIT/CREATE MODE -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        {% if mode == 'create' %}
+                            <i class="bi bi-person-plus me-2"></i>Create New User
+                        {% else %}
+                            <i class="bi bi-pencil me-2"></i>Edit User: {{ user_data.display_name }}
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% if mode == 'create' %}/users{% else %}/users/{{ user_data.id }}{% endif %}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        {% if mode == 'edit' %}
+                        <input type="hidden" name="_method" value="PUT">
+                        {% endif %}
+
+                        <div class="row">
+                            <!-- Basic Information -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Basic Information</h6>
+
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                           class="form-control{% if errors.username %} is-invalid{% endif %}"
+                                           id="username"
+                                           name="username"
+                                           value="{{ old.username|default(user_data.username|default('')) }}"
+                                           required
+                                           minlength="3"
+                                           maxlength="50"
+                                           pattern="[a-zA-Z0-9_.-]+"
+                                           title="Username can only contain letters, numbers, dots, dashes, and underscores">
+                                    {% if errors.username %}
+                                    <div class="invalid-feedback">{{ errors.username }}</div>
+                                    {% endif %}
+                                    <div class="form-text">3-50 characters. Letters, numbers, dots, dashes, and underscores only.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="userdesc" class="form-label">Display Name</label>
+                                    <input type="text"
+                                           class="form-control{% if errors.userdesc %} is-invalid{% endif %}"
+                                           id="userdesc"
+                                           name="userdesc"
+                                           value="{{ old.userdesc|default(user_data.userdesc|default('')) }}"
+                                           maxlength="100">
+                                    {% if errors.userdesc %}
+                                    <div class="invalid-feedback">{{ errors.userdesc }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Full name or display name for this user.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="usertype" class="form-label">User Type <span class="text-danger">*</span></label>
+                                    <select class="form-select{% if errors.usertype %} is-invalid{% endif %}"
+                                            id="usertype"
+                                            name="usertype"
+                                            required>
+                                        <option value="">Select user type...</option>
+                                        <option value="1" {% if (old.usertype|default(user_data.usertype|default(''))) == 1 %}selected{% endif %}>Administrator</option>
+                                        <option value="2" {% if (old.usertype|default(user_data.usertype|default(''))) == 2 %}selected{% endif %}>LDAP User</option>
+                                        <option value="3" {% if (old.usertype|default(user_data.usertype|default(''))) == 3 %}selected{% endif %}>Regular User</option>
+                                        <option value="0" {% if (old.usertype|default(user_data.usertype|default(''))) == 0 %}selected{% endif %}>Inactive</option>
+                                    </select>
+                                    {% if errors.usertype %}
+                                    <div class="invalid-feedback">{{ errors.usertype }}</div>
+                                    {% endif %}
+                                    <div class="form-text">
+                                        <strong>Administrator:</strong> Full system access<br>
+                                        <strong>LDAP User:</strong> Authenticates via LDAP<br>
+                                        <strong>Regular User:</strong> Standard user access<br>
+                                        <strong>Inactive:</strong> Cannot log in
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Authentication -->
+                            <div class="col-lg-6">
+                                <h6 class="text-muted mb-3">Authentication</h6>
+
+                                {% if mode == 'edit' %}
+                                <div class="alert alert-info mb-3">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Leave password fields empty to keep current password.
+                                </div>
+                                {% endif %}
+
+                                <div class="mb-3" id="password-section">
+                                    <label for="pass" class="form-label">{% if mode == 'create' %}Password <span class="text-danger">*</span>{% else %}New Password{% endif %}</label>
+                                    <div class="input-group">
+                                        <input type="password"
+                                               class="form-control{% if errors.pass %} is-invalid{% endif %}"
+                                               id="pass"
+                                               name="pass"
+                                               {% if mode == 'create' %}required{% endif %}
+                                               minlength="4">
+                                        <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                    {% if errors.pass %}
+                                    <div class="invalid-feedback">{{ errors.pass }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Minimum 4 characters required{% if mode == 'edit' %} if changing password{% endif %}.</div>
+                                </div>
+
+                                <div class="mb-3" id="confirm-password-section">
+                                    <label for="pass_confirm" class="form-label">{% if mode == 'create' %}Confirm Password <span class="text-danger">*</span>{% else %}Confirm New Password{% endif %}</label>
+                                    <input type="password"
+                                           class="form-control{% if errors.pass_confirm %} is-invalid{% endif %}"
+                                           id="pass_confirm"
+                                           name="pass_confirm"
+                                           {% if mode == 'create' %}required{% endif %}>
+                                    {% if errors.pass_confirm %}
+                                    <div class="invalid-feedback">{{ errors.pass_confirm }}</div>
+                                    {% endif %}
+                                </div>
+
+                                {% if mode == 'edit' and user_data.usertype == 2 %}
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle me-1"></i>
+                                    <strong>LDAP User:</strong> This user authenticates via LDAP. Password changes here will only affect fallback authentication.
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if mode == 'edit' %}
+                        <hr>
+
+                        <!-- Account Status -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">Account Status</h6>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">User ID</label>
+                                            <div><code>#{{ user_data.id }}</code></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Current Status</label>
+                                            <div>
+                                                {% if user_data.usertype == 1 %}
+                                                    <span class="badge bg-danger">Administrator</span>
+                                                {% elseif user_data.usertype == 2 %}
+                                                    <span class="badge bg-info">LDAP User</span>
+                                                {% elseif user_data.usertype > 0 %}
+                                                    <span class="badge bg-success">Active</span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">Inactive</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Items Assigned</label>
+                                            <div>
+                                                <span class="badge bg-info">{{ user_data.items_count|default(0) }}</span>
+                                                {% if user_data.items_count > 0 %}
+                                                <a href="/items?userid={{ user_data.id }}" class="btn btn-sm btn-outline-primary ms-2">
+                                                    <i class="bi bi-laptop"></i> View
+                                                </a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if user_data.usertype == 1 and user_data.id == user.id %}
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-1"></i>
+                            <strong>Warning:</strong> You are editing your own administrator account. Be careful not to remove your admin privileges.
+                        </div>
+                        {% endif %}
+
+                        {% if user_data.usertype == 1 %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-1"></i>
+                            <strong>Administrator users have full access to all system functions including user management, system settings, and data deletion.</strong>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                {% if mode == 'create' %}
+                                <a href="/users" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                {% else %}
+                                <a href="/users/{{ user_data.id }}/edit" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {% if mode == 'edit' and user and user.isAdmin() and user_data.id != user.id %}
+                                <button type="button"
+                                        class="btn btn-outline-danger me-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal">
+                                    <i class="bi bi-trash me-1"></i>Delete User
+                                </button>
+                                {% endif %}
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-lg me-1"></i>{% if mode == 'create' %}Create User{% else %}Update User{% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Action Modals -->
+{% if mode == 'view' %}
+    <!-- Delete Modal -->
+    {% if user and user.isAdmin() and user_data.id != user.id %}
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this user?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ user_data.display_name }}</strong>
+                        <br>Username: {{ user_data.username }}
+                        {% if user_data.items_count > 0 %}
+                        <br><strong>Warning:</strong> This user has {{ user_data.items_count }} assigned items
+                        {% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. Associated items will become unassigned.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/users/{{ user_data.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete User
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Activate Modal -->
+    {% if user_data.usertype == 0 %}
+    <div class="modal fade" id="activateModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Activate User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to activate this user?</p>
+                    <div class="alert alert-info">
+                        <strong>{{ user_data.display_name }}</strong> will be able to log in and access the system.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/users/{{ user_data.id }}/activate" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle me-1"></i>Activate User
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Deactivate Modal -->
+    {% if user_data.usertype > 0 and user_data.usertype != 1 %}
+    <div class="modal fade" id="deactivateModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Deactivate User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to deactivate this user?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ user_data.display_name }}</strong> will not be able to log in but their data will be preserved.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/users/{{ user_data.id }}/deactivate" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-x-circle me-1"></i>Deactivate User
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{% elseif mode == 'edit' %}
+    <!-- Delete Modal for Edit Mode -->
+    {% if user and user.isAdmin() and user_data.id != user.id %}
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this user?</p>
+                    <div class="alert alert-warning">
+                        <strong>{{ user_data.display_name }}</strong>
+                        <br>Username: {{ user_data.username }}
+                        {% if user_data.items_count > 0 %}
+                        <br><strong>Warning:</strong> This user has {{ user_data.items_count }} assigned items
+                        {% endif %}
+                    </div>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This action cannot be undone. Associated items will become unassigned.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="/users/{{ user_data.id }}/delete" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Delete User
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if mode == 'edit' or mode == 'create' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on username field
+    document.getElementById('username').focus();
+
+    // Password visibility toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('pass');
+    const icon = togglePassword.querySelector('i');
+
+    togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+
+        if (type === 'password') {
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        } else {
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        }
+    });
+
+    // Password confirmation validation
+    const confirmPassword = document.getElementById('pass_confirm');
+
+    function validatePasswordMatch() {
+        if (passwordField.value !== confirmPassword.value) {
+            confirmPassword.setCustomValidity("Passwords don't match");
+        } else {
+            confirmPassword.setCustomValidity('');
+        }
+    }
+
+    passwordField.addEventListener('change', validatePasswordMatch);
+    confirmPassword.addEventListener('keyup', validatePasswordMatch);
+
+    // Password requirement handling
+    passwordField.addEventListener('input', function() {
+        {% if mode == 'edit' %}
+        if (this.value.length > 0) {
+            confirmPassword.setAttribute('required', 'required');
+        } else {
+            confirmPassword.removeAttribute('required');
+            confirmPassword.value = '';
+        }
+        {% endif %}
+    });
+
+    // Username validation
+    const usernameField = document.getElementById('username');
+    usernameField.addEventListener('input', function() {
+        // Convert to lowercase
+        this.value = this.value.toLowerCase();
+
+        // Remove invalid characters
+        this.value = this.value.replace(/[^a-z0-9_.-]/g, '');
+    });
+});
+</script>
+{% endif %}
+{% endblock %}

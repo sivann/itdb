@@ -11448,3 +11448,857 @@ Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->pre
 [Thu Sep 25 13:11:48 2025] [::1]:49997 Accepted
 [Thu Sep 25 13:11:48 2025] [::1]:49997 [204]: GET /favicon.ico
 [Thu Sep 25 13:11:48 2025] [::1]:49997 Closing
+[Thu Sep 25 13:13:21 2025] [::1]:50386 Accepted
+[Thu Sep 25 13:13:21 2025] [::1]:50387 Accepted
+[Thu Sep 25 13:13:21 2025] Slim Application Error
+Type: ParseError
+Code: 0
+Message: syntax error, unexpected identifier "SELECT"
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 310
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/composer/ClassLoader.php(427): {closure:Composer\Autoload\ClassLoader::initializeIncludeClosure():575}('/Users/sivann/s...')
+#1 /Users/sivann/sbx/itdb2/config/container.php(187): Composer\Autoload\ClassLoader->loadClass('App\\Models\\Soft...')
+#2 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#15 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#29 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#30 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#31 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#32 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#39 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#40 {main}
+[Thu Sep 25 13:13:21 2025] [::1]:50386 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:13:21 2025] [::1]:50386 Closing
+[Thu Sep 25 13:13:21 2025] [::1]:50387 [204]: GET /favicon.ico
+[Thu Sep 25 13:13:21 2025] [::1]:50387 Closing
+[Thu Sep 25 13:13:22 2025] [::1]:50392 Accepted
+[Thu Sep 25 13:13:22 2025] [::1]:50393 Accepted
+[Thu Sep 25 13:13:22 2025] Slim Application Error
+Type: ParseError
+Code: 0
+Message: syntax error, unexpected identifier "SELECT"
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 310
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/composer/ClassLoader.php(427): {closure:Composer\Autoload\ClassLoader::initializeIncludeClosure():575}('/Users/sivann/s...')
+#1 /Users/sivann/sbx/itdb2/config/container.php(187): Composer\Autoload\ClassLoader->loadClass('App\\Models\\Soft...')
+#2 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#15 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#29 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#30 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#31 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#32 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#39 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#40 {main}
+[Thu Sep 25 13:13:22 2025] [::1]:50392 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:13:22 2025] [::1]:50392 Closing
+[Thu Sep 25 13:13:22 2025] [::1]:50393 [204]: GET /favicon.ico
+[Thu Sep 25 13:13:22 2025] [::1]:50393 Closing
+[Thu Sep 25 13:13:23 2025] [::1]:50398 Accepted
+[Thu Sep 25 13:13:23 2025] [::1]:50399 Accepted
+[Thu Sep 25 13:13:23 2025] Slim Application Error
+Type: ParseError
+Code: 0
+Message: syntax error, unexpected identifier "SELECT"
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 310
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/composer/ClassLoader.php(427): {closure:Composer\Autoload\ClassLoader::initializeIncludeClosure():575}('/Users/sivann/s...')
+#1 /Users/sivann/sbx/itdb2/config/container.php(187): Composer\Autoload\ClassLoader->loadClass('App\\Models\\Soft...')
+#2 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#15 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#29 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#30 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#31 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#32 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#39 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#40 {main}
+[Thu Sep 25 13:13:23 2025] [::1]:50398 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:13:23 2025] [::1]:50398 Closing
+[Thu Sep 25 13:13:23 2025] [::1]:50399 [204]: GET /favicon.ico
+[Thu Sep 25 13:13:23 2025] [::1]:50399 Closing
+[Thu Sep 25 13:13:23 2025] [::1]:50400 Accepted
+[Thu Sep 25 13:13:23 2025] [::1]:50401 Accepted
+[Thu Sep 25 13:13:23 2025] Slim Application Error
+Type: ParseError
+Code: 0
+Message: syntax error, unexpected identifier "SELECT"
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 310
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/composer/ClassLoader.php(427): {closure:Composer\Autoload\ClassLoader::initializeIncludeClosure():575}('/Users/sivann/s...')
+#1 /Users/sivann/sbx/itdb2/config/container.php(187): Composer\Autoload\ClassLoader->loadClass('App\\Models\\Soft...')
+#2 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#15 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#29 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#30 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#31 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#32 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#39 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#40 {main}
+[Thu Sep 25 13:13:23 2025] [::1]:50400 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:13:23 2025] [::1]:50400 Closing
+[Thu Sep 25 13:13:23 2025] [::1]:50401 [204]: GET /favicon.ico
+[Thu Sep 25 13:13:23 2025] [::1]:50401 Closing
+[Thu Sep 25 13:13:23 2025] [::1]:50402 Accepted
+[Thu Sep 25 13:13:23 2025] Slim Application Error
+Type: ParseError
+Code: 0
+Message: syntax error, unexpected identifier "SELECT"
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 310
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/composer/ClassLoader.php(427): {closure:Composer\Autoload\ClassLoader::initializeIncludeClosure():575}('/Users/sivann/s...')
+#1 /Users/sivann/sbx/itdb2/config/container.php(187): Composer\Autoload\ClassLoader->loadClass('App\\Models\\Soft...')
+#2 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#15 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#29 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#30 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#31 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#32 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#39 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#40 {main}
+[Thu Sep 25 13:13:23 2025] [::1]:50402 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:13:23 2025] [::1]:50402 Closing
+[Thu Sep 25 13:13:23 2025] [::1]:50403 Accepted
+[Thu Sep 25 13:13:23 2025] [::1]:50403 [204]: GET /favicon.ico
+[Thu Sep 25 13:13:23 2025] [::1]:50403 Closing
+[Thu Sep 25 13:13:24 2025] [::1]:50408 Accepted
+[Thu Sep 25 13:13:24 2025] [::1]:50409 Accepted
+[Thu Sep 25 13:13:24 2025] Slim Application Error
+Type: ParseError
+Code: 0
+Message: syntax error, unexpected identifier "SELECT"
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 310
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/composer/ClassLoader.php(427): {closure:Composer\Autoload\ClassLoader::initializeIncludeClosure():575}('/Users/sivann/s...')
+#1 /Users/sivann/sbx/itdb2/config/container.php(187): Composer\Autoload\ClassLoader->loadClass('App\\Models\\Soft...')
+#2 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#15 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#29 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#30 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#31 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#32 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#39 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#40 {main}
+[Thu Sep 25 13:13:24 2025] [::1]:50408 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:13:24 2025] [::1]:50408 Closing
+[Thu Sep 25 13:13:24 2025] [::1]:50409 [204]: GET /favicon.ico
+[Thu Sep 25 13:13:24 2025] [::1]:50409 Closing
+[Thu Sep 25 13:13:41 2025] [::1]:50478 Accepted
+[Thu Sep 25 13:13:41 2025] Slim Application Error
+Type: ParseError
+Code: 0
+Message: syntax error, unexpected identifier "SELECT"
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 310
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/composer/ClassLoader.php(427): {closure:Composer\Autoload\ClassLoader::initializeIncludeClosure():575}('/Users/sivann/s...')
+#1 /Users/sivann/sbx/itdb2/config/container.php(187): Composer\Autoload\ClassLoader->loadClass('App\\Models\\Soft...')
+#2 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#15 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#29 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#30 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#31 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#32 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#39 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#40 {main}
+[Thu Sep 25 13:13:41 2025] [::1]:50478 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:13:41 2025] [::1]:50478 Closing
+[Thu Sep 25 13:13:41 2025] [::1]:50479 Accepted
+[Thu Sep 25 13:13:41 2025] [::1]:50479 [204]: GET /favicon.ico
+[Thu Sep 25 13:13:41 2025] [::1]:50479 Closing
+[Thu Sep 25 13:13:42 2025] [::1]:50484 Accepted
+[Thu Sep 25 13:13:42 2025] [::1]:50485 Accepted
+[Thu Sep 25 13:13:42 2025] Slim Application Error
+Type: ParseError
+Code: 0
+Message: syntax error, unexpected identifier "SELECT"
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 310
+Trace: #0 /Users/sivann/sbx/itdb2/vendor/composer/ClassLoader.php(427): {closure:Composer\Autoload\ClassLoader::initializeIncludeClosure():575}('/Users/sivann/s...')
+#1 /Users/sivann/sbx/itdb2/config/container.php(187): Composer\Autoload\ClassLoader->loadClass('App\\Models\\Soft...')
+#2 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#15 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#29 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#30 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#31 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#32 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#39 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#40 {main}
+[Thu Sep 25 13:13:42 2025] [::1]:50484 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:13:42 2025] [::1]:50484 Closing
+[Thu Sep 25 13:13:42 2025] [::1]:50485 [204]: GET /favicon.ico
+[Thu Sep 25 13:13:42 2025] [::1]:50485 Closing
+[Thu Sep 25 13:14:20 2025] [::1]:50638 Accepted
+[Thu Sep 25 13:14:20 2025] [::1]:50639 Accepted
+[Thu Sep 25 13:14:20 2025] Slim Application Error
+Type: ArgumentCountError
+Code: 0
+Message: Too few arguments to function App\Models\SoftwareModel::__construct(), 1 passed in /Users/sivann/sbx/itdb2/config/container.php on line 187 and exactly 2 expected
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 15
+Trace: #0 /Users/sivann/sbx/itdb2/config/container.php(187): App\Models\SoftwareModel->__construct(Object(App\Services\DatabaseManager))
+#1 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#2 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#20 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#29 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#30 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#31 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#32 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#39 {main}
+[Thu Sep 25 13:14:20 2025] [::1]:50638 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:14:20 2025] [::1]:50638 Closing
+[Thu Sep 25 13:14:20 2025] [::1]:50639 [204]: GET /favicon.ico
+[Thu Sep 25 13:14:20 2025] [::1]:50639 Closing
+[Thu Sep 25 13:14:20 2025] [::1]:50644 Accepted
+[Thu Sep 25 13:14:20 2025] [::1]:50645 Accepted
+[Thu Sep 25 13:14:20 2025] Slim Application Error
+Type: ArgumentCountError
+Code: 0
+Message: Too few arguments to function App\Models\SoftwareModel::__construct(), 1 passed in /Users/sivann/sbx/itdb2/config/container.php on line 187 and exactly 2 expected
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 15
+Trace: #0 /Users/sivann/sbx/itdb2/config/container.php(187): App\Models\SoftwareModel->__construct(Object(App\Services\DatabaseManager))
+#1 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#2 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#20 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#29 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#30 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#31 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#32 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#39 {main}
+[Thu Sep 25 13:14:20 2025] [::1]:50644 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:14:20 2025] [::1]:50644 Closing
+[Thu Sep 25 13:14:20 2025] [::1]:50645 [204]: GET /favicon.ico
+[Thu Sep 25 13:14:20 2025] [::1]:50645 Closing
+[Thu Sep 25 13:14:21 2025] [::1]:50646 Accepted
+[Thu Sep 25 13:14:21 2025] [::1]:50647 Accepted
+[Thu Sep 25 13:14:21 2025] Slim Application Error
+Type: ArgumentCountError
+Code: 0
+Message: Too few arguments to function App\Models\SoftwareModel::__construct(), 1 passed in /Users/sivann/sbx/itdb2/config/container.php on line 187 and exactly 2 expected
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 15
+Trace: #0 /Users/sivann/sbx/itdb2/config/container.php(187): App\Models\SoftwareModel->__construct(Object(App\Services\DatabaseManager))
+#1 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#2 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#20 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#29 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#30 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#31 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#32 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#39 {main}
+[Thu Sep 25 13:14:21 2025] [::1]:50646 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:14:21 2025] [::1]:50646 Closing
+[Thu Sep 25 13:14:21 2025] [::1]:50647 [204]: GET /favicon.ico
+[Thu Sep 25 13:14:21 2025] [::1]:50647 Closing
+[Thu Sep 25 13:14:21 2025] [::1]:50652 Accepted
+[Thu Sep 25 13:14:21 2025] [::1]:50653 Accepted
+[Thu Sep 25 13:14:21 2025] Slim Application Error
+Type: ArgumentCountError
+Code: 0
+Message: Too few arguments to function App\Models\SoftwareModel::__construct(), 1 passed in /Users/sivann/sbx/itdb2/config/container.php on line 187 and exactly 2 expected
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 15
+Trace: #0 /Users/sivann/sbx/itdb2/config/container.php(187): App\Models\SoftwareModel->__construct(Object(App\Services\DatabaseManager))
+#1 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#2 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#20 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#29 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#30 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#31 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#32 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#39 {main}
+[Thu Sep 25 13:14:21 2025] [::1]:50652 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:14:21 2025] [::1]:50652 Closing
+[Thu Sep 25 13:14:21 2025] [::1]:50653 [204]: GET /favicon.ico
+[Thu Sep 25 13:14:21 2025] [::1]:50653 Closing
+[Thu Sep 25 13:14:21 2025] [::1]:50655 Accepted
+[Thu Sep 25 13:14:21 2025] [::1]:50656 Accepted
+[Thu Sep 25 13:14:21 2025] Slim Application Error
+Type: ArgumentCountError
+Code: 0
+Message: Too few arguments to function App\Models\SoftwareModel::__construct(), 1 passed in /Users/sivann/sbx/itdb2/config/container.php on line 187 and exactly 2 expected
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 15
+Trace: #0 /Users/sivann/sbx/itdb2/config/container.php(187): App\Models\SoftwareModel->__construct(Object(App\Services\DatabaseManager))
+#1 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#2 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#20 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#29 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#30 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#31 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#32 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#39 {main}
+[Thu Sep 25 13:14:21 2025] [::1]:50655 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:14:21 2025] [::1]:50655 Closing
+[Thu Sep 25 13:14:21 2025] [::1]:50656 [204]: GET /favicon.ico
+[Thu Sep 25 13:14:21 2025] [::1]:50656 Closing
+[Thu Sep 25 13:14:21 2025] [::1]:50657 Accepted
+[Thu Sep 25 13:14:21 2025] [::1]:50658 Accepted
+[Thu Sep 25 13:14:21 2025] Slim Application Error
+Type: ArgumentCountError
+Code: 0
+Message: Too few arguments to function App\Models\SoftwareModel::__construct(), 1 passed in /Users/sivann/sbx/itdb2/config/container.php on line 187 and exactly 2 expected
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 15
+Trace: #0 /Users/sivann/sbx/itdb2/config/container.php(187): App\Models\SoftwareModel->__construct(Object(App\Services\DatabaseManager))
+#1 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#2 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#20 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#29 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#30 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#31 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#32 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#39 {main}
+[Thu Sep 25 13:14:21 2025] [::1]:50657 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:14:21 2025] [::1]:50657 Closing
+[Thu Sep 25 13:14:21 2025] [::1]:50658 [204]: GET /favicon.ico
+[Thu Sep 25 13:14:21 2025] [::1]:50658 Closing
+[Thu Sep 25 13:14:21 2025] [::1]:50659 Accepted
+[Thu Sep 25 13:14:21 2025] [::1]:50660 Accepted
+[Thu Sep 25 13:14:21 2025] Slim Application Error
+Type: ArgumentCountError
+Code: 0
+Message: Too few arguments to function App\Models\SoftwareModel::__construct(), 1 passed in /Users/sivann/sbx/itdb2/config/container.php on line 187 and exactly 2 expected
+File: /Users/sivann/sbx/itdb2/src/Models/SoftwareModel.php
+Line: 15
+Trace: #0 /Users/sivann/sbx/itdb2/config/container.php(187): App\Models\SoftwareModel->__construct(Object(App\Services\DatabaseManager))
+#1 [internal function]: {closure:{closure:/Users/sivann/sbx/itdb2/config/container.php:28}:186}(Object(DI\Container))
+#2 /Users/sivann/sbx/itdb2/vendor/php-di/invoker/src/Invoker.php(74): call_user_func_array(Object(Closure), Array)
+#3 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/FactoryResolver.php(69): Invoker\Invoker->call(Object(Closure), Array)
+#4 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\FactoryResolver->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\FactoryDefinition), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\FactoryDefinition))
+#7 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Reference.php(44): DI\Container->get('App\\Models\\Soft...')
+#8 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(57): DI\Definition\Reference->resolve(Object(DI\Container))
+#9 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ParameterResolver.php(73): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\Reference))
+#10 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(119): DI\Definition\Resolver\ParameterResolver->resolveParameters(Object(DI\Definition\ObjectDefinition\MethodInjection), Object(ReflectionMethod), Array)
+#11 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ObjectCreator.php(55): DI\Definition\Resolver\ObjectCreator->createInstance(Object(DI\Definition\ObjectDefinition), Array)
+#12 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Definition/Resolver/ResolverDispatcher.php(62): DI\Definition\Resolver\ObjectCreator->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#13 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(360): DI\Definition\Resolver\ResolverDispatcher->resolve(Object(DI\Definition\ObjectDefinition), Array)
+#14 /Users/sivann/sbx/itdb2/vendor/php-di/php-di/src/Container.php(142): DI\Container->resolveDefinition(Object(DI\Definition\ObjectDefinition))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(135): DI\Container->get('App\\Controllers...')
+#16 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(97): Slim\CallableResolver->resolveSlimNotation('App\\Controllers...')
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/CallableResolver.php(70): Slim\CallableResolver->resolveByPredicate('App\\Controllers...', Array, 'handle')
+#18 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(345): Slim\CallableResolver->resolveRoute(Array)
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#20 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#26 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#27 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#28 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#29 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#30 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#31 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#32 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#33 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#34 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#35 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#36 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#37 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#38 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#39 {main}
+[Thu Sep 25 13:14:21 2025] [::1]:50659 [500]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:14:21 2025] [::1]:50659 Closing
+[Thu Sep 25 13:14:22 2025] [::1]:50660 [204]: GET /favicon.ico
+[Thu Sep 25 13:14:22 2025] [::1]:50660 Closing
+[Thu Sep 25 13:14:56 2025] [::1]:50805 Accepted
+[Thu Sep 25 13:14:56 2025] [::1]:50806 Accepted
+[Thu Sep 25 13:14:56 2025] [::1]:50805 [200]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:14:56 2025] [::1]:50805 Closing
+[Thu Sep 25 13:14:56 2025] [::1]:50806 [204]: GET /favicon.ico
+[Thu Sep 25 13:14:56 2025] [::1]:50806 Closing
+[Thu Sep 25 13:15:02 2025] [::1]:50831 Accepted
+[Thu Sep 25 13:15:02 2025] [::1]:50831 [200]: GET /invoices/search?exclude_software=52
+[Thu Sep 25 13:15:02 2025] [::1]:50831 Closing
+[Thu Sep 25 13:15:04 2025] [::1]:50840 Accepted
+[Thu Sep 25 13:15:04 2025] [::1]:50840 [200]: POST /software/52/associations
+[Thu Sep 25 13:15:04 2025] [::1]:50840 Closing
+[Thu Sep 25 13:15:06 2025] [::1]:50845 Accepted
+[Thu Sep 25 13:15:06 2025] [::1]:50846 Accepted
+[Thu Sep 25 13:15:06 2025] [::1]:50845 [200]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:15:06 2025] [::1]:50845 Closing
+[Thu Sep 25 13:15:06 2025] [::1]:50846 [204]: GET /favicon.ico
+[Thu Sep 25 13:15:06 2025] [::1]:50846 Closing
+[Thu Sep 25 13:15:42 2025] [::1]:50994 Accepted
+[Thu Sep 25 13:15:42 2025] [::1]:50994 [200]: DELETE /software/52/associations
+[Thu Sep 25 13:15:42 2025] [::1]:50994 Closing
+[Thu Sep 25 13:15:43 2025] [::1]:51003 Accepted
+[Thu Sep 25 13:15:43 2025] [::1]:51004 Accepted
+[Thu Sep 25 13:15:43 2025] [::1]:51003 [200]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:15:43 2025] [::1]:51003 Closing
+[Thu Sep 25 13:15:43 2025] [::1]:51004 [204]: GET /favicon.ico
+[Thu Sep 25 13:15:43 2025] [::1]:51004 Closing
+[Thu Sep 25 13:15:44 2025] [::1]:51009 Accepted
+[Thu Sep 25 13:15:44 2025] [::1]:51009 [200]: GET /invoices/search?exclude_software=52
+[Thu Sep 25 13:15:44 2025] [::1]:51009 Closing
+[Thu Sep 25 13:15:46 2025] [::1]:51018 Accepted
+[Thu Sep 25 13:15:46 2025] [::1]:51018 [200]: POST /software/52/associations
+[Thu Sep 25 13:15:46 2025] [::1]:51018 Closing
+[Thu Sep 25 13:15:48 2025] [::1]:51023 Accepted
+[Thu Sep 25 13:15:48 2025] [::1]:51024 Accepted
+[Thu Sep 25 13:15:48 2025] [::1]:51023 [200]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:15:48 2025] [::1]:51023 Closing
+[Thu Sep 25 13:15:48 2025] [::1]:51024 [204]: GET /favicon.ico
+[Thu Sep 25 13:15:48 2025] [::1]:51024 Closing
+[Thu Sep 25 13:16:35 2025] [::1]:51219 Accepted
+[Thu Sep 25 13:16:35 2025] [::1]:51219 [200]: GET /invoices/search?exclude_software=52
+[Thu Sep 25 13:16:35 2025] [::1]:51219 Closing
+[Thu Sep 25 13:16:37 2025] [::1]:51228 Accepted
+[Thu Sep 25 13:16:37 2025] [::1]:51228 [400]: POST /software/52/associations
+[Thu Sep 25 13:16:37 2025] [::1]:51228 Closing
+[Thu Sep 25 13:16:44 2025] [::1]:51257 Accepted
+[Thu Sep 25 13:16:44 2025] [::1]:51257 [200]: DELETE /software/52/associations
+[Thu Sep 25 13:16:44 2025] [::1]:51257 Closing
+[Thu Sep 25 13:16:45 2025] [::1]:51262 Accepted
+[Thu Sep 25 13:16:45 2025] [::1]:51263 Accepted
+[Thu Sep 25 13:16:45 2025] [::1]:51262 [200]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:16:45 2025] [::1]:51262 Closing
+[Thu Sep 25 13:16:45 2025] [::1]:51263 [204]: GET /favicon.ico
+[Thu Sep 25 13:16:45 2025] [::1]:51263 Closing
+[Thu Sep 25 13:16:46 2025] [::1]:51272 Accepted
+[Thu Sep 25 13:16:47 2025] [::1]:51272 [200]: GET /invoices/search?exclude_software=52
+[Thu Sep 25 13:16:47 2025] [::1]:51272 Closing
+[Thu Sep 25 13:16:48 2025] [::1]:51277 Accepted
+[Thu Sep 25 13:16:48 2025] [::1]:51277 [200]: POST /software/52/associations
+[Thu Sep 25 13:16:48 2025] [::1]:51277 Closing
+[Thu Sep 25 13:16:50 2025] [::1]:51286 Accepted
+[Thu Sep 25 13:16:50 2025] [::1]:51287 Accepted
+[Thu Sep 25 13:16:50 2025] [::1]:51286 [200]: GET /software/52/edit?tab=invoices
+[Thu Sep 25 13:16:50 2025] [::1]:51286 Closing
+[Thu Sep 25 13:16:50 2025] [::1]:51287 [204]: GET /favicon.ico
+[Thu Sep 25 13:16:50 2025] [::1]:51287 Closing

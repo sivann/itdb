@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\DatabaseManager;
+use App\Models\InvoiceModel;
 
 class SoftwareModel
 {
     private DatabaseManager $db;
+    private InvoiceModel $invoiceModel;
 
-    public function __construct(DatabaseManager $db)
+    public function __construct(DatabaseManager $db, InvoiceModel $invoiceModel)
     {
         $this->db = $db;
+        $this->invoiceModel = $invoiceModel;
     }
 
     /**
@@ -294,9 +297,9 @@ class SoftwareModel
             LEFT JOIN agents vendor ON inv.vendorid = vendor.id
             LEFT JOIN agents buyer ON inv.buyerid = buyer.id
             WHERE s2i.softid = ?
-            ORDER BY inv.date DESC, inv.id DESC
-        ";
-        return $this->db->fetchAll($sql, [$softwareId]);
+        ORDER BY inv.date DESC, inv.id DESC";
+        $invoices = $this->db->fetchAll($sql, [$softwareId]);
+        return array_map([$this->invoiceModel, 'transformInvoiceForTemplate'], $invoices);
     }
 
     /**

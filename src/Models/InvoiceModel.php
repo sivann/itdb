@@ -241,7 +241,7 @@ class InvoiceModel
     /**
      * Transform invoice data for template compatibility
      */
-    private function transformInvoiceForTemplate(array $invoice): array
+    public function transformInvoiceForTemplate(array $invoice): array
     {
         // Add computed fields that templates expect
         $invoice['vendor'] = $invoice['vendor_name'] ?

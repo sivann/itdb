@@ -184,7 +184,7 @@ return function (ContainerBuilder $containerBuilder) {
         },
 
         \App\Models\SoftwareModel::class => function (ContainerInterface $c) {
-            return new \App\Models\SoftwareModel($c->get(DatabaseManager::class));
+            return new \App\Models\SoftwareModel($c->get(DatabaseManager::class), $c->get(\App\Models\InvoiceModel::class));
         },
 
         \App\Models\ContractModel::class => function (ContainerInterface $c) {

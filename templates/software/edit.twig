@@ -253,10 +253,10 @@
                                     {% for invoice in software.invoices %}
                                     <tr>
                                         <td><a href="/invoices/{{ invoice.id }}" class="text-decoration-none">#{{ invoice.id }}</a></td>
-                                        <td>{{ invoice.vendor.name|default('N/A') }}</td>
+                                        <td>{{ invoice.vendor.title|default('N/A') }}</td>
                                         <td>{{ invoice.date_formatted|default('N/A') }}</td>
-                                        <td>${{ invoice.amount|default('0.00') }}</td>
-                                        <td>{{ invoice.description|default('N/A') }}</td>
+                                        <td>${{ invoice.total_formatted|default('0.00') }}</td>
+                                        <td>{{ invoice.comments|default('N/A') }}</td>
                                         <td>
                                             <div class="btn-group btn-group-sm">
                                                 <a href="/invoices/{{ invoice.id }}" class="btn btn-outline-primary" title="View Invoice">

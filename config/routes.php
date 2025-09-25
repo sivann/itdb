@@ -93,7 +93,10 @@ return function (App $app) {
             $group->get('/search', [ContractController::class, 'search'])->setName('contracts.search');
             $group->get('/create', [ContractController::class, 'create'])->setName('contracts.create');
             $group->post('', [ContractController::class, 'store'])->setName('contracts.store');
-            $group->get('/{id}', [ContractController::class, 'show'])->setName('contracts.show');
+            $group->get('/{id}', function($request, $response, $args) {
+                $id = $args['id'];
+                return $response->withStatus(302)->withHeader('Location', "/contracts/{$id}/edit");
+            })->setName('contracts.show');
             $group->get('/{id}/edit', [ContractController::class, 'edit'])->setName('contracts.edit');
             $group->get('/{id}/events', [ContractController::class, 'events'])->setName('contracts.events');
             $group->post('/{id}', [ContractController::class, 'update'])->setName('contracts.update');

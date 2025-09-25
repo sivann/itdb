@@ -98,21 +98,6 @@ class ContractController extends BaseController
     }
 
     /**
-     * Show contract details (redirects to edit)
-     */
-    public function show(Request $request, Response $response, array $args): Response
-    {
-        $id = (int) $args['id'];
-        $queryParams = $this->getQueryParams($request);
-
-        // Preserve query parameters when redirecting
-        $queryString = http_build_query($queryParams);
-        $redirectUrl = '/contracts/' . $id . '/edit' . ($queryString ? '?' . $queryString : '');
-
-        return $response->withStatus(302)->withHeader('Location', $redirectUrl);
-    }
-
-    /**
      * Show create form
      */
     public function create(Request $request, Response $response): Response

@@ -97,6 +97,16 @@ class AgentModel
 
         $agents = $this->db->fetchAll($sql, $params);
 
+        // Process each agent to add type description
+        foreach ($agents as &$agent) {
+            // If no modern types, generate description from legacy bitwise type
+            if (empty($agent['agent_types']) || $agent['agent_types'] === '') {
+                $agent['type_description'] = $this->getLegacyTypeDescription((int) $agent['type']);
+            } else {
+                $agent['type_description'] = $agent['agent_types'];
+            }
+        }
+
         return [
             'data' => $agents,
             'total' => $total,

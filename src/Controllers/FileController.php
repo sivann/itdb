@@ -96,9 +96,13 @@ class FileController extends BaseController
     {
         $user = $this->authService->getCurrentUser();
 
+        // Get file types for dropdown
+        $fileTypes = $this->fileModel->getFileTypes();
+
         return $this->render($response, 'files/edit.twig', [
             'mode' => 'create',
             'user' => $user,
+            'file_types' => $fileTypes,
             'csrf_token' => $this->generateCsrfToken(),
         ]);
     }
@@ -128,6 +132,9 @@ class FileController extends BaseController
         if (empty($data['title'])) {
             $errors[] = 'Title is required';
         }
+        if (empty($data['ftype'])) {
+            $errors[] = 'File type is required';
+        }
 
         // Handle file upload
         $uploadedFiles = $request->getUploadedFiles();
@@ -153,30 +160,53 @@ class FileController extends BaseController
         }
 
         try {
-            // Generate unique filename
+            // Get original filename and sanitize extension
             $originalName = $uploadedFile->getClientFilename();
-            $extension = pathinfo($originalName, PATHINFO_EXTENSION);
-            $uniqueFilename = uniqid() . '.' . $extension;
+            $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            $sanitizedExtension = preg_replace('/[^a-z0-9]/', '', $extension);
 
-            // Create upload directory if it doesn't exist
-            $uploadPath = $_ENV['UPLOAD_PATH'] ?? './storage/uploads';
-            if (!is_dir($uploadPath)) {
-                mkdir($uploadPath, 0755, true);
-            }
+            // Convert ftype to integer
+            $ftypeInt = !empty($data['ftype']) ? (int) $data['ftype'] : null;
 
-            // Move uploaded file
-            $uploadedFile->moveTo($uploadPath . '/' . $uniqueFilename);
-
-            $fileId = $this->fileModel->create([
-                'type' => $this->sanitizeString($data['type'] ?? ''),
+            // Create temporary file record to get ID
+            $tempFileId = $this->fileModel->create([
+                'ftype' => $ftypeInt,
+                'type' => $this->getFileTypeName($ftypeInt), // Legacy type field
                 'title' => $this->sanitizeString($data['title']),
-                'fname' => $uniqueFilename,
+                'filename' => $originalName,
+                'description' => $this->sanitizeString($data['description'] ?? ''),
+                'fname' => 'temp', // Will be updated after generating proper name
+                'filesize' => $uploadedFile->getSize(),
                 'uploader' => $user->username,
                 'uploaddate' => time(),
                 'date' => !empty($data['date']) ? strtotime($data['date']) : time(),
             ]);
 
-            $file = (object) ['id' => $fileId, 'fname' => $uniqueFilename, 'title' => $this->sanitizeString($data['title']), 'type' => $this->sanitizeString($data['type'] ?? '')];
+            // Generate proper filename: ID_filetype_randomstring.extension
+            $fileTypeCode = $this->getFileTypeCode($ftypeInt);
+            $randomString = substr(uniqid(), -8);
+            $properFilename = sprintf('%d_%s_%s.%s',
+                $tempFileId,
+                $fileTypeCode,
+                $randomString,
+                $sanitizedExtension
+            );
+
+            // Create upload directory if it doesn't exist
+            $uploadPath = $_ENV['UPLOAD_PATH'] ?? './public/storage/uploads';
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+
+            // Move uploaded file with proper filename
+            $uploadedFile->moveTo($uploadPath . '/' . $properFilename);
+
+            // Update the file record with proper filename
+            $this->fileModel->update($tempFileId, [
+                'fname' => $properFilename
+            ]);
+
+            $fileId = $tempFileId;
 
             $this->logUserAction('file_created', ['file_id' => $fileId]);
 
@@ -190,10 +220,10 @@ class FileController extends BaseController
                     'success' => true,
                     'message' => 'File uploaded successfully',
                     'file' => [
-                        'id' => $file->id,
-                        'fname' => $file->fname,
-                        'title' => $file->title,
-                        'type' => $file->type,
+                        'id' => $fileId,
+                        'fname' => $properFilename,
+                        'title' => $this->sanitizeString($data['title']),
+                        'ftype' => $ftypeInt,
                     ]
                 ]);
             }
@@ -234,10 +264,19 @@ class FileController extends BaseController
             return $this->redirectToRoute($request, $response, 'files.index');
         }
 
+        // Add file existence and path information
+        $file['file_exists'] = $this->fileModel->fileExists($file);
+        $file['file_path'] = $this->fileModel->getFilePath($file);
+        $file['file_size'] = $this->fileModel->getFileSize($file);
+
+        // Get file types for dropdown
+        $fileTypes = $this->fileModel->getFileTypes();
+
         return $this->render($response, 'files/edit.twig', [
             'mode' => 'edit',
             'user' => $user,
             'file' => $file,
+            'file_types' => $fileTypes,
             'csrf_token' => $this->generateCsrfToken(),
         ]);
     }
@@ -272,9 +311,14 @@ class FileController extends BaseController
         }
 
         try {
+            // Convert ftype to integer
+            $ftypeInt = !empty($data['ftype']) ? (int) $data['ftype'] : null;
+
             $updateData = [
-                'type' => $this->sanitizeString($data['type'] ?? ''),
+                'ftype' => $ftypeInt,
+                'type' => $this->getFileTypeName($ftypeInt), // Legacy type field
                 'title' => $this->sanitizeString($data['title']),
+                'description' => $this->sanitizeString($data['description'] ?? ''),
             ];
 
             if (!empty($data['date'])) {
@@ -344,20 +388,24 @@ class FileController extends BaseController
             return $this->redirectToRoute($request, $response, 'files.index');
         }
 
-        if (!$file->file_exists) {
+        $filePath = $this->fileModel->getFilePath($file);
+        if (!$this->fileModel->fileExists($file)) {
             $this->addFlashMessage('error', 'File does not exist on disk');
             return $this->redirectToRoute($request, $response, 'files.edit', ['id' => $id]);
         }
 
         try {
-            $this->logUserAction('file_downloaded', ['file_id' => $file->id]);
+            $this->logUserAction('file_downloaded', ['file_id' => $file['id']]);
 
-            $fileContent = file_get_contents($file->file_path);
+            $fileContent = file_get_contents($filePath);
             $response->getBody()->write($fileContent);
+
+            // Use original filename for download or title as fallback
+            $downloadName = $file['filename'] ?: $file['title'];
 
             return $response
                 ->withHeader('Content-Type', 'application/octet-stream')
-                ->withHeader('Content-Disposition', 'attachment; filename="' . $file->title . '"')
+                ->withHeader('Content-Disposition', 'attachment; filename="' . $downloadName . '"')
                 ->withHeader('Content-Length', (string) strlen($fileContent));
 
         } catch (\Exception $e) {
@@ -417,8 +465,8 @@ class FileController extends BaseController
                 ),
                 'fname' => $file['fname'],
                 'type' => $file['type'],
-                'fileType' => ['name' => $file['type'] ?: 'Unknown'],
-                'size_formatted' => isset($file['file_size']) && $file['file_size'] ? $this->formatBytes($file['file_size']) : 'Unknown Size',
+                'fileType' => ['name' => $file['type_name'] ?: 'Unknown'],
+                'size_formatted' => isset($file['filesize']) && $file['filesize'] ? $this->formatBytes($file['filesize']) : 'Unknown Size',
                 'uploader' => $this->getUploaderName($file),
                 'upload_date' => $file['uploaddate'] ? date('Y-m-d', $file['uploaddate']) : null
             ];
@@ -465,5 +513,48 @@ class FileController extends BaseController
         $index = floor($base);
 
         return round(pow(1024, $base - $index), $precision) . ' ' . $units[$index];
+    }
+
+    /**
+     * Get file type code for filename generation
+     */
+    private function getFileTypeCode(?int $fileTypeId): string
+    {
+        if (!$fileTypeId) {
+            return 'other';
+        }
+
+        try {
+            $fileType = $this->db->fetchOne("SELECT typedesc FROM filetypes WHERE id = :id", ['id' => $fileTypeId]);
+            if ($fileType) {
+                // Sanitize the type description for filename use
+                return strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $fileType['typedesc']));
+            }
+        } catch (\Exception $e) {
+            // If lookup fails, use 'other'
+        }
+
+        return 'other';
+    }
+
+    /**
+     * Get file type name for legacy type field
+     */
+    private function getFileTypeName(?int $fileTypeId): ?string
+    {
+        if (!$fileTypeId) {
+            return null;
+        }
+
+        try {
+            $fileType = $this->db->fetchOne("SELECT typedesc FROM filetypes WHERE id = :id", ['id' => $fileTypeId]);
+            if ($fileType) {
+                return $fileType['typedesc'];
+            }
+        } catch (\Exception $e) {
+            // If lookup fails, return null
+        }
+
+        return null;
     }
 }

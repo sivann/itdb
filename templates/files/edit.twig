@@ -435,17 +435,20 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="type" class="form-label">File Type</label>
-                                    <input type="text"
-                                           class="form-control{% if errors.type %} is-invalid{% endif %}"
-                                           id="type"
-                                           name="type"
-                                           value="{{ old.type|default(file.type|default('')) }}"
-                                           maxlength="50">
-                                    {% if errors.type %}
-                                    <div class="invalid-feedback">{{ errors.type }}</div>
+                                    <label for="ftype" class="form-label">File Type <span class="text-danger">*</span></label>
+                                    <select class="form-select{% if errors.ftype %} is-invalid{% endif %}"
+                                            id="ftype"
+                                            name="ftype"
+                                            required>
+                                        <option value="">Select file type...</option>
+                                        {% for type in file_types %}
+                                        <option value="{{ type.id }}" {% if (file.ftype|default(0)) == type.id %}selected{% endif %}>{{ type.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if errors.ftype %}
+                                    <div class="invalid-feedback">{{ errors.ftype }}</div>
                                     {% endif %}
-                                    <div class="form-text">Optional file type or category (e.g., Manual, Invoice, Photo).</div>
+                                    <div class="form-text">Select the type of file being uploaded.</div>
                                 </div>
                             </div>
 

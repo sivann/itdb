@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Models\SoftwareModel;
 use App\Models\AgentModel;
 use App\Models\LicenseTypeModel;
+use App\Models\FileModel;
 use App\Services\AuthService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -19,6 +20,7 @@ class SoftwareController extends BaseController
     private SoftwareModel $softwareModel;
     private AgentModel $agentModel;
     private LicenseTypeModel $licenseTypeModel;
+    private FileModel $fileModel;
 
     public function __construct(
         LoggerInterface $logger,
@@ -26,13 +28,15 @@ class SoftwareController extends BaseController
         AuthService $authService,
         SoftwareModel $softwareModel,
         AgentModel $agentModel,
-        LicenseTypeModel $licenseTypeModel
+        LicenseTypeModel $licenseTypeModel,
+        FileModel $fileModel
     ) {
         parent::__construct($logger, $twig);
         $this->authService = $authService;
         $this->softwareModel = $softwareModel;
         $this->agentModel = $agentModel;
         $this->licenseTypeModel = $licenseTypeModel;
+        $this->fileModel = $fileModel;
     }
 
     /**
@@ -199,6 +203,7 @@ class SoftwareController extends BaseController
         // Get form options
         $manufacturers = $this->agentModel->getSoftwareManufacturers();
         $licenseTypes = $this->licenseTypeModel->getAll();
+        $fileTypes = $this->fileModel->getFileTypes();
 
         return $this->render($response, 'software/edit.twig', [
             'software' => $software,
@@ -206,6 +211,7 @@ class SoftwareController extends BaseController
                 'manufacturers' => $manufacturers,
                 'license_types' => $licenseTypes,
             ],
+            'file_types' => $fileTypes,
             'user' => $user,
             'csrf_token' => $this->generateCsrfToken(),
             'current_tab' => $tab,
@@ -403,8 +409,12 @@ class SoftwareController extends BaseController
                     break;
 
                 case 'file':
-                    // TODO: Implement other association types
-                    return $this->json($response, ['error' => 'Association type not yet implemented'], 501);
+                    if ($action === 'add') {
+                        $success = $this->softwareModel->associateFile($id, $itemId);
+                    } else {
+                        $success = $this->softwareModel->dissociateFile($id, $itemId);
+                    }
+                    break;
             }
 
             if ($success) {

@@ -16,14 +16,38 @@ class FileModel
     }
 
     /**
-     * Find a file by ID
+     * Find a file by ID with related data
      */
     public function find(int $id): ?array
     {
-        return $this->db->fetchOne(
-            "SELECT * FROM files WHERE id = :id",
+        $file = $this->db->fetchOne(
+            "SELECT f.*, ft.typedesc as type_name
+             FROM files f
+             LEFT JOIN filetypes ft ON f.ftype = ft.id
+             WHERE f.id = :id",
             ['id' => $id]
         );
+
+        if (!$file) {
+            return null;
+        }
+
+        // Add uploader_user object for template compatibility
+        // Since uploader field contains username directly, we use it
+        if ($file['uploader']) {
+            // Try to get display name from users table if uploader is a username
+            $user = $this->db->fetchOne(
+                "SELECT username, userdesc FROM users WHERE username = :username",
+                ['username' => $file['uploader']]
+            );
+
+            $file['uploader_user'] = [
+                'username' => $file['uploader'],
+                'display_name' => $user['userdesc'] ?? $file['uploader']
+            ];
+        }
+
+        return $file;
     }
 
     /**
@@ -86,7 +110,8 @@ class FileModel
     public function create(array $data): int
     {
         $allowedFields = [
-            'type', 'title', 'fname', 'uploader', 'uploaddate', 'date'
+            'type', 'ftype', 'title', 'fname', 'filename', 'description', 'filesize',
+            'uploader', 'uploaddate', 'date'
         ];
 
         $insertData = array_intersect_key($data, array_flip($allowedFields));
@@ -100,7 +125,8 @@ class FileModel
     public function update(int $id, array $data): bool
     {
         $allowedFields = [
-            'type', 'title', 'fname', 'uploader', 'uploaddate', 'date'
+            'type', 'ftype', 'title', 'fname', 'filename', 'description', 'filesize',
+            'uploader', 'uploaddate', 'date'
         ];
 
         $updateData = array_intersect_key($data, array_flip($allowedFields));
@@ -131,11 +157,11 @@ class FileModel
     }
 
     /**
-     * Get file types for dropdown
+     * Get file types from filetypes table
      */
     public function getFileTypes(): array
     {
-        return $this->db->fetchAll("SELECT DISTINCT type FROM files WHERE type IS NOT NULL AND type != '' ORDER BY type");
+        return $this->db->fetchAll("SELECT id, typedesc as name FROM filetypes ORDER BY typedesc");
     }
 
     /**
@@ -162,8 +188,8 @@ class FileModel
         // Basic search
         if (!empty($filters['search'])) {
             $search = $filters['search'];
-            $whereConditions[] = "(title LIKE :search OR fname LIKE :search OR type LIKE :search" .
-                                (is_numeric($search) ? " OR id = :search_id" : "") . ")";
+            $whereConditions[] = "(f.title LIKE :search OR f.fname LIKE :search OR f.type LIKE :search" .
+                                (is_numeric($search) ? " OR f.id = :search_id" : "") . ")";
             $params['search'] = "%{$search}%";
             if (is_numeric($search)) {
                 $params['search_id'] = (int) $search;
@@ -172,8 +198,8 @@ class FileModel
 
         // Exclude files associated with specific software
         if (!empty($filters['exclude_software'])) {
-            $whereConditions[] = "id NOT IN (
-                SELECT file_id FROM software_files WHERE software_id = :exclude_software
+            $whereConditions[] = "f.id NOT IN (
+                SELECT fileid FROM software2file WHERE softwareid = :exclude_software
             )";
             $params['exclude_software'] = $filters['exclude_software'];
         }
@@ -181,15 +207,42 @@ class FileModel
         $whereClause = !empty($whereConditions) ? 'WHERE ' . implode(' AND ', $whereConditions) : '';
 
         $sql = "
-            SELECT *
-            FROM files
+            SELECT f.*, ft.typedesc as type_name
+            FROM files f
+            LEFT JOIN filetypes ft ON f.ftype = ft.id
             $whereClause
-            ORDER BY uploaddate DESC
+            ORDER BY f.uploaddate DESC
             LIMIT :limit
         ";
 
         $params['limit'] = $limit;
 
         return $this->db->fetchAll($sql, $params);
+    }
+
+    /**
+     * Get file path for a file record
+     */
+    public function getFilePath(array $file): string
+    {
+        $uploadPath = $_ENV['UPLOAD_PATH'] ?? './public/storage/uploads';
+        return $uploadPath . '/' . $file['fname'];
+    }
+
+    /**
+     * Check if file exists on disk
+     */
+    public function fileExists(array $file): bool
+    {
+        return file_exists($this->getFilePath($file));
+    }
+
+    /**
+     * Get file size from disk
+     */
+    public function getFileSize(array $file): int
+    {
+        $filePath = $this->getFilePath($file);
+        return file_exists($filePath) ? filesize($filePath) : 0;
     }
 }

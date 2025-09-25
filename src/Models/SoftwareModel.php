@@ -326,8 +326,8 @@ class SoftwareModel
     public function getAssociatedFiles(int $softwareId): array
     {
         $sql = "
-            SELECT f.id, f.filename, f.description, f.uploaddate, f.filesize,
-                   ft.typedesc as type_name
+            SELECT f.id, f.title, f.filename, f.fname, f.description, f.uploaddate, f.filesize,
+                   f.type, f.ftype, ft.typedesc as type_name
             FROM software2file s2f
             INNER JOIN files f ON s2f.fileid = f.id
             LEFT JOIN filetypes ft ON f.ftype = ft.id
@@ -415,6 +415,26 @@ class SoftwareModel
     {
         $sql = "DELETE FROM contract2soft WHERE softid = ? AND contractid = ?";
         $stmt = $this->db->execute($sql, [$softwareId, $contractId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Add association between software and file
+     */
+    public function associateFile(int $softwareId, int $fileId): bool
+    {
+        $sql = "INSERT OR IGNORE INTO software2file (softwareid, fileid) VALUES (?, ?)";
+        $stmt = $this->db->execute($sql, [$softwareId, $fileId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Remove association between software and file
+     */
+    public function dissociateFile(int $softwareId, int $fileId): bool
+    {
+        $sql = "DELETE FROM software2file WHERE softwareid = ? AND fileid = ?";
+        $stmt = $this->db->execute($sql, [$softwareId, $fileId]);
         return $stmt->rowCount() > 0;
     }
 

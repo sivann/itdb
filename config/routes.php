@@ -121,7 +121,7 @@ return function (App $app) {
             $group->get('/{id}', [FileController::class, 'show'])->setName('files.show');
             $group->get('/{id}/edit', [FileController::class, 'edit'])->setName('files.edit');
             $group->get('/{id}/download', [FileController::class, 'download'])->setName('files.download');
-            $group->put('/{id}', [FileController::class, 'update'])->setName('files.update');
+            $group->post('/{id}', [FileController::class, 'update'])->setName('files.update');
             $group->delete('/{id}', [FileController::class, 'destroy'])->setName('files.destroy');
         });
 

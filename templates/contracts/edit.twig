@@ -454,16 +454,14 @@
 
                                 <div class="mb-3">
                                     <label for="subtype" class="form-label">Sub Type</label>
-                                    <input type="text"
-                                           class="form-control{% if errors.subtype %} is-invalid{% endif %}"
-                                           id="subtype"
-                                           name="subtype"
-                                           value="{{ old.subtype|default(contract.subtype|default('')) }}"
-                                           maxlength="100">
+                                    <select class="form-select{% if errors.subtype %} is-invalid{% endif %}"
+                                            id="subtype"
+                                            name="subtype">
+                                        <option value="">Select a subtype...</option>
+                                    </select>
                                     {% if errors.subtype %}
                                     <div class="invalid-feedback">{{ errors.subtype }}</div>
                                     {% endif %}
-                                    <div class="form-text">Optional sub-category or classification.</div>
                                 </div>
 
                                 <div class="mb-3">
@@ -894,6 +892,35 @@
 {% if mode == 'edit' or mode == 'create' %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const typeSelect = document.getElementById('type');
+    const subtypeSelect = document.getElementById('subtype');
+    const subtypes = {{ form_options.contract_subtypes|json_encode|raw }};
+
+    function updateSubtypes() {
+        const typeId = typeSelect.value;
+        const selectedSubtype = subtypeSelect.dataset.selected;
+        subtypeSelect.innerHTML = '<option value="">Select a subtype...</option>';
+
+        if (typeId) {
+            const filteredSubtypes = subtypes.filter(subtype => subtype.contypeid == typeId);
+            filteredSubtypes.forEach(subtype => {
+                const option = document.createElement('option');
+                option.value = subtype.id;
+                option.textContent = subtype.name;
+                if (selectedSubtype && selectedSubtype == subtype.id) {
+                    option.selected = true;
+                }
+                subtypeSelect.appendChild(option);
+            });
+        }
+    }
+
+    if (typeSelect && subtypeSelect) {
+        subtypeSelect.dataset.selected = "{{ contract.subtype|default('') }}";
+        typeSelect.addEventListener('change', updateSubtypes);
+        updateSubtypes();
+    }
+
     // Auto-focus on title field
     document.getElementById('title').focus();
 

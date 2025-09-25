@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\ContractModel;
 use App\Models\ContractTypeModel;
+use App\Models\ContractSubtypeModel;
 use App\Models\AgentModel;
 use App\Services\AuthService;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -18,6 +19,7 @@ class ContractController extends BaseController
     private AuthService $authService;
     private ContractModel $contractModel;
     private ContractTypeModel $contractTypeModel;
+    private ContractSubtypeModel $contractSubtypeModel;
     private AgentModel $agentModel;
 
     public function __construct(
@@ -26,12 +28,14 @@ class ContractController extends BaseController
         AuthService $authService,
         ContractModel $contractModel,
         ContractTypeModel $contractTypeModel,
+        ContractSubtypeModel $contractSubtypeModel,
         AgentModel $agentModel
     ) {
         parent::__construct($logger, $twig);
         $this->authService = $authService;
         $this->contractModel = $contractModel;
         $this->contractTypeModel = $contractTypeModel;
+        $this->contractSubtypeModel = $contractSubtypeModel;
         $this->agentModel = $agentModel;
     }
 
@@ -121,6 +125,9 @@ class ContractController extends BaseController
         // Get contract types
         $contractTypes = $this->contractTypeModel->getAll();
 
+        // Get contract subtypes
+        $contractSubtypes = $this->contractSubtypeModel->getAll();
+
         // Get contractors and vendors
         $contractors = $this->agentModel->getContractors();
         $vendors = $this->agentModel->getVendors();
@@ -131,6 +138,7 @@ class ContractController extends BaseController
             'form_options' => [
                 'contracts' => $parentContracts,
                 'contract_types' => $contractTypes,
+                'contract_subtypes' => $contractSubtypes,
             ],
             'contractors' => $contractors,
             'vendors' => $vendors,
@@ -218,6 +226,9 @@ class ContractController extends BaseController
         // Get contract types
         $contractTypes = $this->contractTypeModel->getAll();
 
+        // Get contract subtypes
+        $contractSubtypes = $this->contractSubtypeModel->getAll();
+
         // Get contractors and vendors
         $contractors = $this->agentModel->getContractors();
         $vendors = $this->agentModel->getVendors();
@@ -229,6 +240,7 @@ class ContractController extends BaseController
             'form_options' => [
                 'contracts' => $parentContracts,
                 'contract_types' => $contractTypes,
+                'contract_subtypes' => $contractSubtypes,
             ],
             'contractors' => $contractors,
             'vendors' => $vendors,
@@ -261,12 +273,10 @@ class ContractController extends BaseController
             $errors[] = 'Title is required';
         }
 
-        if (!empty($data['parentid'])) {
-            if ($data['parentid'] == $id) {
-                $errors[] = 'Contract cannot be its own parent';
-            } elseif (!$this->contractModel->find($data['parentid'])) {
-                $errors[] = 'Invalid parent contract';
-            }
+        if (!empty($data['parentid']) && $data['parentid'] == $id) {
+            $errors[] = 'Contract cannot be its own parent';
+        } elseif (!empty($data['parentid']) && !$this->contractModel->find($data['parentid'])) {
+            $errors[] = 'Invalid parent contract';
         }
 
         if (!empty($data['contractorid']) && !$this->agentModel->find($data['contractorid'])) {

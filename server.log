@@ -12461,3 +12461,515 @@ Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->pre
 [Thu Sep 25 13:24:19 2025] [::1]:53219 Closing
 [Thu Sep 25 13:24:19 2025] [::1]:53220 [204]: GET /favicon.ico
 [Thu Sep 25 13:24:19 2025] [::1]:53220 Closing
+[Thu Sep 25 13:24:41 2025] [::1]:53316 Accepted
+[Thu Sep 25 13:24:41 2025] [::1]:53317 Accepted
+[Thu Sep 25 13:24:41 2025] [::1]:53316 [200]: GET /contracts
+[Thu Sep 25 13:24:41 2025] [::1]:53316 Closing
+[Thu Sep 25 13:24:42 2025] [::1]:53317 [204]: GET /favicon.ico
+[Thu Sep 25 13:24:42 2025] [::1]:53317 Closing
+[Thu Sep 25 13:24:45 2025] [::1]:53330 Accepted
+[Thu Sep 25 13:24:45 2025] [::1]:53330 [302]: GET /contracts/1
+[Thu Sep 25 13:24:45 2025] [::1]:53330 Closing
+[Thu Sep 25 13:24:45 2025] [::1]:53331 Accepted
+[Thu Sep 25 13:24:45 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1429
+[Thu Sep 25 13:24:45 2025] [::1]:53331 [200]: GET /contracts/1/edit
+[Thu Sep 25 13:24:45 2025] [::1]:53331 Closing
+[Thu Sep 25 13:24:45 2025] [::1]:53336 Accepted
+[Thu Sep 25 13:24:45 2025] [::1]:53336 [204]: GET /favicon.ico
+[Thu Sep 25 13:24:45 2025] [::1]:53336 Closing
+[Thu Sep 25 13:24:48 2025] [::1]:53349 Accepted
+[Thu Sep 25 13:24:48 2025] [::1]:53350 Accepted
+[Thu Sep 25 13:24:48 2025] [::1]:53349 [302]: GET /contracts/1
+[Thu Sep 25 13:24:48 2025] [::1]:53349 Closing
+[Thu Sep 25 13:24:48 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1429
+[Thu Sep 25 13:24:48 2025] [::1]:53350 [200]: GET /contracts/1/edit
+[Thu Sep 25 13:24:48 2025] [::1]:53350 Closing
+[Thu Sep 25 13:24:48 2025] [::1]:53351 Accepted
+[Thu Sep 25 13:24:48 2025] [::1]:53351 [204]: GET /favicon.ico
+[Thu Sep 25 13:24:48 2025] [::1]:53351 Closing
+[Thu Sep 25 13:25:28 2025] [::1]:53520 Accepted
+[Thu Sep 25 13:25:54 2025] Slim Application Error
+Type: PDOException
+Code: HY000
+Message: SQLSTATE[HY000]: General error: 1 no such column: la.name
+File: /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php
+Line: 38
+Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->prepare('\n            SE...')
+#1 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(68): App\Services\DatabaseManager->execute('\n            SE...', Array)
+#2 /Users/sivann/sbx/itdb2/src/Models/ItemModel.php(130): App\Services\DatabaseManager->fetchAll('\n            SE...', Array)
+#3 /Users/sivann/sbx/itdb2/src/Controllers/ItemController.php(217): App\Models\ItemModel->findWithRelations(1165)
+#4 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ItemController->edit(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#13 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#16 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#18 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#26 {main}
+[Thu Sep 25 13:25:54 2025] [::1]:53520 [500]: GET /items/1165/edit
+[Thu Sep 25 13:25:54 2025] [::1]:53520 Closing
+[Thu Sep 25 13:25:54 2025] [::1]:53811 Accepted
+[Thu Sep 25 13:25:54 2025] [::1]:53811 [204]: GET /favicon.ico
+[Thu Sep 25 13:25:54 2025] [::1]:53811 Closing
+[Thu Sep 25 13:25:58 2025] [::1]:53833 Accepted
+[Thu Sep 25 13:25:58 2025] [::1]:53833 [200]: GET /contracts
+[Thu Sep 25 13:25:58 2025] [::1]:53833 Closing
+[Thu Sep 25 13:25:58 2025] [::1]:53834 Accepted
+[Thu Sep 25 13:25:58 2025] [::1]:53834 [204]: GET /favicon.ico
+[Thu Sep 25 13:25:58 2025] [::1]:53834 Closing
+[Thu Sep 25 13:26:00 2025] [::1]:53839 Accepted
+[Thu Sep 25 13:26:00 2025] [::1]:53839 [302]: GET /contracts/1
+[Thu Sep 25 13:26:00 2025] [::1]:53839 Closing
+[Thu Sep 25 13:26:00 2025] [::1]:53840 Accepted
+[Thu Sep 25 13:26:00 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1429
+[Thu Sep 25 13:26:00 2025] [::1]:53840 [200]: GET /contracts/1/edit
+[Thu Sep 25 13:26:00 2025] [::1]:53840 Closing
+[Thu Sep 25 13:26:00 2025] [::1]:53845 Accepted
+[Thu Sep 25 13:26:00 2025] [::1]:53845 [204]: GET /favicon.ico
+[Thu Sep 25 13:26:00 2025] [::1]:53845 Closing
+[Thu Sep 25 13:31:09 2025] [::1]:55318 Accepted
+[Thu Sep 25 13:31:09 2025] [::1]:55319 Accepted
+[Thu Sep 25 13:31:09 2025] [::1]:55318 [200]: GET /contracts
+[Thu Sep 25 13:31:09 2025] [::1]:55318 Closing
+[Thu Sep 25 13:31:09 2025] [::1]:55319 [204]: GET /favicon.ico
+[Thu Sep 25 13:31:09 2025] [::1]:55319 Closing
+[Thu Sep 25 13:31:10 2025] [::1]:55328 Accepted
+[Thu Sep 25 13:31:10 2025] [::1]:55328 [302]: GET /contracts/1
+[Thu Sep 25 13:31:10 2025] [::1]:55328 Closing
+[Thu Sep 25 13:31:10 2025] [::1]:55329 Accepted
+[Thu Sep 25 13:31:10 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1429
+[Thu Sep 25 13:31:10 2025] [::1]:55329 [200]: GET /contracts/1/edit
+[Thu Sep 25 13:31:10 2025] [::1]:55329 Closing
+[Thu Sep 25 13:31:11 2025] [::1]:55330 Accepted
+[Thu Sep 25 13:31:11 2025] [::1]:55330 [204]: GET /favicon.ico
+[Thu Sep 25 13:31:11 2025] [::1]:55330 Closing
+[Thu Sep 25 13:31:26 2025] [::1]:55396 Accepted
+[Thu Sep 25 13:31:26 2025] [::1]:55396 [200]: GET /admin/contract-types
+[Thu Sep 25 13:31:26 2025] [::1]:55396 Closing
+[Thu Sep 25 13:31:26 2025] [::1]:55397 Accepted
+[Thu Sep 25 13:31:26 2025] [::1]:55397 [204]: GET /favicon.ico
+[Thu Sep 25 13:31:26 2025] [::1]:55397 Closing
+[Thu Sep 25 13:31:29 2025] [::1]:55406 Accepted
+[Thu Sep 25 13:31:29 2025] [::1]:55406 [200]: GET /admin/contract-types/2
+[Thu Sep 25 13:31:29 2025] [::1]:55406 Closing
+[Thu Sep 25 13:31:29 2025] [::1]:55407 Accepted
+[Thu Sep 25 13:31:29 2025] [::1]:55407 [204]: GET /favicon.ico
+[Thu Sep 25 13:31:29 2025] [::1]:55407 Closing
+[Thu Sep 25 13:31:34 2025] [::1]:55432 Accepted
+[Thu Sep 25 13:31:35 2025] [::1]:55432 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:31:35 2025] [::1]:55432 Closing
+[Thu Sep 25 13:31:35 2025] [::1]:55433 Accepted
+[Thu Sep 25 13:31:35 2025] [::1]:55433 [204]: GET /favicon.ico
+[Thu Sep 25 13:31:35 2025] [::1]:55433 Closing
+[Thu Sep 25 13:40:05 2025] [::1]:57548 Accepted
+[Thu Sep 25 13:40:05 2025] [::1]:57549 Accepted
+[Thu Sep 25 13:40:05 2025] [::1]:57548 [200]: GET /invoices/1/edit
+[Thu Sep 25 13:40:05 2025] [::1]:57548 Closing
+[Thu Sep 25 13:40:05 2025] [::1]:57549 [204]: GET /favicon.ico
+[Thu Sep 25 13:40:05 2025] [::1]:57549 Closing
+[Thu Sep 25 13:40:07 2025] [::1]:57558 Accepted
+[Thu Sep 25 13:40:07 2025] [::1]:57558 [200]: GET /contracts
+[Thu Sep 25 13:40:07 2025] [::1]:57558 Closing
+[Thu Sep 25 13:40:07 2025] [::1]:57559 Accepted
+[Thu Sep 25 13:40:07 2025] [::1]:57559 [204]: GET /favicon.ico
+[Thu Sep 25 13:40:07 2025] [::1]:57559 Closing
+[Thu Sep 25 13:40:09 2025] [::1]:57569 Accepted
+[Thu Sep 25 13:40:09 2025] [::1]:57569 [200]: GET /admin/contract-types
+[Thu Sep 25 13:40:09 2025] [::1]:57569 Closing
+[Thu Sep 25 13:40:09 2025] [::1]:57570 Accepted
+[Thu Sep 25 13:40:09 2025] [::1]:57570 [204]: GET /favicon.ico
+[Thu Sep 25 13:40:09 2025] [::1]:57570 Closing
+[Thu Sep 25 13:40:12 2025] [::1]:57579 Accepted
+[Thu Sep 25 13:40:12 2025] [::1]:57584 Accepted
+[Thu Sep 25 13:40:12 2025] [::1]:57579 [200]: GET /admin/contract-types/2
+[Thu Sep 25 13:40:12 2025] [::1]:57579 Closing
+[Thu Sep 25 13:40:12 2025] [::1]:57584 [204]: GET /favicon.ico
+[Thu Sep 25 13:40:12 2025] [::1]:57584 Closing
+[Thu Sep 25 13:40:13 2025] [::1]:57589 Accepted
+[Thu Sep 25 13:40:13 2025] [::1]:57589 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:40:13 2025] [::1]:57589 Closing
+[Thu Sep 25 13:40:13 2025] [::1]:57590 Accepted
+[Thu Sep 25 13:40:13 2025] [::1]:57590 [204]: GET /favicon.ico
+[Thu Sep 25 13:40:13 2025] [::1]:57590 Closing
+[Thu Sep 25 13:41:42 2025] [::1]:57977 Accepted
+[Thu Sep 25 13:41:42 2025] [::1]:57978 Accepted
+[Thu Sep 25 13:41:42 2025] [::1]:57977 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:41:42 2025] [::1]:57977 Closing
+[Thu Sep 25 13:41:42 2025] [::1]:57978 [204]: GET /favicon.ico
+[Thu Sep 25 13:41:42 2025] [::1]:57978 Closing
+[Thu Sep 25 13:41:43 2025] [::1]:57979 Accepted
+[Thu Sep 25 13:41:43 2025] [::1]:57980 Accepted
+[Thu Sep 25 13:41:43 2025] [::1]:57979 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:41:43 2025] [::1]:57979 Closing
+[Thu Sep 25 13:41:43 2025] [::1]:57980 [204]: GET /favicon.ico
+[Thu Sep 25 13:41:43 2025] [::1]:57980 Closing
+[Thu Sep 25 13:41:43 2025] [::1]:57985 Accepted
+[Thu Sep 25 13:41:43 2025] [::1]:57986 Accepted
+[Thu Sep 25 13:41:43 2025] [::1]:57985 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:41:43 2025] [::1]:57985 Closing
+[Thu Sep 25 13:41:43 2025] [::1]:57986 [204]: GET /favicon.ico
+[Thu Sep 25 13:41:43 2025] [::1]:57986 Closing
+[Thu Sep 25 13:41:43 2025] [::1]:57987 Accepted
+[Thu Sep 25 13:41:43 2025] [::1]:57988 Accepted
+[Thu Sep 25 13:41:43 2025] [::1]:57987 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:41:43 2025] [::1]:57987 Closing
+[Thu Sep 25 13:41:43 2025] [::1]:57988 [204]: GET /favicon.ico
+[Thu Sep 25 13:41:43 2025] [::1]:57988 Closing
+[Thu Sep 25 13:41:53 2025] [::1]:58025 Accepted
+[Thu Sep 25 13:41:53 2025] [::1]:58026 Accepted
+[Thu Sep 25 13:41:53 2025] [::1]:58025 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:41:53 2025] [::1]:58025 Closing
+[Thu Sep 25 13:41:53 2025] [::1]:58026 [204]: GET /favicon.ico
+[Thu Sep 25 13:41:53 2025] [::1]:58026 Closing
+[Thu Sep 25 13:41:53 2025] [::1]:58031 Accepted
+[Thu Sep 25 13:41:53 2025] [::1]:58032 Accepted
+[Thu Sep 25 13:41:53 2025] [::1]:58031 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:41:53 2025] [::1]:58031 Closing
+[Thu Sep 25 13:41:53 2025] [::1]:58032 [204]: GET /favicon.ico
+[Thu Sep 25 13:41:53 2025] [::1]:58032 Closing
+[Thu Sep 25 13:42:03 2025] [::1]:58074 Accepted
+[Thu Sep 25 13:42:03 2025] [::1]:58075 Accepted
+[Thu Sep 25 13:42:03 2025] [::1]:58074 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:42:03 2025] [::1]:58074 Closing
+[Thu Sep 25 13:42:03 2025] [::1]:58075 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:03 2025] [::1]:58075 Closing
+[Thu Sep 25 13:42:04 2025] [::1]:58076 Accepted
+[Thu Sep 25 13:42:04 2025] [::1]:58077 Accepted
+[Thu Sep 25 13:42:04 2025] [::1]:58076 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:42:04 2025] [::1]:58076 Closing
+[Thu Sep 25 13:42:04 2025] [::1]:58077 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:04 2025] [::1]:58077 Closing
+[Thu Sep 25 13:42:04 2025] [::1]:58082 Accepted
+[Thu Sep 25 13:42:04 2025] [::1]:58083 Accepted
+[Thu Sep 25 13:42:04 2025] [::1]:58082 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:42:04 2025] [::1]:58082 Closing
+[Thu Sep 25 13:42:04 2025] [::1]:58083 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:04 2025] [::1]:58083 Closing
+[Thu Sep 25 13:42:04 2025] [::1]:58084 Accepted
+[Thu Sep 25 13:42:04 2025] [::1]:58085 Accepted
+[Thu Sep 25 13:42:04 2025] [::1]:58084 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:42:04 2025] [::1]:58084 Closing
+[Thu Sep 25 13:42:04 2025] [::1]:58085 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:04 2025] [::1]:58085 Closing
+[Thu Sep 25 13:42:06 2025] [::1]:58090 Accepted
+[Thu Sep 25 13:42:06 2025] [::1]:58091 Accepted
+[Thu Sep 25 13:42:06 2025] [::1]:58090 [200]: GET /admin/contract-types
+[Thu Sep 25 13:42:06 2025] [::1]:58090 Closing
+[Thu Sep 25 13:42:06 2025] [::1]:58091 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:06 2025] [::1]:58091 Closing
+[Thu Sep 25 13:42:07 2025] [::1]:58096 Accepted
+[Thu Sep 25 13:42:07 2025] [::1]:58097 Accepted
+[Thu Sep 25 13:42:07 2025] [::1]:58096 [200]: GET /admin/contract-types
+[Thu Sep 25 13:42:07 2025] [::1]:58096 Closing
+[Thu Sep 25 13:42:07 2025] [::1]:58097 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:07 2025] [::1]:58097 Closing
+[Thu Sep 25 13:42:07 2025] [::1]:58102 Accepted
+[Thu Sep 25 13:42:07 2025] [::1]:58103 Accepted
+[Thu Sep 25 13:42:07 2025] [::1]:58102 [200]: GET /admin/contract-types
+[Thu Sep 25 13:42:07 2025] [::1]:58102 Closing
+[Thu Sep 25 13:42:07 2025] [::1]:58103 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:07 2025] [::1]:58103 Closing
+[Thu Sep 25 13:42:07 2025] [::1]:58104 Accepted
+[Thu Sep 25 13:42:07 2025] [::1]:58105 Accepted
+[Thu Sep 25 13:42:07 2025] [::1]:58104 [200]: GET /admin/contract-types
+[Thu Sep 25 13:42:07 2025] [::1]:58104 Closing
+[Thu Sep 25 13:42:08 2025] [::1]:58105 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:08 2025] [::1]:58105 Closing
+[Thu Sep 25 13:42:08 2025] [::1]:58110 Accepted
+[Thu Sep 25 13:42:08 2025] [::1]:58110 [200]: GET /admin/contract-types/2
+[Thu Sep 25 13:42:08 2025] [::1]:58110 Closing
+[Thu Sep 25 13:42:08 2025] [::1]:58111 Accepted
+[Thu Sep 25 13:42:08 2025] [::1]:58111 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:08 2025] [::1]:58111 Closing
+[Thu Sep 25 13:42:12 2025] [::1]:58128 Accepted
+[Thu Sep 25 13:42:12 2025] [::1]:58129 Accepted
+[Thu Sep 25 13:42:12 2025] [::1]:58128 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:42:12 2025] [::1]:58128 Closing
+[Thu Sep 25 13:42:12 2025] [::1]:58129 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:12 2025] [::1]:58129 Closing
+[Thu Sep 25 13:42:13 2025] [::1]:58130 Accepted
+[Thu Sep 25 13:42:13 2025] [::1]:58131 Accepted
+[Thu Sep 25 13:42:13 2025] [::1]:58130 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:42:13 2025] [::1]:58130 Closing
+[Thu Sep 25 13:42:13 2025] [::1]:58131 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:13 2025] [::1]:58131 Closing
+[Thu Sep 25 13:42:16 2025] [::1]:58144 Accepted
+[Thu Sep 25 13:42:16 2025] [::1]:58145 Accepted
+[Thu Sep 25 13:42:16 2025] Slim Application Error
+Type: PDOException
+Code: HY000
+Message: SQLSTATE[HY000]: General error: 1 no such column: la.name
+File: /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php
+Line: 38
+Trace: #0 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(38): PDO->prepare('\n            SE...')
+#1 /Users/sivann/sbx/itdb2/src/Services/DatabaseManager.php(68): App\Services\DatabaseManager->execute('\n            SE...', Array)
+#2 /Users/sivann/sbx/itdb2/src/Models/ItemModel.php(130): App\Services\DatabaseManager->fetchAll('\n            SE...', Array)
+#3 /Users/sivann/sbx/itdb2/src/Controllers/ItemController.php(217): App\Models\ItemModel->findWithRelations(1165)
+#4 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(39): App\Controllers\ItemController->edit(Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#5 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(362): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Slim\Psr7\Request), Object(Slim\Psr7\Response), Array)
+#6 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Slim\Routing\Route->handle(Object(Slim\Psr7\Request))
+#7 /Users/sivann/sbx/itdb2/src/Middleware/AuthMiddleware.php(45): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#8 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\AuthMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\MiddlewareDispatcher))
+#9 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#10 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/Route.php(321): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#11 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Routing/RouteRunner.php(74): Slim\Routing\Route->run(Object(Slim\Psr7\Request))
+#12 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Slim\Routing\RouteRunner->handle(Object(Slim\Psr7\Request))
+#13 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\BodyParsingMiddleware->process(Object(Slim\Psr7\Request), Object(Slim\Routing\RouteRunner))
+#14 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#15 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\RoutingMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#16 /Users/sivann/sbx/itdb2/src/Middleware/CorsMiddleware.php(19): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#17 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\CorsMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#18 /Users/sivann/sbx/itdb2/src/Middleware/SessionMiddleware.php(38): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#19 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(178): App\Middleware\SessionMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#20 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(77): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#21 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(129): Slim\Middleware\ErrorMiddleware->process(Object(Slim\Psr7\Request), Object(Psr\Http\Server\RequestHandlerInterface@anonymous))
+#22 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/MiddlewareDispatcher.php(73): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Slim\Psr7\Request))
+#23 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(209): Slim\MiddlewareDispatcher->handle(Object(Slim\Psr7\Request))
+#24 /Users/sivann/sbx/itdb2/vendor/slim/slim/Slim/App.php(193): Slim\App->handle(Object(Slim\Psr7\Request))
+#25 /Users/sivann/sbx/itdb2/public/index.php(67): Slim\App->run()
+#26 {main}
+[Thu Sep 25 13:42:16 2025] [::1]:58144 [500]: GET /items/1165/edit
+[Thu Sep 25 13:42:16 2025] [::1]:58144 Closing
+[Thu Sep 25 13:42:16 2025] [::1]:58145 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:16 2025] [::1]:58145 Closing
+[Thu Sep 25 13:42:25 2025] [::1]:58182 Accepted
+[Thu Sep 25 13:42:25 2025] [::1]:58187 Accepted
+[Thu Sep 25 13:42:25 2025] [::1]:58182 [200]: GET /items
+[Thu Sep 25 13:42:25 2025] [::1]:58182 Closing
+[Thu Sep 25 13:42:25 2025] [::1]:58187 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:25 2025] [::1]:58187 Closing
+[Thu Sep 25 13:42:27 2025] [::1]:58197 Accepted
+[Thu Sep 25 13:42:27 2025] [::1]:58198 Accepted
+[Thu Sep 25 13:42:27 2025] PHP Deprecated:  abs(): Passing null to parameter #1 ($num) of type int|float is deprecated in /Users/sivann/sbx/itdb2/vendor/twig/twig/src/Environment.php(420) : eval()'d code on line 1424
+[Thu Sep 25 13:42:27 2025] [::1]:58197 [200]: GET /contracts/1/edit
+[Thu Sep 25 13:42:27 2025] [::1]:58197 Closing
+[Thu Sep 25 13:42:27 2025] [::1]:58198 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:27 2025] [::1]:58198 Closing
+[Thu Sep 25 13:42:40 2025] [::1]:58250 Accepted
+[Thu Sep 25 13:42:40 2025] [::1]:58251 Accepted
+[Thu Sep 25 13:42:40 2025] [::1]:58250 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:42:40 2025] [::1]:58250 Closing
+[Thu Sep 25 13:42:40 2025] [::1]:58251 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:40 2025] [::1]:58251 Closing
+[Thu Sep 25 13:42:42 2025] [::1]:58260 Accepted
+[Thu Sep 25 13:42:42 2025] [::1]:58260 [200]: GET /admin/contract-types/2
+[Thu Sep 25 13:42:42 2025] [::1]:58260 Closing
+[Thu Sep 25 13:42:42 2025] [::1]:58261 Accepted
+[Thu Sep 25 13:42:42 2025] [::1]:58261 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:42 2025] [::1]:58261 Closing
+[Thu Sep 25 13:42:44 2025] [::1]:58270 Accepted
+[Thu Sep 25 13:42:44 2025] [::1]:58270 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:42:44 2025] [::1]:58270 Closing
+[Thu Sep 25 13:42:44 2025] [::1]:58271 Accepted
+[Thu Sep 25 13:42:44 2025] [::1]:58271 [204]: GET /favicon.ico
+[Thu Sep 25 13:42:44 2025] [::1]:58271 Closing
+[Thu Sep 25 13:43:05 2025] [::1]:58357 Accepted
+[Thu Sep 25 13:43:05 2025] [::1]:58358 Accepted
+[Thu Sep 25 13:43:05 2025] [::1]:58357 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:43:05 2025] [::1]:58357 Closing
+[Thu Sep 25 13:43:05 2025] [::1]:58358 [204]: GET /favicon.ico
+[Thu Sep 25 13:43:05 2025] [::1]:58358 Closing
+[Thu Sep 25 13:43:05 2025] [::1]:58359 Accepted
+[Thu Sep 25 13:43:05 2025] [::1]:58360 Accepted
+[Thu Sep 25 13:43:05 2025] [::1]:58359 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:43:05 2025] [::1]:58359 Closing
+[Thu Sep 25 13:43:05 2025] [::1]:58360 [204]: GET /favicon.ico
+[Thu Sep 25 13:43:05 2025] [::1]:58360 Closing
+[Thu Sep 25 13:43:06 2025] [::1]:58365 Accepted
+[Thu Sep 25 13:43:06 2025] [::1]:58366 Accepted
+[Thu Sep 25 13:43:06 2025] [::1]:58365 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:43:06 2025] [::1]:58365 Closing
+[Thu Sep 25 13:43:06 2025] [::1]:58366 [204]: GET /favicon.ico
+[Thu Sep 25 13:43:06 2025] [::1]:58366 Closing
+[Thu Sep 25 13:43:06 2025] [::1]:58367 Accepted
+[Thu Sep 25 13:43:06 2025] [::1]:58368 Accepted
+[Thu Sep 25 13:43:06 2025] [::1]:58367 [200]: GET /admin/contract-types/2/edit
+[Thu Sep 25 13:43:06 2025] [::1]:58367 Closing
+[Thu Sep 25 13:43:06 2025] [::1]:58368 [204]: GET /favicon.ico
+[Thu Sep 25 13:43:06 2025] [::1]:58368 Closing
+[Thu Sep 25 13:43:07 2025] [::1]:58373 Accepted
+[Thu Sep 25 13:43:07 2025] [::1]:58373 [200]: GET /admin/contract-types
+[Thu Sep 25 13:43:07 2025] [::1]:58373 Closing
+[Thu Sep 25 13:43:07 2025] [::1]:58374 Accepted
+[Thu Sep 25 13:43:07 2025] [::1]:58374 [204]: GET /favicon.ico
+[Thu Sep 25 13:43:07 2025] [::1]:58374 Closing
+[Thu Sep 25 13:43:14 2025] [::1]:58404 Accepted
+[Thu Sep 25 13:43:14 2025] [::1]:58405 Accepted
+[Thu Sep 25 13:43:14 2025] [::1]:58404 [200]: GET /admin/contract-types/1
+[Thu Sep 25 13:43:14 2025] [::1]:58404 Closing
+[Thu Sep 25 13:43:14 2025] [::1]:58405 [204]: GET /favicon.ico
+[Thu Sep 25 13:43:14 2025] [::1]:58405 Closing
+[Thu Sep 25 13:43:18 2025] [::1]:58422 Accepted
+[Thu Sep 25 13:43:18 2025] [::1]:58422 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:43:18 2025] [::1]:58422 Closing
+[Thu Sep 25 13:43:18 2025] [::1]:58423 Accepted
+[Thu Sep 25 13:43:18 2025] [::1]:58423 [204]: GET /favicon.ico
+[Thu Sep 25 13:43:18 2025] [::1]:58423 Closing
+[Thu Sep 25 13:43:35 2025] [::1]:58494 Accepted
+[Thu Sep 25 13:43:35 2025] [::1]:58495 Accepted
+[Thu Sep 25 13:43:35 2025] [::1]:58494 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:43:35 2025] [::1]:58494 Closing
+[Thu Sep 25 13:43:35 2025] [::1]:58495 [204]: GET /favicon.ico
+[Thu Sep 25 13:43:35 2025] [::1]:58495 Closing
+[Thu Sep 25 13:43:36 2025] [::1]:58500 Accepted
+[Thu Sep 25 13:43:36 2025] [::1]:58501 Accepted
+[Thu Sep 25 13:43:36 2025] [::1]:58500 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:43:36 2025] [::1]:58500 Closing
+[Thu Sep 25 13:43:36 2025] [::1]:58501 [204]: GET /favicon.ico
+[Thu Sep 25 13:43:36 2025] [::1]:58501 Closing
+[Thu Sep 25 13:43:36 2025] [::1]:58502 Accepted
+[Thu Sep 25 13:43:36 2025] [::1]:58503 Accepted
+[Thu Sep 25 13:43:36 2025] [::1]:58502 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:43:36 2025] [::1]:58502 Closing
+[Thu Sep 25 13:43:36 2025] [::1]:58503 [204]: GET /favicon.ico
+[Thu Sep 25 13:43:36 2025] [::1]:58503 Closing
+[Thu Sep 25 13:44:07 2025] [::1]:58630 Accepted
+[Thu Sep 25 13:44:07 2025] [::1]:58631 Accepted
+[Thu Sep 25 13:44:07 2025] [::1]:58630 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:44:07 2025] [::1]:58630 Closing
+[Thu Sep 25 13:44:07 2025] [::1]:58631 [204]: GET /favicon.ico
+[Thu Sep 25 13:44:07 2025] [::1]:58631 Closing
+[Thu Sep 25 13:44:08 2025] [::1]:58632 Accepted
+[Thu Sep 25 13:44:08 2025] [::1]:58633 Accepted
+[Thu Sep 25 13:44:08 2025] [::1]:58632 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:44:08 2025] [::1]:58632 Closing
+[Thu Sep 25 13:44:08 2025] [::1]:58633 [204]: GET /favicon.ico
+[Thu Sep 25 13:44:08 2025] [::1]:58633 Closing
+[Thu Sep 25 13:51:03 2025] [::1]:60477 Accepted
+[Thu Sep 25 13:51:03 2025] [::1]:60477 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:51:03 2025] [::1]:60477 Closing
+[Thu Sep 25 13:51:03 2025] [::1]:60478 Accepted
+[Thu Sep 25 13:51:03 2025] [::1]:60478 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:03 2025] [::1]:60478 Closing
+[Thu Sep 25 13:51:04 2025] [::1]:60479 Accepted
+[Thu Sep 25 13:51:04 2025] [::1]:60480 Accepted
+[Thu Sep 25 13:51:04 2025] [::1]:60479 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:51:04 2025] [::1]:60479 Closing
+[Thu Sep 25 13:51:04 2025] [::1]:60480 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:04 2025] [::1]:60480 Closing
+[Thu Sep 25 13:51:06 2025] [::1]:60494 Accepted
+[Thu Sep 25 13:51:06 2025] [::1]:60495 Accepted
+[Thu Sep 25 13:51:06 2025] [::1]:60494 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:51:06 2025] [::1]:60494 Closing
+[Thu Sep 25 13:51:06 2025] [::1]:60495 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:06 2025] [::1]:60495 Closing
+[Thu Sep 25 13:51:07 2025] [::1]:60496 Accepted
+[Thu Sep 25 13:51:07 2025] [::1]:60497 Accepted
+[Thu Sep 25 13:51:07 2025] [::1]:60496 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:51:07 2025] [::1]:60496 Closing
+[Thu Sep 25 13:51:07 2025] [::1]:60497 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:07 2025] [::1]:60497 Closing
+[Thu Sep 25 13:51:07 2025] [::1]:60498 Accepted
+[Thu Sep 25 13:51:07 2025] [::1]:60499 Accepted
+[Thu Sep 25 13:51:07 2025] [::1]:60498 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:51:07 2025] [::1]:60498 Closing
+[Thu Sep 25 13:51:07 2025] [::1]:60499 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:07 2025] [::1]:60499 Closing
+[Thu Sep 25 13:51:07 2025] [::1]:60500 Accepted
+[Thu Sep 25 13:51:07 2025] [::1]:60501 Accepted
+[Thu Sep 25 13:51:07 2025] [::1]:60500 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:51:07 2025] [::1]:60500 Closing
+[Thu Sep 25 13:51:07 2025] [::1]:60501 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:07 2025] [::1]:60501 Closing
+[Thu Sep 25 13:51:08 2025] [::1]:60506 Accepted
+[Thu Sep 25 13:51:08 2025] [::1]:60506 [200]: GET /admin/contract-types/1
+[Thu Sep 25 13:51:08 2025] [::1]:60506 Closing
+[Thu Sep 25 13:51:08 2025] [::1]:60511 Accepted
+[Thu Sep 25 13:51:08 2025] [::1]:60511 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:08 2025] [::1]:60511 Closing
+[Thu Sep 25 13:51:09 2025] [::1]:60512 Accepted
+[Thu Sep 25 13:51:09 2025] [::1]:60513 Accepted
+[Thu Sep 25 13:51:09 2025] [::1]:60512 [200]: GET /admin/contract-types/1
+[Thu Sep 25 13:51:09 2025] [::1]:60512 Closing
+[Thu Sep 25 13:51:09 2025] [::1]:60513 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:09 2025] [::1]:60513 Closing
+[Thu Sep 25 13:51:18 2025] [::1]:60550 Accepted
+[Thu Sep 25 13:51:18 2025] [::1]:60551 Accepted
+[Thu Sep 25 13:51:18 2025] [::1]:60550 [200]: GET /admin/contract-types/1
+[Thu Sep 25 13:51:18 2025] [::1]:60550 Closing
+[Thu Sep 25 13:51:18 2025] [::1]:60551 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:18 2025] [::1]:60551 Closing
+[Thu Sep 25 13:51:18 2025] [::1]:60556 Accepted
+[Thu Sep 25 13:51:18 2025] [::1]:60557 Accepted
+[Thu Sep 25 13:51:18 2025] [::1]:60556 [200]: GET /admin/contract-types/1
+[Thu Sep 25 13:51:18 2025] [::1]:60556 Closing
+[Thu Sep 25 13:51:18 2025] [::1]:60557 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:18 2025] [::1]:60557 Closing
+[Thu Sep 25 13:51:18 2025] [::1]:60558 Accepted
+[Thu Sep 25 13:51:18 2025] [::1]:60559 Accepted
+[Thu Sep 25 13:51:18 2025] [::1]:60558 [200]: GET /admin/contract-types/1
+[Thu Sep 25 13:51:18 2025] [::1]:60558 Closing
+[Thu Sep 25 13:51:18 2025] [::1]:60559 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:18 2025] [::1]:60559 Closing
+[Thu Sep 25 13:51:19 2025] [::1]:60560 Accepted
+[Thu Sep 25 13:51:19 2025] [::1]:60561 Accepted
+[Thu Sep 25 13:51:19 2025] [::1]:60560 [200]: GET /admin/contract-types/1
+[Thu Sep 25 13:51:19 2025] [::1]:60560 Closing
+[Thu Sep 25 13:51:19 2025] [::1]:60561 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:19 2025] [::1]:60561 Closing
+[Thu Sep 25 13:51:21 2025] [::1]:60574 Accepted
+[Thu Sep 25 13:51:21 2025] [::1]:60575 Accepted
+[Thu Sep 25 13:51:21 2025] [::1]:60574 [200]: GET /admin/contract-types
+[Thu Sep 25 13:51:21 2025] [::1]:60574 Closing
+[Thu Sep 25 13:51:21 2025] [::1]:60575 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:21 2025] [::1]:60575 Closing
+[Thu Sep 25 13:51:24 2025] [::1]:60584 Accepted
+[Thu Sep 25 13:51:24 2025] [::1]:60585 Accepted
+[Thu Sep 25 13:51:24 2025] [::1]:60584 [200]: GET /admin/contract-types/1
+[Thu Sep 25 13:51:24 2025] [::1]:60584 Closing
+[Thu Sep 25 13:51:24 2025] [::1]:60585 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:24 2025] [::1]:60585 Closing
+[Thu Sep 25 13:51:25 2025] [::1]:60594 Accepted
+[Thu Sep 25 13:51:25 2025] [::1]:60594 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:51:25 2025] [::1]:60594 Closing
+[Thu Sep 25 13:51:25 2025] [::1]:60595 Accepted
+[Thu Sep 25 13:51:25 2025] [::1]:60595 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:25 2025] [::1]:60595 Closing
+[Thu Sep 25 13:51:26 2025] [::1]:60600 Accepted
+[Thu Sep 25 13:51:26 2025] [::1]:60601 Accepted
+[Thu Sep 25 13:51:26 2025] [::1]:60600 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:51:26 2025] [::1]:60600 Closing
+[Thu Sep 25 13:51:27 2025] [::1]:60601 [204]: GET /favicon.ico
+[Thu Sep 25 13:51:27 2025] [::1]:60601 Closing
+[Thu Sep 25 13:53:30 2025] [::1]:61114 Accepted
+[Thu Sep 25 13:53:30 2025] [::1]:61114 [200]: GET /admin/contract-types/1/edit
+[Thu Sep 25 13:53:30 2025] [::1]:61114 Closing
+[Thu Sep 25 13:53:30 2025] [::1]:61115 Accepted
+[Thu Sep 25 13:53:30 2025] [::1]:61115 [204]: GET /favicon.ico
+[Thu Sep 25 13:53:30 2025] [::1]:61115 Closing
+[Thu Sep 25 13:53:31 2025] [::1]:61120 Accepted
+[Thu Sep 25 13:53:31 2025] [::1]:61120 [302]: POST /admin/contract-types/1
+[Thu Sep 25 13:53:31 2025] [::1]:61120 Closing
+[Thu Sep 25 13:53:31 2025] [::1]:61121 Accepted
+[Thu Sep 25 13:53:31 2025] [::1]:61121 [200]: GET /admin/contract-types/1
+[Thu Sep 25 13:53:31 2025] [::1]:61121 Closing
+[Thu Sep 25 13:53:31 2025] [::1]:61122 Accepted
+[Thu Sep 25 13:53:31 2025] [::1]:61122 [204]: GET /favicon.ico
+[Thu Sep 25 13:53:31 2025] [::1]:61122 Closing
+[Thu Sep 25 13:53:50 2025] [::1]:61203 Accepted
+[Thu Sep 25 13:53:50 2025] [::1]:61203 [200]: GET /items
+[Thu Sep 25 13:53:50 2025] [::1]:61203 Closing
+[Thu Sep 25 13:53:50 2025] [::1]:61204 Accepted
+[Thu Sep 25 13:53:50 2025] [::1]:61204 [204]: GET /favicon.ico
+[Thu Sep 25 13:53:50 2025] [::1]:61204 Closing
+[Thu Sep 25 13:53:51 2025] [::1]:61209 Accepted
+[Thu Sep 25 13:53:51 2025] [::1]:61209 [200]: GET /software
+[Thu Sep 25 13:53:51 2025] [::1]:61209 Closing
+[Thu Sep 25 13:53:51 2025] [::1]:61210 Accepted
+[Thu Sep 25 13:53:51 2025] [::1]:61210 [204]: GET /favicon.ico
+[Thu Sep 25 13:53:51 2025] [::1]:61210 Closing

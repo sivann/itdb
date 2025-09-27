@@ -1,0 +1,108 @@
+{# File Preview Modal Component #}
+{# Usage: {% include 'components/file_preview_modal.twig' with {'file': file} %} #}
+
+<div class="modal fade" id="previewModal{{ file.id }}" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-file-earmark-text me-2"></i>
+                    {{ file.title|default(file.fname|default('File')) }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="border rounded p-3 mb-3" style="min-height: 400px;">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status" id="spinner{{ file.id }}">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div id="previewContent{{ file.id }}" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>File Details</h6>
+                        <table class="table table-sm table-bordered">
+                            <tr>
+                                <td style="width: 40%;"><strong>Filename:</strong></td>
+                                <td style="width: 60%; word-break: break-all;"><code>{{ file.fname|default('Unknown') }}</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type:</strong></td>
+                                <td>
+                                    {% if file.fileType.name is defined %}
+                                        {{ file.fileType.name }}
+                                    {% elseif file.type_name is defined %}
+                                        <span class="badge bg-info">{{ file.type_name }}</span>
+                                    {% elseif file.type is defined %}
+                                        <span class="badge bg-info">{{ file.type }}</span>
+                                    {% else %}
+                                        <span class="text-muted">Unknown</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Size:</strong></td>
+                                <td>
+                                    {% if file.file_size is defined and file.file_size %}
+                                        {{ file.file_size|number_format }} bytes
+                                    {% elseif file.filesize is defined and file.filesize %}
+                                        {{ file.filesize|number_format }} bytes
+                                    {% else %}
+                                        <span class="text-muted">Unknown</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Uploaded:</strong></td>
+                                <td>
+                                    {% if file.uploaddate_formatted is defined %}
+                                        {{ file.uploaddate_formatted }}
+                                    {% elseif file.uploaddate is defined %}
+                                        {{ file.uploaddate|date('M j, Y g:i A') }}
+                                    {% else %}
+                                        <span class="text-muted">Unknown</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% if file.uploader is defined or file.uploader_user is defined %}
+                            <tr>
+                                <td><strong>Uploader:</strong></td>
+                                <td>
+                                    {% if file.uploader_user is defined %}
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-person-circle me-2"></i>
+                                            {{ file.uploader_user.display_name|default(file.uploader_user.username) }}
+                                        </div>
+                                    {% elseif file.uploader is defined %}
+                                        {{ file.uploader }}
+                                    {% else %}
+                                        <span class="text-muted">Unknown</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% if file.description is defined and file.description %}
+                            <tr>
+                                <td><strong>Description:</strong></td>
+                                <td>{{ file.description }}</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                        <div class="d-grid gap-2">
+                            <a href="/files/{{ file.id }}/download" class="btn btn-success">
+                                <i class="bi bi-download me-2"></i>Download File
+                            </a>
+                            <a href="/files/{{ file.id }}/edit" class="btn btn-outline-secondary">
+                                <i class="bi bi-pencil me-2"></i>Edit File
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

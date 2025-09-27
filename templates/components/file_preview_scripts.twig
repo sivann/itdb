@@ -1,0 +1,71 @@
+{# File Preview JavaScript Component #}
+{# Usage: {% include 'components/file_preview_scripts.twig' %} #}
+
+<script>
+// File preview functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners for preview buttons
+    document.querySelectorAll('[data-bs-target^="#previewModal"]').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const fileId = this.getAttribute('data-bs-target').replace('#previewModal', '');
+            loadFilePreview(fileId);
+        });
+    });
+});
+
+function loadFilePreview(fileId) {
+    const spinner = document.getElementById('spinner' + fileId);
+    const content = document.getElementById('previewContent' + fileId);
+
+    // Reset state
+    spinner.style.display = 'block';
+    content.style.display = 'none';
+    content.innerHTML = '';
+
+    // Load preview
+    fetch('/files/' + fileId + '/preview')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to load preview');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const mimeType = blob.type;
+
+            spinner.style.display = 'none';
+            content.style.display = 'block';
+
+            if (mimeType.startsWith('image/')) {
+                content.innerHTML = '<img src="' + url + '" class="img-fluid" alt="File preview">';
+            } else if (mimeType === 'application/pdf') {
+                content.innerHTML = '<embed src="' + url + '" type="application/pdf" width="100%" height="400px" />';
+            } else if (mimeType.startsWith('text/') || mimeType.includes('json') || mimeType.includes('xml')) {
+                return blob.text().then(text => {
+                    content.innerHTML = '<pre class="bg-light p-3 rounded text-start" style="max-height: 400px; overflow-y: auto;"><code>' +
+                                      text.replace(/</g, '&lt;').replace(/>/g, '&gt;').substring(0, 5000) +
+                                      (text.length > 5000 ? '\n\n... [truncated]' : '') + '</code></pre>';
+                });
+            } else if (mimeType.startsWith('video/')) {
+                content.innerHTML = '<video controls width="100%" height="400"><source src="' + url + '" type="' + mimeType + '">Video preview not supported.</video>';
+            } else if (mimeType.startsWith('audio/')) {
+                content.innerHTML = '<audio controls width="100%"><source src="' + url + '" type="' + mimeType + '">Audio preview not supported.</audio>';
+            } else {
+                content.innerHTML = '<div class="text-center text-muted py-5">' +
+                                  '<i class="bi bi-file-earmark display-4 mb-3"></i><br>' +
+                                  '<p>Preview not available for this file type</p>' +
+                                  '<p class="small">MIME type: ' + mimeType + '</p>' +
+                                  '<p>Use the download button to view the file.</p></div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error loading preview:', error);
+            spinner.style.display = 'none';
+            content.style.display = 'block';
+            content.innerHTML = '<div class="text-center text-danger py-5">' +
+                              '<i class="bi bi-exclamation-triangle display-4 mb-3"></i><br>' +
+                              '<p>Failed to load preview</p></div>';
+        });
+}
+</script>

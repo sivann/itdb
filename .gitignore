@@ -13,6 +13,8 @@
 .idea/
 *.swp
 *.swo
+server.log
+
 *~
 
 # OS generated files
@@ -25,13 +27,6 @@ ehthumbs.db
 Thumbs.db
 
 # Application
-/storage/logs/*.log
-/storage/cache/*
-!/storage/cache/.gitkeep
-/storage/uploads/*
-!/storage/uploads/.gitkeep
-/storage/database/*.db
-!/storage/database/.gitkeep
 
 # Testing
 /coverage/
@@ -41,9 +36,6 @@ Thumbs.db
 /build/
 /dist/
 
-# Composer
-composer.phar
-composer.lock
 
 # PHP CS Fixer
 .php-cs-fixer.cache
@@ -51,8 +43,8 @@ composer.lock
 # PHPStan
 .phpstan.cache
 
-# Legacy files (to be migrated)
-/src-legacy/
- *.swp
- *.log
- server.log
+*.swp
+*.log
+
+public/public/storage
+public/storage

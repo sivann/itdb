@@ -375,8 +375,15 @@
                                         <td>{{ file.uploaddate_formatted|default('N/A') }}</td>
                                         <td>
                                             <div class="btn-group btn-group-sm">
-                                                <a href="/files/{{ file.id }}" class="btn btn-outline-primary" title="View File">
+                                                <button type="button"
+                                                        class="btn btn-outline-primary"
+                                                        title="Preview File"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#previewModal{{ file.id }}">
                                                     <i class="bi bi-eye"></i>
+                                                </button>
+                                                <a href="/files/{{ file.id }}/edit" class="btn btn-outline-secondary" title="Edit File">
+                                                    <i class="bi bi-pencil"></i>
                                                 </a>
                                                 <a href="/files/{{ file.id }}/download" class="btn btn-outline-success" title="Download">
                                                     <i class="bi bi-download"></i>
@@ -606,6 +613,13 @@
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <!-- Toasts will be inserted here -->
 </div>
+
+<!-- File Preview Modals -->
+{% if software.files is defined %}
+    {% for file in software.files %}
+        {% include 'components/file_preview_modal.twig' with {'file': file} %}
+    {% endfor %}
+{% endif %}
 {% endblock %}
 
 {% block scripts %}
@@ -1128,5 +1142,9 @@ async function performAssociation(action, type, id, name) {
         showToast(`Error ${action}ing association. Please try again.`, 'error');
     }
 }
+
 </script>
+
+{# Include shared file preview functionality #}
+{% include 'components/file_preview_scripts.twig' %}
 {% endblock %}

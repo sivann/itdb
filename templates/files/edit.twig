@@ -188,6 +188,13 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
+                        <button type="button"
+                                class="btn btn-primary btn-sm"
+                                title="Preview File"
+                                data-bs-toggle="modal"
+                                data-bs-target="#previewModal{{ file.id }}">
+                            <i class="bi bi-eye me-1"></i>Preview File
+                        </button>
                         <a href="/files/{{ file.id }}/download" class="btn btn-success btn-sm">
                             <i class="bi bi-download me-1"></i>Download File
                         </a>
@@ -390,9 +397,18 @@
                                             {% endif %}
                                         </div>
                                         {% if file.file_exists %}
-                                        <a href="/files/{{ file.id }}/download" class="btn btn-sm btn-success">
-                                            <i class="bi bi-download me-1"></i>Download
-                                        </a>
+                                        <div class="btn-group btn-group-sm">
+                                            <button type="button"
+                                                    class="btn btn-sm btn-primary"
+                                                    title="Preview File"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#previewModal{{ file.id }}">
+                                                <i class="bi bi-eye me-1"></i>Preview
+                                            </button>
+                                            <a href="/files/{{ file.id }}/download" class="btn btn-sm btn-success">
+                                                <i class="bi bi-download me-1"></i>Download
+                                            </a>
+                                        </div>
                                         {% endif %}
                                     </div>
                                     <div class="form-text">
@@ -863,5 +879,13 @@ document.addEventListener('DOMContentLoaded', function() {
     {% endif %}
 });
 </script>
+{% endif %}
+
+{# File Preview Modal - only show in view/edit modes when file exists #}
+{% if mode != 'create' and file is defined %}
+    {% include 'components/file_preview_modal.twig' with {'file': file} %}
+
+    {# Include shared file preview functionality #}
+    {% include 'components/file_preview_scripts.twig' %}
 {% endif %}
 {% endblock %}

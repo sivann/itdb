@@ -614,4 +614,61 @@ class SoftwareController extends BaseController
             return $this->json($response, ['error' => 'Failed to create tag'], 500);
         }
     }
+
+    /**
+     * Search software (API endpoint)
+     */
+    public function search(Request $request, Response $response): Response
+    {
+        $queryParams = $this->getQueryParams($request);
+        $query = $queryParams['q'] ?? '';
+        $excludeItem = !empty($queryParams['exclude_item']) ? (int) $queryParams['exclude_item'] : null;
+
+        // Use SoftwareModel search (if it exists) or basic search
+        try {
+            $sql = "
+                SELECT s.id, s.stitle as name, s.sversion as version,
+                       a.title as manufacturer_name, lt.name as license_type
+                FROM software s
+                LEFT JOIN agents a ON s.manufacturerid = a.id
+                LEFT JOIN license_types lt ON s.slicensetype = lt.id
+            ";
+
+            $params = [];
+            $conditions = [];
+
+            if (!empty($query)) {
+                $conditions[] = "(s.stitle LIKE ? OR s.sversion LIKE ? OR a.title LIKE ?)";
+                $searchTerm = '%' . $query . '%';
+                $params = array_merge($params, [$searchTerm, $searchTerm, $searchTerm]);
+            }
+
+            // Exclude software already associated with this item
+            if ($excludeItem) {
+                $conditions[] = "s.id NOT IN (SELECT softid FROM item2soft WHERE itemid = ?)";
+                $params[] = $excludeItem;
+            }
+
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(' AND ', $conditions);
+            }
+
+            $sql .= " ORDER BY s.stitle ASC LIMIT 20";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            $software = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            return $this->json($response, [
+                'software' => $software
+            ]);
+
+        } catch (\Exception $e) {
+            $this->logger->error('Software search failed', [
+                'query' => $query,
+                'error' => $e->getMessage()
+            ]);
+            return $this->json($response, ['error' => 'Search failed'], 500);
+        }
+    }
 }

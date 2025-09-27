@@ -284,5 +284,17 @@ return function (ContainerBuilder $containerBuilder) {
                 $c->get(PDO::class)
             );
         },
+
+        \App\Controllers\ItemController::class => function (ContainerInterface $c) {
+            return new \App\Controllers\ItemController(
+                $c->get(LoggerInterface::class),
+                $c->get(Environment::class),
+                $c->get(AuthService::class),
+                $c->get(\App\Models\ItemModel::class),
+                $c->get(\App\Models\AgentModel::class),
+                $c->get(\App\Models\FileModel::class),
+                $c->get(PDO::class)
+            );
+        },
     ]);
 };

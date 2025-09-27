@@ -1,13 +1,13 @@
 {% extends "base.twig" %}
 
-{% block title %}Edit {{ item.display_title }}{% endblock %}
+{% block title %}Edit {{ item.function ?: item.label ?: item.model ?: 'Item #' ~ item.id }}{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="/items">Items</a></li>
-            <li class="breadcrumb-item"><a href="/items/{{ item.id }}/edit">{{ item.display_title }}</a></li>
+            <li class="breadcrumb-item"><a href="/items/{{ item.id }}/edit">{{ item.function ?: item.label ?: item.model ?: 'Item #' ~ item.id }}</a></li>
             <li class="breadcrumb-item active">Edit</li>
         </ol>
     </nav>
@@ -23,11 +23,62 @@
     <div class="col-lg-10">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-pencil me-2"></i>Edit Item: {{ item.display_title }}
+                <h5 class="card-title mb-3">
+                    <i class="bi bi-pencil me-2"></i>Edit Item: {{ item.function ?: item.label ?: item.model ?: 'Item #' ~ item.id }}
                 </h5>
+
+                <!-- Navigation Tabs -->
+                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'data' ? 'active' : '' }}"
+                                id="data-tab" data-bs-toggle="tab" data-bs-target="#data"
+                                type="button" role="tab" aria-controls="data" aria-selected="{{ current_tab == 'data' ? 'true' : 'false' }}">
+                            <i class="bi bi-info-circle me-1"></i>Item Data
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'software' ? 'active' : '' }}"
+                                id="software-tab" data-bs-toggle="tab" data-bs-target="#software"
+                                type="button" role="tab" aria-controls="software" aria-selected="{{ current_tab == 'software' ? 'true' : 'false' }}">
+                            <i class="bi bi-code-square me-1"></i>Software <span class="badge bg-secondary">{{ item.software.count | default(0) }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'invoices' ? 'active' : '' }}"
+                                id="invoices-tab" data-bs-toggle="tab" data-bs-target="#invoices"
+                                type="button" role="tab" aria-controls="invoices" aria-selected="{{ current_tab == 'invoices' ? 'true' : 'false' }}">
+                            <i class="bi bi-receipt me-1"></i>Invoices <span class="badge bg-secondary">{{ item.invoices.count | default(0) }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'contracts' ? 'active' : '' }}"
+                                id="contracts-tab" data-bs-toggle="tab" data-bs-target="#contracts"
+                                type="button" role="tab" aria-controls="contracts" aria-selected="{{ current_tab == 'contracts' ? 'true' : 'false' }}">
+                            <i class="bi bi-file-text me-1"></i>Contracts <span class="badge bg-secondary">{{ item.contracts.count | default(0) }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'files' ? 'active' : '' }}"
+                                id="files-tab" data-bs-toggle="tab" data-bs-target="#files"
+                                type="button" role="tab" aria-controls="files" aria-selected="{{ current_tab == 'files' ? 'true' : 'false' }}">
+                            <i class="bi bi-file-earmark me-1"></i>Files <span class="badge bg-secondary">{{ item.files.count | default(0) }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ current_tab == 'items' ? 'active' : '' }}"
+                                id="items-tab" data-bs-toggle="tab" data-bs-target="#items"
+                                type="button" role="tab" aria-controls="items" aria-selected="{{ current_tab == 'items' ? 'true' : 'false' }}">
+                            <i class="bi bi-laptop me-1"></i>Related Items <span class="badge bg-secondary">{{ item.related_items.count | default(0) }}</span>
+                        </button>
+                    </li>
+                </ul>
             </div>
-            <div class="card-body">
+
+            <div class="tab-content">
+                <!-- Item Data Tab -->
+                <div class="tab-pane fade {{ current_tab == 'data' ? 'show active' : '' }}"
+                     id="data" role="tabpanel" aria-labelledby="data-tab">
+                    <div class="card-body">
                 <form method="POST" action="/items/{{ item.id }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
@@ -169,17 +220,1036 @@
                         <textarea class="form-control" id="maintenanceinfo" name="maintenanceinfo" rows="3">{{ item.maintenanceinfo }}</textarea>
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                        <a href="/items/{{ item.id }}" class="btn btn-secondary">
-                            <i class="bi bi-x-lg me-1"></i>Cancel
-                        </a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-lg me-1"></i>Update Item
-                        </button>
+                        <div class="d-flex justify-content-between">
+                            <a href="/items/{{ item.id }}" class="btn btn-secondary">
+                                <i class="bi bi-x-lg me-1"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg me-1"></i>Update Item
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Tags Section -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-3">Tags</h6>
+                            <div class="d-flex flex-wrap gap-2 mb-2" id="currentTags">
+                                {% if item.tags is defined %}
+                                    {% for tag in item.tags %}
+                                    <span class="badge rounded-pill" style="background-color: {{ tag.color }}; color: #fff;" data-tag-id="{{ tag.id }}">
+                                        {{ tag.name }}
+                                        <button type="button" class="btn-close btn-close-white ms-1"
+                                                onclick="removeTag({{ tag.id }}, '{{ tag.name }}')"
+                                                style="font-size: 0.7em;" aria-label="Remove tag"></button>
+                                    </span>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTagModal">
+                                <i class="bi bi-plus me-1"></i>Add Tag
+                            </button>
+                        </div>
                     </div>
-                </form>
+                    </div>
+                </div>
+
+                <!-- Software Tab -->
+                <div class="tab-pane fade {{ current_tab == 'software' ? 'show active' : '' }}"
+                     id="software" role="tabpanel" aria-labelledby="software-tab">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Installed Software</h6>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addSoftwareModal">
+                                <i class="bi bi-plus-lg me-1"></i>Add Software
+                            </button>
+                        </div>
+
+                        <div id="currentSoftware">
+                            {% if item.software is defined and item.software|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Software</th>
+                                            <th>Version</th>
+                                            <th>License Type</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="softwareTableBody">
+                                        {% for software in item.software %}
+                                        <tr data-software-id="{{ software.id }}">
+                                            <td><a href="/software/{{ software.id }}" class="text-decoration-none">{{ software.id }}</a></td>
+                                            <td><a href="/software/{{ software.id }}" class="text-decoration-none">{{ software.name }}</a></td>
+                                            <td>{{ software.version | default('N/A') }}</td>
+                                            <td>{{ software.license_type | default('N/A') }}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/software/{{ software.id }}" class="btn btn-outline-primary" title="View Software">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                            onclick="removeAssociation('software', {{ software.id }}, '{{ software.name }}')"
+                                                            title="Remove Association">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div id="softwareEmptyState" class="text-center text-muted py-4" style="display: {{ (item.software | length) > 0 ? 'none' : 'block' }}">
+                            <i class="bi bi-code-square display-4 mb-3"></i>
+                            <p>No software installed on this item yet.</p>
+                            <p class="small">Link software that is installed on this item.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoices Tab -->
+                <div class="tab-pane fade {{ current_tab == 'invoices' ? 'show active' : '' }}"
+                     id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Related Invoices</h6>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addInvoiceModal">
+                                <i class="bi bi-plus-lg me-1"></i>Add Invoice
+                            </button>
+                        </div>
+
+                        <div id="currentInvoices">
+                            {% if item.invoices is defined and item.invoices|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice #</th>
+                                            <th>Vendor</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="invoicesTableBody">
+                                        {% for invoice in item.invoices %}
+                                        <tr data-invoice-id="{{ invoice.id }}">
+                                            <td><a href="/invoices/{{ invoice.id }}" class="text-decoration-none">#{{ invoice.id }}</a></td>
+                                            <td>{{ invoice.vendor_title | default('N/A') }}</td>
+                                            <td>{{ invoice.date_formatted | default('N/A') }}</td>
+                                            <td>${{ invoice.total_formatted | default('0.00') }}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/invoices/{{ invoice.id }}" class="btn btn-outline-primary" title="View Invoice">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                            onclick="removeAssociation('invoice', {{ invoice.id }}, 'Invoice #{{ invoice.id }}')"
+                                                            title="Remove Association">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div id="invoiceEmptyState" class="text-center text-muted py-4" style="display: {{ (item.invoices | length) > 0 ? 'none' : 'block' }}">
+                            <i class="bi bi-receipt display-4 mb-3"></i>
+                            <p>No invoices associated with this item yet.</p>
+                            <p class="small">Link invoices related to this item's purchase or maintenance.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contracts Tab -->
+                <div class="tab-pane fade {{ current_tab == 'contracts' ? 'show active' : '' }}"
+                     id="contracts" role="tabpanel" aria-labelledby="contracts-tab">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Related Contracts</h6>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addContractModal">
+                                <i class="bi bi-plus-lg me-1"></i>Add Contract
+                            </button>
+                        </div>
+
+                        <div id="currentContracts">
+                            {% if item.contracts is defined and item.contracts|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Contract #</th>
+                                            <th>Title</th>
+                                            <th>Contractor</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="contractsTableBody">
+                                        {% for contract in item.contracts %}
+                                        <tr data-contract-id="{{ contract.id }}">
+                                            <td><a href="/contracts/{{ contract.id }}" class="text-decoration-none">#{{ contract.id }}</a></td>
+                                            <td>{{ contract.title | default('N/A') }}</td>
+                                            <td>{{ contract.contractor_name | default('N/A') }}</td>
+                                            <td>{{ contract.startdate | default('N/A') }}</td>
+                                            <td>{{ contract.enddate | default('N/A') }}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/contracts/{{ contract.id }}" class="btn btn-outline-primary" title="View Contract">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                            onclick="removeAssociation('contract', {{ contract.id }}, 'Contract #{{ contract.id }}')"
+                                                            title="Remove Association">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div id="contractEmptyState" class="text-center text-muted py-4" style="display: {{ (item.contracts | length) > 0 ? 'none' : 'block' }}">
+                            <i class="bi bi-file-text display-4 mb-3"></i>
+                            <p>No contracts associated with this item yet.</p>
+                            <p class="small">Link contracts related to this item's maintenance or support.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Files Tab -->
+                <div class="tab-pane fade {{ current_tab == 'files' ? 'show active' : '' }}"
+                     id="files" role="tabpanel" aria-labelledby="files-tab">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Related Files</h6>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addFileModal">
+                                <i class="bi bi-plus-lg me-1"></i>Add File
+                            </button>
+                        </div>
+
+                        <div id="currentFiles">
+                            {% if item.files is defined and item.files|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>File Name</th>
+                                            <th>Title</th>
+                                            <th>Type</th>
+                                            <th>Size</th>
+                                            <th>Upload Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="filesTableBody">
+                                        {% for file in item.files %}
+                                        <tr data-file-id="{{ file.id }}">
+                                            <td>
+                                                <i class="bi bi-file-earmark me-2"></i>
+                                                {{ file.fname | default('N/A') }}
+                                            </td>
+                                            <td>{{ file.title | default('N/A') }}</td>
+                                            <td>{{ file.filetype_name | default('Unknown') }}</td>
+                                            <td>{{ file.file_size ? (file.file_size ~ ' bytes') : 'N/A' }}</td>
+                                            <td>{{ file.uploaddate_formatted | default('N/A') }}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/files/{{ file.id }}/download" class="btn btn-outline-success" title="Download">
+                                                        <i class="bi bi-download"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                            onclick="removeAssociation('file', {{ file.id }}, '{{ file.fname | default('File #' ~ file.id) }}')"
+                                                            title="Remove Association">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div id="fileEmptyState" class="text-center text-muted py-4" style="display: {{ (item.files | length) > 0 ? 'none' : 'block' }}">
+                            <i class="bi bi-file-earmark display-4 mb-3"></i>
+                            <p>No files associated with this item yet.</p>
+                            <p class="small">Link files related to this item's documentation or manuals.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Items Tab -->
+                <div class="tab-pane fade {{ current_tab == 'items' ? 'show active' : '' }}"
+                     id="items" role="tabpanel" aria-labelledby="items-tab">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Related Items</h6>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">
+                                <i class="bi bi-plus-lg me-1"></i>Add Related Item
+                            </button>
+                        </div>
+
+                        <div id="currentItems">
+                            {% if item.related_items is defined and item.related_items|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Item ID</th>
+                                            <th>Description</th>
+                                            <th>Type</th>
+                                            <th>Location</th>
+                                            <th>User</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="itemsTableBody">
+                                        {% for related_item in item.related_items %}
+                                        <tr data-item-id="{{ related_item.id }}">
+                                            <td><a href="/items/{{ related_item.id }}" class="text-decoration-none">#{{ related_item.id }}</a></td>
+                                            <td>{{ related_item.label | default(related_item.function) | default('N/A') }}</td>
+                                            <td>{{ related_item.type_name | default('N/A') }}</td>
+                                            <td>{{ related_item.location_name | default('N/A') }}</td>
+                                            <td>{{ related_item.username | default('Unassigned') }}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/items/{{ related_item.id }}" class="btn btn-outline-primary" title="View Item">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                            onclick="removeAssociation('item', {{ related_item.id }}, '{{ related_item.label | default('#' ~ related_item.id) }}')"
+                                                            title="Remove Association">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div id="itemEmptyState" class="text-center text-muted py-4" style="display: {{ (item.related_items | length) > 0 ? 'none' : 'block' }}">
+                            <i class="bi bi-laptop display-4 mb-3"></i>
+                            <p>No related items linked yet.</p>
+                            <p class="small">Link related items like components, peripherals, or accessories.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Add Tag Modal -->
+<div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTagModalLabel">Add Tag</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="newTagName" class="form-label">Create New Tag</label>
+                    <div class="row g-2">
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="newTagName" placeholder="Enter new tag name...">
+                        </div>
+                        <div class="col-2">
+                            <input type="color" class="form-control form-control-color" id="newTagColor" value="#007bff" title="Choose tag color">
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-primary" onclick="createNewTag()">Add</button>
+                        </div>
+                    </div>
+                    <div class="form-text">Create a new tag and immediately add it to this item.</div>
+                </div>
+
+                <hr class="my-3">
+
+                <div class="mb-3">
+                    <label for="availableTags" class="form-label">Or Select Existing Tags</label>
+                    <div class="d-flex flex-wrap gap-2" id="availableTags">
+                        {% if all_tags is defined %}
+                            {% for tag in all_tags %}
+                                {% set is_associated = false %}
+                                {% if item.tags is defined %}
+                                    {% for item_tag in item.tags %}
+                                        {% if item_tag.id == tag.id %}
+                                            {% set is_associated = true %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                                {% if not is_associated %}
+                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        style="border-color: {{ tag.color }}; color: {{ tag.color }};"
+                                        onclick="addTag({{ tag.id }}, '{{ tag.name }}', '{{ tag.color }}')">
+                                    {{ tag.name }}
+                                </button>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Tag Modal -->
+<div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTagModalLabel">Add Tag</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h6>Create New Tag</h6>
+                    <div class="row">
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="newTagName" placeholder="Tag name">
+                        </div>
+                        <div class="col-4">
+                            <input type="color" class="form-control form-control-color" id="newTagColor" value="#007bff">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm mt-2" onclick="createNewTag()">
+                        <i class="bi bi-plus me-1"></i>Create & Add
+                    </button>
+                </div>
+
+                <hr>
+
+                <div>
+                    <h6>Select Existing Tag</h6>
+                    <div class="d-flex flex-wrap gap-2" id="availableTags">
+                        {% if all_tags is defined %}
+                            {% for tag in all_tags %}
+                                {% set is_associated = false %}
+                                {% if item.tags is defined %}
+                                    {% for item_tag in item.tags %}
+                                        {% if item_tag.id == tag.id %}
+                                            {% set is_associated = true %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                                {% if not is_associated %}
+                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        style="border-color: {{ tag.color }}; color: {{ tag.color }};"
+                                        onclick="addTag({{ tag.id }}, '{{ tag.name }}', '{{ tag.color }}')">
+                                    {{ tag.name }}
+                                </button>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Software Modal -->
+<div class="modal fade" id="addSoftwareModal" tabindex="-1" aria-labelledby="addSoftwareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSoftwareModalLabel">Add Software Association</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="softwareSearch" placeholder="Search software...">
+                </div>
+                <div id="softwareSearchResults" class="list-group"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Invoice Modal -->
+<div class="modal fade" id="addInvoiceModal" tabindex="-1" aria-labelledby="addInvoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addInvoiceModalLabel">Add Invoice Association</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="invoiceSearch" placeholder="Search invoices...">
+                </div>
+                <div id="invoiceSearchResults" class="list-group"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Contract Modal -->
+<div class="modal fade" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addContractModalLabel">Add Contract Association</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="contractSearch" placeholder="Search contracts...">
+                </div>
+                <div id="contractSearchResults" class="list-group"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add File Modal -->
+<div class="modal fade" id="addFileModal" tabindex="-1" aria-labelledby="addFileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addFileModalLabel">Add File Association</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="fileSearch" placeholder="Search files...">
+                </div>
+                <div id="fileSearchResults" class="list-group"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Item Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addItemModalLabel">Add Related Item Association</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="itemSearch" placeholder="Search items...">
+                </div>
+                <div id="itemSearchResults" class="list-group"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Association management functions - similar to software edit
+const currentEntityType = 'item';
+const currentEntityId = {{ item.id }};
+
+// Handle tab switching with URL updates
+const tabs = document.querySelectorAll('button[data-bs-toggle="tab"]');
+tabs.forEach(tab => {
+    tab.addEventListener('shown.bs.tab', function (e) {
+        const tabId = e.target.getAttribute('aria-controls');
+        const url = new URL(window.location);
+        url.searchParams.set('tab', tabId);
+        window.history.replaceState({}, '', url);
+    });
+});
+
+// Shared UI update functions for associations
+function updateAssociationUI(action, type, item, serverData = null) {
+    if (action === 'add') {
+        addAssociationToUI(type, item, serverData);
+    } else if (action === 'remove') {
+        removeAssociationFromUI(type, item.id);
+    }
+}
+
+function addAssociationToUI(type, item, serverData = null) {
+    const containerId = getAssociationContainerId(type);
+    const container = document.getElementById(containerId);
+
+    if (!container) return;
+
+    if (['software', 'invoice', 'contract', 'file', 'item'].includes(type)) {
+        // For table-based associations, use specific table functions
+        addToTable(type, item, serverData);
+    } else {
+        const element = createAssociationElement(type, item, serverData);
+        container.appendChild(element);
+    }
+
+    // Update empty state
+    updateEmptyState(type);
+
+    // Refresh available items in modal
+    refreshAvailableItems(type, item.id);
+}
+
+function removeAssociationFromUI(type, itemId) {
+    const element = document.querySelector(`[data-${type}-id="${itemId}"]`);
+    if (element) {
+        element.remove();
+
+        // Update empty state
+        updateEmptyState(type);
+
+        // Refresh available items in modal
+        refreshAvailableItems(type, itemId, true);
+    }
+}
+
+function getAssociationContainerId(type) {
+    const containerMap = {
+        'tag': 'currentTags',
+        'software': 'currentSoftware',
+        'invoice': 'currentInvoices',
+        'contract': 'currentContracts',
+        'file': 'currentFiles',
+        'item': 'currentItems'
+    };
+    return containerMap[type];
+}
+
+function updateEmptyState(type) {
+    const containerId = getAssociationContainerId(type);
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    let hasItems = false;
+
+    if (['software', 'invoice', 'contract', 'file', 'item'].includes(type)) {
+        // For table-based associations, check if the table body has rows
+        const tbody = document.getElementById(`${type}TableBody`);
+        hasItems = tbody && tbody.children.length > 0;
+    } else if (type === 'tag') {
+        hasItems = container.children.length > 0;
+    }
+
+    const emptyStateId = `${type}EmptyState`;
+    const emptyState = document.getElementById(emptyStateId);
+
+    if (emptyState) {
+        emptyState.style.display = hasItems ? 'none' : 'block';
+    }
+
+    // For table-based associations, also hide/show the table container
+    if (['software', 'invoice', 'contract', 'file', 'item'].includes(type)) {
+        const tableContainer = container.querySelector('.table-responsive');
+        if (tableContainer) {
+            tableContainer.style.display = hasItems ? 'block' : 'none';
+        }
+    }
+}
+
+function createTagElement(item, serverData = null) {
+    const element = document.createElement('span');
+    element.className = 'badge rounded-pill me-1 mb-1';
+    element.style.backgroundColor = item.color || '#007bff';
+    element.style.color = '#fff';
+    element.setAttribute('data-tag-id', item.id);
+    element.innerHTML = `
+        ${item.name}
+        <button type="button" class="btn-close btn-close-white ms-1"
+                onclick="removeTag(${item.id}, '${item.name}')"
+                style="font-size: 0.7em;" aria-label="Remove tag"></button>
+    `;
+    return element;
+}
+
+// Tag management functions
+async function addTag(tagId, tagName, tagColor) {
+    try {
+        const result = await performAssociation('add', 'tag', tagId, tagName, { color: tagColor });
+        if (result) {
+            // Association was successful, UI already updated in performAssociation
+        }
+    } catch (error) {
+        console.error('Error adding tag:', error);
+        showToast('Error adding tag. Please try again.', 'error');
+    }
+}
+
+async function removeTag(tagId, tagName) {
+    if (confirm(`Are you sure you want to remove the tag "${tagName}"?`)) {
+        try {
+            await performAssociation('remove', 'tag', tagId, tagName);
+        } catch (error) {
+            console.error('Error removing tag:', error);
+            showToast('Error removing tag. Please try again.', 'error');
+        }
+    }
+}
+
+async function createNewTag() {
+    const nameInput = document.getElementById('newTagName');
+    const colorInput = document.getElementById('newTagColor');
+    const tagName = nameInput.value.trim();
+    const tagColor = colorInput.value;
+
+    if (!tagName) {
+        showToast('Please enter a tag name', 'error');
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('action', 'create_and_add_tag');
+        formData.append('name', tagName);
+        formData.append('color', tagColor);
+        formData.append('csrf_token', '{{ csrf_token }}');
+
+        const response = await fetch(`/items/${currentEntityId}/associations`, {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            showToast(`Successfully created and added tag "${tagName}"`, 'success');
+
+            // Clear the form
+            nameInput.value = '';
+            colorInput.value = '#007bff';
+
+            // Update UI dynamically
+            updateAssociationUI('add', 'tag', {
+                id: result.tagId,
+                name: tagName,
+                color: tagColor
+            }, result.data);
+            closeAssociationModal('tag');
+        } else {
+            const errorMessage = result.error || 'Failed to create tag';
+            showToast(errorMessage, 'error');
+        }
+    } catch (error) {
+        console.error('Error creating tag:', error);
+        showToast('Error creating tag. Please try again.', 'error');
+    }
+}
+
+async function performAssociation(action, type, id, name, extraData = {}) {
+    try {
+        const method = action === 'add' ? 'POST' : 'DELETE';
+        const response = await fetch(`/items/${currentEntityId}/associations`, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                type: type,
+                id: id,
+                action: action
+            })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            const message = action === 'add'
+                ? `Successfully added association with ${name}`
+                : `Successfully removed association with ${name}`;
+
+            showToast(message, 'success');
+
+            // Update UI dynamically based on association type
+            if (action === 'add') {
+                const itemData = { id: id, name: name, ...extraData };
+                updateAssociationUI('add', type, itemData, result.data);
+                closeAssociationModal(type);
+            } else {
+                updateAssociationUI('remove', type, { id: id, name: name });
+            }
+
+            return result;
+        } else {
+            const errorMessage = result.error || `Failed to ${action} association`;
+            showToast(errorMessage, 'error');
+        }
+    } catch (error) {
+        console.error(`Error ${action}ing association:`, error);
+        showToast(`Error ${action}ing association. Please try again.`, 'error');
+    }
+}
+
+function closeAssociationModal(type) {
+    const modalId = `add${type.charAt(0).toUpperCase() + type.slice(1)}Modal`;
+    const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
+    if (modal) modal.hide();
+}
+
+function showToast(message, type = 'info') {
+    // Simple toast implementation
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
+}
+
+function addToTable(type, item, serverData = null) {
+    if (type === 'software') {
+        addSoftwareToTable(item, serverData);
+    } else if (type === 'invoice') {
+        addInvoiceToTable(item, serverData);
+    } else if (type === 'contract') {
+        addContractToTable(item, serverData);
+    } else if (type === 'file') {
+        addFileToTable(item, serverData);
+    } else if (type === 'item') {
+        addItemToTable(item, serverData);
+    }
+}
+
+function addSoftwareToTable(item, serverData = null) {
+    const currentSoftware = document.getElementById('currentSoftware');
+    const emptyState = document.getElementById('softwareEmptyState');
+    const tableContainer = currentSoftware.querySelector('.table-responsive');
+
+    if (!tableContainer) {
+        // Create the table structure if it doesn't exist
+        const tableHTML = `
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Software</th>
+                            <th>Version</th>
+                            <th>License Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="softwareTableBody">
+                    </tbody>
+                </table>
+            </div>
+        `;
+        currentSoftware.innerHTML = tableHTML;
+    }
+
+    const tbody = document.getElementById('softwareTableBody');
+    const row = document.createElement('tr');
+    row.setAttribute('data-software-id', item.id);
+
+    // Use server data if available, otherwise use the basic item data
+    const softwareData = serverData || item;
+
+    row.innerHTML = `
+        <td><a href="/software/${item.id}" class="text-decoration-none">${item.id}</a></td>
+        <td><a href="/software/${item.id}" class="text-decoration-none">${softwareData.name || 'N/A'}</a></td>
+        <td>${softwareData.version || 'N/A'}</td>
+        <td>${softwareData.license_type || 'N/A'}</td>
+        <td>
+            <div class="btn-group btn-group-sm">
+                <a href="/software/${item.id}" class="btn btn-outline-primary" title="View Software">
+                    <i class="bi bi-eye"></i>
+                </a>
+                <button type="button" class="btn btn-outline-danger"
+                        onclick="removeAssociation('software', ${item.id}, '${softwareData.name || 'Software #' + item.id}')"
+                        title="Remove Association">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    // Hide empty state
+    if (emptyState) {
+        emptyState.style.display = 'none';
+    }
+}
+
+function createAssociationElement(type, item, serverData = null) {
+    const element = document.createElement('div');
+    element.setAttribute(`data-${type}-id`, item.id);
+
+    switch (type) {
+        case 'tag':
+            element.className = 'badge rounded-pill me-1 mb-1';
+            element.style.backgroundColor = item.color || '#007bff';
+            element.style.color = '#fff';
+            element.innerHTML = `
+                ${item.name}
+                <button type="button" class="btn-close btn-close-white ms-1"
+                        onclick="removeTag(${item.id}, '${item.name}')"
+                        style="font-size: 0.7em;" aria-label="Remove tag"></button>
+            `;
+            break;
+
+        default:
+            console.log(`Creating ${type} element:`, item);
+    }
+
+    return element;
+}
+
+function closeAssociationModal(type) {
+    const modalId = `add${type.charAt(0).toUpperCase() + type.slice(1)}Modal`;
+    const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
+    if (modal) modal.hide();
+}
+
+function refreshAvailableItems(type, itemId, wasRemoved = false) {
+    // TODO: Implement refresh logic for modals
+}
+
+// Software search functionality
+let searchTimeout;
+const softwareSearch = document.getElementById('softwareSearch');
+const softwareSearchResults = document.getElementById('softwareSearchResults');
+
+if (softwareSearch) {
+    softwareSearch.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        const query = this.value.trim();
+        searchTimeout = setTimeout(() => {
+            searchSoftware(query);
+        }, 300);
+    });
+}
+
+// Load recent software when modal opens
+const addSoftwareModal = document.getElementById('addSoftwareModal');
+if (addSoftwareModal) {
+    addSoftwareModal.addEventListener('shown.bs.modal', function() {
+        if (softwareSearchResults.children.length === 0) {
+            searchSoftware('');
+        }
+    });
+}
+
+async function searchSoftware(query) {
+    if (!softwareSearchResults) return;
+
+    softwareSearchResults.innerHTML = '<div class="text-center py-3"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+    try {
+        const url = query.length >= 2
+            ? `/software/search?q=${encodeURIComponent(query)}&exclude_item=${currentEntityId}`
+            : `/software/search?exclude_item=${currentEntityId}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        softwareSearchResults.innerHTML = '';
+
+        if (data.software && data.software.length > 0) {
+            data.software.forEach(software => {
+                const softwareElement = document.createElement('button');
+                softwareElement.type = 'button';
+                softwareElement.className = 'list-group-item list-group-item-action';
+                softwareElement.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">ID: ${software.id} - ${software.name || 'No Name'}</h6>
+                        <small class="badge bg-secondary">${software.version || 'No Version'}</small>
+                    </div>
+                    <p class="mb-1">${software.manufacturer_name || 'No Manufacturer'}</p>
+                    <small class="text-muted">${software.license_type || 'No License Type'}</small>
+                `;
+                softwareElement.onclick = () => {
+                    addAssociation('software', software.id, software.name || `Software ID: ${software.id}`);
+                };
+                softwareSearchResults.appendChild(softwareElement);
+            });
+        } else {
+            const message = query.length >= 2
+                ? 'No software found matching your search.'
+                : 'No software available for association.';
+            softwareSearchResults.innerHTML = `<div class="list-group-item text-muted text-center">${message}</div>`;
+        }
+    } catch (error) {
+        console.error('Error searching software:', error);
+        softwareSearchResults.innerHTML = '<div class="list-group-item text-danger text-center">Error loading software. Please try again.</div>';
+    }
+}
+
+function showConfirmModal(message, onConfirm) {
+    // Create a confirmation modal
+    const modalId = 'confirm-modal-' + Date.now();
+    const modalHtml = `
+        <div class="modal fade" id="${modalId}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Action</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        ${message}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="${modalId}-confirm">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Add modal to body
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    const modalElement = document.getElementById(modalId);
+    const modal = new bootstrap.Modal(modalElement);
+    const confirmButton = document.getElementById(`${modalId}-confirm`);
+
+    confirmButton.addEventListener('click', () => {
+        modal.hide();
+        onConfirm();
+    });
+
+    // Remove modal from DOM when hidden
+    modalElement.addEventListener('hidden.bs.modal', () => {
+        modalElement.remove();
+    });
+
+    modal.show();
+}
+
+async function addAssociation(type, id, name) {
+    showConfirmModal(`Add association with ${name}?`, async () => {
+        await performAssociation('add', type, id, name);
+    });
+}
+
+async function removeAssociation(type, id, name) {
+    showConfirmModal(`Remove association with ${name}?`, async () => {
+        await performAssociation('remove', type, id, name);
+    });
+}
+</script>
 {% endblock %}

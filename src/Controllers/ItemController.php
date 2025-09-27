@@ -5,26 +5,38 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\ItemModel;
+use App\Models\AgentModel;
+use App\Models\FileModel;
 use App\Services\AuthService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
+use PDO;
 
 class ItemController extends BaseController
 {
     private AuthService $authService;
     private ItemModel $itemModel;
+    private AgentModel $agentModel;
+    private FileModel $fileModel;
+    private PDO $pdo;
 
     public function __construct(
         LoggerInterface $logger,
         Environment $twig,
         AuthService $authService,
-        ItemModel $itemModel
+        ItemModel $itemModel,
+        AgentModel $agentModel,
+        FileModel $fileModel,
+        PDO $pdo
     ) {
         parent::__construct($logger, $twig);
         $this->authService = $authService;
         $this->itemModel = $itemModel;
+        $this->agentModel = $agentModel;
+        $this->fileModel = $fileModel;
+        $this->pdo = $pdo;
     }
 
     /**
@@ -213,6 +225,8 @@ class ItemController extends BaseController
     {
         $id = (int) $args['id'];
         $user = $this->authService->getCurrentUser();
+        $queryParams = $this->getQueryParams($request);
+        $tab = $queryParams['tab'] ?? 'data';
 
         $item = $this->itemModel->findWithRelations($id);
         if (!$item) {
@@ -228,11 +242,20 @@ class ItemController extends BaseController
         // Get form options from ItemModel
         $formOptions = $this->itemModel->getFilterOptions();
 
+        // Get file types for associations
+        $fileTypes = $this->fileModel->getFileTypes();
+
+        // Get all tags for associations
+        $allTags = $this->itemModel->getAllTags();
+
         return $this->render($response, 'items/edit.twig', [
             'item' => $item,
             'form_options' => $formOptions,
+            'file_types' => $fileTypes,
+            'all_tags' => $allTags,
             'user' => $user,
             'csrf_token' => $this->generateCsrfToken(),
+            'current_tab' => $tab,
         ]);
     }
 
@@ -455,5 +478,259 @@ class ItemController extends BaseController
     {
         // Only admins can delete items
         return $user && $user->isAdmin();
+    }
+
+    /**
+     * Manage item associations (add/remove)
+     */
+    public function manageAssociations(Request $request, Response $response, array $args): Response
+    {
+        $id = (int) $args['id'];
+        $user = $this->authService->getCurrentUser();
+
+        $item = $this->itemModel->find($id);
+        if (!$item) {
+            return $this->json($response, ['error' => 'Item not found'], 404);
+        }
+
+        if (!$this->canUserEditItem($user, $item)) {
+            return $this->json($response, ['error' => 'Permission denied'], 403);
+        }
+
+        $data = $this->getParsedBody($request);
+        $type = $data['type'] ?? '';
+        $itemId = (int) ($data['id'] ?? 0);
+        $action = $data['action'] ?? '';
+
+        // Handle create_and_add_tag action separately
+        if ($action === 'create_and_add_tag') {
+            return $this->createAndAddTag($request, $response, $id, $data);
+        }
+
+        if (!in_array($type, ['software', 'invoice', 'contract', 'file', 'tag', 'item']) || !$itemId || !in_array($action, ['add', 'remove'])) {
+            return $this->json($response, ['error' => 'Invalid parameters'], 400);
+        }
+
+        try {
+            $success = false;
+            $responseData = ['success' => false];
+
+            switch ($type) {
+                case 'software':
+                    if ($action === 'add') {
+                        $success = $this->itemModel->associateSoftware($id, $itemId);
+                    } else {
+                        $success = $this->itemModel->dissociateSoftware($id, $itemId);
+                    }
+                    break;
+
+                case 'invoice':
+                    if ($action === 'add') {
+                        $success = $this->itemModel->associateInvoice($id, $itemId);
+                    } else {
+                        $success = $this->itemModel->dissociateInvoice($id, $itemId);
+                    }
+                    break;
+
+                case 'contract':
+                    if ($action === 'add') {
+                        $success = $this->itemModel->associateContract($id, $itemId);
+                    } else {
+                        $success = $this->itemModel->dissociateContract($id, $itemId);
+                    }
+                    break;
+
+                case 'file':
+                    if ($action === 'add') {
+                        $success = $this->itemModel->associateFile($id, $itemId);
+                    } else {
+                        $success = $this->itemModel->dissociateFile($id, $itemId);
+                    }
+                    break;
+
+                case 'tag':
+                    if ($action === 'add') {
+                        $success = $this->itemModel->associateTag($id, $itemId);
+                    } else {
+                        $success = $this->itemModel->dissociateTag($id, $itemId);
+                    }
+                    break;
+
+                case 'item':
+                    if ($action === 'add') {
+                        $success = $this->itemModel->associateItem($id, $itemId);
+                    } else {
+                        $success = $this->itemModel->dissociateItem($id, $itemId);
+                    }
+                    break;
+            }
+
+            $responseData['success'] = $success;
+
+            if ($success && $action === 'add') {
+                // Get the newly added item data for UI update
+                switch ($type) {
+                    case 'software':
+                        $sql = "SELECT s.id, s.stitle as name, s.sversion as version,
+                                       a.title as manufacturer_name
+                                FROM software s
+                                LEFT JOIN agents a ON s.manufacturerid = a.id
+                                WHERE s.id = ?";
+                        break;
+
+                    case 'item':
+                        $sql = "SELECT i.id, i.function, i.model, i.sn, i.label,
+                                       it.name as itemtype_name,
+                                       l.name as location_name,
+                                       u.name as username
+                                FROM items i
+                                LEFT JOIN itemtypes it ON i.itemtypeid = it.id
+                                LEFT JOIN locations l ON i.locationid = l.id
+                                LEFT JOIN users u ON i.userid = u.id
+                                WHERE i.id = ?";
+                        break;
+
+                    case 'invoice':
+                        $sql = "SELECT i.id, i.date, i.totalcost, i.comments,
+                                       a.title as vendor_title
+                                FROM invoices i
+                                LEFT JOIN agents a ON i.vendorid = a.id
+                                WHERE i.id = ?";
+                        break;
+
+                    case 'contract':
+                        $sql = "SELECT c.id, c.title, c.startdate, c.currentenddate as enddate,
+                                       a.title as contractor_name
+                                FROM contracts c
+                                LEFT JOIN agents a ON c.contractorid = a.id
+                                WHERE c.id = ?";
+                        break;
+
+                    case 'file':
+                        $sql = "SELECT f.id, f.fname, f.title, f.filesize as file_size,
+                                       f.uploaddate, ft.name as filetype_name
+                                FROM files f
+                                LEFT JOIN filetypes ft ON f.ftype = ft.id
+                                WHERE f.id = ?";
+                        break;
+
+                    default:
+                        $sql = null;
+                }
+
+                if ($sql) {
+                    $stmt = $this->pdo->prepare($sql);
+                    $stmt->execute([$itemId]);
+                    $itemData = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+                    if ($itemData) {
+                        // Format data based on type
+                        if ($type === 'invoice') {
+                            $itemData['date_formatted'] = $itemData['date'] ? date('Y-m-d', $itemData['date']) : 'N/A';
+                            $itemData['total_formatted'] = number_format($itemData['totalcost'] ?? 0, 2);
+                        } elseif ($type === 'contract') {
+                            $itemData['startdate'] = $itemData['startdate'] ? date('Y-m-d', $itemData['startdate']) : 'N/A';
+                            $itemData['enddate'] = $itemData['enddate'] ? date('Y-m-d', $itemData['enddate']) : 'N/A';
+                        } elseif ($type === 'file') {
+                            $itemData['uploaddate_formatted'] = $itemData['uploaddate'] ? date('Y-m-d', $itemData['uploaddate']) : 'N/A';
+                        }
+
+                        $responseData['data'] = $itemData;
+                    }
+                }
+            }
+
+            return $this->json($response, $responseData);
+
+        } catch (\Exception $e) {
+            $this->logger->error('Failed to manage item association', [
+                'item_id' => $id,
+                'type' => $type,
+                'target_id' => $itemId,
+                'action' => $action,
+                'error' => $e->getMessage()
+            ]);
+            return $this->json($response, ['error' => 'Failed to update association'], 500);
+        }
+    }
+
+    /**
+     * Create a new tag and add it to item
+     */
+    private function createAndAddTag(Request $request, Response $response, int $itemId, array $data): Response
+    {
+        $user = $this->authService->getCurrentUser();
+
+        if (!$this->validateCsrfToken($request)) {
+            return $this->json($response, ['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $tagName = trim($data['name'] ?? '');
+        $tagColor = $data['color'] ?? '#007bff';
+
+        if (empty($tagName)) {
+            return $this->json($response, ['error' => 'Tag name is required'], 400);
+        }
+
+        try {
+            // Check if tag already exists (case-insensitive)
+            $sql = "SELECT id FROM tags WHERE LOWER(name) = LOWER(?) LIMIT 1";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$tagName]);
+            $existingTag = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if ($existingTag) {
+                // Tag exists, just associate it
+                $tagId = $existingTag['id'];
+                $success = $this->itemModel->associateTag($itemId, $tagId);
+
+                if ($success) {
+                    // Get the tag data for response
+                    $sql = "SELECT id, name, color FROM tags WHERE id = ?";
+                    $stmt = $this->pdo->prepare($sql);
+                    $stmt->execute([$tagId]);
+                    $tagData = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+                    return $this->json($response, [
+                        'success' => true,
+                        'data' => $tagData,
+                        'message' => 'Existing tag added successfully'
+                    ]);
+                }
+
+                return $this->json($response, ['error' => 'Tag already associated with this item'], 400);
+            }
+
+            // Create new tag
+            $sql = "INSERT INTO tags (name, color) VALUES (?, ?)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$tagName, $tagColor]);
+            $tagId = $this->pdo->lastInsertId();
+
+            // Associate the new tag with the item
+            $success = $this->itemModel->associateTag($itemId, $tagId);
+
+            if ($success) {
+                return $this->json($response, [
+                    'success' => true,
+                    'data' => [
+                        'id' => $tagId,
+                        'name' => $tagName,
+                        'color' => $tagColor
+                    ],
+                    'message' => 'New tag created and added successfully'
+                ]);
+            }
+
+            return $this->json($response, ['error' => 'Failed to associate tag with item'], 500);
+
+        } catch (\Exception $e) {
+            $this->logger->error('Failed to create and add tag to item', [
+                'item_id' => $itemId,
+                'tag_name' => $tagName,
+                'error' => $e->getMessage()
+            ]);
+            return $this->json($response, ['error' => 'Failed to create tag'], 500);
+        }
     }
 }

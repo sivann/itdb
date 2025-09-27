@@ -151,7 +151,21 @@ class ItemModel
         ";
 
         $result = $this->db->fetchAll($sql, [$id]);
-        return $result ? $result[0] : null;
+        if (!$result) {
+            return null;
+        }
+
+        $item = $result[0];
+
+        // Load all associations
+        $item['tags'] = $this->getAssociatedTags($id);
+        $item['software'] = $this->getAssociatedSoftware($id);
+        $item['invoices'] = $this->getAssociatedInvoices($id);
+        $item['contracts'] = $this->getAssociatedContracts($id);
+        $item['files'] = $this->getAssociatedFiles($id);
+        $item['related_items'] = $this->getRelatedItems($id);
+
+        return $item;
     }
 
     /**
@@ -387,5 +401,317 @@ class ItemModel
     public function getCount(): int
     {
         return (int) $this->db->fetchColumn("SELECT COUNT(*) FROM items");
+    }
+
+    // ================================
+    // ASSOCIATION METHODS
+    // ================================
+
+    /**
+     * Get all tags associated with an item
+     */
+    public function getAssociatedTags(int $itemId): array
+    {
+        $sql = "
+            SELECT t.id, t.name, t.color
+            FROM tag2item t2i
+            INNER JOIN tags t ON t2i.tagid = t.id
+            WHERE t2i.itemid = ?
+            ORDER BY t.name ASC
+        ";
+        return $this->db->fetchAll($sql, [$itemId]);
+    }
+
+    /**
+     * Get all available tags
+     */
+    public function getAllTags(): array
+    {
+        $sql = "SELECT id, name, color FROM tags ORDER BY name ASC";
+        return $this->db->fetchAll($sql);
+    }
+
+    /**
+     * Associate a tag with an item
+     */
+    public function associateTag(int $itemId, int $tagId): bool
+    {
+        try {
+            $sql = "INSERT OR IGNORE INTO tag2item (itemid, tagid) VALUES (?, ?)";
+            $stmt = $this->db->execute($sql, [$itemId, $tagId]);
+            return $stmt->rowCount() > 0;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Remove tag association from an item
+     */
+    public function dissociateTag(int $itemId, int $tagId): bool
+    {
+        $sql = "DELETE FROM tag2item WHERE itemid = ? AND tagid = ?";
+        $stmt = $this->db->execute($sql, [$itemId, $tagId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Get all software associated with an item
+     */
+    public function getAssociatedSoftware(int $itemId): array
+    {
+        $sql = "
+            SELECT s.id, s.stitle as name, s.sversion as version, lt.name as license_type
+            FROM item2soft i2s
+            INNER JOIN software s ON i2s.softid = s.id
+            LEFT JOIN license_types lt ON s.slicensetype = lt.id
+            WHERE i2s.itemid = ?
+            ORDER BY s.stitle ASC
+        ";
+        return $this->db->fetchAll($sql, [$itemId]);
+    }
+
+    /**
+     * Associate software with an item
+     */
+    public function associateSoftware(int $itemId, int $softwareId): bool
+    {
+        try {
+            $sql = "INSERT OR IGNORE INTO item2soft (itemid, softid) VALUES (?, ?)";
+            $stmt = $this->db->execute($sql, [$itemId, $softwareId]);
+            return $stmt->rowCount() > 0;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Remove software association from an item
+     */
+    public function dissociateSoftware(int $itemId, int $softwareId): bool
+    {
+        $sql = "DELETE FROM item2soft WHERE itemid = ? AND softid = ?";
+        $stmt = $this->db->execute($sql, [$itemId, $softwareId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Get all invoices associated with an item
+     */
+    public function getAssociatedInvoices(int $itemId): array
+    {
+        $sql = "
+            SELECT i.id, i.date, i.totalcost, i.comments,
+                   a.title as vendor_title
+            FROM item2inv i2i
+            INNER JOIN invoices i ON i2i.invid = i.id
+            LEFT JOIN agents a ON i.vendorid = a.id
+            WHERE i2i.itemid = ?
+            ORDER BY i.date DESC
+        ";
+        $invoices = $this->db->fetchAll($sql, [$itemId]);
+
+        // Format data
+        foreach ($invoices as &$invoice) {
+            $invoice['date_formatted'] = $invoice['date'] ? date('Y-m-d', $invoice['date']) : 'N/A';
+            $invoice['total_formatted'] = number_format($invoice['totalcost'] ?? 0, 2);
+        }
+
+        return $invoices;
+    }
+
+    /**
+     * Associate invoice with an item
+     */
+    public function associateInvoice(int $itemId, int $invoiceId): bool
+    {
+        try {
+            $sql = "INSERT OR IGNORE INTO item2inv (itemid, invid) VALUES (?, ?)";
+            $this->db->execute($sql, [$itemId, $invoiceId]);
+            return $this->db->rowCount() > 0;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Remove invoice association from an item
+     */
+    public function dissociateInvoice(int $itemId, int $invoiceId): bool
+    {
+        $sql = "DELETE FROM item2inv WHERE itemid = ? AND invid = ?";
+        $stmt = $this->db->execute($sql, [$itemId, $invoiceId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Get all contracts associated with an item
+     */
+    public function getAssociatedContracts(int $itemId): array
+    {
+        $sql = "
+            SELECT c.id, c.title, c.startdate, c.currentenddate as enddate,
+                   a.title as contractor_name
+            FROM contract2item c2i
+            INNER JOIN contracts c ON c2i.contractid = c.id
+            LEFT JOIN agents a ON c.contractorid = a.id
+            WHERE c2i.itemid = ?
+            ORDER BY c.startdate DESC
+        ";
+        $contracts = $this->db->fetchAll($sql, [$itemId]);
+
+        // Format data
+        foreach ($contracts as &$contract) {
+            $contract['startdate'] = $contract['startdate'] ? date('Y-m-d', $contract['startdate']) : 'N/A';
+            $contract['enddate'] = $contract['enddate'] ? date('Y-m-d', $contract['enddate']) : 'N/A';
+        }
+
+        return $contracts;
+    }
+
+    /**
+     * Associate contract with an item
+     */
+    public function associateContract(int $itemId, int $contractId): bool
+    {
+        try {
+            $sql = "INSERT OR IGNORE INTO contract2item (itemid, contractid) VALUES (?, ?)";
+            $this->db->execute($sql, [$itemId, $contractId]);
+            return $this->db->rowCount() > 0;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Remove contract association from an item
+     */
+    public function dissociateContract(int $itemId, int $contractId): bool
+    {
+        $sql = "DELETE FROM contract2item WHERE itemid = ? AND contractid = ?";
+        $stmt = $this->db->execute($sql, [$itemId, $contractId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Get all files associated with an item
+     */
+    public function getAssociatedFiles(int $itemId): array
+    {
+        $sql = "
+            SELECT f.id, f.fname, f.title, f.filesize as file_size,
+                   f.uploaddate, ft.typedesc as filetype_name
+            FROM item2file i2f
+            INNER JOIN files f ON i2f.fileid = f.id
+            LEFT JOIN filetypes ft ON f.ftype = ft.id
+            WHERE i2f.itemid = ?
+            ORDER BY f.uploaddate DESC
+        ";
+        $files = $this->db->fetchAll($sql, [$itemId]);
+
+        // Format data
+        foreach ($files as &$file) {
+            $file['uploaddate_formatted'] = $file['uploaddate'] ? date('Y-m-d', $file['uploaddate']) : 'N/A';
+        }
+
+        return $files;
+    }
+
+    /**
+     * Associate file with an item
+     */
+    public function associateFile(int $itemId, int $fileId): bool
+    {
+        try {
+            $sql = "INSERT OR IGNORE INTO item2file (itemid, fileid) VALUES (?, ?)";
+            $this->db->execute($sql, [$itemId, $fileId]);
+            return $this->db->rowCount() > 0;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Remove file association from an item
+     */
+    public function dissociateFile(int $itemId, int $fileId): bool
+    {
+        $sql = "DELETE FROM item2file WHERE itemid = ? AND fileid = ?";
+        $stmt = $this->db->execute($sql, [$itemId, $fileId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Get all related items (using itemlink table)
+     */
+    public function getRelatedItems(int $itemId): array
+    {
+        $sql = "
+            SELECT i.id, i.label, i.function, it.name as type_name,
+                   l.name as location_name, u.username
+            FROM itemlink il
+            INNER JOIN items i ON (il.itemid2 = i.id AND il.itemid1 = ?)
+                                OR (il.itemid1 = i.id AND il.itemid2 = ?)
+            LEFT JOIN itemtypes it ON i.itemtypeid = it.id
+            LEFT JOIN locations l ON i.locationid = l.id
+            LEFT JOIN users u ON i.userid = u.id
+            WHERE i.id != ?
+            ORDER BY i.label ASC
+        ";
+        return $this->db->fetchAll($sql, [$itemId, $itemId, $itemId]);
+    }
+
+    /**
+     * Associate item with another item
+     */
+    public function associateItem(int $itemId, int $relatedItemId): bool
+    {
+        try {
+            // Check if association already exists in either direction
+            $sql = "SELECT COUNT(*) FROM itemlink
+                    WHERE (itemid1 = ? AND itemid2 = ?)
+                       OR (itemid1 = ? AND itemid2 = ?)";
+            $exists = $this->db->fetchColumn($sql, [$itemId, $relatedItemId, $relatedItemId, $itemId]);
+
+            if ($exists > 0) {
+                return false; // Already associated
+            }
+
+            $sql = "INSERT INTO itemlink (itemid1, itemid2) VALUES (?, ?)";
+            $stmt = $this->db->execute($sql, [$itemId, $relatedItemId]);
+            return $stmt->rowCount() > 0;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Remove item association
+     */
+    public function dissociateItem(int $itemId, int $relatedItemId): bool
+    {
+        $sql = "DELETE FROM itemlink
+                WHERE (itemid1 = ? AND itemid2 = ?)
+                   OR (itemid1 = ? AND itemid2 = ?)";
+        $stmt = $this->db->execute($sql, [$itemId, $relatedItemId, $relatedItemId, $itemId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Enrich item with association counts and data
+     */
+    public function enrichItemWithAssociations(array $item): array
+    {
+        $itemId = (int) $item['id'];
+
+        // Get association counts
+        $item['tags'] = $this->getAssociatedTags($itemId);
+        $item['software'] = $this->getAssociatedSoftware($itemId);
+        $item['invoices'] = $this->getAssociatedInvoices($itemId);
+        $item['contracts'] = $this->getAssociatedContracts($itemId);
+        $item['files'] = $this->getAssociatedFiles($itemId);
+        $item['related_items'] = $this->getRelatedItems($itemId);
+
+        return $item;
     }
 }

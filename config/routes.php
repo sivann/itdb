@@ -71,11 +71,15 @@ return function (App $app) {
             $group->get('/{id}/history', [ItemController::class, 'history'])->setName('items.history');
             $group->post('/{id}', [ItemController::class, 'update'])->setName('items.update');
             $group->post('/{id}/delete', [ItemController::class, 'delete'])->setName('items.delete');
+            // Association management
+            $group->post('/{id}/associations', [ItemController::class, 'manageAssociations'])->setName('items.associations.add');
+            $group->delete('/{id}/associations', [ItemController::class, 'manageAssociations'])->setName('items.associations.remove');
         });
 
         // Software management
         $group->group('/software', function (RouteCollectorProxy $group) {
             $group->get('', [SoftwareController::class, 'index'])->setName('software.index');
+            $group->get('/search', [SoftwareController::class, 'search'])->setName('software.search');
             $group->get('/create', [SoftwareController::class, 'create'])->setName('software.create');
             $group->post('', [SoftwareController::class, 'store'])->setName('software.store');
             $group->get('/{id}', [SoftwareController::class, 'show'])->setName('software.show');

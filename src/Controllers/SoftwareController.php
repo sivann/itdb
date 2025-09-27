@@ -438,7 +438,73 @@ class SoftwareController extends BaseController
                     'item_id' => $itemId
                 ]);
 
-                return $this->json($response, ['success' => true]);
+                // Include additional data for UI updates
+                $responseData = ['success' => true];
+
+                if ($action === 'add') {
+                    // Get details for UI update based on type
+                    switch ($type) {
+                        case 'item':
+                            $sql = "SELECT i.id, i.label, i.function, it.name as type_name,
+                                           l.name as location_name, u.username
+                                    FROM items i
+                                    LEFT JOIN itemtypes it ON i.itemtypeid = it.id
+                                    LEFT JOIN locations l ON i.locationid = l.id
+                                    LEFT JOIN users u ON i.userid = u.id
+                                    WHERE i.id = ?";
+                            break;
+
+                        case 'invoice':
+                            $sql = "SELECT i.id, i.date, i.totalcost, i.comments,
+                                           a.title as vendor_title
+                                    FROM invoices i
+                                    LEFT JOIN agents a ON i.vendorid = a.id
+                                    WHERE i.id = ?";
+                            break;
+
+                        case 'contract':
+                            $sql = "SELECT c.id, c.title, c.startdate, c.currentenddate as enddate,
+                                           a.title as contractor_name
+                                    FROM contracts c
+                                    LEFT JOIN agents a ON c.contractorid = a.id
+                                    WHERE c.id = ?";
+                            break;
+
+                        case 'file':
+                            $sql = "SELECT f.id, f.fname, f.title, f.filesize as file_size,
+                                           f.uploaddate, ft.name as filetype_name
+                                    FROM files f
+                                    LEFT JOIN filetypes ft ON f.ftype = ft.id
+                                    WHERE f.id = ?";
+                            break;
+
+                        default:
+                            $sql = null;
+                    }
+
+                    if ($sql) {
+                        $stmt = $this->pdo->prepare($sql);
+                        $stmt->execute([$itemId]);
+                        $itemData = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+                        if ($itemData) {
+                            // Format data based on type
+                            if ($type === 'invoice') {
+                                $itemData['date_formatted'] = $itemData['date'] ? date('Y-m-d', $itemData['date']) : 'N/A';
+                                $itemData['total_formatted'] = number_format($itemData['totalcost'] ?? 0, 2);
+                            } elseif ($type === 'contract') {
+                                $itemData['startdate'] = $itemData['startdate'] ? date('Y-m-d', $itemData['startdate']) : 'N/A';
+                                $itemData['enddate'] = $itemData['enddate'] ? date('Y-m-d', $itemData['enddate']) : 'N/A';
+                            } elseif ($type === 'file') {
+                                $itemData['uploaddate_formatted'] = $itemData['uploaddate'] ? date('Y-m-d', $itemData['uploaddate']) : 'N/A';
+                            }
+
+                            $responseData['data'] = $itemData;
+                        }
+                    }
+                }
+
+                return $this->json($response, $responseData);
             } else {
                 return $this->json($response, ['error' => 'Association already exists or item not found'], 400);
             }
@@ -491,7 +557,12 @@ class SoftwareController extends BaseController
                         'tag_id' => $tagId,
                         'tag_name' => $tagName
                     ]);
-                    return $this->json($response, ['success' => true, 'message' => 'Existing tag added successfully']);
+                    return $this->json($response, [
+                        'success' => true,
+                        'message' => 'Existing tag added successfully',
+                        'tagId' => $tagId,
+                        'data' => ['id' => $tagId, 'name' => $tagName]
+                    ]);
                 } else {
                     return $this->json($response, ['error' => 'Tag is already associated with this software'], 400);
                 }
@@ -513,7 +584,12 @@ class SoftwareController extends BaseController
                     'tag_name' => $tagName,
                     'tag_color' => $tagColor
                 ]);
-                return $this->json($response, ['success' => true, 'message' => 'Tag created and added successfully']);
+                return $this->json($response, [
+                    'success' => true,
+                    'message' => 'Tag created and added successfully',
+                    'tagId' => $tagId,
+                    'data' => ['id' => $tagId, 'name' => $tagName, 'color' => $tagColor]
+                ]);
             } else {
                 // If association failed, remove the created tag
                 $sql = "DELETE FROM tags WHERE id = ?";

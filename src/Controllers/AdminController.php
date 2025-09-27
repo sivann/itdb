@@ -13,11 +13,13 @@ use Twig\Environment;
 class AdminController extends BaseController
 {
     private AuthService $authService;
+    private \PDO $pdo;
 
-    public function __construct(LoggerInterface $logger, Environment $twig, AuthService $authService)
+    public function __construct(LoggerInterface $logger, Environment $twig, AuthService $authService, \PDO $pdo)
     {
         parent::__construct($logger, $twig);
         $this->authService = $authService;
+        $this->pdo = $pdo;
     }
 
     /**
@@ -187,20 +189,25 @@ class AdminController extends BaseController
      */
     private function getSystemSettings(): array
     {
-        // For now, return default settings
-        // In a real implementation, these would be loaded from database or config file
+        // Read settings from database
+        $sql = "SELECT companytitle, dateformat, currency, lang, timezone, useldap, ldap_server, ldap_dn FROM settings LIMIT 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $dbSettings = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // Map database column names to form field names
         return [
-            'company_title' => $_ENV['APP_NAME'] ?? 'IT Database',
-            'date_format' => 'dmy',
-            'currency' => '€',
-            'language' => 'en',
-            'timezone' => 'UTC',
-            'maintenance_mode' => false,
-            'email_notifications' => true,
-            'use_ldap' => filter_var($_ENV['LDAP_ENABLED'] ?? false, FILTER_VALIDATE_BOOLEAN),
-            'ldap_server' => $_ENV['LDAP_HOST'] ?? '',
-            'ldap_dn' => $_ENV['LDAP_BASE_DN'] ?? '',
-            'ldap_search_dn' => $_ENV['LDAP_BASE_DN'] ?? '',
+            'company_title' => $dbSettings['companytitle'] ?? 'IT Database',
+            'date_format' => $dbSettings['dateformat'] ?? 'dmy',
+            'currency' => $dbSettings['currency'] ?? '€',
+            'language' => $dbSettings['lang'] ?? 'en',
+            'timezone' => $dbSettings['timezone'] ?? 'UTC',
+            'maintenance_mode' => false, // Not stored in DB yet
+            'email_notifications' => true, // Not stored in DB yet
+            'use_ldap' => (bool)($dbSettings['useldap'] ?? 0),
+            'ldap_server' => $dbSettings['ldap_server'] ?? '',
+            'ldap_dn' => $dbSettings['ldap_dn'] ?? '',
+            'ldap_search_dn' => $dbSettings['ldap_dn'] ?? '',
             'ldap_user_filter' => '(& (uid=*) (IsActive=TRUE))',
         ];
     }
@@ -210,16 +217,32 @@ class AdminController extends BaseController
      */
     private function saveSystemSettings(array $settings): void
     {
-        // For now, this is a placeholder
-        // In a real implementation, settings would be saved to database or config file
+        // Map form field names to database column names
+        $sql = "UPDATE settings SET
+                companytitle = ?,
+                dateformat = ?,
+                currency = ?,
+                lang = ?,
+                timezone = ?,
+                useldap = ?,
+                ldap_server = ?,
+                ldap_dn = ?";
 
-        // Could save to a settings table in database:
-        // foreach ($settings as $key => $value) {
-        //     Setting::updateOrCreate(['key' => $key], ['value' => $value]);
-        // }
+        $params = [
+            $settings['company_title'] ?? 'IT Database',
+            $settings['date_format'] ?? 'dmy',
+            $settings['currency'] ?? '€',
+            $settings['language'] ?? 'en',
+            $settings['timezone'] ?? 'UTC',
+            $settings['use_ldap'] ? 1 : 0,
+            $settings['ldap_server'] ?? '',
+            $settings['ldap_dn'] ?? ''
+        ];
 
-        // Or save to a config file, environment variables, etc.
-        $this->logger->info('Settings would be saved', $settings);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+
+        $this->logger->info('Settings saved to database', $settings);
     }
 
     /**

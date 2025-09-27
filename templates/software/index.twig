@@ -135,9 +135,9 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if item.purchdate %}
+                            {% if item.updated_at and item.updated_at > 0 %}
                                 <small class="text-muted">
-                                    {{ item.purchdate|date('M j, Y') }}
+                                    {{ item.updated_at|date('M j, Y g:i A') }}
                                 </small>
                             {% else %}
                                 <span class="text-muted">-</span>

@@ -87,6 +87,18 @@ return function (ContainerBuilder $containerBuilder) {
                 'auto_reload' => true,
             ]);
 
+            // Set timezone for date formatting from database
+            try {
+                $pdo = $c->get(PDO::class);
+                $stmt = $pdo->prepare("SELECT timezone FROM settings LIMIT 1");
+                $stmt->execute();
+                $timezone = $stmt->fetchColumn() ?: 'UTC';
+                $twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone($timezone);
+            } catch (\Exception $e) {
+                // Fallback to UTC if database read fails
+                $twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone('UTC');
+            }
+
             // Add global variables
             $twig->addGlobal('app_name', $_ENV['APP_NAME'] ?? 'ITDB');
             $twig->addGlobal('app_url', $_ENV['APP_URL'] ?? 'http://localhost:8080');

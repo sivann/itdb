@@ -21,6 +21,7 @@ class SoftwareController extends BaseController
     private AgentModel $agentModel;
     private LicenseTypeModel $licenseTypeModel;
     private FileModel $fileModel;
+    private \PDO $pdo;
 
     public function __construct(
         LoggerInterface $logger,
@@ -29,7 +30,8 @@ class SoftwareController extends BaseController
         SoftwareModel $softwareModel,
         AgentModel $agentModel,
         LicenseTypeModel $licenseTypeModel,
-        FileModel $fileModel
+        FileModel $fileModel,
+        \PDO $pdo
     ) {
         parent::__construct($logger, $twig);
         $this->authService = $authService;
@@ -37,6 +39,7 @@ class SoftwareController extends BaseController
         $this->agentModel = $agentModel;
         $this->licenseTypeModel = $licenseTypeModel;
         $this->fileModel = $fileModel;
+        $this->pdo = $pdo;
     }
 
     /**
@@ -202,6 +205,7 @@ class SoftwareController extends BaseController
         $manufacturers = $this->agentModel->getSoftwareManufacturers();
         $licenseTypes = $this->licenseTypeModel->getAll();
         $fileTypes = $this->fileModel->getFileTypes();
+        $allTags = $this->softwareModel->getAllTags();
 
         return $this->render($response, 'software/edit.twig', [
             'software' => $software,
@@ -210,6 +214,7 @@ class SoftwareController extends BaseController
                 'license_types' => $licenseTypes,
             ],
             'file_types' => $fileTypes,
+            'all_tags' => $allTags,
             'user' => $user,
             'csrf_token' => $this->generateCsrfToken(),
             'current_tab' => $tab,
@@ -372,7 +377,12 @@ class SoftwareController extends BaseController
         $itemId = (int) ($data['id'] ?? 0);
         $action = $data['action'] ?? '';
 
-        if (!in_array($type, ['item', 'invoice', 'contract', 'file']) || !$itemId || !in_array($action, ['add', 'remove'])) {
+        // Handle create_and_add_tag action separately
+        if ($action === 'create_and_add_tag') {
+            return $this->createAndAddTag($request, $response, $id, $data);
+        }
+
+        if (!in_array($type, ['item', 'invoice', 'contract', 'file', 'tag']) || !$itemId || !in_array($action, ['add', 'remove'])) {
             return $this->json($response, ['error' => 'Invalid parameters'], 400);
         }
 
@@ -411,6 +421,14 @@ class SoftwareController extends BaseController
                         $success = $this->softwareModel->dissociateFile($id, $itemId);
                     }
                     break;
+
+                case 'tag':
+                    if ($action === 'add') {
+                        $success = $this->softwareModel->associateTag($id, $itemId);
+                    } else {
+                        $success = $this->softwareModel->dissociateTag($id, $itemId);
+                    }
+                    break;
             }
 
             if ($success) {
@@ -434,6 +452,90 @@ class SoftwareController extends BaseController
                 'error' => $e->getMessage()
             ]);
             return $this->json($response, ['error' => 'Failed to update association'], 500);
+        }
+    }
+
+    /**
+     * Create a new tag and add it to software
+     */
+    private function createAndAddTag(Request $request, Response $response, int $softwareId, array $data): Response
+    {
+        $user = $this->authService->getCurrentUser();
+
+        if (!$this->validateCsrfToken($request)) {
+            return $this->json($response, ['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $tagName = trim($data['name'] ?? '');
+        $tagColor = $data['color'] ?? '#007bff';
+
+        if (empty($tagName)) {
+            return $this->json($response, ['error' => 'Tag name is required'], 400);
+        }
+
+        try {
+            // Check if tag already exists (case-insensitive)
+            $sql = "SELECT id FROM tags WHERE LOWER(name) = LOWER(?) LIMIT 1";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$tagName]);
+            $existingTag = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if ($existingTag) {
+                // Tag exists, just associate it with the software
+                $tagId = $existingTag['id'];
+                $success = $this->softwareModel->associateTag($softwareId, $tagId);
+
+                if ($success) {
+                    $this->logUserAction('software_existing_tag_added', [
+                        'software_id' => $softwareId,
+                        'tag_id' => $tagId,
+                        'tag_name' => $tagName
+                    ]);
+                    return $this->json($response, ['success' => true, 'message' => 'Existing tag added successfully']);
+                } else {
+                    return $this->json($response, ['error' => 'Tag is already associated with this software'], 400);
+                }
+            }
+
+            // Create new tag
+            $sql = "INSERT INTO tags (name, color) VALUES (?, ?)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$tagName, $tagColor]);
+            $tagId = (int) $this->pdo->lastInsertId();
+
+            // Associate the new tag with the software
+            $success = $this->softwareModel->associateTag($softwareId, $tagId);
+
+            if ($success) {
+                $this->logUserAction('software_tag_created_and_added', [
+                    'software_id' => $softwareId,
+                    'tag_id' => $tagId,
+                    'tag_name' => $tagName,
+                    'tag_color' => $tagColor
+                ]);
+                return $this->json($response, ['success' => true, 'message' => 'Tag created and added successfully']);
+            } else {
+                // If association failed, remove the created tag
+                $sql = "DELETE FROM tags WHERE id = ?";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute([$tagId]);
+
+                return $this->json($response, ['error' => 'Failed to associate tag with software'], 500);
+            }
+
+        } catch (\Exception $e) {
+            $this->logger->error('Failed to create and add tag', [
+                'software_id' => $softwareId,
+                'tag_name' => $tagName,
+                'tag_color' => $tagColor,
+                'error' => $e->getMessage()
+            ]);
+
+            if (strpos($e->getMessage(), 'UNIQUE constraint failed') !== false) {
+                return $this->json($response, ['error' => 'Tag name already exists'], 400);
+            }
+
+            return $this->json($response, ['error' => 'Failed to create tag'], 500);
         }
     }
 }

@@ -271,5 +271,18 @@ return function (ContainerBuilder $containerBuilder) {
                 $c->get(\App\Models\UserModel::class)
             );
         },
+
+        \App\Controllers\SoftwareController::class => function (ContainerInterface $c) {
+            return new \App\Controllers\SoftwareController(
+                $c->get(LoggerInterface::class),
+                $c->get(Environment::class),
+                $c->get(AuthService::class),
+                $c->get(\App\Models\SoftwareModel::class),
+                $c->get(\App\Models\AgentModel::class),
+                $c->get(\App\Models\LicenseTypeModel::class),
+                $c->get(\App\Models\FileModel::class),
+                $c->get(PDO::class)
+            );
+        },
     ]);
 };

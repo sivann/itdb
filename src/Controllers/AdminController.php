@@ -261,4 +261,173 @@ class AdminController extends BaseController
             'user' => $user,
         ]);
     }
+
+    /**
+     * Tags management page
+     */
+    public function tags(Request $request, Response $response): Response
+    {
+        $user = $this->authService->getCurrentUser();
+
+        if (!$user || !$user->isAdmin()) {
+            $this->addFlashMessage('error', 'Access denied');
+            return $this->redirectToRoute($request, $response, 'dashboard');
+        }
+
+        // Get all tags
+        $sql = "SELECT id, name, color FROM tags ORDER BY name ASC";
+        $tags = $this->pdo->prepare($sql);
+        $tags->execute();
+        $tagsList = $tags->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $this->render($response, 'admin/tags.twig', [
+            'user' => $user,
+            'tags' => $tagsList,
+            'csrf_token' => $this->generateCsrfToken(),
+        ]);
+    }
+
+    /**
+     * Create new tag
+     */
+    public function createTag(Request $request, Response $response): Response
+    {
+        $user = $this->authService->getCurrentUser();
+
+        if (!$user || !$user->isAdmin()) {
+            $this->addFlashMessage('error', 'Access denied');
+            return $this->redirectToRoute($request, $response, 'dashboard');
+        }
+
+        if (!$this->validateCsrfToken($request)) {
+            $this->addFlashMessage('error', 'Invalid CSRF token');
+            return $this->redirectToRoute($request, $response, 'admin.tags');
+        }
+
+        $data = $this->getParsedBody($request);
+
+        if (empty($data['name'])) {
+            $this->addFlashMessage('error', 'Tag name is required');
+            return $this->redirectToRoute($request, $response, 'admin.tags');
+        }
+
+        try {
+            $sql = "INSERT INTO tags (name, color) VALUES (?, ?)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                $this->sanitizeString($data['name']),
+                $this->sanitizeString($data['color'] ?? '#007bff')
+            ]);
+
+            $this->addFlashMessage('success', 'Tag created successfully');
+            $this->logUserAction('tag_created', ['name' => $data['name']]);
+        } catch (\Exception $e) {
+            if (strpos($e->getMessage(), 'UNIQUE constraint failed') !== false) {
+                $this->addFlashMessage('error', 'Tag name already exists');
+            } else {
+                $this->logger->error('Error creating tag', ['error' => $e->getMessage()]);
+                $this->addFlashMessage('error', 'Error creating tag');
+            }
+        }
+
+        return $this->redirectToRoute($request, $response, 'admin.tags');
+    }
+
+    /**
+     * Update tag
+     */
+    public function updateTag(Request $request, Response $response, array $args): Response
+    {
+        $id = (int) $args['id'];
+        $user = $this->authService->getCurrentUser();
+
+        if (!$user || !$user->isAdmin()) {
+            $this->addFlashMessage('error', 'Access denied');
+            return $this->redirectToRoute($request, $response, 'dashboard');
+        }
+
+        if (!$this->validateCsrfToken($request)) {
+            $this->addFlashMessage('error', 'Invalid CSRF token');
+            return $this->redirectToRoute($request, $response, 'admin.tags');
+        }
+
+        $data = $this->getParsedBody($request);
+
+        if (empty($data['name'])) {
+            $this->addFlashMessage('error', 'Tag name is required');
+            return $this->redirectToRoute($request, $response, 'admin.tags');
+        }
+
+        try {
+            $sql = "UPDATE tags SET name = ?, color = ? WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                $this->sanitizeString($data['name']),
+                $this->sanitizeString($data['color'] ?? '#007bff'),
+                $id
+            ]);
+
+            $this->addFlashMessage('success', 'Tag updated successfully');
+            $this->logUserAction('tag_updated', ['id' => $id, 'name' => $data['name']]);
+        } catch (\Exception $e) {
+            if (strpos($e->getMessage(), 'UNIQUE constraint failed') !== false) {
+                $this->addFlashMessage('error', 'Tag name already exists');
+            } else {
+                $this->logger->error('Error updating tag', ['error' => $e->getMessage()]);
+                $this->addFlashMessage('error', 'Error updating tag');
+            }
+        }
+
+        return $this->redirectToRoute($request, $response, 'admin.tags');
+    }
+
+    /**
+     * Delete tag
+     */
+    public function deleteTag(Request $request, Response $response, array $args): Response
+    {
+        $id = (int) $args['id'];
+        $user = $this->authService->getCurrentUser();
+
+        if (!$user || !$user->isAdmin()) {
+            $this->addFlashMessage('error', 'Access denied');
+            return $this->redirectToRoute($request, $response, 'dashboard');
+        }
+
+        if (!$this->validateCsrfToken($request)) {
+            $this->addFlashMessage('error', 'Invalid CSRF token');
+            return $this->redirectToRoute($request, $response, 'admin.tags');
+        }
+
+        try {
+            // Get tag name for logging
+            $sql = "SELECT name FROM tags WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$id]);
+            $tagName = $stmt->fetchColumn();
+
+            if (!$tagName) {
+                $this->addFlashMessage('error', 'Tag not found');
+                return $this->redirectToRoute($request, $response, 'admin.tags');
+            }
+
+            // Delete tag associations first
+            $sql = "DELETE FROM tag2software WHERE tagid = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$id]);
+
+            // Delete the tag
+            $sql = "DELETE FROM tags WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$id]);
+
+            $this->addFlashMessage('success', 'Tag deleted successfully');
+            $this->logUserAction('tag_deleted', ['id' => $id, 'name' => $tagName]);
+        } catch (\Exception $e) {
+            $this->logger->error('Error deleting tag', ['error' => $e->getMessage()]);
+            $this->addFlashMessage('error', 'Error deleting tag');
+        }
+
+        return $this->redirectToRoute($request, $response, 'admin.tags');
+    }
 }

@@ -96,6 +96,23 @@
                                             {% endfor %}
                                         </select>
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Tags</label>
+                                        <div class="d-flex flex-wrap gap-2 mb-2" id="currentTags">
+                                            {% for tag in software.tags %}
+                                            <span class="badge rounded-pill" style="background-color: {{ tag.color }}; color: #fff;">
+                                                {{ tag.name }}
+                                                <button type="button" class="btn-close btn-close-white ms-1"
+                                                        onclick="removeTag({{ tag.id }}, '{{ tag.name }}')"
+                                                        style="font-size: 0.7em;" aria-label="Remove tag"></button>
+                                            </span>
+                                            {% endfor %}
+                                        </div>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTagModal">
+                                            <i class="bi bi-plus me-1"></i>Add Tag
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-6">
@@ -612,6 +629,60 @@
 <!-- Toast Container -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <!-- Toasts will be inserted here -->
+</div>
+
+<!-- Add Tag Modal -->
+<div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTagModalLabel">Add Tag</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="newTagName" class="form-label">Create New Tag</label>
+                    <div class="row g-2">
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="newTagName" placeholder="Enter new tag name...">
+                        </div>
+                        <div class="col-2">
+                            <input type="color" class="form-control form-control-color" id="newTagColor" value="#007bff" title="Choose tag color">
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-primary" onclick="createNewTag()">Add</button>
+                        </div>
+                    </div>
+                    <div class="form-text">Create a new tag and immediately add it to this software.</div>
+                </div>
+
+                <hr class="my-3">
+
+                <div class="mb-3">
+                    <label for="availableTags" class="form-label">Or Select Existing Tags</label>
+                    <div class="d-flex flex-wrap gap-2" id="availableTags">
+                        {% if all_tags is defined %}
+                            {% for tag in all_tags %}
+                                {% set is_associated = false %}
+                                {% for software_tag in software.tags %}
+                                    {% if software_tag.id == tag.id %}
+                                        {% set is_associated = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if not is_associated %}
+                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        style="border-color: {{ tag.color }}; color: {{ tag.color }};"
+                                        onclick="addTag({{ tag.id }}, '{{ tag.name }}', '{{ tag.color }}')">
+                                    {{ tag.name }}
+                                </button>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- File Preview Modals -->
@@ -1140,6 +1211,79 @@ async function performAssociation(action, type, id, name) {
     } catch (error) {
         console.error(`Error ${action}ing association:`, error);
         showToast(`Error ${action}ing association. Please try again.`, 'error');
+    }
+}
+
+// Tag management functions
+async function addTag(tagId, tagName, tagColor) {
+    try {
+        await performAssociation('add', 'tag', tagId, tagName);
+
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addTagModal'));
+        if (modal) modal.hide();
+    } catch (error) {
+        console.error('Error adding tag:', error);
+        showToast('Error adding tag. Please try again.', 'error');
+    }
+}
+
+async function removeTag(tagId, tagName) {
+    if (confirm(`Are you sure you want to remove the tag "${tagName}"?`)) {
+        try {
+            await performAssociation('remove', 'tag', tagId, tagName);
+        } catch (error) {
+            console.error('Error removing tag:', error);
+            showToast('Error removing tag. Please try again.', 'error');
+        }
+    }
+}
+
+async function createNewTag() {
+    const nameInput = document.getElementById('newTagName');
+    const colorInput = document.getElementById('newTagColor');
+    const tagName = nameInput.value.trim();
+    const tagColor = colorInput.value;
+
+    if (!tagName) {
+        showToast('Please enter a tag name', 'error');
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('action', 'create_and_add_tag');
+        formData.append('name', tagName);
+        formData.append('color', tagColor);
+        formData.append('csrf_token', '{{ csrf_token }}');
+
+        const response = await fetch(`/software/{{ software.id }}/associations`, {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            showToast(`Successfully created and added tag "${tagName}"`, 'success');
+
+            // Clear the form
+            nameInput.value = '';
+            colorInput.value = '#007bff';
+
+            // Close the modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addTagModal'));
+            if (modal) modal.hide();
+
+            // Refresh page to show the new tag
+            setTimeout(() => window.location.reload(), 1500);
+        } else {
+            const errorMessage = result.error || 'Failed to create tag';
+            showToast(errorMessage, 'error');
+        }
+    } catch (error) {
+        console.error('Error creating tag:', error);
+        showToast('Error creating tag. Please try again.', 'error');
     }
 }
 

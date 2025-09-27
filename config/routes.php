@@ -259,6 +259,12 @@ return function (App $app) {
                 $group->post('/{id}/delete', [LicenseTypeController::class, 'delete'])->setName('admin.license-types.delete');
             });
 
+            // Tags Management
+            $group->get('/tags', [AdminController::class, 'tags'])->setName('admin.tags');
+            $group->post('/tags', [AdminController::class, 'createTag'])->setName('admin.tags.create');
+            $group->post('/tags/{id}', [AdminController::class, 'updateTag'])->setName('admin.tags.update');
+            $group->post('/tags/{id}/delete', [AdminController::class, 'deleteTag'])->setName('admin.tags.delete');
+
             // Agent Types Management
             $group->group('/agent-types', function (RouteCollectorProxy $group) {
                 $group->get('', [AgentTypeController::class, 'index'])->setName('admin.agent-types.index');

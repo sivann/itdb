@@ -134,6 +134,7 @@ class SoftwareModel
         $software['invoices'] = $this->getAssociatedInvoices($id);
         $software['contracts'] = $this->getAssociatedContracts($id);
         $software['files'] = $this->getAssociatedFiles($id);
+        $software['tags'] = $this->getAssociatedTags($id);
 
         return $software;
     }
@@ -162,6 +163,10 @@ class SoftwareModel
             "SELECT COUNT(*) FROM software2file WHERE softwareid = ?", [$softwareId]
         );
 
+        $software['tags_count'] = (int)$this->db->fetchColumn(
+            "SELECT COUNT(*) FROM tag2software WHERE softwareid = ?", [$softwareId]
+        );
+
         // Create mock relationship objects for template compatibility (only if not already set)
         if (!isset($software['items'])) {
             $software['items'] = ['count' => $software['items_count']];
@@ -174,6 +179,9 @@ class SoftwareModel
         }
         if (!isset($software['files'])) {
             $software['files'] = ['count' => $software['files_count']];
+        }
+        if (!isset($software['tags'])) {
+            $software['tags'] = ['count' => $software['tags_count']];
         }
 
         // Add display formatting
@@ -467,6 +475,50 @@ class SoftwareModel
     {
         $sql = "DELETE FROM software2file WHERE softwareid = ? AND fileid = ?";
         $stmt = $this->db->execute($sql, [$softwareId, $fileId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Get associated tags for software
+     */
+    public function getAssociatedTags(int $softwareId): array
+    {
+        $sql = "
+            SELECT t.id, t.name, t.color
+            FROM tag2software t2s
+            INNER JOIN tags t ON t2s.tagid = t.id
+            WHERE t2s.softwareid = ?
+            ORDER BY t.name ASC
+        ";
+        return $this->db->fetchAll($sql, [$softwareId]);
+    }
+
+    /**
+     * Get all available tags
+     */
+    public function getAllTags(): array
+    {
+        $sql = "SELECT id, name, color FROM tags ORDER BY name ASC";
+        return $this->db->fetchAll($sql);
+    }
+
+    /**
+     * Add association between software and tag
+     */
+    public function associateTag(int $softwareId, int $tagId): bool
+    {
+        $sql = "INSERT OR IGNORE INTO tag2software (softwareid, tagid) VALUES (?, ?)";
+        $stmt = $this->db->execute($sql, [$softwareId, $tagId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Remove association between software and tag
+     */
+    public function dissociateTag(int $softwareId, int $tagId): bool
+    {
+        $sql = "DELETE FROM tag2software WHERE softwareid = ? AND tagid = ?";
+        $stmt = $this->db->execute($sql, [$softwareId, $tagId]);
         return $stmt->rowCount() > 0;
     }
 

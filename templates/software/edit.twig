@@ -88,11 +88,6 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="stype" class="form-label">Software Type</label>
-                                        <input type="text" class="form-control" id="stype" name="stype" value="{{ software.stype }}" placeholder="e.g., Operating System, Productivity, Security">
-                                    </div>
-
-                                    <div class="mb-3">
                                         <label for="manufacturerid" class="form-label">Manufacturer</label>
                                         <select class="form-select" id="manufacturerid" name="manufacturerid">
                                             <option value="">Select a manufacturer...</option>
@@ -979,8 +974,9 @@ async function uploadFile() {
         });
 
         const result = await response.json();
+        console.log('Upload response:', response.status, result);
 
-        if (response.ok) {
+        if (response.ok && result.success && result.file) {
             // Associate the uploaded file with the software
             await performAssociation('add', 'file', result.file.id, result.file.fname);
 
@@ -991,6 +987,7 @@ async function uploadFile() {
             // Reset form
             form.reset();
         } else {
+            console.error('Upload failed:', result);
             showToast(result.error || 'Failed to upload file', 'error');
         }
     } catch (error) {

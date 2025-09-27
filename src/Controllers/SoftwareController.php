@@ -157,7 +157,6 @@ class SoftwareController extends BaseController
                 'slicenseinfo' => $this->sanitizeString($data['slicenseinfo'] ?? ''),
                 'licqty' => !empty($data['licqty']) ? (int) $data['licqty'] : 1,
                 'lictype' => !empty($data['lictype']) ? (int) $data['lictype'] : 0,
-                'stype' => $this->sanitizeString($data['stype'] ?? ''),
                 'manufacturerid' => !empty($data['manufacturerid']) ? (int) $data['manufacturerid'] : null,
                 'purchdate' => !empty($data['purchdate']) ? strtotime($data['purchdate']) : null,
             ];
@@ -252,7 +251,6 @@ class SoftwareController extends BaseController
                 'slicense' => $this->sanitizeString($data['slicense'] ?? ''),
                 'licqty' => !empty($data['licqty']) ? (int) $data['licqty'] : 1,
                 'slicensetype' => !empty($data['slicensetype']) ? (int) $data['slicensetype'] : 0,
-                'stype' => $this->sanitizeString($data['stype'] ?? ''),
                 'manufacturerid' => !empty($data['manufacturerid']) ? (int) $data['manufacturerid'] : null,
             ];
 

@@ -266,7 +266,7 @@
                         </div>
 
                         <div id="currentSoftware">
-                            {% if item.software is defined and item.software|length > 0 %}
+                            {% if item.software.data is defined and item.software.data|length > 0 %}
                             <div class="table-responsive">
                                 <table class="table table-sm table-hover">
                                     <thead>
@@ -304,7 +304,7 @@
                             </div>
                             {% endif %}
                         </div>
-                        <div id="softwareEmptyState" class="text-center text-muted py-4" style="display: {{ (item.software | length) > 0 ? 'none' : 'block' }}">
+                        <div id="softwareEmptyState" class="text-center text-muted py-4" style="display: {{ (item.software.data | default([]) | length) > 0 ? 'none' : 'block' }}">
                             <i class="bi bi-code-square display-4 mb-3"></i>
                             <p>No software installed on this item yet.</p>
                             <p class="small">Link software that is installed on this item.</p>
@@ -324,7 +324,7 @@
                         </div>
 
                         <div id="currentInvoices">
-                            {% if item.invoices is defined and item.invoices|length > 0 %}
+                            {% if item.invoices.data is defined and item.invoices.data|length > 0 %}
                             <div class="table-responsive">
                                 <table class="table table-sm table-hover">
                                     <thead>
@@ -362,7 +362,7 @@
                             </div>
                             {% endif %}
                         </div>
-                        <div id="invoiceEmptyState" class="text-center text-muted py-4" style="display: {{ (item.invoices | length) > 0 ? 'none' : 'block' }}">
+                        <div id="invoiceEmptyState" class="text-center text-muted py-4" style="display: {{ (item.invoices.data | default([]) | length) > 0 ? 'none' : 'block' }}">
                             <i class="bi bi-receipt display-4 mb-3"></i>
                             <p>No invoices associated with this item yet.</p>
                             <p class="small">Link invoices related to this item's purchase or maintenance.</p>
@@ -382,7 +382,7 @@
                         </div>
 
                         <div id="currentContracts">
-                            {% if item.contracts is defined and item.contracts|length > 0 %}
+                            {% if item.contracts.data is defined and item.contracts.data|length > 0 %}
                             <div class="table-responsive">
                                 <table class="table table-sm table-hover">
                                     <thead>
@@ -422,7 +422,7 @@
                             </div>
                             {% endif %}
                         </div>
-                        <div id="contractEmptyState" class="text-center text-muted py-4" style="display: {{ (item.contracts | length) > 0 ? 'none' : 'block' }}">
+                        <div id="contractEmptyState" class="text-center text-muted py-4" style="display: {{ (item.contracts.data | default([]) | length) > 0 ? 'none' : 'block' }}">
                             <i class="bi bi-file-text display-4 mb-3"></i>
                             <p>No contracts associated with this item yet.</p>
                             <p class="small">Link contracts related to this item's maintenance or support.</p>
@@ -442,7 +442,7 @@
                         </div>
 
                         <div id="currentFiles">
-                            {% if item.files is defined and item.files|length > 0 %}
+                            {% if item.files.data is defined and item.files.data|length > 0 %}
                             <div class="table-responsive">
                                 <table class="table table-sm table-hover">
                                     <thead>
@@ -485,7 +485,7 @@
                             </div>
                             {% endif %}
                         </div>
-                        <div id="fileEmptyState" class="text-center text-muted py-4" style="display: {{ (item.files | length) > 0 ? 'none' : 'block' }}">
+                        <div id="fileEmptyState" class="text-center text-muted py-4" style="display: {{ (item.files.data | default([]) | length) > 0 ? 'none' : 'block' }}">
                             <i class="bi bi-file-earmark display-4 mb-3"></i>
                             <p>No files associated with this item yet.</p>
                             <p class="small">Link files related to this item's documentation or manuals.</p>
@@ -505,7 +505,7 @@
                         </div>
 
                         <div id="currentItems">
-                            {% if item.related_items is defined and item.related_items|length > 0 %}
+                            {% if item.related_items.data is defined and item.related_items.data|length > 0 %}
                             <div class="table-responsive">
                                 <table class="table table-sm table-hover">
                                     <thead>
@@ -545,7 +545,7 @@
                             </div>
                             {% endif %}
                         </div>
-                        <div id="itemEmptyState" class="text-center text-muted py-4" style="display: {{ (item.related_items | length) > 0 ? 'none' : 'block' }}">
+                        <div id="itemEmptyState" class="text-center text-muted py-4" style="display: {{ (item.related_items.data | default([]) | length) > 0 ? 'none' : 'block' }}">
                             <i class="bi bi-laptop display-4 mb-3"></i>
                             <p>No related items linked yet.</p>
                             <p class="small">Link related items like components, peripherals, or accessories.</p>
@@ -841,7 +841,12 @@ function updateEmptyState(type) {
 
     if (['software', 'invoice', 'contract', 'file', 'item'].includes(type)) {
         // For table-based associations, check if the table body has rows
-        const tbody = document.getElementById(`${type}TableBody`);
+        const tableBodyId = type === 'software' ? 'softwareTableBody' :
+                          type === 'invoice' ? 'invoicesTableBody' :
+                          type === 'contract' ? 'contractsTableBody' :
+                          type === 'file' ? 'filesTableBody' :
+                          type === 'item' ? 'itemsTableBody' : null;
+        const tbody = document.getElementById(tableBodyId);
         hasItems = tbody && tbody.children.length > 0;
     } else if (type === 'tag') {
         hasItems = container.children.length > 0;

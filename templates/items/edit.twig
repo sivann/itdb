@@ -19,8 +19,8 @@
     </div>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col-lg-10">
+<div class="row">
+    <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-3">
@@ -1136,6 +1136,9 @@ function addInvoiceToTable(item, serverData = null) {
         <td>${invoiceData.total || 'N/A'}</td>
         <td>
             <div class="btn-group btn-group-sm" role="group">
+                <a href="/invoices/${item.id}" class="btn btn-outline-primary btn-sm" title="View Invoice">
+                    <i class="bi bi-eye"></i>
+                </a>
                 <button type="button" class="btn btn-outline-danger btn-sm"
                         onclick="removeAssociation('invoice', ${item.id}, '${invoiceData.display || 'Invoice #' + item.id}')"
                         title="Remove Association">
@@ -1193,6 +1196,9 @@ function addContractToTable(item, serverData = null) {
         <td>${contractData.enddate || 'N/A'}</td>
         <td>
             <div class="btn-group btn-group-sm" role="group">
+                <a href="/contracts/${item.id}" class="btn btn-outline-primary btn-sm" title="View Contract">
+                    <i class="bi bi-eye"></i>
+                </a>
                 <button type="button" class="btn btn-outline-danger btn-sm"
                         onclick="removeAssociation('contract', ${item.id}, '${contractData.title || 'Contract #' + item.id}')"
                         title="Remove Association">
@@ -1251,6 +1257,9 @@ function addFileToTable(item, serverData = null) {
         <td>${fileData.description || 'N/A'}</td>
         <td>
             <div class="btn-group btn-group-sm" role="group">
+                <a href="/files/${item.id}/download" class="btn btn-outline-success btn-sm" title="Download">
+                    <i class="bi bi-download"></i>
+                </a>
                 <button type="button" class="btn btn-outline-danger btn-sm"
                         onclick="removeAssociation('file', ${item.id}, '${fileData.filename || fileData.fname || 'File #' + item.id}')"
                         title="Remove Association">
@@ -1308,6 +1317,9 @@ function addItemToTable(item, serverData = null) {
         <td>${itemData.status_name || 'N/A'}</td>
         <td>
             <div class="btn-group btn-group-sm" role="group">
+                <a href="/items/${item.id}" class="btn btn-outline-primary btn-sm" title="View Item">
+                    <i class="bi bi-eye"></i>
+                </a>
                 <button type="button" class="btn btn-outline-danger btn-sm"
                         onclick="removeAssociation('item', ${item.id}, '${itemData.label || itemData.function || 'Item #' + item.id}')"
                         title="Remove Association">

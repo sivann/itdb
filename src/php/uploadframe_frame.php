@@ -20,6 +20,7 @@ include('upload_inc.php');
 
 /*returns: array(filename,errstr);*/
 $errstr="";
+$fn = '';
 if (isset($id)&& is_numeric($id)) {
   $ret=upload('file',$uploaddir,$ftype,$title,$date,$id,$assoctable,$colname,$userdata[0]['username']); //$assoctable: software2file, colname:softwareid
   $fn=$ret[0];

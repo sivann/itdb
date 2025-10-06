@@ -64,7 +64,7 @@ function rst() {
 </head>
 <body >
 <?php 
-$type=$_GET['type'];
+$type = isset($_GET['type']) ? $_GET['type'] : '';
 isset($_GET['defdate'])?$defdate=$_GET['defdate']:$defdate="";
 $id=$_GET['id'];
 

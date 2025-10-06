@@ -205,7 +205,7 @@ else
   //
   $f=invid2files($id,$dbh);
   //create file links
-  for ($lnk="",$c=0;$c<count($f);$c++) {
+  for ($flnk="",$c=0;$c<count($f);$c++) {
    $fname=$f[$c]['fname'];
    $ftitle=$f[$c]['title'];
    $fid=$f[$c]['id'];

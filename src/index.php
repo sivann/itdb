@@ -212,6 +212,14 @@ if (strlen($stitle)) $stitle.=":".$id;
 $x="style_".$_GET['action'];
 $$x="color:#BAFF04 ";
 
+$actions = array("listitems2", "listitems", "listagents", "editagent", "edititem", "editsoftware", "listsoftware", "listcontracts", "listinvoices", "editinvoice", "listfiles", "editfile", "listusers", "listracks", "translations", "settings", "import", "edituser", "editrack", "edititypes", "editcontract", "editcontracttypes", "edittags", "editusers", "listlocations", "editlocation", "editstatustypes", "editfiletypes", "printlabels", "reports", "showhist", "browse", "viewrack", "about", "");
+foreach ($actions as $a) {
+    $style_var = "style_" . $a;
+    if (!isset($$style_var)) {
+        $$style_var = "";
+    }
+}
+
 
 require('php/header.php');
 

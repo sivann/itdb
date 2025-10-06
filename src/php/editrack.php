@@ -121,7 +121,8 @@ $sql="SELECT count(items.id) AS population, sum(items.usize) as occupation,racks
 $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 
-if (($id !="new") && (count($r)<2)) {echo "ERROR: non-existent ID<br>($sql)";exit;}
+if ($id != "new" && !$r) {echo "ERROR: non-existent ID<br>($sql)";exit;}
+if (!$r) $r = [];
 echo "\n<form id='mainform' method=post  action='$scriptname?action=$action&amp;id=$id' enctype='multipart/form-data'  name='addfrm'>\n";
 
 ?>
@@ -245,7 +246,7 @@ else
     <tr><td class="tdt"><?php te("Items");?>:</td> <td><?php echo $r['population']?></td>
     <tr>
        <?php $occupation=(int)$r['occupation'];
-	     if ($id!="new")
+	     if ($id!="new" && !empty($r['usize']))
 	       $width=(int)($occupation/$r['usize']*100/(100/150));
 	      else 
 	        $width=0;

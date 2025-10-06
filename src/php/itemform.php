@@ -13,7 +13,7 @@
     $("#locationid").change(function() {
       var locationid=$(this).val();
       var locareaid=$('#locareaid').val();
-      var dataString = 'locationid='+ locationid;//+'&locareaid='+'<?php echo $locareaid?>';
+      var dataString = 'locationid='+ locationid;
       //var dataString2 = 'locationid='+ locationid+'&locareaid='+locareaid;
 
       $.ajax ({
@@ -47,6 +47,10 @@
 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
+$disperr = '';
+$locareaid = '';
+$warr = '';
+
 
 if ($id!="new") {
   //get current item data
@@ -54,6 +58,10 @@ if ($id!="new") {
   $sql="SELECT * FROM items WHERE id='$id'";
   $sth=db_execute($dbh,$sql);
   $item=$sth->fetchAll(PDO::FETCH_ASSOC);
+  if (count($item)==0) {
+    echo "<h1>Item not found</h1>";
+    return;
+  }
 }
 
 
@@ -934,8 +942,9 @@ $sql="SELECT i.id,i.vendorid, i.date,i.number,i.description,   group_concat(fnam
      "<td class='bld'>".$r['number'].  "&nbsp;</td>".
      "<td class='bld'>";
      if ($r['description'] != '')  echo $r['description']. "<BR>";
-     $fx=explode("|",$r['fname']);
+     $fx=explode("|",(string)$r['fname']);
      foreach ($fx as $f){
+
        echo "<a target=invphoto href='$uploaddirwww/$f'>$f</a> ";
      }
      echo "</td></tr>\n";
@@ -968,8 +977,9 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
    "&nbsp;</td><td>".$r['number'].  "&nbsp;</td>".
    "<td>";
    if ($r['description'] != '')  echo $r['description']. "<BR>";
-     $fx=explode("|",$r['fname']);
+     $fx=explode("|",(string)$r['fname']);
      foreach ($fx as $f){
+
        echo "<a target=invphoto href='$uploaddirwww/$f'>$f</a> ";
      }
      echo "</td></tr>\n";

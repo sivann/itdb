@@ -48,6 +48,7 @@ $sth=db_execute($dbh,$sql);
 <?php 
 
 $i=0;
+$i1=0;
 /// print actions list
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   $i1++;
@@ -59,7 +60,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   if ($r['type']&4) $type.=" <span style='color:#0a0;'>Vendor</span>";
   if ($r['type']&16) $type.=" <span style='color:#44e;'>Contractor</span>";
 
-  $allcontacts=explode("|",trim($r['contacts']));
+  $allcontacts=explode("|",trim((string)$r['contacts']));
   if ((count($allcontacts)==1) && (trim($allcontacts[0]==""))) $allcontacts=array();
   if ((count($allcontacts)==1) && (trim($allcontacts[0]=="####"))) $allcontacts=array();
 

@@ -24,7 +24,7 @@
         $e.preventDefault();
 		row.find("input:text").val("");
 		row.find("img").css("display","inline");
-		row.find("input[name='enteredby[]']").val("<?php  echo $userdata[0]['username'] ; ?>");
+		row.find("input[name='enteredby[]']").val("<?php  echo $userdata[0]['username']??'' ; ?>");
 		row.find('input').each(function() {
 		    $(this).attr("id","");
 		});
@@ -572,7 +572,7 @@ else
 	    $effectivedate=($row[2]);
 	    $notes=$row[3];
 	    $dateentered=($row[4]);
-	    $enteredby=strlen($row[5])?$row[5]:$userdata[0]['username'];
+	    $enteredby=strlen($row[5])?$row[5]:$userdata[0]['username']??'-';
 	  ?>
 	    <tr> 
 		<td><img <?php  if (!$i) echo "style='display:none'";?> title='Delete Row' class='delrow' src='images/delete.png'></td>

@@ -144,6 +144,7 @@ function printitemcell($rr,$depth) {
 	"</a>";
 }
 
+$hid = 0;
 if (isset($_GET['highlightid'])) $hid=$_GET['highlightid'];
 
 if ($rack['revnums']) {
@@ -154,11 +155,15 @@ if ($rack['revnums']) {
       $colspan=1;
       
 
-      if ($rackrow[$rr]['FT']) { //is top row of this item?
+      if (!empty($rackrow[$rr]['FT'])) { //is top row of this item?
         $rowspan=$items[$rackrow[$rr]['F']]['usize'];
-	if ($rackrow[$rr]['F'] != $rackrow[$rr]['M'])  $colspan=1;
-	elseif (($rackrow[$rr]['F'] == $rackrow[$rr]['M']) &&  ($rackrow[$rr]['M'] != $rackrow[$rr]['B']))  $colspan=2;
-	elseif (($rackrow[$rr]['F'] == $rackrow[$rr]['M']) &&  ($rackrow[$rr]['M'] == $rackrow[$rr]['B']))  $colspan=3; //full row
+	        if (!isset($rackrow[$rr]['M']) || $rackrow[$rr]['F'] != $rackrow[$rr]['M']) {
+            $colspan=1;
+        } elseif (!isset($rackrow[$rr]['B']) || $rackrow[$rr]['M'] != $rackrow[$rr]['B']) {
+            $colspan=2;
+        } else {
+            $colspan=3; //full row
+        }
 
 	if ($hid==$rackrow[$rr]['F']) $c="highlight" ; else $c="occupied";
 	echo " <td class='$c' colspan='$colspan' rowspan='$rowspan'>".printitemcell($rr,'F')."</td> ";
@@ -170,7 +175,7 @@ if ($rack['revnums']) {
       $cell+=$colspan;
 
       if ($cell==2) { //we have already printed one talbe cell in this row
-	if ($rackrow[$rr]['MT']) { //is top row of this item?
+	if (!empty($rackrow[$rr]['MT'])) { //is top row of this item?
 	  $rowspan=$items[$rackrow[$rr]['M']]['usize'];
 	  if ($rackrow[$rr]['M'] != $rackrow[$rr]['B'])  $colspan=1;
 	  elseif ($rackrow[$rr]['M'] == $rackrow[$rr]['B'])  $colspan=2;
@@ -189,7 +194,7 @@ if ($rack['revnums']) {
 
       if ($cell==3) {
 
-	if ($rackrow[$rr]['BT']) { //is top row of this item?
+	if (!empty($rackrow[$rr]['BT'])) { //is top row of this item?
 	  $rowspan=$items[$rackrow[$rr]['B']]['usize'];
 	  if ($hid==$rackrow[$rr]['B']) $c="highlight" ; else $c="occupied";
 	  echo "<td class='$c' colspan='1' rowspan='$rowspan'>".printitemcell($rr,'B')."</td>";
@@ -214,11 +219,15 @@ else {
       $colspan=1;
       
 
-      if ($rackrow[$rr]['FT']) { //is top row of this item?
+      if (!empty($rackrow[$rr]['FT'])) { //is top row of this item?
         $rowspan=$items[$rackrow[$rr]['F']]['usize'];
-	if ($rackrow[$rr]['F'] != $rackrow[$rr]['M'])  $colspan=1;
-	elseif (($rackrow[$rr]['F'] == $rackrow[$rr]['M']) &&  ($rackrow[$rr]['M'] != $rackrow[$rr]['B']))  $colspan=2;
-	elseif (($rackrow[$rr]['F'] == $rackrow[$rr]['M']) &&  ($rackrow[$rr]['M'] == $rackrow[$rr]['B']))  $colspan=3; //full row
+	        if (!isset($rackrow[$rr]['M']) || $rackrow[$rr]['F'] != $rackrow[$rr]['M']) {
+            $colspan=1;
+        } elseif (!isset($rackrow[$rr]['B']) || $rackrow[$rr]['M'] != $rackrow[$rr]['B']) {
+            $colspan=2;
+        } else {
+            $colspan=3; //full row
+        }
 
 	if ($hid==$rackrow[$rr]['F']) $c="highlight" ; else $c="occupied";
 	echo " <td class='$c' colspan='$colspan' rowspan='$rowspan'>".printitemcell($rr,'F')."</td> ";
@@ -230,7 +239,7 @@ else {
       $cell+=$colspan;
 
       if ($cell==2) { //we have already printed one talbe cell in this row
-	if ($rackrow[$rr]['MT']) { //is top row of this item?
+	if (!empty($rackrow[$rr]['MT'])) { //is top row of this item?
 	  $rowspan=$items[$rackrow[$rr]['M']]['usize'];
 	  if ($rackrow[$rr]['M'] != $rackrow[$rr]['B'])  $colspan=1;
 	  elseif ($rackrow[$rr]['M'] == $rackrow[$rr]['B'])  $colspan=2;
@@ -249,7 +258,7 @@ else {
 
       if ($cell==3) {
 
-	if ($rackrow[$rr]['BT']) { //is top row of this item?
+	if (!empty($rackrow[$rr]['BT'])) { //is top row of this item?
 	  $rowspan=$items[$rackrow[$rr]['B']]['usize'];
 	  if ($hid==$rackrow[$rr]['B']) $c="highlight" ; else $c="occupied";
 	  echo "<td class='$c' colspan='1' rowspan='$rowspan'>".printitemcell($rr,'B')."</td>";

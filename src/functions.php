@@ -80,13 +80,19 @@ global $authstatus,$userdata, $remaddr, $dblogsize,$errorstr,$errorbt;
   if (stristr($sql,"insert ")) $skiphist=1; //for lastid function to work.
 
   //find user access
-  $usr=$userdata[0]['username'];
-  $sqlt="SELECT usertype FROM users where username='$usr'";
-  $sth=$dbh->prepare($sqlt);
-  $sth->execute();
-  $ut=$sth->fetch(PDO::FETCH_ASSOC);
-  $usertype=($ut['usertype']);
-  $sth->closeCursor();
+  $usertype = 1; // Default to read-only
+  $usr = '';
+  if (isset($userdata[0]['username'])) {
+    $usr=$userdata[0]['username'];
+    $sqlt="SELECT usertype FROM users where username='$usr'";
+    $sth=$dbh->prepare($sqlt);
+    $sth->execute();
+    $ut=$sth->fetch(PDO::FETCH_ASSOC);
+    if ($ut) {
+      $usertype=($ut['usertype']);
+    }
+    $sth->closeCursor();
+  }
 
   if (!$skipauth && $usertype && (stristr($sql,"DELETE") || stristr($sql,"UPDATE") || stristr($sql,"INSERT")) 
       && !stristr($sql," tt ")) { /*tt:temporary table used for complex queries*/
@@ -143,9 +149,7 @@ function db_execute($dbh,$sql,$skipauth=0)
     $errorstr= "\n<br><b>db_execute:DB Error: ($sql): ".$error[2]."<br></b>\n";
     $errorbt= debug_backtrace();
 
-    echo "</table></table></div>\n<pre>".$errorstr;
-    print_r ($errorbt);
-    echo "</pre>";
+    echo $errorstr;
 
     return 0;
   }

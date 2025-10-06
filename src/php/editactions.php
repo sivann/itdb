@@ -137,7 +137,7 @@ $i++;
 //empty line to add new items at bottom
 echo "<tr><td><input type=text name='id[]' value='new' readonly size=3></td>\n";
 echo "<td><input title='d/m/y or yyyy' size=9 type=text id='newdate' onclick='filltoday();' name='actiondate[]'></td>\n";
-echo "<td><textarea wrap='soft' class=tarea3  name='description[]'>".$r['description']."</textarea></td>\n";
+echo "<td><textarea wrap='soft' class=tarea3  name='description[]'></textarea></td>\n";
 echo "<td><input size=10 type=text name='invoiceinfo[]' ></td>\n";
 echo "<td></td>\n";
 

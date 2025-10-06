@@ -567,6 +567,15 @@ class ItemController extends BaseController
 
             $responseData['success'] = $success;
 
+            // Add error message for failed associations
+            if (!$success) {
+                if ($action === 'add') {
+                    $responseData['error'] = "This {$type} is already associated with this item";
+                } else {
+                    $responseData['error'] = "Failed to remove {$type} association";
+                }
+            }
+
             if ($success && $action === 'add') {
                 // Get the newly added item data for UI update
                 switch ($type) {
@@ -608,7 +617,7 @@ class ItemController extends BaseController
 
                     case 'file':
                         $sql = "SELECT f.id, f.fname, f.title, f.filesize as file_size,
-                                       f.uploaddate, ft.name as filetype_name
+                                       f.uploaddate, ft.typedesc as filetype_name
                                 FROM files f
                                 LEFT JOIN filetypes ft ON f.ftype = ft.id
                                 WHERE f.id = ?";
@@ -626,13 +635,13 @@ class ItemController extends BaseController
                     if ($itemData) {
                         // Format data based on type
                         if ($type === 'invoice') {
-                            $itemData['date_formatted'] = $itemData['date'] ? date('Y-m-d', $itemData['date']) : 'N/A';
+                            $itemData['date_formatted'] = $itemData['date'] ? date('Y-m-d', (int)$itemData['date']) : 'N/A';
                             $itemData['total_formatted'] = number_format($itemData['totalcost'] ?? 0, 2);
                         } elseif ($type === 'contract') {
-                            $itemData['startdate'] = $itemData['startdate'] ? date('Y-m-d', $itemData['startdate']) : 'N/A';
-                            $itemData['enddate'] = $itemData['enddate'] ? date('Y-m-d', $itemData['enddate']) : 'N/A';
+                            $itemData['startdate'] = $itemData['startdate'] ? date('Y-m-d', (int)$itemData['startdate']) : 'N/A';
+                            $itemData['enddate'] = $itemData['enddate'] ? date('Y-m-d', (int)$itemData['enddate']) : 'N/A';
                         } elseif ($type === 'file') {
-                            $itemData['uploaddate_formatted'] = $itemData['uploaddate'] ? date('Y-m-d', $itemData['uploaddate']) : 'N/A';
+                            $itemData['uploaddate_formatted'] = $itemData['uploaddate'] ? date('Y-m-d', (int)$itemData['uploaddate']) : 'N/A';
                         }
 
                         $responseData['data'] = $itemData;

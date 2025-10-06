@@ -1290,10 +1290,11 @@ function addFileToTable(item, serverData = null) {
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
-                            <th>File</th>
+                            <th>File Name</th>
+                            <th>Title</th>
                             <th>Type</th>
                             <th>Size</th>
-                            <th>Description</th>
+                            <th>Upload Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -1313,18 +1314,19 @@ function addFileToTable(item, serverData = null) {
     row.innerHTML = `
         <td>
             <i class="bi bi-file-earmark me-2"></i>
-            ${fileData.filename || fileData.fname || 'N/A'}
+            ${fileData.fname || 'N/A'}
         </td>
-        <td>${fileData.type || 'N/A'}</td>
-        <td>${fileData.filesize ? formatBytes(fileData.filesize) : 'N/A'}</td>
-        <td>${fileData.description || 'N/A'}</td>
+        <td>${fileData.title || 'N/A'}</td>
+        <td>${fileData.filetype_name || 'Unknown'}</td>
+        <td>${fileData.file_size ? (fileData.file_size + ' bytes') : 'N/A'}</td>
+        <td>${fileData.uploaddate_formatted || 'N/A'}</td>
         <td>
             <div class="btn-group btn-group-sm" role="group">
                 <a href="/files/${item.id}/download" class="btn btn-outline-success btn-sm" title="Download">
                     <i class="bi bi-download"></i>
                 </a>
                 <button type="button" class="btn btn-outline-danger btn-sm"
-                        onclick="removeAssociation('file', ${item.id}, '${fileData.filename || fileData.fname || 'File #' + item.id}')"
+                        onclick="removeAssociation('file', ${item.id}, '${fileData.fname || 'File #' + item.id}')"
                         title="Remove Association">
                     <i class="bi bi-x-lg"></i>
                 </button>

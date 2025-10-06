@@ -604,7 +604,7 @@ class ItemModel
 
         // Format data
         foreach ($files as &$file) {
-            $file['uploaddate_formatted'] = $file['uploaddate'] ? date('Y-m-d', $file['uploaddate']) : 'N/A';
+            $file['uploaddate_formatted'] = $file['uploaddate'] ? date('Y-m-d', (int)$file['uploaddate']) : 'N/A';
         }
 
         return $files;

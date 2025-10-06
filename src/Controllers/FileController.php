@@ -512,7 +512,7 @@ class FileController extends BaseController
                 'fileType' => ['name' => $file['type_name'] ?: 'Unknown'],
                 'size_formatted' => isset($file['filesize']) && $file['filesize'] ? $this->formatBytes($file['filesize']) : 'Unknown Size',
                 'uploader' => $this->getUploaderName($file),
-                'upload_date' => $file['uploaddate'] ? date('Y-m-d', $file['uploaddate']) : null
+                'upload_date' => $file['uploaddate'] ? date('Y-m-d', (int)$file['uploaddate']) : null
             ];
         }
 

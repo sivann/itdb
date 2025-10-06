@@ -435,10 +435,15 @@
                      id="files" role="tabpanel" aria-labelledby="files-tab">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="mb-0">Related Files</h6>
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addFileModal">
-                                <i class="bi bi-plus-lg me-1"></i>Add File
-                            </button>
+                            <h6 class="mb-0">File Associations</h6>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFileModal">
+                                    <i class="bi bi-plus-lg me-1"></i>Link Existing File
+                                </button>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadFileModal">
+                                    <i class="bi bi-cloud-upload me-1"></i>Upload New File
+                                </button>
+                            </div>
                         </div>
 
                         <div id="currentFiles">
@@ -753,6 +758,64 @@
                     <input type="text" class="form-control" id="itemSearch" placeholder="Search items...">
                 </div>
                 <div id="itemSearchResults" class="list-group"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload File Modal -->
+<div class="modal fade" id="uploadFileModal" tabindex="-1" aria-labelledby="uploadFileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadFileModalLabel">Upload New File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadFileForm" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <input type="hidden" name="ajax_upload" value="1">
+                    <div class="mb-3">
+                        <label for="fileUpload" class="form-label">Select File</label>
+                        <input type="file" class="form-control" id="fileUpload" name="file" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileTitle" class="form-label">File Title</label>
+                        <input type="text" class="form-control" id="fileTitle" name="title" placeholder="Enter a title for this file" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileType" class="form-label">File Type <span class="text-danger">*</span></label>
+                        <select class="form-select" id="fileType" name="type" required>
+                            <option value="">Select file type...</option>
+                            {% if form_options.file_types is defined %}
+                                {% for type in form_options.file_types %}
+                                <option value="{{ type.id }}">{{ type.name }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="1">photo</option>
+                                <option value="2">manual</option>
+                                <option value="3">invoice</option>
+                                <option value="4">offer</option>
+                                <option value="5">order</option>
+                                <option value="6">service</option>
+                                <option value="7">report</option>
+                                <option value="8">license</option>
+                                <option value="9">other</option>
+                                <option value="10">contract</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="fileDescription" name="description" rows="3" placeholder="Optional description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="uploadFile()">
+                    <i class="bi bi-cloud-upload me-1"></i>Upload & Associate
+                </button>
             </div>
         </div>
     </div>
@@ -1644,14 +1707,17 @@ async function searchFiles(query) {
                 fileElement.className = 'list-group-item list-group-item-action';
                 fileElement.innerHTML = `
                     <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">ID: ${file.id} - ${file.filename || 'File'}</h6>
-                        <small class="badge bg-secondary">${file.type || 'Unknown Type'}</small>
+                        <h6 class="mb-1">ID: ${file.id}, Name: ${file.fname || 'No Name'}</h6>
+                        <small class="badge bg-secondary">${file.fileType?.name || 'Unknown Type'}</small>
                     </div>
-                    <p class="mb-1">${file.description || 'No Description'}</p>
-                    <small class="text-muted">${file.filesize ? formatBytes(file.filesize) : 'Unknown Size'}</small>
+                    <p class="mb-1"><strong>${file.title || file.fname || 'No Title'}</strong></p>
+                    <p class="mb-1 text-muted small">
+                        <i class="bi bi-file-earmark"></i> ${file.size_formatted || 'Unknown Size'} •
+                        <i class="bi bi-calendar"></i> ${file.upload_date || 'No Date'}
+                    </p>
                 `;
                 fileElement.onclick = () => {
-                    addAssociation('file', file.id, file.filename || `File ID: ${file.id}`);
+                    addAssociation('file', file.id, file.fname || `File ID: ${file.id}`);
                 };
                 fileSearchResults.appendChild(fileElement);
             });
@@ -1774,6 +1840,40 @@ async function removeAssociation(type, id, name) {
     showConfirmModal(`Remove association with ${name}?`, async () => {
         await performAssociation('remove', type, id, name);
     });
+}
+
+// File upload function
+async function uploadFile() {
+    const form = document.getElementById('uploadFileForm');
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch('/files', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+        console.log('Upload response:', response.status, result);
+
+        if (response.ok && result.success && result.file) {
+            // Associate the uploaded file with the item
+            await performAssociation('add', 'file', result.file.id, result.file.fname);
+
+            // Close upload modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('uploadFileModal'));
+            if (modal) modal.hide();
+
+            // Reset form
+            form.reset();
+        } else {
+            console.error('Upload failed:', result);
+            showToast(result.error || 'Failed to upload file', 'error');
+        }
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        showToast('Error uploading file. Please try again.', 'error');
+    }
 }
 </script>
 {% endblock %}

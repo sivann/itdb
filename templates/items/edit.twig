@@ -1066,8 +1066,16 @@ async function performAssociation(action, type, id, name, extraData = {}) {
 
 function closeAssociationModal(type) {
     const modalId = `add${type.charAt(0).toUpperCase() + type.slice(1)}Modal`;
-    const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
-    if (modal) modal.hide();
+    const modalElement = document.getElementById(modalId);
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    if (modal) {
+        // Remove focus from any focused element within the modal to prevent aria-hidden warning
+        const activeElement = modalElement.querySelector(':focus');
+        if (activeElement) {
+            activeElement.blur();
+        }
+        modal.hide();
+    }
 }
 
 function showToast(message, type = 'info') {
@@ -1428,8 +1436,16 @@ function createAssociationElement(type, item, serverData = null) {
 
 function closeAssociationModal(type) {
     const modalId = `add${type.charAt(0).toUpperCase() + type.slice(1)}Modal`;
-    const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
-    if (modal) modal.hide();
+    const modalElement = document.getElementById(modalId);
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    if (modal) {
+        // Remove focus from any focused element within the modal to prevent aria-hidden warning
+        const activeElement = modalElement.querySelector(':focus');
+        if (activeElement) {
+            activeElement.blur();
+        }
+        modal.hide();
+    }
 }
 
 function refreshAvailableItems(type, itemId, wasRemoved = false) {
@@ -1756,13 +1772,19 @@ async function searchItems(query) {
                 const itemElement = document.createElement('button');
                 itemElement.type = 'button';
                 itemElement.className = 'list-group-item list-group-item-action';
+                const displayName = item.function || item.model || 'No Name';
+                const tag = item.label || 'No Tag';
                 itemElement.innerHTML = `
                     <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">ID: ${item.id} - ${item.function || item.model || 'Item'}</h6>
-                        <small class="badge bg-secondary">${item.itemtype_name || 'Unknown Type'}</small>
+                        <h6 class="mb-1">ID: ${item.id}, Tag: ${tag}</h6>
+                        <small class="badge bg-secondary">${item.itemType?.name || 'Unknown Type'}</small>
                     </div>
-                    <p class="mb-1">${item.location_name || 'No Location'}</p>
-                    <small class="text-muted">${item.status_name || 'No Status'}</small>
+                    <p class="mb-1"><strong>${displayName}</strong></p>
+                    <p class="mb-1 text-muted small">
+                        <i class="bi bi-geo-alt"></i> ${item.location?.name || 'No Location'} •
+                        <i class="bi bi-person"></i> ${item.user?.display_name || 'Unassigned'}
+                        ${item.sn ? ` • <i class="bi bi-hash"></i> S/N: ${item.sn}` : ''}
+                    </p>
                 `;
                 itemElement.onclick = () => {
                     addAssociation('item', item.id, item.function || item.model || `Item ID: ${item.id}`);

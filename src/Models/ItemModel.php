@@ -157,15 +157,8 @@ class ItemModel
 
         $item = $result[0];
 
-        // Load all associations
-        $item['tags'] = $this->getAssociatedTags($id);
-        $item['software'] = $this->getAssociatedSoftware($id);
-        $item['invoices'] = $this->getAssociatedInvoices($id);
-        $item['contracts'] = $this->getAssociatedContracts($id);
-        $item['files'] = $this->getAssociatedFiles($id);
-        $item['related_items'] = $this->getRelatedItems($id);
-
-        return $item;
+        // Load all associations with count structure
+        return $this->enrichItemWithAssociations($item);
     }
 
     /**
@@ -527,8 +520,8 @@ class ItemModel
     {
         try {
             $sql = "INSERT OR IGNORE INTO item2inv (itemid, invid) VALUES (?, ?)";
-            $this->db->execute($sql, [$itemId, $invoiceId]);
-            return $this->db->rowCount() > 0;
+            $stmt = $this->db->execute($sql, [$itemId, $invoiceId]);
+            return $stmt->rowCount() > 0;
         } catch (\Exception $e) {
             return false;
         }
@@ -576,8 +569,8 @@ class ItemModel
     {
         try {
             $sql = "INSERT OR IGNORE INTO contract2item (itemid, contractid) VALUES (?, ?)";
-            $this->db->execute($sql, [$itemId, $contractId]);
-            return $this->db->rowCount() > 0;
+            $stmt = $this->db->execute($sql, [$itemId, $contractId]);
+            return $stmt->rowCount() > 0;
         } catch (\Exception $e) {
             return false;
         }
@@ -624,8 +617,8 @@ class ItemModel
     {
         try {
             $sql = "INSERT OR IGNORE INTO item2file (itemid, fileid) VALUES (?, ?)";
-            $this->db->execute($sql, [$itemId, $fileId]);
-            return $this->db->rowCount() > 0;
+            $stmt = $this->db->execute($sql, [$itemId, $fileId]);
+            return $stmt->rowCount() > 0;
         } catch (\Exception $e) {
             return false;
         }
@@ -705,12 +698,20 @@ class ItemModel
         $itemId = (int) $item['id'];
 
         // Get association counts
-        $item['tags'] = $this->getAssociatedTags($itemId);
-        $item['software'] = $this->getAssociatedSoftware($itemId);
-        $item['invoices'] = $this->getAssociatedInvoices($itemId);
-        $item['contracts'] = $this->getAssociatedContracts($itemId);
-        $item['files'] = $this->getAssociatedFiles($itemId);
-        $item['related_items'] = $this->getRelatedItems($itemId);
+        $tagsData = $this->getAssociatedTags($itemId);
+        $softwareData = $this->getAssociatedSoftware($itemId);
+        $invoicesData = $this->getAssociatedInvoices($itemId);
+        $contractsData = $this->getAssociatedContracts($itemId);
+        $filesData = $this->getAssociatedFiles($itemId);
+        $relatedItemsData = $this->getRelatedItems($itemId);
+
+        // Structure data with counts for template badges
+        $item['tags'] = ['count' => count($tagsData), 'data' => $tagsData];
+        $item['software'] = ['count' => count($softwareData), 'data' => $softwareData];
+        $item['invoices'] = ['count' => count($invoicesData), 'data' => $invoicesData];
+        $item['contracts'] = ['count' => count($contractsData), 'data' => $contractsData];
+        $item['files'] = ['count' => count($filesData), 'data' => $filesData];
+        $item['related_items'] = ['count' => count($relatedItemsData), 'data' => $relatedItemsData];
 
         return $item;
     }

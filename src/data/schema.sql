@@ -12,7 +12,6 @@ CREATE TABLE statustypes (id INTEGER PRIMARY KEY AUTOINCREMENT, statusdesc);
 CREATE TABLE contract2inv(invid integer,contractid integer);
 CREATE TABLE contract2file(contractid integer,fileid integer);
 CREATE TABLE IF NOT EXISTS "item2inv" (itemid integer,invid integer);
-CREATE TABLE soft2inv(invid integer,softid integer);
 CREATE TABLE viewhist(id INTEGER PRIMARY KEY AUTOINCREMENT, url,description);
 CREATE TABLE locations (id INTEGER PRIMARY KEY AUTOINCREMENT, name, floor, floorplanfn);
 CREATE TABLE locareas(id  INTEGER PRIMARY KEY AUTOINCREMENT,locationid number,areaname,x1 number,y1 number,x2 number,y2 number);
@@ -246,4 +245,11 @@ CREATE TABLE audit_log (
     details TEXT,
     timestamp INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
     ip_address TEXT
+);
+CREATE TABLE IF NOT EXISTS "soft2inv" (
+    invid INTEGER,
+    softid INTEGER,
+    PRIMARY KEY (invid, softid),
+    FOREIGN KEY (invid) REFERENCES invoices(id) ON DELETE CASCADE,
+    FOREIGN KEY (softid) REFERENCES software(id) ON DELETE CASCADE
 );

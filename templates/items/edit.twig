@@ -40,35 +40,35 @@
                         <button class="nav-link {{ current_tab == 'software' ? 'active' : '' }}"
                                 id="software-tab" data-bs-toggle="tab" data-bs-target="#software"
                                 type="button" role="tab" aria-controls="software" aria-selected="{{ current_tab == 'software' ? 'true' : 'false' }}">
-                            <i class="bi bi-code-square me-1"></i>Software <span class="badge bg-secondary">{{ item.software.count | default(0) }}</span>
+                            <i class="bi bi-code-square me-1"></i>Software <span class="badge bg-secondary ms-2">{{ item.software.count | default(0) }}</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link {{ current_tab == 'invoices' ? 'active' : '' }}"
                                 id="invoices-tab" data-bs-toggle="tab" data-bs-target="#invoices"
                                 type="button" role="tab" aria-controls="invoices" aria-selected="{{ current_tab == 'invoices' ? 'true' : 'false' }}">
-                            <i class="bi bi-receipt me-1"></i>Invoices <span class="badge bg-secondary">{{ item.invoices.count | default(0) }}</span>
+                            <i class="bi bi-receipt me-1"></i>Invoices <span class="badge bg-secondary ms-2">{{ item.invoices.count | default(0) }}</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link {{ current_tab == 'contracts' ? 'active' : '' }}"
                                 id="contracts-tab" data-bs-toggle="tab" data-bs-target="#contracts"
                                 type="button" role="tab" aria-controls="contracts" aria-selected="{{ current_tab == 'contracts' ? 'true' : 'false' }}">
-                            <i class="bi bi-file-text me-1"></i>Contracts <span class="badge bg-secondary">{{ item.contracts.count | default(0) }}</span>
+                            <i class="bi bi-file-text me-1"></i>Contracts <span class="badge bg-secondary ms-2">{{ item.contracts.count | default(0) }}</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link {{ current_tab == 'files' ? 'active' : '' }}"
                                 id="files-tab" data-bs-toggle="tab" data-bs-target="#files"
                                 type="button" role="tab" aria-controls="files" aria-selected="{{ current_tab == 'files' ? 'true' : 'false' }}">
-                            <i class="bi bi-file-earmark me-1"></i>Files <span class="badge bg-secondary">{{ item.files.count | default(0) }}</span>
+                            <i class="bi bi-file-earmark me-1"></i>Files <span class="badge bg-secondary ms-2">{{ item.files.count | default(0) }}</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link {{ current_tab == 'items' ? 'active' : '' }}"
                                 id="items-tab" data-bs-toggle="tab" data-bs-target="#items"
                                 type="button" role="tab" aria-controls="items" aria-selected="{{ current_tab == 'items' ? 'true' : 'false' }}">
-                            <i class="bi bi-laptop me-1"></i>Related Items <span class="badge bg-secondary">{{ item.related_items.count | default(0) }}</span>
+                            <i class="bi bi-laptop me-1"></i>Related Items <span class="badge bg-secondary ms-2">{{ item.related_items.count | default(0) }}</span>
                         </button>
                     </li>
                 </ul>
@@ -236,7 +236,7 @@
                             <h6 class="text-muted mb-3">Tags</h6>
                             <div class="d-flex flex-wrap gap-2 mb-2" id="currentTags">
                                 {% if item.tags is defined %}
-                                    {% for tag in item.tags %}
+                                    {% for tag in item.tags.data | default([]) %}
                                     <span class="badge rounded-pill" style="background-color: {{ tag.color }}; color: #fff;" data-tag-id="{{ tag.id }}">
                                         {{ tag.name }}
                                         <button type="button" class="btn-close btn-close-white ms-1"
@@ -279,7 +279,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="softwareTableBody">
-                                        {% for software in item.software %}
+                                        {% for software in item.software.data | default([]) %}
                                         <tr data-software-id="{{ software.id }}">
                                             <td><a href="/software/{{ software.id }}" class="text-decoration-none">{{ software.id }}</a></td>
                                             <td><a href="/software/{{ software.id }}" class="text-decoration-none">{{ software.name }}</a></td>
@@ -337,7 +337,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="invoicesTableBody">
-                                        {% for invoice in item.invoices %}
+                                        {% for invoice in item.invoices.data | default([]) %}
                                         <tr data-invoice-id="{{ invoice.id }}">
                                             <td><a href="/invoices/{{ invoice.id }}" class="text-decoration-none">#{{ invoice.id }}</a></td>
                                             <td>{{ invoice.vendor_title | default('N/A') }}</td>
@@ -396,7 +396,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="contractsTableBody">
-                                        {% for contract in item.contracts %}
+                                        {% for contract in item.contracts.data | default([]) %}
                                         <tr data-contract-id="{{ contract.id }}">
                                             <td><a href="/contracts/{{ contract.id }}" class="text-decoration-none">#{{ contract.id }}</a></td>
                                             <td>{{ contract.title | default('N/A') }}</td>
@@ -456,7 +456,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="filesTableBody">
-                                        {% for file in item.files %}
+                                        {% for file in item.files.data | default([]) %}
                                         <tr data-file-id="{{ file.id }}">
                                             <td>
                                                 <i class="bi bi-file-earmark me-2"></i>
@@ -519,7 +519,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="itemsTableBody">
-                                        {% for related_item in item.related_items %}
+                                        {% for related_item in item.related_items.data | default([]) %}
                                         <tr data-item-id="{{ related_item.id }}">
                                             <td><a href="/items/{{ related_item.id }}" class="text-decoration-none">#{{ related_item.id }}</a></td>
                                             <td>{{ related_item.label | default(related_item.function) | default('N/A') }}</td>
@@ -591,7 +591,7 @@
                             {% for tag in all_tags %}
                                 {% set is_associated = false %}
                                 {% if item.tags is defined %}
-                                    {% for item_tag in item.tags %}
+                                    {% for item_tag in item.tags.data | default([]) %}
                                         {% if item_tag.id == tag.id %}
                                             {% set is_associated = true %}
                                         {% endif %}
@@ -646,7 +646,7 @@
                             {% for tag in all_tags %}
                                 {% set is_associated = false %}
                                 {% if item.tags is defined %}
-                                    {% for item_tag in item.tags %}
+                                    {% for item_tag in item.tags.data | default([]) %}
                                         {% if item_tag.id == tag.id %}
                                             {% set is_associated = true %}
                                         {% endif %}
@@ -1093,6 +1093,233 @@ function addSoftwareToTable(item, serverData = null) {
     }
 }
 
+function addInvoiceToTable(item, serverData = null) {
+    const currentInvoices = document.getElementById('currentInvoices');
+    const emptyState = document.getElementById('invoiceEmptyState');
+    const tableContainer = currentInvoices.querySelector('.table-responsive');
+
+    if (!tableContainer) {
+        const tableHTML = `
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Vendor</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoicesTableBody">
+                    </tbody>
+                </table>
+            </div>
+        `;
+        currentInvoices.innerHTML = tableHTML;
+    }
+
+    const tbody = document.getElementById('invoicesTableBody');
+    const row = document.createElement('tr');
+    row.setAttribute('data-invoice-id', item.id);
+
+    const invoiceData = serverData || item;
+    row.innerHTML = `
+        <td><a href="/invoices/${item.id}" class="text-decoration-none">#${item.id}</a></td>
+        <td>${invoiceData.vendor || 'N/A'}</td>
+        <td>${invoiceData.date || 'N/A'}</td>
+        <td>${invoiceData.total || 'N/A'}</td>
+        <td>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-outline-danger btn-sm"
+                        onclick="removeAssociation('invoice', ${item.id}, '${invoiceData.display || 'Invoice #' + item.id}')"
+                        title="Remove Association">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    // Hide empty state
+    if (emptyState) {
+        emptyState.style.display = 'none';
+    }
+}
+
+function addContractToTable(item, serverData = null) {
+    const currentContracts = document.getElementById('currentContracts');
+    const emptyState = document.getElementById('contractEmptyState');
+    const tableContainer = currentContracts.querySelector('.table-responsive');
+
+    if (!tableContainer) {
+        const tableHTML = `
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Contract #</th>
+                            <th>Title</th>
+                            <th>Contractor</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contractsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        `;
+        currentContracts.innerHTML = tableHTML;
+    }
+
+    const tbody = document.getElementById('contractsTableBody');
+    const row = document.createElement('tr');
+    row.setAttribute('data-contract-id', item.id);
+
+    const contractData = serverData || item;
+    row.innerHTML = `
+        <td><a href="/contracts/${item.id}" class="text-decoration-none">#${item.id}</a></td>
+        <td>${contractData.title || 'N/A'}</td>
+        <td>${contractData.contractor_name || 'N/A'}</td>
+        <td>${contractData.startdate || 'N/A'}</td>
+        <td>${contractData.enddate || 'N/A'}</td>
+        <td>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-outline-danger btn-sm"
+                        onclick="removeAssociation('contract', ${item.id}, '${contractData.title || 'Contract #' + item.id}')"
+                        title="Remove Association">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    // Hide empty state
+    if (emptyState) {
+        emptyState.style.display = 'none';
+    }
+}
+
+function addFileToTable(item, serverData = null) {
+    const currentFiles = document.getElementById('currentFiles');
+    const emptyState = document.getElementById('fileEmptyState');
+    const tableContainer = currentFiles.querySelector('.table-responsive');
+
+    if (!tableContainer) {
+        const tableHTML = `
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Type</th>
+                            <th>Size</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="filesTableBody">
+                    </tbody>
+                </table>
+            </div>
+        `;
+        currentFiles.innerHTML = tableHTML;
+    }
+
+    const tbody = document.getElementById('filesTableBody');
+    const row = document.createElement('tr');
+    row.setAttribute('data-file-id', item.id);
+
+    const fileData = serverData || item;
+    row.innerHTML = `
+        <td>
+            <i class="bi bi-file-earmark me-2"></i>
+            ${fileData.filename || fileData.fname || 'N/A'}
+        </td>
+        <td>${fileData.type || 'N/A'}</td>
+        <td>${fileData.filesize ? formatBytes(fileData.filesize) : 'N/A'}</td>
+        <td>${fileData.description || 'N/A'}</td>
+        <td>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-outline-danger btn-sm"
+                        onclick="removeAssociation('file', ${item.id}, '${fileData.filename || fileData.fname || 'File #' + item.id}')"
+                        title="Remove Association">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    // Hide empty state
+    if (emptyState) {
+        emptyState.style.display = 'none';
+    }
+}
+
+function addItemToTable(item, serverData = null) {
+    const currentItems = document.getElementById('currentItems');
+    const emptyState = document.getElementById('itemEmptyState');
+    const tableContainer = currentItems.querySelector('.table-responsive');
+
+    if (!tableContainer) {
+        const tableHTML = `
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Item #</th>
+                            <th>Function/Label</th>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        `;
+        currentItems.innerHTML = tableHTML;
+    }
+
+    const tbody = document.getElementById('itemsTableBody');
+    const row = document.createElement('tr');
+    row.setAttribute('data-item-id', item.id);
+
+    const itemData = serverData || item;
+    row.innerHTML = `
+        <td><a href="/items/${item.id}" class="text-decoration-none">#${item.id}</a></td>
+        <td>${itemData.label || itemData.function || 'N/A'}</td>
+        <td>${itemData.itemtype_name || 'N/A'}</td>
+        <td>${itemData.location_name || 'N/A'}</td>
+        <td>${itemData.status_name || 'N/A'}</td>
+        <td>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-outline-danger btn-sm"
+                        onclick="removeAssociation('item', ${item.id}, '${itemData.label || itemData.function || 'Item #' + item.id}')"
+                        title="Remove Association">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    // Hide empty state
+    if (emptyState) {
+        emptyState.style.display = 'none';
+    }
+}
+
 function createAssociationElement(type, item, serverData = null) {
     const element = document.createElement('div');
     element.setAttribute(`data-${type}-id`, item.id);
@@ -1127,10 +1354,14 @@ function refreshAvailableItems(type, itemId, wasRemoved = false) {
     // TODO: Implement refresh logic for modals
 }
 
-// Software search functionality
+// Search functionality
 let searchTimeout;
 const softwareSearch = document.getElementById('softwareSearch');
 const softwareSearchResults = document.getElementById('softwareSearchResults');
+const invoiceSearch = document.getElementById('invoiceSearch');
+const contractSearch = document.getElementById('contractSearch');
+const fileSearch = document.getElementById('fileSearch');
+const itemSearch = document.getElementById('itemSearch');
 
 if (softwareSearch) {
     softwareSearch.addEventListener('input', function() {
@@ -1142,12 +1373,96 @@ if (softwareSearch) {
     });
 }
 
+if (invoiceSearch) {
+    invoiceSearch.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        const query = this.value.trim();
+        searchTimeout = setTimeout(() => {
+            searchInvoices(query);
+        }, 300);
+    });
+}
+
+if (contractSearch) {
+    contractSearch.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        const query = this.value.trim();
+        searchTimeout = setTimeout(() => {
+            searchContracts(query);
+        }, 300);
+    });
+}
+
+if (fileSearch) {
+    fileSearch.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        const query = this.value.trim();
+        searchTimeout = setTimeout(() => {
+            searchFiles(query);
+        }, 300);
+    });
+}
+
+if (itemSearch) {
+    itemSearch.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        const query = this.value.trim();
+        searchTimeout = setTimeout(() => {
+            searchItems(query);
+        }, 300);
+    });
+}
+
 // Load recent software when modal opens
 const addSoftwareModal = document.getElementById('addSoftwareModal');
 if (addSoftwareModal) {
     addSoftwareModal.addEventListener('shown.bs.modal', function() {
         if (softwareSearchResults.children.length === 0) {
             searchSoftware('');
+        }
+    });
+}
+
+// Load recent invoices when modal opens
+const addInvoiceModal = document.getElementById('addInvoiceModal');
+if (addInvoiceModal) {
+    addInvoiceModal.addEventListener('shown.bs.modal', function() {
+        const invoiceSearchResults = document.getElementById('invoiceSearchResults');
+        if (invoiceSearchResults && invoiceSearchResults.children.length === 0) {
+            searchInvoices('');
+        }
+    });
+}
+
+// Load recent contracts when modal opens
+const addContractModal = document.getElementById('addContractModal');
+if (addContractModal) {
+    addContractModal.addEventListener('shown.bs.modal', function() {
+        const contractSearchResults = document.getElementById('contractSearchResults');
+        if (contractSearchResults && contractSearchResults.children.length === 0) {
+            searchContracts('');
+        }
+    });
+}
+
+// Load recent files when modal opens
+const addFileModal = document.getElementById('addFileModal');
+if (addFileModal) {
+    addFileModal.addEventListener('shown.bs.modal', function() {
+        const fileSearchResults = document.getElementById('fileSearchResults');
+        if (fileSearchResults && fileSearchResults.children.length === 0) {
+            searchFiles('');
+        }
+    });
+}
+
+// Load recent items when modal opens
+const addItemModal = document.getElementById('addItemModal');
+if (addItemModal) {
+    addItemModal.addEventListener('shown.bs.modal', function() {
+        const itemSearchResults = document.getElementById('itemSearchResults');
+        if (itemSearchResults && itemSearchResults.children.length === 0) {
+            searchItems('');
         }
     });
 }
@@ -1195,6 +1510,198 @@ async function searchSoftware(query) {
         console.error('Error searching software:', error);
         softwareSearchResults.innerHTML = '<div class="list-group-item text-danger text-center">Error loading software. Please try again.</div>';
     }
+}
+
+async function searchInvoices(query) {
+    const invoiceSearchResults = document.getElementById('invoiceSearchResults');
+    if (!invoiceSearchResults) return;
+
+    invoiceSearchResults.innerHTML = '<div class="text-center py-3"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+    try {
+        const url = query.length >= 2
+            ? `/invoices/search?q=${encodeURIComponent(query)}&exclude_item=${currentEntityId}`
+            : `/invoices/search?exclude_item=${currentEntityId}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        invoiceSearchResults.innerHTML = '';
+
+        if (data.invoices && data.invoices.length > 0) {
+            data.invoices.forEach(invoice => {
+                const invoiceElement = document.createElement('button');
+                invoiceElement.type = 'button';
+                invoiceElement.className = 'list-group-item list-group-item-action';
+                invoiceElement.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">ID: ${invoice.id} - ${invoice.display || 'Invoice'}</h6>
+                        <small class="badge bg-secondary">${invoice.total || 'No Amount'}</small>
+                    </div>
+                    <p class="mb-1">${invoice.vendor || 'No Vendor'}</p>
+                    <small class="text-muted">${invoice.date || 'No Date'}</small>
+                `;
+                invoiceElement.onclick = () => {
+                    addAssociation('invoice', invoice.id, invoice.display || `Invoice ID: ${invoice.id}`);
+                };
+                invoiceSearchResults.appendChild(invoiceElement);
+            });
+        } else {
+            const message = query.length >= 2
+                ? 'No invoices found matching your search.'
+                : 'No invoices available for association.';
+            invoiceSearchResults.innerHTML = `<div class="list-group-item text-muted text-center">${message}</div>`;
+        }
+    } catch (error) {
+        console.error('Error searching invoices:', error);
+        invoiceSearchResults.innerHTML = '<div class="list-group-item text-danger text-center">Error loading invoices. Please try again.</div>';
+    }
+}
+
+async function searchContracts(query) {
+    const contractSearchResults = document.getElementById('contractSearchResults');
+    if (!contractSearchResults) return;
+
+    contractSearchResults.innerHTML = '<div class="text-center py-3"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+    try {
+        const url = query.length >= 2
+            ? `/contracts/search?q=${encodeURIComponent(query)}&exclude_item=${currentEntityId}`
+            : `/contracts/search?exclude_item=${currentEntityId}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        contractSearchResults.innerHTML = '';
+
+        if (data.contracts && data.contracts.length > 0) {
+            data.contracts.forEach(contract => {
+                const contractElement = document.createElement('button');
+                contractElement.type = 'button';
+                contractElement.className = 'list-group-item list-group-item-action';
+                contractElement.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">ID: ${contract.id} - ${contract.title || 'Contract'}</h6>
+                        <small class="badge bg-secondary">${contract.enddate || 'No End Date'}</small>
+                    </div>
+                    <p class="mb-1">${contract.contractor_name || 'No Contractor'}</p>
+                    <small class="text-muted">${contract.startdate || 'No Start Date'}</small>
+                `;
+                contractElement.onclick = () => {
+                    addAssociation('contract', contract.id, contract.title || `Contract ID: ${contract.id}`);
+                };
+                contractSearchResults.appendChild(contractElement);
+            });
+        } else {
+            const message = query.length >= 2
+                ? 'No contracts found matching your search.'
+                : 'No contracts available for association.';
+            contractSearchResults.innerHTML = `<div class="list-group-item text-muted text-center">${message}</div>`;
+        }
+    } catch (error) {
+        console.error('Error searching contracts:', error);
+        contractSearchResults.innerHTML = '<div class="list-group-item text-danger text-center">Error loading contracts. Please try again.</div>';
+    }
+}
+
+async function searchFiles(query) {
+    const fileSearchResults = document.getElementById('fileSearchResults');
+    if (!fileSearchResults) return;
+
+    fileSearchResults.innerHTML = '<div class="text-center py-3"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+    try {
+        const url = query.length >= 2
+            ? `/files/search?q=${encodeURIComponent(query)}&exclude_item=${currentEntityId}`
+            : `/files/search?exclude_item=${currentEntityId}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        fileSearchResults.innerHTML = '';
+
+        if (data.files && data.files.length > 0) {
+            data.files.forEach(file => {
+                const fileElement = document.createElement('button');
+                fileElement.type = 'button';
+                fileElement.className = 'list-group-item list-group-item-action';
+                fileElement.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">ID: ${file.id} - ${file.filename || 'File'}</h6>
+                        <small class="badge bg-secondary">${file.type || 'Unknown Type'}</small>
+                    </div>
+                    <p class="mb-1">${file.description || 'No Description'}</p>
+                    <small class="text-muted">${file.filesize ? formatBytes(file.filesize) : 'Unknown Size'}</small>
+                `;
+                fileElement.onclick = () => {
+                    addAssociation('file', file.id, file.filename || `File ID: ${file.id}`);
+                };
+                fileSearchResults.appendChild(fileElement);
+            });
+        } else {
+            const message = query.length >= 2
+                ? 'No files found matching your search.'
+                : 'No files available for association.';
+            fileSearchResults.innerHTML = `<div class="list-group-item text-muted text-center">${message}</div>`;
+        }
+    } catch (error) {
+        console.error('Error searching files:', error);
+        fileSearchResults.innerHTML = '<div class="list-group-item text-danger text-center">Error loading files. Please try again.</div>';
+    }
+}
+
+async function searchItems(query) {
+    const itemSearchResults = document.getElementById('itemSearchResults');
+    if (!itemSearchResults) return;
+
+    itemSearchResults.innerHTML = '<div class="text-center py-3"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+    try {
+        const url = query.length >= 2
+            ? `/items/search?q=${encodeURIComponent(query)}&exclude_item=${currentEntityId}`
+            : `/items/search?exclude_item=${currentEntityId}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        itemSearchResults.innerHTML = '';
+
+        if (data.items && data.items.length > 0) {
+            data.items.forEach(item => {
+                const itemElement = document.createElement('button');
+                itemElement.type = 'button';
+                itemElement.className = 'list-group-item list-group-item-action';
+                itemElement.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">ID: ${item.id} - ${item.function || item.model || 'Item'}</h6>
+                        <small class="badge bg-secondary">${item.itemtype_name || 'Unknown Type'}</small>
+                    </div>
+                    <p class="mb-1">${item.location_name || 'No Location'}</p>
+                    <small class="text-muted">${item.status_name || 'No Status'}</small>
+                `;
+                itemElement.onclick = () => {
+                    addAssociation('item', item.id, item.function || item.model || `Item ID: ${item.id}`);
+                };
+                itemSearchResults.appendChild(itemElement);
+            });
+        } else {
+            const message = query.length >= 2
+                ? 'No items found matching your search.'
+                : 'No items available for association.';
+            itemSearchResults.innerHTML = `<div class="list-group-item text-muted text-center">${message}</div>`;
+        }
+    } catch (error) {
+        console.error('Error searching items:', error);
+        itemSearchResults.innerHTML = '<div class="list-group-item text-danger text-center">Error loading items. Please try again.</div>';
+    }
+}
+
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
 function showConfirmModal(message, onConfirm) {

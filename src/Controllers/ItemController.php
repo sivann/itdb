@@ -567,12 +567,18 @@ class ItemController extends BaseController
 
             $responseData['success'] = $success;
 
-            // Add error message for failed associations
+            // Handle failed associations with appropriate HTTP status
             if (!$success) {
                 if ($action === 'add') {
-                    $responseData['error'] = "This {$type} is already associated with this item";
+                    return $this->json($response, [
+                        'success' => false,
+                        'error' => "This {$type} is already associated with this item"
+                    ], 409); // 409 Conflict for duplicates
                 } else {
-                    $responseData['error'] = "Failed to remove {$type} association";
+                    return $this->json($response, [
+                        'success' => false,
+                        'error' => "Failed to remove {$type} association"
+                    ], 400); // 400 Bad Request for other failures
                 }
             }
 

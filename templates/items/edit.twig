@@ -473,6 +473,16 @@
                                             <td>{{ file.uploaddate_formatted | default('N/A') }}</td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
+                                                    <button type="button"
+                                                            class="btn btn-outline-primary"
+                                                            title="Preview File"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#previewModal{{ file.id }}">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                    <a href="/files/{{ file.id }}/edit" class="btn btn-outline-secondary" title="Edit File">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
                                                     <a href="/files/{{ file.id }}/download" class="btn btn-outline-success" title="Download">
                                                         <i class="bi bi-download"></i>
                                                     </a>
@@ -820,6 +830,14 @@
         </div>
     </div>
 </div>
+
+
+<!-- File Preview Modals -->
+{% if item.files.data is defined %}
+{% for file in item.files.data %}
+    {% include 'components/file_preview_modal.twig' with {'file': file} %}
+{% endfor %}
+{% endif %}
 
 {% endblock %}
 
@@ -1330,6 +1348,16 @@ function addFileToTable(item, serverData = null) {
         <td>${fileData.uploaddate_formatted || 'N/A'}</td>
         <td>
             <div class="btn-group btn-group-sm" role="group">
+                <button type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        title="Preview File"
+                        data-bs-toggle="modal"
+                        data-bs-target="#previewModal${item.id}">
+                    <i class="bi bi-eye"></i>
+                </button>
+                <a href="/files/${item.id}/edit" class="btn btn-outline-secondary btn-sm" title="Edit File">
+                    <i class="bi bi-pencil"></i>
+                </a>
                 <a href="/files/${item.id}/download" class="btn btn-outline-success btn-sm" title="Download">
                     <i class="bi bi-download"></i>
                 </a>
@@ -1902,4 +1930,7 @@ async function uploadFile() {
     }
 }
 </script>
+
+{# Include shared file preview functionality #}
+{% include 'components/file_preview_scripts.twig' %}
 {% endblock %}

@@ -1150,7 +1150,10 @@ function showConfirmModal(message, onConfirm) {
     const modalElement = document.getElementById(modalId);
     const modal = new bootstrap.Modal(modalElement);
 
-    document.getElementById(modalId + '-confirm').addEventListener('click', () => {
+    const confirmButton = document.getElementById(modalId + '-confirm');
+    confirmButton.addEventListener('click', () => {
+        // Remove focus from button before hiding modal to prevent aria-hidden warning
+        confirmButton.blur();
         modal.hide();
         onConfirm();
     });

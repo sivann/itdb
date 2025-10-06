@@ -3,20 +3,14 @@ CREATE TABLE files (id INTEGER PRIMARY KEY AUTOINCREMENT,type,title,fname, uploa
 CREATE TABLE filetypes (id INTEGER PRIMARY KEY AUTOINCREMENT, typedesc);
 CREATE TABLE history (id INTEGER PRIMARY KEY AUTOINCREMENT, date integer, sql, authuser, ip);
 CREATE TABLE invoice2file(invoiceid INTEGER,fileid INTEGER);
-CREATE TABLE item2file(itemid INTEGER,fileid INTEGER);
-CREATE TABLE itemlink (itemid1, itemid2);
 CREATE TABLE labelpapers (id INTEGER PRIMARY KEY AUTOINCREMENT,rows integer, cols integer, lwidth real, lheight real,  vpitch real,  hpitch real,  tmargin real,  bmargin real,  lmargin real,  rmargin real, name, border, padding, headerfontsize, idfontsize, wantheadertext, wantheaderimage, headertext, fontsize, wantbarcode, barcodesize, image, imagewidth, imageheight, papersize, qrtext, wantnotext, wantraligntext);
 CREATE TABLE racks (id INTEGER PRIMARY KEY AUTOINCREMENT, locationid integer, usize integer, depth integer, comments,model,label, revnums integer, locareaid number);
-CREATE TABLE software2file(softwareid INTEGER,fileid INTEGER);
 CREATE TABLE statustypes (id INTEGER PRIMARY KEY AUTOINCREMENT, statusdesc);
-CREATE TABLE contract2inv(invid integer,contractid integer);
 CREATE TABLE contract2file(contractid integer,fileid integer);
-CREATE TABLE IF NOT EXISTS "item2inv" (itemid integer,invid integer);
 CREATE TABLE viewhist(id INTEGER PRIMARY KEY AUTOINCREMENT, url,description);
 CREATE TABLE locations (id INTEGER PRIMARY KEY AUTOINCREMENT, name, floor, floorplanfn);
 CREATE TABLE locareas(id  INTEGER PRIMARY KEY AUTOINCREMENT,locationid number,areaname,x1 number,y1 number,x2 number,y2 number);
 CREATE TABLE contractsubtypes(id INTEGER PRIMARY KEY AUTOINCREMENT,contypeid integer, name);
-CREATE TABLE tag2software (softwareid integer,tagid integer);
 CREATE TABLE settings(companytitle, dateformat, currency, lang, version, timezone, dbversion, useldap integer default 0, ldap_server, ldap_dn, ldap_getusers, ldap_getusers_filter);
 CREATE TABLE agents (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -253,3 +247,55 @@ CREATE TABLE IF NOT EXISTS "soft2inv" (
     FOREIGN KEY (invid) REFERENCES invoices(id) ON DELETE CASCADE,
     FOREIGN KEY (softid) REFERENCES software(id) ON DELETE CASCADE
 );
+CREATE TABLE IF NOT EXISTS "item2inv" (
+            itemid INTEGER,
+            invid INTEGER,
+            PRIMARY KEY (itemid, invid),
+            FOREIGN KEY (itemid) REFERENCES items(id) ON DELETE CASCADE,
+            FOREIGN KEY (invid) REFERENCES invoices(id) ON DELETE CASCADE
+        );
+CREATE INDEX idx_item2inv_item ON item2inv(itemid);
+CREATE INDEX idx_item2inv_invoice ON item2inv(invid);
+CREATE TABLE IF NOT EXISTS "item2file" (
+            itemid INTEGER,
+            fileid INTEGER,
+            PRIMARY KEY (itemid, fileid),
+            FOREIGN KEY (itemid) REFERENCES items(id) ON DELETE CASCADE,
+            FOREIGN KEY (fileid) REFERENCES files(id) ON DELETE CASCADE
+        );
+CREATE INDEX idx_item2file_item ON item2file(itemid);
+CREATE INDEX idx_item2file_file ON item2file(fileid);
+CREATE TABLE IF NOT EXISTS "contract2inv" (
+            contractid INTEGER,
+            invid INTEGER,
+            PRIMARY KEY (contractid, invid),
+            FOREIGN KEY (contractid) REFERENCES contracts(id) ON DELETE CASCADE,
+            FOREIGN KEY (invid) REFERENCES invoices(id) ON DELETE CASCADE
+        );
+CREATE INDEX idx_contract2inv_contract ON contract2inv(contractid);
+CREATE INDEX idx_contract2inv_invoice ON contract2inv(invid);
+CREATE TABLE IF NOT EXISTS "tag2software" (
+            tagid INTEGER,
+            softwareid INTEGER,
+            PRIMARY KEY (tagid, softwareid),
+            FOREIGN KEY (tagid) REFERENCES tags(id) ON DELETE CASCADE,
+            FOREIGN KEY (softwareid) REFERENCES software(id) ON DELETE CASCADE
+        );
+CREATE INDEX idx_tag2software_tag ON tag2software(tagid);
+CREATE INDEX idx_tag2software_software ON tag2software(softwareid);
+CREATE TABLE IF NOT EXISTS "itemlink" (
+            itemid1 INTEGER,
+            itemid2 INTEGER,
+            PRIMARY KEY (itemid1, itemid2),
+            FOREIGN KEY (itemid1) REFERENCES items(id) ON DELETE CASCADE,
+            FOREIGN KEY (itemid2) REFERENCES items(id) ON DELETE CASCADE
+        );
+CREATE INDEX idx_itemlink_item1 ON itemlink(itemid1);
+CREATE INDEX idx_itemlink_item2 ON itemlink(itemid2);
+CREATE TABLE IF NOT EXISTS "software2file" (
+                softwareid INTEGER,
+                fileid INTEGER,
+                PRIMARY KEY (softwareid, fileid),
+                FOREIGN KEY (softwareid) REFERENCES software(id) ON DELETE CASCADE,
+                FOREIGN KEY (fileid) REFERENCES files(id) ON DELETE CASCADE
+            );

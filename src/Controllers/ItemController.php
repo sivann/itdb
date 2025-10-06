@@ -594,10 +594,8 @@ class ItemController extends BaseController
                         break;
 
                     case 'item':
-                        $sql = "SELECT i.id, i.function, i.model, i.sn, i.label,
-                                       it.name as itemtype_name,
-                                       l.name as location_name,
-                                       u.name as username
+                        $sql = "SELECT i.id, i.label, i.function, it.name as type_name,
+                                       l.name as location_name, u.username
                                 FROM items i
                                 LEFT JOIN itemtypes it ON i.itemtypeid = it.id
                                 LEFT JOIN locations l ON i.locationid = l.id

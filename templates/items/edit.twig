@@ -1818,6 +1818,8 @@ function showConfirmModal(message, onConfirm) {
     const confirmButton = document.getElementById(`${modalId}-confirm`);
 
     confirmButton.addEventListener('click', () => {
+        // Remove focus from button before hiding modal to prevent aria-hidden warning
+        confirmButton.blur();
         modal.hide();
         onConfirm();
     });

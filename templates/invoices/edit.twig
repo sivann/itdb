@@ -19,19 +19,59 @@
     </div>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col-lg-8">
+<div class="row">
+    <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-pencil me-2"></i>Edit Invoice: #{{ invoice.id }}
+                <h5 class="card-title mb-3">
+                    <i class="bi bi-pencil me-2"></i>Edit Invoice #{{ invoice.id }}
                 </h5>
+                <ul class="nav nav-tabs card-header-tabs" id="invoiceEditTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active"
+                                id="data-tab" data-bs-toggle="tab" data-bs-target="#data"
+                                type="button" role="tab" aria-controls="data" aria-selected="true">
+                            <i class="bi bi-info-circle me-1"></i>Invoice Data
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"
+                                id="items-tab" data-bs-toggle="tab" data-bs-target="#items"
+                                type="button" role="tab" aria-controls="items" aria-selected="false">
+                            <i class="bi bi-laptop me-1"></i>Associated Items <span class="badge bg-secondary" id="items-count">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"
+                                id="software-tab" data-bs-toggle="tab" data-bs-target="#software"
+                                type="button" role="tab" aria-controls="software" aria-selected="false">
+                            <i class="bi bi-code-square me-1"></i>Associated Software <span class="badge bg-secondary" id="software-count">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"
+                                id="contracts-tab" data-bs-toggle="tab" data-bs-target="#contracts"
+                                type="button" role="tab" aria-controls="contracts" aria-selected="false">
+                            <i class="bi bi-file-text me-1"></i>Associated Contracts <span class="badge bg-secondary" id="contracts-count">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"
+                                id="files-tab" data-bs-toggle="tab" data-bs-target="#files"
+                                type="button" role="tab" aria-controls="files" aria-selected="false">
+                            <i class="bi bi-paperclip me-1"></i>Associated Files <span class="badge bg-secondary" id="files-count">0</span>
+                        </button>
+                    </li>
+                </ul>
             </div>
             <div class="card-body">
-                <form method="POST" action="/invoices/{{ invoice.id }}">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <div class="tab-content" id="invoiceEditTabsContent">
+                    <!-- Invoice Data Tab -->
+                    <div class="tab-pane fade show active" id="data" role="tabpanel" aria-labelledby="data-tab">
+                        <form method="POST" action="/invoices/{{ invoice.id }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-                    <div class="row">
+                            <div class="row">
                         <div class="col-md-6">
                             <h6 class="text-muted mb-3">Invoice Information</h6>
 
@@ -80,15 +120,61 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                        <a href="/invoices/{{ invoice.id }}" class="btn btn-secondary">
-                            <i class="bi bi-x-lg me-1"></i>Cancel
-                        </a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-lg me-1"></i>Update Invoice
-                        </button>
+                            <div class="d-flex justify-content-between">
+                                <a href="/invoices/{{ invoice.id }}" class="btn btn-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-lg me-1"></i>Update Invoice
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+
+                    <!-- Associated Items Tab -->
+                    <div class="tab-pane fade" id="items" role="tabpanel" aria-labelledby="items-tab">
+                        <div id="items-list-container">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Associated Software Tab -->
+                    <div class="tab-pane fade" id="software" role="tabpanel" aria-labelledby="software-tab">
+                        <div id="software-list-container">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Associated Contracts Tab -->
+                    <div class="tab-pane fade" id="contracts" role="tabpanel" aria-labelledby="contracts-tab">
+                        <div id="contracts-list-container">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Associated Files Tab -->
+                    <div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-tab">
+                        <div id="files-list-container">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -97,6 +183,9 @@
 
 {% block scripts %}
 <script>
+const invoiceId = {{ invoice.id }};
+let loadedTabs = { data: true };
+
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-format total amount on blur
     document.getElementById('total').addEventListener('blur', function() {
@@ -104,6 +193,190 @@ document.addEventListener('DOMContentLoaded', function() {
             this.value = parseFloat(this.value).toFixed(2);
         }
     });
+
+    // Handle tab switching and load data dynamically
+    const tabs = document.querySelectorAll('#invoiceEditTabs button[data-bs-toggle="tab"]');
+    tabs.forEach(tab => {
+        tab.addEventListener('shown.bs.tab', function(e) {
+            const tabId = e.target.getAttribute('aria-controls');
+            if (!loadedTabs[tabId]) {
+                loadTabData(tabId);
+                loadedTabs[tabId] = true;
+            }
+        });
+    });
 });
+
+async function loadTabData(tabId) {
+    const container = document.getElementById(tabId + '-list-container');
+    if (!container) return;
+
+    try {
+        let data;
+        switch(tabId) {
+            case 'items':
+                data = await fetchAssociations('items');
+                renderItemsTab(data, container);
+                break;
+            case 'software':
+                data = await fetchAssociations('software');
+                renderSoftwareTab(data, container);
+                break;
+            case 'contracts':
+                data = await fetchAssociations('contracts');
+                renderContractsTab(data, container);
+                break;
+            case 'files':
+                data = await fetchAssociations('files');
+                renderFilesTab(data, container);
+                break;
+        }
+    } catch (error) {
+        container.innerHTML = '<div class="alert alert-danger">Failed to load data. Please try again.</div>';
+        console.error('Error loading tab data:', error);
+    }
+}
+
+async function fetchAssociations(type) {
+    const response = await fetch(`/invoices/${invoiceId}/associations/${type}`);
+    if (!response.ok) throw new Error('Failed to fetch');
+    return await response.json();
+}
+
+function renderItemsTab(data, container) {
+    const count = data.items?.length || 0;
+    document.getElementById('items-count').textContent = count;
+
+    if (count === 0) {
+        container.innerHTML = `
+            <div class="text-center text-muted py-5">
+                <i class="bi bi-laptop display-4 mb-3"></i>
+                <p>No items are associated with this invoice yet.</p>
+            </div>
+        `;
+        return;
+    }
+
+    let html = '<div class="table-responsive"><table class="table table-hover"><thead><tr>';
+    html += '<th>ID</th><th>Label</th><th>Type</th><th>Location</th><th>User</th><th>Actions</th>';
+    html += '</tr></thead><tbody>';
+
+    data.items.forEach(item => {
+        html += `<tr>
+            <td><a href="/items/${item.id}" class="text-decoration-none">#${item.id}</a></td>
+            <td>${item.label || item.function || 'N/A'}</td>
+            <td>${item.type_name || 'N/A'}</td>
+            <td>${item.location_name || 'N/A'}</td>
+            <td>${item.username || 'Unassigned'}</td>
+            <td><a href="/items/${item.id}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a></td>
+        </tr>`;
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+function renderSoftwareTab(data, container) {
+    const count = data.software?.length || 0;
+    document.getElementById('software-count').textContent = count;
+
+    if (count === 0) {
+        container.innerHTML = `
+            <div class="text-center text-muted py-5">
+                <i class="bi bi-code-square display-4 mb-3"></i>
+                <p>No software is associated with this invoice yet.</p>
+            </div>
+        `;
+        return;
+    }
+
+    let html = '<div class="table-responsive"><table class="table table-hover"><thead><tr>';
+    html += '<th>ID</th><th>Title</th><th>Version</th><th>Publisher</th><th>Actions</th>';
+    html += '</tr></thead><tbody>';
+
+    data.software.forEach(sw => {
+        html += `<tr>
+            <td><a href="/software/${sw.id}" class="text-decoration-none">#${sw.id}</a></td>
+            <td>${sw.stitle || 'N/A'}</td>
+            <td>${sw.sversion || 'N/A'}</td>
+            <td>${sw.publisher_name || 'N/A'}</td>
+            <td><a href="/software/${sw.id}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a></td>
+        </tr>`;
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+function renderContractsTab(data, container) {
+    const count = data.contracts?.length || 0;
+    document.getElementById('contracts-count').textContent = count;
+
+    if (count === 0) {
+        container.innerHTML = `
+            <div class="text-center text-muted py-5">
+                <i class="bi bi-file-text display-4 mb-3"></i>
+                <p>No contracts are associated with this invoice yet.</p>
+            </div>
+        `;
+        return;
+    }
+
+    let html = '<div class="table-responsive"><table class="table table-hover"><thead><tr>';
+    html += '<th>ID</th><th>Title</th><th>Contractor</th><th>Start Date</th><th>End Date</th><th>Actions</th>';
+    html += '</tr></thead><tbody>';
+
+    data.contracts.forEach(contract => {
+        const startDate = contract.startdate ? new Date(contract.startdate * 1000).toLocaleDateString() : 'N/A';
+        const endDate = contract.enddate ? new Date(contract.enddate * 1000).toLocaleDateString() : 'N/A';
+
+        html += `<tr>
+            <td><a href="/contracts/${contract.id}" class="text-decoration-none">#${contract.id}</a></td>
+            <td>${contract.title || 'N/A'}</td>
+            <td>${contract.contractor_name || 'N/A'}</td>
+            <td>${startDate}</td>
+            <td>${endDate}</td>
+            <td><a href="/contracts/${contract.id}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a></td>
+        </tr>`;
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+function renderFilesTab(data, container) {
+    const count = data.files?.length || 0;
+    document.getElementById('files-count').textContent = count;
+
+    if (count === 0) {
+        container.innerHTML = `
+            <div class="text-center text-muted py-5">
+                <i class="bi bi-paperclip display-4 mb-3"></i>
+                <p>No files are associated with this invoice yet.</p>
+            </div>
+        `;
+        return;
+    }
+
+    let html = '<div class="table-responsive"><table class="table table-hover"><thead><tr>';
+    html += '<th>File Name</th><th>Title</th><th>Type</th><th>Actions</th>';
+    html += '</tr></thead><tbody>';
+
+    data.files.forEach(file => {
+        html += `<tr>
+            <td><i class="bi bi-file-earmark me-2"></i>${file.fname || 'N/A'}</td>
+            <td>${file.title || 'N/A'}</td>
+            <td>${file.filetype_name || 'N/A'}</td>
+            <td>
+                <a href="/files/${file.id}/download" class="btn btn-sm btn-outline-success" title="Download">
+                    <i class="bi bi-download"></i>
+                </a>
+            </td>
+        </tr>`;
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
 </script>
 {% endblock %}

@@ -367,4 +367,38 @@ class InvoiceController extends BaseController
             'invoices' => $results
         ]);
     }
+
+    /**
+     * Get invoice associations by type
+     */
+    public function getAssociations(Request $request, Response $response, array $args): Response
+    {
+        $id = (int) $args['id'];
+        $type = $args['type'] ?? '';
+
+        $invoice = $this->invoiceModel->find($id);
+        if (!$invoice) {
+            return $this->json($response, ['error' => 'Invoice not found'], 404);
+        }
+
+        $data = [];
+        switch ($type) {
+            case 'items':
+                $data['items'] = $this->invoiceModel->getAssociatedItems($id);
+                break;
+            case 'software':
+                $data['software'] = $this->invoiceModel->getAssociatedSoftware($id);
+                break;
+            case 'contracts':
+                $data['contracts'] = $this->invoiceModel->getAssociatedContracts($id);
+                break;
+            case 'files':
+                $data['files'] = $this->invoiceModel->getAssociatedFiles($id);
+                break;
+            default:
+                return $this->json($response, ['error' => 'Invalid association type'], 400);
+        }
+
+        return $this->json($response, $data);
+    }
 }

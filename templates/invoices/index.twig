@@ -78,6 +78,7 @@
                     <tr>
                         <th>Invoice</th>
                         <th>Vendor</th>
+                        <th>Buyer</th>
                         <th>Date</th>
                         <th>Total</th>
                         <th>Description</th>
@@ -102,6 +103,13 @@
                         <td>
                             {% if invoice.vendor %}
                                 {{ invoice.vendor.title }}
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if invoice.buyer %}
+                                {{ invoice.buyer.title }}
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}

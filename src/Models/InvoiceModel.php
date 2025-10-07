@@ -270,4 +270,79 @@ class InvoiceModel
     {
         return (int) $this->db->fetchColumn("SELECT COUNT(*) FROM invoices");
     }
+
+    /**
+     * Get items associated with an invoice
+     */
+    public function getAssociatedItems(int $invoiceId): array
+    {
+        $sql = "
+            SELECT i.*,
+                   it.name as type_name,
+                   l.name as location_name,
+                   u.username
+            FROM items i
+            INNER JOIN item2inv ii ON i.id = ii.itemid
+            LEFT JOIN itemtypes it ON i.tid = it.id
+            LEFT JOIN locations l ON i.lid = l.id
+            LEFT JOIN users u ON i.uid = u.id
+            WHERE ii.invid = :invoice_id
+            ORDER BY i.id DESC
+        ";
+
+        return $this->db->fetchAll($sql, ['invoice_id' => $invoiceId]);
+    }
+
+    /**
+     * Get software associated with an invoice
+     */
+    public function getAssociatedSoftware(int $invoiceId): array
+    {
+        $sql = "
+            SELECT s.*,
+                   a.title as publisher_name
+            FROM software s
+            LEFT JOIN agents a ON s.publisher = a.id
+            WHERE s.invoiceid = :invoice_id
+            ORDER BY s.id DESC
+        ";
+
+        return $this->db->fetchAll($sql, ['invoice_id' => $invoiceId]);
+    }
+
+    /**
+     * Get contracts associated with an invoice
+     */
+    public function getAssociatedContracts(int $invoiceId): array
+    {
+        $sql = "
+            SELECT c.*,
+                   a.title as contractor_name
+            FROM contracts c
+            INNER JOIN contract2inv ci ON c.id = ci.contractid
+            LEFT JOIN agents a ON c.contractor = a.id
+            WHERE ci.invid = :invoice_id
+            ORDER BY c.id DESC
+        ";
+
+        return $this->db->fetchAll($sql, ['invoice_id' => $invoiceId]);
+    }
+
+    /**
+     * Get files associated with an invoice
+     */
+    public function getAssociatedFiles(int $invoiceId): array
+    {
+        $sql = "
+            SELECT f.*,
+                   ft.name as filetype_name
+            FROM files f
+            INNER JOIN invoice2file if ON f.id = if.fileid
+            LEFT JOIN filetypes ft ON f.type = ft.id
+            WHERE if.invoiceid = :invoice_id
+            ORDER BY f.uploaddate DESC
+        ";
+
+        return $this->db->fetchAll($sql, ['invoice_id' => $invoiceId]);
+    }
 }

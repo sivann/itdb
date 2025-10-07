@@ -98,8 +98,24 @@ abstract class BaseController
      */
     protected function getCurrentRoute(Response $response): ?string
     {
-        // This would need to be implemented based on route context
-        return null;
+        // Get the current request URI and extract route info
+        $uri = $_SERVER['REQUEST_URI'] ?? '';
+
+        // Remove query string and leading slash
+        $path = strtok($uri, '?');
+        $path = ltrim($path, '/');
+
+        // Map paths to route names
+        if (empty($path) || $path === 'dashboard') {
+            return 'dashboard';
+        }
+
+        // Split path into segments
+        $segments = explode('/', $path);
+        $firstSegment = $segments[0] ?? '';
+
+        // Return the first segment as the route name for navigation
+        return $firstSegment;
     }
 
     /**

@@ -328,7 +328,7 @@ function renderContractsTab(data, container) {
 
     data.contracts.forEach(contract => {
         const startDate = contract.startdate ? new Date(contract.startdate * 1000).toLocaleDateString() : 'N/A';
-        const endDate = contract.enddate ? new Date(contract.enddate * 1000).toLocaleDateString() : 'N/A';
+        const endDate = contract.currentenddate ? new Date(contract.currentenddate * 1000).toLocaleDateString() : 'N/A';
 
         html += `<tr>
             <td><a href="/contracts/${contract.id}" class="text-decoration-none">#${contract.id}</a></td>

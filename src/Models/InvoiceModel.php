@@ -283,9 +283,9 @@ class InvoiceModel
                    u.username
             FROM items i
             INNER JOIN item2inv ii ON i.id = ii.itemid
-            LEFT JOIN itemtypes it ON i.tid = it.id
-            LEFT JOIN locations l ON i.lid = l.id
-            LEFT JOIN users u ON i.uid = u.id
+            LEFT JOIN itemtypes it ON i.itemtypeid = it.id
+            LEFT JOIN locations l ON i.locationid = l.id
+            LEFT JOIN users u ON i.userid = u.id
             WHERE ii.invid = :invoice_id
             ORDER BY i.id DESC
         ";
@@ -302,8 +302,9 @@ class InvoiceModel
             SELECT s.*,
                    a.title as publisher_name
             FROM software s
-            LEFT JOIN agents a ON s.publisher = a.id
-            WHERE s.invoiceid = :invoice_id
+            INNER JOIN soft2inv si ON s.id = si.softid
+            LEFT JOIN agents a ON s.manufacturerid = a.id
+            WHERE si.invid = :invoice_id
             ORDER BY s.id DESC
         ";
 
@@ -320,7 +321,7 @@ class InvoiceModel
                    a.title as contractor_name
             FROM contracts c
             INNER JOIN contract2inv ci ON c.id = ci.contractid
-            LEFT JOIN agents a ON c.contractor = a.id
+            LEFT JOIN agents a ON c.contractorid = a.id
             WHERE ci.invid = :invoice_id
             ORDER BY c.id DESC
         ";
@@ -335,11 +336,11 @@ class InvoiceModel
     {
         $sql = "
             SELECT f.*,
-                   ft.name as filetype_name
+                   ft.typedesc as filetype_name
             FROM files f
-            INNER JOIN invoice2file if ON f.id = if.fileid
+            INNER JOIN invoice2file i2f ON f.id = i2f.fileid
             LEFT JOIN filetypes ft ON f.type = ft.id
-            WHERE if.invoiceid = :invoice_id
+            WHERE i2f.invoiceid = :invoice_id
             ORDER BY f.uploaddate DESC
         ";
 

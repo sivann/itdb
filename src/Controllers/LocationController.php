@@ -196,6 +196,13 @@ class LocationController extends BaseController
         // Get items at this location
         $items = $this->locationModel->getLocationItems($id);
 
+        // Get counts for delete validation
+        $location['items_count'] = count($items);
+        // Just use simple count for now, or fetch with counts
+        $locationWithCounts = $this->locationModel->findWithCounts($id);
+        $location['racks_count'] = $locationWithCounts['racks_count'] ?? 0;
+        $location['areas_count'] = $locationWithCounts['areas_count'] ?? 0;
+
         // Get max upload size
         $maxUpload = $this->getMaxUploadSize();
 
@@ -218,13 +225,19 @@ class LocationController extends BaseController
      */
     public function update(Request $request, Response $response, array $args): Response
     {
+        $data = $this->getParsedBody($request);
+
+        // Check if this is actually a DELETE request
+        if (isset($data['_method']) && strtoupper($data['_method']) === 'DELETE') {
+            return $this->destroy($request, $response, $args);
+        }
+
         if (!$this->validateCsrfToken($request)) {
             $this->addFlashMessage('error', 'Invalid CSRF token');
             return $this->redirectToRoute($request, $response, 'locations.index');
         }
 
         $id = (int) $args['id'];
-        $data = $this->getParsedBody($request);
 
         $location = $this->locationModel->find($id);
         if (!$location) {
@@ -342,10 +355,14 @@ class LocationController extends BaseController
      */
     public function destroy(Request $request, Response $response, array $args): Response
     {
+        $data = $this->getParsedBody($request);
+
         $this->logger->info('Delete request received', [
             'id' => $args['id'] ?? 'MISSING',
             'method' => $request->getMethod(),
-            'has_csrf' => $request->getParsedBody()['csrf_token'] ?? 'MISSING'
+            'has_csrf' => $data['csrf_token'] ?? 'MISSING',
+            '_method' => $data['_method'] ?? 'MISSING',
+            'all_data' => array_keys($data)
         ]);
 
         if (!$this->validateCsrfToken($request)) {

@@ -39,6 +39,42 @@ class InvoiceModel
     }
 
     /**
+     * Find invoice with all associations loaded
+     */
+    public function findWithAssociations(int $id): ?array
+    {
+        $invoice = $this->find($id);
+        if (!$invoice) {
+            return null;
+        }
+
+        // Get association counts
+        $invoice['items_count'] = (int)$this->db->fetchColumn(
+            "SELECT COUNT(*) FROM item2inv WHERE invid = ?", [$id]
+        );
+
+        $invoice['software_count'] = (int)$this->db->fetchColumn(
+            "SELECT COUNT(*) FROM soft2inv WHERE invid = ?", [$id]
+        );
+
+        $invoice['contracts_count'] = (int)$this->db->fetchColumn(
+            "SELECT COUNT(*) FROM contract2inv WHERE invid = ?", [$id]
+        );
+
+        $invoice['files_count'] = (int)$this->db->fetchColumn(
+            "SELECT COUNT(*) FROM invoice2file WHERE invoiceid = ?", [$id]
+        );
+
+        // Get full association data
+        $invoice['items'] = $this->getAssociatedItems($id);
+        $invoice['software'] = $this->getAssociatedSoftware($id);
+        $invoice['contracts'] = $this->getAssociatedContracts($id);
+        $invoice['files'] = $this->getAssociatedFiles($id);
+
+        return $invoice;
+    }
+
+    /**
      * Get paginated invoices with filtering
      */
     public function getPaginated(int $page = 1, int $perPage = 20, array $filters = []): array
@@ -300,7 +336,8 @@ class InvoiceModel
     {
         $sql = "
             SELECT s.*,
-                   a.title as publisher_name
+                   a.title as manufacturer_name,
+                   s.slicensetype as license_type_name
             FROM software s
             INNER JOIN soft2inv si ON s.id = si.softid
             LEFT JOIN agents a ON s.manufacturerid = a.id
@@ -344,6 +381,108 @@ class InvoiceModel
             ORDER BY f.uploaddate DESC
         ";
 
-        return $this->db->fetchAll($sql, ['invoice_id' => $invoiceId]);
+        $files = $this->db->fetchAll($sql, ['invoice_id' => $invoiceId]);
+
+        // Format dates for display
+        foreach ($files as &$file) {
+            if (!empty($file['uploaddate'])) {
+                $file['uploaddate_formatted'] = date('Y-m-d H:i', $file['uploaddate']);
+            }
+        }
+
+        return $files;
+    }
+
+    /**
+     * Add item association
+     */
+    public function addItemAssociation(int $invoiceId, int $itemId): void
+    {
+        try {
+            $this->db->insert('item2inv', ['invid' => $invoiceId, 'itemid' => $itemId]);
+        } catch (\Exception $e) {
+            // If already exists (duplicate key), just ignore
+            if (strpos($e->getMessage(), 'UNIQUE constraint') === false &&
+                strpos($e->getMessage(), 'PRIMARY KEY') === false) {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * Remove item association
+     */
+    public function removeItemAssociation(int $invoiceId, int $itemId): void
+    {
+        $this->db->delete('item2inv', ['invid' => $invoiceId, 'itemid' => $itemId]);
+    }
+
+    /**
+     * Add software association
+     */
+    public function addSoftwareAssociation(int $invoiceId, int $softwareId): void
+    {
+        try {
+            $this->db->insert('soft2inv', ['invid' => $invoiceId, 'softid' => $softwareId]);
+        } catch (\Exception $e) {
+            if (strpos($e->getMessage(), 'UNIQUE constraint') === false &&
+                strpos($e->getMessage(), 'PRIMARY KEY') === false) {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * Remove software association
+     */
+    public function removeSoftwareAssociation(int $invoiceId, int $softwareId): void
+    {
+        $this->db->delete('soft2inv', ['invid' => $invoiceId, 'softid' => $softwareId]);
+    }
+
+    /**
+     * Add contract association
+     */
+    public function addContractAssociation(int $invoiceId, int $contractId): void
+    {
+        try {
+            $this->db->insert('contract2inv', ['invid' => $invoiceId, 'contractid' => $contractId]);
+        } catch (\Exception $e) {
+            if (strpos($e->getMessage(), 'UNIQUE constraint') === false &&
+                strpos($e->getMessage(), 'PRIMARY KEY') === false) {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * Remove contract association
+     */
+    public function removeContractAssociation(int $invoiceId, int $contractId): void
+    {
+        $this->db->delete('contract2inv', ['invid' => $invoiceId, 'contractid' => $contractId]);
+    }
+
+    /**
+     * Add file association
+     */
+    public function addFileAssociation(int $invoiceId, int $fileId): void
+    {
+        try {
+            $this->db->insert('invoice2file', ['invoiceid' => $invoiceId, 'fileid' => $fileId]);
+        } catch (\Exception $e) {
+            if (strpos($e->getMessage(), 'UNIQUE constraint') === false &&
+                strpos($e->getMessage(), 'PRIMARY KEY') === false) {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * Remove file association
+     */
+    public function removeFileAssociation(int $invoiceId, int $fileId): void
+    {
+        $this->db->delete('invoice2file', ['invoiceid' => $invoiceId, 'fileid' => $fileId]);
     }
 }

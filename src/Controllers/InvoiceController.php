@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\InvoiceModel;
 use App\Models\AgentModel;
+use App\Models\FileModel;
 use App\Services\AuthService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -17,18 +18,21 @@ class InvoiceController extends BaseController
     private AuthService $authService;
     private InvoiceModel $invoiceModel;
     private AgentModel $agentModel;
+    private FileModel $fileModel;
 
     public function __construct(
         LoggerInterface $logger,
         Environment $twig,
         AuthService $authService,
         InvoiceModel $invoiceModel,
-        AgentModel $agentModel
+        AgentModel $agentModel,
+        FileModel $fileModel
     ) {
         parent::__construct($logger, $twig);
         $this->authService = $authService;
         $this->invoiceModel = $invoiceModel;
         $this->agentModel = $agentModel;
+        $this->fileModel = $fileModel;
     }
 
     /**
@@ -184,8 +188,10 @@ class InvoiceController extends BaseController
     {
         $id = (int) $args['id'];
         $user = $this->authService->getCurrentUser();
+        $queryParams = $this->getQueryParams($request);
+        $tab = $queryParams['tab'] ?? 'data';
 
-        $invoice = $this->invoiceModel->find($id);
+        $invoice = $this->invoiceModel->findWithAssociations($id);
         if (!$invoice) {
             $this->addFlashMessage('error', 'Invoice not found.');
             return $this->redirectToRoute($request, $response, 'invoices.index');
@@ -199,6 +205,7 @@ class InvoiceController extends BaseController
         // Get form options
         $vendors = $this->agentModel->getVendors();
         $buyers = $this->agentModel->getBuyers();
+        $fileTypes = $this->fileModel->getFileTypes();
 
         return $this->render($response, 'invoices/edit.twig', [
             'invoice' => $invoice,
@@ -206,8 +213,10 @@ class InvoiceController extends BaseController
                 'vendors' => $vendors,
                 'buyers' => $buyers,
             ],
+            'file_types' => $fileTypes,
             'user' => $user,
             'csrf_token' => $this->generateCsrfToken(),
+            'current_tab' => $tab,
         ]);
     }
 
@@ -400,5 +409,89 @@ class InvoiceController extends BaseController
         }
 
         return $this->json($response, $data);
+    }
+
+    /**
+     * Manage invoice associations (add/remove)
+     */
+    public function manageAssociations(Request $request, Response $response, array $args): Response
+    {
+        $id = (int) $args['id'];
+        $user = $this->authService->getCurrentUser();
+
+        $invoice = $this->invoiceModel->find($id);
+        if (!$invoice) {
+            return $this->json($response, ['error' => 'Invoice not found'], 404);
+        }
+
+        if (!$this->canUserEditInvoice($user, $invoice)) {
+            return $this->json($response, ['error' => 'Permission denied'], 403);
+        }
+
+        $data = $this->getParsedBody($request);
+        $type = $data['type'] ?? '';
+        $associationId = (int) ($data['id'] ?? 0);
+        $method = $request->getMethod();
+
+        if (!$associationId) {
+            return $this->json($response, ['error' => 'Invalid association ID'], 400);
+        }
+
+        try {
+            if ($method === 'POST') {
+                // Add association
+                switch ($type) {
+                    case 'item':
+                        $this->invoiceModel->addItemAssociation($id, $associationId);
+                        break;
+                    case 'software':
+                        $this->invoiceModel->addSoftwareAssociation($id, $associationId);
+                        break;
+                    case 'contract':
+                        $this->invoiceModel->addContractAssociation($id, $associationId);
+                        break;
+                    case 'file':
+                        $this->invoiceModel->addFileAssociation($id, $associationId);
+                        break;
+                    default:
+                        $this->logger->error('Invalid association type', ['type' => $type]);
+                        return $this->json($response, ['error' => 'Invalid type: ' . $type], 400);
+                }
+                return $this->json($response, ['success' => true, 'message' => 'Association added']);
+            } elseif ($method === 'DELETE') {
+                // Remove association
+                switch ($type) {
+                    case 'item':
+                        $this->invoiceModel->removeItemAssociation($id, $associationId);
+                        break;
+                    case 'software':
+                        $this->invoiceModel->removeSoftwareAssociation($id, $associationId);
+                        break;
+                    case 'contract':
+                        $this->invoiceModel->removeContractAssociation($id, $associationId);
+                        break;
+                    case 'file':
+                        $this->invoiceModel->removeFileAssociation($id, $associationId);
+                        break;
+                    default:
+                        return $this->json($response, ['error' => 'Invalid type'], 400);
+                }
+                return $this->json($response, ['success' => true, 'message' => 'Association removed']);
+            }
+
+            return $this->json($response, ['error' => 'Invalid method'], 405);
+        } catch (\Exception $e) {
+            $this->logger->error('Failed to manage invoice association', [
+                'invoice_id' => $id,
+                'type' => $type,
+                'association_id' => $associationId,
+                'method' => $method,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return $this->json($response, [
+                'error' => 'Failed to manage association: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

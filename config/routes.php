@@ -116,6 +116,8 @@ return function (App $app) {
             $group->get('/{id}', [InvoiceController::class, 'show'])->setName('invoices.show');
             $group->get('/{id}/edit', [InvoiceController::class, 'edit'])->setName('invoices.edit');
             $group->get('/{id}/associations/{type}', [InvoiceController::class, 'getAssociations'])->setName('invoices.associations');
+            $group->post('/{id}/associations', [InvoiceController::class, 'manageAssociations'])->setName('invoices.associations.add');
+            $group->delete('/{id}/associations', [InvoiceController::class, 'manageAssociations'])->setName('invoices.associations.remove');
             $group->post('/{id}', [InvoiceController::class, 'update'])->setName('invoices.update');
             $group->post('/{id}/delete', [InvoiceController::class, 'delete'])->setName('invoices.delete');
         });

@@ -28,97 +28,99 @@
                 </h5>
                 <ul class="nav nav-tabs card-header-tabs" id="invoiceEditTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active"
+                        <button class="nav-link {{ current_tab == 'data' ? 'active' : '' }}"
                                 id="data-tab" data-bs-toggle="tab" data-bs-target="#data"
-                                type="button" role="tab" aria-controls="data" aria-selected="true">
+                                type="button" role="tab" aria-controls="data" aria-selected="{{ current_tab == 'data' ? 'true' : 'false' }}">
                             <i class="bi bi-info-circle me-1"></i>Invoice Data
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link"
+                        <button class="nav-link {{ current_tab == 'items' ? 'active' : '' }}"
                                 id="items-tab" data-bs-toggle="tab" data-bs-target="#items"
-                                type="button" role="tab" aria-controls="items" aria-selected="false">
-                            <i class="bi bi-laptop me-1"></i>Associated Items <span class="badge bg-secondary" id="items-count">0</span>
+                                type="button" role="tab" aria-controls="items" aria-selected="{{ current_tab == 'items' ? 'true' : 'false' }}">
+                            <i class="bi bi-laptop me-1"></i>Associated Items <span class="badge bg-secondary ms-1">{{ invoice.items|length }}</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link"
+                        <button class="nav-link {{ current_tab == 'software' ? 'active' : '' }}"
                                 id="software-tab" data-bs-toggle="tab" data-bs-target="#software"
-                                type="button" role="tab" aria-controls="software" aria-selected="false">
-                            <i class="bi bi-code-square me-1"></i>Associated Software <span class="badge bg-secondary" id="software-count">0</span>
+                                type="button" role="tab" aria-controls="software" aria-selected="{{ current_tab == 'software' ? 'true' : 'false' }}">
+                            <i class="bi bi-code-square me-1"></i>Software <span class="badge bg-secondary ms-1">{{ invoice.software|length }}</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link"
+                        <button class="nav-link {{ current_tab == 'contracts' ? 'active' : '' }}"
                                 id="contracts-tab" data-bs-toggle="tab" data-bs-target="#contracts"
-                                type="button" role="tab" aria-controls="contracts" aria-selected="false">
-                            <i class="bi bi-file-text me-1"></i>Associated Contracts <span class="badge bg-secondary" id="contracts-count">0</span>
+                                type="button" role="tab" aria-controls="contracts" aria-selected="{{ current_tab == 'contracts' ? 'true' : 'false' }}">
+                            <i class="bi bi-file-text me-1"></i>Contracts <span class="badge bg-secondary ms-1">{{ invoice.contracts|length }}</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link"
+                        <button class="nav-link {{ current_tab == 'files' ? 'active' : '' }}"
                                 id="files-tab" data-bs-toggle="tab" data-bs-target="#files"
-                                type="button" role="tab" aria-controls="files" aria-selected="false">
-                            <i class="bi bi-paperclip me-1"></i>Associated Files <span class="badge bg-secondary" id="files-count">0</span>
+                                type="button" role="tab" aria-controls="files" aria-selected="{{ current_tab == 'files' ? 'true' : 'false' }}">
+                            <i class="bi bi-file-earmark me-1"></i>Files <span class="badge bg-secondary ms-1">{{ invoice.files|length }}</span>
                         </button>
                     </li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="invoiceEditTabsContent">
-                    <!-- Invoice Data Tab -->
-                    <div class="tab-pane fade show active" id="data" role="tabpanel" aria-labelledby="data-tab">
+                <div class="tab-content" id="invoiceEditTabContent">
+                <!-- Invoice Data Tab -->
+                <div class="tab-pane fade {{ current_tab == 'data' ? 'show active' : '' }}"
+                     id="data" role="tabpanel" aria-labelledby="data-tab">
+                    <div>
                         <form method="POST" action="/invoices/{{ invoice.id }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
                             <div class="row">
-                        <div class="col-md-6">
-                            <h6 class="text-muted mb-3">Invoice Information</h6>
+                                <div class="col-md-6">
+                                    <h6 class="text-muted mb-3">Invoice Information</h6>
 
-                            <div class="mb-3">
-                                <label for="vendorid" class="form-label">Vendor</label>
-                                <select class="form-select" id="vendorid" name="vendorid">
-                                    <option value="">Select a vendor...</option>
-                                    {% for vendor in form_options.vendors %}
-                                    <option value="{{ vendor.id }}" {% if invoice.vendorid == vendor.id %}selected{% endif %}>{{ vendor.title }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+                                    <div class="mb-3">
+                                        <label for="vendorid" class="form-label">Vendor</label>
+                                        <select class="form-select" id="vendorid" name="vendorid">
+                                            <option value="">Select a vendor...</option>
+                                            {% for vendor in form_options.vendors %}
+                                            <option value="{{ vendor.id }}" {% if invoice.vendorid == vendor.id %}selected{% endif %}>{{ vendor.title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
 
-                            <div class="mb-3">
-                                <label for="buyerid" class="form-label">Buyer</label>
-                                <select class="form-select" id="buyerid" name="buyerid">
-                                    <option value="">Select a buyer...</option>
-                                    {% for buyer in form_options.buyers %}
-                                    <option value="{{ buyer.id }}" {% if invoice.buyerid == buyer.id %}selected{% endif %}>{{ buyer.title }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+                                    <div class="mb-3">
+                                        <label for="buyerid" class="form-label">Buyer</label>
+                                        <select class="form-select" id="buyerid" name="buyerid">
+                                            <option value="">Select a buyer...</option>
+                                            {% for buyer in form_options.buyers %}
+                                            <option value="{{ buyer.id }}" {% if invoice.buyerid == buyer.id %}selected{% endif %}>{{ buyer.title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
 
-                            <div class="mb-3">
-                                <label for="invoicedate" class="form-label">Invoice Date</label>
-                                <input type="date" class="form-control" id="invoicedate" name="invoicedate"
-                                       value="{% if invoice.date %}{{ invoice.date|date('Y-m-d') }}{% endif %}">
-                            </div>
+                                    <div class="mb-3">
+                                        <label for="invoicedate" class="form-label">Invoice Date</label>
+                                        <input type="date" class="form-control" id="invoicedate" name="invoicedate"
+                                               value="{% if invoice.date %}{{ invoice.date|date('Y-m-d') }}{% endif %}">
+                                    </div>
 
-                            <div class="mb-3">
-                                <label for="total" class="form-label">Total Amount</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">$</span>
-                                    <input type="number" class="form-control" id="total" name="totalcost" step="0.01" min="0" value="{{ invoice.totalcost|default('') }}">
+                                    <div class="mb-3">
+                                        <label for="total" class="form-label">Total Amount</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control" id="total" name="totalcost" step="0.01" min="0" value="{{ invoice.totalcost|default('') }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h6 class="text-muted mb-3">Additional Information</h6>
+
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Comments</label>
+                                        <textarea class="form-control" id="description" name="comments" rows="4">{{ invoice.comments }}</textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <h6 class="text-muted mb-3">Additional Information</h6>
-
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Comments</label>
-                                <textarea class="form-control" id="description" name="comments" rows="4">{{ invoice.comments }}</textarea>
-                            </div>
-                        </div>
-                    </div>
 
                             <div class="d-flex justify-content-between">
                                 <a href="/invoices/{{ invoice.id }}" class="btn btn-secondary">
@@ -130,253 +132,1023 @@
                             </div>
                         </form>
                     </div>
+                </div>
 
-                    <!-- Associated Items Tab -->
-                    <div class="tab-pane fade" id="items" role="tabpanel" aria-labelledby="items-tab">
-                        <div id="items-list-container">
-                            <div class="text-center py-4">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
+                <!-- Associated Items Tab -->
+                <div class="tab-pane fade {{ current_tab == 'items' ? 'show active' : '' }}"
+                     id="items" role="tabpanel" aria-labelledby="items-tab">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Item Associations</h6>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">
+                                <i class="bi bi-plus-lg me-1"></i>Add Association
+                            </button>
+                        </div>
+
+                        <div id="currentItems">
+                            {% if invoice.items|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Item ID</th>
+                                            <th>Tag</th>
+                                            <th>Description</th>
+                                            <th>Type</th>
+                                            <th>Location</th>
+                                            <th>User</th>
+                                            <th>S/N</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="itemsTableBody">
+                                        {% for item in invoice.items %}
+                                        <tr data-item-id="{{ item.id }}">
+                                            <td><a href="/items/{{ item.id }}" class="text-decoration-none">#{{ item.id }}</a></td>
+                                            <td>{{ item.label|default('N/A') }}</td>
+                                            <td>{{ item.function|default('N/A') }}</td>
+                                            <td>{{ item.type_name|default('N/A') }}</td>
+                                            <td>{{ item.location_name|default('N/A') }}</td>
+                                            <td>{{ item.username|default('Unassigned') }}</td>
+                                            <td>{{ item.sn|default('N/A') }}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/items/{{ item.id }}" class="btn btn-outline-primary" title="View Item">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                            onclick="removeAssociation('item', {{ item.id }}, '{{ item.label|default(item.function)|default('#' ~ item.id) }}')"
+                                                            title="Remove Association">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
+                            {% endif %}
+                        </div>
+                        <div id="itemEmptyState" class="text-center text-muted py-4" style="display: {{ invoice.items|length > 0 ? 'none' : 'block' }}">
+                            <i class="bi bi-laptop display-4 mb-3"></i>
+                            <p>No items are associated with this invoice yet.</p>
+                            <p class="small">Click "Add Association" to link items to this invoice.</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Associated Software Tab -->
-                    <div class="tab-pane fade" id="software" role="tabpanel" aria-labelledby="software-tab">
-                        <div id="software-list-container">
-                            <div class="text-center py-4">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
+                <!-- Software Tab -->
+                <div class="tab-pane fade {{ current_tab == 'software' ? 'show active' : '' }}"
+                     id="software" role="tabpanel" aria-labelledby="software-tab">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Software Associations</h6>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addSoftwareModal">
+                                <i class="bi bi-plus-lg me-1"></i>Add Association
+                            </button>
+                        </div>
+
+                        <div id="currentSoftware">
+                            {% if invoice.software|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Software ID</th>
+                                            <th>Title</th>
+                                            <th>Version</th>
+                                            <th>Manufacturer</th>
+                                            <th>License Type</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="softwareTableBody">
+                                        {% for sw in invoice.software %}
+                                        <tr data-software-id="{{ sw.id }}">
+                                            <td><a href="/software/{{ sw.id }}" class="text-decoration-none">#{{ sw.id }}</a></td>
+                                            <td>{{ sw.stitle|default('N/A') }}</td>
+                                            <td>{{ sw.sversion|default('N/A') }}</td>
+                                            <td>{{ sw.manufacturer_name|default('N/A') }}</td>
+                                            <td>{{ sw.license_type_name|default('N/A') }}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/software/{{ sw.id }}" class="btn btn-outline-primary" title="View Software">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                            onclick="removeAssociation('software', {{ sw.id }}, 'Software #{{ sw.id }}')"
+                                                            title="Remove Association">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
+                            {% endif %}
+                        </div>
+                        <div id="softwareEmptyState" class="text-center text-muted py-4" style="display: {{ invoice.software|length > 0 ? 'none' : 'block' }}">
+                            <i class="bi bi-code-square display-4 mb-3"></i>
+                            <p>No software is associated with this invoice yet.</p>
+                            <p class="small">Click "Add Association" to link related software.</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Associated Contracts Tab -->
-                    <div class="tab-pane fade" id="contracts" role="tabpanel" aria-labelledby="contracts-tab">
-                        <div id="contracts-list-container">
-                            <div class="text-center py-4">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
+                <!-- Contracts Tab -->
+                <div class="tab-pane fade {{ current_tab == 'contracts' ? 'show active' : '' }}"
+                     id="contracts" role="tabpanel" aria-labelledby="contracts-tab">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Contract Associations</h6>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addContractModal">
+                                <i class="bi bi-plus-lg me-1"></i>Add Association
+                            </button>
+                        </div>
+
+                        <div id="currentContracts">
+                            {% if invoice.contracts|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Contract #</th>
+                                            <th>Title</th>
+                                            <th>Contractor</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="contractsTableBody">
+                                        {% for contract in invoice.contracts %}
+                                        <tr data-contract-id="{{ contract.id }}">
+                                            <td><a href="/contracts/{{ contract.id }}" class="text-decoration-none">#{{ contract.id }}</a></td>
+                                            <td>{{ contract.title|default('N/A') }}</td>
+                                            <td>{{ contract.contractor_name|default('N/A') }}</td>
+                                            <td>{{ contract.startdate ? (contract.startdate|date('Y-m-d')) : 'N/A' }}</td>
+                                            <td>{{ contract.currentenddate ? (contract.currentenddate|date('Y-m-d')) : 'N/A' }}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/contracts/{{ contract.id }}" class="btn btn-outline-primary" title="View Contract">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                            onclick="removeAssociation('contract', {{ contract.id }}, 'Contract #{{ contract.id }}')"
+                                                            title="Remove Association">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
+                            {% endif %}
+                        </div>
+                        <div id="contractEmptyState" class="text-center text-muted py-4" style="display: {{ invoice.contracts|length > 0 ? 'none' : 'block' }}">
+                            <i class="bi bi-file-text display-4 mb-3"></i>
+                            <p>No contracts are associated with this invoice yet.</p>
+                            <p class="small">Click "Add Association" to link related contracts.</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Associated Files Tab -->
-                    <div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-tab">
-                        <div id="files-list-container">
-                            <div class="text-center py-4">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
+                <!-- Files Tab -->
+                <div class="tab-pane fade {{ current_tab == 'files' ? 'show active' : '' }}"
+                     id="files" role="tabpanel" aria-labelledby="files-tab">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">File Associations</h6>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFileModal">
+                                    <i class="bi bi-plus-lg me-1"></i>Link Existing File
+                                </button>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadFileModal">
+                                    <i class="bi bi-cloud-upload me-1"></i>Upload New File
+                                </button>
                             </div>
                         </div>
+
+                        <div id="currentFiles">
+                            {% if invoice.files|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>File Name</th>
+                                            <th>Title</th>
+                                            <th>Type</th>
+                                            <th>Size</th>
+                                            <th>Upload Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="filesTableBody">
+                                        {% for file in invoice.files %}
+                                        <tr data-file-id="{{ file.id }}">
+                                            <td>
+                                                <i class="bi bi-file-earmark me-2"></i>
+                                                {{ file.fname|default('N/A') }}
+                                            </td>
+                                            <td>{{ file.title|default('N/A') }}</td>
+                                            <td>{{ file.filetype_name|default('Unknown') }}</td>
+                                            <td>{{ file.filesize ? (file.filesize|number_format ~ ' bytes') : 'N/A' }}</td>
+                                            <td>{{ file.uploaddate_formatted|default('N/A') }}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button"
+                                                            class="btn btn-outline-primary"
+                                                            title="Preview File"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#previewModal{{ file.id }}">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                    <a href="/files/{{ file.id }}/edit" class="btn btn-outline-secondary" title="Edit File">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <a href="/files/{{ file.id }}/download" class="btn btn-outline-success" title="Download">
+                                                        <i class="bi bi-download"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                            onclick="removeAssociation('file', {{ file.id }}, '{{ file.fname|default('File #' ~ file.id) }}')"
+                                                            title="Remove Association">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div id="fileEmptyState" class="text-center text-muted py-4" style="display: {{ invoice.files|length > 0 ? 'none' : 'block' }}">
+                            <i class="bi bi-file-earmark display-4 mb-3"></i>
+                            <p>No files are associated with this invoice yet.</p>
+                            <p class="small">Upload a new file or link an existing one.</p>
+                        </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Add Item Association Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addItemModalLabel">Add Item Association</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="itemSearch" class="form-label">Search Items</label>
+                    <input type="text" class="form-control" id="itemSearch" placeholder="Type to search items..." autocomplete="off">
+                </div>
+
+                <div id="itemSearchResults" class="d-none">
+                    <label class="form-label">Available Items</label>
+                    <div class="list-group" id="itemsList">
+                        <!-- Items will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="text-center py-3" id="itemSearchLoading" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Software Association Modal -->
+<div class="modal fade" id="addSoftwareModal" tabindex="-1" aria-labelledby="addSoftwareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSoftwareModalLabel">Add Software Association</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="softwareSearch" class="form-label">Search Software</label>
+                    <input type="text" class="form-control" id="softwareSearch" placeholder="Type to search software..." autocomplete="off">
+                </div>
+
+                <div id="softwareSearchResults" class="d-none">
+                    <label class="form-label">Available Software</label>
+                    <div class="list-group" id="softwareList">
+                        <!-- Software will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="text-center py-3" id="softwareSearchLoading" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Contract Association Modal -->
+<div class="modal fade" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addContractModalLabel">Add Contract Association</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="contractSearch" class="form-label">Search Contracts</label>
+                    <input type="text" class="form-control" id="contractSearch" placeholder="Type to search contracts..." autocomplete="off">
+                </div>
+
+                <div id="contractSearchResults" class="d-none">
+                    <label class="form-label">Available Contracts</label>
+                    <div class="list-group" id="contractsList">
+                        <!-- Contracts will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="text-center py-3" id="contractSearchLoading" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add File Association Modal -->
+<div class="modal fade" id="addFileModal" tabindex="-1" aria-labelledby="addFileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addFileModalLabel">Link Existing File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="fileSearch" class="form-label">Search Files</label>
+                    <input type="text" class="form-control" id="fileSearch" placeholder="Type to search files..." autocomplete="off">
+                </div>
+
+                <div id="fileSearchResults" class="d-none">
+                    <label class="form-label">Available Files</label>
+                    <div class="list-group" id="filesList">
+                        <!-- Files will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="text-center py-3" id="fileSearchLoading" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload File Modal -->
+<div class="modal fade" id="uploadFileModal" tabindex="-1" aria-labelledby="uploadFileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadFileModalLabel">Upload New File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadFileForm" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <input type="hidden" name="ajax_upload" value="1">
+                    <div class="mb-3">
+                        <label for="fileUpload" class="form-label">Select File</label>
+                        <input type="file" class="form-control" id="fileUpload" name="file" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileTitle" class="form-label">File Title</label>
+                        <input type="text" class="form-control" id="fileTitle" name="title" placeholder="Enter a title for this file" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileType" class="form-label">File Type <span class="text-danger">*</span></label>
+                        <select class="form-select" id="fileType" name="type" required>
+                            <option value="">Select file type...</option>
+                            {% if file_types is defined %}
+                                {% for type in file_types %}
+                                <option value="{{ type.id }}">{{ type.name }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="1">photo</option>
+                                <option value="2">manual</option>
+                                <option value="3">invoice</option>
+                                <option value="4">offer</option>
+                                <option value="5">order</option>
+                                <option value="6">service</option>
+                                <option value="7">report</option>
+                                <option value="8">license</option>
+                                <option value="9">other</option>
+                                <option value="10">contract</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="fileDescription" name="description" rows="3" placeholder="Optional description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="uploadFile()">
+                    <i class="bi bi-cloud-upload me-1"></i>Upload & Associate
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <!-- Toasts will be inserted here -->
+</div>
+
+<!-- File Preview Modals -->
+{% if invoice.files is defined %}
+    {% for file in invoice.files %}
+        {% include 'components/file_preview_modal.twig' with {'file': file} %}
+    {% endfor %}
+{% endif %}
 {% endblock %}
 
 {% block scripts %}
 <script>
-const invoiceId = {{ invoice.id }};
-let loadedTabs = { data: true };
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-format total amount on blur
-    document.getElementById('total').addEventListener('blur', function() {
-        if (this.value) {
-            this.value = parseFloat(this.value).toFixed(2);
-        }
-    });
-
-    // Handle tab switching and load data dynamically
+    // Handle tab switching with URL updates
     const tabs = document.querySelectorAll('#invoiceEditTabs button[data-bs-toggle="tab"]');
     tabs.forEach(tab => {
-        tab.addEventListener('shown.bs.tab', function(e) {
+        tab.addEventListener('shown.bs.tab', function (e) {
             const tabId = e.target.getAttribute('aria-controls');
-            if (!loadedTabs[tabId]) {
-                loadTabData(tabId);
-                loadedTabs[tabId] = true;
-            }
+            const url = new URL(window.location);
+            url.searchParams.set('tab', tabId);
+            window.history.replaceState({}, '', url);
         });
     });
+
+    // Auto-format total amount on blur
+    const totalField = document.getElementById('total');
+    if (totalField) {
+        totalField.addEventListener('blur', function() {
+            if (this.value) {
+                this.value = parseFloat(this.value).toFixed(2);
+            }
+        });
+    }
+
+    // Focus on vendor field when on data tab
+    const dataTab = document.getElementById('data-tab');
+    if (dataTab && dataTab.classList.contains('active')) {
+        const vendorField = document.getElementById('vendorid');
+        if (vendorField) {
+            vendorField.focus();
+        }
+    }
+
+    // Item search functionality
+    let searchTimeout;
+    const itemSearch = document.getElementById('itemSearch');
+    const itemSearchResults = document.getElementById('itemSearchResults');
+    const itemsList = document.getElementById('itemsList');
+    const itemSearchLoading = document.getElementById('itemSearchLoading');
+
+    // Load recent items when modals open
+    const addItemModal = document.getElementById('addItemModal');
+    const addSoftwareModal = document.getElementById('addSoftwareModal');
+    const addContractModal = document.getElementById('addContractModal');
+    const addFileModal = document.getElementById('addFileModal');
+
+    if (addItemModal) {
+        addItemModal.addEventListener('shown.bs.modal', function() {
+            if (itemsList.children.length === 0) {
+                searchItems('');
+            }
+        });
+    }
+
+    if (addSoftwareModal) {
+        addSoftwareModal.addEventListener('shown.bs.modal', function() {
+            const softwareList = document.getElementById('softwareList');
+            if (softwareList.children.length === 0) {
+                searchSoftware('');
+            }
+        });
+    }
+
+    if (addContractModal) {
+        addContractModal.addEventListener('shown.bs.modal', function() {
+            const contractsList = document.getElementById('contractsList');
+            if (contractsList.children.length === 0) {
+                searchContracts('');
+            }
+        });
+    }
+
+    if (addFileModal) {
+        addFileModal.addEventListener('shown.bs.modal', function() {
+            const filesList = document.getElementById('filesList');
+            if (filesList.children.length === 0) {
+                searchFiles('');
+            }
+        });
+    }
+
+    if (itemSearch) {
+        itemSearch.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+
+            searchTimeout = setTimeout(() => {
+                searchItems(query);
+            }, 300);
+        });
+    }
+
+    // Software search functionality
+    const softwareSearch = document.getElementById('softwareSearch');
+    if (softwareSearch) {
+        softwareSearch.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+
+            searchTimeout = setTimeout(() => {
+                searchSoftware(query);
+            }, 300);
+        });
+    }
+
+    // Contract search functionality
+    const contractSearch = document.getElementById('contractSearch');
+    if (contractSearch) {
+        contractSearch.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+
+            searchTimeout = setTimeout(() => {
+                searchContracts(query);
+            }, 300);
+        });
+    }
+
+    // File search functionality
+    const fileSearch = document.getElementById('fileSearch');
+    if (fileSearch) {
+        fileSearch.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+
+            searchTimeout = setTimeout(() => {
+                searchFiles(query);
+            }, 300);
+        });
+    }
+
+    async function searchItems(query) {
+        itemSearchLoading.style.display = 'block';
+        itemSearchResults.classList.add('d-none');
+
+        try {
+            const url = query.length >= 2
+                ? `/items/search?q=${encodeURIComponent(query)}&exclude_invoice={{ invoice.id }}`
+                : `/items/search?exclude_invoice={{ invoice.id }}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            itemsList.innerHTML = '';
+
+            if (data.items && data.items.length > 0) {
+                // Update the label to show what we're displaying
+                const labelText = query.length >= 2 ? 'Search Results' : 'Recent Items (most recently added)';
+                document.querySelector('#itemSearchResults .form-label').textContent = labelText;
+
+                data.items.forEach(item => {
+                    const itemElement = document.createElement('button');
+                    itemElement.type = 'button';
+                    itemElement.className = 'list-group-item list-group-item-action';
+
+                    const displayName = item.function || item.model || 'No Name';
+                    const tag = item.label || 'No Tag';
+
+                    itemElement.innerHTML = `
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">ID: ${item.id}, Tag: ${tag}</h6>
+                            <small class="badge bg-secondary">${item.itemType?.name || 'Unknown Type'}</small>
+                        </div>
+                        <p class="mb-1"><strong>${displayName}</strong></p>
+                        <p class="mb-1 text-muted small">
+                            <i class="bi bi-geo-alt"></i> ${item.location?.name || 'No Location'} •
+                            <i class="bi bi-person"></i> ${item.user?.display_name || 'Unassigned'}
+                            ${item.sn ? ` • <i class="bi bi-hash"></i> S/N: ${item.sn}` : ''}
+                        </p>
+                    `;
+                    itemElement.onclick = () => addAssociation('item', item.id, `ID: ${item.id}, Tag: ${tag}`);
+                    itemsList.appendChild(itemElement);
+                });
+
+                itemSearchResults.classList.remove('d-none');
+            } else {
+                const message = query.length >= 2
+                    ? 'No items found matching your search.'
+                    : 'No items available for association.';
+                itemsList.innerHTML = `<div class="list-group-item text-muted text-center">${message}</div>`;
+                itemSearchResults.classList.remove('d-none');
+            }
+        } catch (error) {
+            console.error('Error searching items:', error);
+            itemsList.innerHTML = '<div class="list-group-item text-danger text-center">Error loading items. Please try again.</div>';
+            itemSearchResults.classList.remove('d-none');
+        } finally {
+            itemSearchLoading.style.display = 'none';
+        }
+    }
+
+    // Software search function
+    async function searchSoftware(query) {
+        const softwareSearchLoading = document.getElementById('softwareSearchLoading');
+        const softwareSearchResults = document.getElementById('softwareSearchResults');
+        const softwareList = document.getElementById('softwareList');
+
+        softwareSearchLoading.style.display = 'block';
+        softwareSearchResults.classList.add('d-none');
+
+        try {
+            const url = query.length >= 2
+                ? `/software/search?q=${encodeURIComponent(query)}&exclude_invoice={{ invoice.id }}`
+                : `/software/search?exclude_invoice={{ invoice.id }}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            softwareList.innerHTML = '';
+
+            if (data.software && data.software.length > 0) {
+                const labelText = query.length >= 2 ? 'Search Results' : 'Recent Software';
+                document.querySelector('#softwareSearchResults .form-label').textContent = labelText;
+
+                data.software.forEach(sw => {
+                    const swElement = document.createElement('button');
+                    swElement.type = 'button';
+                    swElement.className = 'list-group-item list-group-item-action';
+
+                    swElement.innerHTML = `
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">ID: ${sw.id}, Title: ${sw.stitle || 'N/A'}</h6>
+                            <small class="badge bg-secondary">${sw.manufacturer?.title || 'No Manufacturer'}</small>
+                        </div>
+                        <p class="mb-1"><strong>Version: ${sw.sversion || 'N/A'}</strong></p>
+                        <p class="mb-1 text-muted small">
+                            <i class="bi bi-key"></i> License Type: ${sw.license_type?.name || 'N/A'} •
+                            <i class="bi bi-hash"></i> Qty: ${sw.licqty || '1'}
+                        </p>
+                    `;
+                    swElement.onclick = () => addAssociation('software', sw.id, `Software ID: ${sw.id}, ${sw.stitle || 'N/A'}`);
+                    softwareList.appendChild(swElement);
+                });
+
+                softwareSearchResults.classList.remove('d-none');
+            } else {
+                const message = query.length >= 2 ? 'No software found.' : 'No software available.';
+                softwareList.innerHTML = `<div class="list-group-item text-muted text-center">${message}</div>`;
+                softwareSearchResults.classList.remove('d-none');
+            }
+        } catch (error) {
+            console.error('Error searching software:', error);
+            softwareList.innerHTML = '<div class="list-group-item text-danger text-center">Error loading software. Please try again.</div>';
+            softwareSearchResults.classList.remove('d-none');
+        } finally {
+            softwareSearchLoading.style.display = 'none';
+        }
+    }
+
+    // Contract search function
+    async function searchContracts(query) {
+        const contractSearchLoading = document.getElementById('contractSearchLoading');
+        const contractSearchResults = document.getElementById('contractSearchResults');
+        const contractsList = document.getElementById('contractsList');
+
+        contractSearchLoading.style.display = 'block';
+        contractSearchResults.classList.add('d-none');
+
+        try {
+            const url = query.length >= 2
+                ? `/contracts/search?q=${encodeURIComponent(query)}&exclude_invoice={{ invoice.id }}`
+                : `/contracts/search?exclude_invoice={{ invoice.id }}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            contractsList.innerHTML = '';
+
+            if (data.contracts && data.contracts.length > 0) {
+                const labelText = query.length >= 2 ? 'Search Results' : 'Recent Contracts';
+                document.querySelector('#contractSearchResults .form-label').textContent = labelText;
+
+                data.contracts.forEach(contract => {
+                    const contractElement = document.createElement('button');
+                    contractElement.type = 'button';
+                    contractElement.className = 'list-group-item list-group-item-action';
+
+                    contractElement.innerHTML = `
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">ID: ${contract.id}, Title: ${contract.title || 'No Title'}</h6>
+                            <small class="badge bg-secondary">${contract.contractor?.title || 'No Contractor'}</small>
+                        </div>
+                        <p class="mb-1 text-muted small">
+                            <i class="bi bi-calendar-check"></i> ${contract.startdate || 'No Start'} to ${contract.enddate || 'No End'}
+                        </p>
+                    `;
+                    contractElement.onclick = () => addAssociation('contract', contract.id, `Contract ID: ${contract.id}, Title: ${contract.title || 'No Title'}`);
+                    contractsList.appendChild(contractElement);
+                });
+
+                contractSearchResults.classList.remove('d-none');
+            } else {
+                const message = query.length >= 2 ? 'No contracts found.' : 'No contracts available.';
+                contractsList.innerHTML = `<div class="list-group-item text-muted text-center">${message}</div>`;
+                contractSearchResults.classList.remove('d-none');
+            }
+        } catch (error) {
+            console.error('Error searching contracts:', error);
+            contractsList.innerHTML = '<div class="list-group-item text-danger text-center">Error loading contracts. Please try again.</div>';
+            contractSearchResults.classList.remove('d-none');
+        } finally {
+            contractSearchLoading.style.display = 'none';
+        }
+    }
+
+    // File search function
+    async function searchFiles(query) {
+        const fileSearchLoading = document.getElementById('fileSearchLoading');
+        const fileSearchResults = document.getElementById('fileSearchResults');
+        const filesList = document.getElementById('filesList');
+
+        fileSearchLoading.style.display = 'block';
+        fileSearchResults.classList.add('d-none');
+
+        try {
+            const url = query.length >= 2
+                ? `/files/search?q=${encodeURIComponent(query)}&exclude_invoice={{ invoice.id }}`
+                : `/files/search?exclude_invoice={{ invoice.id }}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            filesList.innerHTML = '';
+
+            if (data.files && data.files.length > 0) {
+                const labelText = query.length >= 2 ? 'Search Results' : 'Recent Files';
+                document.querySelector('#fileSearchResults .form-label').textContent = labelText;
+
+                data.files.forEach(file => {
+                    const fileElement = document.createElement('button');
+                    fileElement.type = 'button';
+                    fileElement.className = 'list-group-item list-group-item-action';
+
+                    fileElement.innerHTML = `
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">ID: ${file.id}, Name: ${file.fname || 'No Name'}</h6>
+                            <small class="badge bg-secondary">${file.fileType?.name || 'Unknown Type'}</small>
+                        </div>
+                        <p class="mb-1"><strong>${file.title || file.fname || 'No Title'}</strong></p>
+                        <p class="mb-1 text-muted small">
+                            <i class="bi bi-file-earmark"></i> ${file.size_formatted || 'Unknown Size'} •
+                            <i class="bi bi-calendar"></i> ${file.upload_date || 'No Date'}
+                        </p>
+                    `;
+                    fileElement.onclick = () => addAssociation('file', file.id, `File ID: ${file.id}, Name: ${file.fname || 'No Name'}`);
+                    filesList.appendChild(fileElement);
+                });
+
+                fileSearchResults.classList.remove('d-none');
+            } else {
+                const message = query.length >= 2 ? 'No files found.' : 'No files available.';
+                filesList.innerHTML = `<div class="list-group-item text-muted text-center">${message}</div>`;
+                fileSearchResults.classList.remove('d-none');
+            }
+        } catch (error) {
+            console.error('Error searching files:', error);
+            filesList.innerHTML = '<div class="list-group-item text-danger text-center">Error loading files. Please try again.</div>';
+            fileSearchResults.classList.remove('d-none');
+        } finally {
+            fileSearchLoading.style.display = 'none';
+        }
+    }
 });
 
-async function loadTabData(tabId) {
-    const container = document.getElementById(tabId + '-list-container');
-    if (!container) return;
+// File upload function
+async function uploadFile() {
+    const form = document.getElementById('uploadFileForm');
+    const formData = new FormData(form);
 
     try {
-        let data;
-        switch(tabId) {
-            case 'items':
-                data = await fetchAssociations('items');
-                renderItemsTab(data, container);
-                break;
-            case 'software':
-                data = await fetchAssociations('software');
-                renderSoftwareTab(data, container);
-                break;
-            case 'contracts':
-                data = await fetchAssociations('contracts');
-                renderContractsTab(data, container);
-                break;
-            case 'files':
-                data = await fetchAssociations('files');
-                renderFilesTab(data, container);
-                break;
+        const response = await fetch('/files', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+        console.log('Upload response:', response.status, result);
+
+        if (response.ok && result.success && result.file) {
+            // Associate the uploaded file with the invoice
+            await performAssociation('add', 'file', result.file.id, result.file.fname);
+
+            // Close upload modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('uploadFileModal'));
+            if (modal) modal.hide();
+
+            // Reset form
+            form.reset();
+        } else {
+            console.error('Upload failed:', result);
+            showToast(result.error || 'Failed to upload file', 'error');
         }
     } catch (error) {
-        container.innerHTML = '<div class="alert alert-danger">Failed to load data. Please try again.</div>';
-        console.error('Error loading tab data:', error);
+        console.error('Error uploading file:', error);
+        showToast('Error uploading file. Please try again.', 'error');
     }
 }
 
-async function fetchAssociations(type) {
-    const response = await fetch(`/invoices/${invoiceId}/associations/${type}`);
-    if (!response.ok) throw new Error('Failed to fetch');
-    return await response.json();
-}
+// Toast utility functions
+function showToast(message, type = 'success', duration = 5000) {
+    const toastContainer = document.querySelector('.toast-container');
+    const toastId = 'toast-' + Date.now();
 
-function renderItemsTab(data, container) {
-    const count = data.items?.length || 0;
-    document.getElementById('items-count').textContent = count;
+    const bgClass = type === 'success' ? 'bg-success' :
+                   type === 'error' ? 'bg-danger' :
+                   type === 'warning' ? 'bg-warning' : 'bg-primary';
 
-    if (count === 0) {
-        container.innerHTML = `
-            <div class="text-center text-muted py-5">
-                <i class="bi bi-laptop display-4 mb-3"></i>
-                <p>No items are associated with this invoice yet.</p>
+    const iconClass = type === 'success' ? 'bi-check-circle' :
+                     type === 'error' ? 'bi-exclamation-circle' :
+                     type === 'warning' ? 'bi-exclamation-triangle' : 'bi-info-circle';
+
+    const toastHtml = `
+        <div id="${toastId}" class="toast align-items-center text-white ${bgClass} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi ${iconClass} me-2"></i>
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
             </div>
-        `;
-        return;
-    }
+        </div>
+    `;
 
-    let html = '<div class="table-responsive"><table class="table table-hover"><thead><tr>';
-    html += '<th>ID</th><th>Label</th><th>Type</th><th>Location</th><th>User</th><th>Actions</th>';
-    html += '</tr></thead><tbody>';
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
 
-    data.items.forEach(item => {
-        html += `<tr>
-            <td><a href="/items/${item.id}" class="text-decoration-none">#${item.id}</a></td>
-            <td>${item.label || item.function || 'N/A'}</td>
-            <td>${item.type_name || 'N/A'}</td>
-            <td>${item.location_name || 'N/A'}</td>
-            <td>${item.username || 'Unassigned'}</td>
-            <td><a href="/items/${item.id}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a></td>
-        </tr>`;
+    const toastElement = document.getElementById(toastId);
+    const toast = new bootstrap.Toast(toastElement, { delay: duration });
+    toast.show();
+
+    // Remove toast element after it's hidden
+    toastElement.addEventListener('hidden.bs.toast', () => {
+        toastElement.remove();
+    });
+}
+
+function showConfirmModal(message, onConfirm) {
+    // Create a confirmation modal
+    const modalId = 'confirm-modal-' + Date.now();
+    const modalHtml = `
+        <div class="modal fade" id="${modalId}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Action</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        ${message}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="${modalId}-confirm">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    const modalElement = document.getElementById(modalId);
+    const modal = new bootstrap.Modal(modalElement);
+
+    const confirmButton = document.getElementById(modalId + '-confirm');
+    confirmButton.addEventListener('click', () => {
+        // Remove focus from button before hiding modal to prevent aria-hidden warning
+        confirmButton.blur();
+        modal.hide();
+        onConfirm();
     });
 
-    html += '</tbody></table></div>';
-    container.innerHTML = html;
-}
-
-function renderSoftwareTab(data, container) {
-    const count = data.software?.length || 0;
-    document.getElementById('software-count').textContent = count;
-
-    if (count === 0) {
-        container.innerHTML = `
-            <div class="text-center text-muted py-5">
-                <i class="bi bi-code-square display-4 mb-3"></i>
-                <p>No software is associated with this invoice yet.</p>
-            </div>
-        `;
-        return;
-    }
-
-    let html = '<div class="table-responsive"><table class="table table-hover"><thead><tr>';
-    html += '<th>ID</th><th>Title</th><th>Version</th><th>Publisher</th><th>Actions</th>';
-    html += '</tr></thead><tbody>';
-
-    data.software.forEach(sw => {
-        html += `<tr>
-            <td><a href="/software/${sw.id}" class="text-decoration-none">#${sw.id}</a></td>
-            <td>${sw.stitle || 'N/A'}</td>
-            <td>${sw.sversion || 'N/A'}</td>
-            <td>${sw.publisher_name || 'N/A'}</td>
-            <td><a href="/software/${sw.id}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a></td>
-        </tr>`;
+    modalElement.addEventListener('hidden.bs.modal', () => {
+        modalElement.remove();
     });
 
-    html += '</tbody></table></div>';
-    container.innerHTML = html;
+    modal.show();
 }
 
-function renderContractsTab(data, container) {
-    const count = data.contracts?.length || 0;
-    document.getElementById('contracts-count').textContent = count;
-
-    if (count === 0) {
-        container.innerHTML = `
-            <div class="text-center text-muted py-5">
-                <i class="bi bi-file-text display-4 mb-3"></i>
-                <p>No contracts are associated with this invoice yet.</p>
-            </div>
-        `;
-        return;
-    }
-
-    let html = '<div class="table-responsive"><table class="table table-hover"><thead><tr>';
-    html += '<th>ID</th><th>Title</th><th>Contractor</th><th>Start Date</th><th>End Date</th><th>Actions</th>';
-    html += '</tr></thead><tbody>';
-
-    data.contracts.forEach(contract => {
-        const startDate = contract.startdate ? new Date(contract.startdate * 1000).toLocaleDateString() : 'N/A';
-        const endDate = contract.currentenddate ? new Date(contract.currentenddate * 1000).toLocaleDateString() : 'N/A';
-
-        html += `<tr>
-            <td><a href="/contracts/${contract.id}" class="text-decoration-none">#${contract.id}</a></td>
-            <td>${contract.title || 'N/A'}</td>
-            <td>${contract.contractor_name || 'N/A'}</td>
-            <td>${startDate}</td>
-            <td>${endDate}</td>
-            <td><a href="/contracts/${contract.id}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a></td>
-        </tr>`;
+// Association management functions
+async function addAssociation(type, id, name) {
+    showConfirmModal(`Add association with ${name}?`, async () => {
+        await performAssociation('add', type, id, name);
     });
-
-    html += '</tbody></table></div>';
-    container.innerHTML = html;
 }
 
-function renderFilesTab(data, container) {
-    const count = data.files?.length || 0;
-    document.getElementById('files-count').textContent = count;
-
-    if (count === 0) {
-        container.innerHTML = `
-            <div class="text-center text-muted py-5">
-                <i class="bi bi-paperclip display-4 mb-3"></i>
-                <p>No files are associated with this invoice yet.</p>
-            </div>
-        `;
-        return;
-    }
-
-    let html = '<div class="table-responsive"><table class="table table-hover"><thead><tr>';
-    html += '<th>File Name</th><th>Title</th><th>Type</th><th>Actions</th>';
-    html += '</tr></thead><tbody>';
-
-    data.files.forEach(file => {
-        html += `<tr>
-            <td><i class="bi bi-file-earmark me-2"></i>${file.fname || 'N/A'}</td>
-            <td>${file.title || 'N/A'}</td>
-            <td>${file.filetype_name || 'N/A'}</td>
-            <td>
-                <a href="/files/${file.id}/download" class="btn btn-sm btn-outline-success" title="Download">
-                    <i class="bi bi-download"></i>
-                </a>
-            </td>
-        </tr>`;
+async function removeAssociation(type, id, name) {
+    showConfirmModal(`Remove association with ${name}?`, async () => {
+        await performAssociation('remove', type, id, name);
     });
-
-    html += '</tbody></table></div>';
-    container.innerHTML = html;
 }
+
+async function performAssociation(action, type, id, name, extraData = {}) {
+    try {
+        const method = action === 'add' ? 'POST' : 'DELETE';
+        const response = await fetch(`/invoices/{{ invoice.id }}/associations`, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                type: type,
+                id: id,
+                action: action
+            })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            const message = action === 'add'
+                ? `Successfully added association with ${name}`
+                : `Successfully removed association with ${name}`;
+
+            showToast(message, 'success');
+
+            // Close the modal if adding
+            if (action === 'add') {
+                const modalId = `add${type.charAt(0).toUpperCase() + type.slice(1)}Modal`;
+                const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
+                if (modal) modal.hide();
+            }
+
+            // Reload the page immediately to show updated data
+            const url = new URL(window.location);
+            url.searchParams.set('tab', type === 'item' ? 'items' : type === 'contract' ? 'contracts' : type);
+            window.location.href = url.toString();
+
+            return result;
+        } else {
+            const errorMessage = result.error || `Failed to ${action} association`;
+            showToast(errorMessage, 'error');
+        }
+    } catch (error) {
+        console.error(`Error ${action}ing association:`, error);
+        showToast(`Error ${action}ing association. Please try again.`, 'error');
+    }
+}
+
 </script>
+
+{# Include shared file preview functionality #}
+{% include 'components/file_preview_scripts.twig' %}
 {% endblock %}

@@ -155,6 +155,8 @@ return function (App $app) {
             $group->post('', [LocationController::class, 'store'])->setName('locations.store');
             $group->get('/{id}', [LocationController::class, 'show'])->setName('locations.show');
             $group->get('/{id}/edit', [LocationController::class, 'edit'])->setName('locations.edit');
+            $group->get('/{id}/floorplan', [LocationController::class, 'floorPlan'])->setName('locations.floorplan');
+            $group->get('/{id}/areas', [LocationController::class, 'getAreas'])->setName('locations.areas');
             $group->post('/{id}', [LocationController::class, 'update'])->setName('locations.update');
             $group->delete('/{id}', [LocationController::class, 'destroy'])->setName('locations.destroy');
         });

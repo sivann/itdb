@@ -64,28 +64,17 @@ class LocationController extends BaseController
             'search' => $queryParams['search'] ?? '',
             'floor_filter' => $queryParams['floor'] ?? '',
             'floors' => $floors,
+            'csrf_token' => $this->generateCsrfToken(),
         ]);
     }
 
     /**
-     * Show location details
+     * Show location details (redirect to edit)
      */
     public function show(Request $request, Response $response, array $args): Response
     {
-        $user = $this->authService->getCurrentUser();
         $id = (int) $args['id'];
-
-        $location = $this->locationModel->findWithRelations($id);
-        if (!$location) {
-            $this->addFlashMessage('error', 'Location not found');
-            return $this->redirectToRoute($request, $response, 'locations.index');
-        }
-
-        return $this->render($response, 'locations/edit.twig', [
-            'mode' => 'view',
-            'user' => $user,
-            'location' => $location,
-        ]);
+        return $this->redirectToRoute($request, $response, 'locations.edit', ['id' => $id]);
     }
 
     /**
@@ -95,9 +84,14 @@ class LocationController extends BaseController
     {
         $user = $this->authService->getCurrentUser();
 
+        // Get max upload size
+        $maxUpload = $this->getMaxUploadSize();
+
         return $this->render($response, 'locations/edit.twig', [
             'mode' => 'create',
             'user' => $user,
+            'max_file_size' => $maxUpload,
+            'max_file_size_formatted' => $this->formatBytes($maxUpload),
             'csrf_token' => $this->generateCsrfToken(),
         ]);
     }
@@ -145,11 +139,23 @@ class LocationController extends BaseController
         try {
             // Upload floor plan if provided
             if ($floorplanFilename) {
-                $uploadPath = $_ENV['FLOORPLAN_PATH'] ?? './storage/floorplans';
+                $uploadPath = $_ENV['FLOORPLAN_PATH'] ?? __DIR__ . '/../../public/storage/floorplans';
                 if (!is_dir($uploadPath)) {
                     mkdir($uploadPath, 0755, true);
                 }
-                $floorPlanFile->moveTo($uploadPath . '/' . $floorplanFilename);
+
+                $targetPath = $uploadPath . '/' . $floorplanFilename;
+                $this->logger->info('Moving uploaded file', [
+                    'target' => $targetPath,
+                    'exists' => file_exists($uploadPath)
+                ]);
+                $floorPlanFile->moveTo($targetPath);
+
+                if (!file_exists($targetPath)) {
+                    throw new \Exception('File was not saved to: ' . $targetPath);
+                }
+
+                $this->logger->info('File uploaded successfully', ['path' => $targetPath]);
             }
 
             $locationId = $this->locationModel->create([
@@ -159,12 +165,16 @@ class LocationController extends BaseController
             ]);
 
             $this->logUserAction('location_created', ['location_id' => $locationId]);
-            $this->addFlashMessage('success', 'Location created successfully');
-            return $this->redirectToRoute($request, $response, 'locations.show', ['id' => $locationId]);
+            $successMsg = 'Location created successfully';
+            if ($floorplanFilename) {
+                $successMsg .= ' and floor plan uploaded';
+            }
+            $this->addFlashMessage('success', $successMsg);
+            return $this->redirectToRoute($request, $response, 'locations.edit', ['id' => $locationId]);
 
         } catch (\Exception $e) {
-            $this->logger->error('Error creating location', ['error' => $e->getMessage()]);
-            $this->addFlashMessage('error', 'Error creating location');
+            $this->logger->error('Error creating location', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            $this->addFlashMessage('error', 'Error creating location: ' . $e->getMessage());
             return $this->redirectToRoute($request, $response, 'locations.create');
         }
     }
@@ -183,10 +193,22 @@ class LocationController extends BaseController
             return $this->redirectToRoute($request, $response, 'locations.index');
         }
 
+        // Get items at this location
+        $items = $this->locationModel->getLocationItems($id);
+
+        // Get max upload size
+        $maxUpload = $this->getMaxUploadSize();
+
+        // Add has_floor_plan flag
+        $location['has_floor_plan'] = !empty($location['floorplanfn']);
+
         return $this->render($response, 'locations/edit.twig', [
             'mode' => 'edit',
             'user' => $user,
             'location' => $location,
+            'items' => $items,
+            'max_file_size' => $maxUpload,
+            'max_file_size_formatted' => $this->formatBytes($maxUpload),
             'csrf_token' => $this->generateCsrfToken(),
         ]);
     }
@@ -210,6 +232,14 @@ class LocationController extends BaseController
             return $this->redirectToRoute($request, $response, 'locations.index');
         }
 
+        // Debug logging
+        $this->logger->info('Location update request', [
+            'id' => $id,
+            'data' => $data,
+            'has_name' => !empty($data['name']),
+            'name_value' => $data['name'] ?? 'EMPTY'
+        ]);
+
         // Validation
         $errors = [];
         if (empty($data['name'])) {
@@ -220,6 +250,15 @@ class LocationController extends BaseController
         $uploadedFiles = $request->getUploadedFiles();
         $floorPlanFile = $uploadedFiles['floorplan'] ?? null;
         $floorplanFilename = $location['floorplanfn']; // Keep existing by default
+
+        // Debug file upload
+        if ($floorPlanFile) {
+            $this->logger->info('File upload detected', [
+                'name' => $floorPlanFile->getClientFilename(),
+                'size' => $floorPlanFile->getSize(),
+                'error' => $floorPlanFile->getError()
+            ]);
+        }
 
         if ($floorPlanFile && $floorPlanFile->getError() === UPLOAD_ERR_OK) {
             $originalName = $floorPlanFile->getClientFilename();
@@ -241,7 +280,7 @@ class LocationController extends BaseController
         try {
             // Upload new floor plan if provided
             if ($floorPlanFile && $floorPlanFile->getError() === UPLOAD_ERR_OK) {
-                $uploadPath = $_ENV['FLOORPLAN_PATH'] ?? './storage/floorplans';
+                $uploadPath = $_ENV['FLOORPLAN_PATH'] ?? __DIR__ . '/../../public/storage/floorplans';
                 if (!is_dir($uploadPath)) {
                     mkdir($uploadPath, 0755, true);
                 }
@@ -251,7 +290,30 @@ class LocationController extends BaseController
                     unlink($uploadPath . '/' . $location['floorplanfn']);
                 }
 
-                $floorPlanFile->moveTo($uploadPath . '/' . $floorplanFilename);
+                $targetPath = $uploadPath . '/' . $floorplanFilename;
+                $this->logger->info('Moving uploaded file', [
+                    'target' => $targetPath,
+                    'exists' => file_exists($uploadPath)
+                ]);
+                $floorPlanFile->moveTo($targetPath);
+
+                if (!file_exists($targetPath)) {
+                    throw new \Exception('File was not saved to: ' . $targetPath);
+                }
+
+                $this->logger->info('File uploaded successfully', ['path' => $targetPath]);
+            } elseif ($floorPlanFile && $floorPlanFile->getError() !== UPLOAD_ERR_NO_FILE) {
+                // File upload error
+                $errorMessages = [
+                    UPLOAD_ERR_INI_SIZE => 'File exceeds upload_max_filesize',
+                    UPLOAD_ERR_FORM_SIZE => 'File exceeds MAX_FILE_SIZE',
+                    UPLOAD_ERR_PARTIAL => 'File was only partially uploaded',
+                    UPLOAD_ERR_NO_TMP_DIR => 'Missing temporary folder',
+                    UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
+                    UPLOAD_ERR_EXTENSION => 'File upload stopped by extension',
+                ];
+                $errorMsg = $errorMessages[$floorPlanFile->getError()] ?? 'Unknown upload error';
+                throw new \Exception('File upload failed: ' . $errorMsg);
             }
 
             $this->locationModel->update($id, [
@@ -261,12 +323,16 @@ class LocationController extends BaseController
             ]);
 
             $this->logUserAction('location_updated', ['location_id' => $id]);
-            $this->addFlashMessage('success', 'Location updated successfully');
-            return $this->redirectToRoute($request, $response, 'locations.show', ['id' => $id]);
+            $successMsg = 'Location updated successfully';
+            if ($floorPlanFile && $floorPlanFile->getError() === UPLOAD_ERR_OK) {
+                $successMsg .= ' and floor plan uploaded';
+            }
+            $this->addFlashMessage('success', $successMsg);
+            return $this->redirectToRoute($request, $response, 'locations.edit', ['id' => $id]);
 
         } catch (\Exception $e) {
-            $this->logger->error('Error updating location', ['error' => $e->getMessage()]);
-            $this->addFlashMessage('error', 'Error updating location');
+            $this->logger->error('Error updating location', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            $this->addFlashMessage('error', 'Error updating location: ' . $e->getMessage());
             return $this->redirectToRoute($request, $response, 'locations.edit', ['id' => $id]);
         }
     }
@@ -276,6 +342,12 @@ class LocationController extends BaseController
      */
     public function destroy(Request $request, Response $response, array $args): Response
     {
+        $this->logger->info('Delete request received', [
+            'id' => $args['id'] ?? 'MISSING',
+            'method' => $request->getMethod(),
+            'has_csrf' => $request->getParsedBody()['csrf_token'] ?? 'MISSING'
+        ]);
+
         if (!$this->validateCsrfToken($request)) {
             $this->addFlashMessage('error', 'Invalid CSRF token');
             return $this->redirectToRoute($request, $response, 'locations.index');
@@ -298,7 +370,7 @@ class LocationController extends BaseController
         try {
             // Delete floor plan file if exists
             if ($location['floorplanfn']) {
-                $uploadPath = $_ENV['FLOORPLAN_PATH'] ?? './storage/floorplans';
+                $uploadPath = $_ENV['FLOORPLAN_PATH'] ?? __DIR__ . '/../../public/storage/floorplans';
                 $filePath = $uploadPath . '/' . $location['floorplanfn'];
                 if (file_exists($filePath)) {
                     unlink($filePath);
@@ -331,7 +403,7 @@ class LocationController extends BaseController
             return $this->redirectToRoute($request, $response, 'locations.show', ['id' => $id]);
         }
 
-        $uploadPath = $_ENV['FLOORPLAN_PATH'] ?? './storage/floorplans';
+        $uploadPath = $_ENV['FLOORPLAN_PATH'] ?? __DIR__ . '/../../public/storage/floorplans';
         $filePath = $uploadPath . '/' . $location['floorplanfn'];
 
         if (!file_exists($filePath)) {
@@ -373,5 +445,54 @@ class LocationController extends BaseController
         $areas = $this->locationModel->getAreas($id);
 
         return $this->json($response, ['areas' => $areas]);
+    }
+
+    /**
+     * Get maximum upload file size in bytes
+     */
+    private function getMaxUploadSize(): int
+    {
+        $maxUpload = ini_get('upload_max_filesize');
+        $maxPost = ini_get('post_max_size');
+
+        $maxUploadBytes = $this->convertToBytes($maxUpload);
+        $maxPostBytes = $this->convertToBytes($maxPost);
+
+        return min($maxUploadBytes, $maxPostBytes);
+    }
+
+    /**
+     * Convert PHP size format to bytes
+     */
+    private function convertToBytes(string $size): int
+    {
+        $size = trim($size);
+        $last = strtolower($size[strlen($size) - 1]);
+        $size = (int) $size;
+
+        switch ($last) {
+            case 'g':
+                $size *= 1024;
+            case 'm':
+                $size *= 1024;
+            case 'k':
+                $size *= 1024;
+        }
+
+        return $size;
+    }
+
+    /**
+     * Format bytes to human readable format
+     */
+    private function formatBytes(int $bytes, int $precision = 2): string
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+        for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
+            $bytes /= 1024;
+        }
+
+        return round($bytes, $precision) . ' ' . $units[$i];
     }
 }

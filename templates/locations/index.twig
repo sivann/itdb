@@ -92,7 +92,7 @@
                                 <i class="bi bi-geo-alt me-3 text-primary fs-4"></i>
                                 <div>
                                     <a href="/locations/{{ location.id }}" class="fw-bold text-decoration-none">
-                                        {{ location.name }}
+                                        #{{ location.id }} {{ location.name }}
                                     </a>
                                 </div>
                             </div>
@@ -277,8 +277,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form method="POST" action="/locations/{{ location.id }}/delete" class="d-inline">
+                    <form method="POST" action="/locations/{{ location.id }}" class="d-inline">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-trash me-1"></i>Delete Location
                         </button>

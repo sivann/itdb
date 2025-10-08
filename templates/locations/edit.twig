@@ -368,7 +368,7 @@
 
 {% elseif mode == 'edit' or mode == 'create' %}
     <!-- EDIT/CREATE MODE -->
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">
@@ -383,9 +383,6 @@
                 <div class="card-body">
                     <form method="POST" action="{% if mode == 'create' %}/locations{% else %}/locations/{{ location.id }}{% endif %}" enctype="multipart/form-data">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                        {% if mode == 'edit' %}
-                        <input type="hidden" name="_method" value="PUT">
-                        {% endif %}
 
                         <div class="row">
                             <!-- Basic Information -->
@@ -511,7 +508,7 @@
                                             Leave empty to keep current floor plan.<br>
                                         {% endif %}
                                         Supported formats: JPG, PNG, GIF, PDF<br>
-                                        Maximum size: {{ max_file_size|format_bytes|default('10MB') }}
+                                        Maximum size: {{ max_file_size_formatted|default('10MB') }}
                                     </div>
                                 </div>
 
@@ -578,6 +575,36 @@
                 </div>
             </div>
         </div>
+
+        {% if mode == 'edit' %}
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-laptop me-1"></i>Items ({{ items|length }})
+                    </h6>
+                </div>
+                <div class="card-body" style="max-height: 70vh; overflow-y: auto;">
+                    {% if items|length > 0 %}
+                    <div class="small">
+                        {% for item in items %}
+                            <div class="py-1">
+                                <a href="/items/{{ item.id }}/edit" class="text-decoration-none">
+                                    <strong>#{{ item.id }}</strong> {{ item.label|default(item.function)|default('N/A') }}
+                                </a>
+                                <div class="text-muted" style="font-size: 0.85em;">
+                                    {{ item.manufacturer_name|default('') }}{% if item.manufacturer_name and item.model %}, {% endif %}{{ item.model|default('') }}{% if (item.manufacturer_name or item.model) and item.type_name %}, {% endif %}{{ item.type_name|default('') }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <span class="small text-muted">No items at this location</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 {% endif %}
 
@@ -610,8 +637,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form method="POST" action="/locations/{{ location.id }}/delete" class="d-inline">
+                    <form method="POST" action="/locations/{{ location.id }}" class="d-inline">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-trash me-1"></i>Delete Location
                         </button>
@@ -643,8 +671,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form method="POST" action="/locations/{{ location.id }}/delete" class="d-inline">
+                    <form method="POST" action="/locations/{{ location.id }}" class="d-inline">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-trash me-1"></i>Delete Location
                         </button>

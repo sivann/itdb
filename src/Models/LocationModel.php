@@ -74,6 +74,11 @@ class LocationModel
 
         $locations = $this->db->fetchAll($sql, $params);
 
+        // Add has_floor_plan flag
+        foreach ($locations as &$location) {
+            $location['has_floor_plan'] = !empty($location['floorplanfn']);
+        }
+
         return [
             'data' => $locations,
             'total' => $total,
@@ -240,6 +245,23 @@ class LocationModel
     {
         return $this->db->fetchAll(
             "SELECT id, areaname as name FROM locareas WHERE locationid = :location_id ORDER BY areaname",
+            ['location_id' => $locationId]
+        );
+    }
+
+    /**
+     * Get items at a location
+     */
+    public function getLocationItems(int $locationId): array
+    {
+        return $this->db->fetchAll(
+            "SELECT i.id, i.label, i.function, i.model, it.name as type_name, a.title as manufacturer_name
+             FROM items i
+             LEFT JOIN itemtypes it ON i.itemtypeid = it.id
+             LEFT JOIN agents a ON i.manufacturerid = a.id
+             WHERE i.locationid = :location_id
+             ORDER BY i.id DESC
+             LIMIT 100",
             ['location_id' => $locationId]
         );
     }

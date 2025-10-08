@@ -386,7 +386,13 @@ class InvoiceModel
         // Format dates for display
         foreach ($files as &$file) {
             if (!empty($file['uploaddate'])) {
-                $file['uploaddate_formatted'] = date('Y-m-d H:i', $file['uploaddate']);
+                // If uploaddate is already formatted string, use it directly
+                // Otherwise convert from timestamp
+                if (is_numeric($file['uploaddate'])) {
+                    $file['uploaddate_formatted'] = date('Y-m-d H:i', (int)$file['uploaddate']);
+                } else {
+                    $file['uploaddate_formatted'] = $file['uploaddate'];
+                }
             }
         }
 

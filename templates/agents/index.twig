@@ -82,7 +82,13 @@
                                 <strong>{{ agent.title }}</strong>
                             </td>
                             <td>
-                                <span class="badge bg-info">{{ agent.type_description }}</span>
+                                {% if agent.type_list is defined and agent.type_list|length > 0 %}
+                                    {% for type in agent.type_list %}
+                                        <span class="badge bg-{{ type.color }}">{{ type.name }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="badge bg-secondary">-</span>
+                                {% endif %}
                             </td>
                             <td>
                                 <small class="text-muted">{{ agent.contactinfo|default('—') }}</small>

@@ -82,7 +82,9 @@ class AgentModel
         // Get agents with limit
         $sql = "
             SELECT agents.*,
-                   GROUP_CONCAT(at.name, ', ') as agent_types
+                   GROUP_CONCAT(at.name, '|||') as agent_types,
+                   GROUP_CONCAT(at.code, '|||') as agent_type_codes,
+                   GROUP_CONCAT(at.badge_color, '|||') as agent_type_colors
             FROM agents
             LEFT JOIN agent_agent_type aat ON agents.id = aat.agent_id
             LEFT JOIN agent_types at ON aat.agent_type_id = at.id
@@ -97,13 +99,26 @@ class AgentModel
 
         $agents = $this->db->fetchAll($sql, $params);
 
-        // Process each agent to add type description
+        // Process each agent to add type description and array of types
         foreach ($agents as &$agent) {
             // If no modern types, generate description from legacy bitwise type
             if (empty($agent['agent_types']) || $agent['agent_types'] === '') {
                 $agent['type_description'] = $this->getLegacyTypeDescription((int) $agent['type']);
+                $agent['type_list'] = $this->getLegacyTypeList((int) $agent['type']);
             } else {
-                $agent['type_description'] = $agent['agent_types'];
+                $agent['type_description'] = str_replace('|||', ', ', $agent['agent_types']);
+                // Create array of type info
+                $names = explode('|||', $agent['agent_types']);
+                $codes = explode('|||', $agent['agent_type_codes'] ?? '');
+                $colors = explode('|||', $agent['agent_type_colors'] ?? '');
+                $agent['type_list'] = [];
+                foreach ($names as $idx => $name) {
+                    $agent['type_list'][] = [
+                        'name' => $name,
+                        'code' => $codes[$idx] ?? '',
+                        'color' => $colors[$idx] ?? 'secondary'
+                    ];
+                }
             }
         }
 
@@ -351,6 +366,21 @@ class AgentModel
         if ($type & 16) $types[] = 'Contractor';
 
         return implode(', ', $types);
+    }
+
+    /**
+     * Generate type list array from legacy bitwise value
+     */
+    private function getLegacyTypeList(int $type): array
+    {
+        $types = [];
+        if ($type & 1) $types[] = ['name' => 'Vendor', 'code' => 'vendor', 'color' => 'primary'];
+        if ($type & 2) $types[] = ['name' => 'SW Manufacturer', 'code' => 'software_manufacturer', 'color' => 'success'];
+        if ($type & 4) $types[] = ['name' => 'HW Manufacturer', 'code' => 'hardware_manufacturer', 'color' => 'info'];
+        if ($type & 8) $types[] = ['name' => 'Buyer', 'code' => 'buyer', 'color' => 'dark'];
+        if ($type & 16) $types[] = ['name' => 'Contractor', 'code' => 'contractor', 'color' => 'danger'];
+
+        return $types;
     }
 
     /**

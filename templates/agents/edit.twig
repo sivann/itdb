@@ -70,6 +70,7 @@
                                            value="{{ agent_type.id }}"
                                            {% if agent_type.id in agent_type_ids %}checked{% endif %}>
                                     <label class="form-check-label" for="agent_type_{{ agent_type.id }}">
+                                        <span class="badge bg-{{ agent_type.badge_color|default('secondary') }} me-2" style="display: inline-block; width: 12px; height: 12px; padding: 0; position: relative; top: 1px;"></span>
                                         {{ agent_type.name }}
                                         {% if agent_type.description %}
                                             <small class="text-muted d-block">{{ agent_type.description }}</small>

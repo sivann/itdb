@@ -79,7 +79,7 @@
                         {% for agent in agents %}
                         <tr>
                             <td>
-                                <strong>{{ agent.title }}</strong>
+                                <strong><a href="/agents/{{ agent.id }}/edit" class="text-decoration-none">{{ agent.title }}</a></strong>
                             </td>
                             <td>
                                 {% if agent.type_list is defined and agent.type_list|length > 0 %}

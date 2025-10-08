@@ -353,4 +353,44 @@ class AgentModel
         return implode(', ', $types);
     }
 
+    /**
+     * Get agent relationships (items, software, invoices, contracts)
+     */
+    public function getAgentRelationships(int $agentId): array
+    {
+        $relationships = [];
+
+        // Items (as manufacturer)
+        $relationships['items'] = $this->db->fetchAll(
+            "SELECT id, label, function FROM items WHERE manufacturerid = :agent_id ORDER BY id DESC LIMIT 20",
+            ['agent_id' => $agentId]
+        );
+
+        // Software (as manufacturer)
+        $relationships['software'] = $this->db->fetchAll(
+            "SELECT id, stitle, sversion FROM software WHERE manufacturerid = :agent_id ORDER BY id DESC LIMIT 20",
+            ['agent_id' => $agentId]
+        );
+
+        // Invoices as vendor
+        $relationships['invoices_vendor'] = $this->db->fetchAll(
+            "SELECT id, date, totalcost FROM invoices WHERE vendorid = :agent_id ORDER BY id DESC LIMIT 20",
+            ['agent_id' => $agentId]
+        );
+
+        // Invoices as buyer
+        $relationships['invoices_buyer'] = $this->db->fetchAll(
+            "SELECT id, date, totalcost FROM invoices WHERE buyerid = :agent_id ORDER BY id DESC LIMIT 20",
+            ['agent_id' => $agentId]
+        );
+
+        // Contracts (as contractor)
+        $relationships['contracts'] = $this->db->fetchAll(
+            "SELECT id, title, startdate, currentenddate FROM contracts WHERE contractorid = :agent_id ORDER BY id DESC LIMIT 20",
+            ['agent_id' => $agentId]
+        );
+
+        return $relationships;
+    }
+
 }

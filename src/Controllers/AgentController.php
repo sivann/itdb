@@ -165,12 +165,16 @@ class AgentController extends BaseController
         // Get available agent types
         $availableAgentTypes = $this->agentTypeModel->getActive();
 
+        // Get agent relationships
+        $relationships = $this->agentModel->getAgentRelationships($id);
+
         return $this->render($response, 'agents/edit.twig', [
             'mode' => 'edit',
             'user' => $user,
             'agent' => $agent,
             'agent_types' => $agentTypes,
             'available_agent_types' => $availableAgentTypes,
+            'relationships' => $relationships,
             'csrf_token' => $this->generateCsrfToken(),
         ]);
     }

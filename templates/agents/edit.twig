@@ -164,6 +164,102 @@
             </div>
         </div>
 
+        {% if relationships is defined %}
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="bi bi-link-45deg me-1"></i>Relationships
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <strong class="small text-muted d-block mb-1">
+                        <i class="bi bi-laptop me-1"></i>Items ({{ relationships.items|length }})
+                    </strong>
+                    {% if relationships.items|length > 0 %}
+                    <div class="small">
+                        {% for item in relationships.items %}
+                            <a href="/items/{{ item.id }}" class="d-block text-decoration-none py-1">
+                                #{{ item.id }} {{ item.label|default(item.function)|default('N/A') }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <span class="small text-muted">None</span>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <strong class="small text-muted d-block mb-1">
+                        <i class="bi bi-code-square me-1"></i>Software ({{ relationships.software|length }})
+                    </strong>
+                    {% if relationships.software|length > 0 %}
+                    <div class="small">
+                        {% for software in relationships.software %}
+                            <a href="/software/{{ software.id }}" class="d-block text-decoration-none py-1">
+                                #{{ software.id }} {{ software.stitle|default('N/A') }}{% if software.sversion %} v{{ software.sversion }}{% endif %}
+                            </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <span class="small text-muted">None</span>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <strong class="small text-muted d-block mb-1">
+                        <i class="bi bi-receipt me-1"></i>Invoices as Vendor ({{ relationships.invoices_vendor|length }})
+                    </strong>
+                    {% if relationships.invoices_vendor|length > 0 %}
+                    <div class="small">
+                        {% for invoice in relationships.invoices_vendor %}
+                            <a href="/invoices/{{ invoice.id }}" class="d-block text-decoration-none py-1">
+                                #{{ invoice.id }}{% if invoice.totalcost %} - ${{ invoice.totalcost|number_format(2) }}{% endif %}
+                            </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <span class="small text-muted">None</span>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <strong class="small text-muted d-block mb-1">
+                        <i class="bi bi-cart me-1"></i>Invoices as Buyer ({{ relationships.invoices_buyer|length }})
+                    </strong>
+                    {% if relationships.invoices_buyer|length > 0 %}
+                    <div class="small">
+                        {% for invoice in relationships.invoices_buyer %}
+                            <a href="/invoices/{{ invoice.id }}" class="d-block text-decoration-none py-1">
+                                #{{ invoice.id }}{% if invoice.totalcost %} - ${{ invoice.totalcost|number_format(2) }}{% endif %}
+                            </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <span class="small text-muted">None</span>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <strong class="small text-muted d-block mb-1">
+                        <i class="bi bi-file-text me-1"></i>Contracts ({{ relationships.contracts|length }})
+                    </strong>
+                    {% if relationships.contracts|length > 0 %}
+                    <div class="small">
+                        {% for contract in relationships.contracts %}
+                            <a href="/contracts/{{ contract.id }}" class="d-block text-decoration-none py-1">
+                                #{{ contract.id }} {{ contract.title|default('N/A') }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <span class="small text-muted">None</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         {% if user and user.isAdmin() %}
         <div class="card mt-3">
             <div class="card-header bg-danger text-white">

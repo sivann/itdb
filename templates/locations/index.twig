@@ -115,20 +115,20 @@
                         </td>
                         <td>
                             {% if location.items_count > 0 %}
-                                <span class="badge bg-primary">{{ location.items_count }}</span>
-                                <a href="/items?location={{ location.id }}" class="btn btn-sm btn-outline-primary ms-1">
+                                <a href="/items?location={{ location.id }}" class="btn btn-sm btn-outline-primary me-1">
                                     <i class="bi bi-eye"></i>
                                 </a>
+                                <span class="badge bg-primary">{{ location.items_count }}</span>
                             {% else %}
                                 <span class="text-muted">0</span>
                             {% endif %}
                         </td>
                         <td>
                             {% if location.racks_count > 0 %}
-                                <span class="badge bg-success">{{ location.racks_count }}</span>
-                                <a href="/racks?location={{ location.id }}" class="btn btn-sm btn-outline-success ms-1">
+                                <a href="/racks?location={{ location.id }}" class="btn btn-sm btn-outline-success me-1">
                                     <i class="bi bi-eye"></i>
                                 </a>
+                                <span class="badge bg-success">{{ location.racks_count }}</span>
                             {% else %}
                                 <span class="text-muted">0</span>
                             {% endif %}
@@ -142,11 +142,6 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="/locations/{{ location.id }}"
-                                   class="btn btn-outline-primary btn-sm"
-                                   title="View Details">
-                                    <i class="bi bi-eye"></i>
-                                </a>
                                 {% if user and user.usertype >= 1 %}
                                 <a href="/locations/{{ location.id }}/edit"
                                    class="btn btn-outline-secondary btn-sm"

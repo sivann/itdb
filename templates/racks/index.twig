@@ -45,9 +45,9 @@
                 <label for="location" class="form-label">Location</label>
                 <select class="form-select" id="location" name="location">
                     <option value="">All Locations</option>
-                    {% for location in filters.locations %}
+                    {% for location in locations %}
                     <option value="{{ location.id }}"
-                            {% if query.location|default('') == location.id %}selected{% endif %}>
+                            {% if query.location is defined and query.location ~ '' == location.id ~ '' %}selected{% endif %}>
                         {{ location.name }}
                         {% if location.floor %} ({{ location.floor }}){% endif %}
                     </option>

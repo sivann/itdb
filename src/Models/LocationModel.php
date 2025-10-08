@@ -60,12 +60,30 @@ class LocationModel
         $totalSql = "SELECT COUNT(*) FROM locations $whereClause";
         $total = (int) $this->db->fetchColumn($totalSql, $params);
 
-        // Get locations with limit
+        // Get locations with limit and counts
         $sql = "
-            SELECT *
-            FROM locations
+            SELECT l.*,
+                   COALESCE(items.count, 0) as items_count,
+                   COALESCE(racks.count, 0) as racks_count,
+                   COALESCE(areas.count, 0) as areas_count
+            FROM locations l
+            LEFT JOIN (
+                SELECT locationid, COUNT(*) as count
+                FROM items
+                GROUP BY locationid
+            ) items ON l.id = items.locationid
+            LEFT JOIN (
+                SELECT locationid, COUNT(*) as count
+                FROM racks
+                GROUP BY locationid
+            ) racks ON l.id = racks.locationid
+            LEFT JOIN (
+                SELECT locationid, COUNT(*) as count
+                FROM locareas
+                GROUP BY locationid
+            ) areas ON l.id = areas.locationid
             $whereClause
-            ORDER BY name
+            ORDER BY l.name
             LIMIT :limit OFFSET :offset
         ";
 

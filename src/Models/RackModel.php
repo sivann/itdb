@@ -32,7 +32,18 @@ class RackModel
         );
 
         if ($rack) {
-            return $this->transformRackForTemplate($rack);
+            $rack = $this->transformRackForTemplate($rack);
+
+            // Get items in this rack with rackposdepth
+            $rack['items'] = $this->db->fetchAll(
+                "SELECT id, label, function, rackposition, rackposdepth, usize
+                 FROM items
+                 WHERE rackid = :rack_id
+                 ORDER BY rackposition",
+                ['rack_id' => $id]
+            );
+
+            return $rack;
         }
 
         return null;
@@ -73,10 +84,17 @@ class RackModel
         $sql = "
             SELECT r.*,
                    l.name as location_name,
-                   la.areaname as location_area_name
+                   la.areaname as location_area_name,
+                   COALESCE(item_count.count, 0) as items_count
             FROM racks r
             LEFT JOIN locations l ON r.locationid = l.id
             LEFT JOIN locareas la ON r.locareaid = la.id
+            LEFT JOIN (
+                SELECT rackid, COUNT(*) as count
+                FROM items
+                WHERE rackid IS NOT NULL
+                GROUP BY rackid
+            ) item_count ON r.id = item_count.rackid
             $whereClause
             ORDER BY r.label
             LIMIT :limit OFFSET :offset
@@ -187,7 +205,7 @@ class RackModel
 
         // Get items in this rack
         $items = $this->db->fetchAll(
-            "SELECT id, iname, rackposition, racksize FROM items WHERE rackid = :rack_id ORDER BY rackposition",
+            "SELECT id, label, function, rackposition, usize FROM items WHERE rackid = :rack_id ORDER BY rackposition",
             ['rack_id' => $rackId]
         );
 
@@ -204,7 +222,7 @@ class RackModel
         // Mark occupied positions
         foreach ($items as $item) {
             $position = (int) $item['rackposition'];
-            $size = (int) ($item['racksize'] ?: 1);
+            $size = (int) ($item['usize'] ?: 1);
 
             if ($position > 0 && $position <= $uSize) {
                 for ($u = $position; $u < $position + $size && $u <= $uSize; $u++) {

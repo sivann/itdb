@@ -256,7 +256,12 @@
                         </td>
                         <td>
                             {% if rack.depth %}
-                                {{ rack.depth }}"
+                                {{ rack.depth }} mm
+                                {% if rack.revnums == 1 %}
+                                    <br><span class="badge bg-info badge-sm" title="Units numbered from top to bottom">
+                                        <i class="bi bi-arrow-down"></i> Rev
+                                    </span>
+                                {% endif %}
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}

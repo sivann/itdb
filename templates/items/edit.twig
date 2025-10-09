@@ -147,6 +147,75 @@
                             </div>
 
                             <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           id="rackmountable"
+                                           name="rackmountable"
+                                           value="1"
+                                           {% if item.rackmountable == 1 %}checked{% endif %}>
+                                    <label class="form-check-label" for="rackmountable">
+                                        <strong>Rack Mountable</strong>
+                                    </label>
+                                    <div class="form-text">Check if this item can be mounted in a rack</div>
+                                </div>
+                            </div>
+
+                            <div id="rackFields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="rackid" class="form-label">Rack</label>
+                                <div class="input-group">
+                                    <select class="form-select" id="rackid" name="rackid">
+                                        <option value="">No rack assigned</option>
+                                        {% for rack in form_options.racks %}
+                                        <option value="{{ rack.id }}"
+                                                data-location="{{ rack.locationid }}"
+                                                {% if item.rackid == rack.id %}selected{% endif %}>
+                                            {{ rack.label }}{% if rack.model %} - {{ rack.model }}{% endif %}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button class="btn btn-outline-secondary" type="button" id="viewRackBtn" title="View Rack" disabled>
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row" id="rackPositionFields" style="display: none;">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="rackposition" class="form-label">Rack Position (U)</label>
+                                        <input type="number"
+                                               class="form-control"
+                                               id="rackposition"
+                                               name="rackposition"
+                                               min="1"
+                                               max="100"
+                                               value="{{ item.rackposition }}"
+                                               placeholder="1-42">
+                                        <div class="form-text">Vertical position in rack units (1U increments)</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="rackposdepth" class="form-label">Rack Depth</label>
+                                        <select class="form-select" id="rackposdepth" name="rackposdepth">
+                                            <option value="">Select depth...</option>
+                                            <option value="4" {% if item.rackposdepth == 4 %}selected{% endif %}>F-- (Front only)</option>
+                                            <option value="2" {% if item.rackposdepth == 2 %}selected{% endif %}>-M- (Middle only)</option>
+                                            <option value="1" {% if item.rackposdepth == 1 %}selected{% endif %}>--B (Back only)</option>
+                                            <option value="6" {% if item.rackposdepth == 6 %}selected{% endif %}>FM- (Front + Middle)</option>
+                                            <option value="3" {% if item.rackposdepth == 3 %}selected{% endif %}>-MB (Middle + Back)</option>
+                                            <option value="7" {% if item.rackposdepth == 7 %}selected{% endif %}>FMB (Front + Middle + Back)</option>
+                                        </select>
+                                        <div class="form-text">Horizontal depth position in rack</div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <!-- End of rack fields -->
+
+                            <div class="mb-3">
                                 <label for="ipv4" class="form-label">IP Address</label>
                                 <input type="text" class="form-control" id="ipv4" name="ipv4" value="{{ item.ipv4 }}" placeholder="192.168.1.100">
                             </div>
@@ -1929,6 +1998,77 @@ async function uploadFile() {
         showToast('Error uploading file. Please try again.', 'error');
     }
 }
+
+// Rack assignment fields management
+document.addEventListener('DOMContentLoaded', function() {
+    const rackmountableCheckbox = document.getElementById('rackmountable');
+    const rackFields = document.getElementById('rackFields');
+    const rackSelect = document.getElementById('rackid');
+    const viewRackBtn = document.getElementById('viewRackBtn');
+    const rackPositionFields = document.getElementById('rackPositionFields');
+    const locationSelect = document.getElementById('locationid');
+
+    // Show/hide rack fields based on rackmountable checkbox
+    function updateRackmountableFields() {
+        if (rackmountableCheckbox.checked) {
+            rackFields.style.display = 'block';
+            updateRackFields();
+        } else {
+            rackFields.style.display = 'none';
+        }
+    }
+
+    // Show/hide rack position fields based on rack selection
+    function updateRackFields() {
+        const selectedRack = rackSelect.value;
+
+        if (selectedRack) {
+            rackPositionFields.style.display = 'block';
+            viewRackBtn.disabled = false;
+        } else {
+            rackPositionFields.style.display = 'none';
+            viewRackBtn.disabled = true;
+        }
+    }
+
+    // Filter racks by location
+    function filterRacksByLocation() {
+        const selectedLocation = locationSelect.value;
+        const rackOptions = rackSelect.querySelectorAll('option[data-location]');
+
+        rackOptions.forEach(function(option) {
+            if (!selectedLocation || option.dataset.location === selectedLocation) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+
+        // Reset rack selection if it's not valid for the current location
+        const currentRackOption = rackSelect.querySelector(`option[value="${rackSelect.value}"]`);
+        if (currentRackOption && currentRackOption.dataset.location !== selectedLocation && selectedLocation) {
+            rackSelect.value = '';
+            updateRackFields();
+        }
+    }
+
+    // Open rack in new window/tab
+    viewRackBtn.addEventListener('click', function() {
+        const selectedRack = rackSelect.value;
+        if (selectedRack) {
+            window.open(`/racks/${selectedRack}`, '_blank');
+        }
+    });
+
+    // Event listeners
+    rackmountableCheckbox.addEventListener('change', updateRackmountableFields);
+    rackSelect.addEventListener('change', updateRackFields);
+    locationSelect.addEventListener('change', filterRacksByLocation);
+
+    // Initialize on page load
+    updateRackmountableFields();
+    filterRacksByLocation();
+});
 </script>
 
 {# Include shared file preview functionality #}

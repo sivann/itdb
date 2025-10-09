@@ -90,7 +90,7 @@
                             {% if rack.depth %}
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Depth</label>
-                                <div>{{ rack.depth }} inches</div>
+                                <div>{{ rack.depth }} mm</div>
                             </div>
                             {% endif %}
 
@@ -124,20 +124,18 @@
                             </div>
                             {% endif %}
 
-                            {% if rack.revnums %}
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Reverse Numbering</label>
+                                <label class="form-label fw-bold">U Numbering Direction</label>
                                 <div>
                                     {% if rack.revnums == 1 %}
-                                        <span class="badge bg-info">Enabled</span>
-                                        <br><small class="text-muted">Units numbered from top to bottom</small>
+                                        <span class="badge bg-info">Top to Bottom</span>
+                                        <br><small class="text-muted">Units numbered from top (1) to bottom</small>
                                     {% else %}
-                                        <span class="badge bg-secondary">Disabled</span>
-                                        <br><small class="text-muted">Units numbered from bottom to top (standard)</small>
+                                        <span class="badge bg-secondary">Bottom to Top (Standard)</span>
+                                        <br><small class="text-muted">Units numbered from bottom (1) to top</small>
                                     {% endif %}
                                 </div>
                             </div>
-                            {% endif %}
                         </div>
                     </div>
 
@@ -154,43 +152,73 @@
             <!-- Rack Visualization -->
             {% if rack.usize %}
             <div class="card mt-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header">
                     <h6 class="card-title mb-0">
-                        <i class="bi bi-diagram-3 me-2"></i>Rack Layout
+                        <i class="bi bi-diagram-3 me-2"></i>Rack Layout (Side View)
                     </h6>
-                    <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-secondary active" id="frontView">Front</button>
-                        <button class="btn btn-outline-secondary" id="rearView">Rear</button>
-                    </div>
                 </div>
                 <div class="card-body">
                     <div class="rack-visualization">
                         <div class="d-flex justify-content-center">
-                            <div class="rack-frame">
+                            <div class="rack-frame-side">
+                                <!-- Column headers -->
+                                <div class="rack-header">
+                                    <div class="unit-number-col"></div>
+                                    <div class="depth-col">Front</div>
+                                    <div class="depth-col">Middle</div>
+                                    <div class="depth-col">Back</div>
+                                </div>
+
                                 <!-- Rack Units -->
                                 {% set rack_units = rack.usize %}
                                 {% for u in 1..rack_units %}
-                                    {% set unit_number = rack.revnums ? u : (rack_units - u + 1) %}
-                                    {% set has_item = false %}
-                                    {% set unit_item = null %}
+                                    {% set unit_number = rack.revnums ? (rack_units - u + 1) : u %}
+
+                                    {# Find items at this position #}
+                                    {% set items_at_u = [] %}
                                     {% for item in rack.items %}
                                         {% if item.rackposition == unit_number %}
-                                            {% set has_item = true %}
-                                            {% set unit_item = item %}
+                                            {% set items_at_u = items_at_u|merge([item]) %}
                                         {% endif %}
                                     {% endfor %}
 
-                                    <div class="rack-unit {% if has_item %}occupied{% endif %}"
-                                         data-unit="{{ unit_number }}"
-                                         {% if has_item %}title="{{ unit_item.display_title }}"{% endif %}>
+                                    <div class="rack-unit-row" data-unit="{{ unit_number }}">
                                         <div class="unit-number">{{ unit_number }}</div>
-                                        <div class="unit-content">
-                                            {% if has_item %}
-                                                <a href="/items/{{ unit_item.id }}" class="text-decoration-none text-white">
-                                                    <i class="bi bi-laptop"></i>
-                                                    <span class="unit-label">{{ unit_item.display_title|slice(0, 12) }}{% if unit_item.display_title|length > 12 %}...{% endif %}</span>
-                                                </a>
-                                            {% endif %}
+
+                                        {# Front column (depth 4 or 6 or 7) #}
+                                        <div class="depth-slot">
+                                            {% for item in items_at_u %}
+                                                {% if item.rackposdepth in [4, 6, 7] %}
+                                                    <a href="/items/{{ item.id }}" class="item-block" title="{{ item.label|default(item.function)|default('N/A') }}">
+                                                        <i class="bi bi-laptop"></i>
+                                                        <span class="item-label">{{ item.label|default(item.function)|default('N/A')|slice(0, 8) }}{% if (item.label|default(item.function)|default('N/A'))|length > 8 %}...{% endif %}</span>
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+
+                                        {# Middle column (depth 2 or 6 or 3 or 7) #}
+                                        <div class="depth-slot">
+                                            {% for item in items_at_u %}
+                                                {% if item.rackposdepth in [2, 6, 3, 7] %}
+                                                    <a href="/items/{{ item.id }}" class="item-block" title="{{ item.label|default(item.function)|default('N/A') }}">
+                                                        <i class="bi bi-laptop"></i>
+                                                        <span class="item-label">{{ item.label|default(item.function)|default('N/A')|slice(0, 8) }}{% if (item.label|default(item.function)|default('N/A'))|length > 8 %}...{% endif %}</span>
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+
+                                        {# Back column (depth 1 or 3 or 7) #}
+                                        <div class="depth-slot">
+                                            {% for item in items_at_u %}
+                                                {% if item.rackposdepth in [1, 3, 7] %}
+                                                    <a href="/items/{{ item.id }}" class="item-block" title="{{ item.label|default(item.function)|default('N/A') }}">
+                                                        <i class="bi bi-laptop"></i>
+                                                        <span class="item-label">{{ item.label|default(item.function)|default('N/A')|slice(0, 8) }}{% if (item.label|default(item.function)|default('N/A'))|length > 8 %}...{% endif %}</span>
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -546,26 +574,26 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="depth" class="form-label">Rack Depth (inches)</label>
+                                    <label for="depth" class="form-label">Rack Depth (mm)</label>
                                     <select class="form-select{% if errors.depth %} is-invalid{% endif %}"
                                             id="depth"
                                             name="depth">
                                         <option value="">Select depth...</option>
                                         {% set current_depth = old.depth|default(rack.depth|default('')) %}
-                                        <option value="24" {% if current_depth == 24 %}selected{% endif %}>24" - Shallow Network Rack</option>
-                                        <option value="30" {% if current_depth == 30 %}selected{% endif %}>30" - Standard Network Rack</option>
-                                        <option value="32" {% if current_depth == 32 %}selected{% endif %}>32" - Medium Server Rack</option>
-                                        <option value="36" {% if current_depth == 36 %}selected{% endif %}>36" - Standard Server Rack</option>
-                                        <option value="42" {% if current_depth == 42 %}selected{% endif %}>42" - Deep Server Rack</option>
-                                        <option value="48" {% if current_depth == 48 %}selected{% endif %}>48" - Extra Deep Rack</option>
-                                        {% if current_depth and current_depth not in [24, 30, 32, 36, 42, 48] %}
-                                        <option value="{{ current_depth }}" selected>{{ current_depth }}" - Custom Depth</option>
+                                        <option value="600" {% if current_depth == 600 %}selected{% endif %}>600 mm - Shallow Network Rack</option>
+                                        <option value="800" {% if current_depth == 800 %}selected{% endif %}>800 mm - Standard Network Rack</option>
+                                        <option value="900" {% if current_depth == 900 %}selected{% endif %}>900 mm - Medium Server Rack</option>
+                                        <option value="1000" {% if current_depth == 1000 %}selected{% endif %}>1000 mm - Standard Server Rack</option>
+                                        <option value="1100" {% if current_depth == 1100 %}selected{% endif %}>1100 mm - Deep Server Rack</option>
+                                        <option value="1200" {% if current_depth == 1200 %}selected{% endif %}>1200 mm - Extra Deep Rack</option>
+                                        {% if current_depth and current_depth not in [600, 800, 900, 1000, 1100, 1200] %}
+                                        <option value="{{ current_depth }}" selected>{{ current_depth }} mm - Custom Depth</option>
                                         {% endif %}
                                     </select>
                                     {% if errors.depth %}
                                     <div class="invalid-feedback">{{ errors.depth }}</div>
                                     {% endif %}
-                                    <div class="form-text">Depth of the rack from front to back.</div>
+                                    <div class="form-text">Depth of the rack from front to back in millimeters.</div>
                                 </div>
 
                                 <div class="mb-3">
@@ -577,13 +605,14 @@
                                                value="1"
                                                {% if (old.revnums|default(rack.revnums|default(''))) == 1 %}checked{% endif %}>
                                         <label class="form-check-label" for="revnums">
-                                            Reverse Unit Numbering
+                                            <strong>Reverse U Numbering</strong> (Top to Bottom)
                                         </label>
                                         {% if errors.revnums %}
                                         <div class="invalid-feedback">{{ errors.revnums }}</div>
                                         {% endif %}
                                         <div class="form-text">
-                                            Check if units are numbered from top to bottom instead of bottom to top.
+                                            <strong>Unchecked (default):</strong> Units numbered from bottom (1) to top.<br>
+                                            <strong>Checked:</strong> Units numbered from top (1) to bottom.
                                         </div>
                                     </div>
                                 </div>
@@ -697,11 +726,11 @@
                                                 <div class="rack-frame-preview">
                                                     <div class="rack-info mb-2 text-center">
                                                         <strong>{{ rack.usize }}U Rack</strong>
-                                                        {% if rack.depth %} - {{ rack.depth }}" Deep{% endif %}
+                                                        {% if rack.depth %} - {{ rack.depth }} mm Deep{% endif %}
                                                     </div>
                                                     {% set rack_units = rack.usize %}
                                                     {% for u in 1..rack_units|slice(0, 10) %}
-                                                        {% set unit_number = rack.revnums ? u : (rack_units - u + 1) %}
+                                                        {% set unit_number = rack.revnums ? (rack_units - u + 1) : u %}
                                                         {% set has_item = false %}
                                                         {% for item in rack.items %}
                                                             {% if item.rackposition == unit_number %}
@@ -842,63 +871,90 @@
     padding: 20px;
 }
 
-.rack-frame {
+.rack-frame-side {
     background: #343a40;
     border-radius: 4px;
-    padding: 10px 5px;
-    min-width: 300px;
+    padding: 10px;
+    min-width: 500px;
 }
 
-.rack-unit {
-    height: 20px;
-    margin-bottom: 2px;
-    background: #6c757d;
+.rack-header {
+    display: grid;
+    grid-template-columns: 40px 1fr 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff;
+    font-size: 11px;
+    text-align: center;
+}
+
+.unit-number-col {
+    background: transparent;
+}
+
+.depth-col {
+    background: #495057;
+    padding: 3px;
     border-radius: 2px;
+}
+
+.rack-unit-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 2px;
+}
+
+.unit-number {
+    background: #495057;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
     display: flex;
     align-items: center;
-    position: relative;
-    border: 1px solid #495057;
+    justify-content: center;
+    border-radius: 2px;
+    min-height: 22px;
 }
 
-.rack-unit.occupied {
+.depth-slot {
+    background: #6c757d;
+    border: 1px solid #495057;
+    border-radius: 2px;
+    min-height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+
+.depth-slot:has(.item-block) {
     background: #0d6efd;
     border-color: #0a58ca;
 }
 
-.unit-number {
-    width: 30px;
-    text-align: center;
+.item-block {
     color: white;
-    font-size: 10px;
-    font-weight: bold;
-    background: #495057;
-    border-radius: 2px 0 0 2px;
+    text-decoration: none;
+    font-size: 9px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    height: 100%;
+    gap: 3px;
+    white-space: nowrap;
 }
 
-.rack-unit.occupied .unit-number {
-    background: #0a58ca;
-}
-
-.unit-content {
-    flex: 1;
-    padding: 0 5px;
-    color: white;
-    font-size: 10px;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-}
-
-.unit-label {
-    margin-left: 5px;
-}
-
-.rack-unit:hover {
+.item-block:hover {
     opacity: 0.8;
+}
+
+.item-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rack-unit-row:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 </style>
 {% endif %}
@@ -955,35 +1011,14 @@
 {% if mode == 'view' %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Rack view toggle (front/rear) - placeholder for future functionality
-    const frontViewBtn = document.getElementById('frontView');
-    const rearViewBtn = document.getElementById('rearView');
-
-    if (frontViewBtn && rearViewBtn) {
-        frontViewBtn.addEventListener('click', function() {
-            this.classList.add('active');
-            rearViewBtn.classList.remove('active');
-            // Future: Toggle to front view
-        });
-
-        rearViewBtn.addEventListener('click', function() {
-            this.classList.add('active');
-            frontViewBtn.classList.remove('active');
-            // Future: Toggle to rear view
-        });
-    }
-
     // Rack unit hover effects
-    document.querySelectorAll('.rack-unit').forEach(function(unit) {
-        unit.addEventListener('mouseenter', function() {
-            const unitNumber = this.dataset.unit;
-            this.style.transform = 'scale(1.02)';
-            this.style.zIndex = '10';
+    document.querySelectorAll('.rack-unit-row').forEach(function(row) {
+        row.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
         });
 
-        unit.addEventListener('mouseleave', function() {
-            this.style.transform = '';
-            this.style.zIndex = '';
+        row.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = '';
         });
     });
 });

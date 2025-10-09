@@ -264,4 +264,21 @@ class UserModel
         // For now, doing simple comparison as per existing code
         return $user['password'] === $password;
     }
+
+    /**
+     * Get items assigned to a user
+     */
+    public function getUserItems(int $userId): array
+    {
+        return $this->db->fetchAll(
+            "SELECT i.id, i.label, i.function, i.model, it.name as type_name, a.title as manufacturer_name
+             FROM items i
+             LEFT JOIN itemtypes it ON i.itemtypeid = it.id
+             LEFT JOIN agents a ON i.manufacturerid = a.id
+             WHERE i.userid = :user_id
+             ORDER BY i.id DESC
+             LIMIT 100",
+            ['user_id' => $userId]
+        );
+    }
 }

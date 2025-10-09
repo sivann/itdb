@@ -256,7 +256,7 @@
 
 {% elseif mode == 'edit' or mode == 'create' %}
     <!-- EDIT/CREATE MODE -->
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">
@@ -482,6 +482,16 @@
                 </div>
             </div>
         </div>
+
+        {% if mode == 'edit' %}
+        <div class="col-lg-4">
+            {% include 'partials/items-sidebar.twig' with {
+                'items': items,
+                'title': 'Assigned Items',
+                'empty_message': 'No items assigned to this user'
+            } %}
+        </div>
+        {% endif %}
     </div>
 {% endif %}
 

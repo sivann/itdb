@@ -186,10 +186,14 @@ class UserController extends BaseController
             return $this->redirectToRoute($request, $response, 'users.index');
         }
 
+        // Get items assigned to this user
+        $items = $this->userModel->getUserItems($id);
+
         return $this->render($response, 'users/edit.twig', [
             'mode' => 'edit',
             'user' => $currentUser,
             'user_data' => $user,
+            'items' => $items,
             'csrf_token' => $this->generateCsrfToken(),
             'user_types' => [
                 0 => 'Full Access',

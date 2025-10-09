@@ -2,13 +2,11 @@ CREATE TABLE sqlite_sequence(name,seq);
 CREATE TABLE files (id INTEGER PRIMARY KEY AUTOINCREMENT,type,title,fname, uploader, uploaddate, date integer, filename TEXT, description TEXT, filesize INTEGER, ftype INTEGER);
 CREATE TABLE filetypes (id INTEGER PRIMARY KEY AUTOINCREMENT, typedesc);
 CREATE TABLE history (id INTEGER PRIMARY KEY AUTOINCREMENT, date integer, sql, authuser, ip);
-CREATE TABLE invoice2file(invoiceid INTEGER,fileid INTEGER);
 CREATE TABLE labelpapers (id INTEGER PRIMARY KEY AUTOINCREMENT,rows integer, cols integer, lwidth real, lheight real,  vpitch real,  hpitch real,  tmargin real,  bmargin real,  lmargin real,  rmargin real, name, border, padding, headerfontsize, idfontsize, wantheadertext, wantheaderimage, headertext, fontsize, wantbarcode, barcodesize, image, imagewidth, imageheight, papersize, qrtext, wantnotext, wantraligntext);
 CREATE TABLE racks (id INTEGER PRIMARY KEY AUTOINCREMENT, locationid integer, usize integer, depth integer, comments,model,label, revnums integer, locareaid number);
 CREATE TABLE statustypes (id INTEGER PRIMARY KEY AUTOINCREMENT, statusdesc);
 CREATE TABLE contract2file(contractid integer,fileid integer);
 CREATE TABLE viewhist(id INTEGER PRIMARY KEY AUTOINCREMENT, url,description);
-CREATE TABLE locations (id INTEGER PRIMARY KEY AUTOINCREMENT, name, floor, floorplanfn);
 CREATE TABLE locareas(id  INTEGER PRIMARY KEY AUTOINCREMENT,locationid number,areaname,x1 number,y1 number,x2 number,y2 number);
 CREATE TABLE contractsubtypes(id INTEGER PRIMARY KEY AUTOINCREMENT,contypeid integer, name);
 CREATE TABLE settings(companytitle, dateformat, currency, lang, version, timezone, dbversion, useldap integer default 0, ldap_server, ldap_dn, ldap_getusers, ldap_getusers_filter);
@@ -45,7 +43,7 @@ CREATE TABLE agent_types (
     sort_order INTEGER DEFAULT 0,
     created_at TEXT,
     updated_at TEXT
-);
+, badge_color TEXT DEFAULT 'secondary');
 CREATE TABLE tags (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
@@ -299,3 +297,11 @@ CREATE TABLE IF NOT EXISTS "software2file" (
                 FOREIGN KEY (softwareid) REFERENCES software(id) ON DELETE CASCADE,
                 FOREIGN KEY (fileid) REFERENCES files(id) ON DELETE CASCADE
             );
+CREATE TABLE IF NOT EXISTS "invoice2file"(invoiceid INTEGER, fileid INTEGER, PRIMARY KEY (invoiceid, fileid));
+CREATE TABLE IF NOT EXISTS "locations" (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    floor TEXT,
+    floorplanfn TEXT
+);
+CREATE UNIQUE INDEX idx_racks_label_unique ON racks(label);

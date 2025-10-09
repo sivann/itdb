@@ -274,7 +274,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <form method="POST" action="/locations/{{ location.id }}" class="d-inline">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_METHOD" value="DELETE">
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-trash me-1"></i>Delete Location
                         </button>

@@ -377,7 +377,7 @@
                     <form method="POST" action="{% if mode == 'create' %}/files{% else %}/files/{{ file.id }}{% endif %}" enctype="multipart/form-data">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                         {% if mode == 'edit' %}
-                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="_METHOD" value="PUT">
                         {% endif %}
 
                         <div class="row">

@@ -171,7 +171,7 @@
                                         <option value="{{ rack.id }}"
                                                 data-location="{{ rack.locationid }}"
                                                 {% if item.rackid == rack.id %}selected{% endif %}>
-                                            {{ rack.label }}{% if rack.model %} - {{ rack.model }}{% endif %}
+                                            RACK-{{ rack.id }}{% if rack.usize %} {{ rack.usize }}U{% endif %}{% if rack.model %}, {{ rack.model }}{% endif %}
                                         </option>
                                         {% endfor %}
                                     </select>
@@ -907,6 +907,33 @@
     {% include 'components/file_preview_modal.twig' with {'file': file} %}
 {% endfor %}
 {% endif %}
+
+<!-- Rack Inspection Modal -->
+<div class="modal fade" id="rackInspectionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-server me-2"></i>Rack Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="rackInspectionContent">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="viewFullRackBtn" href="#" target="_blank" class="btn btn-primary">
+                    <i class="bi bi-box-arrow-up-right me-1"></i>Open in New Tab
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
@@ -2052,11 +2079,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Open rack in new window/tab
+    // Open rack inspection modal
     viewRackBtn.addEventListener('click', function() {
         const selectedRack = rackSelect.value;
         if (selectedRack) {
-            window.open(`/racks/${selectedRack}`, '_blank');
+            openRackInspectionModal(selectedRack);
         }
     });
 
@@ -2069,6 +2096,109 @@ document.addEventListener('DOMContentLoaded', function() {
     updateRackmountableFields();
     filterRacksByLocation();
 });
+
+// Function to open rack inspection modal
+function openRackInspectionModal(rackId) {
+    const modal = new bootstrap.Modal(document.getElementById('rackInspectionModal'));
+    const contentDiv = document.getElementById('rackInspectionContent');
+    const viewFullBtn = document.getElementById('viewFullRackBtn');
+
+    // Set the link for "Open in New Tab" button
+    viewFullBtn.href = `/racks/${rackId}`;
+
+    // Show loading spinner
+    contentDiv.innerHTML = `
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    `;
+
+    // Open modal
+    modal.show();
+
+    // Fetch rack data
+    fetch(`/api/racks/${rackId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.rack) {
+                const rack = data.rack;
+                contentDiv.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Rack Information</h6>
+                            <table class="table table-sm">
+                                <tr>
+                                    <th width="40%">Label:</th>
+                                    <td><code>${rack.label || 'N/A'}</code></td>
+                                </tr>
+                                <tr>
+                                    <th>Model:</th>
+                                    <td>${rack.model || 'N/A'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Size:</th>
+                                    <td><span class="badge bg-secondary">${rack.usize || 0}U</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Depth:</th>
+                                    <td>${rack.depth ? rack.depth + ' mm' : 'N/A'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Location:</th>
+                                    <td>${rack.location_name || 'N/A'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Items:</th>
+                                    <td><span class="badge bg-primary">${rack.items_count || 0}</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Quick Stats</h6>
+                            ${rack.usize ? `
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    This rack has <strong>${rack.usize}U</strong> of space
+                                    ${rack.items_count ? ` with <strong>${rack.items_count}</strong> items installed` : ''}
+                                </div>
+                            ` : ''}
+                            ${rack.items && rack.items.length > 0 ? `
+                                <h6 class="text-muted mb-2 mt-3">Recent Items (${rack.items.length})</h6>
+                                <div class="list-group list-group-flush" style="max-height: 200px; overflow-y: auto;">
+                                    ${rack.items.slice(0, 5).map(item => `
+                                        <div class="list-group-item px-0 py-1">
+                                            <small>
+                                                <strong>U${item.rackposition}</strong>:
+                                                ${item.label || item.function || 'N/A'}
+                                            </small>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : '<p class="text-muted">No items in this rack</p>'}
+                        </div>
+                    </div>
+                `;
+            } else {
+                contentDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Failed to load rack details
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching rack:', error);
+            contentDiv.innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Error loading rack details
+                </div>
+            `;
+        });
+}
 </script>
 
 {# Include shared file preview functionality #}

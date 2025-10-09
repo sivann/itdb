@@ -78,27 +78,12 @@ class RackController extends BaseController
     }
 
     /**
-     * Show rack details
+     * Show rack details - redirect to edit
      */
     public function show(Request $request, Response $response, array $args): Response
     {
-        $user = $this->authService->getCurrentUser();
         $id = (int) $args['id'];
-
-        $rack = $this->rackModel->find($id);
-        if (!$rack) {
-            $this->addFlashMessage('error', 'Rack not found');
-            return $this->redirectToRoute($request, $response, 'racks.index');
-        }
-
-        // Get rack layout with items
-        $rack['layout'] = $this->rackModel->getRackLayout($id);
-
-        return $this->render($response, 'racks/edit.twig', [
-            'mode' => 'view',
-            'user' => $user,
-            'rack' => $rack,
-        ]);
+        return $this->redirectToRoute($request, $response, 'racks.edit', ['id' => $id]);
     }
 
     /**
@@ -115,8 +100,10 @@ class RackController extends BaseController
         return $this->render($response, 'racks/edit.twig', [
             'mode' => 'create',
             'user' => $user,
-            'locations' => $locations,
-            'location_areas' => $locationAreas,
+            'form_options' => [
+                'locations' => $locations,
+                'location_areas' => $locationAreas,
+            ],
             'csrf_token' => $this->generateCsrfToken(),
         ]);
     }
@@ -135,9 +122,13 @@ class RackController extends BaseController
 
         // Validation
         $errors = [];
+        if (empty($data['label'])) {
+            $errors[] = 'Rack label is required';
+        }
+
         if (empty($data['locationid'])) {
             $errors[] = 'Location is required';
-        } elseif (!$this->locationModel->find($data['locationid'])) {
+        } elseif (!$this->locationModel->find((int) $data['locationid'])) {
             $errors[] = 'Invalid location';
         }
 
@@ -205,8 +196,10 @@ class RackController extends BaseController
             'mode' => 'edit',
             'user' => $user,
             'rack' => $rack,
-            'locations' => $locations,
-            'location_areas' => $locationAreas,
+            'form_options' => [
+                'locations' => $locations,
+                'location_areas' => $locationAreas,
+            ],
             'csrf_token' => $this->generateCsrfToken(),
         ]);
     }
@@ -232,9 +225,13 @@ class RackController extends BaseController
 
         // Validation
         $errors = [];
+        if (empty($data['label'])) {
+            $errors[] = 'Rack label is required';
+        }
+
         if (empty($data['locationid'])) {
             $errors[] = 'Location is required';
-        } elseif (!$this->locationModel->find($data['locationid'])) {
+        } elseif (!$this->locationModel->find((int) $data['locationid'])) {
             $errors[] = 'Invalid location';
         }
 
@@ -491,5 +488,29 @@ class RackController extends BaseController
         }
 
         return $this->redirectToRoute($request, $response, 'racks.index');
+    }
+
+    /**
+     * API: Get rack data as JSON
+     */
+    public function getRackJson(Request $request, Response $response, array $args): Response
+    {
+        $id = (int) $args['id'];
+
+        $rack = $this->rackModel->find($id);
+        if (!$rack) {
+            $response->getBody()->write(json_encode([
+                'success' => false,
+                'error' => 'Rack not found'
+            ]));
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $response->getBody()->write(json_encode([
+            'success' => true,
+            'rack' => $rack
+        ]));
+
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }

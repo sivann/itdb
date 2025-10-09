@@ -36,10 +36,12 @@ class RackModel
 
             // Get items in this rack with rackposdepth
             $rack['items'] = $this->db->fetchAll(
-                "SELECT id, label, function, rackposition, rackposdepth, usize
-                 FROM items
-                 WHERE rackid = :rack_id
-                 ORDER BY rackposition",
+                "SELECT i.id, i.label, i.function, i.rackposition, i.rackposdepth, i.usize,
+                        i.model, i.status, a.title as manufacturer_name
+                 FROM items i
+                 LEFT JOIN agents a ON i.manufacturerid = a.id
+                 WHERE i.rackid = :rack_id
+                 ORDER BY i.rackposition",
                 ['rack_id' => $id]
             );
 
@@ -85,12 +87,13 @@ class RackModel
             SELECT r.*,
                    l.name as location_name,
                    la.areaname as location_area_name,
-                   COALESCE(item_count.count, 0) as items_count
+                   COALESCE(item_count.count, 0) as items_count,
+                   COALESCE(item_count.occupation, 0) as occupation
             FROM racks r
             LEFT JOIN locations l ON r.locationid = l.id
             LEFT JOIN locareas la ON r.locareaid = la.id
             LEFT JOIN (
-                SELECT rackid, COUNT(*) as count
+                SELECT rackid, COUNT(*) as count, SUM(usize) as occupation
                 FROM items
                 WHERE rackid IS NOT NULL
                 GROUP BY rackid
@@ -243,16 +246,30 @@ class RackModel
     private function transformRackForTemplate(array $rack): array
     {
         // Add computed fields that templates expect
-        $rack['location'] = $rack['location_name'] ?
-            (object)['title' => $rack['location_name']] : null;
+        $rack['location'] = $rack['location_name'] ? [
+            'id' => $rack['locationid'],
+            'name' => $rack['location_name'],
+            'title' => $rack['location_name']
+        ] : null;
 
-        $rack['locationArea'] = $rack['location_area_name'] ?
-            (object)['title' => $rack['location_area_name']] : null;
+        $rack['locationArea'] = $rack['location_area_name'] ? [
+            'name' => $rack['location_area_name'],
+            'title' => $rack['location_area_name']
+        ] : null;
+
+        // Add display name
+        $rack['display_name'] = $rack['label'] ?: 'Rack #' . $rack['id'];
 
         // Ensure numeric fields are properly typed
         $rack['usize'] = (int) ($rack['usize'] ?: 0);
         $rack['depth'] = (int) ($rack['depth'] ?: 0);
         $rack['revnums'] = (int) ($rack['revnums'] ?: 0);
+
+        // Calculate occupation percentage
+        $occupation = (int) ($rack['occupation'] ?? 0);
+        $usize = $rack['usize'];
+        $rack['occupation_percent'] = $usize > 0 ? (int) (($occupation / $usize) * 100) : 0;
+        $rack['occupation'] = $occupation;
 
         return $rack;
     }

@@ -173,6 +173,11 @@ return function (App $app) {
             $group->delete('/{id}', [RackController::class, 'destroy'])->setName('racks.destroy');
         });
 
+        // API Routes
+        $group->group('/api/racks', function (RouteCollectorProxy $group) {
+            $group->get('/{id}', [RackController::class, 'getRackJson'])->setName('api.racks.show');
+        });
+
         // Users management
         $group->group('/users', function (RouteCollectorProxy $group) {
             $group->get('', [UserController::class, 'index'])->setName('users.index');

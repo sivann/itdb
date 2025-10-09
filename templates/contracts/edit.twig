@@ -402,7 +402,7 @@
                     <form method="POST" action="{% if mode == 'create' %}/contracts{% else %}/contracts/{{ contract.id }}{% endif %}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                         {% if mode == 'edit' %}
-                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="_METHOD" value="PUT">
                         {% endif %}
 
                         <div class="row">

@@ -175,9 +175,9 @@
                             {% endif %}
                         </div>
                     {% else %}
-                        <div class="text-center text-muted py-3">
-                            <i class="bi bi-laptop display-6 mb-2"></i>
-                            <div>No items assigned</div>
+                        <div class="text-center py-3">
+                            <span class="badge bg-primary">0</span>
+                            <div class="text-muted small mt-2">items assigned</div>
                         </div>
                     {% endif %}
                 </div>
@@ -272,7 +272,7 @@
                     <form method="POST" action="{% if mode == 'create' %}/users{% else %}/users/{{ user_data.id }}{% endif %}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                         {% if mode == 'edit' %}
-                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="_METHOD" value="PUT">
                         {% endif %}
 
                         <div class="row">

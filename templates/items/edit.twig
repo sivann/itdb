@@ -70,30 +70,43 @@
                 <!-- Item Data Tab -->
                 <div class="tab-pane fade {{ current_tab == 'data' ? 'show active' : '' }}"
                      id="data" role="tabpanel" aria-labelledby="data-tab">
-                    <div class="card-body p-2">
+                    <div class="card-body p-3">
                 <form method="POST" action="/items/{{ item.id }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-                    <div class="row">
-                        <!-- Basic Information -->
-                        <div class="col-lg-6">
-                            <h6 class="text-muted mb-2 small">Basic Information</h6>
+                    <!-- Section Headers Row -->
+                    <div class="row mb-1">
+                        <div class="col-lg-3">
+                            <h6 class="form-section-header">Basic Information</h6>
+                        </div>
+                        <div class="col-lg-3">
+                            <h6 class="form-section-header">Assignment & Location</h6>
+                        </div>
+                        <div class="col-lg-3">
+                            <h6 class="form-section-header">Hardware Specs</h6>
+                        </div>
+                        <div class="col-lg-3">
+                            <h6 class="form-section-header">Warranty & Accounting</h6>
+                        </div>
+                    </div>
 
+                    <div class="row mb-1">
+                        <!-- Column 1: Basic Information -->
+                        <div class="col-lg-3">
                             <div class="row mb-1">
-                                <label for="itemtypeid" class="col-sm-4 col-form-label col-form-label-sm text-end">Item Type <span class="text-danger">*</span></label>
-                                <div class="col-sm-8">
+                                <label for="itemtypeid" class="col-5 col-form-label col-form-label-sm text-end">Item Type <span class="text-danger">*</span></label>
+                                <div class="col-7">
                                     <select class="form-select form-select-sm" id="itemtypeid" name="itemtypeid" required>
-                                        <option value="">Select item type...</option>
+                                        <option value="">Select...</option>
                                         {% for type in form_options.item_types %}
                                         <option value="{{ type.id }}" {% if item.itemtypeid == type.id %}selected{% endif %}>{{ type.name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
-
                             <div class="row mb-1">
-                                <label for="status" class="col-sm-4 col-form-label col-form-label-sm text-end">Status</label>
-                                <div class="col-sm-8">
+                                <label for="status" class="col-5 col-form-label col-form-label-sm text-end">Status</label>
+                                <div class="col-7">
                                     <select class="form-select form-select-sm" id="status" name="status">
                                         {% for status in form_options.status_types %}
                                         <option value="{{ status.id }}" {% if item.status == status.id %}selected{% endif %}>{{ status.name }}</option>
@@ -101,36 +114,37 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="row mb-1">
-                                <label for="model" class="col-sm-4 col-form-label col-form-label-sm text-end">Model</label>
-                                <div class="col-sm-8">
+                                <label for="model" class="col-5 col-form-label col-form-label-sm text-end">Model</label>
+                                <div class="col-7">
                                     <input type="text" class="form-control form-control-sm" id="model" name="model" value="{{ item.model }}">
                                 </div>
                             </div>
-
                             <div class="row mb-1">
-                                <label for="sn" class="col-sm-4 col-form-label col-form-label-sm text-end">Serial Number</label>
-                                <div class="col-sm-8">
+                                <label for="sn" class="col-5 col-form-label col-form-label-sm text-end">S/N</label>
+                                <div class="col-7">
                                     <input type="text" class="form-control form-control-sm" id="sn" name="sn" value="{{ item.sn }}">
                                 </div>
                             </div>
-
                             <div class="row mb-1">
-                                <label for="label" class="col-sm-4 col-form-label col-form-label-sm text-end">Asset Tag</label>
-                                <div class="col-sm-8">
+                                <label for="label" class="col-5 col-form-label col-form-label-sm text-end">Asset Tag</label>
+                                <div class="col-7">
                                     <input type="text" class="form-control form-control-sm" id="label" name="label" value="{{ item.label }}">
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="function" class="col-5 col-form-label col-form-label-sm text-end">Function</label>
+                                <div class="col-7">
+                                    <input type="text" class="form-control form-control-sm" id="function" name="function" value="{{ item.function }}">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Assignment & Location -->
-                        <div class="col-lg-6">
-                            <h6 class="text-muted mb-2 small">Assignment & Location</h6>
-
+                        <!-- Column 2: Assignment & Location -->
+                        <div class="col-lg-3">
                             <div class="row mb-1">
-                                <label for="userid" class="col-sm-4 col-form-label col-form-label-sm text-end">Assigned To</label>
-                                <div class="col-sm-8">
+                                <label for="userid" class="col-5 col-form-label col-form-label-sm text-end">User</label>
+                                <div class="col-7">
                                     <select class="form-select form-select-sm" id="userid" name="userid">
                                         <option value="">Unassigned</option>
                                         {% for user in form_options.users %}
@@ -139,183 +153,205 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="row mb-1">
-                                <label for="locationid" class="col-sm-4 col-form-label col-form-label-sm text-end">Location</label>
-                                <div class="col-sm-8">
+                                <label for="locationid" class="col-5 col-form-label col-form-label-sm text-end">Location</label>
+                                <div class="col-7">
                                     <select class="form-select form-select-sm" id="locationid" name="locationid">
-                                        <option value="">Select location...</option>
+                                        <option value="">Select...</option>
                                         {% for location in form_options.locations %}
                                         <option value="{{ location.id }}" {% if item.locationid == location.id %}selected{% endif %}>{{ location.name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
-
                             <div class="row mb-1">
-                                <div class="col-sm-4"></div>
-                                <div class="col-sm-8">
+                                <label for="ipv4" class="col-5 col-form-label col-form-label-sm text-end">IP</label>
+                                <div class="col-7">
+                                    <input type="text" class="form-control form-control-sm" id="ipv4" name="ipv4" value="{{ item.ipv4 }}">
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="dnsname" class="col-5 col-form-label col-form-label-sm text-end">DNS</label>
+                                <div class="col-7">
+                                    <input type="text" class="form-control form-control-sm" id="dnsname" name="dnsname" value="{{ item.dnsname }}">
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-5"></div>
+                                <div class="col-7">
                                     <div class="form-check">
-                                        <input class="form-check-input"
-                                               type="checkbox"
-                                               id="rackmountable"
-                                               name="rackmountable"
-                                               value="1"
-                                               {% if item.rackmountable == 1 %}checked{% endif %}>
-                                        <label class="form-check-label" for="rackmountable">
-                                            <strong>Rack Mountable</strong>
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="rackmountable" name="rackmountable" value="1" {% if item.rackmountable == 1 %}checked{% endif %}>
+                                        <label class="form-check-label small" for="rackmountable">Rack Mountable</label>
                                     </div>
                                 </div>
                             </div>
-
-                            <div id="rackFields" style="display: none;">
-                            <div class="row mb-1">
-                                <label for="rackid" class="col-sm-4 col-form-label col-form-label-sm text-end">Rack</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group input-group-sm">
+                            <div id="rackFields" style="{% if item.rackmountable != 1 %}display: none;{% endif %}">
+                                <div class="row mb-1">
+                                    <label for="rackid" class="col-5 col-form-label col-form-label-sm text-end">Rack</label>
+                                    <div class="col-7">
                                         <select class="form-select form-select-sm" id="rackid" name="rackid">
-                                            <option value="">No rack assigned</option>
+                                            <option value="">Select...</option>
                                             {% for rack in form_options.racks %}
-                                            <option value="{{ rack.id }}"
-                                                    data-location="{{ rack.locationid }}"
-                                                    {% if item.rackid == rack.id %}selected{% endif %}>
-                                                RACK-{{ rack.id }}{% if rack.usize %} {{ rack.usize }}U{% endif %}{% if rack.model %}, {{ rack.model }}{% endif %}
-                                            </option>
+                                            <option value="{{ rack.id }}" {% if item.rackid == rack.id %}selected{% endif %}>{{ rack.id }}:{{ rack.label }}</option>
                                             {% endfor %}
                                         </select>
-                                        <button class="btn btn-outline-secondary btn-sm" type="button" id="viewRackBtn" title="View Rack" disabled>
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="rackPositionFields" style="display: none;">
-                                <div class="row mb-1">
-                                    <label for="rackposition" class="col-sm-4 col-form-label col-form-label-sm text-end">Rack Position (U)</label>
-                                    <div class="col-sm-8">
-                                        <input type="number"
-                                               class="form-control form-control-sm"
-                                               id="rackposition"
-                                               name="rackposition"
-                                               min="1"
-                                               max="100"
-                                               value="{{ item.rackposition }}"
-                                               placeholder="1-42">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="rackposdepth" class="col-sm-4 col-form-label col-form-label-sm text-end">Rack Depth</label>
-                                    <div class="col-sm-8">
+                                    <label for="rackposition" class="col-5 col-form-label col-form-label-sm text-end">Rack Pos</label>
+                                    <div class="col-7">
+                                        <input type="number" class="form-control form-control-sm" id="rackposition" name="rackposition" value="{{ item.rackposition }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="rackposdepth" class="col-5 col-form-label col-form-label-sm text-end">Depth</label>
+                                    <div class="col-7">
                                         <select class="form-select form-select-sm" id="rackposdepth" name="rackposdepth">
-                                            <option value="">Select depth...</option>
-                                            <option value="4" {% if item.rackposdepth == 4 %}selected{% endif %}>F-- (Front only)</option>
-                                            <option value="2" {% if item.rackposdepth == 2 %}selected{% endif %}>-M- (Middle only)</option>
-                                            <option value="1" {% if item.rackposdepth == 1 %}selected{% endif %}>--B (Back only)</option>
-                                            <option value="6" {% if item.rackposdepth == 6 %}selected{% endif %}>FM- (Front + Middle)</option>
-                                            <option value="3" {% if item.rackposdepth == 3 %}selected{% endif %}>-MB (Middle + Back)</option>
-                                            <option value="7" {% if item.rackposdepth == 7 %}selected{% endif %}>FMB (Front + Middle + Back)</option>
+                                            <option value="">-</option>
+                                            <option value="4" {% if item.rackposdepth == 4 %}selected{% endif %}>F--</option>
+                                            <option value="2" {% if item.rackposdepth == 2 %}selected{% endif %}>-M-</option>
+                                            <option value="1" {% if item.rackposdepth == 1 %}selected{% endif %}>--B</option>
+                                            <option value="6" {% if item.rackposdepth == 6 %}selected{% endif %}>FM-</option>
+                                            <option value="3" {% if item.rackposdepth == 3 %}selected{% endif %}>-MB</option>
+                                            <option value="7" {% if item.rackposdepth == 7 %}selected{% endif %}>FMB</option>
                                         </select>
                                     </div>
-                                </div>
-                            </div>
-                            </div>
-                            <!-- End of rack fields -->
-
-                            <div class="row mb-1">
-                                <label for="ipv4" class="col-sm-4 col-form-label col-form-label-sm text-end">IP Address</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm" id="ipv4" name="ipv4" value="{{ item.ipv4 }}" placeholder="192.168.1.100">
-                                </div>
-                            </div>
-
-                            <div class="row mb-1">
-                                <label for="dnsname" class="col-sm-4 col-form-label col-form-label-sm text-end">DNS Name</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm" id="dnsname" name="dnsname" value="{{ item.dnsname }}" placeholder="hostname.domain.com">
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <hr class="my-2">
-
-                    <div class="row">
-                        <!-- Hardware Specifications -->
-                        <div class="col-lg-6">
-                            <h6 class="text-muted mb-2 small">Hardware Specifications</h6>
-
+                        <!-- Column 3: Hardware Specs -->
+                        <div class="col-lg-3">
                             <div class="row mb-1">
-                                <label for="cpu" class="col-sm-4 col-form-label col-form-label-sm text-end">CPU</label>
-                                <div class="col-sm-8">
+                                <label for="cpu" class="col-5 col-form-label col-form-label-sm text-end">CPU</label>
+                                <div class="col-7">
                                     <input type="text" class="form-control form-control-sm" id="cpu" name="cpu" value="{{ item.cpu }}">
                                 </div>
                             </div>
-
                             <div class="row mb-1">
-                                <label for="ram" class="col-sm-4 col-form-label col-form-label-sm text-end">Memory</label>
-                                <div class="col-sm-8">
+                                <label for="ram" class="col-5 col-form-label col-form-label-sm text-end">RAM</label>
+                                <div class="col-7">
                                     <input type="text" class="form-control form-control-sm" id="ram" name="ram" value="{{ item.ram }}">
                                 </div>
                             </div>
-
                             <div class="row mb-1">
-                                <label for="hd" class="col-sm-4 col-form-label col-form-label-sm text-end">Storage</label>
-                                <div class="col-sm-8">
+                                <label for="hd" class="col-5 col-form-label col-form-label-sm text-end">Storage</label>
+                                <div class="col-7">
                                     <input type="text" class="form-control form-control-sm" id="hd" name="hd" value="{{ item.hd }}">
                                 </div>
                             </div>
+                            <div class="row mb-1">
+                                <label for="comments" class="col-5 col-form-label col-form-label-sm text-end">Comments</label>
+                                <div class="col-7">
+                                    <textarea class="form-control form-control-sm" id="comments" name="comments" rows="3">{{ item.comments }}</textarea>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Warranty Information -->
-                        <div class="col-lg-6">
-                            <h6 class="text-muted mb-2 small">Warranty Information</h6>
-
+                        <!-- Column 4: Warranty & Accounting -->
+                        <div class="col-lg-3">
                             <div class="row mb-1">
-                                <label for="purchasedate" class="col-sm-4 col-form-label col-form-label-sm text-end">Purchase Date</label>
-                                <div class="col-sm-8">
-                                    <input type="date" class="form-control form-control-sm" id="purchasedate" name="purchasedate"
-                                           value="{% if item.purchasedate %}{{ item.purchasedate|date('Y-m-d') }}{% endif %}">
+                                <label for="purchasedate" class="col-5 col-form-label col-form-label-sm text-end">Purch Date</label>
+                                <div class="col-7">
+                                    <input type="date" class="form-control form-control-sm" id="purchasedate" name="purchasedate" value="{% if item.purchasedate %}{{ item.purchasedate|date('Y-m-d') }}{% endif %}">
                                 </div>
                             </div>
-
                             <div class="row mb-1">
-                                <label for="warrantymonths" class="col-sm-4 col-form-label col-form-label-sm text-end">Warranty (months)</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control form-control-sm" id="warrantymonths" name="warrantymonths" min="0" value="{{ item.warrantymonths }}">
+                                <label for="warrantymonths" class="col-5 col-form-label col-form-label-sm text-end">Warranty</label>
+                                <div class="col-7">
+                                    <input type="number" class="form-control form-control-sm" id="warrantymonths" name="warrantymonths" value="{{ item.warrantymonths }}" placeholder="months">
                                 </div>
                             </div>
-
                             <div class="row mb-1">
-                                <label for="updated_at" class="col-sm-4 col-form-label col-form-label-sm text-end">Last Updated</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm" id="updated_at" name="updated_at" value="{{ item.updated_at|date('Y-m-d H:i:s') }}" readonly>
+                                <label for="origin" class="col-5 col-form-label col-form-label-sm text-end">Shop</label>
+                                <div class="col-7">
+                                    <input type="text" class="form-control form-control-sm" id="origin" name="origin" value="{{ item.origin }}">
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="purchprice" class="col-5 col-form-label col-form-label-sm text-end">Price ({{ currency }})</label>
+                                <div class="col-7">
+                                    <input type="text" class="form-control form-control-sm" id="purchprice" name="purchprice" value="{{ item.purchprice }}">
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="maintenanceinfo" class="col-5 col-form-label col-form-label-sm text-end">Maint.</label>
+                                <div class="col-7">
+                                    <textarea class="form-control form-control-sm" id="maintenanceinfo" name="maintenanceinfo" rows="3">{{ item.maintenanceinfo }}</textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <hr class="my-2">
-
-                    <div class="row mb-1">
-                        <label for="function" class="col-sm-2 col-form-label col-form-label-sm text-end">Item Function</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control form-control-sm" id="function" name="function" value="{{ item.function }}">
+                    <!-- Associations Overview -->
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h6 class="form-section-header">Associations Overview</h6>
                         </div>
                     </div>
-
-                    <div class="row mb-1">
-                        <label for="comments" class="col-sm-2 col-form-label col-form-label-sm text-end">Comments</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control form-control-sm" id="comments" name="comments" rows="3">{{ item.comments }}</textarea>
+                    <div class="row">
+                        <!-- Items Column -->
+                        <div class="col-lg-3">
+                            <div class="association-container">
+                                <div class="association-header">ITEMS</div>
+                                {% if item.related_items.data is defined and item.related_items.data|length > 0 %}
+                                    {% for ritem in item.related_items.data %}
+                                    <div class="association-row">
+                                        {{ loop.index }}. <a href="/items/{{ ritem.id }}/edit">{{ ritem.manufacturer_name|default('N/A') }} {{ ritem.model|default('') }} [ID:{{ ritem.id }}]</a>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="p-2 text-muted text-center small">No items</div>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row mb-1">
-                        <label for="maintenanceinfo" class="col-sm-2 col-form-label col-form-label-sm text-end">Maintenance Info</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control form-control-sm" id="maintenanceinfo" name="maintenanceinfo" rows="2">{{ item.maintenanceinfo }}</textarea>
+                        <!-- Software Column -->
+                        <div class="col-lg-3">
+                            <div class="association-container">
+                                <div class="association-header">SOFTWARE</div>
+                                {% if item.software.data is defined and item.software.data|length > 0 %}
+                                    {% for sw in item.software.data %}
+                                    <div class="association-row">
+                                        {{ loop.index }}. <a href="/software/{{ sw.id }}/edit">{{ sw.manufacturer_name|default('N/A') }} {{ sw.name|default('') }} [ID:{{ sw.id }}]</a>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="p-2 text-muted text-center small">No software</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Invoices Column -->
+                        <div class="col-lg-3">
+                            <div class="association-container">
+                                <div class="association-header">INVOICES</div>
+                                {% if item.invoices.data is defined and item.invoices.data|length > 0 %}
+                                    {% for inv in item.invoices.data %}
+                                    <div class="association-row">
+                                        {{ loop.index }}. <a href="/invoices/{{ inv.id }}/edit">{{ inv.number|default('N/A') }} - {{ inv.date_formatted|default('') }} [ID:{{ inv.id }}]</a>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="p-2 text-muted text-center small">No invoices</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Contracts Column -->
+                        <div class="col-lg-3">
+                            <div class="association-container">
+                                <div class="association-header">CONTRACTS</div>
+                                {% if item.contracts.data is defined and item.contracts.data|length > 0 %}
+                                    {% for contract in item.contracts.data %}
+                                    <div class="association-row">
+                                        {{ loop.index }}. <a href="/contracts/{{ contract.id }}/edit">{{ contract.title|default('N/A') }} [ID:{{ contract.id }}]</a>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="p-2 text-muted text-center small">No contracts</div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
 
@@ -356,7 +392,7 @@
                 <!-- Software Tab -->
                 <div class="tab-pane fade {{ current_tab == 'software' ? 'show active' : '' }}"
                      id="software" role="tabpanel" aria-labelledby="software-tab">
-                    <div class="card-body p-2">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h6 class="mb-0 small">Installed Software</h6>
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addSoftwareModal">
@@ -414,7 +450,7 @@
                 <!-- Invoices Tab -->
                 <div class="tab-pane fade {{ current_tab == 'invoices' ? 'show active' : '' }}"
                      id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
-                    <div class="card-body p-2">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h6 class="mb-0 small">Related Invoices</h6>
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addInvoiceModal">
@@ -472,7 +508,7 @@
                 <!-- Contracts Tab -->
                 <div class="tab-pane fade {{ current_tab == 'contracts' ? 'show active' : '' }}"
                      id="contracts" role="tabpanel" aria-labelledby="contracts-tab">
-                    <div class="card-body p-2">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h6 class="mb-0 small">Related Contracts</h6>
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addContractModal">
@@ -532,7 +568,7 @@
                 <!-- Files Tab -->
                 <div class="tab-pane fade {{ current_tab == 'files' ? 'show active' : '' }}"
                      id="files" role="tabpanel" aria-labelledby="files-tab">
-                    <div class="card-body p-2">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h6 class="mb-0 small">File Associations</h6>
                             <div class="btn-group btn-group-sm">
@@ -610,7 +646,7 @@
                 <!-- Related Items Tab -->
                 <div class="tab-pane fade {{ current_tab == 'items' ? 'show active' : '' }}"
                      id="items" role="tabpanel" aria-labelledby="items-tab">
-                    <div class="card-body p-2">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h6 class="mb-0 small">Related Items</h6>
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">

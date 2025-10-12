@@ -312,6 +312,8 @@ class ItemController extends BaseController
                 'rackid' => !empty($data['rackid']) ? (int) $data['rackid'] : null,
                 'rackposition' => !empty($data['rackposition']) ? (int) $data['rackposition'] : null,
                 'rackposdepth' => !empty($data['rackposdepth']) ? (int) $data['rackposdepth'] : null,
+                'origin' => $this->sanitizeString($data['origin'] ?? ''),
+                'purchprice' => $this->sanitizeString($data['purchprice'] ?? ''),
             ];
 
             // Handle purchase information

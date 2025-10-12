@@ -286,11 +286,16 @@ class ItemController extends BaseController
         $data = $this->getParsedBody($request);
 
         try {
+            // Validate required fields
+            if (empty($data['itemtypeid'])) {
+                throw new \Exception('The itemtypeid field is required and cannot be empty.');
+            }
+
             // Prepare data for update using correct database field names
             $updateData = [
                 'function' => $this->sanitizeString($data['function'] ?? ''),
-                'itemtypeid' => !empty($data['itemtypeid']) ? (int) $data['itemtypeid'] : null,
-                'status' => (int) $data['status'],
+                'itemtypeid' => (int) $data['itemtypeid'],
+                'status' => (int) ($data['status'] ?? 0),
                 'model' => $this->sanitizeString($data['model'] ?? ''),
                 'sn' => $this->sanitizeString($data['sn'] ?? ''),
                 'label' => $this->sanitizeString($data['label'] ?? ''),
@@ -303,6 +308,10 @@ class ItemController extends BaseController
                 'cpu' => $this->sanitizeString($data['cpu'] ?? ''),
                 'ram' => $this->sanitizeString($data['ram'] ?? ''),
                 'hd' => $this->sanitizeString($data['hd'] ?? ''),
+                'rackmountable' => !empty($data['rackmountable']) ? 1 : 0,
+                'rackid' => !empty($data['rackid']) ? (int) $data['rackid'] : null,
+                'rackposition' => !empty($data['rackposition']) ? (int) $data['rackposition'] : null,
+                'rackposdepth' => !empty($data['rackposdepth']) ? (int) $data['rackposdepth'] : null,
             ];
 
             // Handle purchase information

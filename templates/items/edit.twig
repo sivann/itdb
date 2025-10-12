@@ -88,8 +88,8 @@
                             <h6 class="text-muted mb-3">Basic Information</h6>
 
                             <div class="mb-3">
-                                <label for="itemtypeid" class="form-label">Item Type</label>
-                                <select class="form-select" id="itemtypeid" name="itemtypeid">
+                                <label for="itemtypeid" class="form-label">Item Type <span class="text-danger">*</span></label>
+                                <select class="form-select" id="itemtypeid" name="itemtypeid" required>
                                     <option value="">Select item type...</option>
                                     {% for type in form_options.item_types %}
                                     <option value="{{ type.id }}" {% if item.itemtypeid == type.id %}selected{% endif %}>{{ type.name }}</option>

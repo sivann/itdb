@@ -643,7 +643,7 @@ class ItemModel
     public function getRelatedItems(int $itemId): array
     {
         $sql = "
-            SELECT i.id, i.label, i.function, it.name as type_name,
+            SELECT i.id, i.label, i.function, i.model, it.name as type_name,
                    l.name as location_name, u.username, a.title as manufacturer_name
             FROM itemlink il
             INNER JOIN items i ON (il.itemid2 = i.id AND il.itemid1 = ?)

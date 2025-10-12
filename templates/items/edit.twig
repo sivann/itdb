@@ -308,7 +308,7 @@
                                 {% if item.related_items.data is defined and item.related_items.data|length > 0 %}
                                     {% for ritem in item.related_items.data %}
                                     <div class="association-row">
-                                        {{ loop.index }}. <a href="/items/{{ ritem.id }}/edit">{{ ritem.manufacturer_name|default('N/A') }} {{ ritem.model|default('') }} [ID:{{ ritem.id }}]</a>
+                                        {{ loop.index }}. <a href="/items/{{ ritem.id }}/edit">{{ ritem.manufacturer_name|default('N/A') }} {{ ritem.type_name|default('') }} {{ ritem.model|default('') }} [ID:{{ ritem.id }}]</a>
                                     </div>
                                     {% endfor %}
                                 {% else %}

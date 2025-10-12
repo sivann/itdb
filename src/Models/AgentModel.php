@@ -63,13 +63,12 @@ class AgentModel
 
             if (isset($typeMapping[$typeValue])) {
                 $typeCode = $typeMapping[$typeValue];
-                $whereConditions[] = "(EXISTS(
+                $whereConditions[] = "EXISTS(
                     SELECT 1 FROM agent_agent_type aat
                     JOIN agent_types at ON aat.agent_type_id = at.id
                     WHERE aat.agent_id = agents.id AND at.code = :type_code
-                ) OR (agents.type & :type_value) > 0)";
+                )";
                 $params['type_code'] = $typeCode;
-                $params['type_value'] = $typeValue;
             }
         }
 
@@ -101,11 +100,7 @@ class AgentModel
 
         // Process each agent to add type description and array of types
         foreach ($agents as &$agent) {
-            // If no modern types, generate description from legacy bitwise type
-            if (empty($agent['agent_types']) || $agent['agent_types'] === '') {
-                $agent['type_description'] = $this->getLegacyTypeDescription((int) $agent['type']);
-                $agent['type_list'] = $this->getLegacyTypeList((int) $agent['type']);
-            } else {
+            if ($agent['agent_types']) {
                 $agent['type_description'] = str_replace('|||', ', ', $agent['agent_types']);
                 // Create array of type info
                 $names = explode('|||', $agent['agent_types']);
@@ -119,6 +114,9 @@ class AgentModel
                         'color' => $colors[$idx] ?? 'secondary'
                     ];
                 }
+            } else {
+                $agent['type_description'] = '';
+                $agent['type_list'] = [];
             }
         }
 
@@ -136,7 +134,7 @@ class AgentModel
      */
     public function create(array $data): int
     {
-        $allowedFields = ['type', 'title', 'contactinfo', 'contacts', 'urls'];
+        $allowedFields = ['title', 'contactinfo', 'contacts', 'urls'];
         $insertData = array_intersect_key($data, array_flip($allowedFields));
 
         return $this->db->insert('agents', $insertData);
@@ -147,7 +145,7 @@ class AgentModel
      */
     public function update(int $id, array $data): bool
     {
-        $allowedFields = ['type', 'title', 'contactinfo', 'contacts', 'urls'];
+        $allowedFields = ['title', 'contactinfo', 'contacts', 'urls'];
         $updateData = array_intersect_key($data, array_flip($allowedFields));
 
         if (empty($updateData)) {
@@ -327,60 +325,6 @@ class AgentModel
             'can_delete' => empty($references),
             'references' => $references
         ];
-    }
-
-    /**
-     * Get agent with type description (for display)
-     */
-    public function findWithTypes(int $id): ?array
-    {
-        $agent = $this->db->fetchOne(
-            "SELECT agents.*,
-                    GROUP_CONCAT(at.name, ', ') as type_description
-             FROM agents
-             LEFT JOIN agent_agent_type aat ON agents.id = aat.agent_id
-             LEFT JOIN agent_types at ON aat.agent_type_id = at.id
-             WHERE agents.id = :id
-             GROUP BY agents.id",
-            ['id' => $id]
-        );
-
-        // If no modern types, generate description from legacy bitwise type
-        if ($agent && (empty($agent['type_description']) || $agent['type_description'] === '')) {
-            $agent['type_description'] = $this->getLegacyTypeDescription((int) $agent['type']);
-        }
-
-        return $agent;
-    }
-
-    /**
-     * Generate type description from legacy bitwise value
-     */
-    private function getLegacyTypeDescription(int $type): string
-    {
-        $types = [];
-        if ($type & 1) $types[] = 'Vendor';
-        if ($type & 2) $types[] = 'SW Manufacturer';
-        if ($type & 4) $types[] = 'HW Manufacturer';
-        if ($type & 8) $types[] = 'Buyer';
-        if ($type & 16) $types[] = 'Contractor';
-
-        return implode(', ', $types);
-    }
-
-    /**
-     * Generate type list array from legacy bitwise value
-     */
-    private function getLegacyTypeList(int $type): array
-    {
-        $types = [];
-        if ($type & 1) $types[] = ['name' => 'Vendor', 'code' => 'vendor', 'color' => 'primary'];
-        if ($type & 2) $types[] = ['name' => 'SW Manufacturer', 'code' => 'software_manufacturer', 'color' => 'success'];
-        if ($type & 4) $types[] = ['name' => 'HW Manufacturer', 'code' => 'hardware_manufacturer', 'color' => 'info'];
-        if ($type & 8) $types[] = ['name' => 'Buyer', 'code' => 'buyer', 'color' => 'dark'];
-        if ($type & 16) $types[] = ['name' => 'Contractor', 'code' => 'contractor', 'color' => 'danger'];
-
-        return $types;
     }
 
     /**

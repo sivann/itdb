@@ -105,6 +105,17 @@
                                 </div>
                             </div>
                             <div class="row mb-1">
+                                <label for="manufacturerid" class="col-6 col-form-label col-form-label-sm text-end">Manufacturer</label>
+                                <div class="col-6">
+                                    <select class="form-select form-select-sm" id="manufacturerid" name="manufacturerid">
+                                        <option value="">Select...</option>
+                                        {% for manufacturer in form_options.manufacturers %}
+                                        <option value="{{ manufacturer.id }}" {% if item.manufacturerid == manufacturer.id %}selected{% endif %}>{{ manufacturer.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
                                 <label for="status" class="col-6 col-form-label col-form-label-sm text-end">Status</label>
                                 <div class="col-6">
                                     <select class="form-select form-select-sm" id="status" name="status">

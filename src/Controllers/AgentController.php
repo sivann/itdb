@@ -117,7 +117,6 @@ class AgentController extends BaseController
 
         try {
             $agentId = $this->agentModel->create([
-                'type' => !empty($data['type']) ? (int) $data['type'] : null,
                 'title' => $this->sanitizeString($data['title'] ?? ''),
                 'contactinfo' => $this->sanitizeString($data['contactinfo'] ?? ''),
                 'contacts' => $this->sanitizeString($data['contacts'] ?? ''),
@@ -153,11 +152,15 @@ class AgentController extends BaseController
         $user = $this->authService->getCurrentUser();
         $id = (int) $args['id'];
 
-        $agent = $this->agentModel->findWithTypes($id);
+        $agent = $this->agentModel->find($id);
         if (!$agent) {
             $this->addFlashMessage('error', 'Agent not found');
             return $this->redirectToRoute($request, $response, 'agents.index');
         }
+
+        // Get agent's current types
+        $agentTypes = $this->agentModel->getAgentTypes($id);
+        $agent['type_description'] = implode(', ', array_column($agentTypes, 'name'));
 
         // Get agent's current types
         $agentTypes = $this->agentModel->getAgentTypes($id);
@@ -210,7 +213,6 @@ class AgentController extends BaseController
 
         try {
             $this->agentModel->update($id, [
-                'type' => !empty($data['type']) ? (int) $data['type'] : null,
                 'title' => $this->sanitizeString($data['title'] ?? ''),
                 'contactinfo' => $this->sanitizeString($data['contactinfo'] ?? ''),
                 'contacts' => $this->sanitizeString($data['contacts'] ?? ''),

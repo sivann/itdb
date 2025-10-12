@@ -296,6 +296,7 @@ class ItemController extends BaseController
                 'function' => $this->sanitizeString($data['function'] ?? ''),
                 'itemtypeid' => (int) $data['itemtypeid'],
                 'status' => (int) ($data['status'] ?? 0),
+                'manufacturerid' => !empty($data['manufacturerid']) ? (int) $data['manufacturerid'] : null,
                 'model' => $this->sanitizeString($data['model'] ?? ''),
                 'sn' => $this->sanitizeString($data['sn'] ?? ''),
                 'label' => $this->sanitizeString($data['label'] ?? ''),
@@ -598,26 +599,28 @@ class ItemController extends BaseController
                 switch ($type) {
                     case 'software':
                         $sql = "SELECT s.id, s.stitle as name, s.sversion as version,
-                                       a.title as manufacturer_name
+                                       a.title as manufacturer_name, lt.name as license_type
                                 FROM software s
                                 LEFT JOIN agents a ON s.manufacturerid = a.id
+                                LEFT JOIN license_types lt ON s.slicensetype = lt.id
                                 WHERE s.id = ?";
                         break;
 
                     case 'item':
                         $sql = "SELECT i.id, i.label, i.function, it.name as itemtype_name,
                                        st.statusdesc as status_name,
-                                       l.name as location_name, u.username
+                                       l.name as location_name, u.username, a.title as manufacturer_name
                                 FROM items i
                                 LEFT JOIN itemtypes it ON i.itemtypeid = it.id
                                 LEFT JOIN statustypes st ON i.status = st.id
                                 LEFT JOIN locations l ON i.locationid = l.id
                                 LEFT JOIN users u ON i.userid = u.id
+                                LEFT JOIN agents a ON i.manufacturerid = a.id
                                 WHERE i.id = ?";
                         break;
 
                     case 'invoice':
-                        $sql = "SELECT i.id, i.date, i.totalcost, i.comments,
+                        $sql = "SELECT i.id, i.number, i.date, i.totalcost, i.comments,
                                        a.title as vendor_title
                                 FROM invoices i
                                 LEFT JOIN agents a ON i.vendorid = a.id
@@ -625,7 +628,7 @@ class ItemController extends BaseController
                         break;
 
                     case 'contract':
-                        $sql = "SELECT c.id, c.title, c.startdate, c.currentenddate as enddate,
+                        $sql = "SELECT c.id, c.title, c.number, c.startdate, c.currentenddate as enddate,
                                        a.title as contractor_name
                                 FROM contracts c
                                 LEFT JOIN agents a ON c.contractorid = a.id

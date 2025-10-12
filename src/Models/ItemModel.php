@@ -456,10 +456,11 @@ class ItemModel
     public function getAssociatedSoftware(int $itemId): array
     {
         $sql = "
-            SELECT s.id, s.stitle as name, s.sversion as version, lt.name as license_type
+            SELECT s.id, s.stitle as name, s.sversion as version, lt.name as license_type, a.title as manufacturer_name
             FROM item2soft i2s
             INNER JOIN software s ON i2s.softid = s.id
             LEFT JOIN license_types lt ON s.slicensetype = lt.id
+            LEFT JOIN agents a ON s.manufacturerid = a.id
             WHERE i2s.itemid = ?
             ORDER BY s.stitle ASC
         ";
@@ -496,7 +497,7 @@ class ItemModel
     public function getAssociatedInvoices(int $itemId): array
     {
         $sql = "
-            SELECT i.id, i.date, i.totalcost, i.comments,
+            SELECT i.id, i.id as number, i.date, i.totalcost, i.comments,
                    a.title as vendor_title
             FROM item2inv i2i
             INNER JOIN invoices i ON i2i.invid = i.id
@@ -643,13 +644,14 @@ class ItemModel
     {
         $sql = "
             SELECT i.id, i.label, i.function, it.name as type_name,
-                   l.name as location_name, u.username
+                   l.name as location_name, u.username, a.title as manufacturer_name
             FROM itemlink il
             INNER JOIN items i ON (il.itemid2 = i.id AND il.itemid1 = ?)
                                 OR (il.itemid1 = i.id AND il.itemid2 = ?)
             LEFT JOIN itemtypes it ON i.itemtypeid = it.id
             LEFT JOIN locations l ON i.locationid = l.id
             LEFT JOIN users u ON i.userid = u.id
+            LEFT JOIN agents a ON i.manufacturerid = a.id
             WHERE i.id != ?
             ORDER BY i.label ASC
         ";

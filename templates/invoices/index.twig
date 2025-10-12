@@ -123,7 +123,7 @@
                         </td>
                         <td>
                             {% if invoice.totalcost %}
-                                <span class="fw-bold">${{ invoice.total_formatted }}</span>
+                                <span class="fw-bold">{{ currency }}{{ invoice.total_formatted }}</span>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}

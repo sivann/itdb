@@ -90,18 +90,22 @@ return function (ContainerBuilder $containerBuilder) {
             // Set timezone for date formatting from database
             try {
                 $pdo = $c->get(PDO::class);
-                $stmt = $pdo->prepare("SELECT timezone FROM settings LIMIT 1");
+                $stmt = $pdo->prepare("SELECT timezone, currency FROM settings LIMIT 1");
                 $stmt->execute();
-                $timezone = $stmt->fetchColumn() ?: 'UTC';
+                $settings = $stmt->fetch();
+                $timezone = $settings['timezone'] ?? 'UTC';
+                $currency = $settings['currency'] ?? '€';
                 $twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone($timezone);
             } catch (\Exception $e) {
                 // Fallback to UTC if database read fails
                 $twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone('UTC');
+                $currency = '€';
             }
 
             // Add global variables
             $twig->addGlobal('app_name', $_ENV['APP_NAME'] ?? 'ITDB');
             $twig->addGlobal('app_url', $_ENV['APP_URL'] ?? 'http://localhost:8080');
+            $twig->addGlobal('currency', $currency);
 
             // Add custom filters
             $twig->addFilter(new TwigFilter('format_bytes', function ($bytes, $precision = 2) {

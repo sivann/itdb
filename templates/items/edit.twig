@@ -980,6 +980,9 @@ function addAssociationToUI(type, item, serverData = null) {
     // Update empty state
     updateEmptyState(type);
 
+    // Update tab badge count
+    updateTabBadge(type, 1);
+
     // Refresh available items in modal
     refreshAvailableItems(type, item.id);
 }
@@ -992,9 +995,33 @@ function removeAssociationFromUI(type, itemId) {
         // Update empty state
         updateEmptyState(type);
 
+        // Update tab badge count
+        updateTabBadge(type, -1);
+
         // Refresh available items in modal
         refreshAvailableItems(type, itemId, true);
     }
+}
+
+function updateTabBadge(type, delta) {
+    // Map type to tab button ID
+    const tabButtonId = type === 'software' ? 'software-tab' :
+                       type === 'invoice' ? 'invoices-tab' :
+                       type === 'contract' ? 'contracts-tab' :
+                       type === 'file' ? 'files-tab' :
+                       type === 'item' ? 'linked-items-tab' : null;
+
+    if (!tabButtonId) return;
+
+    const tabButton = document.getElementById(tabButtonId);
+    if (!tabButton) return;
+
+    const badge = tabButton.querySelector('.badge');
+    if (!badge) return;
+
+    const currentCount = parseInt(badge.textContent) || 0;
+    const newCount = Math.max(0, currentCount + delta);
+    badge.textContent = newCount;
 }
 
 function getAssociationContainerId(type) {

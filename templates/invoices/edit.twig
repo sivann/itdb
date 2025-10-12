@@ -106,7 +106,7 @@
                                     <div class="mb-3">
                                         <label for="total" class="form-label">Total Amount</label>
                                         <div class="input-group">
-                                            <span class="input-group-text">$</span>
+                                            <span class="input-group-text">{{ currency }}</span>
                                             <input type="number" class="form-control" id="total" name="totalcost" step="0.01" min="0" value="{{ invoice.totalcost|default('') }}">
                                         </div>
                                     </div>

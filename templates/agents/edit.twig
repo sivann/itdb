@@ -45,69 +45,79 @@
                 <form method="post" action="{% if mode == 'create' %}/agents{% else %}/agents/{{ agent.id }}{% endif %}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Agent Name <span class="text-danger">*</span></label>
-                        <input type="text"
-                               class="form-control"
-                               id="title"
-                               name="title"
-                               value="{{ agent.title|default('') }}"
-                               required>
-                        <div class="form-text">The name or company name of the agent</div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="agent_types" class="form-label">Agent Types</label>
-                        <div class="row">
-                            {% set agent_type_ids = (agent_types) ? agent_types|map(a => a.id) : [] %}
-                            {% for agent_type in available_agent_types %}
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           id="agent_type_{{ agent_type.id }}"
-                                           name="agent_types[]"
-                                           value="{{ agent_type.id }}"
-                                           {% if agent_type.id in agent_type_ids %}checked{% endif %}>
-                                    <label class="form-check-label" for="agent_type_{{ agent_type.id }}">
-                                        <span class="badge bg-{{ agent_type.badge_color|default('secondary') }} me-2" style="display: inline-block; width: 12px; height: 12px; padding: 0; position: relative; top: 1px;"></span>
-                                        {{ agent_type.name }}
-                                        {% if agent_type.description %}
-                                            <small class="text-muted d-block">{{ agent_type.description }}</small>
-                                        {% endif %}
-                                    </label>
-                                </div>
-                            </div>
-                            {% endfor %}
+                    <div class="row mb-3">
+                        <label for="title" class="col-md-3 col-form-label">Agent Name <span class="text-danger">*</span></label>
+                        <div class="col-md-9">
+                            <input type="text"
+                                   class="form-control"
+                                   id="title"
+                                   name="title"
+                                   value="{{ agent.title|default('') }}"
+                                   required>
+                            <div class="form-text">The name or company name of the agent</div>
                         </div>
-                        <div class="form-text">Select all applicable types for this agent</div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="contactinfo" class="form-label">Contact Information</label>
-                        <textarea class="form-control"
-                                  id="contactinfo"
-                                  name="contactinfo"
-                                  rows="3">{{ agent.contactinfo|default('') }}</textarea>
-                        <div class="form-text">Phone numbers, email addresses, physical addresses, etc.</div>
+                    <div class="row mb-3">
+                        <label for="agent_types" class="col-md-3 col-form-label">Agent Types</label>
+                        <div class="col-md-9">
+                            <div class="row">
+                                {% set agent_type_ids = (agent_types) ? agent_types|map(a => a.id) : [] %}
+                                {% for agent_type in available_agent_types %}
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="agent_type_{{ agent_type.id }}"
+                                               name="agent_types[]"
+                                               value="{{ agent_type.id }}"
+                                               {% if agent_type.id in agent_type_ids %}checked{% endif %}>
+                                        <label class="form-check-label" for="agent_type_{{ agent_type.id }}">
+                                            <span class="badge bg-{{ agent_type.badge_color|default('secondary') }} me-2" style="display: inline-block; width: 12px; height: 12px; padding: 0; position: relative; top: 1px;"></span>
+                                            {{ agent_type.name }}
+                                            {% if agent_type.description %}
+                                                <small class="text-muted d-block">{{ agent_type.description }}</small>
+                                            {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-text">Select all applicable types for this agent</div>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="contacts" class="form-label">Contact Persons</label>
-                        <textarea class="form-control"
-                                  id="contacts"
-                                  name="contacts"
-                                  rows="3">{{ agent.contacts|default('') }}</textarea>
-                        <div class="form-text">Names and details of key contact persons</div>
+                    <div class="row mb-3">
+                        <label for="contactinfo" class="col-md-3 col-form-label">Contact Information</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control"
+                                      id="contactinfo"
+                                      name="contactinfo"
+                                      rows="3">{{ agent.contactinfo|default('') }}</textarea>
+                            <div class="form-text">Phone numbers, email addresses, physical addresses, etc.</div>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="urls" class="form-label">URLs</label>
-                        <textarea class="form-control"
-                                  id="urls"
-                                  name="urls"
-                                  rows="3">{{ agent.urls|default('') }}</textarea>
-                        <div class="form-text">Website URLs, one per line</div>
+                    <div class="row mb-3">
+                        <label for="contacts" class="col-md-3 col-form-label">Contact Persons</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control"
+                                      id="contacts"
+                                      name="contacts"
+                                      rows="3">{{ agent.contacts|default('') }}</textarea>
+                            <div class="form-text">Names and details of key contact persons</div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="urls" class="col-md-3 col-form-label">URLs</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control"
+                                      id="urls"
+                                      name="urls"
+                                      rows="3">{{ agent.urls|default('') }}</textarea>
+                            <div class="form-text">Website URLs, one per line</div>
+                        </div>
                     </div>
 
                     <div class="d-flex gap-2">

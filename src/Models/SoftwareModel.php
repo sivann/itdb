@@ -278,14 +278,16 @@ class SoftwareModel
     public function getAssociatedItems(int $softwareId): array
     {
         $sql = "
-            SELECT i.id, i.label, i.function, i.status, st.statusdesc as status_name,
-                   it.name as type_name, l.name as location_name, u.username
+            SELECT i.id, i.label, i.function, i.model, i.status, st.statusdesc as status_name,
+                   it.name as type_name, l.name as location_name, u.username,
+                   a.title as manufacturer_name
             FROM item2soft i2s
             INNER JOIN items i ON i2s.itemid = i.id
             LEFT JOIN statustypes st ON i.status = st.id
             LEFT JOIN itemtypes it ON i.itemtypeid = it.id
             LEFT JOIN locations l ON i.locationid = l.id
             LEFT JOIN users u ON i.userid = u.id
+            LEFT JOIN agents a ON i.manufacturerid = a.id
             WHERE i2s.softid = ?
             ORDER BY i.function, i.label
         ";

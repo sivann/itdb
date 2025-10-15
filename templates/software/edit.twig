@@ -20,7 +20,7 @@
 </div>
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-3">
@@ -64,38 +64,53 @@
                     </li>
                 </ul>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="padding: 15px;">
                 <div class="tab-content" id="softwareEditTabContent">
                 <!-- Software Data Tab -->
                 <div class="tab-pane fade {{ current_tab == 'data' ? 'show active' : '' }}"
                      id="data" role="tabpanel" aria-labelledby="data-tab">
                     <div>
-                        <form method="POST" action="/software/{{ software.id }}">
+                        <form id="software-form" method="POST" action="/software/{{ software.id }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6 class="text-muted mb-3">Basic Information</h6>
+                            <!-- Section Headers Row -->
+                            <div class="row mb-1">
+                                <div class="col-lg-3">
+                                    <h6 class="form-section-header">Basic Information</h6>
+                                </div>
+                                <div class="col-lg-3">
+                                    <h6 class="form-section-header">License Information</h6>
+                                </div>
+                                <div class="col-lg-3">
+                                    <h6 class="form-section-header">Comments</h6>
+                                </div>
+                                <div class="col-lg-3">
+                                    <h6 class="form-section-header">License Details</h6>
+                                </div>
+                            </div>
 
-                                    <div class="row mb-3">
-                                        <label for="stitle" class="col-md-3 col-form-label">Software Title <span class="text-danger">*</span></label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" id="stitle" name="stitle" value="{{ software.stitle }}" required>
+                            <div class="row mb-1">
+                                <!-- Column 1: Basic Information -->
+                                <div class="col-lg-3">
+                                    <div class="row mb-1">
+                                        <label for="stitle" class="col-6 col-form-label col-form-label-sm text-end">Software Title <span class="text-danger">*</span></label>
+                                        <div class="col-6">
+                                            <input type="text" class="form-control form-control-sm" id="stitle" name="stitle" value="{{ software.stitle }}" required>
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3">
-                                        <label for="sversion" class="col-md-3 col-form-label">Version</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" id="sversion" name="sversion" value="{{ software.sversion }}">
+                                    <div class="row mb-1">
+                                        <label for="sversion" class="col-6 col-form-label col-form-label-sm text-end">Version</label>
+                                        <div class="col-6">
+                                            <input type="text" class="form-control form-control-sm" id="sversion" name="sversion" value="{{ software.sversion }}">
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3">
-                                        <label for="manufacturerid" class="col-md-3 col-form-label">Manufacturer</label>
-                                        <div class="col-md-9">
-                                            <select class="form-select" id="manufacturerid" name="manufacturerid">
-                                                <option value="">Select a manufacturer...</option>
+                                    <div class="row mb-1">
+                                        <label for="manufacturerid" class="col-6 col-form-label col-form-label-sm text-end">Manufacturer</label>
+                                        <div class="col-6">
+                                            <select class="form-select form-select-sm" id="manufacturerid" name="manufacturerid">
+                                                <option value="">Select...</option>
                                                 {% for manufacturer in form_options.manufacturers %}
                                                 <option value="{{ manufacturer.id }}" {% if software.manufacturerid == manufacturer.id %}selected{% endif %}>{{ manufacturer.title }}</option>
                                                 {% endfor %}
@@ -103,41 +118,29 @@
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3">
-                                        <label class="col-md-3 col-form-label">Tags</label>
-                                        <div class="col-md-9">
-                                            <div class="d-flex flex-wrap gap-2 mb-2" id="currentTags">
-                                                {% for tag in software.tags %}
-                                                <span class="badge rounded-pill" style="background-color: {{ tag.color }}; color: #fff;">
-                                                    {{ tag.name }}
-                                                    <button type="button" class="btn-close btn-close-white ms-1"
-                                                            onclick="removeTag({{ tag.id }}, '{{ tag.name }}')"
-                                                            style="font-size: 0.7em;" aria-label="Remove tag"></button>
-                                                </span>
-                                                {% endfor %}
-                                            </div>
-                                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTagModal">
-                                                <i class="bi bi-plus me-1"></i>Add Tag
-                                            </button>
+                                    <div class="row mb-1">
+                                        <label for="updated_at" class="col-6 col-form-label col-form-label-sm text-end">Last Updated</label>
+                                        <div class="col-6">
+                                            <input type="date" class="form-control form-control-sm" id="updated_at" name="updated_at"
+                                                   value="{% if software.updated_at %}{{ software.updated_at|date('Y-m-d') }}{% endif %}" readonly>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <h6 class="text-muted mb-3">License Information</h6>
-
-                                    <div class="row mb-3">
-                                        <label for="licqty" class="col-md-3 col-form-label">License Quantity</label>
-                                        <div class="col-md-9">
-                                            <input type="number" class="form-control" id="licqty" name="licqty" min="1" value="{{ software.licqty|default(1) }}">
+                                <!-- Column 2: License Information -->
+                                <div class="col-lg-3">
+                                    <div class="row mb-1">
+                                        <label for="licqty" class="col-6 col-form-label col-form-label-sm text-end">License Qty</label>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control form-control-sm" id="licqty" name="licqty" min="1" value="{{ software.licqty|default(1) }}">
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3">
-                                        <label for="slicensetype" class="col-md-3 col-form-label">License Type</label>
-                                        <div class="col-md-9">
-                                            <select class="form-select" id="slicensetype" name="slicensetype">
-                                                <option value="">Select a license type...</option>
+                                    <div class="row mb-1">
+                                        <label for="slicensetype" class="col-6 col-form-label col-form-label-sm text-end">License Type</label>
+                                        <div class="col-6">
+                                            <select class="form-select form-select-sm" id="slicensetype" name="slicensetype">
+                                                <option value="">Select...</option>
                                                 {% for type in form_options.license_types %}
                                                 <option value="{{ type.id }}" {% if software.slicensetype == type.id %}selected{% endif %}>{{ type.name }}</option>
                                                 {% endfor %}
@@ -145,49 +148,129 @@
                                         </div>
                                     </div>
 
-
-                                    <div class="row mb-3">
-                                        <label for="updated_at" class="col-md-3 col-form-label">Last Updated</label>
-                                        <div class="col-md-9">
-                                            <input type="date" class="form-control" id="updated_at" name="updated_at"
-                                                   value="{% if software.updated_at %}{{ software.updated_at|date('Y-m-d') }}{% endif %}" readonly>
+                                    <div class="row mb-1">
+                                        <label class="col-6 col-form-label col-form-label-sm text-end">Tags</label>
+                                        <div class="col-6">
+                                            <div class="d-flex flex-wrap gap-1 mb-1" id="currentTags">
+                                                {% for tag in software.tags %}
+                                                <span class="badge rounded-pill" style="background-color: {{ tag.color }}; color: #fff; font-size: 0.7em;">
+                                                    {{ tag.name }}
+                                                    <button type="button" class="btn-close btn-close-white ms-1"
+                                                            onclick="removeTag({{ tag.id }}, '{{ tag.name }}')"
+                                                            style="font-size: 0.7em;" aria-label="Remove tag"></button>
+                                                </span>
+                                                {% endfor %}
+                                            </div>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTagModal" style="font-size: 0.75em; padding: 0.15rem 0.4rem;">
+                                                <i class="bi bi-plus me-1"></i>Add Tag
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <hr>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row mb-3">
-                                        <label for="scomments" class="col-md-3 col-form-label">Comments</label>
-                                        <div class="col-md-9">
-                                            <textarea class="form-control" id="scomments" name="scomments" rows="4">{{ software.scomments }}</textarea>
+                                <!-- Column 3: Comments -->
+                                <div class="col-lg-3">
+                                    <div class="row mb-1">
+                                        <label for="scomments" class="col-6 col-form-label col-form-label-sm text-end">Comments</label>
+                                        <div class="col-6">
+                                            <textarea class="form-control form-control-sm" id="scomments" name="scomments" rows="6">{{ software.scomments }}</textarea>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="row mb-3">
-                                        <label for="slicense" class="col-md-3 col-form-label">License Info</label>
-                                        <div class="col-md-9">
-                                            <textarea class="form-control" id="slicense" name="slicense" rows="4">{{ software.slicense }}</textarea>
-                                            <div class="form-text">License terms, restrictions, or notes</div>
+                                <!-- Column 4: License Details -->
+                                <div class="col-lg-3">
+                                    <div class="row mb-1">
+                                        <label for="slicense" class="col-6 col-form-label col-form-label-sm text-end">License Info</label>
+                                        <div class="col-6">
+                                            <textarea class="form-control form-control-sm" id="slicense" name="slicense" rows="6">{{ software.slicense }}</textarea>
+                                            <div class="form-text small">License terms, restrictions, or notes</div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="d-flex justify-content-between">
-                                <a href="/software/{{ software.id }}" class="btn btn-secondary">
-                                    <i class="bi bi-x-lg me-1"></i>Cancel
-                                </a>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-check-lg me-1"></i>Update Software
-                                </button>
                             </div>
                         </form>
+
+                        <!-- Associations Overview -->
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <h6 class="form-section-header">Associations Overview</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Items Column -->
+                            <div class="col-lg-3">
+                                <div class="association-container">
+                                    <div class="association-header">ITEMS</div>
+                                    {% if software.items is defined and software.items|length > 0 %}
+                                        {% for item in software.items %}
+                                        <div class="association-row">
+                                            {{ loop.index }}. <a href="/items/{{ item.id }}/edit">{{ item.manufacturer_name|default('N/A') }} {{ item.model|default('') }} [ID:{{ item.id }}]</a>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="p-2 text-muted text-center small">No items</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Invoices Column -->
+                            <div class="col-lg-3">
+                                <div class="association-container">
+                                    <div class="association-header">INVOICES</div>
+                                    {% if software.invoices is defined and software.invoices|length > 0 %}
+                                        {% for inv in software.invoices %}
+                                        <div class="association-row">
+                                            {{ loop.index }}. <a href="/invoices/{{ inv.id }}/edit">{{ inv.vendor_name|default('N/A') }} - {{ inv.date_formatted|default('') }} [ID:{{ inv.id }}]</a>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="p-2 text-muted text-center small">No invoices</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Contracts Column -->
+                            <div class="col-lg-3">
+                                <div class="association-container">
+                                    <div class="association-header">CONTRACTS</div>
+                                    {% if software.contracts is defined and software.contracts|length > 0 %}
+                                        {% for contract in software.contracts %}
+                                        <div class="association-row">
+                                            {{ loop.index }}. <a href="/contracts/{{ contract.id }}/edit">{{ contract.title|default('N/A') }} [ID:{{ contract.id }}]</a>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="p-2 text-muted text-center small">No contracts</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Files Column -->
+                            <div class="col-lg-3">
+                                <div class="association-container">
+                                    <div class="association-header">FILES</div>
+                                    {% if software.files is defined and software.files|length > 0 %}
+                                        {% for file in software.files %}
+                                        <div class="association-row">
+                                            {{ loop.index }}. <a href="/files/{{ file.id }}/edit">{{ file.fname|default('N/A') }}</a>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="p-2 text-muted text-center small">No files</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <a href="/software/{{ software.id }}" class="btn btn-secondary btn-sm">
+                                <i class="bi bi-x-lg me-1"></i>Cancel
+                            </a>
+                            <button type="submit" form="software-form" class="btn btn-primary btn-sm">
+                                <i class="bi bi-check-lg me-1"></i>Update Software
+                            </button>
+                        </div>
                     </div>
                 </div>
 

@@ -46,7 +46,8 @@ class SoftwareModel
                    CASE
                        WHEN s.slicense IS NOT NULL AND s.slicense != '' THEN CAST(s.slicense AS INTEGER)
                        ELSE 0
-                   END as license_quantity
+                   END as license_quantity,
+                   (SELECT COUNT(*) FROM item2soft WHERE softid = s.id) as installations_count
             FROM software s
             LEFT JOIN agents a ON s.manufacturerid = a.id
             {$whereClause}
@@ -71,9 +72,10 @@ class SoftwareModel
             $licenseType = !empty($item['slicensetype']) && is_numeric($item['slicensetype']) ? (int)$item['slicensetype'] : 0;
             $item['lictype'] = $licenseType;
 
-            // Installation count (would need pivot table data - placeholder for now)
-            $item['installations_count'] = 0;
-            $item['available_licenses'] = $licenseCount; // All available for now
+            // Installation count from database query
+            $installationsCount = (int)($item['installations_count'] ?? 0);
+            $item['installations_count'] = $installationsCount;
+            $item['available_licenses'] = max(0, $licenseCount - $installationsCount);
 
             // License status
             if ($licenseCount > 0) {

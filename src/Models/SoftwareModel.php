@@ -42,7 +42,7 @@ class SoftwareModel
 
         // Get software with manufacturer info and more complete data
         $sql = "
-            SELECT s.*, a.name as manufacturer_name, s.license_type_id
+            SELECT s.*, a.name as manufacturer_name, s.license_type_id, s.license_key, (SELECT COUNT(*) FROM items_software WHERE software_id = s.id) as installations_count
             FROM software s
             LEFT JOIN agents a ON s.manufacturer_id = a.id
             {$whereClause}

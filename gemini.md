@@ -1,4 +1,10 @@
+- Always read the `gemini.md` file at the beginning of the session.
+- When an error is reported, first check the logs to get the exact error message.
 - When debugging, always check the database schema first.
 - Run queries directly on the database to verify the results.
-- Double-check the code for typos and other errors.
+- Then, check the controller to see how the data is being handled.
+- Then, check the model to see how the data is being queried.
+- Finally, check the template to see how the data is being rendered.
+- After each change, verify that the issue is resolved by accessing the relevant page.
 - Be more proactive and think ahead to anticipate potential problems.
+- Double-check the code for typos and other errors.

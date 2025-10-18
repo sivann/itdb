@@ -78,36 +78,36 @@
                                     <h6 class="text-muted mb-3">Invoice Information</h6>
 
                                     <div class="mb-3">
-                                        <label for="vendorid" class="form-label">Vendor</label>
-                                        <select class="form-select" id="vendorid" name="vendorid">
+                                        <label for="vendor_id" class="form-label">Vendor</label>
+                                        <select class="form-select form-control-sm" id="vendor_id" name="vendor_id">
                                             <option value="">Select a vendor...</option>
                                             {% for vendor in form_options.vendors %}
-                                            <option value="{{ vendor.id }}" {% if invoice.vendorid == vendor.id %}selected{% endif %}>{{ vendor.title }}</option>
+                                            <option value="{{ vendor.id }}" {% if invoice.vendor_id == vendor.id %}selected{% endif %}>{{ vendor.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="buyerid" class="form-label">Buyer</label>
-                                        <select class="form-select" id="buyerid" name="buyerid">
+                                        <label for="buyer_id" class="form-label">Buyer</label>
+                                        <select class="form-select form-control-sm" id="buyer_id" name="buyer_id">
                                             <option value="">Select a buyer...</option>
                                             {% for buyer in form_options.buyers %}
-                                            <option value="{{ buyer.id }}" {% if invoice.buyerid == buyer.id %}selected{% endif %}>{{ buyer.title }}</option>
+                                            <option value="{{ buyer.id }}" {% if invoice.buyer_id == buyer.id %}selected{% endif %}>{{ buyer.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="invoicedate" class="form-label">Invoice Date</label>
-                                        <input type="date" class="form-control" id="invoicedate" name="invoicedate"
-                                               value="{% if invoice.date %}{{ invoice.date|date('Y-m-d') }}{% endif %}">
+                                        <label for="invoice_date" class="form-label">Invoice Date</label>
+                                        <input type="date" class="form-control form-control-sm" id="invoice_date" name="invoice_date"
+                                               value="{{ invoice.date_formatted }}">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="total" class="form-label">Total Amount</label>
-                                        <div class="input-group">
+                                        <label for="total_cost" class="form-label">Total Amount</label>
+                                        <div class="input-group input-group-sm">
                                             <span class="input-group-text">{{ currency }}</span>
-                                            <input type="number" class="form-control" id="total" name="totalcost" step="0.01" min="0" value="{{ invoice.totalcost|default('') }}">
+                                            <input type="number" class="form-control" id="total_cost" name="total_cost" step="0.01" min="0" value="{{ invoice.total_cost|default('') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -116,8 +116,8 @@
                                     <h6 class="text-muted mb-3">Additional Information</h6>
 
                                     <div class="mb-3">
-                                        <label for="description" class="form-label">Comments</label>
-                                        <textarea class="form-control" id="description" name="comments" rows="4">{{ invoice.comments }}</textarea>
+                                        <label for="comments" class="form-label">Comments</label>
+                                        <textarea class="form-control form-control-sm" id="comments" name="comments" rows="4">{{ invoice.comments }}</textarea>
                                     </div>
                                 </div>
                             </div>

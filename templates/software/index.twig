@@ -78,8 +78,8 @@
                         <th>Software</th>
                         <th>Manufacturer</th>
                         <th>License</th>
-                        <th>Installations</th>
-                        <th>License Status</th>
+                        <th width="300">Installations</th>
+                        <th width="150">License Info</th>
                         <th>Last Updated</th>
                         <th width="120">Actions</th>
                     </tr>
@@ -93,9 +93,6 @@
                                     <a href="/software/{{ item.id }}" class="fw-bold text-decoration-none">
                                         {{ item.display_title }}
                                     </a>
-                                    {% if item.sinfo %}
-                                        <br><small class="text-muted">{{ item.sinfo }}</small>
-                                    {% endif %}
                                 </div>
                             </div>
                         </td>
@@ -125,9 +122,11 @@
                                 <div class="mt-2" style="font-size: 0.85em;">
                                     {% for installed_item in item.items_list %}
                                         <div class="text-muted">
-                                            {{ installed_item.manufacturer_name|default(installed_item.model)|default('Unknown') }}
-                                            {{ installed_item.model ?: '' }}
-                                            [{{ installed_item.type_name|default('Item') }}, ID:{{ installed_item.id }}]
+                                            <a href="/items/{{ installed_item.id }}" class="text-decoration-none">
+                                                {{ installed_item.manufacturer_name|default(installed_item.model)|default('Unknown') }}
+                                                {{ installed_item.model ?: '' }}
+                                                [{{ installed_item.type_name|default('Item') }}, ID:{{ installed_item.id }}]
+                                            </a>
                                         </div>
                                     {% endfor %}
                                     {% if item.installations_count > 10 %}
@@ -137,15 +136,8 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if item.license_status.status == 'active' %}
-                                <span class="text-success">
-                                    <i class="bi bi-check-circle me-1"></i>
-                                    Active ({{ item.license_status.days }} days)
-                                </span>
-                            {% elseif item.license_status.status == 'expired' %}
-                                <span class="text-danger">
-                                    <i class="bi bi-x-circle me-1"></i>Expired
-                                </span>
+                            {% if item.license_key %}
+                                <span class="text-muted">{{ item.license_key }}</span>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}

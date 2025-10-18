@@ -170,6 +170,7 @@ return function (App $app) {
             $group->get('/{id}/edit', [RackController::class, 'edit'])->setName('racks.edit');
             $group->get('/{id}/layout', [RackController::class, 'layout'])->setName('racks.layout');
             $group->put('/{id}', [RackController::class, 'update'])->setName('racks.update');
+            $group->post('/{id}/delete', [RackController::class, 'destroy'])->setName('racks.delete');
             $group->delete('/{id}', [RackController::class, 'destroy'])->setName('racks.destroy');
         });
 

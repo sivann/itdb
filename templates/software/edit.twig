@@ -489,7 +489,7 @@
                                         <tr data-file-id="{{ file.id }}">
                                             <td>
                                                 <i class="bi bi-file-earmark me-2"></i>
-                                                {{ file.fname|default('N/A') }}
+                                                {{ file.filename_original|default('N/A') }}
                                             </td>
                                             <td>{{ file.title|default('N/A') }}</td>
                                             <td>{{ file.fileType.name|default('Unknown') }}</td>

@@ -356,9 +356,9 @@ class SoftwareModel
 
             // Format upload date
             if ($file['uploaded_at']) {
-                $file['uploaddate_formatted'] = date('M j, Y g:i A', (int) $file['uploaded_at']);
+                $file['uploaded_at_formatted'] = date('M j, Y g:i A', (int) $file['uploaded_at']);
             } else {
-                $file['uploaddate_formatted'] = null;
+                $file['uploaded_at_formatted'] = null;
             }
 
             // Add uploader_username info (if needed in future)

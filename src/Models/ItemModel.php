@@ -685,8 +685,8 @@ class ItemModel
             SELECT i.id, i.label, i.function, i.model, it.name as type_name,
                    l.name as location_name, u.username, a.name as manufacturer_name
             FROM itemlink il
-            INNER JOIN items i ON (il.item_id2 = i.id AND il.item_id1 = ?)
-                                OR (il.item_id1 = i.id AND il.item_id2 = ?)
+            INNER JOIN items i ON (il.itemid2 = i.id AND il.itemid1 = ?)
+                                OR (il.itemid1 = i.id AND il.itemid2 = ?)
             LEFT JOIN item_types it ON i.item_type_id = it.id
             LEFT JOIN locations l ON i.location_id = l.id
             LEFT JOIN users u ON i.user_id = u.id
@@ -705,15 +705,15 @@ class ItemModel
         try {
             // Check if association already exists in either direction
             $sql = "SELECT COUNT(*) FROM itemlink
-                    WHERE (item_id1 = ? AND item_id2 = ?)
-                       OR (item_id1 = ? AND item_id2 = ?)";
+                    WHERE (itemid1 = ? AND itemid2 = ?)
+                       OR (itemid1 = ? AND itemid2 = ?)";
             $exists = $this->db->fetchColumn($sql, [$itemId, $relatedItemId, $relatedItemId, $itemId]);
 
             if ($exists > 0) {
                 return false; // Already associated
             }
 
-            $sql = "INSERT INTO itemlink (item_id1, item_id2) VALUES (?, ?)";
+            $sql = "INSERT INTO itemlink (itemid1, itemid2) VALUES (?, ?)";
             $stmt = $this->db->execute($sql, [$itemId, $relatedItemId]);
             return $stmt->rowCount() > 0;
         } catch (\Exception $e) {
@@ -727,8 +727,8 @@ class ItemModel
     public function dissociateItem(int $itemId, int $relatedItemId): bool
     {
         $sql = "DELETE FROM itemlink
-                WHERE (item_id1 = ? AND item_id2 = ?)
-                   OR (item_id1 = ? AND item_id2 = ?)";
+                WHERE (itemid1 = ? AND itemid2 = ?)
+                   OR (itemid1 = ? AND itemid2 = ?)";
         $stmt = $this->db->execute($sql, [$itemId, $relatedItemId, $relatedItemId, $itemId]);
         return $stmt->rowCount() > 0;
     }

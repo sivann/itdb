@@ -94,9 +94,9 @@
                         <!-- Column 1: Basic Information -->
                         <div class="col-lg-3">
                             <div class="row mb-1">
-                                <label for="itemtypeid" class="col-6 col-form-label col-form-label-sm text-end">Item Type <span class="text-danger">*</span></label>
+                                <label for="item_type_id" class="col-6 col-form-label col-form-label-sm text-end">Item Type <span class="text-danger">*</span></label>
                                 <div class="col-6">
-                                    <select class="form-select form-select-sm" id="itemtypeid" name="itemtypeid" required>
+                                    <select class="form-select form-select-sm" id="item_type_id" name="item_type_id" required>
                                         <option value="">Select...</option>
                                         {% for type in form_options.item_types %}
                                         <option value="{{ type.id }}" {% if item.item_type_id == type.id %}selected{% endif %}>{{ type.name }}</option>
@@ -105,9 +105,9 @@
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="manufacturerid" class="col-6 col-form-label col-form-label-sm text-end">Manufacturer</label>
+                                <label for="manufacturer_id" class="col-6 col-form-label col-form-label-sm text-end">Manufacturer</label>
                                 <div class="col-6">
-                                    <select class="form-select form-select-sm" id="manufacturerid" name="manufacturerid">
+                                    <select class="form-select form-select-sm" id="manufacturer_id" name="manufacturer_id">
                                         <option value="">Select...</option>
                                         {% for manufacturer in form_options.manufacturers %}
                                         <option value="{{ manufacturer.id }}" {% if item.manufacturer_id == manufacturer.id %}selected{% endif %}>{{ manufacturer.name }}</option>
@@ -116,11 +116,11 @@
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="status" class="col-6 col-form-label col-form-label-sm text-end">Status</label>
+                                <label for="status_id" class="col-6 col-form-label col-form-label-sm text-end">Status</label>
                                 <div class="col-6">
-                                    <select class="form-select form-select-sm" id="status" name="status">
+                                    <select class="form-select form-select-sm" id="status_id" name="status_id">
                                         {% for status in form_options.status_types %}
-                                        <option value="{{ status.id }}" {% if item.status == status.id %}selected{% endif %}>{{ status.name }}</option>
+                                        <option value="{{ status.id }}" {% if item.status_id == status.id %}selected{% endif %}>{{ status.name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -132,9 +132,9 @@
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="sn" class="col-6 col-form-label col-form-label-sm text-end">S/N</label>
+                                <label for="serial_number" class="col-6 col-form-label col-form-label-sm text-end">S/N</label>
                                 <div class="col-6">
-                                    <input type="text" class="form-control form-control-sm" id="sn" name="sn" value="{{ item.sn }}">
+                                    <input type="text" class="form-control form-control-sm" id="serial_number" name="serial_number" value="{{ item.serial_number }}">
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -165,9 +165,9 @@
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="locationid" class="col-6 col-form-label col-form-label-sm text-end">Location</label>
+                                <label for="location_id" class="col-6 col-form-label col-form-label-sm text-end">Location</label>
                                 <div class="col-6">
-                                    <select class="form-select form-select-sm" id="locationid" name="locationid">
+                                    <select class="form-select form-select-sm" id="location_id" name="location_id">
                                         <option value="">Select...</option>
                                         {% for location in form_options.locations %}
                                         <option value="{{ location.id }}" {% if item.location_id == location.id %}selected{% endif %}>{{ location.name }}</option>
@@ -176,55 +176,55 @@
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="ipv4" class="col-6 col-form-label col-form-label-sm text-end">IP</label>
+                                <label for="ipv4_address" class="col-6 col-form-label col-form-label-sm text-end">IP</label>
                                 <div class="col-6">
-                                    <input type="text" class="form-control form-control-sm" id="ipv4" name="ipv4" value="{{ item.ipv4 }}">
+                                    <input type="text" class="form-control form-control-sm" id="ipv4_address" name="ipv4_address" value="{{ item.ipv4_address }}">
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="dnsname" class="col-6 col-form-label col-form-label-sm text-end">DNS</label>
+                                <label for="dns_name" class="col-6 col-form-label col-form-label-sm text-end">DNS</label>
                                 <div class="col-6">
-                                    <input type="text" class="form-control form-control-sm" id="dnsname" name="dnsname" value="{{ item.dnsname }}">
+                                    <input type="text" class="form-control form-control-sm" id="dns_name" name="dns_name" value="{{ item.dns_name }}">
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="col-6"></div>
                                 <div class="col-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="rackmountable" name="rackmountable" value="1" {% if item.rackmountable == 1 %}checked{% endif %}>
-                                        <label class="form-check-label small" for="rackmountable">Rack Mountable</label>
+                                        <input class="form-check-input" type="checkbox" id="is_rack_mountable" name="is_rack_mountable" value="1" {% if item.is_rack_mountable == 1 %}checked{% endif %}>
+                                        <label class="form-check-label small" for="is_rack_mountable">Rack Mountable</label>
                                     </div>
                                 </div>
                             </div>
-                            <div id="rackFields" style="{% if item.rackmountable != 1 %}display: none;{% endif %}">
+                            <div id="rackFields" style="{% if item.is_rack_mountable != 1 %}display: none;{% endif %}">
                                 <div class="row mb-1">
-                                    <label for="rackid" class="col-6 col-form-label col-form-label-sm text-end">Rack</label>
+                                    <label for="rack_id" class="col-6 col-form-label col-form-label-sm text-end">Rack</label>
                                     <div class="col-6">
-                                        <select class="form-select form-select-sm" id="rackid" name="rackid">
+                                        <select class="form-select form-select-sm" id="rack_id" name="rack_id">
                                             <option value="">Select...</option>
                                             {% for rack in form_options.racks %}
-                                            <option value="{{ rack.id }}" {% if item.rackid == rack.id %}selected{% endif %}>{{ rack.id }}:{{ rack.label }}</option>
+                                            <option value="{{ rack.id }}" {% if item.rack_id == rack.id %}selected{% endif %}>{{ rack.id }}:{{ rack.label }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="rackposition" class="col-6 col-form-label col-form-label-sm text-end">Rack Pos</label>
+                                    <label for="rack_position" class="col-6 col-form-label col-form-label-sm text-end">Rack Pos</label>
                                     <div class="col-6">
-                                        <input type="number" class="form-control form-control-sm" id="rackposition" name="rackposition" value="{{ item.rackposition }}">
+                                        <input type="number" class="form-control form-control-sm" id="rack_position" name="rack_position" value="{{ item.rack_position }}">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="rackposdepth" class="col-6 col-form-label col-form-label-sm text-end">Depth</label>
+                                    <label for="rack_position_depth" class="col-6 col-form-label col-form-label-sm text-end">Depth</label>
                                     <div class="col-6">
-                                        <select class="form-select form-select-sm" id="rackposdepth" name="rackposdepth">
+                                        <select class="form-select form-select-sm" id="rack_position_depth" name="rack_position_depth">
                                             <option value="">-</option>
-                                            <option value="4" {% if item.rackposdepth == 4 %}selected{% endif %}>F--</option>
-                                            <option value="2" {% if item.rackposdepth == 2 %}selected{% endif %}>-M-</option>
-                                            <option value="1" {% if item.rackposdepth == 1 %}selected{% endif %}>--B</option>
-                                            <option value="6" {% if item.rackposdepth == 6 %}selected{% endif %}>FM-</option>
-                                            <option value="3" {% if item.rackposdepth == 3 %}selected{% endif %}>-MB</option>
-                                            <option value="7" {% if item.rackposdepth == 7 %}selected{% endif %}>FMB</option>
+                                            <option value="4" {% if item.rack_position_depth == 4 %}selected{% endif %}>F--</option>
+                                            <option value="2" {% if item.rack_position_depth == 2 %}selected{% endif %}>-M-</option>
+                                            <option value="1" {% if item.rack_position_depth == 1 %}selected{% endif %}>--B</option>
+                                            <option value="6" {% if item.rack_position_depth == 6 %}selected{% endif %}>FM-</option>
+                                            <option value="3" {% if item.rack_position_depth == 3 %}selected{% endif %}>-MB</option>
+                                            <option value="7" {% if item.rack_position_depth == 7 %}selected{% endif %}>FMB</option>
                                         </select>
                                     </div>
                                 </div>
@@ -246,9 +246,9 @@
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="hd" class="col-6 col-form-label col-form-label-sm text-end">Storage</label>
+                                <label for="hard_drive" class="col-6 col-form-label col-form-label-sm text-end">Storage</label>
                                 <div class="col-6">
-                                    <input type="text" class="form-control form-control-sm" id="hd" name="hd" value="{{ item.hd }}">
+                                    <input type="text" class="form-control form-control-sm" id="hard_drive" name="hard_drive" value="{{ item.hard_drive }}">
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -262,15 +262,15 @@
                         <!-- Column 4: Warranty & Accounting -->
                         <div class="col-lg-3">
                             <div class="row mb-1">
-                                <label for="purchasedate" class="col-6 col-form-label col-form-label-sm text-end">Purch Date</label>
+                                <label for="purchase_date" class="col-6 col-form-label col-form-label-sm text-end">Purch Date</label>
                                 <div class="col-6">
-                                    <input type="date" class="form-control form-control-sm" id="purchasedate" name="purchasedate" value="{% if item.purchase_date %}{{ item.purchase_date|date('Y-m-d') }}{% endif %}">
+                                    <input type="date" class="form-control form-control-sm" id="purchase_date" name="purchase_date" value="{% if item.purchase_date %}{{ item.purchase_date|date('Y-m-d') }}{% endif %}">
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="warrantymonths" class="col-6 col-form-label col-form-label-sm text-end">Warranty</label>
+                                <label for="warranty_months" class="col-6 col-form-label col-form-label-sm text-end">Warranty</label>
                                 <div class="col-6">
-                                    <input type="number" class="form-control form-control-sm" id="warrantymonths" name="warrantymonths" value="{{ item.warrantymonths }}" placeholder="months">
+                                    <input type="number" class="form-control form-control-sm" id="warranty_months" name="warranty_months" value="{{ item.warranty_months }}" placeholder="months">
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -280,15 +280,15 @@
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="purchprice" class="col-6 col-form-label col-form-label-sm text-end">Price ({{ currency }})</label>
+                                <label for="purchase_price" class="col-6 col-form-label col-form-label-sm text-end">Price ({{ currency }})</label>
                                 <div class="col-6">
-                                    <input type="text" class="form-control form-control-sm" id="purchprice" name="purchprice" value="{{ item.purchase_price }}">
+                                    <input type="text" class="form-control form-control-sm" id="purchase_price" name="purchase_price" value="{{ item.purchase_price }}">
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="maintenanceinfo" class="col-6 col-form-label col-form-label-sm text-end">Maintenance Instructions</label>
+                                <label for="maintenance_info" class="col-6 col-form-label col-form-label-sm text-end">Maintenance Instructions</label>
                                 <div class="col-6">
-                                    <textarea class="form-control form-control-sm" id="maintenanceinfo" name="maintenanceinfo" rows="3">{{ item.maintenanceinfo }}</textarea>
+                                    <textarea class="form-control form-control-sm" id="maintenance_info" name="maintenance_info" rows="3">{{ item.maintenance_info }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -340,7 +340,7 @@
                                 {% if item.invoices.data is defined and item.invoices.data|length > 0 %}
                                     {% for inv in item.invoices.data %}
                                     <div class="association-row">
-                                        {{ loop.index }}. <a href="/invoices/{{ inv.id }}/edit">{{ inv.number|default('N/A') }} - {{ inv.date_formatted|default('') }} [ID:{{ inv.id }}]</a>
+                                        {{ loop.index }}. <a href="/invoices/{{ inv.id }}/edit">{{ inv.vendor_title|default('N/A') }} - {{ inv.number|default('N/A') }} - {{ inv.date_formatted|default('') }} [ID:{{ inv.id }}]</a>
                                     </div>
                                     {% endfor %}
                                 {% else %}

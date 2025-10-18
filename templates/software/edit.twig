@@ -95,21 +95,21 @@
                                     <div class="row mb-1">
                                         <label for="stitle" class="col-6 col-form-label col-form-label-sm text-end">Software Title <span class="text-danger">*</span></label>
                                         <div class="col-6">
-                                            <input type="text" class="form-control form-control-sm" id="stitle" name="stitle" value="{{ software.title }}" required>
+                                            <input type="text" class="form-control form-control-sm" id="title" name="title" value="{{ software.title }}" required>
                                         </div>
                                     </div>
 
                                     <div class="row mb-1">
-                                        <label for="sversion" class="col-6 col-form-label col-form-label-sm text-end">Version</label>
+                                        <label for="version" class="col-6 col-form-label col-form-label-sm text-end">Version</label>
                                         <div class="col-6">
-                                            <input type="text" class="form-control form-control-sm" id="sversion" name="sversion" value="{{ software.version }}">
+                                            <input type="text" class="form-control form-control-sm" id="version" name="version" value="{{ software.version }}">
                                         </div>
                                     </div>
 
                                     <div class="row mb-1">
-                                        <label for="manufacturerid" class="col-6 col-form-label col-form-label-sm text-end">Manufacturer</label>
+                                        <label for="manufacturer_id" class="col-6 col-form-label col-form-label-sm text-end">Manufacturer</label>
                                         <div class="col-6">
-                                            <select class="form-select form-select-sm" id="manufacturerid" name="manufacturerid">
+                                            <select class="form-select form-select-sm" id="manufacturer_id" name="manufacturer_id">
                                                 <option value="">Select...</option>
                                                 {% for manufacturer in form_options.manufacturers %}
                                                 <option value="{{ manufacturer.id }}" {% if software.manufacturer_id == manufacturer.id %}selected{% endif %}>{{ manufacturer.name }}</option>
@@ -137,12 +137,12 @@
                                     </div>
 
                                     <div class="row mb-1">
-                                        <label for="license_type" class="col-6 col-form-label col-form-label-sm text-end">License Type</label>
+                                        <label for="license_type_id" class="col-6 col-form-label col-form-label-sm text-end">License Type</label>
                                         <div class="col-6">
-                                            <select class="form-select form-select-sm" id="license_type" name="license_type">
+                                            <select class="form-select form-select-sm" id="license_type_id" name="license_type_id">
                                                 <option value="">Select...</option>
                                                 {% for type in form_options.license_types %}
-                                                <option value="{{ type.id }}" {% if software.license_type == type.id %}selected{% endif %}>{{ type.name }}</option>
+                                                <option value="{{ type.id }}" {% if software.license_type_id == type.id %}selected{% endif %}>{{ type.name }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
@@ -171,9 +171,9 @@
                                 <!-- Column 3: Comments -->
                                 <div class="col-lg-3">
                                     <div class="row mb-1">
-                                        <label for="scomments" class="col-6 col-form-label col-form-label-sm text-end">Comments</label>
+                                        <label for="comments" class="col-6 col-form-label col-form-label-sm text-end">Comments</label>
                                         <div class="col-6">
-                                            <textarea class="form-control form-control-sm" id="scomments" name="scomments" rows="6">{{ software.comments }}</textarea>
+                                            <textarea class="form-control form-control-sm" id="comments" name="comments" rows="6">{{ software.comments }}</textarea>
                                         </div>
                                     </div>
                                 </div>

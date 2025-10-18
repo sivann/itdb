@@ -239,16 +239,16 @@
                 <div class="nav-section">
                     <div class="nav-section-title">Assets</div>
                     <a href="/items" class="nav-link {{ current_route starts with 'items' ? 'active' : '' }}">
-                        <i class="bi bi-laptop"></i> Items
+                        <i class="bi bi-box"></i> Items
                     </a>
                     <a href="/software" class="nav-link {{ current_route starts with 'software' ? 'active' : '' }}">
-                        <i class="bi bi-code-square"></i> Software
+                        <i class="bi bi-disc"></i> Software
                     </a>
                     <a href="/invoices" class="nav-link {{ current_route starts with 'invoices' ? 'active' : '' }}">
                         <i class="bi bi-receipt"></i> Invoices
                     </a>
                     <a href="/agents" class="nav-link {{ current_route starts with 'agents' ? 'active' : '' }}">
-                        <i class="bi bi-building"></i> Agents
+                        <i class="bi bi-briefcase"></i> Agents
                     </a>
                 </div>
 
@@ -267,7 +267,7 @@
                         <i class="bi bi-people"></i> Users
                     </a>
                     <a href="/racks" class="nav-link {{ current_route starts with 'racks' ? 'active' : '' }}">
-                        <i class="bi bi-server"></i> Racks
+                        <i class="bi bi-hdd-rack"></i> Racks
                     </a>
                 </div>
 
@@ -397,6 +397,10 @@
                 bsAlert.close();
             }, 5000);
         });
+
+        // Initialize all Bootstrap tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     </script>
 
     {% block scripts %}{% endblock %}

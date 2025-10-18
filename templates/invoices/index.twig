@@ -139,22 +139,27 @@
                             <div class="btn-group btn-group-sm">
                                 <a href="/invoices/{{ invoice.id }}"
                                    class="btn btn-outline-primary btn-sm"
-                                   title="View Details">
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="top"
+                                   data-bs-title="View Details">
                                     <i class="bi bi-eye"></i>
                                 </a>
                                 {% if user and user.usertype >= 2 %}
                                 <a href="/invoices/{{ invoice.id }}/edit"
                                    class="btn btn-outline-secondary btn-sm"
-                                   title="Edit Invoice">
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="top"
+                                   data-bs-title="Edit Invoice">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 {% endif %}
                                 {% if user and user.isAdmin() %}
                                 <button type="button"
                                         class="btn btn-outline-danger btn-sm"
-                                        title="Delete Invoice"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal{{ invoice.id }}">
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-bs-title="Delete Invoice"
+                                        onclick="new bootstrap.Modal('#deleteModal{{ invoice.id }}').show()">
                                     <i class="bi bi-trash"></i>
                                 </button>
                                 {% endif %}

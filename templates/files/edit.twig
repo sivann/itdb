@@ -549,8 +549,12 @@
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Associations</label>
                                             <div>
-                                                {% set total = (file.items|length) + (file.software|length) + (file.contracts|length) + (file.invoices|length) %}
-                                                <span class="badge bg-info">{{ total }} records</span>
+                                                {% set total = (file.items_count|default(0)) + (file.software_count|default(0)) + (file.contracts_count|default(0)) + (file.invoices_count|default(0)) %}
+                                                {% if total > 0 %}
+                                                    <span class="badge bg-info">{{ total }} record(s)</span>
+                                                {% else %}
+                                                    <span class="text-muted">None</span>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>

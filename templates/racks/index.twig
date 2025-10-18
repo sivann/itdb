@@ -72,7 +72,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i> Filter
                     </button>
-                    <a href="/racks" class="btn btn-outline-secondary" title="Clear filters">
+                    <a href="/racks" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Clear filters">
                         <i class="bi bi-x-lg"></i>
                     </a>
                 </div>
@@ -158,7 +158,7 @@
                             {% if rack.depth %}
                                 {{ rack.depth }}
                                 {% if rack.revnums == 1 %}
-                                    <br><span class="badge bg-info badge-sm" title="Units numbered from top to bottom">
+                                    <br><span class="badge bg-info badge-sm" data-bs-toggle="tooltip" data-bs-title="Units numbered from top to bottom">
                                         <i class="bi bi-arrow-down"></i> Rev
                                     </span>
                                 {% endif %}
@@ -171,15 +171,18 @@
                                 {% if user and user.usertype >= 1 %}
                                 <a href="/racks/{{ rack.id }}/edit"
                                    class="btn btn-outline-secondary btn-sm"
-                                   title="Edit Rack">
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="top"
+                                   data-bs-title="Edit Rack">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 {% if user.isAdmin() %}
                                 <button type="button"
                                         class="btn btn-outline-danger btn-sm"
-                                        title="Delete Rack"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal{{ rack.id }}">
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-bs-title="Delete Rack"
+                                        onclick="new bootstrap.Modal('#deleteModal{{ rack.id }}').show()">
                                     <i class="bi bi-trash"></i>
                                 </button>
                                 {% endif %}

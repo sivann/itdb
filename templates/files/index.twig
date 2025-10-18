@@ -118,7 +118,7 @@
                                 <span class="text-muted">-</span>
                             {% endif %}
                             {% if file.file_exists == false %}
-                                <br><span class="badge bg-danger" title="File missing from disk">
+                                <br><span class="badge bg-danger" data-bs-toggle="tooltip" data-bs-title="File missing from disk">
                                     <i class="bi bi-exclamation-triangle"></i> Missing
                                 </span>
                             {% endif %}
@@ -143,21 +143,29 @@
                             {% endif %}
                         </td>
                         <td>
-                            <div class="d-flex gap-1">
+                            <div class="d-flex gap-1 flex-wrap">
                                 {% if file.items_count > 0 %}
-                                    <span class="badge bg-primary" title="Items">{{ file.items_count }} I</span>
+                                    <span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-title="{{ file.items_count }} item(s)">
+                                        <i class="bi bi-box"></i> {{ file.items_count }}
+                                    </span>
                                 {% endif %}
                                 {% if file.software_count > 0 %}
-                                    <span class="badge bg-success" title="Software">{{ file.software_count }} S</span>
+                                    <span class="badge bg-success" data-bs-toggle="tooltip" data-bs-title="{{ file.software_count }} software">
+                                        <i class="bi bi-disc"></i> {{ file.software_count }}
+                                    </span>
                                 {% endif %}
                                 {% if file.contracts_count > 0 %}
-                                    <span class="badge bg-warning" title="Contracts">{{ file.contracts_count }} C</span>
+                                    <span class="badge bg-warning text-dark" data-bs-toggle="tooltip" data-bs-title="{{ file.contracts_count }} contract(s)">
+                                        <i class="bi bi-file-text"></i> {{ file.contracts_count }}
+                                    </span>
                                 {% endif %}
                                 {% if file.invoices_count > 0 %}
-                                    <span class="badge bg-info" title="Invoices">{{ file.invoices_count }} Inv</span>
+                                    <span class="badge bg-info text-dark" data-bs-toggle="tooltip" data-bs-title="{{ file.invoices_count }} invoice(s)">
+                                        <i class="bi bi-receipt"></i> {{ file.invoices_count }}
+                                    </span>
                                 {% endif %}
                                 {% if file.items_count == 0 and file.software_count == 0 and file.contracts_count == 0 and file.invoices_count == 0 %}
-                                    <span class="text-muted">None</span>
+                                    <span class="text-muted">-</span>
                                 {% endif %}
                             </div>
                         </td>
@@ -165,28 +173,34 @@
                             <div class="btn-group btn-group-sm">
                                 <button type="button"
                                         class="btn btn-outline-primary btn-sm"
-                                        title="Preview File"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#previewModal{{ file.id }}">
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-bs-title="Preview File"
+                                        onclick="document.querySelector('#previewModal{{ file.id }}').querySelector('[data-bs-toggle=modal]')?.click() || new bootstrap.Modal('#previewModal{{ file.id }}').show()">
                                     <i class="bi bi-eye"></i>
                                 </button>
                                 <a href="/files/{{ file.id }}/download"
                                    class="btn btn-outline-success btn-sm"
-                                   title="Download">
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="top"
+                                   data-bs-title="Download">
                                     <i class="bi bi-download"></i>
                                 </a>
                                 {% if user and user.usertype >= 1 %}
                                 <a href="/files/{{ file.id }}/edit"
                                    class="btn btn-outline-secondary btn-sm"
-                                   title="Edit File">
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="top"
+                                   data-bs-title="Edit File">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 {% if user.isAdmin() %}
                                 <button type="button"
                                         class="btn btn-outline-danger btn-sm"
-                                        title="Delete File"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal{{ file.id }}">
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-bs-title="Delete File"
+                                        onclick="new bootstrap.Modal('#deleteModal{{ file.id }}').show()">
                                     <i class="bi bi-trash"></i>
                                 </button>
                                 {% endif %}

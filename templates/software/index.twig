@@ -162,16 +162,19 @@
                                 {% if user and user.usertype >= 1 %}
                                 <a href="/software/{{ item.id }}/edit"
                                    class="btn btn-outline-primary btn-sm"
-                                   title="Edit Software">
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="top"
+                                   data-bs-title="Edit Software">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 {% endif %}
                                 {% if user and user.isAdmin() %}
                                 <button type="button"
                                         class="btn btn-outline-danger btn-sm"
-                                        title="Delete Software"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal{{ item.id }}">
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-bs-title="Delete Software"
+                                        onclick="new bootstrap.Modal('#deleteModal{{ item.id }}').show()">
                                     <i class="bi bi-trash"></i>
                                 </button>
                                 {% endif %}

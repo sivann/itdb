@@ -23,7 +23,11 @@ class FileModel
     public function find(int $id): ?array
     {
         $file = $this->db->fetchOne(
-            "SELECT f.*, ft.typedesc as type_name
+            "SELECT f.*, ft.typedesc as type_name,
+                    (SELECT COUNT(*) FROM item2file WHERE fileid = f.id) as items_count,
+                    (SELECT COUNT(*) FROM software2file WHERE fileid = f.id) as software_count,
+                    (SELECT COUNT(*) FROM contract2file WHERE fileid = f.id) as contracts_count,
+                    (SELECT COUNT(*) FROM invoice2file WHERE fileid = f.id) as invoices_count
              FROM files f
              LEFT JOIN filetypes ft ON f.type = ft.id
              WHERE f.id = :id",
@@ -83,9 +87,13 @@ class FileModel
         $totalSql = "SELECT COUNT(*) FROM files f LEFT JOIN filetypes ft ON f.type = ft.id $whereClause";
         $total = (int) $this->db->fetchColumn($totalSql, $params);
 
-        // Get files with limit and enhanced data
+        // Get files with limit and enhanced data including association counts
         $sql = "
-            SELECT f.*, ft.typedesc as type_name
+            SELECT f.*, ft.typedesc as type_name,
+                   (SELECT COUNT(*) FROM item2file WHERE fileid = f.id) as items_count,
+                   (SELECT COUNT(*) FROM software2file WHERE fileid = f.id) as software_count,
+                   (SELECT COUNT(*) FROM contract2file WHERE fileid = f.id) as contracts_count,
+                   (SELECT COUNT(*) FROM invoice2file WHERE fileid = f.id) as invoices_count
             FROM files f
             LEFT JOIN filetypes ft ON f.type = ft.id
             $whereClause

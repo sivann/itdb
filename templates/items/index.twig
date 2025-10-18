@@ -188,16 +188,19 @@
                                 {% if user and ((user.usertype >= 1 and item.userid == user.id) or user.isAdmin()) %}
                                 <a href="/items/{{ item.id }}/edit"
                                    class="btn btn-outline-secondary btn-sm"
-                                   title="Edit Item">
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="top"
+                                   data-bs-title="Edit Item">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 {% endif %}
                                 {% if user and user.isAdmin() %}
                                 <button type="button"
                                         class="btn btn-outline-danger btn-sm"
-                                        title="Delete Item"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal{{ item.id }}">
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-bs-title="Delete Item"
+                                        onclick="new bootstrap.Modal('#deleteModal{{ item.id }}').show()">
                                     <i class="bi bi-trash"></i>
                                 </button>
                                 {% endif %}

@@ -58,22 +58,17 @@
                     <tr>
                         <td>{{ type.id }}</td>
                         <td>
-                            <a href="/admin/file-types/{{ type.id }}" class="text-decoration-none">
-                                {{ type.typedesc }}
-                            </a>
+                            {{ type.name }}
                         </td>
                         <td>
                             <span class="badge bg-secondary">{{ type.files_count ?? 0 }}</span>
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="/admin/file-types/{{ type.id }}" class="btn btn-outline-primary">
-                                    <i class="bi bi-eye"></i>
-                                </a>
                                 <a href="/admin/file-types/{{ type.id }}/edit" class="btn btn-outline-secondary">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <button type="button" class="btn btn-outline-danger" onclick="confirmDelete({{ type.id }}, '{{ type.typedesc }}')">
+                                <button type="button" class="btn btn-outline-danger" onclick="confirmDelete({{ type.id }}, '{{ type.name }}')">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>

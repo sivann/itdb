@@ -22,7 +22,7 @@ class FileTypeModel
 
     public function getAll(): array
     {
-        return $this->db->fetchAll("SELECT * FROM file_types ORDER BY description");
+        return $this->db->fetchAll("SELECT * FROM file_types ORDER BY name");
     }
 
     public function getPaginated(int $page = 1, int $perPage = 20, array $filters = []): array
@@ -32,7 +32,7 @@ class FileTypeModel
         $params = [];
 
         if (!empty($filters['search'])) {
-            $whereConditions[] = "typedesc LIKE :search";
+            $whereConditions[] = "name LIKE :search";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
@@ -41,7 +41,7 @@ class FileTypeModel
         $totalSql = "SELECT COUNT(*) FROM file_types $whereClause";
         $total = (int) $this->db->fetchColumn($totalSql, $params);
 
-        $sql = "SELECT * FROM file_types $whereClause ORDER BY description LIMIT :limit OFFSET :offset";
+        $sql = "SELECT ft.*, (SELECT COUNT(*) FROM files f WHERE f.file_type_id = ft.id) as files_count FROM file_types ft $whereClause ORDER BY name LIMIT :limit OFFSET :offset";
         $params['limit'] = $perPage;
         $params['offset'] = $offset;
 
@@ -58,15 +58,15 @@ class FileTypeModel
 
     public function create(array $data): int
     {
-        return $this->db->insert('filetypes', [
-            'typedesc' => $data['typedesc']
+        return $this->db->insert('file_types', [
+            'name' => $data['name']
         ]);
     }
 
     public function update(int $id, array $data): bool
     {
-        $rowsAffected = $this->db->update('filetypes', [
-            'typedesc' => $data['typedesc']
+        $rowsAffected = $this->db->update('file_types', [
+            'name' => $data['name']
         ], ['id' => $id]);
         return $rowsAffected > 0;
     }
@@ -78,7 +78,7 @@ class FileTypeModel
             throw new \Exception("Cannot delete file type: " . implode(', ', $canDelete['references']));
         }
 
-        $rowsAffected = $this->db->delete('filetypes', ['id' => $id]);
+        $rowsAffected = $this->db->delete('file_types', ['id' => $id]);
         return $rowsAffected > 0;
     }
 
@@ -87,7 +87,7 @@ class FileTypeModel
         $references = [];
 
         $fileCount = (int) $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM files WHERE type = :id",
+            "SELECT COUNT(*) FROM files WHERE file_type_id = :id",
             ['id' => $id]
         );
 

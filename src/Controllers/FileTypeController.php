@@ -54,28 +54,7 @@ class FileTypeController extends BaseController
         ]);
     }
 
-    public function show(Request $request, Response $response, array $args): Response
-    {
-        $user = $this->authService->getCurrentUser();
 
-        if (!$user || !$user->isAdmin()) {
-            $this->addFlashMessage('error', 'Access denied. Admin privileges required.');
-            return $this->redirectToRoute($request, $response, 'items.index');
-        }
-
-        $id = (int) $args['id'];
-        $fileType = $this->fileTypeModel->find($id);
-
-        if (!$fileType) {
-            $this->addFlashMessage('error', 'File type not found.');
-            return $this->redirectToRoute($request, $response, 'admin.file-types.index');
-        }
-
-        return $this->render($response, 'admin/file-types/show.twig', [
-            'file_type' => $fileType,
-            'user' => $user,
-        ]);
-    }
 
     public function create(Request $request, Response $response): Response
     {
@@ -121,7 +100,7 @@ class FileTypeController extends BaseController
             $this->logUserAction('file_type_created', ['type_id' => $fileTypeId, 'name' => $data['name']]);
             $this->addFlashMessage('success', 'File type created successfully.');
 
-            return $this->redirectToRoute($request, $response, 'admin.file-types.show', ['id' => $fileTypeId]);
+            return $this->redirectToRoute($request, $response, 'admin.file-types.index');
 
         } catch (\Exception $e) {
             $this->logger->error('Failed to create file type', [
@@ -194,7 +173,7 @@ class FileTypeController extends BaseController
             $this->logUserAction('file_type_updated', ['type_id' => $id, 'name' => $data['name']]);
             $this->addFlashMessage('success', 'File type updated successfully.');
 
-            return $this->redirectToRoute($request, $response, 'admin.file-types.show', ['id' => $id]);
+            return $this->redirectToRoute($request, $response, 'admin.file-types.index');
 
         } catch (\Exception $e) {
             $this->logger->error('Failed to update file type', [

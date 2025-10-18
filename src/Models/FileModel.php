@@ -23,7 +23,7 @@ class FileModel
     public function find(int $id): ?array
     {
         $file = $this->db->fetchOne(
-            "SELECT f.*, ft.name as type_name,
+            "SELECT f.*, ft.name as type_name, f.file_type_id,
                     (SELECT COUNT(*) FROM items_files WHERE file_id = f.id) as items_count,
                     (SELECT COUNT(*) FROM software_files WHERE file_id = f.id) as software_count,
                     (SELECT COUNT(*) FROM contracts_files WHERE file_id = f.id) as contracts_count,

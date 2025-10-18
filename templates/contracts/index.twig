@@ -158,25 +158,25 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if contract.totalcost %}
-                                <span class="fw-bold">${{ contract.totalcost|number_format(2) }}</span>
+                            {% if contract.total_cost %}
+                                <span class="fw-bold">${{ contract.total_cost|number_format(2) }}</span>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if contract.startdate %}
+                            {% if contract.start_date %}
                                 <small class="text-muted">
-                                    {{ contract.startdate|date('M j, Y') }}
+                                    {{ contract.start_date|date('M j, Y') }}
                                 </small>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if contract.currentenddate %}
+                            {% if contract.end_date %}
                                 <small class="text-muted">
-                                    {{ contract.currentenddate|date('M j, Y') }}
+                                    {{ contract.end_date|date('M j, Y') }}
                                 </small>
                                 {% if contract.status.days <= 30 and contract.status.status == 'active' %}
                                     <br><small class="text-warning">{{ contract.status.days }} days left</small>

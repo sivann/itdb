@@ -335,7 +335,7 @@ class FileController extends BaseController
             $typeInt = !empty($data['type']) ? (int) $data['type'] : null;
 
             $updateData = [
-                'type' => $typeInt, // Integer foreign key to filetypes.id
+                'file_type_id' => $typeInt, // Integer foreign key to file_types.id
                 'title' => $this->sanitizeString($data['title']),
                 'description' => $this->sanitizeString($data['description'] ?? ''),
             ];
@@ -587,10 +587,10 @@ class FileController extends BaseController
         }
 
         try {
-            $fileType = $this->db->fetchOne("SELECT description FROM file_types WHERE id = :id", ['id' => $fileTypeId]);
+            $fileType = $this->db->fetchOne("SELECT name FROM file_types WHERE id = :id", ['id' => $fileTypeId]);
             if ($fileType) {
-                // Sanitize the type description for filename use
-                return strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $fileType['typedesc']));
+                // Sanitize the type name for filename use
+                return strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $fileType['name']));
             }
         } catch (\Exception $e) {
             // If lookup fails, use 'other'
@@ -609,9 +609,9 @@ class FileController extends BaseController
         }
 
         try {
-            $fileType = $this->db->fetchOne("SELECT description FROM file_types WHERE id = :id", ['id' => $fileTypeId]);
+            $fileType = $this->db->fetchOne("SELECT name FROM file_types WHERE id = :id", ['id' => $fileTypeId]);
             if ($fileType) {
-                return $fileType['typedesc'];
+                return $fileType['name'];
             }
         } catch (\Exception $e) {
             // If lookup fails, return null

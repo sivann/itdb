@@ -40,8 +40,14 @@
                 </select>
             </div>
             <div class="col-md-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-outline-primary me-2">Search</button>
-                <a href="/agents" class="btn btn-outline-secondary">Clear</a>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Filter
+                    </button>
+                    <a href="/agents" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Clear filters">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+                </div>
             </div>
         </form>
     </div>

@@ -57,12 +57,14 @@
 
             <!-- Action Buttons -->
             <div class="col-md-3 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary me-2">
-                    <i class="bi bi-search"></i> Filter
-                </button>
-                <a href="/invoices" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-clockwise"></i>
-                </a>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Filter
+                    </button>
+                    <a href="/invoices" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Clear filters">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+                </div>
             </div>
         </form>
     </div>

@@ -279,4 +279,75 @@ class FileModel
         $filePath = $this->getFilePath($file);
         return file_exists($filePath) ? filesize($filePath) : 0;
     }
+
+    /**
+     * Get items associated with this file
+     */
+    public function getAssociatedItems(int $fileId): array
+    {
+        $sql = "
+            SELECT i.id, i.label, i.model, i.function,
+                   it.name as type_name, st.statusdesc as status_name
+            FROM item2file i2f
+            INNER JOIN items i ON i2f.itemid = i.id
+            LEFT JOIN itemtypes it ON i.itemtypeid = it.id
+            LEFT JOIN statustypes st ON i.status = st.id
+            WHERE i2f.fileid = :file_id
+            ORDER BY i.label
+        ";
+        return $this->db->fetchAll($sql, ['file_id' => $fileId]);
+    }
+
+    /**
+     * Get software associated with this file
+     */
+    public function getAssociatedSoftware(int $fileId): array
+    {
+        $sql = "
+            SELECT s.id, s.stitle as title, s.sversion as version,
+                   s.slicensetype as license_type,
+                   a.title as manufacturer_name
+            FROM software2file s2f
+            INNER JOIN software s ON s2f.softwareid = s.id
+            LEFT JOIN agents a ON s.manufacturerid = a.id
+            WHERE s2f.fileid = :file_id
+            ORDER BY s.stitle
+        ";
+        return $this->db->fetchAll($sql, ['file_id' => $fileId]);
+    }
+
+    /**
+     * Get contracts associated with this file
+     */
+    public function getAssociatedContracts(int $fileId): array
+    {
+        $sql = "
+            SELECT c.id, c.title, c.number, c.startdate, c.currentenddate as enddate,
+                   ct.name as contract_type_name
+            FROM contract2file c2f
+            INNER JOIN contracts c ON c2f.contractid = c.id
+            LEFT JOIN contracttypes ct ON c.type = ct.id
+            WHERE c2f.fileid = :file_id
+            ORDER BY c.title
+        ";
+        return $this->db->fetchAll($sql, ['file_id' => $fileId]);
+    }
+
+    /**
+     * Get invoices associated with this file
+     */
+    public function getAssociatedInvoices(int $fileId): array
+    {
+        $sql = "
+            SELECT inv.id, inv.date as invdate, inv.totalcost as amount, inv.comments,
+                   v.title as vendor_name, b.title as buyer_name
+            FROM invoice2file inv2f
+            INNER JOIN invoices inv ON inv2f.invoiceid = inv.id
+            LEFT JOIN agents v ON inv.vendorid = v.id
+            LEFT JOIN agents b ON inv.buyerid = b.id
+            WHERE inv2f.fileid = :file_id
+            ORDER BY inv.date DESC
+        ";
+        return $this->db->fetchAll($sql, ['file_id' => $fileId]);
+    }
 }

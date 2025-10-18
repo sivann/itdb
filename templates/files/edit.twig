@@ -564,6 +564,161 @@
 
                         <hr>
 
+                        <!-- Current Associations Display -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">Current Associations</h6>
+
+                                {% if associated_items|length > 0 or associated_software|length > 0 or associated_contracts|length > 0 or associated_invoices|length > 0 %}
+
+                                    <!-- Associated Items -->
+                                    {% if associated_items|length > 0 %}
+                                    <div class="mb-4">
+                                        <h6 class="text-primary mb-2">
+                                            <i class="bi bi-box"></i> Items ({{ associated_items|length }})
+                                        </h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-hover">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Label</th>
+                                                        <th>Model</th>
+                                                        <th>Function</th>
+                                                        <th>Type</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for item in associated_items %}
+                                                    <tr>
+                                                        <td><a href="/items/{{ item.id }}/edit">#{{ item.id }}</a></td>
+                                                        <td><a href="/items/{{ item.id }}/edit">{{ item.label }}</a></td>
+                                                        <td>{{ item.model|default('-') }}</td>
+                                                        <td>{{ item.function|default('-') }}</td>
+                                                        <td>{{ item.type_name|default('-') }}</td>
+                                                        <td>{{ item.status_name|default('-') }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Associated Software -->
+                                    {% if associated_software|length > 0 %}
+                                    <div class="mb-4">
+                                        <h6 class="text-success mb-2">
+                                            <i class="bi bi-disc"></i> Software ({{ associated_software|length }})
+                                        </h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-hover">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Title</th>
+                                                        <th>Version</th>
+                                                        <th>License Type</th>
+                                                        <th>Manufacturer</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for sw in associated_software %}
+                                                    <tr>
+                                                        <td><a href="/software/{{ sw.id }}/edit">#{{ sw.id }}</a></td>
+                                                        <td><a href="/software/{{ sw.id }}/edit">{{ sw.title }}</a></td>
+                                                        <td>{{ sw.version|default('-') }}</td>
+                                                        <td>{{ sw.license_type|default('-') }}</td>
+                                                        <td>{{ sw.manufacturer_name|default('-') }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Associated Contracts -->
+                                    {% if associated_contracts|length > 0 %}
+                                    <div class="mb-4">
+                                        <h6 class="text-warning mb-2">
+                                            <i class="bi bi-file-text"></i> Contracts ({{ associated_contracts|length }})
+                                        </h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-hover">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Title</th>
+                                                        <th>Number</th>
+                                                        <th>Type</th>
+                                                        <th>Start Date</th>
+                                                        <th>End Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for contract in associated_contracts %}
+                                                    <tr>
+                                                        <td><a href="/contracts/{{ contract.id }}/edit">#{{ contract.id }}</a></td>
+                                                        <td><a href="/contracts/{{ contract.id }}/edit">{{ contract.title|default('-') }}</a></td>
+                                                        <td>{{ contract.number|default('-') }}</td>
+                                                        <td>{{ contract.contract_type_name|default('-') }}</td>
+                                                        <td>{{ contract.startdate ? contract.startdate|date('Y-m-d') : '-' }}</td>
+                                                        <td>{{ contract.enddate ? contract.enddate|date('Y-m-d') : '-' }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Associated Invoices -->
+                                    {% if associated_invoices|length > 0 %}
+                                    <div class="mb-4">
+                                        <h6 class="text-info mb-2">
+                                            <i class="bi bi-receipt"></i> Invoices ({{ associated_invoices|length }})
+                                        </h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-hover">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Vendor</th>
+                                                        <th>Buyer</th>
+                                                        <th>Date</th>
+                                                        <th>Amount</th>
+                                                        <th>Comments</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for invoice in associated_invoices %}
+                                                    <tr>
+                                                        <td><a href="/invoices/{{ invoice.id }}/edit">#{{ invoice.id }}</a></td>
+                                                        <td>{{ invoice.vendor_name|default('-') }}</td>
+                                                        <td>{{ invoice.buyer_name|default('-') }}</td>
+                                                        <td>{{ invoice.invdate ? invoice.invdate|date('Y-m-d') : '-' }}</td>
+                                                        <td>{{ invoice.amount ? (invoice.amount ~ ' ' ~ currency) : '-' }}</td>
+                                                        <td>{{ invoice.comments|default('-') }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                {% else %}
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle"></i> This file is not currently associated with any items, software, contracts, or invoices.
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <hr>
+
                         <!-- Association Management -->
                         <div class="row">
                             <div class="col-12">

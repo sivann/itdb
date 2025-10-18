@@ -283,11 +283,21 @@ class FileController extends BaseController
         // Get file types for dropdown
         $fileTypes = $this->fileModel->getFileTypes();
 
+        // Get associated records
+        $associatedItems = $this->fileModel->getAssociatedItems($id);
+        $associatedSoftware = $this->fileModel->getAssociatedSoftware($id);
+        $associatedContracts = $this->fileModel->getAssociatedContracts($id);
+        $associatedInvoices = $this->fileModel->getAssociatedInvoices($id);
+
         return $this->render($response, 'files/edit.twig', [
             'mode' => 'edit',
             'user' => $user,
             'file' => $file,
             'file_types' => $fileTypes,
+            'associated_items' => $associatedItems,
+            'associated_software' => $associatedSoftware,
+            'associated_contracts' => $associatedContracts,
+            'associated_invoices' => $associatedInvoices,
             'csrf_token' => $this->generateCsrfToken(),
         ]);
     }

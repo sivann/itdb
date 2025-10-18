@@ -166,59 +166,16 @@ class ItemModel
      */
     public function create(array $data): int
     {
-        $sql = "
-            INSERT INTO items (
-                function, item_type_id, status_id, manufacturer_id, model, serial_number, serial_number_2, serial_number_3, label,
-                comments, maintenance_info, user_id, location_id, location_area_id, rack_id,
-                rack_position, rack_position_depth, purchase_date, warranty_months, warranty_info, ipv4_address, ipv6_address, mac_addresses, dns_name, 
-                hard_drive, cpu, ram, cpu_count, cores_per_cpu, port_count, is_rack_mountable, is_part, origin, purchase_price, remote_admin_ip, panel_port, switch_port, switch_id, certificate_of_authenticity, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ";
+        $columns = array_keys($data);
+        $placeholders = array_map(fn($col) => ":$col", $columns);
 
-        $params = [
-            $data['function'] ?? null,
-            $data['item_type_id'] ?? null,
-            $data['status_id'] ?? 1,
-            $data['manufacturer_id'] ?? null,
-            $data['model'] ?? null,
-            $data['serial_number'] ?? null,
-            $data['serial_number_2'] ?? null,
-            $data['serial_number_3'] ?? null,
-            $data['label'] ?? null,
-            $data['comments'] ?? null,
-            $data['maintenance_info'] ?? null,
-            $data['user_id'] ?? null,
-            $data['location_id'] ?? null,
-            $data['location_area_id'] ?? null,
-            $data['rack_id'] ?? null,
-            $data['rack_position'] ?? null,
-            $data['rack_position_depth'] ?? null,
-            $data['purchase_date'] ?? null,
-            $data['warranty_months'] ?? null,
-            $data['warranty_info'] ?? null,
-            $data['ipv4_address'] ?? null,
-            $data['ipv6_address'] ?? null,
-            $data['mac_addresses'] ?? null,
-            $data['dns_name'] ?? null,
-            $data['hard_drive'] ?? null,
-            $data['cpu'] ?? null,
-            $data['ram'] ?? null,
-            $data['cpu_count'] ?? null,
-            $data['cores_per_cpu'] ?? null,
-            $data['port_count'] ?? null,
-            $data['is_rack_mountable'] ?? null,
-            $data['is_part'] ?? null,
-            $data['origin'] ?? null,
-            $data['purchase_price'] ?? null,
-            $data['remote_admin_ip'] ?? null,
-            $data['panel_port'] ?? null,
-            $data['switch_port'] ?? null,
-            $data['switch_id'] ?? null,
-            $data['certificate_of_authenticity'] ?? null,
-            time()
-        ];
+        $sql = sprintf(
+            "INSERT INTO items (%s) VALUES (%s)",
+            implode(', ', $columns),
+            implode(', ', $placeholders)
+        );
 
-        $this->db->execute($sql, $params);
+        $this->db->execute($sql, $data);
         return $this->db->getLastInsertId();
     }
 
@@ -227,60 +184,15 @@ class ItemModel
      */
     public function update(int $id, array $data): bool
     {
-        $sql = "
-            UPDATE items SET
-                function = ?, item_type_id = ?, status_id = ?, manufacturer_id = ?, model = ?, serial_number = ?, serial_number_2 = ?, serial_number_3 = ?, label = ?,
-                comments = ?, maintenance_info = ?, user_id = ?, location_id = ?, location_area_id = ?, rack_id = ?,
-                rack_position = ?, rack_position_depth = ?, purchase_date = ?, warranty_months = ?, warranty_info = ?, ipv4_address = ?, ipv6_address = ?, mac_addresses = ?, dns_name = ?,
-                hard_drive = ?, cpu = ?, ram = ?, cpu_count = ?, cores_per_cpu = ?, port_count = ?, is_rack_mountable = ?, is_part = ?, origin = ?, purchase_price = ?, remote_admin_ip = ?, panel_port = ?, switch_port = ?, switch_id = ?, certificate_of_authenticity = ?, updated_at = ?
-            WHERE id = ?
-        ";
+        $setParts = array_map(fn($col) => "$col = :$col", array_keys($data));
 
-        $params = [
-            $data['function'] ?? null,
-            $data['item_type_id'] ?? null,
-            $data['status_id'] ?? 1,
-            $data['manufacturer_id'] ?? null,
-            $data['model'] ?? null,
-            $data['serial_number'] ?? null,
-            $data['serial_number_2'] ?? null,
-            $data['serial_number_3'] ?? null,
-            $data['label'] ?? null,
-            $data['comments'] ?? null,
-            $data['maintenance_info'] ?? null,
-            $data['user_id'] ?? null,
-            $data['location_id'] ?? null,
-            $data['location_area_id'] ?? null,
-            $data['rack_id'] ?? null,
-            $data['rack_position'] ?? null,
-            $data['rack_position_depth'] ?? null,
-            $data['purchase_date'] ?? null,
-            $data['warranty_months'] ?? null,
-            $data['warranty_info'] ?? null,
-            $data['ipv4_address'] ?? null,
-            $data['ipv6_address'] ?? null,
-            $data['mac_addresses'] ?? null,
-            $data['dns_name'] ?? null,
-            $data['hard_drive'] ?? null,
-            $data['cpu'] ?? null,
-            $data['ram'] ?? null,
-            $data['cpu_count'] ?? null,
-            $data['cores_per_cpu'] ?? null,
-            $data['port_count'] ?? null,
-            $data['is_rack_mountable'] ?? null,
-            $data['is_part'] ?? null,
-            $data['origin'] ?? null,
-            $data['purchase_price'] ?? null,
-            $data['remote_admin_ip'] ?? null,
-            $data['panel_port'] ?? null,
-            $data['switch_port'] ?? null,
-            $data['switch_id'] ?? null,
-            $data['certificate_of_authenticity'] ?? null,
-            time(),
-            $id
-        ];
+        $sql = sprintf(
+            "UPDATE items SET %s WHERE id = :id",
+            implode(', ', $setParts)
+        );
 
-        $stmt = $this->db->execute($sql, $params);
+        $data['id'] = $id;
+        $stmt = $this->db->execute($sql, $data);
         return $stmt->rowCount() > 0;
     }
 

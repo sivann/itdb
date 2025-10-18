@@ -414,9 +414,14 @@
                                     <div class="form-text">
                                         Status:
                                         {% if file.file_exists %}
-                                            <span class="text-success">Available</span>
+                                            <span class="text-success"><i class="bi bi-check-circle"></i> Available</span>
                                         {% else %}
-                                            <span class="text-danger">Missing from disk</span>
+                                            <span class="text-danger">
+                                                <i class="bi bi-exclamation-triangle"></i> Missing from disk
+                                                {% if file.file_path %}
+                                                    <br><small>Expected at: <code>{{ file.file_path }}</code></small>
+                                                {% endif %}
+                                            </span>
                                         {% endif %}
                                     </div>
                                 </div>

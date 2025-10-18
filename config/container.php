@@ -223,8 +223,15 @@ return function (ContainerBuilder $containerBuilder) {
             return new \App\Models\InvoiceModel($c->get(DatabaseManager::class));
         },
 
+        \App\Models\SettingsModel::class => function (ContainerInterface $c) {
+            return new \App\Models\SettingsModel($c->get(DatabaseManager::class));
+        },
+
         \App\Models\FileModel::class => function (ContainerInterface $c) {
-            return new \App\Models\FileModel($c->get(DatabaseManager::class));
+            return new \App\Models\FileModel(
+                $c->get(DatabaseManager::class),
+                $c->get(\App\Models\SettingsModel::class)
+            );
         },
 
         \App\Models\UserModel::class => function (ContainerInterface $c) {

@@ -9,10 +9,12 @@ use App\Services\DatabaseManager;
 class FileModel
 {
     private DatabaseManager $db;
+    private SettingsModel $settings;
 
-    public function __construct(DatabaseManager $db)
+    public function __construct(DatabaseManager $db, SettingsModel $settings)
     {
         $this->db = $db;
+        $this->settings = $settings;
     }
 
     /**
@@ -249,7 +251,7 @@ class FileModel
      */
     public function getFilePath(array $file): string
     {
-        $uploadPath = $_ENV['UPLOAD_PATH'] ?? './public/storage/uploads';
+        $uploadPath = $this->settings->getFileStoragePath();
         return $uploadPath . '/' . $file['fname'];
     }
 

@@ -17,18 +17,21 @@ class FileController extends BaseController
     private AuthService $authService;
     private FileModel $fileModel;
     private DatabaseManager $db;
+    private \App\Models\SettingsModel $settings;
 
     public function __construct(
         LoggerInterface $logger,
         Environment $twig,
         AuthService $authService,
         FileModel $fileModel,
-        DatabaseManager $db
+        DatabaseManager $db,
+        \App\Models\SettingsModel $settings
     ) {
         parent::__construct($logger, $twig);
         $this->authService = $authService;
         $this->fileModel = $fileModel;
         $this->db = $db;
+        $this->settings = $settings;
     }
 
     /**
@@ -201,7 +204,7 @@ class FileController extends BaseController
             );
 
             // Create upload directory if it doesn't exist
-            $uploadPath = $_ENV['UPLOAD_PATH'] ?? './public/storage/uploads';
+            $uploadPath = $this->settings->getFileStoragePath();
             if (!is_dir($uploadPath)) {
                 mkdir($uploadPath, 0755, true);
             }
@@ -397,7 +400,7 @@ class FileController extends BaseController
 
         $filePath = $this->fileModel->getFilePath($file);
         if (!$this->fileModel->fileExists($file)) {
-            $this->addFlashMessage('error', 'File does not exist on disk');
+            $this->addFlashMessage('error', "File does not exist on disk. Expected at: {$filePath}");
             return $this->redirectToRoute($request, $response, 'files.edit', ['id' => $id]);
         }
 
@@ -431,12 +434,16 @@ class FileController extends BaseController
 
         $file = $this->fileModel->find($id);
         if (!$file) {
-            return $response->withStatus(404)->getBody()->write('File not found');
+            $response = $response->withStatus(404);
+            $response->getBody()->write('File not found in database');
+            return $response;
         }
 
         $filePath = $this->fileModel->getFilePath($file);
         if (!$this->fileModel->fileExists($file)) {
-            return $response->withStatus(404)->getBody()->write('File not found on disk');
+            $response = $response->withStatus(404);
+            $response->getBody()->write("File not found on disk: Expected at {$filePath}");
+            return $response;
         }
 
         try {
@@ -455,7 +462,9 @@ class FileController extends BaseController
 
         } catch (\Exception $e) {
             $this->logger->error('Error previewing file', ['error' => $e->getMessage()]);
-            return $response->withStatus(500)->getBody()->write('Error loading file');
+            $response = $response->withStatus(500);
+            $response->getBody()->write("Error loading file: {$e->getMessage()}");
+            return $response;
         }
     }
 

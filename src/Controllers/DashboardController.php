@@ -23,6 +23,7 @@ class DashboardController extends BaseController
     private ItemModel $itemModel;
     private SoftwareModel $softwareModel;
     private ContractModel $contractModel;
+    private \App\Models\SettingsModel $settings;
 
     public function __construct(
         LoggerInterface $logger,
@@ -32,7 +33,8 @@ class DashboardController extends BaseController
         DatabaseManager $db,
         ItemModel $itemModel,
         SoftwareModel $softwareModel,
-        ContractModel $contractModel
+        ContractModel $contractModel,
+        \App\Models\SettingsModel $settings
     ) {
         parent::__construct($logger, $twig);
         $this->authService = $authService;
@@ -41,6 +43,7 @@ class DashboardController extends BaseController
         $this->itemModel = $itemModel;
         $this->softwareModel = $softwareModel;
         $this->contractModel = $contractModel;
+        $this->settings = $settings;
     }
 
     /**
@@ -180,7 +183,7 @@ class DashboardController extends BaseController
     private function getStorageStats(): array
     {
         try {
-            $uploadPath = $_ENV['UPLOAD_PATH'] ?? './storage/uploads';
+            $uploadPath = $this->settings->getFileStoragePath();
 
             if (!is_dir($uploadPath)) {
                 return ['files' => 0, 'size' => 0];

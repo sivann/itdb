@@ -111,11 +111,16 @@
                         </td>
                         <td>
                             {% if file.file_size and file.file_size > 0 %}
-                                <span class="text-muted">{{ file.file_size }} bytes</span>
+                                <span class="text-muted">{{ file.file_size|format_bytes }}</span>
                             {% elseif file.filesize and file.filesize > 0 %}
-                                <span class="text-muted">{{ file.filesize }} bytes</span>
+                                <span class="text-muted">{{ file.filesize|format_bytes }}</span>
                             {% else %}
                                 <span class="text-muted">-</span>
+                            {% endif %}
+                            {% if file.file_exists == false %}
+                                <br><span class="badge bg-danger" title="File missing from disk">
+                                    <i class="bi bi-exclamation-triangle"></i> Missing
+                                </span>
                             {% endif %}
                         </td>
                         <td>

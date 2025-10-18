@@ -10,7 +10,7 @@ class LocationArea extends BaseModel
     protected $table = 'locareas';
 
     protected $fillable = [
-        'locationid',
+        'location_id',
         'areaname',
         'description'
     ];
@@ -21,7 +21,7 @@ class LocationArea extends BaseModel
     public function getValidationRules(): array
     {
         return [
-            'locationid' => 'required|integer|exists:locations,id',
+            'location_id' => 'required|integer|exists:locations,id',
             'areaname' => 'required|string|max:100',
             'description' => 'string'
         ];

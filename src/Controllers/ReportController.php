@@ -77,7 +77,7 @@ class ReportController extends BaseController
         }
 
         if (!empty($queryParams['location'])) {
-            $query->where('locationid', $queryParams['location']);
+            $query->where('location_id', $queryParams['location']);
         }
 
         $items = $query->orderBy('id', 'desc')->get();
@@ -121,8 +121,8 @@ class ReportController extends BaseController
         // Get utilization statistics
         $utilizationStats = [
             'total_items' => Item::count(),
-            'assigned_items' => Item::whereNotNull('userid')->count(),
-            'unassigned_items' => Item::whereNull('userid')->count(),
+            'assigned_items' => Item::whereNotNull('user_id')->count(),
+            'unassigned_items' => Item::whereNull('user_id')->count(),
             'active_items' => Item::where('status', 1)->count(),
             'inactive_items' => Item::where('status', 0)->count(),
         ];

@@ -114,7 +114,7 @@ $contracttypes=$sth->fetchAll(PDO::FETCH_ASSOC);
   else 
     echo "\n\n<tr><td title='ID:$dbid'>-</td>";
 
-    if ($contracttypes[$i]['hassoftware']) $s="selected"; else $s="";
+    if ($contracttypes[$i]['has_software']) $s="selected"; else $s="";
 
     echo "<td><input size=30 type='text' name='descs[]' ".
     "value=\"".$contracttypes[$i]['name']."\">\n".
@@ -138,7 +138,7 @@ $contracttypes=$sth->fetchAll(PDO::FETCH_ASSOC);
   ?>
       <div style='float:left;'>
       <form method=post name='subtypeaddfrm'>
-      <table class='brdr'> <!-- subtypes -->
+      <table class='brdr'> <!-- contract_subtype_ids -->
       <tr><th>&nbsp;</th><th>ID</th><th><?php te("Subtypes of  type ");?><?php echo $subtypesof?> <?php te("Names");?></th></tr>
       <?php 
       $subtypesof=$_POST['subtypesof'];

@@ -14,7 +14,7 @@ class User extends BaseModel
         'userdesc',
         'pass',
         'usertype',
-        'cookie1'
+        'remember_token'
     ];
 
 
@@ -66,7 +66,7 @@ class User extends BaseModel
      */
     public function verifyCookieToken(string $token): bool
     {
-        return $this->cookie1 === $token;
+        return $this->remember_token === $token;
     }
 
     /**

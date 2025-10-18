@@ -28,7 +28,7 @@ echo "<pre>";
     echo "will move {$r['fname']} to $invoicefn\n";
     $ret=rename ($uploaddir.$r['fname'],$uploaddir.$invoicefn);
     if ($ret) {
-	$sql="UPDATE invoices set fname='$invoicefn'  WHERE id='{$r['id']}'";
+	$sql="UPDATE invoices set filename_stored='$invoicefn'  WHERE id='{$r['id']}'";
         db_exec($dbh,$sql);
     }
     else

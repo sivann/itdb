@@ -2,15 +2,15 @@
 //serve XHR to display a list of software with a particular TAG id (on edittag page)
 require("../init.php");
 
-$tagid=$_GET['tagid'];
-if (!is_numeric($tagid)) {
-  echo "invalid tagid ($tagid)";exit;
+$tag_id=$_GET['tagid'];
+if (!is_numeric($tag_id)) {
+  echo "invalid tag_id ($tag_id)";exit;
 }
 
-$sql="SELECT software.id, agents.title || ' ' || software.stitle ||' '|| software.sversion || ' [ID:' || software.id || ']' as txt ".
+$sql="SELECT software.id, agents.title || ' ' || software.title ||' '|| software.version || ' [ID:' || software.id || ']' as txt ".
      "FROM agents,software WHERE ".
-     " agents.id=software.manufacturerid AND ".
-     " software.id IN (SELECT softwareid from tag2software where tagid = '$tagid')";
+     " agents.id=software.manufacturer_id AND ".
+     " software.id IN (SELECT software_id from tag2software where tag_id = '$tagid')";
 
 $sthi=db_execute($dbh,$sql);
 $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
@@ -22,7 +22,7 @@ for ($i=0;$i<$nsoftware;$i++) {
   $instsoftware.="\t<div style='margin:0;padding:0;background-color:$bcolor'>".
 	      "<a href='?action=editsoftware&amp;id={$ri[$i]['id']}'>$x</a></div>\n";
 }
-echo "<h3>".t('Associated Software')." (".tagid2name($tagid).")</h3>";
+echo "<h3>".t('Associated Software')." (".tagid2name($tag_id).")</h3>";
 echo $instsoftware;
 
 ?>

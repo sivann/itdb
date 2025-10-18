@@ -21,7 +21,7 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 
 
-$sql="SELECT * FROM filetypes order by typedesc";
+$sql="SELECT * FROM file_types order by description";
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $filetypes[$r['id']]=$r;
 
@@ -114,7 +114,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the file
 
   }//new file
   else {
-    $sql="UPDATE files set title='$title', type='$type', uploader='{$userdata[0]['username']}', uploaddate='".time()."', ".
+    $sql="UPDATE files set title='$title', type='$type', uploader='{$userdata[0]['username']}', uploaded_at='".time()."', ".
        " date='$date' WHERE id=$id";
     db_exec($dbh,$sql);
 
@@ -148,7 +148,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the file
 	  echo "<br><b>ERROR: $result</b><br>";
       }
       else {
-	$sql="UPDATE files set fname='$filefn' WHERE id=$id";
+	$sql="UPDATE files set filename_stored='$filefn' WHERE id=$id";
 	db_exec($dbh,$sql);
 
 	//delete   $oldfname;
@@ -165,31 +165,31 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the file
 
   //update item - file links 
   //remove old links for this object
-  $sql="delete from item2file where fileid=$id";
+  $sql="delete from item2file where file_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($itlnk);$i++) {
-    $sql="INSERT into item2file (fileid,itemid) values ($id,".$itlnk[$i].")";
+    $sql="INSERT into item2file (file_id,item_id) values ($id,".$itlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
   //update software - file links 
   //remove old links for this object
-  $sql="delete from software2file where fileid=$id";
+  $sql="delete from software2file where file_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($softlnk);$i++) {
-    $sql="INSERT into software2file (fileid,softwareid) values ($id,".$softlnk[$i].")";
+    $sql="INSERT into software2file (file_id,software_id) values ($id,".$softlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
   //update contract - file links 
   //remove old links for this object
-  $sql="delete from contract2file where fileid=$id";
+  $sql="delete from contract2file where file_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($contrlnk);$i++) {
-    $sql="INSERT into contract2file (fileid,contractid) values ($id,".$contrlnk[$i].")";
+    $sql="INSERT into contract2file (file_id,contract_id) values ($id,".$contrlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
@@ -291,10 +291,10 @@ else
     <div  id='items' class='relatedlist'><?php te("ITEMS");?></div>
     <?php 
     if (is_numeric($id)) {
-      $sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.typedesc || ', ID:' || items.id || ']' as txt ".
+      $sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.description || ', ID:' || items.id || ']' as txt ".
            "FROM agents,items,itemtypes,item2file WHERE ".
-           " agents.id=items.manufacturerid AND items.itemtypeid=itemtypes.id AND ".
-           " item2file.itemid=items.id AND item2file.fileid=$id";
+           " agents.id=items.manufacturer_id AND items.item_type_id=itemtypes.id AND ".
+           " item2file.item_id=items.id AND item2file.file_id=$id";
       $sthi=db_execute($dbh,$sql);
       $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
       $nitems=count($ri);
@@ -314,7 +314,7 @@ else
     if (is_numeric($id)) {
       //print a table row
       $sql="SELECT invoices.id, invoices.number, invoices.date FROM invoices,invoice2file ".
-           " WHERE invoice2file.invoiceid=invoices.id AND invoice2file.fileid=$id";
+           " WHERE invoice2file.invoice_id=invoices.id AND invoice2file.file_id=$id";
       $sthi=db_execute($dbh,$sql);
       $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
       $nitems=count($ri);
@@ -335,9 +335,9 @@ else
     if (is_numeric($id)) {
       //print a table row
 
-      $sql="SELECT software.id, agents.title || ' ' || software.stitle ||' '|| software.sversion || ' [ID:' || software.id || ']' as txt ".
+      $sql="SELECT software.id, agents.title || ' ' || software.title ||' '|| software.version || ' [ID:' || software.id || ']' as txt ".
            "FROM agents,software,software2file WHERE ".
-           " agents.id=software.manufacturerid AND software2file.softwareid=software.id AND software2file.fileid='$id'";
+           " agents.id=software.manufacturer_id AND software2file.software_id=software.id AND software2file.file_id='$id'";
       $sthi=db_execute($dbh,$sql);
       $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
       $nitems=count($ri);
@@ -358,14 +358,14 @@ else
     <?php 
     if (is_numeric($id)) {
       //print a table row
-      $sql="SELECT contracts.id, type,title,number,startdate,currentenddate FROM contracts,contract2file ".
-           " WHERE contract2file.contractid=contracts.id AND contract2file.fileid=$id";
+      $sql="SELECT contracts.id, type,title,number,start_date,end_date FROM contracts,contract2file ".
+           " WHERE contract2file.contract_id=contracts.id AND contract2file.file_id=$id";
       $sthi=db_execute($dbh,$sql);
       $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
       $nitems=count($ri);
       $institems="";
       for ($i=0;$i<$nitems;$i++) {
-        $d=date($dateparam,$ri[$i]['startdate'])."-".date($dateparam,$ri[$i]['currentenddate']);
+        $d=date($dateparam,$ri[$i]['start_date'])."-".date($dateparam,$ri[$i]['end_date']);
         $x=($i+1).":  (".$ri[$i]['title']." ".$ri[$i]['number'].") - $d [ID:{$ri[$i]['id']}]";
         if ($i%2) $bcolor="#D9E3F6"; else $bcolor="#ffffff";
         $institems.="\t<div style='margin:0;padding:0;background-color:$bcolor'>".
@@ -442,16 +442,16 @@ else
 	  if (isset($id) && strlen($id)) { //item links
 	    //fill in tt with linked items
 	    $sql="INSERT INTO tt SELECT id from items WHERE id IN ".
-		  "(SELECT itemid FROM item2file WHERE fileid=$id )";
+		  "(SELECT item_id FROM items_files WHERE file_id=$id )";
 	    db_exec($dbh,$sql);
 	  }
 
 	  //linked items
-	  $sql="SELECT items.id,manufacturerid,model,itemtypeid,sn || ' '||sn2 ||' ' || sn3 as sn,label,dnsname,users.username AS username, ".
-               " typedesc, agents.title AS agtitle ".
-	       " FROM items,users,itemtypes,agents WHERE itemtypes.id=items.itemtypeid AND agents.id=items.manufacturerid AND  ".
-               " userid=users.id AND items.id in (SELECT * from tt) ".
-	       " order by itemtypeid,items.id DESC, manufacturerid,model, dnsname";
+	  $sql="SELECT items.id,manufacturer_id,model,item_type_id,sn || ' '||sn2 ||' ' || sn3 as sn,label,dns_name,users.username AS username, ".
+               " description, agents.title AS agtitle ".
+	       " FROM items,users,itemtypes,agents WHERE itemtypes.id=items.item_type_id AND agents.id=items.manufacturer_id AND  ".
+               " user_id=users.id AND items.id in (SELECT * from tt) ".
+	       " order by item_type_id,items.id DESC, manufacturer_id,model, dns_name";
 	  $sth=db_execute($dbh,$sql);
 
 	  while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
@@ -464,17 +464,17 @@ else
 	     "<td class='bld'>".$r['typedesc']."</td>".
 	     "<td class='bld'>".$r['agtitle']."&nbsp;".$r['model']."</td>".
 	     "<td class='bld'>".$r['label']."&nbsp;</td>".
-	     "<td class='bld'>".$r['dnsname']."&nbsp;</td>".
+	     "<td class='bld'>".$r['dns_name']."&nbsp;</td>".
 	     "<td class='bld'>".$r['username']."&nbsp;</td>".
 	     "<td class='bld'>".$r['sn']."&nbsp;</td></tr>\n";
 	  }
 
 	  //not linked items
-	  $sql="SELECT items.id,manufacturerid,model,itemtypeid, sn || ' '||sn2 ||' ' || sn3 as sn,label,dnsname, users.username AS username, ".
-               " typedesc,agents.title AS agtitle ".
-	       " FROM items,users,itemtypes,agents WHERE itemtypes.id=items.itemtypeid AND userid=users.id AND agents.id=items.manufacturerid ".
+	  $sql="SELECT items.id,manufacturer_id,model,item_type_id, serial_number || ' '||sn2 ||' ' || sn3 as sn,label,dns_name, users.username AS username, ".
+               " description,agents.title AS agtitle ".
+	       " FROM items,users,itemtypes,agents WHERE itemtypes.id=items.item_type_id AND user_id=users.id AND agents.id=items.manufacturer_id ".
                " AND items.id not in (SELECT * FROM tt) ".
-	       " order by itemtypeid,items.id DESC, manufacturerid, model, dnsname";
+	       " order by item_type_id,items.id DESC, manufacturer_id, model, dns_name";
 
 	  $sth=db_execute($dbh,$sql);
 
@@ -487,7 +487,7 @@ else
 	     "<td>".$r['typedesc']."</td>".
 	     "<td>".$r['agtitle']."&nbsp;".$r['model']."</td>".
 	     "<td>".$r['label']."&nbsp;</td>".
-	     "<td >".$r['dnsname']."&nbsp;</td>".
+	     "<td >".$r['dns_name']."&nbsp;</td>".
 	     "<td >".$r['username']."&nbsp;</td>".
 	     "<td >".$r['sn']."&nbsp;</td></tr>\n";
 	  }
@@ -535,15 +535,15 @@ else
 	  if (isset($id) && strlen($id)) { //software links
 	    //fill in tt with linked software
 	    $sql="INSERT INTO tt SELECT id from software WHERE id IN ".
-		  "(SELECT softwareid FROM software2file WHERE fileid=$id )";
+		  "(SELECT software_id FROM software_files WHERE file_id=$id )";
 	    db_exec($dbh,$sql);
 	  }
 
 	  //linked software
-	  $sql="SELECT software.id,manufacturerid,stitle,sversion, agents.title AS agtitle ".
-	       " FROM software,agents WHERE agents.id=software.manufacturerid AND  ".
+	  $sql="SELECT software.id,manufacturer_id,stitle,sversion, agents.title AS agtitle ".
+	       " FROM software,agents WHERE agents.id=software.manufacturer_id AND  ".
                " software.id in (SELECT * from tt) ".
-	       " order by agtitle, software.id DESC, stitle";
+	       " order by agtitle, software.id DESC, title";
 	  $sth=db_execute($dbh,$sql);
 
 	  while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
@@ -558,10 +558,10 @@ else
 	  }
 
 	  //not linked software
-	  $sql="SELECT software.id,manufacturerid,stitle,sversion, agents.title AS agtitle ".
-	       " FROM software,agents WHERE agents.id=software.manufacturerid AND  ".
+	  $sql="SELECT software.id,manufacturer_id,stitle,sversion, agents.title AS agtitle ".
+	       " FROM software,agents WHERE agents.id=software.manufacturer_id AND  ".
                " software.id not in (SELECT * from tt) ".
-	       " order by agtitle, software.id DESC, stitle";
+	       " order by agtitle, software.id DESC, title";
 	  $sth=db_execute($dbh,$sql);
 
 	  while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
@@ -619,13 +619,13 @@ else
 	  if (isset($id) && strlen($id)) { //contracts links
 	    //fill in tt with linked contracts
 	    $sql="INSERT INTO tt SELECT id from contracts WHERE id IN ".
-		  "(SELECT contractid FROM contract2file WHERE fileid=$id )";
+		  "(SELECT contract_id FROM contracts_files WHERE file_id=$id )";
 	    db_exec($dbh,$sql);
 	  }
 
 	  //linked contract
-	  $sql="SELECT contracts.id,contractorid,contracts.title as ctitle, agents.title AS agtitle ".
-	       " FROM contracts,agents WHERE agents.id=contracts.contractorid AND  ".
+	  $sql="SELECT contracts.id,contractor_id,contracts.title as ctitle, agents.title AS agtitle ".
+	       " FROM contracts,agents WHERE agents.id=contracts.contractor_id AND  ".
                " contracts.id in (SELECT * from tt) ".
 	       " order by agtitle, contracts.id DESC, ctitle";
 	  $sth=db_execute($dbh,$sql);
@@ -642,8 +642,8 @@ else
 	  }
 
 	  //not linked contracts
-	  $sql="SELECT contracts.id,contractorid,contracts.title AS ctitle, agents.title AS agtitle ".
-	       " FROM contracts,agents WHERE agents.id=contracts.contractorid AND  ".
+	  $sql="SELECT contracts.id,contractor_id,contracts.title AS ctitle, agents.title AS agtitle ".
+	       " FROM contracts,agents WHERE agents.id=contracts.contractor_id AND  ".
                " contracts.id not in (SELECT * from tt) ".
 	       " order by agtitle, contracts.id DESC, ctitle";
 	  $sth=db_execute($dbh,$sql);

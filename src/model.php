@@ -2,7 +2,7 @@
 /********************************* DB QUERIES IN FUNCTION FORM ****************************************/
 
 
-function getstatusidofitem($itemid,$dbh)
+function getstatusidofitem($item_id,$dbh)
 {
   $sql="SELECT status FROM items WHERE items.id='$itemid'";
   $sth=db_execute($dbh,$sql);
@@ -31,7 +31,7 @@ function attrofstatus($statusid,$dbh)
 
 function ftype2str($typeid,$dbh) {
 
-  $sql="SELECT typedesc from filetypes WHERE ".
+  $sql="SELECT description from filetypes WHERE ".
         " id='$typeid'";
   $sth=db_execute($dbh,$sql);
   $typestr=$sth->fetch(PDO::FETCH_ASSOC);
@@ -42,41 +42,41 @@ function ftype2str($typeid,$dbh) {
 
 }
 //returns files array from invoice id
-function invid2files($invid,$dbh) {
+function invid2files($invoice_id,$dbh) {
   $sql="SELECT files.* from files,invoice2file WHERE ".
-        " invoice2file.invoiceid='$invid' AND ".
-        " invoice2file.fileid=files.id";
+        " invoice2file.invoice_id='$invid' AND ".
+        " invoice2file.file_id=files.id";
   $sth=db_execute($dbh,$sql);
   $fn=$sth->fetchAll(PDO::FETCH_ASSOC);
   return $fn;
 }
 
 //returns files array from software id
-function softid2files($softid,$dbh) {
+function softid2files($software_id,$dbh) {
   $sql="SELECT files.* from files,software2file WHERE ".
-        " software2file.softwareid='$softid' AND ".
-        " software2file.fileid=files.id";
+        " software2file.software_id='$softid' AND ".
+        " software2file.file_id=files.id";
   $sth=db_execute($dbh,$sql);
   $fn=$sth->fetchAll(PDO::FETCH_ASSOC);
   return $fn;
 }
 
-function softid2invoicefiles($softid,$dbh) {
+function softid2invoicefiles($software_id,$dbh) {
   $sql="SELECT files.* from files,invoice2file,soft2inv WHERE ".
-      " soft2inv.softid='$softid' AND ".
-      " invoice2file.invoiceid=soft2inv.invid AND ".
-      " invoice2file.fileid=files.id";
+      " soft2inv.software_id='$softid' AND ".
+      " invoice2file.invoice_id=soft2inv.invoice_id AND ".
+      " invoice2file.file_id=files.id";
   $sthi=db_execute($dbh,$sql);
   $f=$sthi->fetchAll(PDO::FETCH_ASSOC);
   return $f;
 }
 
 
-function softid2contractfiles($softid,$dbh) {
+function softid2contractfiles($software_id,$dbh) {
     $sql="SELECT files.* from files,contract2file,contract2soft WHERE ".
-        " contract2soft.softid='$softid' AND ".
-        " contract2file.contractid=contract2soft.contractid AND ".
-        " contract2file.fileid=files.id";
+        " contract2soft.software_id='$softid' AND ".
+        " contract2file.contract_id=contract2soft.contract_id AND ".
+        " contract2file.file_id=files.id";
     $sthi=db_execute($dbh,$sql);
     $f=$sthi->fetchAll(PDO::FETCH_ASSOC);
     return $f;
@@ -86,30 +86,30 @@ function softid2contractfiles($softid,$dbh) {
 
 
 //returns files array from item id
-function itemid2files($itemid,$dbh) {
+function itemid2files($item_id,$dbh) {
   $sql="SELECT files.* from files,item2file WHERE ".
-        " item2file.itemid='$itemid' AND ".
-        " item2file.fileid=files.id";
+        " item2file.item_id='$itemid' AND ".
+        " item2file.file_id=files.id";
   $sth=db_execute($dbh,$sql);
   $fn=$sth->fetchAll(PDO::FETCH_ASSOC);
   return $fn;
 }
 
-function itemid2invoicefiles($itemid,$dbh) {
+function itemid2invoicefiles($item_id,$dbh) {
     $sql="SELECT files.* from files,invoice2file,item2inv WHERE ".
-        " item2inv.itemid='$itemid' AND ".
-        " invoice2file.invoiceid=item2inv.invid AND ".
-        " invoice2file.fileid=files.id";
+        " item2inv.item_id='$itemid' AND ".
+        " invoice2file.invoice_id=item2inv.invoice_id AND ".
+        " invoice2file.file_id=files.id";
     $sthi=db_execute($dbh,$sql);
     $f=$sthi->fetchAll(PDO::FETCH_ASSOC);
     return $f;
 }
 
-function itemid2contractfiles($itemid,$dbh) {
+function itemid2contractfiles($item_id,$dbh) {
     $sql="SELECT files.* from files,contract2file,contract2item WHERE ".
-        " contract2item.itemid='$itemid' AND ".
-        " contract2file.contractid=contract2item.contractid AND ".
-        " contract2file.fileid=files.id";
+        " contract2item.item_id='$itemid' AND ".
+        " contract2file.contract_id=contract2item.contract_id AND ".
+        " contract2file.file_id=files.id";
     $sthi=db_execute($dbh,$sql);
     $f=$sthi->fetchAll(PDO::FETCH_ASSOC);
     return $f;
@@ -118,10 +118,10 @@ function itemid2contractfiles($itemid,$dbh) {
 
 
 //returns files array from contract id
-function contractid2files($contractid,$dbh) {
+function contractid2files($contract_id,$dbh) {
   $sql="SELECT files.* from files,contract2file WHERE ".
-        " contract2file.contractid='$contractid' AND ".
-        " contract2file.fileid=files.id";
+        " contract2file.contract_id='$contractid' AND ".
+        " contract2file.file_id=files.id";
   $sth=db_execute($dbh,$sql);
   $fn=$sth->fetchAll(PDO::FETCH_ASSOC);
   return $fn;
@@ -129,15 +129,15 @@ function contractid2files($contractid,$dbh) {
 
 
 
-//returns number of connected items/racks with a locationid
+//returns number of connected items/racks with a location_id
 function countloclinks($locid,$dbh) {
-  $sql="SELECT count(id) count from items where locationid=$locid";
+  $sql="SELECT count(id) count from items where location_id=$locid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $count+=$r['count'];
 
-  $sql="SELECT count(id) count from racks where locationid=$locid";
+  $sql="SELECT count(id) count from racks where location_id=$locid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -147,14 +147,14 @@ function countloclinks($locid,$dbh) {
 }
 
 //returns number of connected items/racks with a location areaid
-function countlocarealinks($locareaid,$dbh) {
-  $sql="SELECT count(id) count from items where locareaid=$locareaid";
+function countlocarealinks($location_area_id,$dbh) {
+  $sql="SELECT count(id) count from items where location_area_id=$location_area_id";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $count+=$r['count'];
 
-  $sql="SELECT count(id) count from racks where locareaid=$locareaid";
+  $sql="SELECT count(id) count from racks where location_area_id=$location_area_id";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -163,28 +163,28 @@ function countlocarealinks($locareaid,$dbh) {
   return $count;
 }
 
-function countfileidlinks($fileid,$dbh) {
+function countfileidlinks($file_id,$dbh) {
   $count=0;
 
-  $sql="SELECT count(softwareid) count from software2file where fileid=$fileid";
+  $sql="SELECT count(software_id) count from software2file where file_id=$fileid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $count+=$r['count'];
 
-  $sql="SELECT count(*) count from invoice2file where fileid=$fileid";
+  $sql="SELECT count(*) count from invoice2file where file_id=$fileid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $count+=$r['count'];
 
-  $sql="SELECT count(*) count from item2file where fileid=$fileid";
+  $sql="SELECT count(*) count from item2file where file_id=$fileid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   $count+=$r['count'];
 
-  $sql="SELECT count(*) count from contract2file where fileid=$fileid";
+  $sql="SELECT count(*) count from contract2file where file_id=$fileid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -194,10 +194,10 @@ function countfileidlinks($fileid,$dbh) {
 }
 
 
-function delfile($fileid,$dbh) {
+function delfile($file_id,$dbh) {
 global $uploaddir;
   //delete inter-item links
-  $sql="SELECT fname from files where id=$fileid";
+  $sql="SELECT filename_stored from files where id=$fileid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -207,36 +207,36 @@ global $uploaddir;
   $sql="DELETE from files where id=$fileid";
   $sth=db_exec($dbh,$sql);
 
-  $sql="DELETE from invoice2file where fileid=$fileid";
+  $sql="DELETE from invoice2file where file_id=$fileid";
   $sth=db_exec($dbh,$sql);
 
-  $sql="DELETE from software2file where fileid=$fileid";
+  $sql="DELETE from software2file where file_id=$fileid";
   $sth=db_exec($dbh,$sql);
 
-  $sql="DELETE from item2file where fileid=$fileid";
+  $sql="DELETE from item2file where file_id=$fileid";
   $sth=db_exec($dbh,$sql);
 
-  $sql="DELETE from contract2file where fileid=$fileid";
+  $sql="DELETE from contract2file where file_id=$fileid";
   $sth=db_exec($dbh,$sql);
 
   if (strlen($fname))
     unlink($uploaddir.$fname);
 }
 
-function countitemtags($tagid) {
+function countitemtags($tag_id) {
   global $dbh;
 
-  $sql="SELECT count(itemid) count from tag2item where tagid=$tagid";
+  $sql="SELECT count(item_id) count from tag2item where tag_id=$tagid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   return $r['count'];
 }
 
-function countsoftwaretags($tagid) {
+function countsoftwaretags($tag_id) {
   global $dbh;
 
-  $sql="SELECT count(softwareid) count from tag2software where tagid=$tagid";
+  $sql="SELECT count(software_id) count from tag2software where tag_id=$tagid";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -274,7 +274,7 @@ function showtags($type="item",$id,$lnk=1) {
   // id: item id
   global $dbh;
 
-  $sql="SELECT name FROM tags,tag2$type WHERE tags.id=tag2$type.tagid AND tag2$type.{$type}id='$id' ORDER BY name";
+  $sql="SELECT name FROM tags,tag2$type WHERE tags.id=tag2$type.tag_id AND tag2$type.{$type}id='$id' ORDER BY name";
   $sth = $dbh->query($sql);
   $tags=array();
   while ($r=$sth->fetch(PDO::FETCH_ASSOC)) array_push($tags,$r['name']);
@@ -301,42 +301,42 @@ function showtags($type="item",$id,$lnk=1) {
 }
 
 
-function countitemsinrack($rackid) {
+function countitemsinrack($rack_id) {
   global $dbh;
 
-  $sql="SELECT count(id) count from items where rackid=$rackid";
+  $sql="SELECT count(id) count from items where rack_id=$rack_id";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
   return $r['count'];
 }
 
-function delrack($rackid,$dbh) {
-  $sql="UPDATE items set rackid='' where rackid='$rackid'";
+function delrack($rack_id,$dbh) {
+  $sql="UPDATE items set rack_id='' where rack_id='$rack_id'";
   $sth=db_exec($dbh,$sql);
 
-  $sql="DELETE from racks where id='$rackid'";
+  $sql="DELETE from racks where id='$rack_id'";
   $sth=db_exec($dbh,$sql);
 
 }
 
-function deluser($userid,$dbh) {
-  if ($userid==1) {
+function deluser($user_id,$dbh) {
+  if ($user_id==1) {
     echo "Cannot remove user with ID=1";
     return;
   }
-  $sql="UPDATE items set userid=1 where userid='$userid'";
+  $sql="UPDATE items set user_id=1 where user_id='$user_id'";
   $sth=db_exec($dbh,$sql);
 
-  $sql="DELETE from users where id='$userid'";
+  $sql="DELETE from users where id='$user_id'";
   $sth=db_exec($dbh,$sql);
 
 }
 
-function countitemsofuser($userid) {
+function countitemsofuser($user_id) {
   global $dbh;
 
-  $sql="SELECT count(id) count from items where userid='$userid'";
+  $sql="SELECT count(id) count from items where user_id='$user_id'";
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
@@ -373,8 +373,8 @@ global $dateparam,$scriptname,$action,$id,$uploaddirwww,$dbh;
   return $flnk;
 
 }
-function calcremdays($purchdate_ts,$warrantymonths) {
-	if (!strlen($warrantymonths))
+function calcremdays($purchdate_ts,$warranty_months) {
+	if (!strlen($warranty_months))
 		return array('string'=>'','days'=>'');
 
 	if (!is_numeric($purchdate_ts))
@@ -384,7 +384,7 @@ function calcremdays($purchdate_ts,$warrantymonths) {
 	$pdate = new DateTime();
 	$pdate->setTimestamp(intval($purchdate_ts));
 
-	$d_interval=new DateInterval("P{$warrantymonths}M");
+	$d_interval=new DateInterval("P{$warranty_months}M");
 	$d_interval->invert=0;
 	$enddate=$pdate->add($d_interval);
 
@@ -495,7 +495,7 @@ function gethwmanufacturerbyname ($name) {
 }
 
 
-function getuseridbyname ($name) {
+function getuser_idbyname ($name) {
   global $dbh;
 
 	$name=trim(strtolower($name));
@@ -529,7 +529,7 @@ function getagentidbyname ($name) {
         return $r['id'];
 }
 
-function getitemtypeidbyname ($name) {
+function getitem_type_idbyname ($name) {
   global $dbh;
 
 	$name=trim(strtolower($name));
@@ -577,9 +577,9 @@ function getlocidsbynames ($locname,$areaname) {
 	//if (!strlen($locname) || (!strlen($areaname))) return array(-1,-1);
 
 	if (strlen($areaname)) {
-        $sql="SELECT locations.id as locid, locareas.id as locareaid from locations,locareas ".
-        " WHERE locareas.locationid=locations.id AND ".
-        " LOWER(locareas.areaname) =:areaname AND ".
+        $sql="SELECT locations.id as locid, locareas.id as location_area_id from locations,locareas ".
+        " WHERE locareas.location_id=locations.id AND ".
+        " LOWER(locareas.name) =:areaname AND ".
         " LOWER(locations.name) =:locname";
         $sth=db_execute2($dbh,$sql,array('areaname'=>$areaname,'locname'=>$locname));
         $r=$sth->fetch(PDO::FETCH_BOTH);
@@ -588,7 +588,7 @@ function getlocidsbynames ($locname,$areaname) {
         else return $r;
     }
     else {
-        $sql="SELECT locations.id as locid, locareas.id as locareaid from locations,locareas ".
+        $sql="SELECT locations.id as locid, locareas.id as location_area_id from locations,locareas ".
         " WHERE LOWER(locations.name) =:locname";
         $sth=db_execute2($dbh,$sql,array('locname'=>$locname));
         $r=$sth->fetch(PDO::FETCH_BOTH);

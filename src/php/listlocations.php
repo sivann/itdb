@@ -26,9 +26,9 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 /* Spiros Ioannou 2010 , sivann _at_ gmail.com */
 
-//$sql="SELECT locations.*,locareas.areaname FROM locations LEFT OUTER JOIN locareas ON locareas.locationid=locations.id";
-$sql="SELECT locations.*,group_concat(locareas.areaname,', ') AS areaname FROM locations ".
-     " LEFT OUTER JOIN locareas ON locareas.locationid=locations.id GROUP BY locations.id ";
+//$sql="SELECT locations.*,locareas.name FROM locations LEFT OUTER JOIN location_areas ON locareas.location_id=locations.id";
+$sql="SELECT locations.*,group_concat(locareas.name,', ') AS areaname FROM locations ".
+     " LEFT OUTER JOIN location_areas ON locareas.location_id=locations.id GROUP BY locations.id ";
 $sth=db_execute($dbh,$sql);
 ?>
 
@@ -61,7 +61,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   echo "<td>{$r['name']}</td>\n";
   echo "<td>{$r['floor']}</td>\n";
   echo "<td>{$r['areaname']}</td>\n";
-  echo "<td>{$r['floorplanfn']}</td>\n";
+  echo "<td>{$r['floor_plan_filename']}</td>\n";
   echo "</tr>\n";
 }
 ?>

@@ -227,15 +227,15 @@ else
 
       echo "<select id='selitems' class='monospaced' name='selitems[]' multiple=multiple size='$nitems'>\n";
 
-      $sql="SELECT items.id,manufacturerid,model,status,sn,sn3,itemtypeid,label ".
+      $sql="SELECT items.id,manufacturer_id,model,status,sn,sn3,item_type_id,label ".
 	   " FROM items,itemtypes ".
-	   " WHERE items.itemtypeid=itemtypes.id ".
-	   " ORDER BY status,$orderby,itemtypes.typedesc, manufacturerid,items.id, sn, sn2, sn3";
+	   " WHERE items.item_type_id=itemtypes.id ".
+	   " ORDER BY status,$orderby,itemtypes.description, manufacturer_id,items.id, sn, sn2, sn3";
       $sth=db_execute($dbh,$sql);
 
       $pstatus=0;
       while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
-	  $idesc=$itypes[$r['itemtypeid']]['typedesc'];
+	  $idesc=$itypes[$r['item_type_id']]['typedesc'];
 	  $idesc=sprintf("%-20s",$idesc);
 	  $idesc=str_replace(" ","&nbsp;",$idesc);
 	  $id=sprintf("%04d",$r['id']);
@@ -259,7 +259,7 @@ else
 	  if (strlen($r['label']))$label="-".$r['label'];else $label="";
 
 	  echo "<option class='monospaced' $s value='{$r['id']}'>".
-	       "$id-$idesc|$status {$agents[$r['manufacturerid']]['title']}-{$r['model']}-$sn$label</option>\n";
+	       "$id-$idesc|$status {$agents[$r['manufacturer_id']]['title']}-{$r['model']}-$sn$label</option>\n";
 
 
       }

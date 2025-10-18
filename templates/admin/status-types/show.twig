@@ -1,6 +1,6 @@
 {% extends "base.twig" %}
 
-{% block title %}{{ status_type.statusdesc }} - Status Type{% endblock %}
+{% block title %}{{ status_type.name }} - Status Type{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -8,7 +8,7 @@
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
             <li class="breadcrumb-item"><a href="/admin/status-types">Status Types</a></li>
-            <li class="breadcrumb-item active">{{ status_type.statusdesc }}</li>
+            <li class="breadcrumb-item active">{{ status_type.name }}</li>
         </ol>
     </nav>
 
@@ -45,7 +45,7 @@
                         <strong>Status Description:</strong>
                     </div>
                     <div class="col-sm-9">
-                        {{ status_type.statusdesc }}
+                        {{ status_type.name }}
                     </div>
                 </div>
                 <hr>
@@ -92,7 +92,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete the status type <strong>{{ status_type.statusdesc }}</strong>?</p>
+                <p>Are you sure you want to delete the status type <strong>{{ status_type.name }}</strong>?</p>
                 <p class="text-muted small">This action cannot be undone. Make sure no items are using this status.</p>
             </div>
             <div class="modal-footer">

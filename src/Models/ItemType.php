@@ -11,7 +11,7 @@ class ItemType extends BaseModel
 
     protected $fillable = [
         'typedesc',
-        'hassoftware'
+        'has_software'
     ];
 
 
@@ -23,7 +23,7 @@ class ItemType extends BaseModel
     {
         return [
             'typedesc' => 'required|string|max:100',
-            'hassoftware' => 'boolean',
+            'has_software' => 'boolean',
         ];
     }
 }

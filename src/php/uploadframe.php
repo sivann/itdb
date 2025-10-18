@@ -73,9 +73,9 @@ if (!is_numeric($id)) {
   exit;
 }
 if ($type == "invoice")
-	$sql="SELECT * from filetypes WHERE id = 3 order by typedesc";
+	$sql="SELECT * from filetypes WHERE id = 3 order by description";
 else
-	$sql="SELECT * from filetypes WHERE id <> 3 order by typedesc";
+	$sql="SELECT * from filetypes WHERE id <> 3 order by description";
 
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $ftypes[$r['id']]=$r;

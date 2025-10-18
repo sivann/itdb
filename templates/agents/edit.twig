@@ -208,7 +208,7 @@
                     <div class="small" style="max-height: 300px; overflow-y: auto;">
                         {% for software in relationships.software %}
                             <a href="/software/{{ software.id }}" class="d-block text-decoration-none py-1">
-                                #{{ software.id }} {{ software.stitle|default('N/A') }}{% if software.sversion %} v{{ software.sversion }}{% endif %}
+                                #{{ software.id }} {{ software.title|default('N/A') }}{% if software.version %} v{{ software.version }}{% endif %}
                             </a>
                         {% endfor %}
                     </div>

@@ -13,7 +13,7 @@ function ymd2sec($d)
   global $settings;
 
   if (!strlen($d))
-    $purchasedate2="NULL";
+    $purchase_date2="NULL";
   elseif ($settings['dateformat']=="ymd"){
     $x=explode("-",$d);
     if ((count($x)==1) && strlen(trim($d))==4) { //only year
@@ -81,7 +81,7 @@ global $authstatus,$userdata, $remaddr, $dblogsize,$errorstr,$errorbt;
 
   //find user access
   $usr=$userdata[0]['username'];
-  $sqlt="SELECT usertype FROM users where username='$usr'";
+  $sqlt="SELECT user_type FROM users where username='$usr'";
   $sth=$dbh->prepare($sqlt);
   $sth->execute();
   $ut=$sth->fetch(PDO::FETCH_ASSOC);

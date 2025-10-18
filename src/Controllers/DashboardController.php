@@ -132,14 +132,14 @@ class DashboardController extends BaseController
                 ],
                 'users' => [
                     'total' => (int) $this->db->fetchColumn("SELECT COUNT(*) FROM users"),
-                    'active' => (int) $this->db->fetchColumn("SELECT COUNT(*) FROM users WHERE usertype > 0"),
+                    'active' => (int) $this->db->fetchColumn("SELECT COUNT(*) FROM users WHERE user_type > 0"),
                 ],
                 'storage' => $this->getStorageStats(),
             ];
 
             // Add contract stats
             $contractCount = (int) $this->db->fetchColumn("SELECT COUNT(*) FROM contracts");
-            $activeContracts = (int) $this->db->fetchColumn("SELECT COUNT(*) FROM contracts WHERE currentenddate > ? OR currentenddate IS NULL", [time()]);
+            $activeContracts = (int) $this->db->fetchColumn("SELECT COUNT(*) FROM contracts WHERE end_date > ? OR end_date IS NULL", [time()]);
             $stats['contracts'] = [
                 'total' => $contractCount,
                 'active' => $activeContracts,
@@ -194,7 +194,7 @@ class DashboardController extends BaseController
 
             foreach ($files as $file) {
                 if (is_file($file)) {
-                    $totalSize += filesize($file);
+                    $totalSize += file_size($file);
                 }
             }
 
@@ -347,10 +347,10 @@ class DashboardController extends BaseController
      */
     private function getRecentItems(int $limit = 10): array
     {
-        $sql = "SELECT i.*, u.username as user_name, st.statusdesc as status_name
+        $sql = "SELECT i.*, u.username as user_name, st.name as status_name
                 FROM items i
-                LEFT JOIN users u ON i.userid = u.id
-                LEFT JOIN statustypes st ON i.status = st.id
+                LEFT JOIN users u ON i.user_id = u.id
+                LEFT JOIN status_types st ON i.status_id = st.id
                 ORDER BY i.id DESC
                 LIMIT :limit";
 
@@ -371,10 +371,10 @@ class DashboardController extends BaseController
      */
     private function getUserItems(int $userId, int $limit = 10): array
     {
-        $sql = "SELECT i.*, st.statusdesc as status_name
+        $sql = "SELECT i.*, st.name as status_name
                 FROM items i
-                LEFT JOIN statustypes st ON i.status = st.id
-                WHERE i.userid = :user_id
+                LEFT JOIN status_types st ON i.status_id = st.id
+                WHERE i.user_id = :user_id
                 ORDER BY i.id DESC
                 LIMIT :limit";
 

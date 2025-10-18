@@ -161,7 +161,7 @@ class LocationController extends BaseController
             $locationId = $this->locationModel->create([
                 'name' => $this->sanitizeString($data['name']),
                 'floor' => $this->sanitizeString($data['floor'] ?? ''),
-                'floorplanfn' => $floorplanFilename,
+                'floor_plan_filename' => $floorplanFilename,
             ]);
 
             $this->logUserAction('location_created', ['location_id' => $locationId]);
@@ -207,7 +207,7 @@ class LocationController extends BaseController
         $maxUpload = $this->getMaxUploadSize();
 
         // Add has_floor_plan flag
-        $location['has_floor_plan'] = !empty($location['floorplanfn']);
+        $location['has_floor_plan'] = !empty($location['floor_plan_filename']);
 
         return $this->render($response, 'locations/edit.twig', [
             'mode' => 'edit',
@@ -262,7 +262,7 @@ class LocationController extends BaseController
         // Handle floor plan upload
         $uploadedFiles = $request->getUploadedFiles();
         $floorPlanFile = $uploadedFiles['floorplan'] ?? null;
-        $floorplanFilename = $location['floorplanfn']; // Keep existing by default
+        $floorplanFilename = $location['floor_plan_filename']; // Keep existing by default
 
         // Debug file upload
         if ($floorPlanFile) {
@@ -299,8 +299,8 @@ class LocationController extends BaseController
                 }
 
                 // Delete old floor plan if exists
-                if ($location['floorplanfn'] && file_exists($uploadPath . '/' . $location['floorplanfn'])) {
-                    unlink($uploadPath . '/' . $location['floorplanfn']);
+                if ($location['floor_plan_filename'] && file_exists($uploadPath . '/' . $location['floor_plan_filename'])) {
+                    unlink($uploadPath . '/' . $location['floor_plan_filename']);
                 }
 
                 $targetPath = $uploadPath . '/' . $floorplanFilename;
@@ -332,7 +332,7 @@ class LocationController extends BaseController
             $this->locationModel->update($id, [
                 'name' => $this->sanitizeString($data['name']),
                 'floor' => $this->sanitizeString($data['floor'] ?? ''),
-                'floorplanfn' => $floorplanFilename,
+                'floor_plan_filename' => $floorplanFilename,
             ]);
 
             $this->logUserAction('location_updated', ['location_id' => $id]);
@@ -386,9 +386,9 @@ class LocationController extends BaseController
 
         try {
             // Delete floor plan file if exists
-            if ($location['floorplanfn']) {
+            if ($location['floor_plan_filename']) {
                 $uploadPath = $_ENV['FLOORPLAN_PATH'] ?? __DIR__ . '/../../public/storage/floorplans';
-                $filePath = $uploadPath . '/' . $location['floorplanfn'];
+                $filePath = $uploadPath . '/' . $location['floor_plan_filename'];
                 if (file_exists($filePath)) {
                     unlink($filePath);
                 }
@@ -415,13 +415,13 @@ class LocationController extends BaseController
         $id = (int) $args['id'];
 
         $location = $this->locationModel->find($id);
-        if (!$location || !$location['floorplanfn']) {
+        if (!$location || !$location['floor_plan_filename']) {
             $this->addFlashMessage('error', 'Floor plan not found');
             return $this->redirectToRoute($request, $response, 'locations.show', ['id' => $id]);
         }
 
         $uploadPath = $_ENV['FLOORPLAN_PATH'] ?? __DIR__ . '/../../public/storage/floorplans';
-        $filePath = $uploadPath . '/' . $location['floorplanfn'];
+        $filePath = $uploadPath . '/' . $location['floor_plan_filename'];
 
         if (!file_exists($filePath)) {
             $this->addFlashMessage('error', 'Floor plan file does not exist');

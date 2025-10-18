@@ -22,11 +22,11 @@ class InvoiceModel
     {
         $invoice = $this->db->fetchOne(
             "SELECT i.*,
-                    vendor.title as vendor_name,
-                    buyer.title as buyer_name
+                    vendor.name as vendor_name,
+                    buyer.name as buyer_name
              FROM invoices i
-             LEFT JOIN agents vendor ON i.vendorid = vendor.id
-             LEFT JOIN agents buyer ON i.buyerid = buyer.id
+             LEFT JOIN agents vendor ON i.vendor_id = vendor.id
+             LEFT JOIN agents buyer ON i.buyer_id = buyer.id
              WHERE i.id = :id",
             ['id' => $id]
         );
@@ -50,19 +50,19 @@ class InvoiceModel
 
         // Get association counts
         $invoice['items_count'] = (int)$this->db->fetchColumn(
-            "SELECT COUNT(*) FROM item2inv WHERE invid = ?", [$id]
+            "SELECT COUNT(*) FROM items_invoices WHERE invoice_id = ?", [$id]
         );
 
         $invoice['software_count'] = (int)$this->db->fetchColumn(
-            "SELECT COUNT(*) FROM soft2inv WHERE invid = ?", [$id]
+            "SELECT COUNT(*) FROM software_invoices WHERE invoice_id = ?", [$id]
         );
 
         $invoice['contracts_count'] = (int)$this->db->fetchColumn(
-            "SELECT COUNT(*) FROM contract2inv WHERE invid = ?", [$id]
+            "SELECT COUNT(*) FROM contracts_invoices WHERE invoice_id = ?", [$id]
         );
 
         $invoice['files_count'] = (int)$this->db->fetchColumn(
-            "SELECT COUNT(*) FROM invoice2file WHERE invoiceid = ?", [$id]
+            "SELECT COUNT(*) FROM invoices_files WHERE invoice_id = ?", [$id]
         );
 
         // Get full association data
@@ -85,27 +85,27 @@ class InvoiceModel
 
         // Build WHERE conditions
         if (!empty($filters['search'])) {
-            $whereConditions[] = "(i.comments LIKE :search OR i.id LIKE :search OR vendor.title LIKE :search)";
+            $whereConditions[] = "(i.comments LIKE :search OR i.id LIKE :search OR vendor.name LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
         if (!empty($filters['vendor'])) {
-            $whereConditions[] = "i.vendorid = :vendor";
+            $whereConditions[] = "i.vendor_id = :vendor";
             $params['vendor'] = (int) $filters['vendor'];
         }
 
         if (!empty($filters['buyer'])) {
-            $whereConditions[] = "i.buyerid = :buyer";
+            $whereConditions[] = "i.buyer_id = :buyer";
             $params['buyer'] = (int) $filters['buyer'];
         }
 
         if (!empty($filters['date_from'])) {
-            $whereConditions[] = "i.date >= :date_from";
+            $whereConditions[] = "i.invoice_date >= :date_from";
             $params['date_from'] = strtotime($filters['date_from']);
         }
 
         if (!empty($filters['date_to'])) {
-            $whereConditions[] = "i.date <= :date_to";
+            $whereConditions[] = "i.invoice_date <= :date_to";
             $params['date_to'] = strtotime($filters['date_to']);
         }
 
@@ -118,13 +118,13 @@ class InvoiceModel
         // Get invoices with limit
         $sql = "
             SELECT i.*,
-                   vendor.title as vendor_name,
-                   buyer.title as buyer_name
+                   vendor.name as vendor_name,
+                   buyer.name as buyer_name
             FROM invoices i
-            LEFT JOIN agents vendor ON i.vendorid = vendor.id
-            LEFT JOIN agents buyer ON i.buyerid = buyer.id
+            LEFT JOIN agents vendor ON i.vendor_id = vendor.id
+            LEFT JOIN agents buyer ON i.buyer_id = buyer.id
             $whereClause
-            ORDER BY i.date DESC, i.id DESC
+            ORDER BY i.invoice_date DESC, i.id DESC
             LIMIT :limit OFFSET :offset
         ";
 
@@ -151,7 +151,7 @@ class InvoiceModel
     public function create(array $data): int
     {
         $allowedFields = [
-            'date', 'vendorid', 'buyerid', 'comments', 'totalcost'
+            'date', 'vendor_id', 'buyer_id', 'comments', 'total_cost'
         ];
 
         $insertData = array_intersect_key($data, array_flip($allowedFields));
@@ -165,7 +165,7 @@ class InvoiceModel
     public function update(int $id, array $data): bool
     {
         $allowedFields = [
-            'date', 'vendorid', 'buyerid', 'comments', 'totalcost'
+            'date', 'vendor_id', 'buyer_id', 'comments', 'total_cost'
         ];
 
         $updateData = array_intersect_key($data, array_flip($allowedFields));
@@ -204,7 +204,7 @@ class InvoiceModel
 
         // Check items that reference this invoice
         $itemCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM items WHERE invoiceid = :id",
+            "SELECT COUNT(*) FROM items WHERE invoice_id = :id",
             ['id' => $id]
         );
         if ($itemCount > 0) {
@@ -213,7 +213,7 @@ class InvoiceModel
 
         // Check software that reference this invoice
         $softwareCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM software WHERE invoiceid = :id",
+            "SELECT COUNT(*) FROM software WHERE invoice_id = :id",
             ['id' => $id]
         );
         if ($softwareCount > 0) {
@@ -223,7 +223,7 @@ class InvoiceModel
         // Check contracts that reference this invoice (if applicable)
         try {
             $contractCount = $this->db->fetchColumn(
-                "SELECT COUNT(*) FROM contract2inv WHERE invoiceid = :id",
+                "SELECT COUNT(*) FROM contracts_invoices WHERE invoice_id = :id",
                 ['id' => $id]
             );
             if ($contractCount > 0) {
@@ -246,13 +246,13 @@ class InvoiceModel
     {
         $sql = "
             SELECT i.*,
-                   vendor.title as vendor_name,
-                   buyer.title as buyer_name
+                   vendor.name as vendor_name,
+                   buyer.name as buyer_name
             FROM invoices i
-            LEFT JOIN agents vendor ON i.vendorid = vendor.id
-            LEFT JOIN agents buyer ON i.buyerid = buyer.id
-            WHERE i.vendorid = :vendor_id
-            ORDER BY i.date DESC
+            LEFT JOIN agents vendor ON i.vendor_id = vendor.id
+            LEFT JOIN agents buyer ON i.buyer_id = buyer.id
+            WHERE i.vendor_id = :vendor_id
+            ORDER BY i.invoice_date DESC
         ";
 
         $invoices = $this->db->fetchAll($sql, ['vendor_id' => $vendorId]);
@@ -266,7 +266,7 @@ class InvoiceModel
     {
         return [
             'total_invoices' => (int) $this->db->fetchColumn("SELECT COUNT(*) FROM invoices"),
-            'total_amount' => (float) ($this->db->fetchColumn("SELECT SUM(totalcost) FROM invoices") ?? 0),
+            'total_amount' => (float) ($this->db->fetchColumn("SELECT SUM(total_cost) FROM invoices") ?? 0),
             'this_year' => (int) $this->db->fetchColumn(
                 "SELECT COUNT(*) FROM invoices WHERE date >= :year_start",
                 ['year_start' => mktime(0, 0, 0, 1, 1, date('Y'))]
@@ -292,8 +292,8 @@ class InvoiceModel
         }
 
         // Format cost
-        if ($invoice['totalcost']) {
-            $invoice['total_formatted'] = number_format($invoice['totalcost'], 2);
+        if ($invoice['total_cost']) {
+            $invoice['total_formatted'] = number_format($invoice['total_cost'], 2);
         }
 
         return $invoice;
@@ -318,11 +318,11 @@ class InvoiceModel
                    l.name as location_name,
                    u.username
             FROM items i
-            INNER JOIN item2inv ii ON i.id = ii.itemid
-            LEFT JOIN itemtypes it ON i.itemtypeid = it.id
-            LEFT JOIN locations l ON i.locationid = l.id
-            LEFT JOIN users u ON i.userid = u.id
-            WHERE ii.invid = :invoice_id
+            INNER JOIN items_invoices ii ON i.id = ii.item_id
+            LEFT JOIN item_types it ON i.item_type_id = it.id
+            LEFT JOIN locations l ON i.location_id = l.id
+            LEFT JOIN users u ON i.user_id = u.id
+            WHERE ii.invoice_id = :invoice_id
             ORDER BY i.id DESC
         ";
 
@@ -336,12 +336,12 @@ class InvoiceModel
     {
         $sql = "
             SELECT s.*,
-                   a.title as manufacturer_name,
-                   s.slicensetype as license_type_name
+                   a.name as manufacturer_name,
+                   s.license_type as license_type_name
             FROM software s
-            INNER JOIN soft2inv si ON s.id = si.softid
-            LEFT JOIN agents a ON s.manufacturerid = a.id
-            WHERE si.invid = :invoice_id
+            INNER JOIN software_invoices si ON s.id = si.software_id
+            LEFT JOIN agents a ON s.manufacturer_id = a.id
+            WHERE si.invoice_id = :invoice_id
             ORDER BY s.id DESC
         ";
 
@@ -355,11 +355,11 @@ class InvoiceModel
     {
         $sql = "
             SELECT c.*,
-                   a.title as contractor_name
+                   a.name as contractor_name
             FROM contracts c
-            INNER JOIN contract2inv ci ON c.id = ci.contractid
-            LEFT JOIN agents a ON c.contractorid = a.id
-            WHERE ci.invid = :invoice_id
+            INNER JOIN contracts_invoices ci ON c.id = ci.contractid
+            LEFT JOIN agents a ON c.contractor_id = a.id
+            WHERE ci.invoice_id = :invoice_id
             ORDER BY c.id DESC
         ";
 
@@ -373,25 +373,25 @@ class InvoiceModel
     {
         $sql = "
             SELECT f.*,
-                   ft.typedesc as filetype_name
+                   ft.description as filetype_name
             FROM files f
-            INNER JOIN invoice2file i2f ON f.id = i2f.fileid
-            LEFT JOIN filetypes ft ON f.type = ft.id
-            WHERE i2f.invoiceid = :invoice_id
-            ORDER BY f.uploaddate DESC
+            INNER JOIN invoices_files i2f ON f.id = i2f.file_id
+            LEFT JOIN file_types ft ON f.file_type_id = ft.id
+            WHERE i2f.invoice_id = :invoice_id
+            ORDER BY f.uploaded_at DESC
         ";
 
         $files = $this->db->fetchAll($sql, ['invoice_id' => $invoiceId]);
 
         // Format dates for display
         foreach ($files as &$file) {
-            if (!empty($file['uploaddate'])) {
-                // If uploaddate is already formatted string, use it directly
+            if (!empty($file['uploaded_at'])) {
+                // If uploaded_at is already formatted string, use it directly
                 // Otherwise convert from timestamp
-                if (is_numeric($file['uploaddate'])) {
-                    $file['uploaddate_formatted'] = date('Y-m-d H:i', (int)$file['uploaddate']);
+                if (is_numeric($file['uploaded_at'])) {
+                    $file['uploaddate_formatted'] = date('Y-m-d H:i', (int)$file['uploaded_at']);
                 } else {
-                    $file['uploaddate_formatted'] = $file['uploaddate'];
+                    $file['uploaddate_formatted'] = $file['uploaded_at'];
                 }
             }
         }
@@ -405,7 +405,7 @@ class InvoiceModel
     public function addItemAssociation(int $invoiceId, int $itemId): void
     {
         try {
-            $this->db->insert('item2inv', ['invid' => $invoiceId, 'itemid' => $itemId]);
+            $this->db->insert('items_invoices', ['invoice_id' => $invoiceId, 'item_id' => $itemId]);
         } catch (\Exception $e) {
             // If already exists (duplicate key), just ignore
             if (strpos($e->getMessage(), 'UNIQUE constraint') === false &&
@@ -420,7 +420,7 @@ class InvoiceModel
      */
     public function removeItemAssociation(int $invoiceId, int $itemId): void
     {
-        $this->db->delete('item2inv', ['invid' => $invoiceId, 'itemid' => $itemId]);
+        $this->db->delete('items_invoices', ['invoice_id' => $invoiceId, 'item_id' => $itemId]);
     }
 
     /**
@@ -429,7 +429,7 @@ class InvoiceModel
     public function addSoftwareAssociation(int $invoiceId, int $softwareId): void
     {
         try {
-            $this->db->insert('soft2inv', ['invid' => $invoiceId, 'softid' => $softwareId]);
+            $this->db->insert('software_invoices', ['invoice_id' => $invoiceId, 'software_id' => $softwareId]);
         } catch (\Exception $e) {
             if (strpos($e->getMessage(), 'UNIQUE constraint') === false &&
                 strpos($e->getMessage(), 'PRIMARY KEY') === false) {
@@ -443,7 +443,7 @@ class InvoiceModel
      */
     public function removeSoftwareAssociation(int $invoiceId, int $softwareId): void
     {
-        $this->db->delete('soft2inv', ['invid' => $invoiceId, 'softid' => $softwareId]);
+        $this->db->delete('software_invoices', ['invoice_id' => $invoiceId, 'software_id' => $softwareId]);
     }
 
     /**
@@ -475,7 +475,7 @@ class InvoiceModel
     public function addFileAssociation(int $invoiceId, int $fileId): void
     {
         try {
-            $this->db->insert('invoice2file', ['invoiceid' => $invoiceId, 'fileid' => $fileId]);
+            $this->db->insert('invoices_files', ['invoice_id' => $invoiceId, 'file_id' => $fileId]);
         } catch (\Exception $e) {
             if (strpos($e->getMessage(), 'UNIQUE constraint') === false &&
                 strpos($e->getMessage(), 'PRIMARY KEY') === false) {
@@ -489,6 +489,6 @@ class InvoiceModel
      */
     public function removeFileAssociation(int $invoiceId, int $fileId): void
     {
-        $this->db->delete('invoice2file', ['invoiceid' => $invoiceId, 'fileid' => $fileId]);
+        $this->db->delete('invoices_files', ['invoice_id' => $invoiceId, 'file_id' => $fileId]);
     }
 }

@@ -52,16 +52,16 @@ if (isset($_GET['delid'])) { //if we came from a post (save) the update agent
   $sql="DELETE from agents where id=".$_GET['delid'];
   $sth=db_exec($dbh,$sql);
 
-  $sql="UPDATE items SET manufacturerid='' where manufacturerid=$delid";
+  $sql="UPDATE items SET manufacturer_id='' where manufacturer_id=$delid";
   db_exec($dbh,$sql);
 
-  $sql="UPDATE invoices SET vendorid='' WHERE vendorid=$delid";
+  $sql="UPDATE invoices SET vendor_id='' WHERE vendor_id=$delid";
   db_exec($dbh,$sql);
 
-  $sql="UPDATE invoices SET buyerid='' where buyerid=$delid";
+  $sql="UPDATE invoices SET buyer_id='' where buyer_id=$delid";
   db_exec($dbh,$sql);
 
-  $sql="UPDATE software SET manufacturerid='' where manufacturerid=$delid";
+  $sql="UPDATE software SET manufacturer_id='' where manufacturer_id=$delid";
   db_exec($dbh,$sql);
 
   echo "<script>document.location='$scriptname?action=listagents'</script>";
@@ -132,7 +132,7 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update agent
   }
   else {
     $sql="UPDATE agents SET type='$type', title='$title', ".
-       " contactinfo='$contactinfo', contacts='$contacts', urls='$urls' WHERE id=$id";
+       " contact_info='$contactinfo', contacts='$contacts', urls='$urls' WHERE id=$id";
     db_exec($dbh,$sql);
   }
 
@@ -223,13 +223,13 @@ else
   <?php 
   if (is_numeric($id)) {
     //print a table row
-    $sql="SELECT items.id, items.model, items.dnsname FROM items WHERE manufacturerid='$id'";
+    $sql="SELECT items.id, items.model, items.dns_name FROM items WHERE manufacturer_id='$id'";
     $sthi=db_execute($dbh,$sql);
     $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
     $nitems=count($ri);
     $institems="";
     for ($i=0;$i<$nitems;$i++) {
-      $x=($i+1).": ({$ri[$i]['id']}) ".$ri[$i]['model']." ".$ri[$i]['dnsname'];
+      $x=($i+1).": ({$ri[$i]['id']}) ".$ri[$i]['model']." ".$ri[$i]['dns_name'];
       if ($i%2) $bcolor="#D9E3F6"; else $bcolor="#ffffff";
       $institems.="\t<div style='margin:0;padding:0;background-color:$bcolor'>".
 		  "<a href='$scriptname?action=edititem&amp;id={$ri[$i]['id']}'>$x</a></div>\n";
@@ -242,13 +242,13 @@ else
   <?php 
   if (is_numeric($id)) {
     //print a table row
-    $sql="SELECT software.id,software.stitle  FROM software WHERE manufacturerid='$id'";
+    $sql="SELECT software.id,software.title  FROM software WHERE manufacturer_id='$id'";
     $sthi=db_execute($dbh,$sql);
     $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
     $nitems=count($ri);
     $institems="";
     for ($i=0;$i<$nitems;$i++) {
-      $x=($i+1).": ({$ri[$i]['id']}) ".$ri[$i]['stitle']." ".$ri[$i]['dnsname'];
+      $x=($i+1).": ({$ri[$i]['id']}) ".$ri[$i]['stitle']." ".$ri[$i]['dns_name'];
       if ($i%2) $bcolor="#D9E3F6"; else $bcolor="#ffffff";
       $institems.="\t<div style='margin:0;padding:0;background-color:$bcolor'>".
 		  "<a href='$scriptname?action=editsoftware&amp;id={$ri[$i]['id']}'>$x</a></div>\n";
@@ -261,7 +261,7 @@ else
   <?php 
   if (is_numeric($id)) {
     //print a table row
-    $sql="SELECT invoices.id, invoices.number, invoices.date FROM invoices WHERE vendorid='$id'";
+    $sql="SELECT invoices.id, invoices.number, invoices.date FROM invoices WHERE vendor_id='$id'";
     $sthi=db_execute($dbh,$sql);
     $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
     $nitems=count($ri);
@@ -281,7 +281,7 @@ else
   <?php 
   if (is_numeric($id)) {
     //print a table row
-    $sql="SELECT invoices.id, invoices.number, invoices.date FROM invoices WHERE buyerid='$id'";
+    $sql="SELECT invoices.id, invoices.number, invoices.date FROM invoices WHERE buyer_id='$id'";
     $sthi=db_execute($dbh,$sql);
     $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
     $nitems=count($ri);

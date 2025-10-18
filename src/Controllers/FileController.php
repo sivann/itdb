@@ -182,15 +182,14 @@ class FileController extends BaseController
 
             // Create temporary file record to get ID
             $tempFileId = $this->fileModel->create([
-                'type' => $typeInt, // Integer foreign key to filetypes.id
+                'file_type_id' => $typeInt, // Integer foreign key to file_types.id
                 'title' => $this->sanitizeString($data['title']),
-                'filename' => $originalName,
+                'filename_original' => $originalName,
                 'description' => $this->sanitizeString($data['description'] ?? ''),
-                'fname' => 'temp', // Will be updated after generating proper name
-                'filesize' => $uploadedFile->getSize(),
-                'uploader' => $user->username,
-                'uploaddate' => time(),
-                'date' => !empty($data['date']) ? strtotime($data['date']) : time(),
+                'filename_stored' => 'temp', // Will be updated after generating proper name
+                'file_size' => $uploadedFile->getSize(),
+                'uploader_username' => $user->username,
+                'uploaded_at' => date('Y-m-d H:i:s'),
             ]);
 
             // Generate proper filename: ID_filetype_randomstring.extension
@@ -214,7 +213,7 @@ class FileController extends BaseController
 
             // Update the file record with proper filename
             $this->fileModel->update($tempFileId, [
-                'fname' => $properFilename
+                'filename_stored' => $properFilename
             ]);
 
             $fileId = $tempFileId;
@@ -232,9 +231,9 @@ class FileController extends BaseController
                     'message' => 'File uploaded successfully',
                     'file' => [
                         'id' => $fileId,
-                        'fname' => $properFilename,
+                        'filename_stored' => $properFilename,
                         'title' => $this->sanitizeString($data['title']),
-                        'type' => $typeInt,
+                        'file_type_id' => $typeInt,
                     ]
                 ]);
             }
@@ -463,7 +462,7 @@ class FileController extends BaseController
             $response->getBody()->write($fileContent);
 
             // Get MIME type based on file extension
-            $extension = strtolower(pathinfo($file['fname'], PATHINFO_EXTENSION));
+            $extension = strtolower(pathinfo($file['filename_stored'], PATHINFO_EXTENSION));
             $mimeType = $this->getMimeType($extension);
 
             return $response
@@ -512,7 +511,7 @@ class FileController extends BaseController
         $results = [];
         foreach ($files as $file) {
             // Debug logging
-            $this->logger->info('File uploader debug', [
+            $this->logger->info('File uploader_username debug', [
                 'file_id' => $file['id'],
                 'uploader_raw' => $file['uploader'] ?? 'missing',
                 'uploader_type' => gettype($file['uploader']),
@@ -526,12 +525,12 @@ class FileController extends BaseController
                     $file['id'],
                     $file['title'] ?: 'Untitled File'
                 ),
-                'fname' => $file['fname'],
-                'type' => $file['type'],
+                'filename_stored' => $file['filename_stored'],
+                'file_type_id' => $file['file_type_id'],
                 'fileType' => ['name' => $file['type_name'] ?: 'Unknown'],
-                'size_formatted' => isset($file['filesize']) && $file['filesize'] ? $this->formatBytes($file['filesize']) : 'Unknown Size',
+                'size_formatted' => isset($file['file_size']) && $file['file_size'] ? $this->formatBytes($file['file_size']) : 'Unknown Size',
                 'uploader' => $this->getUploaderName($file),
-                'upload_date' => $file['uploaddate'] ? date('Y-m-d', (int)$file['uploaddate']) : null
+                'upload_date' => $file['uploaded_at'] ? date('Y-m-d', strtotime($file['uploaded_at'])) : null
             ];
         }
 
@@ -542,11 +541,11 @@ class FileController extends BaseController
     }
 
     /**
-     * Get uploader name handling mixed data (usernames and user IDs)
+     * Get uploader_username name handling mixed data (usernames and user IDs)
      */
     private function getUploaderName($file): ?string
     {
-        // Get raw uploader value from database
+        // Get raw uploader_username value from database
         $uploaderValue = $file['uploader'] ?? null;
         if (!$uploaderValue) {
             return null;
@@ -588,7 +587,7 @@ class FileController extends BaseController
         }
 
         try {
-            $fileType = $this->db->fetchOne("SELECT typedesc FROM filetypes WHERE id = :id", ['id' => $fileTypeId]);
+            $fileType = $this->db->fetchOne("SELECT description FROM file_types WHERE id = :id", ['id' => $fileTypeId]);
             if ($fileType) {
                 // Sanitize the type description for filename use
                 return strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $fileType['typedesc']));
@@ -610,7 +609,7 @@ class FileController extends BaseController
         }
 
         try {
-            $fileType = $this->db->fetchOne("SELECT typedesc FROM filetypes WHERE id = :id", ['id' => $fileTypeId]);
+            $fileType = $this->db->fetchOne("SELECT description FROM file_types WHERE id = :id", ['id' => $fileTypeId]);
             if ($fileType) {
                 return $fileType['typedesc'];
             }

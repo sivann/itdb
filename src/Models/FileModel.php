@@ -23,13 +23,13 @@ class FileModel
     public function find(int $id): ?array
     {
         $file = $this->db->fetchOne(
-            "SELECT f.*, ft.typedesc as type_name,
-                    (SELECT COUNT(*) FROM item2file WHERE fileid = f.id) as items_count,
-                    (SELECT COUNT(*) FROM software2file WHERE fileid = f.id) as software_count,
-                    (SELECT COUNT(*) FROM contract2file WHERE fileid = f.id) as contracts_count,
-                    (SELECT COUNT(*) FROM invoice2file WHERE fileid = f.id) as invoices_count
+            "SELECT f.*, ft.name as type_name,
+                    (SELECT COUNT(*) FROM items_files WHERE file_id = f.id) as items_count,
+                    (SELECT COUNT(*) FROM software_files WHERE file_id = f.id) as software_count,
+                    (SELECT COUNT(*) FROM contracts_files WHERE file_id = f.id) as contracts_count,
+                    (SELECT COUNT(*) FROM invoices_files WHERE file_id = f.id) as invoices_count
              FROM files f
-             LEFT JOIN filetypes ft ON f.type = ft.id
+             LEFT JOIN file_types ft ON f.file_type_id = ft.id
              WHERE f.id = :id",
             ['id' => $id]
         );
@@ -39,17 +39,17 @@ class FileModel
         }
 
         // Add uploader_user object for template compatibility
-        // Since uploader field contains username directly, we use it
-        if ($file['uploader']) {
-            // Try to get display name from users table if uploader is a username
+        // Since uploader_username field contains username directly, we use it
+        if ($file['uploader_username']) {
+            // Try to get display name from users table if uploader_username is a username
             $user = $this->db->fetchOne(
-                "SELECT username, userdesc FROM users WHERE username = :username",
-                ['username' => $file['uploader']]
+                "SELECT username, display_name FROM users WHERE username = :username",
+                ['username' => $file['uploader_username']]
             );
 
             $file['uploader_user'] = [
-                'username' => $file['uploader'],
-                'display_name' => $user['userdesc'] ?? $file['uploader']
+                'username' => $file['uploader_username'],
+                'display_name' => $user['display_name'] ?? $file['uploader_username']
             ];
         }
 
@@ -67,37 +67,37 @@ class FileModel
 
         // Build WHERE conditions
         if (!empty($filters['search'])) {
-            $whereConditions[] = "(f.title LIKE :search OR f.fname LIKE :search OR ft.typedesc LIKE :search)";
+            $whereConditions[] = "(f.title LIKE :search OR f.filename_stored LIKE :search OR ft.name LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
         if (!empty($filters['type'])) {
-            $whereConditions[] = "f.type = :type";
+            $whereConditions[] = "f.file_type_id = :type";
             $params['type'] = (int) $filters['type'];
         }
 
         if (!empty($filters['uploader'])) {
-            $whereConditions[] = "f.uploader = :uploader";
+            $whereConditions[] = "f.uploader_username = :uploader";
             $params['uploader'] = $filters['uploader'];
         }
 
         $whereClause = !empty($whereConditions) ? 'WHERE ' . implode(' AND ', $whereConditions) : '';
 
         // Get total count
-        $totalSql = "SELECT COUNT(*) FROM files f LEFT JOIN filetypes ft ON f.type = ft.id $whereClause";
+        $totalSql = "SELECT COUNT(*) FROM files f LEFT JOIN file_types ft ON f.file_type_id = ft.id $whereClause";
         $total = (int) $this->db->fetchColumn($totalSql, $params);
 
         // Get files with limit and enhanced data including association counts
         $sql = "
-            SELECT f.*, ft.typedesc as type_name,
-                   (SELECT COUNT(*) FROM item2file WHERE fileid = f.id) as items_count,
-                   (SELECT COUNT(*) FROM software2file WHERE fileid = f.id) as software_count,
-                   (SELECT COUNT(*) FROM contract2file WHERE fileid = f.id) as contracts_count,
-                   (SELECT COUNT(*) FROM invoice2file WHERE fileid = f.id) as invoices_count
+            SELECT f.*, ft.name as type_name,
+                   (SELECT COUNT(*) FROM items_files WHERE file_id = f.id) as items_count,
+                   (SELECT COUNT(*) FROM software_files WHERE file_id = f.id) as software_count,
+                   (SELECT COUNT(*) FROM contracts_files WHERE file_id = f.id) as contracts_count,
+                   (SELECT COUNT(*) FROM invoices_files WHERE file_id = f.id) as invoices_count
             FROM files f
-            LEFT JOIN filetypes ft ON f.type = ft.id
+            LEFT JOIN file_types ft ON f.file_type_id = ft.id
             $whereClause
-            ORDER BY f.uploaddate DESC, f.id DESC
+            ORDER BY f.uploaded_at DESC, f.id DESC
             LIMIT :limit OFFSET :offset
         ";
 
@@ -109,21 +109,21 @@ class FileModel
         // Enhance each file with additional data
         foreach ($files as &$file) {
             // Add uploader_user object for template compatibility
-            if ($file['uploader']) {
-                // Try to get display name from users table if uploader is a username
+            if ($file['uploader_username']) {
+                // Try to get display name from users table if uploader_username is a username
                 $user = $this->db->fetchOne(
-                    "SELECT username, userdesc FROM users WHERE username = :username",
-                    ['username' => $file['uploader']]
+                    "SELECT username, display_name FROM users WHERE username = :username",
+                    ['username' => $file['uploader_username']]
                 );
 
                 $file['uploader_user'] = [
-                    'username' => $file['uploader'],
-                    'display_name' => $user['userdesc'] ?? $file['uploader']
+                    'username' => $file['uploader_username'],
+                    'display_name' => $user['display_name'] ?? $file['uploader_username']
                 ];
             }
 
-            // Add file size from disk
-            $file['file_size'] = $this->getFileSize($file);
+            // Add file size from disk (already in DB as file_size, but get fresh from disk)
+            $file['file_size_disk'] = $this->getFileSize($file);
 
             // Add file existence check
             $file['file_exists'] = $this->fileExists($file);
@@ -144,8 +144,8 @@ class FileModel
     public function create(array $data): int
     {
         $allowedFields = [
-            'type', 'title', 'fname', 'filename', 'description', 'filesize',
-            'uploader', 'uploaddate', 'date'
+            'file_type_id', 'title', 'filename_stored', 'filename_original', 'description', 'file_size',
+            'uploader_username', 'uploaded_at', 'updated_at'
         ];
 
         $insertData = array_intersect_key($data, array_flip($allowedFields));
@@ -159,8 +159,8 @@ class FileModel
     public function update(int $id, array $data): bool
     {
         $allowedFields = [
-            'type', 'title', 'fname', 'filename', 'description', 'filesize',
-            'uploader', 'uploaddate', 'date'
+            'file_type_id', 'title', 'filename_stored', 'filename_original', 'description', 'file_size',
+            'uploader_username', 'uploaded_at', 'updated_at'
         ];
 
         $updateData = array_intersect_key($data, array_flip($allowedFields));
@@ -187,15 +187,15 @@ class FileModel
      */
     public function getAll(): array
     {
-        return $this->db->fetchAll("SELECT * FROM files ORDER BY uploaddate DESC");
+        return $this->db->fetchAll("SELECT * FROM files ORDER BY uploaded_at DESC");
     }
 
     /**
-     * Get file types from filetypes table
+     * Get file types from file_types table
      */
     public function getFileTypes(): array
     {
-        return $this->db->fetchAll("SELECT id, typedesc as name FROM filetypes ORDER BY typedesc");
+        return $this->db->fetchAll("SELECT id, name FROM file_types ORDER BY name");
     }
 
     /**
@@ -204,10 +204,10 @@ class FileModel
     public function getUploaders(): array
     {
         return $this->db->fetchAll("
-            SELECT DISTINCT uploader
+            SELECT DISTINCT uploader_username
             FROM files
-            WHERE uploader IS NOT NULL AND uploader != ''
-            ORDER BY uploader
+            WHERE uploader_username IS NOT NULL AND uploader_username != ''
+            ORDER BY uploader_username
         ");
     }
 
@@ -222,7 +222,7 @@ class FileModel
         // Basic search
         if (!empty($filters['search'])) {
             $search = $filters['search'];
-            $whereConditions[] = "(f.title LIKE :search OR f.fname LIKE :search OR ft.typedesc LIKE :search" .
+            $whereConditions[] = "(f.title LIKE :search OR f.filename_stored LIKE :search OR ft.name LIKE :search" .
                                 (is_numeric($search) ? " OR f.id = :search_id" : "") . ")";
             $params['search'] = "%{$search}%";
             if (is_numeric($search)) {
@@ -233,7 +233,7 @@ class FileModel
         // Exclude files associated with specific software
         if (!empty($filters['exclude_software'])) {
             $whereConditions[] = "f.id NOT IN (
-                SELECT fileid FROM software2file WHERE softwareid = :exclude_software
+                SELECT file_id FROM software_files WHERE software_id = :exclude_software
             )";
             $params['exclude_software'] = $filters['exclude_software'];
         }
@@ -241,11 +241,11 @@ class FileModel
         $whereClause = !empty($whereConditions) ? 'WHERE ' . implode(' AND ', $whereConditions) : '';
 
         $sql = "
-            SELECT f.*, ft.typedesc as type_name
+            SELECT f.*, ft.name as type_name
             FROM files f
-            LEFT JOIN filetypes ft ON f.type = ft.id
+            LEFT JOIN file_types ft ON f.file_type_id = ft.id
             $whereClause
-            ORDER BY f.uploaddate DESC
+            ORDER BY f.uploaded_at DESC
             LIMIT :limit
         ";
 
@@ -260,7 +260,7 @@ class FileModel
     public function getFilePath(array $file): string
     {
         $uploadPath = $this->settings->getFileStoragePath();
-        return $uploadPath . '/' . $file['fname'];
+        return $uploadPath . '/' . $file['filename_stored'];
     }
 
     /**
@@ -287,12 +287,12 @@ class FileModel
     {
         $sql = "
             SELECT i.id, i.label, i.model, i.function,
-                   it.name as type_name, st.statusdesc as status_name
-            FROM item2file i2f
-            INNER JOIN items i ON i2f.itemid = i.id
-            LEFT JOIN itemtypes it ON i.itemtypeid = it.id
-            LEFT JOIN statustypes st ON i.status = st.id
-            WHERE i2f.fileid = :file_id
+                   it.name as type_name, st.name as status_name
+            FROM items_files i2f
+            INNER JOIN items i ON i2f.item_id = i.id
+            LEFT JOIN item_types it ON i.item_type_id = it.id
+            LEFT JOIN status_types st ON i.status_id = st.id
+            WHERE i2f.file_id = :file_id
             ORDER BY i.label
         ";
         return $this->db->fetchAll($sql, ['file_id' => $fileId]);
@@ -304,14 +304,14 @@ class FileModel
     public function getAssociatedSoftware(int $fileId): array
     {
         $sql = "
-            SELECT s.id, s.stitle as title, s.sversion as version,
-                   s.slicensetype as license_type,
-                   a.title as manufacturer_name
-            FROM software2file s2f
-            INNER JOIN software s ON s2f.softwareid = s.id
-            LEFT JOIN agents a ON s.manufacturerid = a.id
-            WHERE s2f.fileid = :file_id
-            ORDER BY s.stitle
+            SELECT s.id, s.title, s.version,
+                   s.license_type,
+                   a.name as manufacturer_name
+            FROM software_files s2f
+            INNER JOIN software s ON s2f.software_id = s.id
+            LEFT JOIN agents a ON s.manufacturer_id = a.id
+            WHERE s2f.file_id = :file_id
+            ORDER BY s.title
         ";
         return $this->db->fetchAll($sql, ['file_id' => $fileId]);
     }
@@ -322,12 +322,12 @@ class FileModel
     public function getAssociatedContracts(int $fileId): array
     {
         $sql = "
-            SELECT c.id, c.title, c.number, c.startdate, c.currentenddate as enddate,
+            SELECT c.id, c.title, c.contract_number, c.start_date, c.end_date,
                    ct.name as contract_type_name
-            FROM contract2file c2f
-            INNER JOIN contracts c ON c2f.contractid = c.id
-            LEFT JOIN contracttypes ct ON c.type = ct.id
-            WHERE c2f.fileid = :file_id
+            FROM contracts_files c2f
+            INNER JOIN contracts c ON c2f.contract_id = c.id
+            LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
+            WHERE c2f.file_id = :file_id
             ORDER BY c.title
         ";
         return $this->db->fetchAll($sql, ['file_id' => $fileId]);
@@ -339,14 +339,14 @@ class FileModel
     public function getAssociatedInvoices(int $fileId): array
     {
         $sql = "
-            SELECT inv.id, inv.date as invdate, inv.totalcost as amount, inv.comments,
-                   v.title as vendor_name, b.title as buyer_name
-            FROM invoice2file inv2f
-            INNER JOIN invoices inv ON inv2f.invoiceid = inv.id
-            LEFT JOIN agents v ON inv.vendorid = v.id
-            LEFT JOIN agents b ON inv.buyerid = b.id
-            WHERE inv2f.fileid = :file_id
-            ORDER BY inv.date DESC
+            SELECT inv.id, inv.invoice_date, inv.total_cost as amount, inv.comments,
+                   v.name as vendor_name, b.name as buyer_name
+            FROM invoices_files inv2f
+            INNER JOIN invoices inv ON inv2f.invoice_id = inv.id
+            LEFT JOIN agents v ON inv.vendor_id = v.id
+            LEFT JOIN agents b ON inv.buyer_id = b.id
+            WHERE inv2f.file_id = :file_id
+            ORDER BY inv.invoice_date DESC
         ";
         return $this->db->fetchAll($sql, ['file_id' => $fileId]);
     }

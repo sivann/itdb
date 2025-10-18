@@ -127,7 +127,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if rack.usize > 0 %}
+                            {% if rack.size_units > 0 %}
                                 <div class="d-flex align-items-center">
                                     <div class="progress me-2" style="width: 60px; height: 8px;">
                                         <div class="progress-bar
@@ -139,7 +139,7 @@
                                     </div>
                                     <small>{{ rack.occupation_percent }}%</small>
                                 </div>
-                                <small class="text-muted">{{ rack.occupation }}/{{ rack.usize }}U</small>
+                                <small class="text-muted">{{ rack.occupation }}/{{ rack.size_units }}U</small>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
@@ -148,15 +148,15 @@
                             <span class="badge bg-primary">{{ rack.items_count }}</span>
                         </td>
                         <td>
-                            {% if rack.usize %}
-                                {{ rack.usize }}
+                            {% if rack.size_units %}
+                                {{ rack.size_units }}
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if rack.depth %}
-                                {{ rack.depth }}
+                            {% if rack.depth_mm %}
+                                {{ rack.depth_mm }}
                                 {% if rack.revnums == 1 %}
                                     <br><span class="badge bg-info badge-sm" data-bs-toggle="tooltip" data-bs-title="Units numbered from top to bottom">
                                         <i class="bi bi-arrow-down"></i> Rev
@@ -287,7 +287,7 @@
                     <div class="alert alert-warning">
                         <strong>{{ rack.display_name }}</strong>
                         {% if rack.location %}<br>Location: {{ rack.location.name }}{% endif %}
-                        {% if rack.usize %}<br>Size: {{ rack.usize }}U{% endif %}
+                        {% if rack.size_units %}<br>Size: {{ rack.size_units }}U{% endif %}
                         {% if rack.items_count > 0 %}
                         <br><strong>Warning:</strong> This rack has {{ rack.items_count }} assigned items
                         {% endif %}

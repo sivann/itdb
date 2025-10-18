@@ -11,12 +11,12 @@ if  (isset($delid) && $delid<$internaltags) { //delete an item entry
 }
 elseif  (isset($delid)) { //delete an item entry
 
-  $sql="SELECT count(tagid) count from tag2item WHERE tagid=".$_GET['delid'];
+  $sql="SELECT count(tag_id) count from tag2item WHERE tag_id=".$_GET['delid'];
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $count_i=$r['count'];
 
-  $sql="SELECT count(tagid) count from tag2software WHERE tagid=".$_GET['delid'];
+  $sql="SELECT count(tag_id) count from tag2software WHERE tag_id=".$_GET['delid'];
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $count_s=$r['count'];
@@ -123,12 +123,12 @@ if (!isset($dbid)) $dbid=0;
   $(document).ready(function(){    
 
     $(".showitems" ).click(function() {
-      $("#itemresults").html('<center><img src="images/ajaxload.gif"></center>').load('php/tag2item_ajaxlist.php?tagid='+ $(this).attr('href'));
+      $("#itemresults").html('<center><img src="images/ajaxload.gif"></center>').load('php/tag2item_ajaxlist.php?tag_id='+ $(this).attr('href'));
       return false;
     });
 
     $(".showsoftware" ).click(function() {
-      $("#softwareresults").html('<center><img src="images/ajaxload.gif"></center>').load('php/tag2software_ajaxlist.php?tagid='+ $(this).attr('href'));
+      $("#softwareresults").html('<center><img src="images/ajaxload.gif"></center>').load('php/tag2software_ajaxlist.php?tag_id='+ $(this).attr('href'));
       return false;
     });
 

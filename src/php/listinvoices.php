@@ -99,8 +99,8 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   echo "\n<tr id='trid{$r['id']}'>";
   echo "<td><a class='editid' href='$scriptname?action=editinvoice&amp;id=".$r['id']."'>";
   echo "{$r['id']}</a></td>\n";
-  echo "<td>".$agents[$r['vendorid']]['title']."</td>\n";
-  echo "<td>".$agents[$r['buyerid']]['title']."</td>\n";
+  echo "<td>".$agents[$r['vendor_id']]['title']."</td>\n";
+  echo "<td>".$agents[$r['buyer_id']]['title']."</td>\n";
   echo "<td ><span title='{$r['date']}'></span>$d</td>\n";
   echo "<td>{$r['number']}</td>\n";
   echo "<td>{$r['description']}</td>\n";

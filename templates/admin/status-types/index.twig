@@ -57,7 +57,7 @@
                         <td>{{ type.id }}</td>
                         <td>
                             <a href="/admin/status-types/{{ type.id }}" class="text-decoration-none">
-                                {{ type.statusdesc }}
+                                {{ type.name }}
                             </a>
                         </td>
                         <td>
@@ -71,7 +71,7 @@
                                 <a href="/admin/status-types/{{ type.id }}/edit" class="btn btn-outline-secondary">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <button type="button" class="btn btn-outline-danger" onclick="confirmDelete({{ type.id }}, '{{ type.statusdesc }}')">
+                                <button type="button" class="btn btn-outline-danger" onclick="confirmDelete({{ type.id }}, '{{ type.name }}')">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>

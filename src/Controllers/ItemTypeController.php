@@ -117,7 +117,7 @@ class ItemTypeController extends BaseController
             $itemTypeId = $this->itemTypeModel->create([
                 'name' => $this->sanitizeString($data['typedesc']),
                 'typedesc' => $this->sanitizeString($data['typedesc']),
-                'hassoftware' => (int) ($data['hassoftware'] ?? 0),
+                'has_software' => (int) ($data['has_software'] ?? 0),
             ]);
 
             $this->logUserAction('item_type_created', ['type_id' => $itemTypeId, 'name' => $data['typedesc']]);
@@ -192,7 +192,7 @@ class ItemTypeController extends BaseController
             $this->itemTypeModel->update($id, [
                 'name' => $this->sanitizeString($data['typedesc']),
                 'typedesc' => $this->sanitizeString($data['typedesc']),
-                'hassoftware' => (int) ($data['hassoftware'] ?? 0),
+                'has_software' => (int) ($data['has_software'] ?? 0),
             ]);
 
             $this->logUserAction('item_type_updated', ['type_id' => $id, 'name' => $data['typedesc']]);

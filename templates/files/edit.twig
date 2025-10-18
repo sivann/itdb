@@ -69,7 +69,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label fw-bold">File Name</label>
-                                <div><code>{{ file.fname }}</code></div>
+                                <div><code>{{ file.filename_stored }}</code></div>
                             </div>
 
                             {% if file.type %}
@@ -128,14 +128,14 @@
                                 </div>
                             </div>
 
-                            {% if file.uploaddate %}
+                            {% if file.uploaded_at %}
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Upload Date</label>
-                                <div>{{ file.uploaddate|date('F j, Y g:i A') }}</div>
+                                <div>{{ file.uploaded_at|date('F j, Y g:i A') }}</div>
                             </div>
                             {% endif %}
 
-                            {% if file.date and file.date != file.uploaddate %}
+                            {% if file.date and file.date != file.uploaded_at %}
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Date Modified</label>
                                 <div>{{ file.date|date('F j, Y g:i A') }}</div>
@@ -391,7 +391,7 @@
                                     <div class="p-2 bg-light rounded d-flex justify-content-between align-items-center">
                                         <div>
                                             <i class="bi bi-file-earmark-text me-2"></i>
-                                            <code>{{ file.fname }}</code>
+                                            <code>{{ file.filename_stored }}</code>
                                             {% if file.file_size %}
                                             <span class="text-muted ms-2">({{ file.file_size|format_bytes }})</span>
                                             {% endif %}
@@ -537,8 +537,8 @@
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Upload Date</label>
                                             <div>
-                                                {% if file.uploaddate %}
-                                                    {{ file.uploaddate|date('M j, Y') }}
+                                                {% if file.uploaded_at %}
+                                                    {{ file.uploaded_at|date('M j, Y') }}
                                                 {% else %}
                                                     <span class="text-muted">Unknown</span>
                                                 {% endif %}
@@ -871,7 +871,7 @@
                     <p>Are you sure you want to delete this file?</p>
                     <div class="alert alert-warning">
                         <strong>{{ file.title }}</strong>
-                        <br>Filename: <code>{{ file.fname }}</code>
+                        <br>Filename: <code>{{ file.filename_stored }}</code>
                         {% set total_associations = file.items|length + file.software|length + file.contracts|length + file.invoices|length %}
                         {% if total_associations > 0 %}
                         <br><strong>Warning:</strong> This file is associated with {{ total_associations }} other records
@@ -908,7 +908,7 @@
                     <p>Are you sure you want to delete this file?</p>
                     <div class="alert alert-warning">
                         <strong>{{ file.title }}</strong>
-                        <br>Filename: <code>{{ file.fname }}</code>
+                        <br>Filename: <code>{{ file.filename_stored }}</code>
                         {% set total_associations = (file.items|length) + (file.software|length) + (file.contracts|length) + (file.invoices|length) %}
                         {% if total_associations > 0 %}
                         <br><strong>Warning:</strong> This file is associated with {{ total_associations }} other records

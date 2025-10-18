@@ -19,10 +19,10 @@ for ($i=0;$i<count($selitems);$i++)  {
 
 
 
-//$sql="SELECT items.id,model,sn,sn3,itemtypeid,dnsname,ipv4,ipv6,label, agents.title as agtitle FROM items,agents ".
-//     " WHERE agents.id=items.manufacturerid AND items.id in ($ids) order by itemtypeid, agtitle, model,sn,sn2,sn3";
-$sql="SELECT items.id,model,sn,sn3,itemtypeid,dnsname,ipv4,ipv6,label, agents.title as agtitle FROM items,agents ".
-     " WHERE agents.id=items.manufacturerid AND items.id in ($ids) order by items.id";
+//$sql="SELECT items.id,model,sn,sn3,item_type_id,dns_name,ipv4,ipv6,label, agents.title as agtitle FROM items,agents ".
+//     " WHERE agents.id=items.manufacturer_id AND items.id in ($ids) order by item_type_id, agtitle, model,sn,sn2,sn3";
+$sql="SELECT items.id,model,sn,sn3,item_type_id,dns_name,ipv4,ipv6,label, agents.title as agtitle FROM items,agents ".
+     " WHERE agents.id=items.manufacturer_id AND items.id in ($ids) order by items.id";
 $sth=db_execute($dbh,$sql);
 $idx=0;
 
@@ -65,9 +65,9 @@ for ($row=1;$row<=$rows;$row++) {
     $r=$sth->fetch(PDO::FETCH_ASSOC);
     if (!$r) break;
 
-    $idesc=$itypes[$r['itemtypeid']]['typedesc'];
+    $idesc=$itypes[$r['item_type_id']]['typedesc'];
     $id=sprintf("%04d",$r['id']);
-    $dnsname=$r['dnsname'];
+    $dns_name=$r['dns_name'];
     $ipv4=$r['ipv4'];
     $ipv4=mb_substr($ipv4,0,15);
     $ipv6=$r['ipv6'];
@@ -91,8 +91,8 @@ for ($row=1;$row<=$rows;$row++) {
     if (strlen($ipv4)) { $labeltext.="IPv4:$ipv4\n"; }
     if (strlen($ipv6)) { $labeltext.="IPv6:$ipv6\n"; }
 
-    if (strlen($dnsname)) { 
-       $labeltext.="HName:$dnsname\n";
+    if (strlen($dns_name)) { 
+       $labeltext.="HName:$dns_name\n";
     }
     $labeltext=rtrim($labeltext);
 

@@ -149,7 +149,7 @@ class InvoiceController extends BaseController
         $data = $this->getParsedBody($request);
 
         // Basic validation
-        if (empty($data['vendorid'])) {
+        if (empty($data['vendor_id'])) {
             $this->addFlashMessage('error', 'Vendor is required.');
             return $this->redirectToRoute($request, $response, 'invoices.create');
         }
@@ -157,9 +157,9 @@ class InvoiceController extends BaseController
         try {
             // Prepare data for creation - map to actual DB schema
             $invoiceData = [
-                'vendorid' => !empty($data['vendorid']) ? (int) $data['vendorid'] : null,
-                'buyerid' => !empty($data['buyerid']) ? (int) $data['buyerid'] : null,
-                'totalcost' => !empty($data['totalcost']) ? (float) $data['totalcost'] : 0.00,
+                'vendor_id' => !empty($data['vendor_id']) ? (int) $data['vendor_id'] : null,
+                'buyer_id' => !empty($data['buyer_id']) ? (int) $data['buyer_id'] : null,
+                'total_cost' => !empty($data['total_cost']) ? (float) $data['total_cost'] : 0.00,
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
                 'date' => !empty($data['invoicedate']) ? strtotime($data['invoicedate']) : time(),
             ];
@@ -249,9 +249,9 @@ class InvoiceController extends BaseController
         try {
             // Prepare data for update - map to actual DB schema
             $updateData = [
-                'vendorid' => !empty($data['vendorid']) ? (int) $data['vendorid'] : null,
-                'buyerid' => !empty($data['buyerid']) ? (int) $data['buyerid'] : null,
-                'totalcost' => !empty($data['totalcost']) ? (float) $data['totalcost'] : 0.00,
+                'vendor_id' => !empty($data['vendor_id']) ? (int) $data['vendor_id'] : null,
+                'buyer_id' => !empty($data['buyer_id']) ? (int) $data['buyer_id'] : null,
+                'total_cost' => !empty($data['total_cost']) ? (float) $data['total_cost'] : 0.00,
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
                 'date' => !empty($data['invoicedate']) ? strtotime($data['invoicedate']) : null,
             ];
@@ -332,7 +332,7 @@ class InvoiceController extends BaseController
             return true;
         }
 
-        // Users with usertype >= 2 can edit invoices
+        // Users with user_type >= 2 can edit invoices
         return $user->usertype >= 2;
     }
 
@@ -366,7 +366,7 @@ class InvoiceController extends BaseController
                     $invoice['id']
                 ),
                 'vendor' => $invoice['vendor_name'] ?? null,
-                'total' => $invoice['totalcost'] ? number_format($invoice['totalcost'], 2) : null,
+                'total' => $invoice['total_cost'] ? number_format($invoice['total_cost'], 2) : null,
                 'date' => $invoice['date'] ? date('Y-m-d', $invoice['date']) : null
             ];
         }

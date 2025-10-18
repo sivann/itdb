@@ -7,7 +7,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="bi bi-file-earmark-text me-2"></i>
-                    {{ file.title|default(file.fname|default('File')) }}
+                    {{ file.title|default(file.filename_stored|default('File')) }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -28,7 +28,7 @@
                         <table class="table table-sm table-bordered">
                             <tr>
                                 <td style="width: 40%;"><strong>Filename:</strong></td>
-                                <td style="width: 60%; word-break: break-all;"><code>{{ file.fname|default('Unknown') }}</code></td>
+                                <td style="width: 60%; word-break: break-all;"><code>{{ file.filename_stored|default('Unknown') }}</code></td>
                             </tr>
                             <tr>
                                 <td><strong>Type:</strong></td>
@@ -49,8 +49,8 @@
                                 <td>
                                     {% if file.file_size is defined and file.file_size %}
                                         {{ file.file_size|number_format }} bytes
-                                    {% elseif file.filesize is defined and file.filesize %}
-                                        {{ file.filesize|number_format }} bytes
+                                    {% elseif file.file_size is defined and file.file_size %}
+                                        {{ file.file_size|number_format }} bytes
                                     {% else %}
                                         <span class="text-muted">Unknown</span>
                                     {% endif %}
@@ -59,10 +59,10 @@
                             <tr>
                                 <td><strong>Uploaded:</strong></td>
                                 <td>
-                                    {% if file.uploaddate_formatted is defined %}
-                                        {{ file.uploaddate_formatted }}
-                                    {% elseif file.uploaddate is defined %}
-                                        {{ file.uploaddate|date('M j, Y g:i A') }}
+                                    {% if file.uploaded_at_formatted is defined %}
+                                        {{ file.uploaded_at_formatted }}
+                                    {% elseif file.uploaded_at is defined %}
+                                        {{ file.uploaded_at|date('M j, Y g:i A') }}
                                     {% else %}
                                         <span class="text-muted">Unknown</span>
                                     {% endif %}

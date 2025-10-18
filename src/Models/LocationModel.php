@@ -68,20 +68,20 @@ class LocationModel
                    COALESCE(areas.count, 0) as areas_count
             FROM locations l
             LEFT JOIN (
-                SELECT locationid, COUNT(*) as count
+                SELECT location_id, COUNT(*) as count
                 FROM items
-                GROUP BY locationid
-            ) items ON l.id = items.locationid
+                GROUP BY location_id
+            ) items ON l.id = items.location_id
             LEFT JOIN (
-                SELECT locationid, COUNT(*) as count
+                SELECT location_id, COUNT(*) as count
                 FROM racks
-                GROUP BY locationid
-            ) racks ON l.id = racks.locationid
+                GROUP BY location_id
+            ) racks ON l.id = racks.location_id
             LEFT JOIN (
-                SELECT locationid, COUNT(*) as count
-                FROM locareas
-                GROUP BY locationid
-            ) areas ON l.id = areas.locationid
+                SELECT location_id, COUNT(*) as count
+                FROM location_areas
+                GROUP BY location_id
+            ) areas ON l.id = areas.location_id
             $whereClause
             ORDER BY l.name
             LIMIT :limit OFFSET :offset
@@ -94,7 +94,7 @@ class LocationModel
 
         // Add has_floor_plan flag
         foreach ($locations as &$location) {
-            $location['has_floor_plan'] = !empty($location['floorplanfn']);
+            $location['has_floor_plan'] = !empty($location['floor_plan_filename']);
         }
 
         return [
@@ -111,7 +111,7 @@ class LocationModel
      */
     public function create(array $data): int
     {
-        $allowedFields = ['name', 'floor', 'floorplanfn'];
+        $allowedFields = ['name', 'floor', 'floor_plan_filename'];
         $insertData = array_intersect_key($data, array_flip($allowedFields));
 
         return $this->db->insert('locations', $insertData);
@@ -122,7 +122,7 @@ class LocationModel
      */
     public function update(int $id, array $data): bool
     {
-        $allowedFields = ['name', 'floor', 'floorplanfn'];
+        $allowedFields = ['name', 'floor', 'floor_plan_filename'];
         $updateData = array_intersect_key($data, array_flip($allowedFields));
 
         if (empty($updateData)) {
@@ -151,7 +151,7 @@ class LocationModel
 
         // Check items using this location
         $itemCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM items WHERE locationid = :id",
+            "SELECT COUNT(*) FROM items WHERE location_id = :id",
             ['id' => $id]
         );
         if ($itemCount > 0) {
@@ -160,7 +160,7 @@ class LocationModel
 
         // Check racks using this location
         $rackCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM racks WHERE locationid = :id",
+            "SELECT COUNT(*) FROM racks WHERE location_id = :id",
             ['id' => $id]
         );
         if ($rackCount > 0) {
@@ -200,19 +200,19 @@ class LocationModel
 
         // Get items count
         $location['items_count'] = (int) $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM items WHERE locationid = :id",
+            "SELECT COUNT(*) FROM items WHERE location_id = :id",
             ['id' => $id]
         );
 
         // Get racks count
         $location['racks_count'] = (int) $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM racks WHERE locationid = :id",
+            "SELECT COUNT(*) FROM racks WHERE location_id = :id",
             ['id' => $id]
         );
 
         // Get areas count
         $location['areas_count'] = (int) $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM locareas WHERE locationid = :id",
+            "SELECT COUNT(*) FROM location_areas WHERE location_id = :id",
             ['id' => $id]
         );
 
@@ -231,23 +231,23 @@ class LocationModel
                    COALESCE(areas.count, 0) as areas_count
             FROM locations l
             LEFT JOIN (
-                SELECT locationid, COUNT(*) as count
+                SELECT location_id, COUNT(*) as count
                 FROM items
-                WHERE locationid = :id
-                GROUP BY locationid
-            ) items ON l.id = items.locationid
+                WHERE location_id = :id
+                GROUP BY location_id
+            ) items ON l.id = items.location_id
             LEFT JOIN (
-                SELECT locationid, COUNT(*) as count
+                SELECT location_id, COUNT(*) as count
                 FROM racks
-                WHERE locationid = :id
-                GROUP BY locationid
-            ) racks ON l.id = racks.locationid
+                WHERE location_id = :id
+                GROUP BY location_id
+            ) racks ON l.id = racks.location_id
             LEFT JOIN (
-                SELECT locationid, COUNT(*) as count
-                FROM locareas
-                WHERE locationid = :id
-                GROUP BY locationid
-            ) areas ON l.id = areas.locationid
+                SELECT location_id, COUNT(*) as count
+                FROM location_areas
+                WHERE location_id = :id
+                GROUP BY location_id
+            ) areas ON l.id = areas.location_id
             WHERE l.id = :id
             LIMIT 1
         ";
@@ -262,7 +262,7 @@ class LocationModel
     public function getAreas(int $locationId): array
     {
         return $this->db->fetchAll(
-            "SELECT id, areaname as name FROM locareas WHERE locationid = :location_id ORDER BY areaname",
+            "SELECT id, areaname as name FROM location_areas WHERE location_id = :location_id ORDER BY areaname",
             ['location_id' => $locationId]
         );
     }
@@ -273,11 +273,11 @@ class LocationModel
     public function getLocationItems(int $locationId): array
     {
         return $this->db->fetchAll(
-            "SELECT i.id, i.label, i.function, i.model, it.name as type_name, a.title as manufacturer_name
+            "SELECT i.id, i.label, i.function, i.model, it.name as type_name, a.name as manufacturer_name
              FROM items i
-             LEFT JOIN itemtypes it ON i.itemtypeid = it.id
-             LEFT JOIN agents a ON i.manufacturerid = a.id
-             WHERE i.locationid = :location_id
+             LEFT JOIN item_types it ON i.item_type_id = it.id
+             LEFT JOIN agents a ON i.manufacturer_id = a.id
+             WHERE i.location_id = :location_id
              ORDER BY i.id DESC
              LIMIT 100",
             ['location_id' => $locationId]

@@ -37,7 +37,7 @@ if (isset($_GET['delid'])) { //if we came from a post (save) the update software
   }
 
   //remove file links
-  $sql="DELETE from software2file where softwareid=$delid";
+  $sql="DELETE from software2file where software_id=$delid";
   $sth=db_exec($dbh,$sql);
 
   //for each file: check if others link to it, and if not remove it:
@@ -50,7 +50,7 @@ if (isset($_GET['delid'])) { //if we came from a post (save) the update software
   $sql="DELETE from software where id=".$_GET['delid'];
   $sth=db_exec($dbh,$sql);
 
-  $sql="DELETE from item2soft where softid=".$_GET['delid'];
+  $sql="DELETE from item2soft where software_id=".$_GET['delid'];
   $sth=db_exec($dbh,$sql);
 
   echo "<script>document.location='$scriptname?action=listsoftware'</script>";
@@ -63,7 +63,7 @@ if (isset($_GET['delid'])) { //if we came from a post (save) the update software
 if (isset($_GET['delfid'])) {
 
   //remove file link
-  $sql="DELETE from software2file where softwareid=$id AND fileid=".$_GET['delfid'];
+  $sql="DELETE from software2file where software_id=$id AND file_id=".$_GET['delfid'];
   $sth=db_exec($dbh,$sql);
 
   //check if others point to this file
@@ -79,13 +79,13 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
   $id=$_POST['id'];
 
   //don't accept empty fields
-  if ((empty($stitle))|| (empty($version))|| (!strlen($manufacturerid)) || (!strlen($purchdate)) ) {
+  if ((empty($stitle))|| (empty($version))|| (!strlen($manufacturer_id)) || (!strlen($purchdate)) ) {
     echo "<br><b>".t("Some <span class='mandatory'> mandatory</span> fields are missing").".</b><br><a href='javascript:history.go(-1);'>Go back</a></body></html>";
     exit;
   }
 
   $slicenseinfo=$_POST['slicenseinfo'];
-  $manufacturerid=$_POST['manufacturerid'];
+  $manufacturer_id=$_POST['manufacturer_id'];
   $sversion=$_POST['sversion'];
   $sinfo=$_POST['sinfo'];
   $stitle=$_POST['stitle'];
@@ -94,8 +94,8 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
   $mend=ymd2sec($maintend);
 
   if ($_POST['id']=="new")  {//if we came from a post (save) the add software 
-    $sql="INSERT into software (invoiceid,slicenseinfo,manufacturerid,stitle,sversion,sinfo,purchdate,licqty,lictype)".
-         " VALUEs ('$invoiceid','$slicenseinfo','$manufacturerid','$stitle','$sversion','$sinfo','$pd','$licqty','$lictype')";
+    $sql="INSERT into software (invoice_id,slicenseinfo,manufacturer_id,stitle,sversion,sinfo,purchdate,licqty,lictype)".
+         " VALUEs ('$invoiceid','$slicenseinfo','$manufacturer_id','$stitle','$sversion','$sinfo','$pd','$licqty','$lictype')";
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
     print "<br><b>Added Software <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -103,8 +103,8 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
     $id=$lastid;
   }
   else {
-    $sql="UPDATE software set invoiceid='$invoiceid', slicenseinfo='$slicenseinfo', ".
-       " manufacturerid='$manufacturerid', stitle='$stitle', sversion='$sversion', ".
+    $sql="UPDATE software set invoice_id='$invoiceid', slicenseinfo='$slicenseinfo', ".
+       " manufacturer_id='$manufacturer_id', title='$stitle', version='$sversion', ".
        " sinfo='$sinfo', purchdate='$pd', licqty='$licqty', lictype='$lictype'  ".
        " WHERE id=$id";
     db_exec($dbh,$sql);
@@ -115,11 +115,11 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
   if (!isset($_POST['softlnk'])) $softlnk=array();
   //update software - item links (installed into)
   //remove old links for this object
-  $sql="delete from item2soft where softid=$id";
+  $sql="delete from item2soft where software_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($softlnk);$i++) {
-    $sql="INSERT into item2soft (softid,itemid) values ($id,".$softlnk[$i].")";
+    $sql="INSERT into item2soft (software_id,item_id) values ($id,".$softlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
@@ -129,11 +129,11 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
   else $invlnk=$_POST['invlnk'];
   //update software - invlnk links
   //remove old links for this object
-  $sql="DELETE FROM soft2inv WHERE softid=$id";
+  $sql="DELETE FROM software_invoices WHERE software_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($invlnk);$i++) {
-    $sql="INSERT INTO soft2inv (softid,invid) values ($id,".$invlnk[$i].")";
+    $sql="INSERT INTO software_invoices (software_id,invoice_id) values ($id,".$invlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
@@ -143,11 +143,11 @@ if (isset($_POST['id'])) { //if we came from a post (save) the update software
 
   //update software - contract links
   //remove old links for this object
-  $sql="DELETE FROM contract2soft WHERE softid=$id";
+  $sql="DELETE FROM contracts_software WHERE software_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($contrlnk);$i++) {
-    $sql="INSERT INTO contract2soft (softid,contractid) values ($id,".$contrlnk[$i].")";
+    $sql="INSERT INTO contracts_software (software_id,contract_id) values ($id,".$contrlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
@@ -166,14 +166,14 @@ $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 if (($id !="new") && (count($r)<5)) {echo "ERROR: non-existent ID";exit;}
 
-$manufacturerid=$r['manufacturerid'];
+$manufacturer_id=$r['manufacturer_id'];
 $stitle=$r['stitle'];
 $sversion=$r['sversion'];
 $purchdate=$r['purchdate'];
 $slicensefile=$r['slicensefile'];
 $slicenseinfo=$r['slicenseinfo'];
 $sinfo=$r['sinfo'];
-$invoiceid=$r['invoiceid'];
+$invoice_id=$r['invoiceid'];
 $licqty=$r['licqty'];
 $lictype=$r['lictype'];
 
@@ -197,7 +197,7 @@ else
         <p><i class='bi bi-exclamation-triangle-fill' style='margin-right: .3em;'></i>
         <h4>There are errors in your form submission, please see below for details.</h4>
         <ol>
-                <li><label for="manufacturerid" class="error"><?php te("S/W Manufacturer is missing");?></label></li>
+                <li><label for="manufacturer_id" class="error"><?php te("S/W Manufacturer is missing");?></label></li>
                 <li><label for="stitle" class="error"><?php te("Software title is missing");?></label></li>
                 <li><label for="sversion" class="error"><?php te("Software Version is missing");?></label></li>
                 <li><label for="purchdate" class="error"><?php te("Date of purhcase is missing");?></label></li>
@@ -242,7 +242,7 @@ else
   <?php 
   echo "<table class=tbl1 border=0>";
 
-  $sql="SELECT * FROM itemtypes";
+  $sql="SELECT * FROM item_types";
   $sth=$dbh->query($sql);
   $fixtypes=$sth->fetchAll(PDO::FETCH_ASSOC);
 
@@ -283,18 +283,18 @@ else
       <tr><td colspan=2><h3>Software Properties</h3></td></tr>
       <tr><td class="tdt">ID:</td> <td><input  class='input2' type=text name='id' value='<?php echo $id?>' readonly size=3></td></tr>
       <tr><td class="tdt">
-     <?php   if (is_numeric($manufacturerid))
-       echo "<a title='edit manufacturer (agent)' href='$scriptname?action=editagent&amp;id=$manufacturerid'><img src='images/edit.png'></a> "; ?>
+     <?php   if (is_numeric($manufacturer_id))
+       echo "<a title='edit manufacturer (agent)' href='$scriptname?action=editagent&amp;id=$manufacturer_id'><img src='images/edit.png'></a> "; ?>
       
       <?php te('Manufacturer');?>:</td> <td title='Add more manufacturers at the "Agents" menu'>
-	   <select validate='required:true' class='mandatory' name='manufacturerid'>
+	   <select validate='required:true' class='mandatory' name='manufacturer_id'>
 	   <option value=''>Select</option>
 	  <?php 
 	    foreach ($agents as $a) {
 	      if (!($a['type']&2)) continue; //show only manufacturers
 	      $dbid=$a['id'];
 	      $atype=$a['title']; $s="";
-	      if (isset($manufacturerid) && $manufacturerid==$a['id']) $s=" SELECTED ";
+	      if (isset($manufacturer_id) && $manufacturer_id==$a['id']) $s=" SELECTED ";
 	      echo "<option $s value='$dbid' title='$dbid'>$atype</option>\n";
 	    }
 	    echo "</select>\n";
@@ -349,10 +349,10 @@ else
     <div  id='items' class='relatedlist'>ITEMS</div>
     <?php 
     if (is_numeric($id)) {
-      $sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.typedesc || ', ID:' || items.id || ']' as txt ".
+      $sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.description || ', ID:' || items.id || ']' as txt ".
            "FROM agents,items,itemtypes,item2soft WHERE ".
-           " agents.id=items.manufacturerid AND items.itemtypeid=itemtypes.id AND ".
-           " item2soft.itemid=items.id AND item2soft.softid=$id";
+           " agents.id=items.manufacturer_id AND items.item_type_id=itemtypes.id AND ".
+           " item2soft.item_id=items.id AND item2soft.software_id=$id";
       $sthi=db_execute($dbh,$sql);
       $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
       $nitems=count($ri);
@@ -372,7 +372,7 @@ else
     if (is_numeric($id)) {
       //print a table row
       $sql="SELECT invoices.id, invoices.number, invoices.date FROM invoices,soft2inv ".
-           " WHERE soft2inv.invid=invoices.id AND soft2inv.softid=$id";
+           " WHERE soft2inv.invoice_id=invoices.id AND soft2inv.software_id=$id";
       $sthi=db_execute($dbh,$sql);
       $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
       $nitems=count($ri);
@@ -392,14 +392,14 @@ else
     <?php 
     if (is_numeric($id)) {
       //print a table row
-      $sql="SELECT contracts.id, type,title,number,startdate,currentenddate FROM contracts,contract2soft ".
-           " WHERE contract2soft.contractid=contracts.id AND contract2soft.softid=$id";
+      $sql="SELECT contracts.id, type,title,number,start_date,end_date FROM contracts,contract2soft ".
+           " WHERE contract2soft.contract_id=contracts.id AND contract2soft.software_id=$id";
       $sthi=db_execute($dbh,$sql);
       $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
       $nitems=count($ri);
       $institems="";
       for ($i=0;$i<$nitems;$i++) {
-        $d=date($dateparam,$ri[$i]['startdate'])."-".date($dateparam,$ri[$i]['currentenddate']);
+        $d=date($dateparam,$ri[$i]['start_date'])."-".date($dateparam,$ri[$i]['end_date']);
         $x=($i+1).":  (".$ri[$i]['title']." ".$ri[$i]['number'].") - $d [ID:{$ri[$i]['id']}]";
         if ($i%2) $bcolor="#D9E3F6"; else $bcolor="#ffffff";
         $institems.="\t<div style='margin:0;padding:0;background-color:$bcolor'>".
@@ -462,19 +462,19 @@ else
 
     //////////////////////////////////////////////
     //connect to Items
-    $sql=" SELECT COALESCE((SELECT itemid from item2soft where softid='$id'  AND itemid=items.id ),0) islinked , ".
-	 " items.id,items.status,items.manufacturerid,items.model,items.itemtypeid,items.sn || ' '||items.sn2 ||' ' || items.sn3 as sn,items.dnsname,users.username ,items.label ".
-	 " FROM items,itemtypes,users  WHERE items.itemtypeid=itemtypes.id AND itemtypes.hassoftware=1 AND users.id=items.userid ".
-	 " order by islinked desc,itemtypeid,items.id desc, manufacturerid,model, dnsname ";
+    $sql=" SELECT COALESCE((SELECT item_id from item2soft where software_id='$id'  AND item_id=items.id ),0) islinked , ".
+	 " items.id,items.status,items.manufacturer_id,items.model,items.item_type_id,items.serial_number || ' '||items.sn2 ||' ' || items.sn3 as sn,items.dns_name,users.username ,items.label ".
+	 " FROM items,itemtypes,users  WHERE items.item_type_id=itemtypes.id AND itemtypes.has_software=1 AND users.id=items.user_id ".
+	 " order by islinked desc,item_type_id,items.id desc, manufacturer_id,model, dns_name ";
     $sth=db_execute($dbh,$sql);
 
-    // Check if we have any results - if not, try without the hassoftware restriction
+    // Check if we have any results - if not, try without the has_software restriction
     $results = $sth->fetchAll(PDO::FETCH_ASSOC);
     if (empty($results)) {
-        $sql=" SELECT COALESCE((SELECT itemid from item2soft where softid='$id'  AND itemid=items.id ),0) islinked , ".
-             " items.id,items.status,items.manufacturerid,items.model,items.itemtypeid,items.sn || ' '||items.sn2 ||' ' || items.sn3 as sn,items.dnsname,users.username ,items.label ".
-             " FROM items,itemtypes,users  WHERE items.itemtypeid=itemtypes.id AND users.id=items.userid ".
-             " order by islinked desc,itemtypeid,items.id desc, manufacturerid,model, dnsname ";
+        $sql=" SELECT COALESCE((SELECT item_id from item2soft where software_id='$id'  AND item_id=items.id ),0) islinked , ".
+             " items.id,items.status,items.manufacturer_id,items.model,items.item_type_id,items.serial_number || ' '||items.sn2 ||' ' || items.sn3 as sn,items.dns_name,users.username ,items.label ".
+             " FROM items,itemtypes,users  WHERE items.item_type_id=itemtypes.id AND users.id=items.user_id ".
+             " order by islinked desc,item_type_id,items.id desc, manufacturer_id,model, dns_name ";
         $sth=db_execute($dbh,$sql);
         $results = $sth->fetchAll(PDO::FETCH_ASSOC);
         if (!empty($results)) {
@@ -518,11 +518,11 @@ else
            "target=_blank href='$scriptname?action=edititem&id=".$ir['id']."'><div class='editid'>".
            $ir['id'].
            "</div></a></td>";
-           echo "<td $cls>".$typeid2name[$ir['itemtypeid']].
-           "<td $cls>".$agents[$ir['manufacturerid']]['title']. "&nbsp;</td>".
+           echo "<td $cls>".$typeid2name[$ir['item_type_id']].
+           "<td $cls>".$agents[$ir['manufacturer_id']]['title']. "&nbsp;</td>".
            "<td $cls>".$ir['model'].  "&nbsp;</td>".
            "<td $cls>".$ir['label']."&nbsp;</td>".
-           "<td $cls>".$ir['dnsname']."&nbsp;</td>".
+           "<td $cls>".$ir['dns_name']."&nbsp;</td>".
            "<td $cls>".$ir['username']."&nbsp;</td>".
            "<td $cls>".$ir['sn']."&nbsp;</td></tr>\n";
         }
@@ -550,9 +550,9 @@ else
   <?php 
   //////////////////////////////////////////////
   //connect to Items
-  $sql=" SELECT COALESCE((SELECT invid from soft2inv WHERE softid='$id' AND invid=invoices.id ),0) islinked , ".
+  $sql=" SELECT COALESCE((SELECT invoice_id from soft2inv WHERE software_id='$id' AND invoice_id=invoices.id ),0) islinked , ".
        " invoices.id, number,date,invoices.description as invdesc, agents.title AS agtitle  ".
-       " FROM invoices,agents WHERE agents.id=invoices.vendorid ".
+       " FROM invoices,agents WHERE agents.id=invoices.vendor_id ".
        " ORDER BY islinked desc,date,agtitle";
   $sth=db_execute($dbh,$sql);
   ?>
@@ -605,10 +605,10 @@ else
   <?php 
   //////////////////////////////////////////////
   //connect to Items
-  $sql=" SELECT COALESCE((SELECT contractid FROM contract2soft WHERE softid='$id' AND contractid=contracts.id ),0) islinked , ".
+  $sql=" SELECT COALESCE((SELECT contract_id FROM contracts_software WHERE software_id='$id' AND contract_id=contracts.id ),0) islinked , ".
        " contracts.id, contracts.title AS ctitle, agents.title AS agtitle  ".
-       " FROM contracts,agents WHERE agents.id=contracts.contractorid ".
-       " ORDER BY islinked desc,contractorid,ctitle";
+       " FROM contracts,agents WHERE agents.id=contracts.contractor_id ".
+       " ORDER BY islinked desc,contractor_id,ctitle";
   $sth=db_execute($dbh,$sql);
   ?>
   <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>

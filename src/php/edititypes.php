@@ -30,7 +30,7 @@ if  (isset($deltype) && $deltype<$internaltypes) { //delete an item entry
 }
 elseif  (isset($deltype)) { //delete an item entry
 
-  $sql="SELECT count(id) count from items WHERE itemtypeid=".$_GET['deltype'];
+  $sql="SELECT count(id) count from items WHERE item_type_id=".$_GET['deltype'];
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $count=$r['count'];
@@ -51,7 +51,7 @@ if (isset ($newtype)) {
 //print_r($_REQUEST);
 
   if  (strlen($newtype)>1) { //add new type
-    $sql="INSERT INTO itemtypes (typedesc,hassoftware) values ('$newtype','$newhassoftware')";
+    $sql="INSERT INTO item_types (typedesc,has_software) values ('$newtype','$newhas_software')";
     $sth=db_execute($dbh,$sql);
   }//add new type
 
@@ -60,7 +60,7 @@ if (isset ($newtype)) {
   for ($i=0;$i<count($_POST["ids"]);$i++) {
     $descs=$_POST['descs'];
     $ids=$_POST['ids'];
-    $sql="UPDATE itemtypes SET typedesc='".$descs[$i]."', hassoftware=".$hassoftware[$i]." ".
+    $sql="UPDATE item_types SET description='".$descs[$i]."', has_software=".$has_software[$i]." ".
          " WHERE id='".$ids[$i]."'";
     db_exec($dbh,$sql);
 
@@ -68,7 +68,7 @@ if (isset ($newtype)) {
 }
 //echo "<pre>"; print_r($_POST); echo "</pre>";
 
-$sql="SELECT * from itemtypes order by typedesc";
+$sql="SELECT * from itemtypes order by description";
 $sth = $dbh->query($sql);
 $fixtypes=$sth->fetchAll(PDO::FETCH_ASSOC);
 
@@ -96,11 +96,11 @@ if ($dbid>="0") //change this to remove X from internal types
 echo "\n<tr><td title='Delete ID:$dbid'><a href='javascript:delconfirm(\"$itype\",\"$scriptname?action=edititypes&amp;deltype=$dbid\");'><img title='delete' src='images/delete.png' border=0></a></td>";
 else echo "\n\n<tr><td>--</td>";
 
-  if ($fixtypes[$i]['hassoftware']) $s="selected"; else $s="";
+  if ($fixtypes[$i]['has_software']) $s="selected"; else $s="";
 
   echo "<td><input type='text' name='descs[]' ".
   "value=\"".$fixtypes[$i]['typedesc']."\">\n".
-  "<td><select name='hassoftware[]'>".
+  "<td><select name='has_software[]'>".
   "<option value='0'>No</option>".
   "<option $s value='1'>Yes</option></select>";
  echo "\n<input type=hidden name='ids[]' value='$dbid' >\n";
@@ -115,7 +115,7 @@ if (!isset($dbid)) $dbid=0;
 <tr><th>&nbsp;</th><th><?php te("Description");?></th><th><?php te("Supports<br>Software");?><sup>1</sup></th></tr>
 <tr><td colspan=1><?php te("New");?>:</td><td>
      <input name='newtype' type='text'></td>
-     <td><select name='newhassoftware'>
+     <td><select name='newhas_software'>
      <option value='0'><?php te("No");?></option>
      <option value='1'><?php te("Yes");?></option></select></td>
      </tr>

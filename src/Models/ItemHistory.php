@@ -10,8 +10,8 @@ class ItemHistory extends BaseModel
     protected $table = 'itemhistory';
 
     protected $fillable = [
-        'itemid',
-        'userid',
+        'item_id',
+        'user_id',
         'action',
         'description',
         'date',

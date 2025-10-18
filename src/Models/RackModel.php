@@ -23,10 +23,10 @@ class RackModel
         $rack = $this->db->fetchOne(
             "SELECT r.*,
                     l.name as location_name,
-                    la.areaname as location_area_name
+                    la.name as location_area_name
              FROM racks r
-             LEFT JOIN locations l ON r.locationid = l.id
-             LEFT JOIN locareas la ON r.locareaid = la.id
+             LEFT JOIN locations l ON r.location_id = l.id
+             LEFT JOIN location_areas la ON r.location_area_id = la.id
              WHERE r.id = :id",
             ['id' => $id]
         );
@@ -34,14 +34,14 @@ class RackModel
         if ($rack) {
             $rack = $this->transformRackForTemplate($rack);
 
-            // Get items in this rack with rackposdepth
+            // Get items in this rack with rack_position_depth
             $rack['items'] = $this->db->fetchAll(
-                "SELECT i.id, i.label, i.function, i.rackposition, i.rackposdepth, i.usize,
-                        i.model, i.status, a.title as manufacturer_name
+                "SELECT i.id, i.label, i.function, i.rack_position, i.rack_position_depth, i.rack_units,
+                        i.model, i.status_id, a.name as manufacturer_name
                  FROM items i
-                 LEFT JOIN agents a ON i.manufacturerid = a.id
-                 WHERE i.rackid = :rack_id
-                 ORDER BY i.rackposition",
+                 LEFT JOIN agents a ON i.manufacturer_id = a.id
+                 WHERE i.rack_id = :rack_id
+                 ORDER BY i.rack_position",
                 ['rack_id' => $id]
             );
 
@@ -67,12 +67,12 @@ class RackModel
         }
 
         if (!empty($filters['location'])) {
-            $whereConditions[] = "r.locationid = :location";
+            $whereConditions[] = "r.location_id = :location";
             $params['location'] = (int) $filters['location'];
         }
 
         if (!empty($filters['area'])) {
-            $whereConditions[] = "r.locareaid = :area";
+            $whereConditions[] = "r.location_area_id = :area";
             $params['area'] = (int) $filters['area'];
         }
 
@@ -86,18 +86,18 @@ class RackModel
         $sql = "
             SELECT r.*,
                    l.name as location_name,
-                   la.areaname as location_area_name,
+                   la.name as location_area_name,
                    COALESCE(item_count.count, 0) as items_count,
                    COALESCE(item_count.occupation, 0) as occupation
             FROM racks r
-            LEFT JOIN locations l ON r.locationid = l.id
-            LEFT JOIN locareas la ON r.locareaid = la.id
+            LEFT JOIN locations l ON r.location_id = l.id
+            LEFT JOIN location_areas la ON r.location_area_id = la.id
             LEFT JOIN (
-                SELECT rackid, COUNT(*) as count, SUM(usize) as occupation
+                SELECT rack_id, COUNT(*) as count, SUM(rack_units) as occupation
                 FROM items
-                WHERE rackid IS NOT NULL
-                GROUP BY rackid
-            ) item_count ON r.id = item_count.rackid
+                WHERE rack_id IS NOT NULL
+                GROUP BY rack_id
+            ) item_count ON r.id = item_count.rack_id
             $whereClause
             ORDER BY r.label
             LIMIT :limit OFFSET :offset
@@ -126,8 +126,8 @@ class RackModel
     public function create(array $data): int
     {
         $allowedFields = [
-            'locationid', 'locareaid', 'label', 'model', 'usize', 'depth',
-            'comments', 'revnums'
+            'location_id', 'location_area_id', 'label', 'model', 'size_units', 'depth_mm',
+            'comments', 'reverse_numbering'
         ];
 
         $insertData = array_intersect_key($data, array_flip($allowedFields));
@@ -141,8 +141,8 @@ class RackModel
     public function update(int $id, array $data): bool
     {
         $allowedFields = [
-            'locationid', 'locareaid', 'label', 'model', 'usize', 'depth',
-            'comments', 'revnums'
+            'location_id', 'location_area_id', 'label', 'model', 'size_units', 'depth_mm',
+            'comments', 'reverse_numbering'
         ];
 
         $updateData = array_intersect_key($data, array_flip($allowedFields));
@@ -181,7 +181,7 @@ class RackModel
 
         // Check items that reference this rack
         $itemCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM items WHERE rackid = :id",
+            "SELECT COUNT(*) FROM items WHERE rack_id = :id",
             ['id' => $id]
         );
         if ($itemCount > 0) {
@@ -204,11 +204,11 @@ class RackModel
             return [];
         }
 
-        $uSize = (int) $rack['usize'] ?: 42; // Default to 42U if not specified
+        $uSize = (int) $rack['size_units'] ?: 42; // Default to 42U if not specified
 
         // Get items in this rack
         $items = $this->db->fetchAll(
-            "SELECT id, label, function, rackposition, usize FROM items WHERE rackid = :rack_id ORDER BY rackposition",
+            "SELECT id, label, function, rack_position, rack_units FROM items WHERE rack_id = :rack_id ORDER BY rack_position",
             ['rack_id' => $rackId]
         );
 
@@ -224,8 +224,8 @@ class RackModel
 
         // Mark occupied positions
         foreach ($items as $item) {
-            $position = (int) $item['rackposition'];
-            $size = (int) ($item['usize'] ?: 1);
+            $position = (int) $item['rack_position'];
+            $size = (int) ($item['rack_units'] ?: 1);
 
             if ($position > 0 && $position <= $uSize) {
                 for ($u = $position; $u < $position + $size && $u <= $uSize; $u++) {
@@ -247,7 +247,7 @@ class RackModel
     {
         // Add computed fields that templates expect
         $rack['location'] = $rack['location_name'] ? [
-            'id' => $rack['locationid'],
+            'id' => $rack['location_id'],
             'name' => $rack['location_name'],
             'title' => $rack['location_name']
         ] : null;
@@ -261,14 +261,14 @@ class RackModel
         $rack['display_name'] = $rack['label'] ?: 'Rack #' . $rack['id'];
 
         // Ensure numeric fields are properly typed
-        $rack['usize'] = (int) ($rack['usize'] ?: 0);
-        $rack['depth'] = (int) ($rack['depth'] ?: 0);
-        $rack['revnums'] = (int) ($rack['revnums'] ?: 0);
+        $rack['size_units'] = (int) ($rack['size_units'] ?: 0);
+        $rack['depth_mm'] = (int) ($rack['depth_mm'] ?: 0);
+        $rack['reverse_numbering'] = (int) ($rack['reverse_numbering'] ?: 0);
 
         // Calculate occupation percentage
         $occupation = (int) ($rack['occupation'] ?? 0);
-        $usize = $rack['usize'];
-        $rack['occupation_percent'] = $usize > 0 ? (int) (($occupation / $usize) * 100) : 0;
+        $sizeUnits = $rack['size_units'];
+        $rack['occupation_percent'] = $sizeUnits > 0 ? (int) (($occupation / $sizeUnits) * 100) : 0;
         $rack['occupation'] = $occupation;
 
         return $rack;

@@ -126,18 +126,18 @@ class RackController extends BaseController
             $errors[] = 'Rack label is required';
         }
 
-        if (empty($data['locationid'])) {
+        if (empty($data['location_id'])) {
             $errors[] = 'Location is required';
-        } elseif (!$this->locationModel->find((int) $data['locationid'])) {
+        } elseif (!$this->locationModel->find((int) $data['location_id'])) {
             $errors[] = 'Invalid location';
         }
 
         // LocationArea not supported - skip validation
-        // if (!empty($data['locareaid']) && !LocationArea::find($data['locareaid'])) {
+        // if (!empty($data['location_area_id']) && !LocationArea::find($data['location_area_id'])) {
         //     $errors[] = 'Invalid location area';
         // }
 
-        if (!empty($data['usize']) && ((int) $data['usize'] < 1 || (int) $data['usize'] > 100)) {
+        if (!empty($data['size_units']) && ((int) $data['size_units'] < 1 || (int) $data['size_units'] > 100)) {
             $errors[] = 'U-size must be between 1 and 100';
         }
 
@@ -151,14 +151,14 @@ class RackController extends BaseController
 
         try {
             $rackData = [
-                'locationid' => (int) $data['locationid'],
-                'usize' => !empty($data['usize']) ? (int) $data['usize'] : null,
+                'location_id' => (int) $data['location_id'],
+                'size_units' => !empty($data['size_units']) ? (int) $data['size_units'] : null,
                 'depth' => !empty($data['depth']) ? (int) $data['depth'] : null,
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
                 'model' => $this->sanitizeString($data['model'] ?? ''),
                 'label' => $this->sanitizeString($data['label'] ?? ''),
-                'revnums' => !empty($data['revnums']) ? (int) $data['revnums'] : null,
-                'locareaid' => !empty($data['locareaid']) ? (int) $data['locareaid'] : null,
+                'reverse_numbering' => !empty($data['reverse_numbering']) ? (int) $data['reverse_numbering'] : null,
+                'location_area_id' => !empty($data['location_area_id']) ? (int) $data['location_area_id'] : null,
             ];
 
             $rackId = $this->rackModel->create($rackData);
@@ -229,18 +229,18 @@ class RackController extends BaseController
             $errors[] = 'Rack label is required';
         }
 
-        if (empty($data['locationid'])) {
+        if (empty($data['location_id'])) {
             $errors[] = 'Location is required';
-        } elseif (!$this->locationModel->find((int) $data['locationid'])) {
+        } elseif (!$this->locationModel->find((int) $data['location_id'])) {
             $errors[] = 'Invalid location';
         }
 
         // LocationArea not supported - skip validation
-        // if (!empty($data['locareaid']) && !LocationArea::find($data['locareaid'])) {
+        // if (!empty($data['location_area_id']) && !LocationArea::find($data['location_area_id'])) {
         //     $errors[] = 'Invalid location area';
         // }
 
-        if (!empty($data['usize']) && ((int) $data['usize'] < 1 || (int) $data['usize'] > 100)) {
+        if (!empty($data['size_units']) && ((int) $data['size_units'] < 1 || (int) $data['size_units'] > 100)) {
             $errors[] = 'U-size must be between 1 and 100';
         }
 
@@ -254,14 +254,14 @@ class RackController extends BaseController
 
         try {
             $updateData = [
-                'locationid' => (int) $data['locationid'],
-                'usize' => !empty($data['usize']) ? (int) $data['usize'] : null,
+                'location_id' => (int) $data['location_id'],
+                'size_units' => !empty($data['size_units']) ? (int) $data['size_units'] : null,
                 'depth' => !empty($data['depth']) ? (int) $data['depth'] : null,
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
                 'model' => $this->sanitizeString($data['model'] ?? ''),
                 'label' => $this->sanitizeString($data['label'] ?? ''),
-                'revnums' => !empty($data['revnums']) ? (int) $data['revnums'] : null,
-                'locareaid' => !empty($data['locareaid']) ? (int) $data['locareaid'] : null,
+                'reverse_numbering' => !empty($data['reverse_numbering']) ? (int) $data['reverse_numbering'] : null,
+                'location_area_id' => !empty($data['location_area_id']) ? (int) $data['location_area_id'] : null,
             ];
 
             $this->rackModel->update($id, $updateData);
@@ -333,7 +333,7 @@ class RackController extends BaseController
 
         // Get rack layout
         $rackData = $this->rackModel->getRackLayout($id);
-        $rackSize = $rack['usize'] ?: 42;
+        $rackSize = $rack['size_units'] ?: 42;
 
         return $this->render($response, 'racks/visualize.twig', [
             'user' => $user,
@@ -359,13 +359,13 @@ class RackController extends BaseController
         $allRacks = $this->rackModel->getAll();
         $racks = [];
         foreach ($allRacks as $rack) {
-            if ((int)$rack['locationid'] === $locationId) {
+            if ((int)$rack['location_id'] === $locationId) {
                 $racks[] = [
                     'id' => $rack['id'],
                     'name' => $rack['label'],
                     'label' => $rack['label'],
                     'model' => $rack['model'],
-                    'usize' => $rack['usize'],
+                    'size_units' => $rack['size_units'],
                 ];
             }
         }
@@ -397,7 +397,7 @@ class RackController extends BaseController
             }
         }
 
-        $rackSize = $rack['usize'] ?: 42;
+        $rackSize = $rack['size_units'] ?: 42;
 
         return $this->json($response, [
             'rack' => [
@@ -464,7 +464,7 @@ class RackController extends BaseController
 
                     $updatedCount = 0;
                     foreach ($validRackIds as $rackId) {
-                        if ($this->rackModel->update($rackId, ['locationid' => (int) $data['new_location']])) {
+                        if ($this->rackModel->update($rackId, ['location_id' => (int) $data['new_location']])) {
                             $updatedCount++;
                         }
                     }

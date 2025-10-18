@@ -67,47 +67,47 @@ $reports=array (
 switch ($query) {
 
   case "depreciation5":
-    $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model, strftime('%Y-%m-%d', purchasedate,'unixepoch') AS PurchaseDate, ".
-	     "purchprice as PurchasePrice, ".
-		 " cast( ((strftime('%s','now') - purchasedate)/(60*60*24*30.4)*(purchasedate AND 1)) AS INTEGER)  as Months , ".
-		 " (purchprice-purchprice/60*cast( ((strftime('%s','now') - purchasedate)/(60*60*24*30.4)*(purchasedate AND 1)) AS INTEGER))  as CurrentValue  ".
+    $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model, strftime('%Y-%m-%d', purchase_date,'unixepoch') AS PurchaseDate, ".
+	     "purchase_price as PurchasePrice, ".
+		 " cast( ((strftime('%s','now') - purchase_date)/(60*60*24*30.4)*(purchase_date AND 1)) AS INTEGER)  as Months , ".
+		 " (purchase_price-purchase_price/60*cast( ((strftime('%s','now') - purchase_date)/(60*60*24*30.4)*(purchase_date AND 1)) AS INTEGER))  as CurrentValue  ".
          " FROM items,itemtypes,agents ".
-         " WHERE agents.id=manufacturerid AND itemtypes.id=items.itemtypeid ";
+         " WHERE agents.id=manufacturer_id AND itemtypes.id=items.item_type_id ";
     $editlnk="$scriptname?action=edititem&id";
   break;
 
 
   case "depreciation3":
-    $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model, strftime('%Y-%m-%d', purchasedate,'unixepoch') AS PurchaseDate, ".
-	     "purchprice as PurchasePrice, ".
-		 " cast( ((strftime('%s','now') - purchasedate)/(60*60*24*30.4)*(purchasedate AND 1)) AS INTEGER)  as Months , ".
-		 " (purchprice-purchprice/36*cast( ((strftime('%s','now') - purchasedate)/(60*60*24*30.4)*(purchasedate AND 1)) AS INTEGER))  as CurrentValue  ".
+    $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model, strftime('%Y-%m-%d', purchase_date,'unixepoch') AS PurchaseDate, ".
+	     "purchase_price as PurchasePrice, ".
+		 " cast( ((strftime('%s','now') - purchase_date)/(60*60*24*30.4)*(purchase_date AND 1)) AS INTEGER)  as Months , ".
+		 " (purchase_price-purchase_price/36*cast( ((strftime('%s','now') - purchase_date)/(60*60*24*30.4)*(purchase_date AND 1)) AS INTEGER))  as CurrentValue  ".
          " FROM items,itemtypes,agents ".
-         " WHERE agents.id=manufacturerid AND itemtypes.id=items.itemtypeid ";
+         " WHERE agents.id=manufacturer_id AND itemtypes.id=items.item_type_id ";
     $editlnk="$scriptname?action=edititem&id";
   break;
 
 
   case "noinvoice":
-    $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model, strftime('%Y-%m-%d', purchasedate,'unixepoch') AS PurchaseDate".
+    $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model, strftime('%Y-%m-%d', purchase_date,'unixepoch') AS PurchaseDate".
          " FROM items,itemtypes,agents ".
-         " WHERE agents.id=manufacturerid AND itemtypes.id=items.itemtypeid AND items.ID not in (select itemid from item2inv)";
+         " WHERE agents.id=manufacturer_id AND itemtypes.id=items.item_type_id AND items.ID not in (select item_id from item2inv)";
     $editlnk="$scriptname?action=edititem&id";
   break;
 
   case "nolocation":
     $sql="select items.id as ID,typedesc as type, agents.title as manufacturer ,model ".
          " FROM items,itemtypes,agents ".
-         " WHERE agents.id=manufacturerid AND itemtypes.id=items.itemtypeid AND (locationid='' OR locationid is null)";
+         " WHERE agents.id=manufacturer_id AND itemtypes.id=items.item_type_id AND (location_id='' OR location_id is null)";
     $editlnk="$scriptname?action=edititem&id";
   break;
 
 
 
   case "allips":
-    $sql="select items.id as ID,ipv4,ipv6, typedesc as type, agents.title as manufacturer, model, dnsname, label  ".
+    $sql="select items.id as ID,ipv4,ipv6, description as type, agents.title as manufacturer, model, dns_name, label  ".
          " FROM items,itemtypes,agents ".
-         " WHERE  agents.id=manufacturerid AND itemtypes.id=items.itemtypeid AND ipv4 <> '' order by ipv4";
+         " WHERE  agents.id=manufacturer_id AND itemtypes.id=items.item_type_id AND ipv4 <> '' order by ipv4";
     $editlnk="$scriptname?action=edititem&id";
   break;
 
@@ -115,7 +115,7 @@ switch ($query) {
     $sql="select count(*) as totalcount, ".
          " locations.name || ' Floor:' || locations.floor  as Location  ".
          " FROM items,agents,locations ".
-         " WHERE agents.id=items.manufacturerid AND items.locationid=locations.id GROUP BY locationid order by totalcount desc;";
+         " WHERE agents.id=items.manufacturer_id AND items.location_id=locations.id GROUP BY location_id order by totalcount desc;";
     $editlnk="$scriptname?action=editlocations";
     $graph['type']="pie";
     $graph['colx']="Location";
@@ -124,13 +124,13 @@ switch ($query) {
   break;
 
   case "itemlistperlocation":
-	$sql="select items.id as ID, typedesc as type, agents.title as manufacturer, model, dnsname, ".
-	"locations.name || ' Floor:' || locations.floor || ' Area:' || (select locareas.areaname from locareas where locareas.id=items.locareaid) as Location  ".
+	$sql="select items.id as ID, description as type, agents.title as manufacturer, model, dns_name, ".
+	"locations.name || ' Floor:' || locations.floor || ' Area:' || (select locareas.name from locareas where locareas.id=items.location_area_id) as Location  ".
 	"FROM items ".
-	"INNER JOIN agents on agents.id=items.manufacturerid ".
-	"INNER JOIN locations on items.locationid=locations.id ".
-	"INNER JOIN itemtypes on itemtypes.id=items.itemtypeid ".
-	"order by items.locationid,typedesc desc";
+	"INNER JOIN agents on agents.id=items.manufacturer_id ".
+	"INNER JOIN locations on items.location_id=locations.id ".
+	"INNER JOIN item_types on itemtypes.id=items.item_type_id ".
+	"order by items.location_id,typedesc desc";
     $editlnk="$scriptname?action=edititem&id";
     $graph['type']="pie";
     $graph['colx']="Location";
@@ -141,7 +141,7 @@ switch ($query) {
 
   case "itemperagent":
     $sql="select count(*) as totalcount,agents.title as Agent, agents.id as ID from items,agents ".
-         "WHERE agents.id=items.manufacturerid group by manufacturerid order by totalcount desc;";
+         "WHERE agents.id=items.manufacturer_id group by manufacturer_id order by totalcount desc;";
     $editlnk="$scriptname?action=editagent&id";
     $graph['type']="pie";
     $graph['colx']="Agent";
@@ -151,7 +151,7 @@ switch ($query) {
 
   case "softwareperagent":
     $sql="select count(*) as totalcount,agents.title as Agent, agents.id as ID from software,agents ".
-         "WHERE agents.id=software.manufacturerid group by manufacturerid order by totalcount desc;";
+         "WHERE agents.id=software.manufacturer_id group by manufacturer_id order by totalcount desc;";
     $editlnk="$scriptname?action=editagent&id";
     $graph['type']="pie";
     $graph['colx']="Agent";
@@ -161,7 +161,7 @@ switch ($query) {
 
   case "invoicesperagent":
     $sql="select count(*) as totalcount,agents.title as Agent, agents.id as ID from invoices,agents ".
-         "WHERE agents.id=invoices.vendorid group by vendorid order by totalcount desc;";
+         "WHERE agents.id=invoices.vendor_id group by vendor_id order by totalcount desc;";
     $editlnk="$scriptname?action=editagent&id";
     $graph['type']="pie";
     $graph['colx']="Agent";
@@ -171,19 +171,19 @@ switch ($query) {
 
   case "itemsendwarranty":
     $t=time();
-    $sql="select items.id as ID,ipv4, typedesc as type, agents.title as manufacturer, model, dnsname, label,  ".
-         " (strftime('%s',purchasedate,'unixepoch','+'||warrantymonths||' months')-$t)/(60*60*24)  RemainingDays FROM items,itemtypes,agents ".
-         " WHERE  agents.id=manufacturerid AND itemtypes.id=items.itemtypeid  AND RemainingDays>-360 AND RemainingDays<360 order by RemainingDays ";
+    $sql="select items.id as ID,ipv4, description as type, agents.title as manufacturer, model, dns_name, label,  ".
+         " (strftime('%s',purchase_date,'unixepoch','+'||warranty_months||' months')-$t)/(60*60*24)  RemainingDays FROM items,itemtypes,agents ".
+         " WHERE  agents.id=manufacturer_id AND itemtypes.id=items.item_type_id  AND RemainingDays>-360 AND RemainingDays<360 order by RemainingDays ";
     $editlnk="$scriptname?action=edititem&id";
   break;
 
   case "percsupitems":
     $sql="select 
-    'NotExpired' as Type, (select count(id) from items where ((purchasedate+warrantymonths*30*24*60*60-strftime(\"%s\"))/(60*60*24)) >1 AND purchasedate>0 AND warrantymonths>0) as Items
+    'NotExpired' as Type, (select count(id) from items where ((purchase_date+warranty_months*30*24*60*60-strftime(\"%s\"))/(60*60*24)) >1 AND purchase_date>0 AND warranty_months>0) as Items
     UNION SELECT
-    'Expired' as Type, (select count(id) from items where ((purchasedate+warrantymonths*30*24*60*60-strftime(\"%s\"))/(60*60*24)) <=1 AND purchasedate>0 AND warrantymonths>0) as Items
+    'Expired' as Type, (select count(id) from items where ((purchase_date+warranty_months*30*24*60*60-strftime(\"%s\"))/(60*60*24)) <=1 AND purchase_date>0 AND warranty_months>0) as Items
     UNION SELECT
-    'Undefined' as Type, (select count(id) from items where purchasedate=0 OR purchasedate is null OR warrantymonths=0 OR warrantymonths is null) as Items
+    'Undefined' as Type, (select count(id) from items where purchase_date=0 OR purchase_date is null OR warranty_months=0 OR warranty_months is null) as Items
     UNION SELECT 'Total' as Type, (select count(id) from items)  as Items
     ";
     $graph['type']="pie";

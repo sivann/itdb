@@ -227,8 +227,8 @@
                                         {% for sw in invoice.software %}
                                         <tr data-software-id="{{ sw.id }}">
                                             <td><a href="/software/{{ sw.id }}" class="text-decoration-none">#{{ sw.id }}</a></td>
-                                            <td>{{ sw.stitle|default('N/A') }}</td>
-                                            <td>{{ sw.sversion|default('N/A') }}</td>
+                                            <td>{{ sw.title|default('N/A') }}</td>
+                                            <td>{{ sw.version|default('N/A') }}</td>
                                             <td>{{ sw.manufacturer_name|default('N/A') }}</td>
                                             <td>{{ sw.license_type_name|default('N/A') }}</td>
                                             <td>
@@ -357,8 +357,8 @@
                                             </td>
                                             <td>{{ file.title|default('N/A') }}</td>
                                             <td>{{ file.filetype_name|default('Unknown') }}</td>
-                                            <td>{{ file.filesize ? (file.filesize|number_format ~ ' bytes') : 'N/A' }}</td>
-                                            <td>{{ file.uploaddate_formatted|default('N/A') }}</td>
+                                            <td>{{ file.file_size ? (file.file_size|number_format ~ ' bytes') : 'N/A' }}</td>
+                                            <td>{{ file.uploaded_at_formatted|default('N/A') }}</td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
                                                     <button type="button"
@@ -829,16 +829,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     swElement.innerHTML = `
                         <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">ID: ${sw.id}, Title: ${sw.stitle || 'N/A'}</h6>
+                            <h6 class="mb-1">ID: ${sw.id}, Title: ${sw.title || 'N/A'}</h6>
                             <small class="badge bg-secondary">${sw.manufacturer?.title || 'No Manufacturer'}</small>
                         </div>
-                        <p class="mb-1"><strong>Version: ${sw.sversion || 'N/A'}</strong></p>
+                        <p class="mb-1"><strong>Version: ${sw.version || 'N/A'}</strong></p>
                         <p class="mb-1 text-muted small">
                             <i class="bi bi-key"></i> License Type: ${sw.license_type?.name || 'N/A'} •
                             <i class="bi bi-hash"></i> Qty: ${sw.licqty || '1'}
                         </p>
                     `;
-                    swElement.onclick = () => addAssociation('software', sw.id, `Software ID: ${sw.id}, ${sw.stitle || 'N/A'}`);
+                    swElement.onclick = () => addAssociation('software', sw.id, `Software ID: ${sw.id}, ${sw.title || 'N/A'}`);
                     softwareList.appendChild(swElement);
                 });
 

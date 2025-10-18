@@ -156,7 +156,7 @@ class ItemController extends BaseController
 
         // Validation rules
         $rules = [
-            'itemtypeid' => 'required|integer',
+            'item_type_id' => 'required|integer',
             'status' => 'required|integer',
             'function' => 'string|max:255',
             'model' => 'string|max:100',
@@ -177,28 +177,28 @@ class ItemController extends BaseController
             // Prepare data for creation using correct database field names
             $itemData = [
                 'function' => $this->sanitizeString($data['function'] ?? ''),
-                'itemtypeid' => !empty($data['itemtypeid']) ? (int) $data['itemtypeid'] : null,
+                'item_type_id' => !empty($data['item_type_id']) ? (int) $data['item_type_id'] : null,
                 'status' => (int) $data['status'],
                 'model' => $this->sanitizeString($data['model'] ?? ''),
                 'sn' => $this->sanitizeString($data['sn'] ?? ''),
                 'label' => $this->sanitizeString($data['label'] ?? ''),
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
-                'maintenanceinfo' => $this->sanitizeString($data['maintenanceinfo'] ?? ''),
-                'userid' => !empty($data['userid']) ? (int) $data['userid'] : null,
-                'locationid' => !empty($data['locationid']) ? (int) $data['locationid'] : null,
+                'maintenance_info' => $this->sanitizeString($data['maintenance_info'] ?? ''),
+                'user_id' => !empty($data['user_id']) ? (int) $data['user_id'] : null,
+                'location_id' => !empty($data['location_id']) ? (int) $data['location_id'] : null,
                 'ipv4' => $this->sanitizeString($data['ipv4'] ?? ''),
-                'dnsname' => $this->sanitizeString($data['dnsname'] ?? ''),
+                'dns_name' => $this->sanitizeString($data['dns_name'] ?? ''),
                 'cpu' => $this->sanitizeString($data['cpu'] ?? ''),
                 'ram' => $this->sanitizeString($data['ram'] ?? ''),
                 'hd' => $this->sanitizeString($data['hd'] ?? ''),
             ];
 
             // Handle purchase information
-            if (!empty($data['purchasedate'])) {
-                $itemData['purchasedate'] = strtotime($data['purchasedate']);
+            if (!empty($data['purchase_date'])) {
+                $itemData['purchase_date'] = strtotime($data['purchase_date']);
             }
-            if (!empty($data['warrantymonths'])) {
-                $itemData['warrantymonths'] = (int) $data['warrantymonths'];
+            if (!empty($data['warranty_months'])) {
+                $itemData['warranty_months'] = (int) $data['warranty_months'];
             }
 
             $itemId = $this->itemModel->create($itemData);
@@ -287,42 +287,42 @@ class ItemController extends BaseController
 
         try {
             // Validate required fields
-            if (empty($data['itemtypeid'])) {
-                throw new \Exception('The itemtypeid field is required and cannot be empty.');
+            if (empty($data['item_type_id'])) {
+                throw new \Exception('The item_type_id field is required and cannot be empty.');
             }
 
             // Prepare data for update using correct database field names
             $updateData = [
                 'function' => $this->sanitizeString($data['function'] ?? ''),
-                'itemtypeid' => (int) $data['itemtypeid'],
+                'item_type_id' => (int) $data['item_type_id'],
                 'status' => (int) ($data['status'] ?? 0),
-                'manufacturerid' => !empty($data['manufacturerid']) ? (int) $data['manufacturerid'] : null,
+                'manufacturer_id' => !empty($data['manufacturer_id']) ? (int) $data['manufacturer_id'] : null,
                 'model' => $this->sanitizeString($data['model'] ?? ''),
                 'sn' => $this->sanitizeString($data['sn'] ?? ''),
                 'label' => $this->sanitizeString($data['label'] ?? ''),
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
-                'maintenanceinfo' => $this->sanitizeString($data['maintenanceinfo'] ?? ''),
-                'userid' => !empty($data['userid']) ? (int) $data['userid'] : null,
-                'locationid' => !empty($data['locationid']) ? (int) $data['locationid'] : null,
+                'maintenance_info' => $this->sanitizeString($data['maintenance_info'] ?? ''),
+                'user_id' => !empty($data['user_id']) ? (int) $data['user_id'] : null,
+                'location_id' => !empty($data['location_id']) ? (int) $data['location_id'] : null,
                 'ipv4' => $this->sanitizeString($data['ipv4'] ?? ''),
-                'dnsname' => $this->sanitizeString($data['dnsname'] ?? ''),
+                'dns_name' => $this->sanitizeString($data['dns_name'] ?? ''),
                 'cpu' => $this->sanitizeString($data['cpu'] ?? ''),
                 'ram' => $this->sanitizeString($data['ram'] ?? ''),
                 'hd' => $this->sanitizeString($data['hd'] ?? ''),
-                'rackmountable' => !empty($data['rackmountable']) ? 1 : 0,
-                'rackid' => !empty($data['rackid']) ? (int) $data['rackid'] : null,
-                'rackposition' => !empty($data['rackposition']) ? (int) $data['rackposition'] : null,
-                'rackposdepth' => !empty($data['rackposdepth']) ? (int) $data['rackposdepth'] : null,
+                'is_rack_mountable' => !empty($data['is_rack_mountable']) ? 1 : 0,
+                'rack_id' => !empty($data['rack_id']) ? (int) $data['rack_id'] : null,
+                'rack_position' => !empty($data['rack_position']) ? (int) $data['rack_position'] : null,
+                'rack_position_depth' => !empty($data['rack_position_depth']) ? (int) $data['rack_position_depth'] : null,
                 'origin' => $this->sanitizeString($data['origin'] ?? ''),
-                'purchprice' => $this->sanitizeString($data['purchprice'] ?? ''),
+                'purchase_price' => $this->sanitizeString($data['purchase_price'] ?? ''),
             ];
 
             // Handle purchase information
-            if (!empty($data['purchasedate'])) {
-                $updateData['purchasedate'] = strtotime($data['purchasedate']);
+            if (!empty($data['purchase_date'])) {
+                $updateData['purchase_date'] = strtotime($data['purchase_date']);
             }
-            if (!empty($data['warrantymonths'])) {
-                $updateData['warrantymonths'] = (int) $data['warrantymonths'];
+            if (!empty($data['warranty_months'])) {
+                $updateData['warranty_months'] = (int) $data['warranty_months'];
             }
 
             $this->itemModel->update($id, $updateData);
@@ -402,15 +402,15 @@ class ItemController extends BaseController
                 'sn' => $item['sn'],
                 'function' => $item['function'], // description/title
                 'itemType' => [
-                    'id' => $item['itemtypeid'] ?? null,
+                    'id' => $item['item_type_id'] ?? null,
                     'name' => $item['itemtype_name'] ?? 'Unknown Type'
                 ],
                 'location' => [
-                    'id' => $item['locationid'] ?? null,
+                    'id' => $item['location_id'] ?? null,
                     'name' => $item['location_name'] ?? 'No Location'
                 ],
                 'user' => [
-                    'id' => $item['userid'] ?? null,
+                    'id' => $item['user_id'] ?? null,
                     'display_name' => $item['username'] ?? 'Unassigned'
                 ]
             ];
@@ -428,7 +428,7 @@ class ItemController extends BaseController
     {
         $errors = [];
 
-        if (empty($data['itemtypeid'])) {
+        if (empty($data['item_type_id'])) {
             $errors[] = 'Item type is required.';
         }
 
@@ -476,7 +476,7 @@ class ItemController extends BaseController
         }
 
         // Users can edit items assigned to them
-        if ($user->usertype >= 1 && ($item['userid'] ?? null) === $user->id) {
+        if ($user->usertype >= 1 && ($item['user_id'] ?? null) === $user->id) {
             return true;
         }
 
@@ -598,48 +598,48 @@ class ItemController extends BaseController
                 // Get the newly added item data for UI update
                 switch ($type) {
                     case 'software':
-                        $sql = "SELECT s.id, s.stitle as name, s.sversion as version,
-                                       a.title as manufacturer_name, lt.name as license_type
+                        $sql = "SELECT s.id, s.title as name, s.version as version,
+                                       a.name as manufacturer_name, lt.name as license_type
                                 FROM software s
-                                LEFT JOIN agents a ON s.manufacturerid = a.id
-                                LEFT JOIN license_types lt ON s.slicensetype = lt.id
+                                LEFT JOIN agents a ON s.manufacturer_id = a.id
+                                LEFT JOIN license_types lt ON s.license_type = lt.id
                                 WHERE s.id = ?";
                         break;
 
                     case 'item':
                         $sql = "SELECT i.id, i.label, i.function, it.name as itemtype_name,
-                                       st.statusdesc as status_name,
-                                       l.name as location_name, u.username, a.title as manufacturer_name
+                                       st.name as status_name,
+                                       l.name as location_name, u.username, a.name as manufacturer_name
                                 FROM items i
-                                LEFT JOIN itemtypes it ON i.itemtypeid = it.id
-                                LEFT JOIN statustypes st ON i.status = st.id
-                                LEFT JOIN locations l ON i.locationid = l.id
-                                LEFT JOIN users u ON i.userid = u.id
-                                LEFT JOIN agents a ON i.manufacturerid = a.id
+                                LEFT JOIN item_types it ON i.item_type_id = it.id
+                                LEFT JOIN status_types st ON i.status_id = st.id
+                                LEFT JOIN locations l ON i.location_id = l.id
+                                LEFT JOIN users u ON i.user_id = u.id
+                                LEFT JOIN agents a ON i.manufacturer_id = a.id
                                 WHERE i.id = ?";
                         break;
 
                     case 'invoice':
-                        $sql = "SELECT i.id, i.number, i.date, i.totalcost, i.comments,
-                                       a.title as vendor_title
+                        $sql = "SELECT i.id, i.number, i.invoice_date, i.total_cost, i.comments,
+                                       a.name as vendor_title
                                 FROM invoices i
-                                LEFT JOIN agents a ON i.vendorid = a.id
+                                LEFT JOIN agents a ON i.vendor_id = a.id
                                 WHERE i.id = ?";
                         break;
 
                     case 'contract':
-                        $sql = "SELECT c.id, c.title, c.number, c.startdate, c.currentenddate as enddate,
-                                       a.title as contractor_name
+                        $sql = "SELECT c.id, c.title, c.contract_number, c.start_date, c.end_date as enddate,
+                                       a.name as contractor_name
                                 FROM contracts c
-                                LEFT JOIN agents a ON c.contractorid = a.id
+                                LEFT JOIN agents a ON c.contractor_id = a.id
                                 WHERE c.id = ?";
                         break;
 
                     case 'file':
-                        $sql = "SELECT f.id, f.fname, f.title, f.filesize as file_size,
-                                       f.uploaddate, ft.typedesc as filetype_name
+                        $sql = "SELECT f.id, f.filename_stored, f.title, f.file_size as file_size,
+                                       f.uploaded_at, ft.description as filetype_name
                                 FROM files f
-                                LEFT JOIN filetypes ft ON f.ftype = ft.id
+                                LEFT JOIN file_types ft ON f.file_type_id = ft.id
                                 WHERE f.id = ?";
                         break;
 
@@ -656,9 +656,9 @@ class ItemController extends BaseController
                         // Format data based on type
                         if ($type === 'invoice') {
                             $itemData['date_formatted'] = $itemData['date'] ? date('Y-m-d', (int)$itemData['date']) : 'N/A';
-                            $itemData['total_formatted'] = number_format($itemData['totalcost'] ?? 0, 2);
+                            $itemData['total_formatted'] = number_format($itemData['total_cost'] ?? 0, 2);
                         } elseif ($type === 'contract') {
-                            $itemData['startdate'] = $itemData['startdate'] ? date('Y-m-d', (int)$itemData['startdate']) : 'N/A';
+                            $itemData['start_date'] = $itemData['start_date'] ? date('Y-m-d', (int)$itemData['start_date']) : 'N/A';
                             $itemData['enddate'] = $itemData['enddate'] ? date('Y-m-d', (int)$itemData['enddate']) : 'N/A';
                         } elseif ($type === 'file') {
                             $itemData['uploaddate_formatted'] = $itemData['uploaddate'] ? date('Y-m-d', (int)$itemData['uploaddate']) : 'N/A';

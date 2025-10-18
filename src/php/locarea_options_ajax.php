@@ -2,10 +2,10 @@
 /* display areas of specific location on select list*/
 include('../init.php');
 
-if(is_numeric($_POST['locationid'])) {
-  $id=$_POST['locationid'];
+if(is_numeric($_POST['location_id'])) {
+  $id=$_POST['location_id'];
 
-  $sql="SELECT * FROM locareas WHERE locationid=$id order by areaname";
+  $sql="SELECT * FROM location_areas WHERE location_id=$id order by areaname";
   $sth=$dbh->query($sql);
   $locareas=$sth->fetchAll(PDO::FETCH_ASSOC);
 
@@ -17,7 +17,7 @@ if(is_numeric($_POST['locationid'])) {
     $dbid=$locarea['id'];
     $itype=$locarea['areaname'];
     $s="";
-    if (($locareaid=="$dbid")) $s=" SELECTED ";
+    if (($location_area_id=="$dbid")) $s=" SELECTED ";
     echo "    <option $s value='$dbid'>$itype</option>\n";
   }
 }

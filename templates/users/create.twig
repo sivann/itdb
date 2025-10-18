@@ -54,13 +54,13 @@
                             <div class="mb-3">
                                 <label for="userdesc" class="form-label">Display Name</label>
                                 <input type="text"
-                                       class="form-control{% if errors.userdesc %} is-invalid{% endif %}"
+                                       class="form-control{% if errors.display_name %} is-invalid{% endif %}"
                                        id="userdesc"
                                        name="userdesc"
-                                       value="{{ old.userdesc|default('') }}"
+                                       value="{{ old.display_name|default('') }}"
                                        maxlength="100">
-                                {% if errors.userdesc %}
-                                <div class="invalid-feedback">{{ errors.userdesc }}</div>
+                                {% if errors.display_name %}
+                                <div class="invalid-feedback">{{ errors.display_name }}</div>
                                 {% endif %}
                                 <div class="form-text">Full name or display name for this user.</div>
                             </div>

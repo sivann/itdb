@@ -17,12 +17,12 @@ class StatusTypeModel
 
     public function find(int $id): ?array
     {
-        return $this->db->fetchOne("SELECT * FROM statustypes WHERE id = :id", ['id' => $id]);
+        return $this->db->fetchOne("SELECT * FROM status_types WHERE id = :id", ['id' => $id]);
     }
 
     public function getAll(): array
     {
-        return $this->db->fetchAll("SELECT * FROM statustypes ORDER BY statusdesc");
+        return $this->db->fetchAll("SELECT * FROM status_types ORDER BY statusdesc");
     }
 
     public function getPaginated(int $page = 1, int $perPage = 20, array $filters = []): array
@@ -38,10 +38,10 @@ class StatusTypeModel
 
         $whereClause = !empty($whereConditions) ? 'WHERE ' . implode(' AND ', $whereConditions) : '';
 
-        $totalSql = "SELECT COUNT(*) FROM statustypes $whereClause";
+        $totalSql = "SELECT COUNT(*) FROM status_types $whereClause";
         $total = (int) $this->db->fetchColumn($totalSql, $params);
 
-        $sql = "SELECT * FROM statustypes $whereClause ORDER BY statusdesc LIMIT :limit OFFSET :offset";
+        $sql = "SELECT * FROM status_types $whereClause ORDER BY statusdesc LIMIT :limit OFFSET :offset";
         $params['limit'] = $perPage;
         $params['offset'] = $offset;
 

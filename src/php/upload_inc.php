@@ -55,7 +55,7 @@ global $dbh,$uploadErrors;
 
 
     //make association
-    $sql="INSERT into $assoctable ($colname,fileid) VALUES ($id,$lastid)";
+    $sql="INSERT into $assoctable ($colname,file_id) VALUES ($id,$lastid)";
     db_exec($dbh,$sql);
 
     return array($filefn,$result);

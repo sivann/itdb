@@ -95,14 +95,14 @@
                                     <div class="row mb-1">
                                         <label for="stitle" class="col-6 col-form-label col-form-label-sm text-end">Software Title <span class="text-danger">*</span></label>
                                         <div class="col-6">
-                                            <input type="text" class="form-control form-control-sm" id="stitle" name="stitle" value="{{ software.stitle }}" required>
+                                            <input type="text" class="form-control form-control-sm" id="stitle" name="stitle" value="{{ software.title }}" required>
                                         </div>
                                     </div>
 
                                     <div class="row mb-1">
                                         <label for="sversion" class="col-6 col-form-label col-form-label-sm text-end">Version</label>
                                         <div class="col-6">
-                                            <input type="text" class="form-control form-control-sm" id="sversion" name="sversion" value="{{ software.sversion }}">
+                                            <input type="text" class="form-control form-control-sm" id="sversion" name="sversion" value="{{ software.version }}">
                                         </div>
                                     </div>
 
@@ -112,7 +112,7 @@
                                             <select class="form-select form-select-sm" id="manufacturerid" name="manufacturerid">
                                                 <option value="">Select...</option>
                                                 {% for manufacturer in form_options.manufacturers %}
-                                                <option value="{{ manufacturer.id }}" {% if software.manufacturerid == manufacturer.id %}selected{% endif %}>{{ manufacturer.title }}</option>
+                                                <option value="{{ manufacturer.id }}" {% if software.manufacturer_id == manufacturer.id %}selected{% endif %}>{{ manufacturer.title }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
@@ -137,12 +137,12 @@
                                     </div>
 
                                     <div class="row mb-1">
-                                        <label for="slicensetype" class="col-6 col-form-label col-form-label-sm text-end">License Type</label>
+                                        <label for="license_type" class="col-6 col-form-label col-form-label-sm text-end">License Type</label>
                                         <div class="col-6">
-                                            <select class="form-select form-select-sm" id="slicensetype" name="slicensetype">
+                                            <select class="form-select form-select-sm" id="license_type" name="license_type">
                                                 <option value="">Select...</option>
                                                 {% for type in form_options.license_types %}
-                                                <option value="{{ type.id }}" {% if software.slicensetype == type.id %}selected{% endif %}>{{ type.name }}</option>
+                                                <option value="{{ type.id }}" {% if software.license_type == type.id %}selected{% endif %}>{{ type.name }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
@@ -173,7 +173,7 @@
                                     <div class="row mb-1">
                                         <label for="scomments" class="col-6 col-form-label col-form-label-sm text-end">Comments</label>
                                         <div class="col-6">
-                                            <textarea class="form-control form-control-sm" id="scomments" name="scomments" rows="6">{{ software.scomments }}</textarea>
+                                            <textarea class="form-control form-control-sm" id="scomments" name="scomments" rows="6">{{ software.comments }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -181,9 +181,9 @@
                                 <!-- Column 4: License Details -->
                                 <div class="col-lg-3">
                                     <div class="row mb-1">
-                                        <label for="slicense" class="col-6 col-form-label col-form-label-sm text-end">License Info</label>
+                                        <label for="license_key" class="col-6 col-form-label col-form-label-sm text-end">License Info</label>
                                         <div class="col-6">
-                                            <textarea class="form-control form-control-sm" id="slicense" name="slicense" rows="6">{{ software.slicense }}</textarea>
+                                            <textarea class="form-control form-control-sm" id="license_key" name="license_key" rows="6">{{ software.license_key }}</textarea>
                                             <div class="form-text small">License terms, restrictions, or notes</div>
                                         </div>
                                     </div>
@@ -494,7 +494,7 @@
                                             <td>{{ file.title|default('N/A') }}</td>
                                             <td>{{ file.fileType.name|default('Unknown') }}</td>
                                             <td>{{ file.file_size ? (file.file_size|number_format ~ ' bytes') : 'N/A' }}</td>
-                                            <td>{{ file.uploaddate_formatted|default('N/A') }}</td>
+                                            <td>{{ file.uploaded_at_formatted|default('N/A') }}</td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
                                                     <button type="button"
@@ -1543,7 +1543,7 @@ function addFileToTable(item, serverData = null) {
         <td>${itemData.title || 'N/A'}</td>
         <td>${itemData.filetype_name || 'Unknown'}</td>
         <td>${itemData.file_size ? (itemData.file_size + ' bytes') : 'N/A'}</td>
-        <td>${itemData.uploaddate_formatted || 'N/A'}</td>
+        <td>${itemData.uploaded_at_formatted || 'N/A'}</td>
         <td>
             <div class="btn-group btn-group-sm">
                 <button type="button"

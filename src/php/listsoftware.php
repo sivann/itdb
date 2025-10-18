@@ -35,7 +35,7 @@ $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $invoices[$r['id']]=$r;
 
 $sql="SELECT software.*,agents.id as agid ,agents.type as agtype, agents.title as agtitle FROM software, agents ".
-     " WHERE manufacturerid=agid order by agtype,stitle";
+     " WHERE manufacturer_id=agid order by agtype,stitle";
 $sth=db_execute($dbh,$sql);
 ?>
 
@@ -67,8 +67,8 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   foreach($r as $k => $v) { ${$k} = $v; } // get all columns as variables
 
   //print a table row
-  $sql="SELECT items.id i_id, status,manufacturerid,model,dnsname,cpuno,corespercpu from items,item2soft ".
-       " where item2soft.itemid=items.id  AND item2soft.softid={$r['id']}";
+  $sql="SELECT items.id i_id, status,manufacturer_id,model,dns_name,cpu_count,cores_per_cpu from items,item2soft ".
+       " where item2soft.item_id=items.id  AND item2soft.software_id={$r['id']}";
   $sthi=db_execute($dbh,$sql);
   $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
   $nitems=count($ri);
@@ -82,7 +82,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
     elseif ($rstatus==3) { $attr="style='background-color:#cecece;font-weight:bold;' title='Status: Obsolete'"; }
     else { $attr=" title='Status: In Use' "; }
 
-    $x=($i+1).": <span $attr >({$ri[$i]['i_id']}) </span>".$agents[$ri[$i]['manufacturerid']]['title']." ".$ri[$i]['model']." ".$ri[$i]['dnsname'];
+    $x=($i+1).": <span $attr >({$ri[$i]['i_id']}) </span>".$agents[$ri[$i]['manufacturer_id']]['title']." ".$ri[$i]['model']." ".$ri[$i]['dns_name'];
 
     if ($i%2) $bcolor="#D9E3F6";
     //if ($i%2) $bcolor="#ECF1FB";
@@ -91,14 +91,14 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
                 "<a href='$scriptname?action=edititem&amp;id={$ri[$i]['i_id']}'>$x</a></div>";
 
     if (empty($lictype) || $lictype==0) { $licitems++; } //per box
-    elseif ($lictype==1) { $licitems+=$ri[$i]['cpuno']; } //per cpu
-    elseif ($lictype==2) { $licitems+=$ri[$i]['cpuno']*$ri[$i]['corespercpu']; } //per core
+    elseif ($lictype==1) { $licitems+=$ri[$i]['cpu_count']; } //per cpu
+    elseif ($lictype==2) { $licitems+=$ri[$i]['cpu_count']*$ri[$i]['cores_per_cpu']; } //per core
   }//items
 
 
   //print a table row
   $sql="SELECT invoices.id,invoices.date,agents.title as agtitle FROM invoices, soft2inv, agents ".
-       " WHERE agents.id=invoices.vendorid AND soft2inv.invid=invoices.id AND soft2inv.softid={$r['id']}";
+       " WHERE agents.id=invoices.vendor_id AND soft2inv.invoice_id=invoices.id AND soft2inv.software_id={$r['id']}";
   $sthi=db_execute($dbh,$sql);
   $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
   $ninv=count($ri);
@@ -133,7 +133,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   $mendkey=strlen($maintend)?date("Ymd",$maintend):"0";
   $d=strlen($purchdate)?date($dateparam,$purchdate):"";
   $dkey=strlen($purchdate)?date("Ymd",$purchdate):"0";
-  $vendor=$agents[$invoices[$invoiceid]['vendorid']]['title'];
+  $vendor=$agents[$invoices[$invoiceid]['vendor_id']]['title'];
 
   //show red dates for expired maintenance contracts
   $nowymd=date("Ymd");

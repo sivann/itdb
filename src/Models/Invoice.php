@@ -14,7 +14,7 @@ class Invoice extends BaseModel
         'description',
         'invoicedate',
         'total',
-        'vendorid',
+        'vendor_id',
         'notes'
     ];
 

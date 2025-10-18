@@ -4,12 +4,12 @@
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 //form variables
-$formvars=array("itemtypeid","function","manufacturerid","label",
-  "warrinfo","model","sn","sn2","sn3","locationid","locareaid",
-  "origin","warrantymonths","purchasedate","purchprice","dnsname","userid",
-  "comments","maintenanceinfo","ispart","hd",
-  "cpu","cpuno","corespercpu", "ram", "rackmountable", "rackid","rackposition","rackposdepth","usize","status",
-  "macs","ipv4","ipv6","remadmip","panelport","switchid","switchport","ports");
+$formvars=array("item_type_id","function","manufacturer_id","label",
+  "warranty_info","model","sn","sn2","sn3","location_id","location_area_id",
+  "origin","warranty_months","purchase_date","purchase_price","dns_name","user_id",
+  "comments","maintenance_info","is_part","hd",
+  "cpu","cpu_count","cores_per_cpu", "ram", "is_rack_mountable", "rack_id","rack_position","rack_position_depth","usize","status",
+  "macs","ipv4","ipv6","remote_admin_ip","panel_port","switch_id","switch_port","ports");
 
 /* delete item */
 if (isset($_GET['delid'])) { 
@@ -21,7 +21,7 @@ if (isset($_GET['delid'])) {
   }
 
   //remove file links
-  $sql="DELETE from item2file where itemid=$delid";
+  $sql="DELETE from item2file where item_id=$delid";
   $sth=db_exec($dbh,$sql);
 
   //for each file: check if others link to it, and if not remove it:
@@ -31,11 +31,11 @@ if (isset($_GET['delid'])) {
   }
 
   //delete invoice links
-  $sql="DELETE from item2inv where itemid=".$_GET['delid'];
+  $sql="DELETE from item2inv where item_id=".$_GET['delid'];
   $sth=db_exec($dbh,$sql);
 
   //delete software links
-  $sql="DELETE from item2soft where itemid=".$_GET['delid'];
+  $sql="DELETE from item2soft where item_id=".$_GET['delid'];
   $sth=db_exec($dbh,$sql);
 
   //delete inter-item links
@@ -43,7 +43,7 @@ if (isset($_GET['delid'])) {
   $sth=db_exec($dbh,$sql);
 
   //nullify TAGS
-  $sql="UPDATE tag2item set itemid=null where itemid=".$_GET['delid'];
+  $sql="UPDATE tag2item set item_id=null where item_id=".$_GET['delid'];
   $sth=db_exec($dbh,$sql);
 
   //delete item 
@@ -56,8 +56,8 @@ if (isset($_GET['delid'])) {
 }
 
 if (isset($_GET['cloneid'])) { 
-  $cols="itemtypeid , function, manufacturerid ,model,origin,warrantymonths ,purchasedate ,purchprice, maintenanceinfo,".
-        "comments,ispart ,hd,cpu,ram,locationid ,usize ,rackmountable ,label,status,cpuno , corespercpu , warrinfo";
+  $cols="item_type_id , function, manufacturer_id ,model,origin,warranty_months ,purchase_date ,purchase_price, maintenance_info,".
+        "comments,is_part ,hd,cpu,ram,location_id ,usize ,is_rack_mountable ,label,status,cpu_count , cores_per_cpu , warranty_info";
 
   $sql="insert into items ($cols) ".
      " select $cols from items ".
@@ -82,7 +82,7 @@ if (isset($_GET['cloneid'])) {
 if (isset($_GET['delfid'])) { /* displayed from showfiles() */
 
   //remove file link
-  $sql="DELETE from item2file where itemid=$id AND fileid=".$_GET['delfid'];
+  $sql="DELETE from item2file where item_id=$id AND file_id=".$_GET['delfid'];
   $sth=db_exec($dbh,$sql);
 
   //check if others point to this file
@@ -99,7 +99,7 @@ if (!isset($_GET['id'])) {echo "edititem:missing arguments";exit;}
 
 /* update item data */
 //if came here from a form post, update db with new values
-if (isset($_POST['itemtypeid']) && ($_GET['id']!="new") && isvalidfrm()) {
+if (isset($_POST['item_type_id']) && ($_GET['id']!="new") && isvalidfrm()) {
 //get form post variables and create the sql query
   $set="";
   $c=count($formvars);$i=0;
@@ -108,9 +108,9 @@ if (isset($_POST['itemtypeid']) && ($_GET['id']!="new") && isvalidfrm()) {
       $$formvar=trim($_POST[$formvar]);//create $sn from $_POST['sn']
     else {$i++;continue;} //for files which are in _FILES not in _POST
 
-    if ($formvar == "purchasedate") $$formvar=ymd2sec($$formvar);
+    if ($formvar == "purchase_date") $$formvar=ymd2sec($$formvar);
     if ($formvar == "maintend") $$formvar=ymd2sec($$formvar);
-    if ($formvar == "warrantymonths") {
+    if ($formvar == "warranty_months") {
 		if ($$formvar=="") 
 		  $$formvar="NULL";
 		else
@@ -129,19 +129,19 @@ if (isset($_POST['itemtypeid']) && ($_GET['id']!="new") && isvalidfrm()) {
 
 
 
-  $sql="SELECT items.userid,users.username from users,items where userid=users.id and items.id='$id'";
+  $sql="SELECT items.user_id,users.username from users,items where user_id=users.id and items.id='$id'";
   $sth=db_execute($dbh,$sql);
   $curruser=$sth->fetchAll(PDO::FETCH_ASSOC);
   $curruser=$curruser[0];
 
-  $sql="SELECT username from users where id=$userid";
+  $sql="SELECT username from users where id=$user_id";
   $sth=db_execute($dbh,$sql);
   $newuser=$sth->fetchAll(PDO::FETCH_ASSOC);
   $newuser=$newuser[0];
 
-  if ($userid!=$curruser['userid']) { //changed user
+  if ($user_id!=$curruser['user_id']) { //changed user
     $str="Updated user from {$curruser['username']} to {$newuser['username']}";
-    $sql="INSERT into actions (itemid, actiondate,description,invoiceinfo,isauto,entrydate) values ".
+    $sql="INSERT into actions (item_id, actiondate,description,invoiceinfo,isauto,entrydate) values ".
 	 "($id,".time().",'$str' , '',1,".time().")";
     db_exec($dbh,$sql);
   }
@@ -151,7 +151,7 @@ if (isset($_POST['itemtypeid']) && ($_GET['id']!="new") && isvalidfrm()) {
 
   //Add new action entry
   //if not exists already for today
-  $sql="SELECT itemid,entrydate,description, isauto FROM actions WHERE itemid='$id' ORDER BY entrydate DESC LIMIT 1";
+  $sql="SELECT item_id,entrydate,description, isauto FROM actions WHERE item_id='$id' ORDER BY entrydate DESC LIMIT 1";
   $sth=db_execute($dbh,$sql);
   $laction=$sth->fetchAll(PDO::FETCH_ASSOC);
 
@@ -163,7 +163,7 @@ if (isset($_POST['itemtypeid']) && ($_GET['id']!="new") && isvalidfrm()) {
 
   if (($upstr != $ldesc) && ($ldate != $ndate) ) {
     //add new action entry
-    $sql="INSERT into actions (itemid, actiondate,description,invoiceinfo,isauto,entrydate) values ".
+    $sql="INSERT into actions (item_id, actiondate,description,invoiceinfo,isauto,entrydate) values ".
 	 "($id,".time().",'$upstr' , '',1,".time().")";
     db_exec($dbh,$sql);
 //echo "HERE:($upstr,$ldesc), ($ldate,$ndate);";
@@ -181,37 +181,37 @@ if (isset($_POST['itemtypeid']) && ($_GET['id']!="new") && isvalidfrm()) {
   }
   //update invoice links
   //remove old links for this object
-  $sql="delete from item2inv where itemid=$id";
+  $sql="delete from item2inv where item_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($invlnk);$i++) {
-    $sql="INSERT into item2inv (itemid, invid) values ($id,".$invlnk[$i].")";
+    $sql="INSERT into item2inv (item_id, invoice_id) values ($id,".$invlnk[$i].")";
     db_exec($dbh,$sql);
   }
   $dbh->commit();
 
   //update software - item links 
   //remove old links for this object
-  $sql="delete from item2soft where itemid=$id";
+  $sql="delete from item2soft where item_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($softlnk);$i++) {
-    $sql="INSERT into item2soft (itemid,softid) values ($id,".$softlnk[$i].")";
+    $sql="INSERT into item2soft (item_id,software_id) values ($id,".$softlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
   //update contract - item links 
   //remove old links for this object
-  $sql="delete from contract2item where itemid=$id";
+  $sql="delete from contract2item where item_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($contrlnk);$i++) {
-    $sql="INSERT into contract2item (itemid,contractid) values ($id,".$contrlnk[$i].")";
+    $sql="INSERT into contract2item (item_id,contract_id) values ($id,".$contrlnk[$i].")";
     db_exec($dbh,$sql);
   }
 } //if updating
 /* add new item */
-elseif (isset($_POST['itemtypeid']) && ($_GET['id']=="new")&&isvalidfrm()) {
+elseif (isset($_POST['item_type_id']) && ($_GET['id']=="new")&&isvalidfrm()) {
 
   //ok, save new item
   //find a new ID 
@@ -220,39 +220,39 @@ elseif (isset($_POST['itemtypeid']) && ($_GET['id']=="new")&&isvalidfrm()) {
   $manualfn="";
 
   foreach($_POST as $k => $v) { if (!is_array($v)) ${$k} = (trim($v));}
-  $purchasedate2=ymd2sec($purchasedate);// mktime(0, 0, 0, $x[1], $x[0], $x[2]);
+  $purchase_date2=ymd2sec($purchase_date);// mktime(0, 0, 0, $x[1], $x[0], $x[2]);
 
   $mend=ymd2sec($maintend);
 
-  if ($switchid=="") $switchid="NULL";
+  if ($switch_id=="") $switch_id="NULL";
   if ($usize=="") $usize="NULL";
-  if ($locationid=="") $locationid="NULL";
-  if ($locareaid=="") $locareaid="NULL";
-  if ($rackid=="") $rackid="NULL";
-  if ($rackposition=="") $rackposition="NULL";
-  if ($userid=="") $userid="NULL";
-  $warrantymonths=(int)$warrantymonths;
-  if (!$warrantymonths || !strlen($warrantymonths) || !is_integer($warrantymonths)) $warrantymonths="NULL";
+  if ($location_id=="") $location_id="NULL";
+  if ($location_area_id=="") $location_area_id="NULL";
+  if ($rack_id=="") $rack_id="NULL";
+  if ($rack_position=="") $rack_position="NULL";
+  if ($user_id=="") $user_id="NULL";
+  $warranty_months=(int)$warranty_months;
+  if (!$warranty_months || !strlen($warranty_months) || !is_integer($warranty_months)) $warranty_months="NULL";
 
 
 
 
   //// STORE DATA
-  $sql="INSERT into items (label, itemtypeid, function, manufacturerid, ".
-  " warrinfo, model, sn, sn2, sn3, origin, warrantymonths, purchasedate, purchprice, ".
-  " dnsname, userid, locationid,locareaid, maintenanceinfo,  ".
-  " comments,ispart, rackid, rackposition,rackposdepth, rackmountable, ".
-  " usize, status, macs, ipv4, ipv6, remadmip, ".
-  " hd, cpu,cpuno,corespercpu, ram, ".
-  " panelport, switchid, switchport, ports) VALUES ".
-  " ('$label', '$itemtypeid', '$function', '$manufacturerid', ".
-  " '$warrinfo', '$model', '$sn', '$sn2', '$sn3', '$origin', ".
-  "  $warrantymonths, '$purchasedate2', ".
-  " '$purchprice', '$dnsname', $userid, $locationid,$locareaid, '$maintenanceinfo', ".
-  " '". htmlspecialchars($comments,ENT_QUOTES,'UTF-8')  ."',$ispart, $rackid, $rackposition,$rackposdepth, $rackmountable, " .
-  "  $usize, $status, '$macs', '$ipv4', '$ipv6', '$remadmip', ".
-  " '$hd', '$cpu', '$cpuno', '$corespercpu', '$ram', ".
-  " '$panelport', $switchid,  '$switchport', '$ports' ) ";
+  $sql="INSERT into items (label, item_type_id, function, manufacturer_id, ".
+  " warranty_info, model, sn, sn2, sn3, origin, warranty_months, purchase_date, purchase_price, ".
+  " dns_name, user_id, location_id,location_area_id, maintenance_info,  ".
+  " comments,is_part, rack_id, rack_position,rack_position_depth, is_rack_mountable, ".
+  " usize, status, macs, ipv4, ipv6, remote_admin_ip, ".
+  " hd, cpu,cpu_count,cores_per_cpu, ram, ".
+  " panel_port, switch_id, switch_port, ports) VALUES ".
+  " ('$label', '$item_type_id', '$function', '$manufacturer_id', ".
+  " '$warranty_info', '$model', '$sn', '$sn2', '$sn3', '$origin', ".
+  "  $warranty_months, '$purchase_date2', ".
+  " '$purchase_price', '$dns_name', $user_id, $location_id,$location_area_id, '$maintenance_info', ".
+  " '". htmlspecialchars($comments,ENT_QUOTES,'UTF-8')  ."',$is_part, $rack_id, $rack_position,$rack_position_depth, $is_rack_mountable, " .
+  "  $usize, $status, '$macs', '$ipv4', '$ipv6', '$remote_admin_ip', ".
+  " '$hd', '$cpu', '$cpu_count', '$cores_per_cpu', '$ram', ".
+  " '$panel_port', $switch_id,  '$switch_port', '$ports' ) ";
 
   //echo $sql."<br>";
   db_exec($dbh,$sql);
@@ -273,34 +273,34 @@ elseif (isset($_POST['itemtypeid']) && ($_GET['id']=="new")&&isvalidfrm()) {
   if (isset($_POST['invlnk'])) {
     $itlnk=$_POST['invlnk'];
     for ($i=0;$i<count($invlnk);$i++) {
-      $sql="INSERT into item2inv (itemid, invid) values ($lastid,".$invlnk[$i].")";
+      $sql="INSERT into item2inv (item_id, invoice_id) values ($lastid,".$invlnk[$i].")";
       db_exec($dbh,$sql);
     }
   }//add invoice links
 
   //update software - item links 
   //remove old links for this object
-  $sql="DELETE from item2soft where itemid=$lastid";
+  $sql="DELETE from item2soft where item_id=$lastid";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($softlnk);$i++) {
-    $sql="INSERT into item2soft (itemid,softid) values ($lastid,".$softlnk[$i].")";
+    $sql="INSERT into item2soft (item_id,software_id) values ($lastid,".$softlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
   //update contract - item links 
   //remove old links for this object
-  $sql="DELETE from contract2item where itemid=$lastid";
+  $sql="DELETE from contract2item where item_id=$lastid";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($contrlnk);$i++) {
-    $sql="INSERT into contract2item (itemid,contractid) values ($lastid,".$contrlnk[$i].")";
+    $sql="INSERT into contract2item (item_id,contract_id) values ($lastid,".$contrlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
 
   //add new action entry
-  $sql="INSERT into actions (itemid, actiondate,description,invoiceinfo,isauto,entrydate) values ".
+  $sql="INSERT into actions (item_id, actiondate,description,invoiceinfo,isauto,entrydate) values ".
        "($lastid,".time().",'Added by {$_COOKIE["itdbuser"]}' , '',1,".time().")";
   db_exec($dbh,$sql);
 
@@ -314,18 +314,18 @@ global $dbh,$disperr,$err,$_POST;
   //check for mandatory fields
   $err="";
   $disperr="";
-  if ($_POST['itemtypeid']=="") $err.="Missing Item Type<br>";
-  if ($_POST['userid']=="") $err.="Missing User<br>";
-  if ($_POST['manufacturerid']=="") $err.="Missing manufacturer<br>";
-  if (!isset($_POST['rackmountable'])) $err.="Missing 'Rackmountable' classification<br>";
-  if (!isset($_POST['ispart'])) $err.="Missing 'Part' classification<br>";
+  if ($_POST['item_type_id']=="") $err.="Missing Item Type<br>";
+  if ($_POST['user_id']=="") $err.="Missing User<br>";
+  if ($_POST['manufacturer_id']=="") $err.="Missing manufacturer<br>";
+  if (!isset($_POST['is_rack_mountable'])) $err.="Missing 'Rackmountable' classification<br>";
+  if (!isset($_POST['is_part'])) $err.="Missing 'Part' classification<br>";
   if (!isset($_POST['status'])) $err.="Missing 'Status' classification<br>";
   if ($_POST['model']=="") $err.="Missing model<br>";
 
 
   $myid=$_GET['id'];
   if ($myid != "new" && is_numeric($myid) && (strlen(trim($_POST['sn'])) || strlen(trim($_POST['sn2'])))) {
-	  $sql="SELECT id from items where  id <> $myid AND ((length(sn)>0 AND sn in ('{$_POST['sn']}', '{$_POST['sn2']}')) OR (length(sn2)>0 AND sn2 in ('{$_POST['sn']}', '{$_POST['sn2']}')))  LIMIT 1";
+	  $sql="SELECT id from items where  id <> $myid AND ((length(sn)>0 AND serial_number in ('{$_POST['sn']}', '{$_POST['sn2']}')) OR (length(sn2)>0 AND sn2 in ('{$_POST['sn']}', '{$_POST['sn2']}')))  LIMIT 1";
 	  $sth=db_execute($dbh,$sql);
 	  $dups=$sth->fetchAll(PDO::FETCH_ASSOC);
 	  if (count($dups[0])) {

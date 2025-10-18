@@ -146,7 +146,7 @@ class SoftwareController extends BaseController
         $data = $this->getParsedBody($request);
 
         // Basic validation
-        if (empty($data['stitle'])) {
+        if (empty($data['title'])) {
             $this->addFlashMessage('error', 'Software title is required.');
             return $this->redirectToRoute($request, $response, 'software.create');
         }
@@ -154,13 +154,13 @@ class SoftwareController extends BaseController
         try {
             // Prepare data for creation
             $softwareData = [
-                'stitle' => $this->sanitizeString($data['stitle']),
-                'sversion' => $this->sanitizeString($data['sversion'] ?? ''),
+                'title' => $this->sanitizeString($data['title']),
+                'version' => $this->sanitizeString($data['version'] ?? ''),
                 'sinfo' => $this->sanitizeString($data['sinfo'] ?? ''),
-                'slicenseinfo' => $this->sanitizeString($data['slicenseinfo'] ?? ''),
+                'license_key' => $this->sanitizeString($data['license_key'] ?? ''),
                 'licqty' => !empty($data['licqty']) ? (int) $data['licqty'] : 1,
                 'lictype' => !empty($data['lictype']) ? (int) $data['lictype'] : 0,
-                'manufacturerid' => !empty($data['manufacturerid']) ? (int) $data['manufacturerid'] : null,
+                'manufacturer_id' => !empty($data['manufacturer_id']) ? (int) $data['manufacturer_id'] : null,
                 'purchdate' => !empty($data['purchdate']) ? strtotime($data['purchdate']) : null,
             ];
 
@@ -170,7 +170,7 @@ class SoftwareController extends BaseController
             // TODO: Handle associations with prepared statements
             // Will be implemented when fixing association issues
 
-            $this->logUserAction('software_created', ['software_id' => $softwareId, 'title' => $data['stitle']]);
+            $this->logUserAction('software_created', ['software_id' => $softwareId, 'title' => $data['title']]);
             $this->addFlashMessage('success', 'Software created successfully.');
 
             return $this->redirectToRoute($request, $response, 'software.edit', ['id' => $softwareId]);
@@ -250,19 +250,19 @@ class SoftwareController extends BaseController
         try {
             // Prepare data for update
             $updateData = [
-                'stitle' => $this->sanitizeString($data['stitle']),
-                'sversion' => $this->sanitizeString($data['sversion'] ?? ''),
-                'scomments' => $this->sanitizeString($data['scomments'] ?? ''),
-                'slicense' => $this->sanitizeString($data['slicense'] ?? ''),
+                'title' => $this->sanitizeString($data['title']),
+                'version' => $this->sanitizeString($data['version'] ?? ''),
+                'comments' => $this->sanitizeString($data['comments'] ?? ''),
+                'license_key' => $this->sanitizeString($data['license_key'] ?? ''),
                 'licqty' => !empty($data['licqty']) ? (int) $data['licqty'] : 1,
-                'slicensetype' => !empty($data['slicensetype']) ? (int) $data['slicensetype'] : 0,
-                'manufacturerid' => !empty($data['manufacturerid']) ? (int) $data['manufacturerid'] : null,
+                'license_type' => !empty($data['license_type']) ? (int) $data['license_type'] : 0,
+                'manufacturer_id' => !empty($data['manufacturer_id']) ? (int) $data['manufacturer_id'] : null,
             ];
 
 
             $this->softwareModel->update($id, $updateData);
 
-            $this->logUserAction('software_updated', ['software_id' => $id, 'title' => $data['stitle']]);
+            $this->logUserAction('software_updated', ['software_id' => $id, 'title' => $data['title']]);
             $this->addFlashMessage('success', 'Software updated successfully.');
 
             return $this->redirectToRoute($request, $response, 'software.edit', ['id' => $id]);
@@ -298,7 +298,7 @@ class SoftwareController extends BaseController
         }
 
         try {
-            $softwareTitle = $software['stitle'];
+            $softwareTitle = $software['title'];
             $this->softwareModel->delete($id);
 
             $this->logUserAction('software_deleted', ['software_id' => $id, 'title' => $softwareTitle]);
@@ -342,7 +342,7 @@ class SoftwareController extends BaseController
             return true;
         }
 
-        // Users with usertype >= 1 can edit software
+        // Users with user_type >= 1 can edit software
         return $user->usertype >= 1;
     }
 
@@ -448,33 +448,33 @@ class SoftwareController extends BaseController
                             $sql = "SELECT i.id, i.label, i.function, it.name as type_name,
                                            l.name as location_name, u.username
                                     FROM items i
-                                    LEFT JOIN itemtypes it ON i.itemtypeid = it.id
-                                    LEFT JOIN locations l ON i.locationid = l.id
-                                    LEFT JOIN users u ON i.userid = u.id
+                                    LEFT JOIN item_types it ON i.item_type_id = it.id
+                                    LEFT JOIN locations l ON i.location_id = l.id
+                                    LEFT JOIN users u ON i.user_id = u.id
                                     WHERE i.id = ?";
                             break;
 
                         case 'invoice':
-                            $sql = "SELECT i.id, i.date, i.totalcost, i.comments,
-                                           a.title as vendor_title
+                            $sql = "SELECT i.id, i.invoice_date, i.total_cost, i.comments,
+                                           a.name as vendor_title
                                     FROM invoices i
-                                    LEFT JOIN agents a ON i.vendorid = a.id
+                                    LEFT JOIN agents a ON i.vendor_id = a.id
                                     WHERE i.id = ?";
                             break;
 
                         case 'contract':
-                            $sql = "SELECT c.id, c.title, c.startdate, c.currentenddate as enddate,
-                                           a.title as contractor_name
+                            $sql = "SELECT c.id, c.title, c.start_date, c.end_date as enddate,
+                                           a.name as contractor_name
                                     FROM contracts c
-                                    LEFT JOIN agents a ON c.contractorid = a.id
+                                    LEFT JOIN agents a ON c.contractor_id = a.id
                                     WHERE c.id = ?";
                             break;
 
                         case 'file':
-                            $sql = "SELECT f.id, f.fname, f.title, f.filesize as file_size,
-                                           f.uploaddate, ft.typedesc as filetype_name
+                            $sql = "SELECT f.id, f.filename_stored, f.title, f.file_size as file_size,
+                                           f.uploaded_at, ft.description as filetype_name
                                     FROM files f
-                                    LEFT JOIN filetypes ft ON f.ftype = ft.id
+                                    LEFT JOIN file_types ft ON f.file_type_id = ft.id
                                     WHERE f.id = ?";
                             break;
 
@@ -491,9 +491,9 @@ class SoftwareController extends BaseController
                             // Format data based on type
                             if ($type === 'invoice') {
                                 $itemData['date_formatted'] = $itemData['date'] ? date('Y-m-d', (int)$itemData['date']) : 'N/A';
-                                $itemData['total_formatted'] = number_format($itemData['totalcost'] ?? 0, 2);
+                                $itemData['total_formatted'] = number_format($itemData['total_cost'] ?? 0, 2);
                             } elseif ($type === 'contract') {
-                                $itemData['startdate'] = $itemData['startdate'] ? date('Y-m-d', (int)$itemData['startdate']) : 'N/A';
+                                $itemData['start_date'] = $itemData['start_date'] ? date('Y-m-d', (int)$itemData['start_date']) : 'N/A';
                                 $itemData['enddate'] = $itemData['enddate'] ? date('Y-m-d', (int)$itemData['enddate']) : 'N/A';
                             } elseif ($type === 'file') {
                                 $itemData['uploaddate_formatted'] = $itemData['uploaddate'] ? date('Y-m-d', (int)$itemData['uploaddate']) : 'N/A';
@@ -627,25 +627,25 @@ class SoftwareController extends BaseController
         // Use SoftwareModel search (if it exists) or basic search
         try {
             $sql = "
-                SELECT s.id, s.stitle as name, s.sversion as version,
-                       a.title as manufacturer_name, lt.name as license_type
+                SELECT s.id, s.title as name, s.version as version,
+                       a.name as manufacturer_name, lt.name as license_type
                 FROM software s
-                LEFT JOIN agents a ON s.manufacturerid = a.id
-                LEFT JOIN license_types lt ON s.slicensetype = lt.id
+                LEFT JOIN agents a ON s.manufacturer_id = a.id
+                LEFT JOIN license_types lt ON s.license_type = lt.id
             ";
 
             $params = [];
             $conditions = [];
 
             if (!empty($query)) {
-                $conditions[] = "(s.stitle LIKE ? OR s.sversion LIKE ? OR a.title LIKE ?)";
+                $conditions[] = "(s.title LIKE ? OR s.version LIKE ? OR a.name LIKE ?)";
                 $searchTerm = '%' . $query . '%';
                 $params = array_merge($params, [$searchTerm, $searchTerm, $searchTerm]);
             }
 
             // Exclude software already associated with this item
             if ($excludeItem) {
-                $conditions[] = "s.id NOT IN (SELECT softid FROM item2soft WHERE itemid = ?)";
+                $conditions[] = "s.id NOT IN (SELECT software_id FROM items_software WHERE item_id = ?)";
                 $params[] = $excludeItem;
             }
 
@@ -653,7 +653,7 @@ class SoftwareController extends BaseController
                 $sql .= " WHERE " . implode(' AND ', $conditions);
             }
 
-            $sql .= " ORDER BY s.stitle ASC LIMIT 20";
+            $sql .= " ORDER BY s.title ASC LIMIT 20";
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);

@@ -21,7 +21,7 @@ Items can be associated with other items, and invoices. You may also add relevan
 <li><b>Invoices</b>: proofs of purchase for hardware, software, contracts, etc. These are different from other files/documents (manuals, offers, etc) because they contain extra metadata like vendor, buyer, dates etc </li>
 <li><b>Software</b>: all software metadata. You may associate software with items in this menu (e.g. assign a software to multiple PCs)</li>
 <li><b>Agents</b>: agents are entities like Vendors, S/W Manufacturers, H/W Manufacturers, Contractors, and Buyers 
-<li><b>Racks</b>: here you may enter rack data + view  rack layouts. Items are assigned to racks based on their rackmountable,rack and rack-position properties.</li>
+<li><b>Racks</b>: here you may enter rack data + view  rack layouts. Items are assigned to racks based on their is_rack_mountable,rack and rack-position properties.</li>
 <li><b>Contracts</b>: enter contracts like support&amp;maintenance,leases etc. Contracts can be associated with Items and Software and have related documents and invoices. Contract events are also kept here.</li>
 <li><b>Files</b>: you may edit file data here for files that were previously uploaded through the Items, Software, Invoices or Contract file upload tabs. You may also upload new files (except invoices) and relate them to more Items, Software or Contracts.</li>
 </div>

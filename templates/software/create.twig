@@ -346,7 +346,7 @@
                                             </td>
                                             <td><label for="file_{{ file.id }}" class="form-label mb-0">{{ file.title|default('N/A') }}</label></td>
                                             <td><label for="file_{{ file.id }}" class="form-label mb-0">{{ file.file_size ? (file.file_size ~ ' bytes') : 'N/A' }}</label></td>
-                                            <td><label for="file_{{ file.id }}" class="form-label mb-0">{{ file.uploaddate_formatted|default('N/A') }}</label></td>
+                                            <td><label for="file_{{ file.id }}" class="form-label mb-0">{{ file.uploaded_at_formatted|default('N/A') }}</label></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

@@ -361,7 +361,7 @@ class DatabaseManager
             'function' => 'function',
             'model' => 'model',
             'sn' => 'serial number',
-            'dnsname' => 'DNS name',
+            'dns_name' => 'DNS name',
             'code' => 'code',
         ];
 

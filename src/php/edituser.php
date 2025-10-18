@@ -45,7 +45,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the user
 
 
   if ($_POST['id']=="new")  {//if we came from a post (save) the add user 
-    $sql="INSERT into users (username , userdesc , pass, usertype) ".
+    $sql="INSERT into users (username , display_name , pass, user_type) ".
 	 " VALUES ('$username','$userdesc','$pass', '$usertype')";
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
@@ -74,9 +74,9 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the user
         }
           $sql="UPDATE users set ".
         " username='".$_POST['username']."', ".
-        " userdesc='".$_POST['userdesc']."', ".
+        " display_name='".$_POST['userdesc']."', ".
         " pass='".$_POST['pass']."', ".
-        " usertype='".$usertype."' ".
+        " user_type='".$usertype."' ".
         " WHERE id=$id";
           db_exec($dbh,$sql);
     }
@@ -159,11 +159,11 @@ else
       <div  id='items' class='relatedlist'><?php te("ITEMS");?></div>
       <?php 
       if (is_numeric($id)) {
-        $sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.typedesc || ', ".
+        $sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.description || ', ".
              " ID:' || items.id || ']' as txt ".
              "FROM agents,items,itemtypes WHERE ".
-             " agents.id=items.manufacturerid AND items.itemtypeid=itemtypes.id AND ".
-             " items.userid='$id' ";
+             " agents.id=items.manufacturer_id AND items.item_type_id=itemtypes.id AND ".
+             " items.user_id='$id' ";
         $sthi=db_execute($dbh,$sql);
         $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
         $nitems=count($ri);

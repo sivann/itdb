@@ -412,7 +412,7 @@ class AdminController extends BaseController
             }
 
             // Delete tag associations first
-            $sql = "DELETE FROM tag2software WHERE tagid = ?";
+            $sql = "DELETE FROM software_tags WHERE tag_id = ?";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$id]);
 

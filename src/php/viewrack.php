@@ -12,7 +12,7 @@ $sth=$dbh->query($sql);
 //while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $racks[$id]=$r;
 $rack=$sth->fetch(PDO::FETCH_ASSOC);
 
-$sql="SELECT items.*,agents.title as agtitle from items,agents WHERE agents.id=items.manufacturerid AND rackid='$id'";
+$sql="SELECT items.*,agents.title as agtitle from items,agents WHERE agents.id=items.manufacturer_id AND rack_id='$id'";
 $sth=$dbh->query($sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $items[$r['id']]=$r;
 
@@ -20,42 +20,42 @@ $err="";
 
 //find item positions in rack for all racks
 $mi=0;
-if (isset($items) && $rack['revnums']) { //reverse rack row numbering
+if (isset($items) && $rack['reverse_numbering']) { //reverse rack row numbering
   foreach ($items as $it) {
 
-    if (!is_numeric($it['rackposition']) || !is_numeric($it['usize'])) {
+    if (!is_numeric($it['rack_position']) || !is_numeric($it['usize'])) {
       $moreitems[$mi++]=$it;
       continue; //items with wrong position info
     }
 
-    if (($it['rackposition']+$it['usize']-1)>$rack['usize']) {
+    if (($it['rack_position']+$it['usize']-1)>$rack['usize']) {
       $err.= "Item {$it['id']}  ({$it['model']}) exceeds rack boundaries!<br>";
       continue;
     }
 
 
-    for ($pos=$it['rackposition'];$pos<($it['rackposition']+$it['usize']) ;$pos++) {
+    for ($pos=$it['rack_position'];$pos<($it['rack_position']+$it['usize']) ;$pos++) {
 
-      if (($it['rackposdepth']&4) && isset($rackrow[$pos]['F']) && $rackrow[$pos]['F'] && $rackrow[$pos]['F']!=$it['id']) {
+      if (($it['rack_position_depth']&4) && isset($rackrow[$pos]['F']) && $rackrow[$pos]['F'] && $rackrow[$pos]['F']!=$it['id']) {
 	$err.="Position conflict in row $pos Front for items ".
 	     "<a href='$scriptname?action=edititem&amp;id={$it['id']}'>{$it['id']}</a> and ".
 	     "<a href='$scriptname?action=edititem&amp;id={$rackrow[$pos]['F']}'>{$rackrow[$pos]['F']}</a><br>";
       }
-      if (($it['rackposdepth']&2) && isset($rackrow[$pos]['M']) && $rackrow[$pos]['M'] && $rackrow[$pos]['M']!=$it['id']) {
+      if (($it['rack_position_depth']&2) && isset($rackrow[$pos]['M']) && $rackrow[$pos]['M'] && $rackrow[$pos]['M']!=$it['id']) {
 	$err.="Position conflict in row $pos Middle for items ".
 	     "<a href='$scriptname?action=edititem&amp;id={$it['id']}'>{$it['id']}</a> and ".
 	     "<a href='$scriptname?action=edititem&amp;id={$rackrow[$pos]['M']}'>{$rackrow[$pos]['M']}</a><br>";
       }
-      if (($it['rackposdepth']&1) && isset($rackrow[$pos]['B']) && $rackrow[$pos]['B'] && $rackrow[$pos]['B']!=$it['id']) {
+      if (($it['rack_position_depth']&1) && isset($rackrow[$pos]['B']) && $rackrow[$pos]['B'] && $rackrow[$pos]['B']!=$it['id']) {
 	$err.="Position conflict in row $pos Back for items ".
 	     "<a href='$scriptname?action=edititem&amp;id={$it['id']}'>{$it['id']}</a> and ".
 	     "<a href='$scriptname?action=edititem&amp;id={$rackrow[$pos]['B']}'>{$rackrow[$pos]['B']}</a><br>";
       }
 
-      if ($pos==$it['rackposition']) $isitemtop=1; else $isitemtop=0;
-      if ($it['rackposdepth']&4) {$rackrow[$pos]['F']=$it['id']; $rackrow[$pos]['FT']=$isitemtop;}
-      if ($it['rackposdepth']&2) {$rackrow[$pos]['M']=$it['id']; $rackrow[$pos]['MT']=$isitemtop;}
-      if ($it['rackposdepth']&1) {$rackrow[$pos]['B']=$it['id']; $rackrow[$pos]['BT']=$isitemtop;}
+      if ($pos==$it['rack_position']) $isitemtop=1; else $isitemtop=0;
+      if ($it['rack_position_depth']&4) {$rackrow[$pos]['F']=$it['id']; $rackrow[$pos]['FT']=$isitemtop;}
+      if ($it['rack_position_depth']&2) {$rackrow[$pos]['M']=$it['id']; $rackrow[$pos]['MT']=$isitemtop;}
+      if ($it['rack_position_depth']&1) {$rackrow[$pos]['B']=$it['id']; $rackrow[$pos]['BT']=$isitemtop;}
 
     }//for usize
 
@@ -65,38 +65,38 @@ if (isset($items) && $rack['revnums']) { //reverse rack row numbering
 else if (isset($items)) { //normal row numbering (bottom==1)
   foreach ($items as $it) {
 
-    if (!is_numeric($it['rackposition']) || !is_numeric($it['usize'])) {
+    if (!is_numeric($it['rack_position']) || !is_numeric($it['usize'])) {
       $moreitems[$mi++]=$it;
       continue; //items with wrong position info
     }
 
-    if ($it['rackposition']-$it['usize']<0) {
+    if ($it['rack_position']-$it['usize']<0) {
       $err.= "Item {$it['id']}  ({$it['model']}) exceeds rack boundaries!<br>";
       continue;
     }
 
-    for ($pos=$it['rackposition'];$pos>($it['rackposition']-$it['usize']) ;$pos--) {
+    for ($pos=$it['rack_position'];$pos>($it['rack_position']-$it['usize']) ;$pos--) {
 
-      if (($it['rackposdepth']&4) && isset($rackrow[$pos]['F']) && $rackrow[$pos]['F'] && $rackrow[$pos]['F']!=$it['id']) {
+      if (($it['rack_position_depth']&4) && isset($rackrow[$pos]['F']) && $rackrow[$pos]['F'] && $rackrow[$pos]['F']!=$it['id']) {
 	$err.="Position conflict in row $pos Front for items ".
 	     "<a href='$scriptname?action=edititem&amp;id={$it['id']}'>{$it['id']}</a> and ".
 	     "<a href='$scriptname?action=edititem&amp;id={$rackrow[$pos]['F']}'>{$rackrow[$pos]['F']}</a><br>";
       }
-      if (($it['rackposdepth']&2) && isset($rackrow[$pos]['M']) && $rackrow[$pos]['M'] && $rackrow[$pos]['M']!=$it['id']) {
+      if (($it['rack_position_depth']&2) && isset($rackrow[$pos]['M']) && $rackrow[$pos]['M'] && $rackrow[$pos]['M']!=$it['id']) {
 	$err.="Position conflict in row $pos Middle for items ".
 	     "<a href='$scriptname?action=edititem&amp;id={$it['id']}'>{$it['id']}</a> and ".
 	     "<a href='$scriptname?action=edititem&amp;id={$rackrow[$pos]['M']}'>{$rackrow[$pos]['M']}</a><br>";
       }
-      if (($it['rackposdepth']&1) && isset($rackrow[$pos]['B']) && $rackrow[$pos]['B'] && $rackrow[$pos]['B']!=$it['id']) {
+      if (($it['rack_position_depth']&1) && isset($rackrow[$pos]['B']) && $rackrow[$pos]['B'] && $rackrow[$pos]['B']!=$it['id']) {
 	$err.="Position conflict in row $pos Back for items ".
 	     "<a href='$scriptname?action=edititem&amp;id={$it['id']}'>{$it['id']}</a> and ".
 	     "<a href='$scriptname?action=edititem&amp;id={$rackrow[$pos]['B']}'>{$rackrow[$pos]['B']}</a><br>";
       }
 
-      if ($pos==$it['rackposition']) $isitemtop=1; else $isitemtop=0;
-      if ($it['rackposdepth']&4) {$rackrow[$pos]['F']=$it['id']; $rackrow[$pos]['FT']=$isitemtop;}
-      if ($it['rackposdepth']&2) {$rackrow[$pos]['M']=$it['id']; $rackrow[$pos]['MT']=$isitemtop;}
-      if ($it['rackposdepth']&1) {$rackrow[$pos]['B']=$it['id']; $rackrow[$pos]['BT']=$isitemtop;}
+      if ($pos==$it['rack_position']) $isitemtop=1; else $isitemtop=0;
+      if ($it['rack_position_depth']&4) {$rackrow[$pos]['F']=$it['id']; $rackrow[$pos]['FT']=$isitemtop;}
+      if ($it['rack_position_depth']&2) {$rackrow[$pos]['M']=$it['id']; $rackrow[$pos]['MT']=$isitemtop;}
+      if ($it['rack_position_depth']&1) {$rackrow[$pos]['B']=$it['id']; $rackrow[$pos]['BT']=$isitemtop;}
 
     }//for usize
 
@@ -120,10 +120,10 @@ function printitemcell($rr,$depth) {
   global $rackrow,$items,$scriptname,$_GET;
   global $dbh;
 
-  $dns=$items[$rackrow[$rr][$depth]]['dnsname'];
+  $dns=$items[$rackrow[$rr][$depth]]['dns_name'];
   $label=$items[$rackrow[$rr][$depth]]['label'];
   $dr=explode(".",$dns); if(count($dr)) $dr=$dr[0];
-  $itemid=$items[$rackrow[$rr][$depth]]['id'];
+  $item_id=$items[$rackrow[$rr][$depth]]['id'];
   
 
   $mixlabel=" ";
@@ -131,7 +131,7 @@ function printitemcell($rr,$depth) {
   if (strlen($dr))
     $mixlabel.=" [DNS:$dr]";
  
-  $sid=getstatusidofitem($itemid,$dbh);
+  $sid=getstatusidofitem($item_id,$dbh);
   $x=attrofstatus($sid,$dbh);
   $attr=$x[0];
   $statustxt=$x[1];
@@ -146,7 +146,7 @@ function printitemcell($rr,$depth) {
 
 if (isset($_GET['highlightid'])) $hid=$_GET['highlightid'];
 
-if ($rack['revnums']) {
+if ($rack['reverse_numbering']) {
   for ($rr=1;$rr<=$rack['usize'];$rr++) {
       echo "\n<tr>\n";
       echo "<td style='background-color:white'>$rr</td>\n";
@@ -285,7 +285,7 @@ if ($mi) {
   for ($i=0;$i<$mi;$i++) {
     echo  "<li><a href='$scriptname?action=edititem&amp;id={$moreitems[$i]['id']}'>".
 	  "Item ".$moreitems[$i]['id'].": ".
-	  $moreitems[$i]['manufacturerid']." ".
+	  $moreitems[$i]['manufacturer_id']." ".
 	  $moreitems[$i]['model']." ".
 	  $moreitems[$i]['label']."</a></li>";
   }

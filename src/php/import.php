@@ -21,7 +21,7 @@ $fno2name=array(
 /*2*/    'area',
 /*3*/    'owner',
 /*4*/    'status',
-/*5*/    'dnsname',
+/*5*/    'dns_name',
 /*6*/    'ipv4',
 /*7*/    'comments',
 /*8*/    'manufacturer',
@@ -164,7 +164,7 @@ Expected format is CSV file with the following fields:<br>
 			$user_new[]=trim($cols[$name2fno['owner']]);
 
 		//itemtypes
-		if (getitemtypeidbyname($cols[$name2fno['itemtype']])>=0) 
+		if (getitem_type_idbyname($cols[$name2fno['itemtype']])>=0) 
 			$itypes_old[]=trim($cols[$name2fno['itemtype']]);
 		elseif (strlen(trim($cols[$name2fno['itemtype']])))
 			$itypes_new[]=trim($cols[$name2fno['itemtype']]);
@@ -289,7 +289,7 @@ if ($nextstep==2) {
 
 
 		//itemtypes
-		if (getitemtypeidbyname($cols[$name2fno['itemtype']])>=0) 
+		if (getitem_type_idbyname($cols[$name2fno['itemtype']])>=0) 
 			$itypes_old[]=trim($cols[$name2fno['itemtype']]);
 		else 
 			$itypes_new[]=trim($cols[$name2fno['itemtype']]);
@@ -332,7 +332,7 @@ if ($nextstep==2) {
 	$itypes_new=array_iunique($itypes_new,SORT_STRING);
 	foreach ($itypes_new as $itype) {
 		$itype=strtolower($itype);
-		$sql="INSERT into itemtypes (typedesc,hassoftware) VALUEs (:itype,1)";
+		$sql="INSERT into itemtypes (typedesc,has_software) VALUEs (:itype,1)";
         $stmt=db_execute2($dbh,$sql,array('itype'=>$itype));
 	}
 
@@ -345,10 +345,10 @@ if ($nextstep==2) {
             SELECT :location WHERE NOT EXISTS (SELECT 1 FROM locations WHERE name = :location)";
         $stmt=db_execute2($dbh,$sql,array('location'=>$location));
 
-		//insert locareaid
+		//insert location_area_id
 		$lr=getlocidsbynames($location,$locarea);
 		if ($lr[0]<0 && strlen($locarea)) {
-			$sql="INSERT INTO locareas (areaname,locationid) ".
+			$sql="INSERT INTO location_areas (areaname,location_id) ".
 			"values (:locarea, (SELECT id FROM locations WHERE name = :location)) ";
             $stmt=db_execute2($dbh,$sql,array('locarea'=>$locarea,'location'=>$location));
 		}
@@ -371,24 +371,24 @@ if ($nextstep==2) {
 		if ($lr[0]<0) {
 			echo "Location/locarea non existent: {$cols[$name2fno['location']]}/{$cols[$name2fno['area']]}<br>";
 			$locid="";
-			$locareaid="";
+			$location_area_id="";
 		}
 		else {
 			$locid=$lr['locid'];
-			$locareaid=$lr['locareaid'];
+			$location_area_id=$lr['location_area_id'];
 		}
 		//echo "<br>LR:{$cols[0]},{$cols[1]}=";print_r($lr); echo "<br>";
 
-		$userid=getuseridbyname($cols[$name2fno['owner']]);
+		$user_id=getuser_idbyname($cols[$name2fno['owner']]);
 		$ipv4=trim($cols[$name2fno['ipv4']]);
-		$dnsname=trim($cols[$name2fno['dnsname']]);
+		$dns_name=trim($cols[$name2fno['dns_name']]);
 		$comments=$cols[$name2fno['comments']];
-		$manufacturerid=getagentidbyname($cols[$name2fno['manufacturer']]);
+		$manufacturer_id=getagentidbyname($cols[$name2fno['manufacturer']]);
 		$model=trim($cols[$name2fno['model']]);
 		$sn=trim($cols[$name2fno['sn']]);
-        $ispart=0;
-        $rackmountable=0;
-		$itemtypeid=getitemtypeidbyname($cols[$name2fno['itemtype']]);
+        $is_part=0;
+        $is_rack_mountable=0;
+		$item_type_id=getitem_type_idbyname($cols[$name2fno['itemtype']]);
 		$status=getstatustypeidbyname($cols[$name2fno['status']]);
         $label=trim($cols[$name2fno['label']]);
 		$function=$cols[$name2fno['function']];
@@ -399,25 +399,25 @@ if ($nextstep==2) {
 
 
 		$sql="INSERT into items ".
-             "(userid,ipv4,dnsname,comments,manufacturerid,model,sn,ispart,rackmountable,itemtypeid,status,locationid,locareaid,label,function) ".
+             "(user_id,ipv4,dns_name,comments,manufacturer_id,model,sn,is_part,is_rack_mountable,item_type_id,status,location_id,location_area_id,label,function) ".
              " VALUES ".
-             "(:userid,:ipv4,:dnsname,:comments,:manufacturerid,:model,:sn,:ispart,:rackmountable,:itemtypeid,:status,:locationid,:locareaid,:label,:function)";
+             "(:user_id,:ipv4,:dns_name,:comments,:manufacturer_id,:model,:sn,:is_part,:is_rack_mountable,:item_type_id,:status,:location_id,:location_area_id,:label,:function)";
 
         $stmt=db_execute2($dbh,$sql,
             array(
-            'userid'=>$userid,
+            'user_id'=>$user_id,
             'ipv4'=>$ipv4,
-            'dnsname'=>$dnsname,
+            'dns_name'=>$dns_name,
             'comments'=>$comments,
-            'manufacturerid'=>$manufacturerid,
+            'manufacturer_id'=>$manufacturer_id,
             'model'=>$model,
             'sn'=>$sn,
-            'ispart'=>$ispart,
-            'rackmountable'=>$rackmountable,
-            'itemtypeid'=>$itemtypeid,
+            'is_part'=>$is_part,
+            'is_rack_mountable'=>$is_rack_mountable,
+            'item_type_id'=>$item_type_id,
             'status'=>$status,
-            'locationid'=>$locationid,
-            'locareaid'=>$locareaid,
+            'location_id'=>$location_id,
+            'location_area_id'=>$location_area_id,
             'label'=>$label,
             'function'=>$function,
             )

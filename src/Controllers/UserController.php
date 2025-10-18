@@ -149,7 +149,7 @@ class UserController extends BaseController
         try {
             $userId = $this->userModel->create([
                 'username' => $this->sanitizeString($data['username']),
-                'realname' => $this->sanitizeString($data['userdesc'] ?? ''), // Map userdesc to realname
+                'realname' => $this->sanitizeString($data['userdesc'] ?? ''), // Map display_name to realname
                 'password' => $data['pass'], // In production, should be hashed
                 'usertype' => (int) $data['usertype'],
                 'comments' => null,

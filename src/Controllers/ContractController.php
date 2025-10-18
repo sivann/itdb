@@ -110,7 +110,7 @@ class ContractController extends BaseController
         // Get contract types
         $contractTypes = $this->contractTypeModel->getAll();
 
-        // Get contract subtypes
+        // Get contract contract_subtype_ids
         $contractSubtypes = $this->contractSubtypeModel->getAll();
 
         // Get contractors and vendors
@@ -149,11 +149,11 @@ class ContractController extends BaseController
             $errors[] = 'Title is required';
         }
 
-        if (!empty($data['parentid']) && !$this->contractModel->find($data['parentid'])) {
+        if (!empty($data['parent_contract_id']) && !$this->contractModel->find($data['parent_contract_id'])) {
             $errors[] = 'Invalid parent contract';
         }
 
-        if (!empty($data['contractorid']) && !$this->agentModel->find($data['contractorid'])) {
+        if (!empty($data['contractor_id']) && !$this->agentModel->find($data['contractor_id'])) {
             $errors[] = 'Invalid contractor';
         }
 
@@ -164,16 +164,16 @@ class ContractController extends BaseController
         try {
             $contractData = [
                 'type' => !empty($data['type']) ? (int) $data['type'] : null,
-                'parentid' => !empty($data['parentid']) ? (int) $data['parentid'] : null,
+                'parent_contract_id' => !empty($data['parent_contract_id']) ? (int) $data['parent_contract_id'] : null,
                 'title' => $this->sanitizeString($data['title']),
                 'number' => $this->sanitizeString($data['number'] ?? ''),
                 'description' => $this->sanitizeString($data['description'] ?? ''),
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
-                'totalcost' => !empty($data['totalcost']) ? (float) $data['totalcost'] : null,
-                'contractorid' => !empty($data['contractorid']) ? (int) $data['contractorid'] : null,
-                'vendorid' => !empty($data['vendorid']) ? (int) $data['vendorid'] : null,
-                'startdate' => !empty($data['startdate']) ? strtotime($data['startdate']) : null,
-                'currentenddate' => !empty($data['currentenddate']) ? strtotime($data['currentenddate']) : null,
+                'total_cost' => !empty($data['total_cost']) ? (float) $data['total_cost'] : null,
+                'contractor_id' => !empty($data['contractor_id']) ? (int) $data['contractor_id'] : null,
+                'vendor_id' => !empty($data['vendor_id']) ? (int) $data['vendor_id'] : null,
+                'start_date' => !empty($data['start_date']) ? strtotime($data['start_date']) : null,
+                'end_date' => !empty($data['end_date']) ? strtotime($data['end_date']) : null,
                 'renewals' => $this->sanitizeString($data['renewals'] ?? ''),
                 'subtype' => !empty($data['subtype']) ? (int) $data['subtype'] : null,
             ];
@@ -211,7 +211,7 @@ class ContractController extends BaseController
         // Get contract types
         $contractTypes = $this->contractTypeModel->getAll();
 
-        // Get contract subtypes
+        // Get contract contract_subtype_ids
         $contractSubtypes = $this->contractSubtypeModel->getAll();
 
         // Get contractors and vendors
@@ -258,13 +258,13 @@ class ContractController extends BaseController
             $errors[] = 'Title is required';
         }
 
-        if (!empty($data['parentid']) && $data['parentid'] == $id) {
+        if (!empty($data['parent_contract_id']) && $data['parent_contract_id'] == $id) {
             $errors[] = 'Contract cannot be its own parent';
-        } elseif (!empty($data['parentid']) && !$this->contractModel->find($data['parentid'])) {
+        } elseif (!empty($data['parent_contract_id']) && !$this->contractModel->find($data['parent_contract_id'])) {
             $errors[] = 'Invalid parent contract';
         }
 
-        if (!empty($data['contractorid']) && !$this->agentModel->find((int)$data['contractorid'])) {
+        if (!empty($data['contractor_id']) && !$this->agentModel->find((int)$data['contractor_id'])) {
             $errors[] = 'Invalid contractor';
         }
 
@@ -275,16 +275,16 @@ class ContractController extends BaseController
         try {
             $updateData = [
                 'type' => !empty($data['type']) ? (int) $data['type'] : null,
-                'parentid' => !empty($data['parentid']) ? (int) $data['parentid'] : null,
+                'parent_contract_id' => !empty($data['parent_contract_id']) ? (int) $data['parent_contract_id'] : null,
                 'title' => $this->sanitizeString($data['title']),
                 'number' => $this->sanitizeString($data['number'] ?? ''),
                 'description' => $this->sanitizeString($data['description'] ?? ''),
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
-                'totalcost' => !empty($data['totalcost']) ? (float) $data['totalcost'] : null,
-                'contractorid' => !empty($data['contractorid']) ? (int) $data['contractorid'] : null,
-                'vendorid' => !empty($data['vendorid']) ? (int) $data['vendorid'] : null,
-                'startdate' => !empty($data['startdate']) ? strtotime($data['startdate']) : null,
-                'currentenddate' => !empty($data['currentenddate']) ? strtotime($data['currentenddate']) : null,
+                'total_cost' => !empty($data['total_cost']) ? (float) $data['total_cost'] : null,
+                'contractor_id' => !empty($data['contractor_id']) ? (int) $data['contractor_id'] : null,
+                'vendor_id' => !empty($data['vendor_id']) ? (int) $data['vendor_id'] : null,
+                'start_date' => !empty($data['start_date']) ? strtotime($data['start_date']) : null,
+                'end_date' => !empty($data['end_date']) ? strtotime($data['end_date']) : null,
                 'renewals' => $this->sanitizeString($data['renewals'] ?? ''),
                 'subtype' => !empty($data['subtype']) ? (int) $data['subtype'] : null,
             ];
@@ -397,7 +397,7 @@ class ContractController extends BaseController
             // Update current end date
             $renewals = $contract['renewals'] ? $contract['renewals'] . "\n" . $renewalNote : $renewalNote;
             $this->contractModel->update($id, [
-                'currentenddate' => $newEndDate,
+                'end_date' => $newEndDate,
                 'renewals' => $renewals,
             ]);
 
@@ -442,10 +442,10 @@ class ContractController extends BaseController
                 'contractor' => [
                     'name' => $contract['contractor_name'] ?? null
                 ],
-                'startdate' => $contract['startdate'] ? date('Y-m-d', $contract['startdate']) : null,
-                'enddate' => $contract['currentenddate'] ? date('Y-m-d', $contract['currentenddate']) : null,
-                'start_date' => $contract['startdate'] ? date('Y-m-d', $contract['startdate']) : null,
-                'end_date' => $contract['currentenddate'] ? date('Y-m-d', $contract['currentenddate']) : null
+                'start_date' => $contract['start_date'] ? date('Y-m-d', $contract['start_date']) : null,
+                'enddate' => $contract['end_date'] ? date('Y-m-d', $contract['end_date']) : null,
+                'start_date' => $contract['start_date'] ? date('Y-m-d', $contract['start_date']) : null,
+                'end_date' => $contract['end_date'] ? date('Y-m-d', $contract['end_date']) : null
             ];
         }
 

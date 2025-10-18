@@ -11,21 +11,21 @@ class Item extends BaseModel
 
     protected $fillable = [
         'function', // title equivalent
-        'itemtypeid', // type
+        'item_type_id', // type
         'status',
-        'manufacturerid', // manufacturer
+        'manufacturer_id', // manufacturer
         'model',
         'sn', // serial
         'label', // assettag equivalent
         'comments', // description
-        'maintenanceinfo', // notes equivalent
-        'userid',
-        'locationid',
-        'locareaid',
-        'rackid',
-        'rackposition', // rackrow equivalent
-        'purchasedate',
-        'warrantymonths',
+        'maintenance_info', // notes equivalent
+        'user_id',
+        'location_id',
+        'location_area_id',
+        'rack_id',
+        'rack_position', // rackrow equivalent
+        'purchase_date',
+        'warranty_months',
         'ipv4', // ip
         'hd', // hdd
         'cpu',
@@ -40,7 +40,7 @@ class Item extends BaseModel
      */
     public function getPurchaseDateFormatted(): ?string
     {
-        return $this->formatDate($this->purchasedate);
+        return $this->formatDate($this->purchase_date);
     }
 
     /**
@@ -48,12 +48,12 @@ class Item extends BaseModel
      */
     public function getWarrantyExpiration(): ?int
     {
-        if (!$this->purchasedate || !$this->warrantymonths) {
+        if (!$this->purchase_date || !$this->warranty_months) {
             return null;
         }
 
         // Add warranty months to purchase date
-        return strtotime("+{$this->warrantymonths} months", $this->purchasedate);
+        return strtotime("+{$this->warranty_months} months", $this->purchase_date);
     }
 
     /**
@@ -61,7 +61,7 @@ class Item extends BaseModel
      */
     public function getWarrantyStatus(): array
     {
-        if (!$this->purchasedate || !$this->warrantymonths) {
+        if (!$this->purchase_date || !$this->warranty_months) {
             return ['status' => 'unknown', 'days' => null, 'expired' => false];
         }
 
@@ -103,12 +103,12 @@ class Item extends BaseModel
      */
     public function getRackPosition(): ?string
     {
-        if (!$this->rackid) {
+        if (!$this->rack_id) {
             return null;
         }
 
-        if ($this->rackposition) {
-            return "Row {$this->rackposition}";
+        if ($this->rack_position) {
+            return "Row {$this->rack_position}";
         }
 
         return null;
@@ -128,8 +128,8 @@ class Item extends BaseModel
             'serial' => 'string|max:100',
             'assettag' => 'string|max:50',
             'description' => 'string',
-            'userid' => 'integer',
-            'locationid' => 'integer',
+            'user_id' => 'integer',
+            'location_id' => 'integer',
             'warranty' => 'integer|min:0',
             'ip' => 'string|max:50',
             'os' => 'string|max:100',

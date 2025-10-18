@@ -105,7 +105,7 @@
                                         <td>{{ item.item_type.typedesc | default('Unknown') }}</td>
                                         <td>
                                             <span class="badge bg-{{ item.status == 1 ? 'success' : 'secondary' }}">
-                                                {{ item.status_type.statusdesc | default('Unknown') }}
+                                                {{ item.status_type.name | default('Unknown') }}
                                             </span>
                                         </td>
                                         <td>{{ item.user.display_name | default('Unassigned') }}</td>
@@ -251,7 +251,7 @@
                                     <td>{{ item.item_type.typedesc | default('-') }}</td>
                                     <td>
                                         <span class="badge bg-{{ item.status == 1 ? 'success' : 'secondary' }}">
-                                            {{ item.status_type.statusdesc | default('Unknown') }}
+                                            {{ item.status_type.name | default('Unknown') }}
                                         </span>
                                     </td>
                                     <td>{{ item.location.name | default('-') }}</td>

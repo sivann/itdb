@@ -5,25 +5,25 @@ require("../init.php");
 //addtag, removetag
 $addtag=$_POST['addtag'];
 $removetag=$_POST['removetag'];
-$itemid=$_GET['id'];
-if (!is_numeric($itemid)) {
-  echo "tag2item_ajaxedit:invalid itemid ($itemid)";exit;
+$item_id=$_GET['id'];
+if (!is_numeric($item_id)) {
+  echo "tag2item_ajaxedit:invalid item_id ($item_id)";exit;
 }
 
 $result="";
 
 if (isset($_POST['addtag']) && strlen($_POST['addtag'])) {
     $addtag=trim($_POST['addtag']);
-    $tagid=tagname2id($addtag);
-    if (!is_numeric($tagid)) { //new tag, add it
+    $tag_id=tagname2id($addtag);
+    if (!is_numeric($tag_id)) { //new tag, add it
       $sql="INSERT INTO tags (name) values ('$addtag')";
       $sth=db_execute($dbh,$sql);
       $result.="added new tag: $addtag<br>";
-      $tagid=tagname2id($addtag); //re-get id
+      $tag_id=tagname2id($addtag); //re-get id
     }
     //make association
-    if (is_numeric($tagid)) { //make association
-      $sql="INSERT INTO tag2item (tagid,itemid) values ($tagid,$itemid)";
+    if (is_numeric($tag_id)) { //make association
+      $sql="INSERT INTO items_tags (tag_id,item_id) values ($tag_id,$item_id)";
       $sth=db_execute($dbh,$sql);
       $result.="associated tag: $addtag<br>";
     }
@@ -32,9 +32,9 @@ if (isset($_POST['addtag']) && strlen($_POST['addtag'])) {
 }
 elseif (isset($_POST['removetag']) && strlen($_POST['removetag'])) {
     $removetag=trim($_POST['removetag']);
-    $tagid=tagname2id($removetag);
-    if (is_numeric($tagid)) { //make association
-      $sql="DELETE from tag2item where tag2item.tagid=$tagid AND tag2item.itemid=$itemid";
+    $tag_id=tagname2id($removetag);
+    if (is_numeric($tag_id)) { //make association
+      $sql="DELETE from tag2item where tag2item.tag_id=$tag_id AND tag2item.item_id=$itemid";
       $sth=db_exec($dbh,$sql);
       $result.="de-associated tag:$removetag<br>";
     }

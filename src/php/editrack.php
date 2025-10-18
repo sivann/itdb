@@ -5,16 +5,16 @@ $(document).ready(function() {
   $("#tabs").tabs();
   $("#tabs").show();
 
-    $("#locationid").change(function() {
-      var locationid=$(this).val();
-      var dataString = 'locationid='+ locationid;
+    $("#location_id").change(function() {
+      var location_id=$(this).val();
+      var dataString = 'location_id='+ location_id;
       $.ajax ({
           type: "POST",
           url: "php/locarea_options_ajax.php",
           data: dataString,
           cache: false,
           success: function(html) {
-            $("#locareaid").html(html);
+            $("#location_area_id").html(html);
           }
       });
     });
@@ -76,8 +76,8 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the rack
 
   if ($_POST['id']=="new")  {//if we came from a post (save) the add software 
 
-    $sql="INSERT into racks (locationid , usize , depth , comments,model,label, revnums , locareaid) ".
-	 " VALUES ('$locationid','$usize','$depth','$comments','$model','$label','$revnums','$locareaid')";
+    $sql="INSERT into racks (location_id , usize , depth , comments,model,label, reverse_numbering , location_area_id) ".
+	 " VALUES ('$location_id','$usize','$depth','$comments','$model','$label','$reverse_numbering','$location_area_id')";
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
     print "<br><b>Added Rack <a href='$scriptname?action=$action&amp;id=$lastid'>$lastid</a></b><br>";
@@ -89,10 +89,10 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the rack
   }//new rack
   else {
     $sql="UPDATE racks set ".
-      " locationid='".$_POST['locationid']."', ".
-      " locareaid='".$_POST['locareaid']."', ".
+      " location_id='".$_POST['location_id']."', ".
+      " location_area_id='".$_POST['location_area_id']."', ".
       " usize='".$_POST['usize']."', ".
-      " revnums='".$_POST['revnums']."', ".
+      " reverse_numbering='".$_POST['reverse_numbering']."', ".
       " depth='".$_POST['depth']."', ".
       " model='".($_POST['model'])."', ".
       " comments='".($_POST['comments'])."' , ".
@@ -103,7 +103,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update the rack
   }//not new-update
 
   //update item locations to point to rack location
-  $sql="UPDATE items set locationid='".$_POST['locationid']."', locareaid='".$_POST['locareaid']."' WHERE items.rackid=$id";
+  $sql="UPDATE items set location_id='".$_POST['location_id']."', location_area_id='".$_POST['location_area_id']."' WHERE items.rack_id=$id";
   db_exec($dbh,$sql);
   te("Location of items in this rack was updated to match rack location");
 
@@ -117,7 +117,7 @@ if (!isset($_REQUEST['id'])) {echo "ERROR:ID not defined";exit;}
 $id=$_REQUEST['id'];
 
 //$sql="SELECT * FROM racks where racks.id='$id'";
-$sql="SELECT count(items.id) AS population, sum(items.usize) as occupation,racks.* FROM racks LEFT OUTER JOIN items ON items.rackid=racks.id WHERE racks.id='$id'";
+$sql="SELECT count(items.id) AS population, sum(items.usize) as occupation,racks.* FROM racks LEFT OUTER JOIN items ON items.rack_id=racks.id WHERE racks.id='$id'";
 $sth=db_execute($dbh,$sql);
 $r=$sth->fetch(PDO::FETCH_ASSOC);
 
@@ -144,7 +144,7 @@ else
                 <li><label for="usize" class="error"><?php te("Rack height is missing");?></label></li>
                 <li><label for="depth" class="error"><?php te("Rack depth is missing");?></label></li>
                 <li><label for="label" class="error"><?php te("Rack label is missing");?></label></li>
-                <li><label for="locationid" class="error"><?php te("Rack location is missing");?></label></li>
+                <li><label for="location_id" class="error"><?php te("Rack location is missing");?></label></li>
         </ol>
 </div>
 
@@ -170,9 +170,9 @@ else
     </td></tr>
 
     <tr><td class="tdt"><?php te("Numbering")?></td><td>
-    <select name='revnums'>
+    <select name='reverse_numbering'>
 <?php
-    if ($r['revnums']==1) {
+    if ($r['reverse_numbering']==1) {
       $s0="";$s1="selected";
     }
     else {
@@ -196,10 +196,10 @@ else
     <tr><td class="tdt"><?php te("Location");?>:</td> 
 
     <td>
-      <select id='locationid' name='locationid' validate='required:true'>
+      <select id='location_id' name='location_id' validate='required:true'>
       <option value=''>Select</option>
       <?php
-      $locationid=$r['locationid'];
+      $location_id=$r['location_id'];
       foreach ($locations  as $key=>$location ) {
 	$dbid=$location['id'];
 
@@ -208,7 +208,7 @@ else
     else
             $itype=$location['name'];
 	$s="";
-	if (($locationid=="$dbid")) $s=" SELECTED ";
+	if (($location_id=="$dbid")) $s=" SELECTED ";
 	echo "    <option $s value='$dbid'>$itype</option>\n";
       }
       ?>
@@ -218,8 +218,8 @@ else
 
     <tr><td class="tdt"><?php te("Area");?>:</td><td>
 <?php
-    if (is_numeric($locationid)) {
-      $sql="SELECT id,areaname FROM locareas WHERE locationid=$locationid order by areaname";
+    if (is_numeric($location_id)) {
+      $sql="SELECT id,areaname FROM location_areas WHERE location_id=$location_id order by areaname";
       $stha=$dbh->query($sql);
       $locareas=$stha->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -227,15 +227,15 @@ else
       $locareas=array();
     }
 ?>
-      <select id='locareaid' name='locareaid'>
+      <select id='location_area_id' name='location_area_id'>
 	<option value=''>Select</option>
 	<?php
-	$locareaid=$r['locareaid'];
+	$location_area_id=$r['location_area_id'];
 	foreach ($locareas  as $key=>$locarea ) {
 	  $dbid=$locarea['id'];
 	  $name=$locarea['areaname'];
 	  $s="";
-	  if (($locareaid=="$dbid")) $s=" SELECTED ";
+	  if (($location_area_id=="$dbid")) $s=" SELECTED ";
 	  echo "    <option $s value='$dbid'>$name</option>\n";
 	}
 	?>

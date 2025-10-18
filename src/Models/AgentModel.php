@@ -45,7 +45,7 @@ class AgentModel
 
         // Build WHERE conditions
         if (!empty($filters['search'])) {
-            $whereConditions[] = "(title LIKE :search OR contactinfo LIKE :search)";
+            $whereConditions[] = "(title LIKE :search OR contact_info LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
@@ -89,7 +89,7 @@ class AgentModel
             LEFT JOIN agent_types at ON aat.agent_type_id = at.id
             $whereClause
             GROUP BY agents.id
-            ORDER BY agents.title
+            ORDER BY agents.name
             LIMIT :limit OFFSET :offset
         ";
 
@@ -212,7 +212,7 @@ class AgentModel
             INNER JOIN agent_agent_type aat ON a.id = aat.agent_id
             INNER JOIN agent_types at ON aat.agent_type_id = at.id
             WHERE at.code = :type_code
-            ORDER BY a.title
+            ORDER BY a.name
         ";
 
         return $this->db->fetchAll($sql, [
@@ -269,7 +269,7 @@ class AgentModel
 
         // Check items
         $itemCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM items WHERE manufacturerid = :id",
+            "SELECT COUNT(*) FROM items WHERE manufacturer_id = :id",
             ['id' => $id]
         );
         if ($itemCount > 0) {
@@ -278,7 +278,7 @@ class AgentModel
 
         // Check software
         $softwareCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM software WHERE manufacturerid = :id",
+            "SELECT COUNT(*) FROM software WHERE manufacturer_id = :id",
             ['id' => $id]
         );
         if ($softwareCount > 0) {
@@ -287,7 +287,7 @@ class AgentModel
 
         // Check invoices (vendor)
         $invoiceVendorCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM invoices WHERE vendorid = :id",
+            "SELECT COUNT(*) FROM invoices WHERE vendor_id = :id",
             ['id' => $id]
         );
         if ($invoiceVendorCount > 0) {
@@ -296,7 +296,7 @@ class AgentModel
 
         // Check invoices (buyer)
         $invoiceBuyerCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM invoices WHERE buyerid = :id",
+            "SELECT COUNT(*) FROM invoices WHERE buyer_id = :id",
             ['id' => $id]
         );
         if ($invoiceBuyerCount > 0) {
@@ -305,7 +305,7 @@ class AgentModel
 
         // Check contracts (contractor)
         $contractContractorCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM contracts WHERE contractorid = :id",
+            "SELECT COUNT(*) FROM contracts WHERE contractor_id = :id",
             ['id' => $id]
         );
         if ($contractContractorCount > 0) {
@@ -314,7 +314,7 @@ class AgentModel
 
         // Check contracts (vendor)
         $contractVendorCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM contracts WHERE vendorid = :id",
+            "SELECT COUNT(*) FROM contracts WHERE vendor_id = :id",
             ['id' => $id]
         );
         if ($contractVendorCount > 0) {
@@ -336,31 +336,31 @@ class AgentModel
 
         // Items (as manufacturer)
         $relationships['items'] = $this->db->fetchAll(
-            "SELECT id, label, function FROM items WHERE manufacturerid = :agent_id ORDER BY id DESC LIMIT 20",
+            "SELECT id, label, function FROM items WHERE manufacturer_id = :agent_id ORDER BY id DESC LIMIT 20",
             ['agent_id' => $agentId]
         );
 
         // Software (as manufacturer)
         $relationships['software'] = $this->db->fetchAll(
-            "SELECT id, stitle, sversion FROM software WHERE manufacturerid = :agent_id ORDER BY id DESC LIMIT 20",
+            "SELECT id, title, version FROM software WHERE manufacturer_id = :agent_id ORDER BY id DESC LIMIT 20",
             ['agent_id' => $agentId]
         );
 
         // Invoices as vendor
         $relationships['invoices_vendor'] = $this->db->fetchAll(
-            "SELECT id, date, totalcost FROM invoices WHERE vendorid = :agent_id ORDER BY id DESC LIMIT 20",
+            "SELECT id, invoice_date, total_cost FROM invoices WHERE vendor_id = :agent_id ORDER BY id DESC LIMIT 20",
             ['agent_id' => $agentId]
         );
 
         // Invoices as buyer
         $relationships['invoices_buyer'] = $this->db->fetchAll(
-            "SELECT id, date, totalcost FROM invoices WHERE buyerid = :agent_id ORDER BY id DESC LIMIT 20",
+            "SELECT id, invoice_date, total_cost FROM invoices WHERE buyer_id = :agent_id ORDER BY id DESC LIMIT 20",
             ['agent_id' => $agentId]
         );
 
         // Contracts (as contractor)
         $relationships['contracts'] = $this->db->fetchAll(
-            "SELECT id, title, startdate, currentenddate FROM contracts WHERE contractorid = :agent_id ORDER BY id DESC LIMIT 20",
+            "SELECT id, title, start_date, end_date FROM contracts WHERE contractor_id = :agent_id ORDER BY id DESC LIMIT 20",
             ['agent_id' => $agentId]
         );
 

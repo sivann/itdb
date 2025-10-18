@@ -17,12 +17,12 @@ class ItemTypeModel
 
     public function find(int $id): ?array
     {
-        return $this->db->fetchOne("SELECT * FROM itemtypes WHERE id = :id", ['id' => $id]);
+        return $this->db->fetchOne("SELECT * FROM item_types WHERE id = :id", ['id' => $id]);
     }
 
     public function getAll(): array
     {
-        return $this->db->fetchAll("SELECT * FROM itemtypes ORDER BY name");
+        return $this->db->fetchAll("SELECT * FROM item_types ORDER BY name");
     }
 
     public function getPaginated(int $page = 1, int $perPage = 20, array $filters = []): array
@@ -38,20 +38,20 @@ class ItemTypeModel
 
         $whereClause = !empty($whereConditions) ? 'WHERE ' . implode(' AND ', $whereConditions) : '';
 
-        $totalSql = "SELECT COUNT(*) FROM itemtypes $whereClause";
+        $totalSql = "SELECT COUNT(*) FROM item_types $whereClause";
         $total = (int) $this->db->fetchColumn($totalSql, $params);
 
         $sql = "
             SELECT it.*,
                    COALESCE(item_counts.items_count, 0) as items_count
-            FROM itemtypes it
+            FROM item_types it
             LEFT JOIN (
-                SELECT itemtypeid, COUNT(*) as items_count
+                SELECT item_type_id, COUNT(*) as items_count
                 FROM items
-                GROUP BY itemtypeid
-            ) item_counts ON it.id = item_counts.itemtypeid
+                GROUP BY item_type_id
+            ) item_counts ON it.id = item_counts.item_type_id
             $whereClause
-            ORDER BY it.typedesc
+            ORDER BY it.description
             LIMIT :limit OFFSET :offset
         ";
         $params['limit'] = $perPage;
@@ -73,7 +73,7 @@ class ItemTypeModel
         return $this->db->insert('itemtypes', [
             'name' => $data['name'],
             'typedesc' => $data['typedesc'] ?? $data['name'],
-            'hassoftware' => (int) ($data['hassoftware'] ?? 0)
+            'has_software' => (int) ($data['has_software'] ?? 0)
         ]);
     }
 
@@ -82,7 +82,7 @@ class ItemTypeModel
         $rowsAffected = $this->db->update('itemtypes', [
             'name' => $data['name'],
             'typedesc' => $data['typedesc'] ?? $data['name'],
-            'hassoftware' => (int) ($data['hassoftware'] ?? 0)
+            'has_software' => (int) ($data['has_software'] ?? 0)
         ], ['id' => $id]);
         return $rowsAffected > 0;
     }
@@ -103,7 +103,7 @@ class ItemTypeModel
         $references = [];
 
         $itemCount = (int) $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM items WHERE itemtypeid = :id",
+            "SELECT COUNT(*) FROM items WHERE item_type_id = :id",
             ['id' => $id]
         );
 
@@ -122,13 +122,13 @@ class ItemTypeModel
         $sql = "
             SELECT it.*,
                    COALESCE(items.count, 0) as items_count
-            FROM itemtypes it
+            FROM item_types it
             LEFT JOIN (
-                SELECT itemtypeid, COUNT(*) as count
+                SELECT item_type_id, COUNT(*) as count
                 FROM items
-                WHERE itemtypeid = :id
-                GROUP BY itemtypeid
-            ) items ON it.id = items.itemtypeid
+                WHERE item_type_id = :id
+                GROUP BY item_type_id
+            ) items ON it.id = items.item_type_id
             WHERE it.id = :id
             LIMIT 1
         ";

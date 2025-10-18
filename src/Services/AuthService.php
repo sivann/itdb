@@ -82,7 +82,7 @@ class AuthService extends BaseService
 
             // Update user's cookie token in database
             $this->db->execute(
-                "UPDATE users SET cookie1 = ? WHERE id = ?",
+                "UPDATE users SET remember_token = ? WHERE id = ?",
                 [$cookieToken, $userData['id']]
             );
 
@@ -94,7 +94,7 @@ class AuthService extends BaseService
 
             // Set cookies for compatibility with legacy system
             $cookiePath = $this->getCookiePath();
-            setcookie('itdbcookie1', (string)$cookieToken, time() + (2 * 86400), $cookiePath);
+            setcookie('itdbremember_token', (string)$cookieToken, time() + (2 * 86400), $cookiePath);
             setcookie('itdbuser', $username, time() + (60 * 86400), $cookiePath);
 
             $this->logAction('login_success', ['user_id' => $userData['id'], 'username' => $username]);
@@ -146,7 +146,7 @@ class AuthService extends BaseService
             if (empty($result)) {
                 // Create new LDAP user
                 $this->db->execute(
-                    "INSERT INTO users (username, usertype, pass) VALUES (?, ?, ?)",
+                    "INSERT INTO users (username, user_type, pass) VALUES (?, ?, ?)",
                     [$username, 2, ''] // LDAP user type, no local password
                 );
 
@@ -166,7 +166,7 @@ class AuthService extends BaseService
 
             // Update user's cookie token in database
             $this->db->execute(
-                "UPDATE users SET cookie1 = ? WHERE id = ?",
+                "UPDATE users SET remember_token = ? WHERE id = ?",
                 [$cookieToken, $user['id']]
             );
 
@@ -178,7 +178,7 @@ class AuthService extends BaseService
 
             // Set cookies
             $cookiePath = $this->getCookiePath();
-            setcookie('itdbcookie1', (string)$cookieToken, time() + (2 * 86400), $cookiePath);
+            setcookie('itdbremember_token', (string)$cookieToken, time() + (2 * 86400), $cookiePath);
             setcookie('itdbuser', $username, time() + (60 * 86400), $cookiePath);
 
             $this->logAction('ldap_login_success', ['user_id' => $user['id'], 'username' => $username]);
@@ -215,8 +215,8 @@ class AuthService extends BaseService
         }
 
         // Check cookie-based authentication (legacy compatibility)
-        if (isset($_COOKIE['itdbuser']) && isset($_COOKIE['itdbcookie1'])) {
-            return $this->validateCookieAuth($_COOKIE['itdbuser'], $_COOKIE['itdbcookie1']);
+        if (isset($_COOKIE['itdbuser']) && isset($_COOKIE['itdbremember_token'])) {
+            return $this->validateCookieAuth($_COOKIE['itdbuser'], $_COOKIE['itdbremember_token']);
         }
 
         return false;
@@ -229,7 +229,7 @@ class AuthService extends BaseService
     {
         try {
             $result = $this->db->fetchAll(
-                "SELECT * FROM users WHERE username = ? AND cookie1 = ? LIMIT 1",
+                "SELECT * FROM users WHERE username = ? AND remember_token = ? LIMIT 1",
                 [$username, $cookieToken]
             );
 
@@ -247,7 +247,7 @@ class AuthService extends BaseService
 
             // Renew cookie
             $cookiePath = $this->getCookiePath();
-            setcookie('itdbcookie1', $cookieToken, time() + (2 * 86400), $cookiePath);
+            setcookie('itdbremember_token', $cookieToken, time() + (2 * 86400), $cookiePath);
 
             return true;
 
@@ -347,7 +347,7 @@ class AuthService extends BaseService
 
         // Clear cookies
         $cookiePath = $this->getCookiePath();
-        setcookie('itdbcookie1', '', time() - 3600, $cookiePath);
+        setcookie('itdbremember_token', '', time() - 3600, $cookiePath);
         setcookie('itdbuser', '', time() - 3600, $cookiePath);
 
         $this->logAction('logout');

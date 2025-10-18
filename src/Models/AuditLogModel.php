@@ -82,7 +82,7 @@ class AuditLogModel
         $sql = "
             SELECT al.*,
                    u.username,
-                   u.userdesc as display_name
+                   u.display_name as display_name
             FROM audit_log al
             LEFT JOIN users u ON al.user_id = u.id
             {$whereClause}
@@ -135,7 +135,7 @@ class AuditLogModel
         $sql = "
             SELECT al.*,
                    u.username,
-                   u.userdesc as display_name
+                   u.display_name as display_name
             FROM audit_log al
             LEFT JOIN users u ON al.user_id = u.id
             WHERE al.asset_type = :asset_type AND al.asset_id = :asset_id

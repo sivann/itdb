@@ -25,7 +25,7 @@
 {% if mode == 'edit' or mode == 'create' %}
     <!-- EDIT/CREATE MODE -->
     <div class="row">
-        <div class="{% if mode == 'edit' and rack.usize %}col-lg-5{% else %}col-lg-10 mx-auto{% endif %}">
+        <div class="{% if mode == 'edit' and rack.size_units %}col-lg-5{% else %}col-lg-10 mx-auto{% endif %}">
             <div class="card">
                 <div class="card-header py-1 px-2">
                     <h6 class="mb-0 small">
@@ -86,21 +86,21 @@
                         <div class="row mb-1">
                             <label for="locationid" class="col-sm-4 col-form-label col-form-label-sm text-end">Location <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
-                                <select class="form-select form-select-sm{% if errors.locationid %} is-invalid{% endif %}"
+                                <select class="form-select form-select-sm{% if errors.location_id %} is-invalid{% endif %}"
                                         id="locationid"
                                         name="locationid"
                                         required>
                                     <option value="">Select location...</option>
                                     {% for location in form_options.locations %}
                                     <option value="{{ location.id }}"
-                                            {% if (old.locationid|default(rack.locationid|default(''))) == location.id %}selected{% endif %}>
+                                            {% if (old.location_id|default(rack.location_id|default(''))) == location.id %}selected{% endif %}>
                                         {{ location.name }}
                                         {% if location.floor %} ({{ location.floor }}){% endif %}
                                     </option>
                                     {% endfor %}
                                 </select>
-                                {% if errors.locationid %}
-                                <div class="invalid-feedback">{{ errors.locationid }}</div>
+                                {% if errors.location_id %}
+                                <div class="invalid-feedback">{{ errors.location_id }}</div>
                                 {% endif %}
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                                     {% for area in form_options.location_areas %}
                                     <option value="{{ area.id }}"
                                             {% if (old.locareaid|default(rack.locareaid|default(''))) == area.id %}selected{% endif %}
-                                            data-location="{{ area.locationid }}">
+                                            data-location="{{ area.location_id }}">
                                         {{ area.name }}
                                     </option>
                                     {% endfor %}
@@ -129,39 +129,39 @@
                         <div class="row mb-1">
                             <label for="usize" class="col-sm-4 col-form-label col-form-label-sm text-end">Size (U) <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
-                                <select class="form-select form-select-sm{% if errors.usize %} is-invalid{% endif %}"
-                                        id="usize"
-                                        name="usize"
+                                <select class="form-select form-select-sm{% if errors.size_units %} is-invalid{% endif %}"
+                                        id="size_units"
+                                        name="size_units"
                                         required>
                                     <option value="">Select...</option>
-                                    {% set current_usize = old.usize|default(rack.usize|default('')) %}
-                                    <option value="4" {% if current_usize == 4 %}selected{% endif %}>4U</option>
-                                    <option value="6" {% if current_usize == 6 %}selected{% endif %}>6U</option>
-                                    <option value="9" {% if current_usize == 9 %}selected{% endif %}>9U</option>
-                                    <option value="12" {% if current_usize == 12 %}selected{% endif %}>12U</option>
-                                    <option value="18" {% if current_usize == 18 %}selected{% endif %}>18U</option>
-                                    <option value="24" {% if current_usize == 24 %}selected{% endif %}>24U</option>
-                                    <option value="42" {% if current_usize == 42 %}selected{% endif %}>42U</option>
-                                    <option value="45" {% if current_usize == 45 %}selected{% endif %}>45U</option>
-                                    <option value="48" {% if current_usize == 48 %}selected{% endif %}>48U</option>
-                                    {% if current_usize and current_usize not in [4, 6, 9, 12, 18, 24, 42, 45, 48] %}
-                                    <option value="{{ current_usize }}" selected>{{ current_usize }}U</option>
+                                    {% set current_size_units = old.size_units|default(rack.size_units|default('')) %}
+                                    <option value="4" {% if current_size_units == 4 %}selected{% endif %}>4U</option>
+                                    <option value="6" {% if current_size_units == 6 %}selected{% endif %}>6U</option>
+                                    <option value="9" {% if current_size_units == 9 %}selected{% endif %}>9U</option>
+                                    <option value="12" {% if current_size_units == 12 %}selected{% endif %}>12U</option>
+                                    <option value="18" {% if current_size_units == 18 %}selected{% endif %}>18U</option>
+                                    <option value="24" {% if current_size_units == 24 %}selected{% endif %}>24U</option>
+                                    <option value="42" {% if current_size_units == 42 %}selected{% endif %}>42U</option>
+                                    <option value="45" {% if current_size_units == 45 %}selected{% endif %}>45U</option>
+                                    <option value="48" {% if current_size_units == 48 %}selected{% endif %}>48U</option>
+                                    {% if current_size_units and current_size_units not in [4, 6, 9, 12, 18, 24, 42, 45, 48] %}
+                                    <option value="{{ current_size_units }}" selected>{{ current_size_units }}U</option>
                                     {% endif %}
                                     <option value="custom">Custom...</option>
                                 </select>
-                                {% if errors.usize %}
-                                <div class="invalid-feedback">{{ errors.usize }}</div>
+                                {% if errors.size_units %}
+                                <div class="invalid-feedback">{{ errors.size_units }}</div>
                                 {% endif %}
                             </div>
                         </div>
 
                         <div class="row mb-2" id="custom-size-field" style="display: none;">
-                            <label for="custom_usize" class="col-sm-4 col-form-label col-form-label-sm text-end">Custom (U)</label>
+                            <label for="custom_size_units" class="col-sm-4 col-form-label col-form-label-sm text-end">Custom (U)</label>
                             <div class="col-sm-8">
                                 <input type="number"
                                        class="form-control form-control-sm"
-                                       id="custom_usize"
-                                       name="custom_usize"
+                                       id="custom_size_units"
+                                       name="custom_size_units"
                                        min="1"
                                        max="100">
                             </div>
@@ -170,23 +170,23 @@
                         <div class="row mb-1">
                             <label for="depth" class="col-sm-4 col-form-label col-form-label-sm text-end">Depth (mm)</label>
                             <div class="col-sm-8">
-                                <select class="form-select form-select-sm{% if errors.depth %} is-invalid{% endif %}"
-                                        id="depth"
-                                        name="depth">
+                                <select class="form-select form-select-sm{% if errors.depth_mm %} is-invalid{% endif %}"
+                                        id="depth_mm"
+                                        name="depth_mm">
                                     <option value="">Select...</option>
-                                    {% set current_depth = old.depth|default(rack.depth|default('')) %}
-                                    <option value="600" {% if current_depth == 600 %}selected{% endif %}>600mm</option>
-                                    <option value="800" {% if current_depth == 800 %}selected{% endif %}>800mm</option>
-                                    <option value="900" {% if current_depth == 900 %}selected{% endif %}>900mm</option>
-                                    <option value="1000" {% if current_depth == 1000 %}selected{% endif %}>1000mm</option>
-                                    <option value="1100" {% if current_depth == 1100 %}selected{% endif %}>1100mm</option>
-                                    <option value="1200" {% if current_depth == 1200 %}selected{% endif %}>1200mm</option>
-                                    {% if current_depth and current_depth not in [600, 800, 900, 1000, 1100, 1200] %}
-                                    <option value="{{ current_depth }}" selected>{{ current_depth }}mm</option>
+                                    {% set current_depth_mm = old.depth_mm|default(rack.depth_mm|default('')) %}
+                                    <option value="600" {% if current_depth_mm == 600 %}selected{% endif %}>600mm</option>
+                                    <option value="800" {% if current_depth_mm == 800 %}selected{% endif %}>800mm</option>
+                                    <option value="900" {% if current_depth_mm == 900 %}selected{% endif %}>900mm</option>
+                                    <option value="1000" {% if current_depth_mm == 1000 %}selected{% endif %}>1000mm</option>
+                                    <option value="1100" {% if current_depth_mm == 1100 %}selected{% endif %}>1100mm</option>
+                                    <option value="1200" {% if current_depth_mm == 1200 %}selected{% endif %}>1200mm</option>
+                                    {% if current_depth_mm and current_depth_mm not in [600, 800, 900, 1000, 1100, 1200] %}
+                                    <option value="{{ current_depth_mm }}" selected>{{ current_depth_mm }}mm</option>
                                     {% endif %}
                                 </select>
-                                {% if errors.depth %}
-                                <div class="invalid-feedback">{{ errors.depth }}</div>
+                                {% if errors.depth_mm %}
+                                <div class="invalid-feedback">{{ errors.depth_mm }}</div>
                                 {% endif %}
                             </div>
                         </div>
@@ -266,7 +266,7 @@
             </div>
         </div>
 
-        {% if mode == 'edit' and rack.usize %}
+        {% if mode == 'edit' and rack.size_units %}
         <!-- Rack Visualization - Side View -->
         <div class="col-lg-7">
             <div class="card">
@@ -285,7 +285,7 @@
                             </div>
 
                             <!-- Rack Units -->
-                            {% set rack_units = rack.usize %}
+                            {% set rack_units = rack.size_units %}
                             {% for u in 1..rack_units %}
                                 {% set unit_number = rack.revnums ? (rack_units - u + 1) : u %}
 
@@ -364,7 +364,7 @@
                     <div class="alert alert-warning">
                         <strong>{{ rack.display_name }}</strong>
                         {% if rack.location %}<br>Location: {{ rack.location.name }}{% endif %}
-                        {% if rack.usize %}<br>Size: {{ rack.usize }}U{% endif %}
+                        {% if rack.size_units %}<br>Size: {{ rack.size_units }}U{% endif %}
                     </div>
                     <p class="text-danger mb-0">
                         <i class="bi bi-exclamation-triangle me-1"></i>
@@ -520,11 +520,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('label').focus();
 
     // Handle custom size selection
-    const usizeSelect = document.getElementById('usize');
+    const sizeUnitsSelect = document.getElementById("size_units");
     const customSizeField = document.getElementById('custom-size-field');
-    const customUsizeInput = document.getElementById('custom_usize');
+    const customUsizeInput = document.getElementById('custom_size_units');
 
-    usizeSelect.addEventListener('change', function() {
+    sizeUnitsSelect.addEventListener('change', function() {
         if (this.value === 'custom') {
             customSizeField.style.display = 'block';
             customUsizeInput.required = true;
@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Initialize custom field if needed
-    if (usizeSelect.value === 'custom') {
+    if (sizeUnitsSelect.value === 'custom') {
         customSizeField.style.display = 'block';
         customUsizeInput.required = true;
     }
@@ -577,7 +577,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form validation
     const form = document.querySelector('form');
     form.addEventListener('submit', function(e) {
-        let rackSize = usizeSelect.value;
+        let rackSize = sizeUnitsSelect.value;
 
         if (rackSize === 'custom') {
             rackSize = customUsizeInput.value;
@@ -588,7 +588,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
             // Set the actual value for submission
-            usizeSelect.innerHTML += `<option value="${rackSize}" selected></option>`;
+            sizeUnitsSelect.innerHTML += `<option value="${rackSize}" selected></option>`;
         }
 
         if (!locationSelect.value) {
@@ -600,7 +600,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         {% if mode == 'edit' %}
         // Warn about size changes if rack has items
-        const originalSize = {{ rack.usize|default(0) }};
+        const originalSize = {{ rack.size_units|default(0) }};
         const newSize = parseInt(rackSize);
         const hasItems = {{ rack.items|length }};
 
@@ -619,7 +619,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     {% if mode == 'edit' %}
     // Location change warning
-    const originalLocationId = '{{ rack.locationid|default("") }}';
+    const originalLocationId = '{{ rack.location_id|default("") }}';
     locationSelect.addEventListener('change', function() {
         const newLocationId = this.value;
         const hasItems = {{ rack.items|length }};

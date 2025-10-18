@@ -10,14 +10,14 @@ class Rack extends BaseModel
     protected $table = 'racks';
 
     protected $fillable = [
-        'locationid',
-        'usize',
+        'location_id',
+        'size_units',
         'depth',
         'comments',
         'model',
         'label',
-        'revnums',
-        'locareaid'
+        'reverse_numbering',
+        'location_area_id'
     ];
 
 
@@ -43,7 +43,7 @@ class Rack extends BaseModel
      */
     public function getCapacity(): array
     {
-        $totalUnits = $this->usize ?: 42; // Default to 42U if not specified
+        $totalUnits = $this->size_units ?: 42; // Default to 42U if not specified
         // Note: Would need DatabaseManager to calculate actual usage
         $usedUnits = 0; // Placeholder - implement with DatabaseManager
 
@@ -61,14 +61,14 @@ class Rack extends BaseModel
     public function getValidationRules(): array
     {
         return [
-            'locationid' => 'required|integer|exists:locations,id',
-            'usize' => 'integer|min:1|max:100',
+            'location_id' => 'required|integer|exists:locations,id',
+            'size_units' => 'integer|min:1|max:100',
             'depth' => 'integer|min:1',
             'comments' => 'string',
             'model' => 'string|max:100',
             'label' => 'string|max:100',
-            'revnums' => 'integer',
-            'locareaid' => 'numeric'
+            'reverse_numbering' => 'integer',
+            'location_area_id' => 'numeric'
         ];
     }
 }

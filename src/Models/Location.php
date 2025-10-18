@@ -12,7 +12,7 @@ class Location extends BaseModel
     protected $fillable = [
         'name',
         'floor',
-        'floorplanfn'
+        'floor_plan_filename'
     ];
 
 
@@ -22,12 +22,12 @@ class Location extends BaseModel
      */
     public function getFloorPlanPath(): ?string
     {
-        if (!$this->floorplanfn) {
+        if (!$this->floor_plan_filename) {
             return null;
         }
 
         $floorPlanPath = $_ENV['FLOORPLAN_PATH'] ?? './storage/floorplans';
-        return $floorPlanPath . '/' . $this->floorplanfn;
+        return $floorPlanPath . '/' . $this->floor_plan_filename;
     }
 
     /**
@@ -35,7 +35,7 @@ class Location extends BaseModel
      */
     public function hasFloorPlan(): bool
     {
-        return $this->floorplanfn && file_exists($this->getFloorPlanPath());
+        return $this->floor_plan_filename && file_exists($this->getFloorPlanPath());
     }
 
     /**
@@ -46,7 +46,7 @@ class Location extends BaseModel
         return [
             'name' => 'required|string|max:255',
             'floor' => 'string|max:50',
-            'floorplanfn' => 'string|max:255'
+            'floor_plan_filename' => 'string|max:255'
         ];
     }
 }

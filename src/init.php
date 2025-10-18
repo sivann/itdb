@@ -196,7 +196,7 @@ $authstatus=0;
 $authmsg="Not logged in";
 if (!$demomode ) {
   if (isset($_POST['logout'])) {
-     setcookie("itdbcookie1",'', time()+3600*1,$wscriptdir);
+     setcookie("itdbremember_token",'', time()+3600*1,$wscriptdir);
      header("Location: $scriptname"); //eat get parameters
   }
   elseif (isset($_POST['authusername'])){ //logging in
@@ -215,11 +215,11 @@ if (!$demomode ) {
                  $u=getuserbyname($username);
                  if ($u==-1) { //user not found, it's an LDAP user, add him
                      db_execute2($dbh,
-                         "INSERT into users (username,cookie1,usertype) values (:username,:cookie1,:usertype)",
-                         array('username'=>$username,'cookie1'=>$rnd,'usertype'=>2));
+                         "INSERT into users (username,remember_token,usertype) values (:username,:remember_token,:usertype)",
+                         array('username'=>$username,'remember_token'=>$rnd,'usertype'=>2));
                  }
-                 db_exec($dbh,"UPDATE users set cookie1='$rnd' where username='$username'",1,1);
-                 setcookie("itdbcookie1",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
+                 db_exec($dbh,"UPDATE users set remember_token='$rnd' where username='$username'",1,1);
+                 setcookie("itdbremember_token",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
                  setcookie("itdbuser",$username, time()+3600*24*60,$wscriptdir); //username
                  $authstatus=1;
                  $authmsg="User Authenticated";
@@ -240,10 +240,10 @@ if (!$demomode ) {
            elseif (($userdata[0]['pass']==$password) && strlen($password)) { //correct password
              $rnd=mt_rand(); //create a random
              //store random in db
-             db_exec($dbh,"UPDATE users set cookie1='$rnd' where username='$username'",1,1);
+             db_exec($dbh,"UPDATE users set remember_token='$rnd' where username='$username'",1,1);
 
              //store random in browser
-             setcookie("itdbcookie1",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
+             setcookie("itdbremember_token",$rnd, time()+3600*24*2,$wscriptdir); //random number set for two days
              setcookie("itdbuser",$username, time()+3600*24*60,$wscriptdir); //username
              $authstatus=1;
              $authmsg="User Authenticated";
@@ -256,7 +256,7 @@ if (!$demomode ) {
 
 
   } //logging in 
-  elseif (isset($_COOKIE["itdbuser"]) && ! isset($_COOKIE["itdbcookie1"])) {
+  elseif (isset($_COOKIE["itdbuser"]) && ! isset($_COOKIE["itdbremember_token"])) {
     $authstatus=0;
     $authmsg="Session Expired";
   } 
@@ -264,12 +264,12 @@ if (!$demomode ) {
     $sql="SELECT * from users where username='".$_COOKIE["itdbuser"]."' limit 1";
     $sth=db_execute($dbh,$sql,1);
     $userdata=$sth->fetchAll(PDO::FETCH_ASSOC);
-    //$dbg= "db cookie:".$userdata[0]['cookie1'] . "<br>browser cookie:".$_COOKIE["itdbcookie1"];
+    //$dbg= "db cookie:".$userdata[0]['remember_token'] . "<br>browser cookie:".$_COOKIE["itdbremember_token"];
 
-    if ($userdata[0]['cookie1']==$_COOKIE["itdbcookie1"]) {
+    if ($userdata[0]['remember_token']==$_COOKIE["itdbremember_token"]) {
       $authstatus=1;
       $authmsg="Welcome back ".$_COOKIE["itdbuser"];
-      setcookie("itdbcookie1",$userdata[0]['cookie1'], time()+3600*24*2,$wscriptdir); //renew for two days
+      setcookie("itdbremember_token",$userdata[0]['remember_token'], time()+3600*24*2,$wscriptdir); //renew for two days
     }
     else {
       $authstatus=0;

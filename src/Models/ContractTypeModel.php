@@ -20,7 +20,7 @@ class ContractTypeModel
      */
     public function getAll(): array
     {
-        return $this->db->fetchAll("SELECT * FROM contracttypes ORDER BY name");
+        return $this->db->fetchAll("SELECT * FROM contract_types ORDER BY name");
     }
 
     /**
@@ -39,10 +39,10 @@ class ContractTypeModel
 
         $whereClause = !empty($whereConditions) ? 'WHERE ' . implode(' AND ', $whereConditions) : '';
 
-        $totalSql = "SELECT COUNT(*) FROM contracttypes $whereClause";
+        $totalSql = "SELECT COUNT(*) FROM contract_types $whereClause";
         $total = (int) $this->db->fetchColumn($totalSql, $params);
 
-        $sql = "SELECT * FROM contracttypes $whereClause ORDER BY name LIMIT :limit OFFSET :offset";
+        $sql = "SELECT * FROM contract_types $whereClause ORDER BY name LIMIT :limit OFFSET :offset";
         $params['limit'] = $perPage;
         $params['offset'] = $offset;
 
@@ -63,7 +63,7 @@ class ContractTypeModel
     public function find(int $id): ?array
     {
         return $this->db->fetchOne(
-            "SELECT * FROM contracttypes WHERE id = :id",
+            "SELECT * FROM contract_types WHERE id = :id",
             ['id' => $id]
         );
     }

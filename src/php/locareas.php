@@ -16,14 +16,14 @@ if ((!isset($_POST['deleteareaid'])) && isset($_POST['areaids'])) {
   for ($rn=0;$rn<$nrows;$rn++) {
       if (($_POST['areaids'][$rn] == "new") && (strlen($_POST['areanames'][$rn])>1) )  {//new item -- insert
       $sql="INSERT into locareas ".
-          "(locationid,areaname) ".
+          "(location_id,areaname) ".
           " values (".
           "'$id',".
           "'".($_POST['areanames'][$rn])."')";
       }
       elseif ($_POST['areaids'][$rn]!="new"){ //existing item -- update
         $sql="UPDATE locareas SET ".
-          " locationid='$id', ".
+          " location_id='$id', ".
           " areaname='".($_POST['areanames'][$rn])."' ".
           " WHERE id='{$_POST['areaids'][$rn]}'";
       }
@@ -37,7 +37,7 @@ if ((!isset($_POST['deleteareaid'])) && isset($_POST['areaids'])) {
 elseif (isset($_POST['deleteareaid'])) {
   $nareas=countlocarealinks($_POST['deleteareaid'],$dbh);
   if (!$nareas) {
-    $sql="DELETE FROM locareas WHERE id='{$_POST['deleteareaid']}'";
+    $sql="DELETE FROM location_areas WHERE id='{$_POST['deleteareaid']}'";
     db_exec($dbh,$sql);
     echo "DELETED id:".$_POST['deleteareaid'];
   }
@@ -50,7 +50,7 @@ elseif (isset($_POST['deleteareaid'])) {
 
 /* List  entries  - print form */
 
-  $sql="SELECT * FROM locareas where locationid=$id";
+  $sql="SELECT * FROM location_areas where location_id=$id";
   $sthi=db_execute($dbh,$sql);
   $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
   $nitems=count($ri);

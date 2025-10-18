@@ -52,7 +52,7 @@
                                 <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
                                 <select class="form-select" id="status" name="status" required>
                                     {% for status in form_options.status_types %}
-                                    <option value="{{ status.id }}" {% if status.id == 1 %}selected{% endif %}>{{ status.statusdesc }}</option>
+                                    <option value="{{ status.id }}" {% if status.id == 1 %}selected{% endif %}>{{ status.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -82,7 +82,7 @@
                                 <select class="form-select" id="userid" name="userid">
                                     <option value="">Unassigned</option>
                                     {% for user in form_options.users %}
-                                    <option value="{{ user.id }}">{{ user.userdesc|default(user.username) }}</option>
+                                    <option value="{{ user.id }}">{{ user.display_name|default(user.username) }}</option>
                                     {% endfor %}
                                 </select>
                             </div>

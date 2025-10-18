@@ -2,18 +2,18 @@
 //serve XHR to display a list of items with a particular TAG id (on edittag page)
 require("../init.php");
 
-$tagid=$_GET['tagid'];
-if (!is_numeric($tagid)) {
-  echo "invalid tagid ($tagid)";exit;
+$tag_id=$_GET['tagid'];
+if (!is_numeric($tag_id)) {
+  echo "invalid tag_id ($tag_id)";exit;
 
 }
 
 
 
-$sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.typedesc || ', ID:' || items.id || ']' as txt ".
+$sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.description || ', ID:' || items.id || ']' as txt ".
      "FROM agents,items,itemtypes WHERE ".
-     " agents.id=items.manufacturerid AND items.itemtypeid=itemtypes.id AND ".
-     " items.id IN (SELECT itemid from tag2item where tagid = '$tagid')";
+     " agents.id=items.manufacturer_id AND items.item_type_id=itemtypes.id AND ".
+     " items.id IN (SELECT item_id from tag2item where tag_id = '$tagid')";
 $sthi=db_execute($dbh,$sql);
 $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
 $nitems=count($ri);
@@ -25,7 +25,7 @@ for ($i=0;$i<$nitems;$i++) {
 	      "<a href='?action=edititem&amp;id={$ri[$i]['id']}'>$x</a></div>\n";
 }
 
-echo "<h3>".t('Associated Items')." (".tagid2name($tagid).")</h3>";
+echo "<h3>".t('Associated Items')." (".tagid2name($tag_id).")</h3>";
 echo $institems;
 
 ?>

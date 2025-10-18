@@ -47,7 +47,7 @@ if (isset($_POST['typedesc'])) {
       }
       elseif ($id!="new" && strlen($_POST['typedesc'][$rn])){ //existing item -- update
 	$sql="UPDATE filetypes set ".
-	  " typedesc='".($_POST['typedesc'][$rn])."' ".
+	  " description='".($_POST['typedesc'][$rn])."' ".
 	  " WHERE id=$id";
       }
       else {continue;}

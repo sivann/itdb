@@ -30,7 +30,7 @@ class SoftwareModel
         // Build WHERE conditions
         if (!empty($filters['search'])) {
             $search = '%' . $filters['search'] . '%';
-            $conditions[] = "(stitle LIKE ? OR sversion LIKE ? OR scomments LIKE ?)";
+            $conditions[] = "(title LIKE ? OR version LIKE ? OR comments LIKE ?)";
             $params = array_merge($params, [$search, $search, $search]);
         }
 
@@ -42,14 +42,14 @@ class SoftwareModel
 
         // Get software with manufacturer info and more complete data
         $sql = "
-            SELECT s.*, a.title as manufacturer_name,
+            SELECT s.*, a.name as manufacturer_name,
                    CASE
-                       WHEN s.slicense IS NOT NULL AND s.slicense != '' THEN CAST(s.slicense AS INTEGER)
+                       WHEN s.license_key IS NOT NULL AND s.license_key != '' THEN CAST(s.license_key AS INTEGER)
                        ELSE 0
                    END as license_quantity,
-                   (SELECT COUNT(*) FROM item2soft WHERE softid = s.id) as installations_count
+                   (SELECT COUNT(*) FROM items_software WHERE software_id = s.id) as installations_count
             FROM software s
-            LEFT JOIN agents a ON s.manufacturerid = a.id
+            LEFT JOIN agents a ON s.manufacturer_id = a.id
             {$whereClause}
             ORDER BY s.id DESC LIMIT ? OFFSET ?
         ";
@@ -61,15 +61,15 @@ class SoftwareModel
         // Transform data to match template expectations
         $transformedSoftware = array_map(function($item) {
             // Basic display info
-            $item['display_title'] = $item['stitle'] . ($item['sversion'] ? ' v' . $item['sversion'] : '');
-            $item['sinfo'] = $item['scomments'];
+            $item['display_title'] = $item['title'] . ($item['version'] ? ' v' . $item['version'] : '');
+            $item['sinfo'] = $item['comments'];
 
             // License quantity from parsed field
             $licenseCount = (int)$item['license_quantity'];
             $item['licqty'] = $licenseCount > 0 ? $licenseCount : null;
 
             // License type (0=Per Device, 1=Per User, 2=Site License, 3=Volume License)
-            $licenseType = !empty($item['slicensetype']) && is_numeric($item['slicensetype']) ? (int)$item['slicensetype'] : 0;
+            $licenseType = !empty($item['license_type']) && is_numeric($item['license_type']) ? (int)$item['license_type'] : 0;
             $item['lictype'] = $licenseType;
 
             // Installation count from database query
@@ -81,13 +81,13 @@ class SoftwareModel
             if ($installationsCount > 0) {
                 $itemsSql = "
                     SELECT i.id, i.label, i.function, i.model,
-                           a.title as manufacturer_name,
+                           a.name as manufacturer_name,
                            it.name as type_name
-                    FROM item2soft i2s
-                    INNER JOIN items i ON i2s.itemid = i.id
-                    LEFT JOIN agents a ON i.manufacturerid = a.id
-                    LEFT JOIN itemtypes it ON i.itemtypeid = it.id
-                    WHERE i2s.softid = ?
+                    FROM items_software i2s
+                    INNER JOIN items i ON i2s.item_id = i.id
+                    LEFT JOIN agents a ON i.manufacturer_id = a.id
+                    LEFT JOIN item_types it ON i.item_type_id = it.id
+                    WHERE i2s.software_id = ?
                     ORDER BY i.function, i.label
                     LIMIT 10
                 ";
@@ -131,13 +131,13 @@ class SoftwareModel
     public function find(int $id): ?array
     {
         $sql = "
-            SELECT s.*, a.title as manufacturer_name,
+            SELECT s.*, a.name as manufacturer_name,
                    CASE
-                       WHEN s.slicense IS NOT NULL AND s.slicense != '' THEN CAST(s.slicense AS INTEGER)
+                       WHEN s.license_key IS NOT NULL AND s.license_key != '' THEN CAST(s.license_key AS INTEGER)
                        ELSE 0
                    END as license_quantity
             FROM software s
-            LEFT JOIN agents a ON s.manufacturerid = a.id
+            LEFT JOIN agents a ON s.manufacturer_id = a.id
             WHERE s.id = ? LIMIT 1
         ";
         $result = $this->db->fetchAll($sql, [$id]);
@@ -169,23 +169,23 @@ class SoftwareModel
 
         // Get association counts
         $software['items_count'] = (int)$this->db->fetchColumn(
-            "SELECT COUNT(*) FROM item2soft WHERE softid = ?", [$softwareId]
+            "SELECT COUNT(*) FROM items_software WHERE software_id = ?", [$softwareId]
         );
 
         $software['invoices_count'] = (int)$this->db->fetchColumn(
-            "SELECT COUNT(*) FROM soft2inv WHERE softid = ?", [$softwareId]
+            "SELECT COUNT(*) FROM software_invoices WHERE software_id = ?", [$softwareId]
         );
 
         $software['contracts_count'] = (int)$this->db->fetchColumn(
-            "SELECT COUNT(*) FROM contract2soft WHERE softid = ?", [$softwareId]
+            "SELECT COUNT(*) FROM contracts_software WHERE software_id = ?", [$softwareId]
         );
 
         $software['files_count'] = (int)$this->db->fetchColumn(
-            "SELECT COUNT(*) FROM software2file WHERE softwareid = ?", [$softwareId]
+            "SELECT COUNT(*) FROM software_files WHERE software_id = ?", [$softwareId]
         );
 
         $software['tags_count'] = (int)$this->db->fetchColumn(
-            "SELECT COUNT(*) FROM tag2software WHERE softwareid = ?", [$softwareId]
+            "SELECT COUNT(*) FROM software_tags WHERE software_id = ?", [$softwareId]
         );
 
         // Create mock relationship objects for template compatibility (only if not already set)
@@ -206,13 +206,13 @@ class SoftwareModel
         }
 
         // Add display formatting
-        $software['display_title'] = $software['stitle'] . ($software['sversion'] ? ' v' . $software['sversion'] : '');
-        $software['sinfo'] = $software['scomments'];
+        $software['display_title'] = $software['title'] . ($software['version'] ? ' v' . $software['version'] : '');
+        $software['sinfo'] = $software['comments'];
 
         // License info
         $licenseCount = (int)($software['license_quantity'] ?? 0);
         $software['licqty'] = $licenseCount > 0 ? $licenseCount : null;
-        $software['lictype'] = !empty($software['slicensetype']) && is_numeric($software['slicensetype']) ? (int)$software['slicensetype'] : 0;
+        $software['lictype'] = !empty($software['license_type']) && is_numeric($software['license_type']) ? (int)$software['license_type'] : 0;
 
         return $software;
     }
@@ -223,19 +223,19 @@ class SoftwareModel
     public function create(array $data): int
     {
         $sql = "
-            INSERT INTO software (stitle, sversion, slicense, scomments, url, slicensetype, scat, manufacturerid, updated_at)
+            INSERT INTO software (title, version, license_key, comments, url, license_type, category, manufacturer_id, updated_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ";
 
         $params = [
-            $data['stitle'] ?? null,
-            $data['sversion'] ?? null,
-            $data['slicense'] ?? null,
-            $data['scomments'] ?? null,
+            $data['title'] ?? null,
+            $data['version'] ?? null,
+            $data['license_key'] ?? null,
+            $data['comments'] ?? null,
             $data['url'] ?? null,
-            $data['slicensetype'] ?? null,
-            $data['scat'] ?? null,
-            $data['manufacturerid'] ?? null,
+            $data['license_type'] ?? null,
+            $data['category'] ?? null,
+            $data['manufacturer_id'] ?? null,
             time()
         ];
 
@@ -250,20 +250,20 @@ class SoftwareModel
     {
         $sql = "
             UPDATE software SET
-                stitle = ?, sversion = ?, slicense = ?, scomments = ?,
-                url = ?, slicensetype = ?, scat = ?, manufacturerid = ?, updated_at = ?
+                title = ?, version = ?, license_key = ?, comments = ?,
+                url = ?, license_type = ?, category = ?, manufacturer_id = ?, updated_at = ?
             WHERE id = ?
         ";
 
         $params = [
-            $data['stitle'] ?? null,
-            $data['sversion'] ?? null,
-            $data['slicense'] ?? null,
-            $data['scomments'] ?? null,
+            $data['title'] ?? null,
+            $data['version'] ?? null,
+            $data['license_key'] ?? null,
+            $data['comments'] ?? null,
             $data['url'] ?? null,
-            $data['slicensetype'] ?? null,
-            $data['scat'] ?? null,
-            $data['manufacturerid'] ?? null,
+            $data['license_type'] ?? null,
+            $data['category'] ?? null,
+            $data['manufacturer_id'] ?? null,
             time(),
             $id
         ];
@@ -299,17 +299,17 @@ class SoftwareModel
     public function getAssociatedItems(int $softwareId): array
     {
         $sql = "
-            SELECT i.id, i.label, i.function, i.model, i.status, st.statusdesc as status_name,
+            SELECT i.id, i.label, i.function, i.model, i.status_id, st.name as status_name,
                    it.name as type_name, l.name as location_name, u.username,
-                   a.title as manufacturer_name
-            FROM item2soft i2s
-            INNER JOIN items i ON i2s.itemid = i.id
-            LEFT JOIN statustypes st ON i.status = st.id
-            LEFT JOIN itemtypes it ON i.itemtypeid = it.id
-            LEFT JOIN locations l ON i.locationid = l.id
-            LEFT JOIN users u ON i.userid = u.id
-            LEFT JOIN agents a ON i.manufacturerid = a.id
-            WHERE i2s.softid = ?
+                   a.name as manufacturer_name
+            FROM items_software i2s
+            INNER JOIN items i ON i2s.item_id = i.id
+            LEFT JOIN status_types st ON i.status_id = st.id
+            LEFT JOIN item_types it ON i.item_type_id = it.id
+            LEFT JOIN locations l ON i.location_id = l.id
+            LEFT JOIN users u ON i.user_id = u.id
+            LEFT JOIN agents a ON i.manufacturer_id = a.id
+            WHERE i2s.software_id = ?
             ORDER BY i.function, i.label
         ";
         return $this->db->fetchAll($sql, [$softwareId]);
@@ -321,14 +321,14 @@ class SoftwareModel
     public function getAssociatedInvoices(int $softwareId): array
     {
         $sql = "
-            SELECT inv.id, inv.id as invoiceid, inv.date, inv.totalcost, inv.comments,
-                   vendor.title as vendor_name, buyer.title as buyer_name
-            FROM soft2inv s2i
-            INNER JOIN invoices inv ON s2i.invid = inv.id
-            LEFT JOIN agents vendor ON inv.vendorid = vendor.id
-            LEFT JOIN agents buyer ON inv.buyerid = buyer.id
-            WHERE s2i.softid = ?
-        ORDER BY inv.date DESC, inv.id DESC";
+            SELECT inv.id, inv.id as invoice_id, inv.invoice_date, inv.total_cost, inv.comments,
+                   vendor.name as vendor_name, buyer.name as buyer_name
+            FROM software_invoices s2i
+            INNER JOIN invoices inv ON s2i.invoice_id = inv.id
+            LEFT JOIN agents vendor ON inv.vendor_id = vendor.id
+            LEFT JOIN agents buyer ON inv.buyer_id = buyer.id
+            WHERE s2i.software_id = ?
+        ORDER BY inv.invoice_date DESC, inv.id DESC";
         $invoices = $this->db->fetchAll($sql, [$softwareId]);
         return array_map([$this->invoiceModel, 'transformInvoiceForTemplate'], $invoices);
     }
@@ -339,14 +339,14 @@ class SoftwareModel
     public function getAssociatedContracts(int $softwareId): array
     {
         $sql = "
-            SELECT c.id, c.number, c.title, c.startdate, c.currentenddate as enddate,
-                   ct.name as type_name, a.title as contractor_name
-            FROM contract2soft c2s
-            INNER JOIN contracts c ON c2s.contractid = c.id
-            LEFT JOIN contracttypes ct ON c.type = ct.id
-            LEFT JOIN agents a ON c.contractorid = a.id
-            WHERE c2s.softid = ?
-            ORDER BY c.startdate DESC, c.id DESC
+            SELECT c.id, c.contract_number, c.title, c.start_date, c.end_date,
+                   ct.name as type_name, a.name as contractor_name
+            FROM contracts_software c2s
+            INNER JOIN contracts c ON c2s.contract_id = c.id
+            LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
+            LEFT JOIN agents a ON c.contractor_id = a.id
+            WHERE c2s.software_id = ?
+            ORDER BY c.start_date DESC, c.id DESC
         ";
         return $this->db->fetchAll($sql, [$softwareId]);
     }
@@ -357,13 +357,13 @@ class SoftwareModel
     public function getAssociatedFiles(int $softwareId): array
     {
         $sql = "
-            SELECT f.id, f.title, f.filename, f.fname, f.description, f.uploaddate, f.filesize,
-                   f.type, ft.typedesc as type_name, f.uploader
-            FROM software2file s2f
-            INNER JOIN files f ON s2f.fileid = f.id
-            LEFT JOIN filetypes ft ON f.type = ft.id
-            WHERE s2f.softwareid = ?
-            ORDER BY f.uploaddate DESC, f.id DESC
+            SELECT f.id, f.title, f.filename_original, f.filename_stored, f.description, f.uploaded_at, f.file_size,
+                   f.file_type_id, ft.name as type_name, f.uploader_username
+            FROM software_files s2f
+            INNER JOIN files f ON s2f.file_id = f.id
+            LEFT JOIN file_types ft ON f.file_type_id = ft.id
+            WHERE s2f.software_id = ?
+            ORDER BY f.uploaded_at DESC, f.id DESC
         ";
         $files = $this->db->fetchAll($sql, [$softwareId]);
 
@@ -374,25 +374,22 @@ class SoftwareModel
                 'name' => $file['type_name']
             ];
 
-            // Add file_size from disk or database
-            $file['file_size'] = $file['filesize'] ?? 0;
-
             // Format upload date
-            if ($file['uploaddate']) {
-                $file['uploaddate_formatted'] = date('M j, Y g:i A', (int) $file['uploaddate']);
+            if ($file['uploaded_at']) {
+                $file['uploaddate_formatted'] = date('M j, Y g:i A', (int) $file['uploaded_at']);
             } else {
                 $file['uploaddate_formatted'] = null;
             }
 
-            // Add uploader info (if needed in future)
-            if ($file['uploader']) {
+            // Add uploader_username info (if needed in future)
+            if ($file['uploader_username']) {
                 $user = $this->db->fetchOne(
-                    "SELECT username, userdesc FROM users WHERE username = :username",
-                    ['username' => $file['uploader']]
+                    "SELECT username, display_name FROM users WHERE username = :username",
+                    ['username' => $file['uploader_username']]
                 );
                 $file['uploader_user'] = [
-                    'username' => $file['uploader'],
-                    'display_name' => $user['userdesc'] ?? $file['uploader']
+                    'username' => $file['uploader_username'],
+                    'display_name' => $user['display_name'] ?? $file['uploader_username']
                 ];
             }
         }
@@ -406,14 +403,14 @@ class SoftwareModel
     public function getAvailableItems(int $softwareId): array
     {
         $sql = "
-            SELECT i.id, i.label, i.function, st.statusdesc as status_name,
+            SELECT i.id, i.label, i.function, st.name as status_name,
                    it.name as type_name, l.name as location_name
             FROM items i
-            LEFT JOIN statustypes st ON i.status = st.id
-            LEFT JOIN itemtypes it ON i.itemtypeid = it.id
-            LEFT JOIN locations l ON i.locationid = l.id
+            LEFT JOIN status_types st ON i.status_id = st.id
+            LEFT JOIN item_types it ON i.item_type_id = it.id
+            LEFT JOIN locations l ON i.location_id = l.id
             WHERE i.id NOT IN (
-                SELECT itemid FROM item2soft WHERE softid = ?
+                SELECT item_id FROM items_software WHERE software_id = ?
             )
             ORDER BY i.function, i.label
             LIMIT 100
@@ -426,7 +423,7 @@ class SoftwareModel
      */
     public function associateItem(int $softwareId, int $itemId): bool
     {
-        $sql = "INSERT OR IGNORE INTO item2soft (softid, itemid) VALUES (?, ?)";
+        $sql = "INSERT OR IGNORE INTO items_software (software_id, item_id) VALUES (?, ?)";
         $stmt = $this->db->execute($sql, [$softwareId, $itemId]);
         return $stmt->rowCount() > 0;
     }
@@ -436,7 +433,7 @@ class SoftwareModel
      */
     public function dissociateItem(int $softwareId, int $itemId): bool
     {
-        $sql = "DELETE FROM item2soft WHERE softid = ? AND itemid = ?";
+        $sql = "DELETE FROM items_software WHERE software_id = ? AND item_id = ?";
         $stmt = $this->db->execute($sql, [$softwareId, $itemId]);
         return $stmt->rowCount() > 0;
     }
@@ -446,7 +443,7 @@ class SoftwareModel
      */
     public function associateInvoice(int $softwareId, int $invoiceId): bool
     {
-        $sql = "INSERT OR IGNORE INTO soft2inv (softid, invid) VALUES (?, ?)";
+        $sql = "INSERT OR IGNORE INTO software_invoices (software_id, invoice_id) VALUES (?, ?)";
         $stmt = $this->db->execute($sql, [$softwareId, $invoiceId]);
         return $stmt->rowCount() > 0;
     }
@@ -456,7 +453,7 @@ class SoftwareModel
      */
     public function dissociateInvoice(int $softwareId, int $invoiceId): bool
     {
-        $sql = "DELETE FROM soft2inv WHERE softid = ? AND invid = ?";
+        $sql = "DELETE FROM software_invoices WHERE software_id = ? AND invoice_id = ?";
         $stmt = $this->db->execute($sql, [$softwareId, $invoiceId]);
         return $stmt->rowCount() > 0;
     }
@@ -466,7 +463,7 @@ class SoftwareModel
      */
     public function associateContract(int $softwareId, int $contractId): bool
     {
-        $sql = "INSERT OR IGNORE INTO contract2soft (softid, contractid) VALUES (?, ?)";
+        $sql = "INSERT OR IGNORE INTO contracts_software (software_id, contract_id) VALUES (?, ?)";
         $stmt = $this->db->execute($sql, [$softwareId, $contractId]);
         return $stmt->rowCount() > 0;
     }
@@ -476,7 +473,7 @@ class SoftwareModel
      */
     public function dissociateContract(int $softwareId, int $contractId): bool
     {
-        $sql = "DELETE FROM contract2soft WHERE softid = ? AND contractid = ?";
+        $sql = "DELETE FROM contracts_software WHERE software_id = ? AND contract_id = ?";
         $stmt = $this->db->execute($sql, [$softwareId, $contractId]);
         return $stmt->rowCount() > 0;
     }
@@ -486,7 +483,7 @@ class SoftwareModel
      */
     public function associateFile(int $softwareId, int $fileId): bool
     {
-        $sql = "INSERT OR IGNORE INTO software2file (softwareid, fileid) VALUES (?, ?)";
+        $sql = "INSERT OR IGNORE INTO software_files (software_id, file_id) VALUES (?, ?)";
         $stmt = $this->db->execute($sql, [$softwareId, $fileId]);
         return $stmt->rowCount() > 0;
     }
@@ -496,7 +493,7 @@ class SoftwareModel
      */
     public function dissociateFile(int $softwareId, int $fileId): bool
     {
-        $sql = "DELETE FROM software2file WHERE softwareid = ? AND fileid = ?";
+        $sql = "DELETE FROM software_files WHERE software_id = ? AND file_id = ?";
         $stmt = $this->db->execute($sql, [$softwareId, $fileId]);
         return $stmt->rowCount() > 0;
     }
@@ -508,9 +505,9 @@ class SoftwareModel
     {
         $sql = "
             SELECT t.id, t.name, t.color
-            FROM tag2software t2s
-            INNER JOIN tags t ON t2s.tagid = t.id
-            WHERE t2s.softwareid = ?
+            FROM software_tags t2s
+            INNER JOIN tags t ON t2s.tag_id = t.id
+            WHERE t2s.software_id = ?
             ORDER BY t.name ASC
         ";
         return $this->db->fetchAll($sql, [$softwareId]);
@@ -530,7 +527,7 @@ class SoftwareModel
      */
     public function associateTag(int $softwareId, int $tagId): bool
     {
-        $sql = "INSERT OR IGNORE INTO tag2software (softwareid, tagid) VALUES (?, ?)";
+        $sql = "INSERT OR IGNORE INTO software_tags (software_id, tag_id) VALUES (?, ?)";
         $stmt = $this->db->execute($sql, [$softwareId, $tagId]);
         return $stmt->rowCount() > 0;
     }
@@ -540,7 +537,7 @@ class SoftwareModel
      */
     public function dissociateTag(int $softwareId, int $tagId): bool
     {
-        $sql = "DELETE FROM tag2software WHERE softwareid = ? AND tagid = ?";
+        $sql = "DELETE FROM software_tags WHERE software_id = ? AND tag_id = ?";
         $stmt = $this->db->execute($sql, [$softwareId, $tagId]);
         return $stmt->rowCount() > 0;
     }

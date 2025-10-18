@@ -94,8 +94,8 @@
                                     <a href="/files/{{ file.id }}" class="fw-bold text-decoration-none">
                                         {{ file.title }}
                                     </a>
-                                    {% if file.fname %}
-                                        <br><small class="text-muted"><code>{{ file.fname }}</code></small>
+                                    {% if file.filename_stored %}
+                                        <br><small class="text-muted"><code>{{ file.filename_stored }}</code></small>
                                     {% endif %}
                                 </div>
                             </div>
@@ -112,8 +112,8 @@
                         <td>
                             {% if file.file_size and file.file_size > 0 %}
                                 <span class="text-muted">{{ file.file_size|format_bytes }}</span>
-                            {% elseif file.filesize and file.filesize > 0 %}
-                                <span class="text-muted">{{ file.filesize|format_bytes }}</span>
+                            {% elseif file.file_size and file.file_size > 0 %}
+                                <span class="text-muted">{{ file.file_size|format_bytes }}</span>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}
@@ -134,9 +134,9 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if file.uploaddate %}
+                            {% if file.uploaded_at %}
                                 <small class="text-muted">
-                                    {{ file.uploaddate|date('M j, Y g:i A') }}
+                                    {{ file.uploaded_at|date('M j, Y g:i A') }}
                                 </small>
                             {% else %}
                                 <span class="text-muted">-</span>
@@ -304,7 +304,7 @@
                     <p>Are you sure you want to delete this file?</p>
                     <div class="alert alert-warning">
                         <strong>{{ file.title }}</strong>
-                        <br>Filename: <code>{{ file.fname }}</code>
+                        <br>Filename: <code>{{ file.filename_stored }}</code>
                         {% if file.items_count > 0 or file.software_count > 0 or file.contracts_count > 0 or file.invoices_count > 0 %}
                         <br><strong>Warning:</strong> This file is associated with other records
                         {% endif %}

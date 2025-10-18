@@ -1,6 +1,6 @@
 {% extends "base.twig" %}
 
-{% block title %}Edit {{ status_type.statusdesc }} - Status Type{% endblock %}
+{% block title %}Edit {{ status_type.name }} - Status Type{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -8,7 +8,7 @@
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
             <li class="breadcrumb-item"><a href="/admin/status-types">Status Types</a></li>
-            <li class="breadcrumb-item"><a href="/admin/status-types/{{ status_type.id }}">{{ status_type.statusdesc }}</a></li>
+            <li class="breadcrumb-item"><a href="/admin/status-types/{{ status_type.id }}">{{ status_type.name }}</a></li>
             <li class="breadcrumb-item active">Edit</li>
         </ol>
     </nav>
@@ -25,7 +25,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-0">
-                    <i class="bi bi-pencil me-2"></i>Edit Status Type: {{ status_type.statusdesc }}
+                    <i class="bi bi-pencil me-2"></i>Edit Status Type: {{ status_type.name }}
                 </h5>
             </div>
             <div class="card-body">
@@ -34,7 +34,7 @@
 
                     <div class="mb-3">
                         <label for="statusdesc" class="form-label">Status Description <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="statusdesc" name="statusdesc" value="{{ status_type.statusdesc }}" required>
+                        <input type="text" class="form-control" id="statusdesc" name="statusdesc" value="{{ status_type.name }}" required>
                         <div class="form-text">Enter a descriptive name for this status type (e.g., "Active", "In Maintenance", "Retired").</div>
                     </div>
 

@@ -7,7 +7,7 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 
 /// get item types
-$sql="SELECT * from itemtypes order by typedesc";
+$sql="SELECT * from itemtypes order by description";
 $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $itypes[$r['id']]=$r;
 $sth->closeCursor();
@@ -40,7 +40,7 @@ $sth=db_execute($dbh,$sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $agents[$r['id']]=$r;
 $sth->closeCursor();
 
-$sql="SELECT * FROM statustypes";
+$sql="SELECT * FROM status_types";
 $sth=$dbh->query($sql);
 $statustypes=$sth->fetchAll(PDO::FETCH_ASSOC);
 
@@ -118,17 +118,17 @@ $thead= "\n<tr><th title='Search'>".
      "<button type='submit' style='padding:1px;'><img border=0  src='images/search.png'></button>".
      "<a href='$fscriptname?$url&amp;orderby=items.id$ob'>ID</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=label$ob'>Label</a></th>".
-     "<th><a href='$fscriptname?$url&amp;orderby=itemtypeid$ob'>Item type</a></th>".
-     "<th><a href='$fscriptname?$url&amp;orderby=manufacturerid$ob'>Manufacturer</a></th>".
+     "<th><a href='$fscriptname?$url&amp;orderby=item_type_id$ob'>Item type</a></th>".
+     "<th><a href='$fscriptname?$url&amp;orderby=manufacturer_id$ob'>Manufacturer</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=model$ob'>Model</a></th>".
      "<th>DNS Name</th>".
      "<th><a href='$fscriptname?$url&amp;orderby=sn$ob,sn2$ob,sn3$ob'>S/N</a></th>".
-     "<th><a href='$fscriptname?$url&amp;orderby=purchasedate$ob'>Purch. Date</a></th>".
+     "<th><a href='$fscriptname?$url&amp;orderby=purchase_date$ob'>Purch. Date</a></th>".
      "<th title='Warranty expiration in '><small><a href='$fscriptname?action=$action&amp;orderby=remdays$ob'>Warr. Left</a></small></th>".
-     "<th><a href='$fscriptname?$url&amp;orderby=userid$ob'>User</a></th>".
+     "<th><a href='$fscriptname?$url&amp;orderby=user_id$ob'>User</a></th>".
      "<th><a href='$fscriptname?$url&amp;orderby=status$ob'>Status</a></th>".
-     "<th><a href='$fscriptname?$url&amp;orderby=locationid$ob'>Location</a></th>".
-     "<th><a href='$fscriptname?$url&amp;orderby=rackid$ob'>Rack</a></th>";
+     "<th><a href='$fscriptname?$url&amp;orderby=location_id$ob'>Location</a></th>".
+     "<th><a href='$fscriptname?$url&amp;orderby=rack_id$ob'>Rack</a></th>";
 
 if ($export) {
  //clean links from excel export
@@ -141,14 +141,14 @@ echo $thead;
 if ($expand) {
   echo "\n <th>Tags</th>";
   echo "<th>Invoices</th>".  "<th>S/W</th>";
-  echo "\n <th>purchprice</th>";
+  echo "\n <th>purchase_price</th>";
   echo "\n <th>macs</th>";
   echo "\n <th>ipv4</th>";
   echo "\n <th>ipv6</th>";
-  echo "\n <th>remadmip</th>";
-  echo "\n <th>panelport</th>";
+  echo "\n <th>remote_admin_ip</th>";
+  echo "\n <th>panel_port</th>";
   echo "\n <th>switch</th>";
-  echo "\n <th>switchport</th>";
+  echo "\n <th>switch_port</th>";
   echo "\n <th>ports</th>";
 }
 else
@@ -162,7 +162,7 @@ echo "\n<tr>";
 //create pre-fill form box vars
 $id=isset($_GET['id'])?($_GET['id']):"";
 $manufacturer=isset($_GET['manufacturer'])?($_GET['manufacturer']):"";
-$dnsname=isset($_GET['dnsname'])?($_GET['dnsname']):"";
+$dns_name=isset($_GET['dns_name'])?($_GET['dns_name']):"";
 $model=isset($_GET['model'])?($_GET['model']):"";
 $sn=isset($_GET['sn'])?($_GET['sn']):"";
 $year=isset($_GET['year'])?($_GET['year']):"";
@@ -173,12 +173,12 @@ $status=isset($_GET['status'])?$_GET['status']:"";
 if (!$export) {
 
   echo "\n<td title='ID'><input type=text size=3 style='width:6em;' value='$id' name='id'></td>";
-  echo "\n<td>\n<select name='itemtypeid'>\n<option value=''>All</option>\n";
+  echo "\n<td>\n<select name='item_type_id'>\n<option value=''>All</option>\n";
   foreach ($itypes as $itype) {
     $dbid=$itype['id'];
     $itype=$itype['typedesc'];
     $s="";
-    if (isset($_GET['itemtypeid']) && $_GET['itemtypeid']=="$dbid") $s=" SELECTED ";
+    if (isset($_GET['item_type_id']) && $_GET['item_type_id']=="$dbid") $s=" SELECTED ";
     //echo "<option $s value='$dbid'>".sprintf("%02d",$dbid)."-$itype</option>\n";
     echo "<option $s value='$dbid' title='$dbid'>$itype</option>\n";
   }
@@ -186,18 +186,18 @@ if (!$export) {
 
   echo "<td title='H/W Manufacturer'><input style='width:8em' type=text value='$manufacturer' name='manufacturer'></td>";
   echo "<td><input style='width:11em' type=text value='$model' name='model'></td>";
-  echo "<td><input style='width:8em' type=text value='$dnsname' name='dnsname'></td>";
+  echo "<td><input style='width:8em' type=text value='$dns_name' name='dns_name'></td>";
   echo "<td><input style='width:8em' type=text value='$sn' name='sn'></td>";
   echo "<td><input style='width:7em' type=text value='$label' name='label'></td>";
   echo "<td><input style='width:7em' type=text value='$year' name='year'></td>";
   echo "<td>-</td>";
 
   echo "<td>";
-  echo "\n<select name='userid'>\n<option value=''>All</option>\n";
+  echo "\n<select name='user_id'>\n<option value=''>All</option>\n";
   foreach ($userlist as $u) {
     $dbid=$u['id']; 
     $itype=$u['username']; $s="";
-    if (isset($_GET['userid']) && $_GET['userid']==$u['id']) $s=" SELECTED ";
+    if (isset($_GET['user_id']) && $_GET['user_id']==$u['id']) $s=" SELECTED ";
     echo "<option $s value='$dbid' title='$dbid'>$itype</option>\n";
   }
 ?>
@@ -219,7 +219,7 @@ if (!$export) {
   </select>
   </td>
 
-  <td><select name='locationid'>
+  <td><select name='location_id'>
       <option value=''>All</option>
 <?php 
   foreach ($locations as $l) {
@@ -227,7 +227,7 @@ if (!$export) {
     $s="";
 
     $itype=$l['name']." Flr ".$l['floor'];
-    if (isset($_GET['locationid']) && $_GET['locationid']=="$dbid") $s=" SELECTED ";
+    if (isset($_GET['location_id']) && $_GET['location_id']=="$dbid") $s=" SELECTED ";
     echo "<option $s value='$dbid' title='$dbid'>$itype</option>\n";
   }
   echo "</select>\n";
@@ -236,12 +236,12 @@ if (!$export) {
 
 
 
-  echo "\n<td><select name='rackid'>\n<option value=''>All</option>\n";
+  echo "\n<td><select name='rack_id'>\n<option value=''>All</option>\n";
   foreach ($racks as $r) {
     $dbid=$r['id']; 
     $itype=$r['label'].",".$r['usize']."U ". $r['model'];
     $s="";
-    if ($rackid=="$dbid") $s=" SELECTED ";
+    if ($rack_id=="$dbid") $s=" SELECTED ";
     echo "<option $s value='$dbid'>$dbid-$itype</option>\n";
   }
   echo "</select>\n";
@@ -266,7 +266,7 @@ if (!$export) {
 
 /// create WHERE clause
 $where=" AND agtitle like '%$manufacturer%' and model like '%$model%' ".
-       " AND (sn like '%$sn%' or sn2 like  '%$sn%'  or sn3 like  '%$sn%' )  AND dnsname like '%$dnsname%' ";
+       " AND (sn like '%$sn%' or sn2 like  '%$sn%'  or sn3 like  '%$sn%' )  AND dns_name like '%$dns_name%' ";
 if (strlen($year)) {
   if (strstr($year,"/")) {
     $x=explode("/",$year);
@@ -277,28 +277,28 @@ if (strlen($year)) {
   else
     $m=$x[count($x)-3];
 
-    $where.=" and purchasedate >= ".mktime(0,0,0,$m,1,$y).
-            " and purchasedate < ".mktime(0,0,0,($m+1),1,$y)." ";
+    $where.=" and purchase_date >= ".mktime(0,0,0,$m,1,$y).
+            " and purchase_date < ".mktime(0,0,0,($m+1),1,$y)." ";
   }
   else {
-   $where.=" and purchasedate >= ".mktime(0,0,0,1,1,$year).
-           " and purchasedate < ".mktime(0,0,0,1,1,($year+1))." ";
+   $where.=" and purchase_date >= ".mktime(0,0,0,1,1,$year).
+           " and purchase_date < ".mktime(0,0,0,1,1,($year+1))." ";
   }
 }
 
 if (strlen($id)) $where.=" AND items.id = '$id' ";
 if (strlen($status)) $where.=" AND items.status = '$status' ";
 
-//itemtypeid here:
-if (isset($itemtypeid) && strlen($itemtypeid)) $where.=" AND itemtypeid=$itemtypeid ";
-if (isset($userid) && strlen($userid)) $where.=" AND userid=$userid ";
-if (isset($locationid) && strlen($locationid)) $where.=" AND locationid='$locationid' ";
-if (isset($rackid) && strlen($rackid)) $where.=" AND rackid=$rackid ";
+//item_type_id here:
+if (isset($item_type_id) && strlen($item_type_id)) $where.=" AND item_type_id=$item_type_id ";
+if (isset($user_id) && strlen($user_id)) $where.=" AND user_id=$user_id ";
+if (isset($location_id) && strlen($location_id)) $where.=" AND location_id='$location_id' ";
+if (isset($rack_id) && strlen($rack_id)) $where.=" AND rack_id=$rack_id ";
 if (isset($label) && strlen($label)) $where.=" AND label like '%$label%' ";
 
 
 //calculate total returned rows
-$sth=db_execute($dbh,"SELECT count(items.id) as totalrows, agents.title as agtitle FROM items,agents WHERE agents.id=items.manufacturerid $where");
+$sth=db_execute($dbh,"SELECT count(items.id) as totalrows, agents.title as agtitle FROM items,agents WHERE agents.id=items.manufacturer_id $where");
 $totalrows=$sth->fetchColumn();
 
 //page links
@@ -315,8 +315,8 @@ for ($plinks="",$pc=1;$pc<=ceil($totalrows/$perpage);$pc++) {
 $plinks.="<a href='$fscriptname?$url&amp;page=all'>[show all]</a> ";
 
 $t=time();
-$sql="SELECT items.*,agents.title AS agtitle, (purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) AS remdays ".
-     " FROM items, agents WHERE agents.id=items.manufacturerid $where ".
+$sql="SELECT items.*,agents.title AS agtitle, (purchase_date+warranty_months*30*24*60*60-$t)/(60*60*24) AS remdays ".
+     " FROM items, agents WHERE agents.id=items.manufacturer_id $where ".
      " order by $orderby LIMIT $perpage OFFSET ".($perpage*($page-1));
 
 
@@ -329,31 +329,31 @@ $currow=0;
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
 $currow++;
 
-  $sqlinv="SELECT invoices.* from invoices,item2inv where item2inv.itemid={$r['id']} AND invoices.id=item2inv.invid";
+  $sqlinv="SELECT invoices.* from invoices,item2inv where item2inv.item_id={$r['id']} AND invoices.id=item2inv.invid";
   $sthinv=db_execute($dbh,$sqlinv);
   $invoices=$sthinv->fetchAll(PDO::FETCH_ASSOC);
 
-  $sqlsoft="SELECT software.*, software.id as softwareid , invoices.* FROM software,item2soft,invoices WHERE ".
-           " item2soft.itemid={$r['id']} ".
-	   " AND software.id=item2soft.softid ".
-	   " AND invoices.id=software.invoiceid ";
+  $sqlsoft="SELECT software.*, software.id as software_id , invoices.* FROM software,item2soft,invoices WHERE ".
+           " item2soft.item_id={$r['id']} ".
+	   " AND software.id=item2soft.software_id ".
+	   " AND invoices.id=software.invoice_id ";
   $sthsoft=db_execute($dbh,$sqlsoft);
   $software=$sthsoft->fetchAll(PDO::FETCH_ASSOC);
 
   //2seconds
-  $d=strlen($r['purchasedate'])?date($dateparam,$r['purchasedate']):"-"; 
+  $d=strlen($r['purchase_date'])?date($dateparam,$r['purchase_date']):"-"; 
 
 
-  if (isset($locations[$r['locationid']])) {
-    $i=$r['locationid'];
+  if (isset($locations[$r['location_id']])) {
+    $i=$r['location_id'];
     $loc=$locations[$i]['name'].",Flr:".$locations[$i]['floor'];
   }
   else $loc="";
 
-  $user=isset($userlist[$r['userid']])?$userlist[$r['userid']]['username']:"";
+  $user=isset($userlist[$r['user_id']])?$userlist[$r['user_id']]['username']:"";
 
-  if (isset($racks[$r['rackid']])) {
-    $i=$r['rackid'];
+  if (isset($racks[$r['rack_id']])) {
+    $i=$r['rack_id'];
     $rack=$racks[$i]['label']." ".$racks[$i]['model']." ".$racks[$i]['usize']."U";
   }
   else $rack="";
@@ -369,8 +369,8 @@ $currow++;
       $invinfo.="<a title='view invoice' href='$fscriptname?action=editinvoice&amp;id={$invoices[$ninv]['id']}'>".
                   "{$invoices[$ninv]['number']}</a>";
       //else $invinfo.="{$invoices[$ninv]['number']}";
-      $invinfo.=" {$agents[$invoices[$ninv]['vendorid']]['title']}<span style='font-family:serif'>&rarr;</span>"; //sans-serif arrows suck for somereason
-      $invinfo.="{$agents[$invoices[$ninv]['buyerid']]['title']} $dinv";
+      $invinfo.=" {$agents[$invoices[$ninv]['vendor_id']]['title']}<span style='font-family:serif'>&rarr;</span>"; //sans-serif arrows suck for somereason
+      $invinfo.="{$agents[$invoices[$ninv]['buyer_id']]['title']} $dinv";
       if ($ninv<($cinv-1)) $invinfo.= "<br>";
     }
   }
@@ -389,8 +389,8 @@ $currow++;
                 "{$software[$nsof]['number']}</a></td>";
       $dinv=strlen($software[$nsof]['date'])?date($dateparam,$software[$nsof]['date']):"";
       $softinfo.="<td> $invflink</td>";
-      $softinfo.="<td>{$agents[$software[$nsof]['vendorid']]['title']}</td>";
-      $softinfo.="<td>{$agents[$software[$nsof]['buyerid']]['title']}</td><td>$dinv</td></tr>";
+      $softinfo.="<td>{$agents[$software[$nsof]['vendor_id']]['title']}</td>";
+      $softinfo.="<td>{$agents[$software[$nsof]['buyer_id']]['title']}</td><td>$dinv</td></tr>";
       //if ($nsof<($csof-1)) $softinfo.= "<br>";
     }
   }
@@ -429,13 +429,13 @@ $currow++;
   if (strlen($r['sn3'])) {if (strlen($sn)) $sn.=", ";} $sn.=$r['sn3'];
 
   //username
-  $user=isset($userlist[$r['userid']])?$userlist[$r['userid']]['username']:"";
+  $user=isset($userlist[$r['user_id']])?$userlist[$r['user_id']]['username']:"";
 
 
   echo "</td>".
-       "\n  <td>".$itypes[$r['itemtypeid']]['typedesc']."</td>".
+       "\n  <td>".$itypes[$r['item_type_id']]['typedesc']."</td>".
        "\n  <td>".$r['agtitle']."&nbsp;</td>".
-       "\n  <td>".$r['model']."</td><td>".$r['dnsname']."&nbsp;</td>".
+       "\n  <td>".$r['model']."</td><td>".$r['dns_name']."&nbsp;</td>".
        "\n  <td class='monospaced'>$sn&nbsp;</td>".
        "\n  <td>{$r['label']}</td>".
        "\n  <td>$d&nbsp;</td>".
@@ -448,15 +448,15 @@ $currow++;
 
 
   if ($expand) { //display more columns
-    $ispart=$r['ispart']==1?"Y":"N";
-    $rackmountable=$r['rackmountable']==1?"Y":"N";
+    $is_part=$r['is_part']==1?"Y":"N";
+    $is_rack_mountable=$r['is_rack_mountable']==1?"Y":"N";
 
-    if (is_numeric($r['switchid'])) {
-      $sqlsw="SELECT label,model, agents.title as agtitle from items,agents where agents.id=items.manufacturerid AND items.id={$r['switchid']}";
+    if (is_numeric($r['switch_id'])) {
+      $sqlsw="SELECT label,model, agents.title as agtitle from items,agents where agents.id=items.manufacturer_id AND items.id={$r['switch_id']}";
       $sthsw=db_execute($dbh,$sqlsw);
       $sw=$sthsw->fetchAll(PDO::FETCH_ASSOC);
       $sw=$sw[0];
-      $switch=$r['switchid']."-".$sw['label'].", ".$sw['agtitle']." ".$sw['model'];
+      $switch=$r['switch_id']."-".$sw['label'].", ".$sw['agtitle']." ".$sw['model'];
     }
     else 
       $switch="";
@@ -470,14 +470,14 @@ $currow++;
     echo "\n  <td><small>". showtags("item",$r['id'],0). "</small></td>";
     echo "\n  <td><small>$invinfo</small></td>".
 	 "\n  <td><small>$softinfo</small></td>";
-    echo "\n  <td>".$r['purchprice']."</td>";
+    echo "\n  <td>".$r['purchase_price']."</td>";
     echo "\n  <td>".$r['macs']."</td>";
     echo "\n  <td>".$r['ipv4']."</td>";
     echo "\n  <td>".$r['ipv6']."</td>";
-    echo "\n  <td>".$r['remadmip']."</td>";
-    echo "\n  <td>".$r['panelport']."</td>";
+    echo "\n  <td>".$r['remote_admin_ip']."</td>";
+    echo "\n  <td>".$r['panel_port']."</td>";
     echo "\n  <td>$switch</td>";
-    echo "\n  <td>".$r['switchport']."</td>";
+    echo "\n  <td>".$r['switch_port']."</td>";
     echo "\n  <td>$ports</td>";
   }//expand
 

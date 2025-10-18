@@ -26,12 +26,12 @@ $sql="SELECT id,name FROM locations order by name";
 $sth=$dbh->query($sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $locations[$r['id']]=$r;
 
-$sql="SELECT id,areaname FROM locareas order by areaname";
+$sql="SELECT id,areaname FROM location_areas order by areaname";
 $sth=$dbh->query($sql);
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) $locareas[$r['id']]=$r;
 
 
-$sql="SELECT count(items.id) AS population, sum(items.usize) as occupation,racks.* FROM racks LEFT OUTER JOIN items ON items.rackid=racks.id GROUP BY racks.id";
+$sql="SELECT count(items.id) AS population, sum(items.usize) as occupation,racks.* FROM racks LEFT OUTER JOIN items ON items.rack_id=racks.id GROUP BY racks.id";
 $sth=db_execute($dbh,$sql);
 ?>
 
@@ -74,8 +74,8 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   echo "<td>{$r['usize']}U</td>\n";
   if(strlen($r['depth'])) $depth=$r['depth']."mm";
   echo "<td>$depth</td>\n";
-  echo "<td>".$locations[$r['locationid']]['name']."</td>\n";
-  echo "<td>".$locareas[$r['locareaid']]['areaname']."</td>\n";
+  echo "<td>".$locations[$r['location_id']]['name']."</td>\n";
+  echo "<td>".$locareas[$r['location_area_id']]['areaname']."</td>\n";
   echo "<td>{$r['label']}</td>\n";
   echo "</tr>\n";
 

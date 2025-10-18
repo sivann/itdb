@@ -15,14 +15,14 @@ if (isset($_POST['eventid'])) {
 
   if ($eventid=="new") {
     $sql="INSERT into contractevents ".
-         " (contractid,siblingid , startdate , enddate, description) ".
-         " VALUES ('$contractid','$ev_siblingid','".ymd2sec($ev_startdate)."','".ymd2sec($ev_enddate)."','$ev_description') ";
+         " (contract_id,siblingid , start_date , enddate, description) ".
+         " VALUES ('$contractid','$ev_siblingid','".ymd2sec($ev_start_date)."','".ymd2sec($ev_enddate)."','$ev_description') ";
     db_exec($dbh,$sql,0,0,$lastid);
-    //echo "Added $lastid, $ev_startdate";
+    //echo "Added $lastid, $ev_start_date";
   }
   elseif(is_numeric($eventid)) {
     $sql="UPDATE contractevents ".
-         " SET siblingid='$ev_siblingid', startdate='".ymd2sec($ev_startdate)."',enddate='".ymd2sec($ev_enddate)."',description='$ev_description' ".
+         " SET siblingid='$ev_siblingid', start_date='".ymd2sec($ev_start_date)."',enddate='".ymd2sec($ev_enddate)."',description='$ev_description' ".
 	 " WHERE id='$eventid'";
     db_exec($dbh,$sql,0,0,$lastid);
     //echo "UPDATED $eventid";
@@ -44,7 +44,7 @@ elseif (isset($_POST['deleventid'])) {
       <tbody>
       <?php  
       if (!isset($id)) $id=$contractid;
-      $sql="SELECT * from contractevents WHERE contractid='$id' order by startdate,id DESC";
+      $sql="SELECT * from contractevents WHERE contract_id='$id' order by start_date,id DESC";
       $sth=db_execute($dbh,$sql); 
       while ($ir=$sth->fetch(PDO::FETCH_ASSOC)) {
 	$rowid=$ir['id'];
@@ -54,7 +54,7 @@ elseif (isset($_POST['deleventid'])) {
 	echo 
 	 "<td id='eventid_$rowid'>".$ir['id']."</td>".
 	 "<td id='ev_siblingid_$rowid'>".$ir['siblingid']."</td>".
-	 "<td id='ev_startdate_$rowid'>".date($dateparam,$ir['startdate'])."</td>".
+	 "<td id='ev_start_date_$rowid'>".date($dateparam,$ir['start_date'])."</td>".
 	 "<td id='ev_enddate_$rowid'>".date($dateparam,$ir['enddate'])."</td>".
 	 "<td id='ev_description_$rowid'>".$ir['description']."</td></tr>\n";
       }

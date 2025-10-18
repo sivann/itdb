@@ -27,14 +27,14 @@ if (isset($_GET['delid'])) { //if we came from delete
   $sql="SELECT * from locations where id=$delid";
   $sth=db_execute($dbh,$sql);
   $rf=$sth->fetch(PDO::FETCH_ASSOC);
-  $oldfname=$rf['floorplanfn'];
+  $oldfname=$rf['floor_plan_filename'];
   unlink($uploaddir.$oldfname);
 
   //delete entry
   $sql="DELETE from locations where id=$delid";
   $sth=db_exec($dbh,$sql);
 
-  $sql="UPDATE items set locationid=0 where locationid=$delid";
+  $sql="UPDATE items set location_id=0 where location_id=$delid";
   $sth=db_exec($dbh,$sql);
 
   echo "\n<script>document.location='$scriptname?action=listlocations'</script>";
@@ -78,7 +78,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
       }
       else { //file ok
 
-	  $sql="INSERT into locations (name,floor,floorplanfn)".
+	  $sql="INSERT into locations (name,floor,floor_plan_filename)".
 	       " VALUES ('$name','$floor','$filefn')";
 	  db_exec($dbh,$sql,0,0,$lastid);
 	  $lastid=$dbh->lastInsertId();
@@ -113,7 +113,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
       $sql="SELECT * from locations where id=$id";
       $sth=db_execute($dbh,$sql);
       $rf=$sth->fetch(PDO::FETCH_ASSOC);
-      $oldfname=$rf['floorplanfn'];
+      $oldfname=$rf['floor_plan_filename'];
 
       $path_parts = pathinfo($_FILES['file']["name"]);
       $fileext=$path_parts['extension'];
@@ -139,7 +139,7 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
 	  echo "<br><b>ERROR: $result</b><br>";
       }
       else {
-	$sql="UPDATE locations set floorplanfn='$filefn' WHERE id=$id";
+	$sql="UPDATE locations set floor_plan_filename='$filefn' WHERE id=$id";
 	db_exec($dbh,$sql);
 
 	//delete   $oldfname;
@@ -184,7 +184,7 @@ else
     <tr><td class="tdt"><?php te("ID");?>:</td> <td><input  class='input2' type=text name='id' value='<?php echo $id?>' readonly size=3></td></tr>
     <tr><td class="tdt"><?php te("Building Name");?>:</td> <td><input  class='input2 mandatory' size=20 type=text name='name' value="<?php echo $r['name']?>"></td></tr>
     <tr><td class="tdt"><?php te("Floor");?>:</td> <td><input  class='input2 mandatory' size=20 type=text name='floor' value="<?php echo $r['floor']?>"></td></tr>
-    <tr><td class="tdt"><?php te("Filename");?>:</td><td><a target=_blank href="<?php  echo $uploaddirwww.$r['floorplanfn']; ?>"><?php echo $r['floorplanfn']?></a></td></tr>
+    <tr><td class="tdt"><?php te("Filename");?>:</td><td><a target=_blank href="<?php  echo $uploaddirwww.$r['floor_plan_filename']; ?>"><?php echo $r['floor_plan_filename']?></a></td></tr>
     <tr><td title="Number of items/software/invoices/etc which reference this file" 
             class="tdt"><?php te("Associations (items/racks)");?>:</td> <td><b><?php  if ($_GET['id']!="new") echo countloclinks($_GET['id'],$dbh);?></b></td></tr>
     </table>
@@ -220,10 +220,10 @@ else
       <div  id='items' class='relatedlist'><?php te("ITEMS");?></div>
       <?php 
       if (is_numeric($id)) {
-	$sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.typedesc || ', ID:' || items.id || ']' as txt ".
+	$sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.description || ', ID:' || items.id || ']' as txt ".
 	     "FROM agents,items,itemtypes WHERE ".
-	     " agents.id=items.manufacturerid AND items.itemtypeid=itemtypes.id AND ".
-	     " locationid=$id";
+	     " agents.id=items.manufacturer_id AND items.item_type_id=itemtypes.id AND ".
+	     " location_id=$id";
 	$sthi=db_execute($dbh,$sql);
 	$ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
 	$nitems=count($ri);
@@ -273,8 +273,8 @@ else
 
 <td>
 <?php 
-if (strlen($r['floorplanfn'])) {?>
-<img width=600 src='<?php  echo $fuploaddirwww.$r['floorplanfn']; ?>'>
+if (strlen($r['floor_plan_filename'])) {?>
+<img width=600 src='<?php  echo $fuploaddirwww.$r['floor_plan_filename']; ?>'>
 <?php  }?>
 
 </td>

@@ -54,7 +54,7 @@ if (!isset($initok)) {echo "do not run this script directly";exit;}
 
 /* Spiros Ioannou 2010 , sivann _at_ gmail.com */
 
-$sql="SELECT contracts.id,title,parentid,number,name,startdate,currentenddate FROM contracts,contracttypes WHERE contracts.type=contracttypes.id ORDER by contracts.id desc,parentid desc";
+$sql="SELECT contracts.id,title,parent_contract_id,number,name,start_date,end_date FROM contracts,contracttypes WHERE contracts.type=contracttypes.id ORDER by contracts.id desc,parent_contract_id desc";
 $sth=db_execute($dbh,$sql);
 
 ?>
@@ -83,12 +83,12 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   $i++;
   echo "\n<tr id='trid{$r['id']}'>";
   echo "<td><a class='editid' href='$scriptname?action=editcontract&amp;id=".$r['id']."'>{$r['id']}</a></td>\n";
-  echo "<td>{$r['parentid']}</td>\n";
+  echo "<td>{$r['parent_contract_id']}</td>\n";
   echo "<td>{$r['name']}</td>\n";
   echo "<td>{$r['number']}</td>\n";
   echo "<td>{$r['title']}</td>\n";
-  echo "<td><span title='{$r['startdate']}'></span>".date($dateparam,$r['startdate'])."</td>\n";
-  echo "<td><span title='{$r['currentenddate']}'></span>".date($dateparam,$r['currentenddate'])."</td>\n";
+  echo "<td><span title='{$r['start_date']}'></span>".date($dateparam,$r['start_date'])."</td>\n";
+  echo "<td><span title='{$r['end_date']}'></span>".date($dateparam,$r['end_date'])."</td>\n";
   echo "</tr>\n";
 }
 ?>

@@ -36,7 +36,7 @@
 
                             <div class="mb-3">
                                 <label for="userdesc" class="form-label">Display Name</label>
-                                <input type="text" class="form-control" id="userdesc" name="userdesc" value="{{ user.userdesc }}">
+                                <input type="text" class="form-control" id="userdesc" name="userdesc" value="{{ user.display_name }}">
                             </div>
 
                             <div class="mb-3">
@@ -95,7 +95,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-sm-3"><strong>Display Name:</strong></div>
-                    <div class="col-sm-9">{{ user.userdesc | default('Not set') }}</div>
+                    <div class="col-sm-9">{{ user.display_name | default('Not set') }}</div>
                 </div>
                 <hr>
                 <div class="row">

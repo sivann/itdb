@@ -25,19 +25,19 @@ elseif ($id=="showagents") {
 elseif (strstr($id,"users:")) {
       $x=explode(":",$id);
       $user_id=$x[1];
-      $sql="select items.id,agents.title || ' ' || items.model  || ' [' || itemtypes.typedesc || ', ID:' || items.id || ']' ".
+      $sql="select items.id,agents.title || ' ' || items.model  || ' [' || itemtypes.description || ', ID:' || items.id || ']' ".
            " AS nodetext from items,agents,itemtypes ".
-           " WHERE  items.itemtypeid=itemtypes.id AND userid=$user_id AND agents.id=items.manufacturerid ORDER BY agents.title";
+           " WHERE  items.item_type_id=itemtypes.id AND user_id=$user_id AND agents.id=items.manufacturer_id ORDER BY agents.title";
       showlist2($sql,"items","jstree-leaf","$wscriptdir/index.php?action=edititem&id=");
 }
 
 elseif (strstr($id,"itemtypes:")) {
       $x=explode(":",$id);
       $type_id=$x[1];
-      $sql="select items.id,agents.title || ' ' || items.model || ' [' || itemtypes.typedesc || ', ID:' || items.id || ']' ".
+      $sql="select items.id,agents.title || ' ' || items.model || ' [' || itemtypes.description || ', ID:' || items.id || ']' ".
            " as nodetext FROM items,agents,itemtypes ".
-           " WHERE  items.itemtypeid=itemtypes.id AND agents.id=items.manufacturerid ".
-           " AND items.itemtypeid=$type_id ORDER BY agents.title";
+           " WHERE  items.item_type_id=itemtypes.id AND agents.id=items.manufacturer_id ".
+           " AND items.item_type_id=$type_id ORDER BY agents.title";
       showlist2($sql,"items","jstree-leaf","$wscriptdir/index.php?action=edititem&id=");
 }
 
@@ -48,8 +48,8 @@ elseif (strstr($id,"agents:items")) {
 elseif (strstr($id,"agenthw:")) {
       $x=explode(":",$id);
       $agent_id=$x[1];
-      $sql="select items.id,items.model || ' [' || itemtypes.typedesc || ', ID:' || items.id ||']' as nodetext FROM items,agents,itemtypes ".
-           " WHERE agents.id=items.manufacturerid AND agents.id=$agent_id AND items.itemtypeid=itemtypes.id ORDER BY nodetext";
+      $sql="select items.id,items.model || ' [' || itemtypes.description || ', ID:' || items.id ||']' as nodetext FROM items,agents,itemtypes ".
+           " WHERE agents.id=items.manufacturer_id AND agents.id=$agent_id AND items.item_type_id=itemtypes.id ORDER BY nodetext";
       showlist2($sql,"items","jstree-leaf","$wscriptdir/index.php?action=edititem&id=");
 }
 
@@ -60,7 +60,7 @@ elseif (strstr($id,"agents:software")) {
 elseif (strstr($id,"agentsw:")) {
       $x=explode(":",$id);
       $agent_id=$x[1];
-      $sql="SELECT software.id,software.stitle || ' ' || software.sversion AS nodetext FROM software WHERE manufacturerid='$agent_id'";
+      $sql="SELECT software.id,software.title || ' ' || software.version AS nodetext FROM software WHERE manufacturer_id='$agent_id'";
       showlist2($sql,"software","jstree-leaf","$wscriptdir/index.php?action=editsoftware&id=");
 }
 
@@ -80,14 +80,14 @@ elseif (strstr($id,"agentvendor:")) {
       $x=explode(":",$id);
       $agent_id=$x[1];
       $sql="SELECT invoices.id, invoices.number || ' ' || date(invoices.date,'unixepoch') as nodetext ".
-           "FROM invoices WHERE vendorid='$agent_id' ORDER BY invoices.date";
+           "FROM invoices WHERE vendor_id='$agent_id' ORDER BY invoices.date";
       showlist2($sql,"invoice","jstree-leaf","$wscriptdir/index.php?action=editinvoice&id=");
 }
 elseif (strstr($id,"agentcontractor:")) {
       $x=explode(":",$id);
       $agent_id=$x[1];
-      $sql="SELECT contracts.id, contracts.number || ' ' || date(contracts.startdate,'unixepoch') as nodetext ".
-           "FROM contracts WHERE contractorid='$agent_id' ORDER BY contracts.startdate";
+      $sql="SELECT contracts.id, contracts.number || ' ' || date(contracts.start_date,'unixepoch') as nodetext ".
+           "FROM contracts WHERE contractor_id='$agent_id' ORDER BY contracts.start_date";
       showlist2($sql,"contract","jstree-leaf","$wscriptdir/index.php?action=editcontract&id=");
 }
 
@@ -99,7 +99,7 @@ elseif (strstr($id,"agentbuyer:")) {
       $x=explode(":",$id);
       $agent_id=$x[1];
       $sql="SELECT invoices.id, agents.title || ' ' || invoices.number || ' ' || date(invoices.date,'unixepoch') as nodetext ".
-           "FROM invoices,agents WHERE invoices.buyerid='$agent_id' AND agents.id=invoices.vendorid ORDER BY invoices.date";
+           "FROM invoices,agents WHERE invoices.buyer_id='$agent_id' AND agents.id=invoices.vendor_id ORDER BY invoices.date";
       showlist2($sql,"invoice","jstree-leaf","$wscriptdir/index.php?action=editinvoice&id=");
 }
 elseif ($id == "0") {

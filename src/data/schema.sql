@@ -1,36 +1,35 @@
 CREATE TABLE sqlite_sequence(name,seq);
-CREATE TABLE files (id INTEGER PRIMARY KEY AUTOINCREMENT,type,title,fname, uploader, uploaddate, date integer, filename TEXT, description TEXT, filesize INTEGER, ftype INTEGER);
-CREATE TABLE filetypes (id INTEGER PRIMARY KEY AUTOINCREMENT, typedesc);
+CREATE TABLE files (id INTEGER PRIMARY KEY AUTOINCREMENT,file_category,title,filename_stored, uploader_username, uploaded_at, updated_at integer, filename_original TEXT, description TEXT, file_size INTEGER, file_type_id INTEGER);
+CREATE TABLE IF NOT EXISTS "file_types" (id INTEGER PRIMARY KEY AUTOINCREMENT, name);
 CREATE TABLE history (id INTEGER PRIMARY KEY AUTOINCREMENT, date integer, sql, authuser, ip);
 CREATE TABLE labelpapers (id INTEGER PRIMARY KEY AUTOINCREMENT,rows integer, cols integer, lwidth real, lheight real,  vpitch real,  hpitch real,  tmargin real,  bmargin real,  lmargin real,  rmargin real, name, border, padding, headerfontsize, idfontsize, wantheadertext, wantheaderimage, headertext, fontsize, wantbarcode, barcodesize, image, imagewidth, imageheight, papersize, qrtext, wantnotext, wantraligntext);
-CREATE TABLE racks (id INTEGER PRIMARY KEY AUTOINCREMENT, locationid integer, usize integer, depth integer, comments,model,label, revnums integer, locareaid number);
-CREATE TABLE statustypes (id INTEGER PRIMARY KEY AUTOINCREMENT, statusdesc);
-CREATE TABLE contract2file(contractid integer,fileid integer);
+CREATE TABLE racks (id INTEGER PRIMARY KEY AUTOINCREMENT, location_id integer, size_units integer, depth_mm integer, comments,model,label, reverse_numbering integer, location_area_id number);
+CREATE TABLE IF NOT EXISTS "status_types" (id INTEGER PRIMARY KEY AUTOINCREMENT, name);
+CREATE TABLE IF NOT EXISTS "contracts_files"(contract_id integer,file_id integer);
 CREATE TABLE viewhist(id INTEGER PRIMARY KEY AUTOINCREMENT, url,description);
-CREATE TABLE locareas(id  INTEGER PRIMARY KEY AUTOINCREMENT,locationid number,areaname,x1 number,y1 number,x2 number,y2 number);
+CREATE TABLE IF NOT EXISTS "location_areas"(id  INTEGER PRIMARY KEY AUTOINCREMENT,location_id number,name,x1 number,y1 number,x2 number,y2 number);
 CREATE TABLE contractsubtypes(id INTEGER PRIMARY KEY AUTOINCREMENT,contypeid integer, name);
-CREATE TABLE settings(companytitle, dateformat, currency, lang, version, timezone, dbversion, useldap integer default 0, ldap_server, ldap_dn, ldap_getusers, ldap_getusers_filter);
+CREATE TABLE settings(companytitle, dateformat, currency, lang, version, timezone, dbversion, useldap integer default 0, ldap_server, ldap_dn, ldap_getusers, ldap_getusers_filter, file_storage_path TEXT DEFAULT './public/storage/uploads');
 CREATE TABLE agents (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    type INTEGER,
-    title TEXT,
-    contactinfo TEXT,
+    name TEXT,
+    contact_info TEXT,
     contacts TEXT,
     urls TEXT
 );
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
-    userdesc TEXT,
-    pass TEXT,
-    usertype INTEGER DEFAULT 0,
-    cookie1 TEXT
+    display_name TEXT,
+    password_hash TEXT,
+    user_type INTEGER DEFAULT 0,
+    remember_token TEXT
 );
-CREATE TABLE itemtypes (
+CREATE TABLE IF NOT EXISTS "item_types" (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
-, typedesc TEXT DEFAULT '', hassoftware INTEGER DEFAULT 0);
-CREATE TABLE contracttypes (
+, description TEXT DEFAULT '', has_software INTEGER DEFAULT 0);
+CREATE TABLE IF NOT EXISTS "contract_types" (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
 );
@@ -51,99 +50,99 @@ CREATE TABLE tags (
 );
 CREATE TABLE items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    itemtypeid INTEGER NOT NULL,
+    item_type_id INTEGER NOT NULL,
     function TEXT,
-    manufacturerid INTEGER,
+    manufacturer_id INTEGER,
     model TEXT,
-    sn TEXT,
-    sn2 TEXT,
-    sn3 TEXT,
+    serial_number TEXT,
+    serial_number_2 TEXT,
+    serial_number_3 TEXT,
     origin TEXT,
-    warrantymonths INTEGER,
-    purchasedate INTEGER,
-    purchprice TEXT,
-    dnsname TEXT,
-    maintenanceinfo TEXT,
+    warranty_months INTEGER,
+    purchase_date INTEGER,
+    purchase_price TEXT,
+    dns_name TEXT,
+    maintenance_info TEXT,
     comments TEXT,
-    ispart INTEGER DEFAULT 0,
-    hd TEXT,
+    is_part INTEGER DEFAULT 0,
+    hard_drive TEXT,
     cpu TEXT,
     ram TEXT,
-    locationid INTEGER,
-    userid INTEGER,
-    ipv4 TEXT,
-    ipv6 TEXT,
-    usize INTEGER,
-    rackmountable INTEGER,
-    macs TEXT,
-    remadmip TEXT,
-    panelport TEXT,
-    ports INTEGER,
-    switchport TEXT,
-    switchid INTEGER,
-    rackid INTEGER,
-    rackposition INTEGER,
+    location_id INTEGER,
+    user_id INTEGER,
+    ipv4_address TEXT,
+    ipv6_address TEXT,
+    rack_units INTEGER,
+    is_rack_mountable INTEGER,
+    mac_addresses TEXT,
+    remote_admin_ip TEXT,
+    panel_port TEXT,
+    port_count INTEGER,
+    switch_port TEXT,
+    switch_id INTEGER,
+    rack_id INTEGER,
+    rack_position INTEGER,
     label TEXT,
-    status INTEGER DEFAULT 1,
-    cpuno INTEGER,
-    corespercpu INTEGER,
-    rackposdepth INTEGER,
-    warrinfo TEXT,
-    locareaid NUMBER,
-    coa TEXT, updated_at INTEGER,
+    status_id INTEGER DEFAULT 1,
+    cpu_count INTEGER,
+    cores_per_cpu INTEGER,
+    rack_position_depth INTEGER,
+    warranty_info TEXT,
+    location_area_id NUMBER,
+    certificate_of_authenticity TEXT, updated_at INTEGER,
 
     -- Foreign key constraints
-    FOREIGN KEY (itemtypeid) REFERENCES itemtypes(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (manufacturerid) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (userid) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (item_type_id) REFERENCES itemtypes(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (manufacturer_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 CREATE TABLE software (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    stitle TEXT,
-    sversion TEXT,
-    slicense TEXT,
-    scomments TEXT,
+    title TEXT,
+    version TEXT,
+    license_key TEXT,
+    comments TEXT,
     url TEXT,
-    slicensetype TEXT,
-    scat TEXT,
-    manufacturerid INTEGER, updated_at INTEGER,
+    license_type TEXT,
+    category TEXT,
+    manufacturer_id INTEGER, updated_at INTEGER,
 
     -- Foreign key constraints
-    FOREIGN KEY (manufacturerid) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (manufacturer_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 CREATE TABLE invoices (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date INTEGER,
-    vendorid INTEGER,
-    buyerid INTEGER,
+    invoice_date INTEGER,
+    vendor_id INTEGER,
+    buyer_id INTEGER,
     comments TEXT,
-    totalcost REAL, updated_at INTEGER,
+    total_cost REAL, updated_at INTEGER, invoice_number TEXT, title TEXT,
 
     -- Foreign key constraints
-    FOREIGN KEY (vendorid) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (buyerid) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (vendor_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (buyer_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 CREATE TABLE contracts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    type INTEGER,
-    parentid INTEGER,
+    contract_type_id INTEGER,
+    parent_contract_id INTEGER,
     title TEXT,
-    number TEXT,
+    contract_number TEXT,
     description TEXT,
     comments TEXT,
-    totalcost REAL,
-    contractorid INTEGER,
-    startdate INTEGER,
-    currentenddate INTEGER,
+    total_cost REAL,
+    contractor_id INTEGER,
+    start_date INTEGER,
+    end_date INTEGER,
     renewals TEXT,
-    subtype INTEGER,
-    vendorid INTEGER, updated_at INTEGER,
+    contract_subtype_id INTEGER,
+    vendor_id INTEGER, updated_at INTEGER,
 
     -- Foreign key constraints
-    FOREIGN KEY (type) REFERENCES contracttypes(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (parentid) REFERENCES contracts(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (contractorid) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (vendorid) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (contract_type_id) REFERENCES contracttypes(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (parent_contract_id) REFERENCES contracts(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (contractor_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (vendor_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 CREATE TABLE agent_agent_type (
     agent_id INTEGER,
@@ -153,37 +152,37 @@ CREATE TABLE agent_agent_type (
     FOREIGN KEY (agent_id) REFERENCES agents(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (agent_type_id) REFERENCES agent_types(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
-CREATE TABLE contract2item (
-    contractid INTEGER,
-    itemid INTEGER,
-    PRIMARY KEY (contractid, itemid),
+CREATE TABLE IF NOT EXISTS "contracts_items" (
+    contract_id INTEGER,
+    item_id INTEGER,
+    PRIMARY KEY (contract_id, item_id),
 
-    FOREIGN KEY (contractid) REFERENCES contracts(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (itemid) REFERENCES items(id) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (contract_id) REFERENCES contracts(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
-CREATE TABLE contract2soft (
-    contractid INTEGER,
-    softid INTEGER,
-    PRIMARY KEY (contractid, softid),
+CREATE TABLE IF NOT EXISTS "contracts_software" (
+    contract_id INTEGER,
+    software_id INTEGER,
+    PRIMARY KEY (contract_id, software_id),
 
-    FOREIGN KEY (contractid) REFERENCES contracts(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (softid) REFERENCES software(id) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (contract_id) REFERENCES contracts(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (software_id) REFERENCES software(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
-CREATE TABLE item2soft (
-    itemid INTEGER,
-    softid INTEGER,
-    PRIMARY KEY (itemid, softid),
+CREATE TABLE IF NOT EXISTS "items_software" (
+    item_id INTEGER,
+    software_id INTEGER,
+    PRIMARY KEY (item_id, software_id),
 
-    FOREIGN KEY (itemid) REFERENCES items(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (softid) REFERENCES software(id) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (software_id) REFERENCES software(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
-CREATE TABLE tag2item (
-    tagid INTEGER,
-    itemid INTEGER,
-    PRIMARY KEY (tagid, itemid),
+CREATE TABLE IF NOT EXISTS "items_tags" (
+    tag_id INTEGER,
+    item_id INTEGER,
+    PRIMARY KEY (tag_id, item_id),
 
-    FOREIGN KEY (tagid) REFERENCES tags(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (itemid) REFERENCES items(id) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 CREATE TABLE contractevents (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -204,26 +203,26 @@ CREATE TABLE actions (
     FOREIGN KEY (itemid) REFERENCES items(id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (userid) REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
-CREATE INDEX idx_items_manufacturer ON items(manufacturerid);
-CREATE INDEX idx_items_userid ON items(userid);
-CREATE INDEX idx_items_itemtypeid ON items(itemtypeid);
-CREATE INDEX idx_software_manufacturer ON software(manufacturerid);
-CREATE INDEX idx_invoices_vendor ON invoices(vendorid);
-CREATE INDEX idx_invoices_buyer ON invoices(buyerid);
-CREATE INDEX idx_contracts_contractor ON contracts(contractorid);
-CREATE INDEX idx_contracts_vendor ON contracts(vendorid);
-CREATE INDEX idx_contracts_type ON contracts(type);
-CREATE INDEX idx_contracts_parent ON contracts(parentid);
+CREATE INDEX idx_items_manufacturer ON items(manufacturer_id);
+CREATE INDEX idx_items_userid ON items(user_id);
+CREATE INDEX idx_items_itemtypeid ON items(item_type_id);
+CREATE INDEX idx_software_manufacturer ON software(manufacturer_id);
+CREATE INDEX idx_invoices_vendor ON invoices(vendor_id);
+CREATE INDEX idx_invoices_buyer ON invoices(buyer_id);
+CREATE INDEX idx_contracts_contractor ON contracts(contractor_id);
+CREATE INDEX idx_contracts_vendor ON contracts(vendor_id);
+CREATE INDEX idx_contracts_type ON contracts(contract_type_id);
+CREATE INDEX idx_contracts_parent ON contracts(parent_contract_id);
 CREATE INDEX idx_agent_agent_type_agent ON agent_agent_type(agent_id);
 CREATE INDEX idx_agent_agent_type_type ON agent_agent_type(agent_type_id);
-CREATE INDEX idx_contract2item_contract ON contract2item(contractid);
-CREATE INDEX idx_contract2item_item ON contract2item(itemid);
-CREATE INDEX idx_contract2soft_contract ON contract2soft(contractid);
-CREATE INDEX idx_contract2soft_software ON contract2soft(softid);
-CREATE INDEX idx_item2soft_item ON item2soft(itemid);
-CREATE INDEX idx_item2soft_software ON item2soft(softid);
-CREATE INDEX idx_tag2item_tag ON tag2item(tagid);
-CREATE INDEX idx_tag2item_item ON tag2item(itemid);
+CREATE INDEX idx_contract2item_contract ON "contracts_items"(contract_id);
+CREATE INDEX idx_contract2item_item ON "contracts_items"(item_id);
+CREATE INDEX idx_contract2soft_contract ON "contracts_software"(contract_id);
+CREATE INDEX idx_contract2soft_software ON "contracts_software"(software_id);
+CREATE INDEX idx_item2soft_item ON "items_software"(item_id);
+CREATE INDEX idx_item2soft_software ON "items_software"(software_id);
+CREATE INDEX idx_tag2item_tag ON "items_tags"(tag_id);
+CREATE INDEX idx_tag2item_item ON "items_tags"(item_id);
 CREATE INDEX idx_contractevents_contract ON contractevents(contractid);
 CREATE INDEX idx_actions_item ON actions(itemid);
 CREATE INDEX idx_actions_user ON actions(userid);
@@ -238,49 +237,49 @@ CREATE TABLE audit_log (
     timestamp INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
     ip_address TEXT
 );
-CREATE TABLE IF NOT EXISTS "soft2inv" (
-    invid INTEGER,
-    softid INTEGER,
-    PRIMARY KEY (invid, softid),
-    FOREIGN KEY (invid) REFERENCES invoices(id) ON DELETE CASCADE,
-    FOREIGN KEY (softid) REFERENCES software(id) ON DELETE CASCADE
+CREATE TABLE IF NOT EXISTS "software_invoices" (
+    invoice_id INTEGER,
+    software_id INTEGER,
+    PRIMARY KEY (invoice_id, software_id),
+    FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE CASCADE,
+    FOREIGN KEY (software_id) REFERENCES software(id) ON DELETE CASCADE
 );
-CREATE TABLE IF NOT EXISTS "item2inv" (
-            itemid INTEGER,
-            invid INTEGER,
-            PRIMARY KEY (itemid, invid),
-            FOREIGN KEY (itemid) REFERENCES items(id) ON DELETE CASCADE,
-            FOREIGN KEY (invid) REFERENCES invoices(id) ON DELETE CASCADE
+CREATE TABLE IF NOT EXISTS "items_invoices" (
+            item_id INTEGER,
+            invoice_id INTEGER,
+            PRIMARY KEY (item_id, invoice_id),
+            FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
+            FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE CASCADE
         );
-CREATE INDEX idx_item2inv_item ON item2inv(itemid);
-CREATE INDEX idx_item2inv_invoice ON item2inv(invid);
-CREATE TABLE IF NOT EXISTS "item2file" (
-            itemid INTEGER,
-            fileid INTEGER,
-            PRIMARY KEY (itemid, fileid),
-            FOREIGN KEY (itemid) REFERENCES items(id) ON DELETE CASCADE,
-            FOREIGN KEY (fileid) REFERENCES files(id) ON DELETE CASCADE
+CREATE INDEX idx_item2inv_item ON "items_invoices"(item_id);
+CREATE INDEX idx_item2inv_invoice ON "items_invoices"(invoice_id);
+CREATE TABLE IF NOT EXISTS "items_files" (
+            item_id INTEGER,
+            file_id INTEGER,
+            PRIMARY KEY (item_id, file_id),
+            FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
+            FOREIGN KEY (file_id) REFERENCES files(id) ON DELETE CASCADE
         );
-CREATE INDEX idx_item2file_item ON item2file(itemid);
-CREATE INDEX idx_item2file_file ON item2file(fileid);
-CREATE TABLE IF NOT EXISTS "contract2inv" (
-            contractid INTEGER,
-            invid INTEGER,
-            PRIMARY KEY (contractid, invid),
-            FOREIGN KEY (contractid) REFERENCES contracts(id) ON DELETE CASCADE,
-            FOREIGN KEY (invid) REFERENCES invoices(id) ON DELETE CASCADE
+CREATE INDEX idx_item2file_item ON "items_files"(item_id);
+CREATE INDEX idx_item2file_file ON "items_files"(file_id);
+CREATE TABLE IF NOT EXISTS "contracts_invoices" (
+            contract_id INTEGER,
+            invoice_id INTEGER,
+            PRIMARY KEY (contract_id, invoice_id),
+            FOREIGN KEY (contract_id) REFERENCES contracts(id) ON DELETE CASCADE,
+            FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE CASCADE
         );
-CREATE INDEX idx_contract2inv_contract ON contract2inv(contractid);
-CREATE INDEX idx_contract2inv_invoice ON contract2inv(invid);
-CREATE TABLE IF NOT EXISTS "tag2software" (
-            tagid INTEGER,
-            softwareid INTEGER,
-            PRIMARY KEY (tagid, softwareid),
-            FOREIGN KEY (tagid) REFERENCES tags(id) ON DELETE CASCADE,
-            FOREIGN KEY (softwareid) REFERENCES software(id) ON DELETE CASCADE
+CREATE INDEX idx_contract2inv_contract ON "contracts_invoices"(contract_id);
+CREATE INDEX idx_contract2inv_invoice ON "contracts_invoices"(invoice_id);
+CREATE TABLE IF NOT EXISTS "software_tags" (
+            tag_id INTEGER,
+            software_id INTEGER,
+            PRIMARY KEY (tag_id, software_id),
+            FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+            FOREIGN KEY (software_id) REFERENCES software(id) ON DELETE CASCADE
         );
-CREATE INDEX idx_tag2software_tag ON tag2software(tagid);
-CREATE INDEX idx_tag2software_software ON tag2software(softwareid);
+CREATE INDEX idx_tag2software_tag ON "software_tags"(tag_id);
+CREATE INDEX idx_tag2software_software ON "software_tags"(software_id);
 CREATE TABLE IF NOT EXISTS "itemlink" (
             itemid1 INTEGER,
             itemid2 INTEGER,
@@ -290,18 +289,18 @@ CREATE TABLE IF NOT EXISTS "itemlink" (
         );
 CREATE INDEX idx_itemlink_item1 ON itemlink(itemid1);
 CREATE INDEX idx_itemlink_item2 ON itemlink(itemid2);
-CREATE TABLE IF NOT EXISTS "software2file" (
-                softwareid INTEGER,
-                fileid INTEGER,
-                PRIMARY KEY (softwareid, fileid),
-                FOREIGN KEY (softwareid) REFERENCES software(id) ON DELETE CASCADE,
-                FOREIGN KEY (fileid) REFERENCES files(id) ON DELETE CASCADE
+CREATE TABLE IF NOT EXISTS "software_files" (
+                software_id INTEGER,
+                file_id INTEGER,
+                PRIMARY KEY (software_id, file_id),
+                FOREIGN KEY (software_id) REFERENCES software(id) ON DELETE CASCADE,
+                FOREIGN KEY (file_id) REFERENCES files(id) ON DELETE CASCADE
             );
-CREATE TABLE IF NOT EXISTS "invoice2file"(invoiceid INTEGER, fileid INTEGER, PRIMARY KEY (invoiceid, fileid));
+CREATE TABLE IF NOT EXISTS "invoices_files"(invoice_id INTEGER, file_id INTEGER, PRIMARY KEY (invoice_id, file_id));
 CREATE TABLE IF NOT EXISTS "locations" (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     floor TEXT,
-    floorplanfn TEXT
+    floor_plan_filename TEXT
 );
 CREATE UNIQUE INDEX idx_racks_label_unique ON racks(label);

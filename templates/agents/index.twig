@@ -79,7 +79,7 @@
                         {% for agent in agents %}
                         <tr>
                             <td>
-                                <strong><a href="/agents/{{ agent.id }}/edit" class="text-decoration-none">{{ agent.title }}</a></strong>
+                                <strong><a href="/agents/{{ agent.id }}/edit" class="text-decoration-none">{{ agent.name }}</a></strong>
                             </td>
                             <td>
                                 {% if agent.type_list is defined and agent.type_list|length > 0 %}
@@ -117,7 +117,7 @@
                                         <button type="button"
                                                 class="btn btn-outline-danger"
                                                 title="Delete"
-                                                onclick="confirmDelete({{ agent.id }}, '{{ agent.title|escape('js') }}')">
+                                                onclick="confirmDelete({{ agent.id }}, '{{ agent.name|escape('js') }}')">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     {% endif %}

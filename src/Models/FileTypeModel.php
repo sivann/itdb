@@ -17,12 +17,12 @@ class FileTypeModel
 
     public function find(int $id): ?array
     {
-        return $this->db->fetchOne("SELECT * FROM filetypes WHERE id = :id", ['id' => $id]);
+        return $this->db->fetchOne("SELECT * FROM file_types WHERE id = :id", ['id' => $id]);
     }
 
     public function getAll(): array
     {
-        return $this->db->fetchAll("SELECT * FROM filetypes ORDER BY typedesc");
+        return $this->db->fetchAll("SELECT * FROM file_types ORDER BY description");
     }
 
     public function getPaginated(int $page = 1, int $perPage = 20, array $filters = []): array
@@ -38,10 +38,10 @@ class FileTypeModel
 
         $whereClause = !empty($whereConditions) ? 'WHERE ' . implode(' AND ', $whereConditions) : '';
 
-        $totalSql = "SELECT COUNT(*) FROM filetypes $whereClause";
+        $totalSql = "SELECT COUNT(*) FROM file_types $whereClause";
         $total = (int) $this->db->fetchColumn($totalSql, $params);
 
-        $sql = "SELECT * FROM filetypes $whereClause ORDER BY typedesc LIMIT :limit OFFSET :offset";
+        $sql = "SELECT * FROM file_types $whereClause ORDER BY description LIMIT :limit OFFSET :offset";
         $params['limit'] = $perPage;
         $params['offset'] = $offset;
 

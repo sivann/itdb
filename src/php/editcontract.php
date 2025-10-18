@@ -47,14 +47,14 @@
       open: 
        function (event, ui) { // fill in values in form fields from table row
 	  var ri=$(this).data('rowid');
-	  var i='#ev_startdate_'+ri;
+	  var i='#ev_start_date_'+ri;
 	  //alert(ri); alert(i); alert($(i).html())
 	  if (ri!='new')  {
 	    var selected=$('#ev_siblingid_'+ri).html();
 	    $("[name=ev_siblingid] option[value="+selected+"]").attr('selected', 'selected');
 	    $('[name=ev_siblingid]').val($('#ev_siblingid_'+ri).html());
 
-	    $('[name=ev_startdate]').val($('#ev_startdate_'+ri).html());
+	    $('[name=ev_start_date]').val($('#ev_start_date_'+ri).html());
 	    $('[name=ev_enddate]').val($('#ev_enddate_'+ri).html());
 	    $('[name=ev_description]').val($('#ev_description_'+ri).html());
 	    $('[name=eventid]').val($('#eventid_'+ri).html());
@@ -70,7 +70,7 @@
      open: 
        function (event, ui) {
 	  var ri=$(this).data('rowid');
-	  var i='#ev_startdate_'+ri;
+	  var i='#ev_start_date_'+ri;
 	  //alert(ri); alert(i); alert($(i).html())
 	  if (ri!='new')  {
 	    $('[name=deleventid]').val($('#eventid_'+ri).html());
@@ -112,7 +112,7 @@ function showid(n){
 <?php 
 if (!isset($initok)) {echo "do not run this script directly";exit;}
 
-$sql="SELECT * FROM contracttypes";
+$sql="SELECT * FROM contract_types";
 $sth=$dbh->query($sql);
 $contracttypes=$sth->fetchAll(PDO::FETCH_ASSOC);
 
@@ -133,16 +133,16 @@ if (isset($_GET['delid'])) { //if we came from a post (save) the update agent
   $delid=$_GET['delid'];
   
 
-  $sql="DELETE FROM contract2item WHERE contractid=$delid";
+  $sql="DELETE FROM contracts_items WHERE contract_id=$delid";
   db_exec($dbh,$sql);
 
-  $sql="DELETE FROM contract2soft WHERE contractid=$delid";
+  $sql="DELETE FROM contracts_software WHERE contract_id=$delid";
   db_exec($dbh,$sql);
 
-  $sql="DELETE FROM contract2inv WHERE contractid=$delid";
+  $sql="DELETE FROM contracts_invoices WHERE contract_id=$delid";
   db_exec($dbh,$sql);
 
-  $sql="DELETE FROM contract2file WHERE contractid=$delid";
+  $sql="DELETE FROM contracts_files WHERE contract_id=$delid";
   db_exec($dbh,$sql);
 
   //delete entry
@@ -185,20 +185,20 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update agent
   $typex=$_POST['typex'];
   $description=$_POST['description'];
   $comments=$_POST['comments'];
-  $parentid=$_POST['parentid'];
-  $totalcost=$_POST['totalcost'];
-  $contractorid=$_POST['contractorid'];
-  $startdate=ymd2sec($_POST['startdate']);
-  $currentenddate=ymd2sec($_POST['currentenddate']);
+  $parent_contract_id=$_POST['parent_contract_id'];
+  $total_cost=$_POST['total_cost'];
+  $contractor_id=$_POST['contractor_id'];
+  $start_date=ymd2sec($_POST['start_date']);
+  $end_date=ymd2sec($_POST['end_date']);
 
   //don't accept empty mandatory fields
   $missing="";
   if ((!strlen($title))) $missing.= "<br><b>Title is missing.</b><br>";
   if ((!strlen($number))) $missing.= "<br><b>Number is missing.</b><br>";
   if ((!strlen($typex))) $missing.= "<br><b>Type is missing.</b><br>";
-  if ((!strlen($contractorid))) $missing.= "<br><b>Contractor is missing.</b><br>";
-  if ((!strlen($startdate))) $missing.= "<br><b>Start date is missing.</b><br>";
-  if ((!strlen($currentenddate)))  $missing.= "<br><b>Current end date is missing.</b><br>";
+  if ((!strlen($contractor_id))) $missing.= "<br><b>Contractor is missing.</b><br>";
+  if ((!strlen($start_date))) $missing.= "<br><b>Start date is missing.</b><br>";
+  if ((!strlen($end_date)))  $missing.= "<br><b>Current end date is missing.</b><br>";
   if ($missing) {
     echo "$missing\n<a href='javascript:history.go(-1);'>Go back</a></body></html>";
     exit;
@@ -210,9 +210,9 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update agent
   if ($_POST['id']=="new")  {//if we came from a post (save) then add contract 
 
     $sql="INSERT into contracts ".
-         " (type , subtype, parentid , title, number, description, comments, totalcost, contractorid , startdate , currentenddate , renewals) ".
-         " VALUES ('$type','$subtype','$parentid','$title','$number', '$description','$comments', '$totalcost','$contractorid',".
-		   "'$startdate','$currentenddate','$renewals') ";
+         " (type , contract_subtype_id, parent_contract_id , title, number, description, comments, total_cost, contractor_id , start_date , end_date , renewals) ".
+         " VALUES ('$type','$subtype','$parent_contract_id','$title','$number', '$description','$comments', '$total_cost','$contractor_id',".
+		   "'$start_date','$end_date','$renewals') ";
 
     db_exec($dbh,$sql,0,0,$lastid);
     $lastid=$dbh->lastInsertId();
@@ -222,10 +222,10 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update agent
     $id=$lastid;
   }
   else {
-    $sql="UPDATE contracts SET type='$type', subtype='$subtype', title='$title', ".
+    $sql="UPDATE contracts SET type='$type', contract_subtype_id='$subtype', title='$title', ".
        " number='$number', description='$description', comments='$comments', ".
-       " contractorid='$contractorid', startdate='$startdate', currentenddate='$currentenddate', ".
-       " renewals='$renewals', parentid='$parentid', totalcost='$totalcost' ".
+       " contractor_id='$contractor_id', start_date='$start_date', end_date='$end_date', ".
+       " renewals='$renewals', parent_contract_id='$parent_contract_id', total_cost='$total_cost' ".
        " WHERE id=$id";
     db_exec($dbh,$sql);
   }
@@ -235,11 +235,11 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update agent
   else $itlnk=$_POST['itlnk'];
   //update contract - item links
   //remove old links for this object
-  $sql="DELETE FROM contract2item WHERE contractid=$id";
+  $sql="DELETE FROM contracts_items WHERE contract_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($itlnk);$i++) {
-    $sql="INSERT INTO contract2item (contractid,itemid) values ($id,".$itlnk[$i].")";
+    $sql="INSERT INTO contracts_items (contract_id,item_id) values ($id,".$itlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
@@ -248,11 +248,11 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update agent
   else $softlnk=$_POST['softlnk'];
   //update contract - software links
   //remove old links for this object
-  $sql="DELETE FROM contract2soft WHERE contractid=$id";
+  $sql="DELETE FROM contracts_software WHERE contract_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($softlnk);$i++) {
-    $sql="INSERT INTO contract2soft (contractid,softid) values ($id,".$softlnk[$i].")";
+    $sql="INSERT INTO contracts_software (contract_id,software_id) values ($id,".$softlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
@@ -262,11 +262,11 @@ if (isset($_POST['id'])) { //if we came from a post (save) then update agent
   else $invlnk=$_POST['invlnk'];
   //update contract - invlnk links
   //remove old links for this object
-  $sql="DELETE FROM contract2inv WHERE contractid=$id";
+  $sql="DELETE FROM contracts_invoices WHERE contract_id=$id";
   db_exec($dbh,$sql);
   //add new links for each checked checkbox
   for ($i=0;$i<count($invlnk);$i++) {
-    $sql="INSERT INTO contract2inv (contractid,invid) values ($id,".$invlnk[$i].")";
+    $sql="INSERT INTO contracts_invoices (contract_id,invoice_id) values ($id,".$invlnk[$i].")";
     db_exec($dbh,$sql);
   }
 
@@ -304,9 +304,9 @@ else
                 <li><label for="title" class="error"><?php te("Contract Title is missing");?></label></li>
                 <li><label for="number" class="error"><?php te("Contract number is missing");?></label></li>
                 <li><label for="typex" class="error"><?php te("Contract Type is missing");?></label></li>
-                <li><label for="contractorid" class="error"><?php te("Contractor is missing");?></label></li>
-                <li><label for="startdate" class="error"><?php te("Start Date of contract is missing");?></label></li>
-                <li><label for="currentenddate" class="error"><?php te("Current End Date of contract is missing");?></label></li>
+                <li><label for="contractor_id" class="error"><?php te("Contractor is missing");?></label></li>
+                <li><label for="start_date" class="error"><?php te("Start Date of contract is missing");?></label></li>
+                <li><label for="end_date" class="error"><?php te("Current End Date of contract is missing");?></label></li>
         </ol>
 </div>
 
@@ -358,18 +358,18 @@ else
 
       <tr><td class="tdt">
       <?php   
-       if (is_numeric($r['contractorid']))
-	 echo "<a title='edit vendor (agent)' href='$scriptname?action=editagent&amp;id={$r['contractorid']}'><img src='images/edit.png'></a> "; 
+       if (is_numeric($r['contractor_id']))
+	 echo "<a title='edit vendor (agent)' href='$scriptname?action=editagent&amp;id={$r['contractor_id']}'><img src='images/edit.png'></a> "; 
       ?>
       Contractor:</td> <td>
-	   <select class='mandatory' validate='required:true' name='contractorid' title='Agent of Type Contractor'>
+	   <select class='mandatory' validate='required:true' name='contractor_id' title='Agent of Type Contractor'>
 	  <option  value=''><?php te("Select");?></option>
 	  <?php 
 	    foreach ($agents as $a) {
 	      if (!($a['type']&16)) continue;
 	      $dbid=$a['id']; 
 	      $atype=$a['title']; $s="";
-	      if (isset($r['contractorid']) && $r['contractorid']==$a['id']) $s=" SELECTED ";
+	      if (isset($r['contractor_id']) && $r['contractor_id']==$a['id']) $s=" SELECTED ";
 	      echo "<option $s value='$dbid' title='$dbid'>$atype</option>\n";
 	    }
 	    echo "</select>\n";
@@ -381,11 +381,11 @@ else
       <tr><td class="tdt">
 
       <?php   
-       if (is_numeric($r['parentid']))
-	 echo "<a title='edit parent' href='$scriptname?action=editcontract&id={$r['parentid']}'><img src='images/edit.png'></a> "; 
+       if (is_numeric($r['parent_contract_id']))
+	 echo "<a title='edit parent' href='$scriptname?action=editcontract&id={$r['parent_contract_id']}'><img src='images/edit.png'></a> "; 
       ?>
       <?php te("Parent");?>:</td> <td>
-      <select class=''  name='parentid'>
+      <select class=''  name='parent_contract_id'>
       <option value=''>-- Select --</option>
       <?php 
       $sql="SELECT id,title FROM contracts  WHERE id <> '$id'";
@@ -396,28 +396,28 @@ else
       for ($i=0;$i<$nitems;$i++) {
 	$dbid=$rac[$i]['id'];
 	$title=$rac[$i]['title'];
-	if ($r['parentid']==$dbid) $s=" SELECTED "; else $s="";
+	if ($r['parent_contract_id']==$dbid) $s=" SELECTED "; else $s="";
 	echo "<option $s value='$dbid'>$dbid:$title</option>\n";
       }
       ?>
       </select>
       </td></tr>
 
-      <tr><td class="tdt"><?php te("Total Cost");?> (<?php echo $settings['currency']?>):</td> <td><input  class='input1' size=20 type=text name='totalcost' value="<?php echo $r["totalcost"]?>"></td></tr>
+      <tr><td class="tdt"><?php te("Total Cost");?> (<?php echo $settings['currency']?>):</td> <td><input  class='input1' size=20 type=text name='total_cost' value="<?php echo $r["total_cost"]?>"></td></tr>
 
       <tr>
       <?php  
-      $sdate=strlen($r["startdate"])?date($dateparam,$r['startdate']):"";
+      $sdate=strlen($r["start_date"])?date($dateparam,$r['start_date']):"";
       ?>
-      <td class="tdt"><?php te("Start Date");?>:</td> <td><input  class='dateinp mandatory' id=startdate validate="required:true " size=10 title='<?php echo $datetitle?>' type=text id='startdate' name='startdate' value='<?php echo $sdate?>'> <!-- id is for validation to work with date selectors -->
+      <td class="tdt"><?php te("Start Date");?>:</td> <td><input  class='dateinp mandatory' id=start_date validate="required:true " size=10 title='<?php echo $datetitle?>' type=text id='start_date' name='start_date' value='<?php echo $sdate?>'> <!-- id is for validation to work with date selectors -->
       </td>
       </tr>
 
       <tr>
       <?php  
-      $edate=strlen($r["currentenddate"])?date($dateparam,$r['currentenddate']):"";
+      $edate=strlen($r["end_date"])?date($dateparam,$r['end_date']):"";
       ?>
-      <td class="tdt"><?php te("Current EndDate");?>:</td> <td><input  class='dateinp mandatory' validate='required:true' size=10 title='<?php echo $datetitle?>' type=text id='currentenddate' name='currentenddate' value='<?php echo $edate?>'>
+      <td class="tdt"><?php te("Current EndDate");?>:</td> <td><input  class='dateinp mandatory' validate='required:true' size=10 title='<?php echo $datetitle?>' type=text id='end_date' name='end_date' value='<?php echo $edate?>'>
       </td>
       </tr>
 
@@ -445,9 +445,9 @@ else
   $flnk=showfiles($f);
 
   $sql="SELECT files.* from files,invoice2file,contract2inv WHERE ".
-      " contract2inv.contractid='$id' AND ".
-      " invoice2file.invoiceid=contract2inv.invid AND ".
-      " invoice2file.fileid=files.id";
+      " contract2inv.contract_id='$id' AND ".
+      " invoice2file.invoice_id=contract2inv.invoice_id AND ".
+      " invoice2file.file_id=files.id";
   $sthi=db_execute($dbh,$sql);
   $f=$sthi->fetchAll(PDO::FETCH_ASSOC);
 
@@ -486,10 +486,10 @@ else
     <?php 
     if (is_numeric($id)) {
       //print a table row
-      $sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.typedesc || ', ID:' || items.id || ']' as txt ".
+      $sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.description || ', ID:' || items.id || ']' as txt ".
 	   "FROM agents,items,contract2item,itemtypes WHERE ".
-	   " agents.id=items.manufacturerid AND items.itemtypeid=itemtypes.id AND ".
-           " contract2item.itemid=items.id AND contract2item.contractid='$id'";
+	   " agents.id=items.manufacturer_id AND items.item_type_id=itemtypes.id AND ".
+           " contract2item.item_id=items.id AND contract2item.contract_id='$id'";
       $sthi=db_execute($dbh,$sql);
       $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
       $nitems=count($ri);
@@ -509,9 +509,9 @@ else
     if (is_numeric($id)) {
       //print a table row
 
-      $sql="SELECT software.id, agents.title || ' ' || software.stitle || ' '||software.sversion || ' [ID:' || software.id || ']' as txt ".
+      $sql="SELECT software.id, agents.title || ' ' || software.title || ' '||software.version || ' [ID:' || software.id || ']' as txt ".
 	   "FROM agents,software,contract2soft WHERE ".
-	   " agents.id=software.manufacturerid AND contract2soft.softid=software.id AND contract2soft.contractid='$id'";
+	   " agents.id=software.manufacturer_id AND contract2soft.software_id=software.id AND contract2soft.contract_id='$id'";
       $sthi=db_execute($dbh,$sql);
       $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
       $nitems=count($ri);
@@ -531,7 +531,7 @@ else
     if (is_numeric($id)) {
       //print a table row
       $sql="SELECT invoices.id, invoices.number, invoices.date FROM invoices,contract2inv ".
-	   " WHERE contract2inv.invid=invoices.id AND contract2inv.contractid='$id'";
+	   " WHERE contract2inv.invoice_id=invoices.id AND contract2inv.contract_id='$id'";
       $sthi=db_execute($dbh,$sql);
       $ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
       $nitems=count($ri);
@@ -641,10 +641,10 @@ else
   <?php 
   //////////////////////////////////////////////
   //connect to Items
-  $sql=" SELECT COALESCE((SELECT itemid FROM contract2item WHERE contractid='$id' AND itemid=items.id ),0) islinked , ".
-       " items.id,status,manufacturerid,model,itemtypeid,typedesc,sn || ' '||sn2 ||' ' || sn3 as sn,dnsname,users.username ,label ".
-       " FROM items,itemtypes,users  WHERE items.itemtypeid=itemtypes.id AND users.id=userid ".
-       " order by islinked desc,itemtypeid,items.id desc, manufacturerid,model, dnsname ";
+  $sql=" SELECT COALESCE((SELECT item_id FROM contracts_items WHERE contract_id='$id' AND item_id=items.id ),0) islinked , ".
+       " items.id,status,manufacturer_id,model,item_type_id,typedesc,sn || ' '||sn2 ||' ' || sn3 as sn,dns_name,users.username ,label ".
+       " FROM items,itemtypes,users  WHERE items.item_type_id=itemtypes.id AND users.id=user_id ".
+       " order by islinked desc,item_type_id,items.id desc, manufacturer_id,model, dns_name ";
   $sth=db_execute($dbh,$sql);
   ?>
 
@@ -678,10 +678,10 @@ else
     echo $ir['id'];
     echo "</div></a></td>".
      "<td $cls>".$ir['typedesc']."</td>".
-     "<td $cls>".$agents[$ir['manufacturerid']]['title']. "&nbsp;</td>".
+     "<td $cls>".$agents[$ir['manufacturer_id']]['title']. "&nbsp;</td>".
      "<td $cls>".$ir['model'].  "&nbsp;</td>".
      "<td $cls>".$ir['label']."&nbsp;</td>".
-     "<td $cls>".$ir['dnsname']."&nbsp;</td>".
+     "<td $cls>".$ir['dns_name']."&nbsp;</td>".
      "<td $cls>".$ir['username']."&nbsp;</td>".
      "<td $cls>".$ir['sn']."&nbsp;</td></tr>\n";
   }
@@ -705,10 +705,10 @@ else
   <?php 
   //////////////////////////////////////////////
   //connect to Items
-  $sql=" SELECT COALESCE((SELECT softid from contract2soft WHERE contractid='$id' AND softid=software.id ),0) islinked , ".
-       " software.id, stitle || ' ' || sversion as titver, agents.title AS agtitle  ".
-       " FROM software,agents WHERE agents.id=software.manufacturerid ".
-       " ORDER BY islinked desc,manufacturerid,stitle,sversion ";
+  $sql=" SELECT COALESCE((SELECT software_id from contract2soft WHERE contract_id='$id' AND software_id=software.id ),0) islinked , ".
+       " software.id, title || ' ' || version as titver, agents.title AS agtitle  ".
+       " FROM software,agents WHERE agents.id=software.manufacturer_id ".
+       " ORDER BY islinked desc,manufacturer_id,stitle,sversion ";
   $sth=db_execute($dbh,$sql);
   ?>
   <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
@@ -757,9 +757,9 @@ else
   <?php 
   //////////////////////////////////////////////
   //connect to Items
-  $sql=" SELECT COALESCE((SELECT invid from contract2inv WHERE contractid='$id' AND invid=invoices.id ),0) islinked , ".
+  $sql=" SELECT COALESCE((SELECT invoice_id from contract2inv WHERE contract_id='$id' AND invoice_id=invoices.id ),0) islinked , ".
        " invoices.id, number,date, agents.title AS agtitle  ".
-       " FROM invoices,agents WHERE agents.id=invoices.vendorid ".
+       " FROM invoices,agents WHERE agents.id=invoices.vendor_id ".
        " ORDER BY islinked desc,date,agtitle";
   $sth=db_execute($dbh,$sql);
   ?>
@@ -836,7 +836,7 @@ echo "\n<input type=hidden name='id' value='$id'>";
        <select name='ev_siblingid'>
        <option value=''><?php te("Select");?></option>
        <?php 
-       $sql="SELECT id,description FROM contractevents  WHERE contractid = '$id'";
+       $sql="SELECT id,description FROM contractevents  WHERE contract_id = '$id'";
        $sth1=db_execute($dbh,$sql);
        $rac=$sth1->fetchAll(PDO::FETCH_ASSOC);
        $nitems=count($rac);
@@ -849,7 +849,7 @@ echo "\n<input type=hidden name='id' value='$id'>";
        ?>
        </select>
      </td></tr>
-     <tr><td><?php te("Event Start");?></td><td><input type=text class='dateinp' name='ev_startdate'></td></tr>
+     <tr><td><?php te("Event Start");?></td><td><input type=text class='dateinp' name='ev_start_date'></td></tr>
      <tr><td><?php te("Event End");?></td><td><input type=text class='dateinp' name='ev_enddate'></td></tr>
      <tr><td><?php te("Description");?></td><td><textarea name='ev_description' ></textarea></td></tr>
   </table>

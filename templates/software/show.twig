@@ -85,12 +85,12 @@
 
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">Software Title</label>
-                                    <div class="form-control-plaintext">{{ software.stitle ?: 'N/A' }}</div>
+                                    <div class="form-control-plaintext">{{ software.title ?: 'N/A' }}</div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">Version</label>
-                                    <div class="form-control-plaintext">{{ software.sversion ? ('<code>' ~ software.sversion ~ '</code>')|raw : 'N/A' }}</div>
+                                    <div class="form-control-plaintext">{{ software.version ? ('<code>' ~ software.version ~ '</code>')|raw : 'N/A' }}</div>
                                 </div>
 
                                 <div class="mb-3">
@@ -100,7 +100,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">Manufacturer ID</label>
-                                    <div class="form-control-plaintext">{{ software.manufacturerid ?: 'N/A' }}</div>
+                                    <div class="form-control-plaintext">{{ software.manufacturer_id ?: 'N/A' }}</div>
                                 </div>
                             </div>
 
@@ -163,7 +163,7 @@
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">License Information</label>
                                     <div class="form-control-plaintext bg-light p-3 rounded" style="min-height: 100px;">
-                                        {{ software.slicenseinfo ? software.slicenseinfo : '<em class="text-muted">No license information provided</em>' }}
+                                        {{ software.license_keyinfo ? software.license_keyinfo : '<em class="text-muted">No license information provided</em>' }}
                                     </div>
                                 </div>
                             </div>
@@ -432,7 +432,7 @@
                                         </td>
                                         <td>{{ file.title|default('N/A') }}</td>
                                         <td>{{ file.file_size ? (file.file_size ~ ' bytes') : 'N/A' }}</td>
-                                        <td>{{ file.uploaddate_formatted|default('N/A') }}</td>
+                                        <td>{{ file.uploaded_at_formatted|default('N/A') }}</td>
                                         <td>
                                             <div class="btn-group btn-group-sm">
                                                 <a href="/files/{{ file.id }}" class="btn btn-outline-primary" title="View">
@@ -499,7 +499,7 @@
                             <p>Are you sure you want to delete this software?</p>
                             <div class="alert alert-warning">
                                 <strong>{{ software.display_title }}</strong>
-                                {% if software.sversion %}<br>Version: {{ software.sversion }}{% endif %}
+                                {% if software.version %}<br>Version: {{ software.version }}{% endif %}
                                 {% if software.items.count > 0 %}<br><strong>Warning:</strong> This software is installed on {{ software.items.count }} items{% endif %}
                             </div>
                             <p class="text-danger mb-0">

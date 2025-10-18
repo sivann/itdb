@@ -10,15 +10,15 @@ class Software extends BaseModel
     protected $table = 'software';
 
     protected $fillable = [
-        'stitle',           // title field
-        'sversion',         // version field
+        'title',            // title field
+        'version',          // version field
         'sinfo',            // description/info field
-        'slicenseinfo',     // license info field
+        'license_key',      // license info field
         'licqty',           // license quantity field
-        'lictype',          // license type field
+        'license_type',     // license type field
         'stype',            // software type field
-        'manufacturerid',   // manufacturer id field
-        'invoiceid',        // invoice id field
+        'manufacturer_id',  // manufacturer id field
+        'invoice_id',       // invoice id field
         'purchdate',        // purchase date field
     ];
 
@@ -29,7 +29,7 @@ class Software extends BaseModel
      */
     public function getDisplayTitle(): string
     {
-        $parts = array_filter([$this->stitle, $this->sversion]);
+        $parts = array_filter([$this->title, $this->version]);
         return implode(' v', $parts) ?: 'Untitled Software';
     }
 
@@ -76,14 +76,14 @@ class Software extends BaseModel
     public function getValidationRules(): array
     {
         return [
-            'stitle' => 'required|string|max:255',
-            'sversion' => 'string|max:50',
+            'title' => 'required|string|max:255',
+            'version' => 'string|max:50',
             'sinfo' => 'string',
             'slicenseinfo' => 'string|max:255',
             'licqty' => 'integer|min:1',
             'lictype' => 'integer',
             'stype' => 'string|max:100',
-            'manufacturerid' => 'integer',
+            'manufacturer_id' => 'integer',
         ];
     }
 

@@ -11,16 +11,16 @@ class Contract extends BaseModel
 
     protected $fillable = [
         'type',
-        'parentid',
+        'parent_contract_id',
         'title',
         'number',
         'description',
         'comments',
-        'totalcost',
-        'contractorid',
-        'vendorid',
-        'startdate',
-        'currentenddate',
+        'total_cost',
+        'contractor_id',
+        'vendor_id',
+        'start_date',
+        'end_date',
         'renewals',
         'subtype'
     ];
@@ -32,11 +32,11 @@ class Contract extends BaseModel
      */
     public function isActive(): bool
     {
-        if (!$this->currentenddate) {
+        if (!$this->end_date) {
             return true;
         }
 
-        return $this->currentenddate > time();
+        return $this->end_date > time();
     }
 
     /**
@@ -44,12 +44,12 @@ class Contract extends BaseModel
      */
     public function getStatus(): array
     {
-        if (!$this->currentenddate) {
+        if (!$this->end_date) {
             return ['status' => 'active', 'days' => null, 'expired' => false];
         }
 
         $now = time();
-        $daysRemaining = floor(($this->currentenddate - $now) / 86400);
+        $daysRemaining = floor(($this->end_date - $now) / 86400);
 
         return [
             'status' => $daysRemaining > 0 ? 'active' : 'expired',
@@ -65,15 +65,15 @@ class Contract extends BaseModel
     {
         return [
             'type' => 'integer',
-            'parentid' => 'integer|exists:contracts,id',
+            'parent_contract_id' => 'integer|exists:contracts,id',
             'title' => 'required|string|max:255',
             'number' => 'string|max:100',
             'description' => 'string',
             'comments' => 'string',
-            'totalcost' => 'numeric|min:0',
-            'contractorid' => 'integer|exists:agents,id',
-            'startdate' => 'integer',
-            'currentenddate' => 'integer',
+            'total_cost' => 'numeric|min:0',
+            'contractor_id' => 'integer|exists:agents,id',
+            'start_date' => 'integer',
+            'end_date' => 'integer',
             'renewals' => 'string',
             'subtype' => 'integer'
         ];
@@ -84,7 +84,7 @@ class Contract extends BaseModel
      */
     public function getStartdateFormatted(): ?string
     {
-        return $this->formatDate($this->startdate);
+        return $this->formatDate($this->start_date);
     }
 
     /**
@@ -92,6 +92,6 @@ class Contract extends BaseModel
      */
     public function getEnddateFormatted(): ?string
     {
-        return $this->formatDate($this->currentenddate);
+        return $this->formatDate($this->end_date);
     }
 }

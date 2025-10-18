@@ -3,7 +3,7 @@
 
 require("../init.php");
 
-if ($itemid=="new") {
+if ($item_id=="new") {
   te("Cannot add log entries to unsaved items.");
   exit;
 }
@@ -63,9 +63,9 @@ if (isset($_POST['description'])) {
 	if (empty($_POST['actiondate'][$rn])) $adate=time();
 	else $adate=ymd2sec($_POST['actiondate'][$rn]);
 	$sql="INSERT into actions ".
-          "(itemid, actiondate,description,invoiceinfo,isauto,entrydate) ".
+          "(item_id, actiondate,description,invoiceinfo,isauto,entrydate) ".
 	  " values (".
-	  "$itemid,".
+	  "$item_id,".
 	  $adate.",".
 	  "'".($_POST['description'][$rn])."',".
 	  "'".($_POST['invoiceinfo'][$rn])."',0,".time().")";
@@ -87,23 +87,23 @@ if (isset($_POST['description'])) {
 
 
 if (!isset ($_GET['itemid']) || !strlen($_GET['itemid'])) {echo "$scriptname: wrong arguments";exit;}
-$itemid=$_GET['itemid'];
+$item_id=$_GET['itemid'];
 
-$sql="SELECT * from actions where itemid=$itemid order by actiondate";
+$sql="SELECT * from actions where item_id=$item_id order by actiondate";
 
 /// make db query
 $sth=db_execute($dbh,$sql);
 
 //display "detach" icon if inside the frame
 if (!isset($_GET['detached']))
-  $det="<a target=_blank href='$scriptname?itemid=$itemid&amp;detached=1'>".
+  $det="<a target=_blank href='$scriptname?item_id=$itemid&amp;detached=1'>".
   "<img src='$wscriptdir/images/detach.gif' title='Show in new window' border=0 align=absmiddle></a></caption>\n";
 else 
   $det="";
 
 echo "\n<form method=post name='actionaddfrm'>\n";
 echo "<table align=center class=brdr border=0>\n";
-echo "\n<caption><h2>Item Log  (Item $itemid)</h2>$det</caption>\n";
+echo "\n<caption><h2>Item Log  (Item $item_id)</h2>$det</caption>\n";
 echo "\n<tr><th>&nbsp;</th><th>Action Date</th><th>Description</th><th>Invoice info</th><th>Entry Date</th></tr>\n";
 
 

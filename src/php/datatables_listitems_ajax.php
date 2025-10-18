@@ -9,9 +9,9 @@
 	/* Array of database columns which should be read and sent back to DataTables. Use a space where
 	 * you want to insert a non-database field (for example a counter or static image)
 	 */
-	$aColumns = array('itemid','itemlabel','typedesc','title','itemmodel','dnsname','serial','purchasedate',
-	'remdays','username','statusdesc','locationname','areaname','rackinfo','purchprice','macs','ipv4','ipv6',
-	'remadmip','taginfo','softinfo');
+	$aColumns = array('itemid','itemlabel','typedesc','title','itemmodel','dns_name','serial','purchase_date',
+	'remdays','username','statusdesc','locationname','areaname','rackinfo','purchase_price','macs','ipv4','ipv6',
+	'remote_admin_ip','taginfo','softinfo');
 	
 	include( '../init.php');
 
@@ -124,24 +124,24 @@
 	      //$sQueryCnt = "SELECT count($sIndexColumn) as count FROM $sTable $sWhere";
 	      $sQueryCnt = "
 		  SELECT count(items.id) as count ,
-		  items.id AS itemid,
+		  items.id AS item_id,
 		  items.model AS itemmodel,
 		  items.label AS itemlabel,
                   locations.name as locationname,
                   coalesce(sn,'') || ' ' || coalesce(sn2,'') || ' ' || coalesce(sn3,'') AS serial,
-				  '' as remdays, purchasedate, warrantymonths, 
+				  '' as remdays, purchase_date, warranty_months, 
                   coalesce(racks.label,'') || ' ' || coalesce(racks.usize,'') || ' ' || coalesce(racks.model,'') AS rackinfo,
-                  (SELECT group_concat( tags.name ,',') from tags,tag2item WHERE tag2item.itemid=items.id AND tags.id=tag2item.tagid) AS taginfo,
-                  (SELECT group_concat( software.stitle ,'|') from software,item2soft WHERE item2soft.itemid=items.id AND software.id=item2soft.softid) AS softinfo
+                  (SELECT group_concat( tags.name ,',') from tags,tag2item WHERE tag2item.item_id=items.id AND tags.id=tag2item.tag_id) AS taginfo,
+                  (SELECT group_concat( software.title ,'|') from software,item2soft WHERE item2soft.item_id=items.id AND software.id=item2soft.software_id) AS softinfo
                   FROM
                   items
-		  JOIN itemtypes ON items.itemtypeid=itemtypes.id 
-		  JOIN agents ON items.manufacturerid=agents.id
-		  JOIN users ON items.userid=users.id
-		  JOIN statustypes ON items.status=statustypes.id
-		  LEFT OUTER JOIN locations ON items.locationid=locations.id
-		  LEFT OUTER JOIN locareas ON items.locareaid=locareas.id
-		  LEFT OUTER JOIN racks ON items.rackid=racks.id
+		  JOIN item_types ON items.item_type_id=itemtypes.id 
+		  JOIN agents ON items.manufacturer_id=agents.id
+		  JOIN users ON items.user_id=users.id
+		  JOIN status_types ON items.status=statustypes.id
+		  LEFT OUTER JOIN locations ON items.location_id=locations.id
+		  LEFT OUTER JOIN location_areas ON items.location_area_id=locareas.id
+		  LEFT OUTER JOIN racks ON items.rack_id=racks.id
 		  $sWhere";
 	      $sth=db_execute($dbh,$sQueryCnt);
 	      $rResultTotal=$sth->fetch(PDO::FETCH_ASSOC);
@@ -157,36 +157,36 @@
 	//if ( $sWhere == "" ) $sWhere = " WHERE 1=1 ";
 	
 
-  //(purchasedate+warrantymonths*30*24*60*60-$t)/(60*60*24) AS remdays,
+  //(purchase_date+warranty_months*30*24*60*60-$t)/(60*60*24) AS remdays,
 	$sQuery = "
 		  SELECT 
-		  items.id AS itemid,
-		  itemtypes.typedesc as typedesc, 
+		  items.id AS item_id,
+		  itemtypes.description as description, 
                   agents.title,
                   items.model as itemmodel,
-                  dnsname,
+                  dns_name,
                   items.label as itemlabel,
-                  purchasedate,
+                  purchase_date,
                   users.username,
                   statustypes.statusdesc,
                   locations.name as locationname,
-                  locareas.areaname,
+                  locareas.name,
                   coalesce(sn,'') || ' ' || coalesce(sn2,'') || ' ' || coalesce(sn3,'') AS serial,
-				  '' as remdays, warrantymonths, 
+				  '' as remdays, warranty_months, 
                   coalesce(racks.label,'') || ' ' || coalesce(racks.usize,'') || ' ' || coalesce(racks.model,'') AS rackinfo,
-                  (SELECT group_concat( tags.name ,', ') FROM tags,tag2item WHERE tag2item.itemid=items.id AND tags.id=tag2item.tagid) AS taginfo,
-                  (SELECT group_concat( software.stitle ,',') FROM software,item2soft WHERE item2soft.itemid=items.id and software.id=item2soft.softid) AS softinfo,
-                  purchprice,
-                  macs, ipv4, ipv6, remadmip
+                  (SELECT group_concat( tags.name ,', ') FROM tags,tag2item WHERE tag2item.item_id=items.id AND tags.id=tag2item.tag_id) AS taginfo,
+                  (SELECT group_concat( software.title ,',') FROM software,item2soft WHERE item2soft.item_id=items.id and software.id=item2soft.software_id) AS softinfo,
+                  purchase_price,
+                  macs, ipv4, ipv6, remote_admin_ip
                   FROM
                   items
-		  JOIN itemtypes ON items.itemtypeid=itemtypes.id 
-		  JOIN agents ON items.manufacturerid=agents.id
-		  LEFT OUTER JOIN statustypes ON items.status=statustypes.id
-		  JOIN users ON items.userid=users.id
-		  LEFT OUTER JOIN locations ON items.locationid=locations.id
-		  LEFT OUTER JOIN locareas ON items.locareaid=locareas.id
-		  LEFT OUTER JOIN racks ON items.rackid=racks.id
+		  JOIN item_types ON items.item_type_id=itemtypes.id 
+		  JOIN agents ON items.manufacturer_id=agents.id
+		  LEFT OUTER JOIN status_types ON items.status=statustypes.id
+		  JOIN users ON items.user_id=users.id
+		  LEFT OUTER JOIN locations ON items.location_id=locations.id
+		  LEFT OUTER JOIN location_areas ON items.location_area_id=locareas.id
+		  LEFT OUTER JOIN racks ON items.rack_id=racks.id
 		  $sWhere
 		  $sOrder
 		  $sLimit
@@ -225,13 +225,13 @@
 			}
 			elseif ( $aColumns[$i] == "remdays" ) {
 				//$remdays=$aRow['remdays'];
-				$remdays_r=calcremdays($aRow['purchasedate'],$aRow['warrantymonths']);
+				$remdays_r=calcremdays($aRow['purchase_date'],$aRow['warranty_months']);
 				$rdstr=$remdays_r['string'];
 				$rd=$remdays_r['days'];
 				$row[] = "<small><div title='$rd'>". $rdstr. "</div></small>"; // title attribute used for sorting
 			}
 
-			elseif ( $aColumns[$i] == "purchasedate" ) {
+			elseif ( $aColumns[$i] == "purchase_date" ) {
 				if (strlen($aRow[$aColumns[$i]]))
 				  $row[] = "<span title='{$aRow[$aColumns[$i]]}'>".date($dateparam,(int)$aRow[$aColumns[$i]])."</span>";
 				else 

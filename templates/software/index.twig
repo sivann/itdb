@@ -100,8 +100,8 @@
                         <td>
                             {% if item.manufacturer_name %}
                                 {{ item.manufacturer_name }}
-                            {% elseif item.manufacturerid %}
-                                <span class="text-muted">ID: {{ item.manufacturerid }}</span>
+                            {% elseif item.manufacturer_id %}
+                                <span class="text-muted">ID: {{ item.manufacturer_id }}</span>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}

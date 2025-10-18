@@ -27,7 +27,7 @@ class UserModel
         // Build WHERE conditions
         if (!empty($filters['search'])) {
             $search = '%' . $filters['search'] . '%';
-            $conditions[] = "(username LIKE :search OR userdesc LIKE :search)";
+            $conditions[] = "(username LIKE :search OR display_name LIKE :search)";
             $params['search'] = $search;
         }
 
@@ -48,11 +48,11 @@ class UserModel
                    COALESCE(item_count.count, 0) as items_count
             FROM users u
             LEFT JOIN (
-                SELECT userid, COUNT(*) as count
+                SELECT user_id, COUNT(*) as count
                 FROM items
-                WHERE userid IS NOT NULL
-                GROUP BY userid
-            ) item_count ON u.id = item_count.userid
+                WHERE user_id IS NOT NULL
+                GROUP BY user_id
+            ) item_count ON u.id = item_count.user_id
             $whereClause
             ORDER BY u.username
             LIMIT :limit OFFSET :offset
@@ -103,11 +103,11 @@ class UserModel
                    COALESCE(item_count.count, 0) as items_count
             FROM users u
             LEFT JOIN (
-                SELECT userid, COUNT(*) as count
+                SELECT user_id, COUNT(*) as count
                 FROM items
-                WHERE userid = :id
-                GROUP BY userid
-            ) item_count ON u.id = item_count.userid
+                WHERE user_id = :id
+                GROUP BY user_id
+            ) item_count ON u.id = item_count.user_id
             WHERE u.id = :id
             LIMIT 1
         ";
@@ -122,7 +122,7 @@ class UserModel
     public function create(array $data): int
     {
         $sql = "
-            INSERT INTO users (username, userdesc, usertype, pass)
+            INSERT INTO users (username, display_name, user_type, pass)
             VALUES (:username, :userdesc, :usertype, :pass)
         ";
 
@@ -145,8 +145,8 @@ class UserModel
         $sql = "
             UPDATE users SET
                 username = :username,
-                userdesc = :userdesc,
-                usertype = :usertype
+                display_name = :userdesc,
+                user_type = :usertype
             WHERE id = :id
         ";
 
@@ -209,7 +209,7 @@ class UserModel
 
         // Check for items assigned to user
         $itemCount = (int) $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM items WHERE userid = :id",
+            "SELECT COUNT(*) FROM items WHERE user_id = :id",
             ['id' => $id]
         );
 
@@ -237,17 +237,17 @@ class UserModel
     public function getRecentItems(int $userId, int $limit = 10): array
     {
         $sql = "
-            SELECT i.*, it.name as itemtype_name, st.statusdesc as status_name, l.name as location_name
+            SELECT i.*, it.name as itemtype_name, st.name as status_name, l.name as location_name
             FROM items i
-            LEFT JOIN itemtypes it ON i.itemtypeid = it.id
-            LEFT JOIN statustypes st ON i.status = st.id
-            LEFT JOIN locations l ON i.locationid = l.id
-            WHERE i.userid = :userid
+            LEFT JOIN item_types it ON i.item_type_id = it.id
+            LEFT JOIN status_types st ON i.status_id = st.id
+            LEFT JOIN locations l ON i.location_id = l.id
+            WHERE i.user_id = :user_id
             ORDER BY i.id DESC
             LIMIT :limit
         ";
 
-        return $this->db->fetchAll($sql, ['userid' => $userId, 'limit' => $limit]);
+        return $this->db->fetchAll($sql, ['user_id' => $userId, 'limit' => $limit]);
     }
 
     /**
@@ -271,11 +271,11 @@ class UserModel
     public function getUserItems(int $userId): array
     {
         return $this->db->fetchAll(
-            "SELECT i.id, i.label, i.function, i.model, it.name as type_name, a.title as manufacturer_name
+            "SELECT i.id, i.label, i.function, i.model, it.name as type_name, a.name as manufacturer_name
              FROM items i
-             LEFT JOIN itemtypes it ON i.itemtypeid = it.id
-             LEFT JOIN agents a ON i.manufacturerid = a.id
-             WHERE i.userid = :user_id
+             LEFT JOIN item_types it ON i.item_type_id = it.id
+             LEFT JOIN agents a ON i.manufacturer_id = a.id
+             WHERE i.user_id = :user_id
              ORDER BY i.id DESC
              LIMIT 100",
             ['user_id' => $userId]

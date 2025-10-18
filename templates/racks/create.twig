@@ -63,21 +63,21 @@
 
                             <div class="mb-3">
                                 <label for="locationid" class="form-label">Location <span class="text-danger">*</span></label>
-                                <select class="form-select{% if errors.locationid %} is-invalid{% endif %}"
+                                <select class="form-select{% if errors.location_id %} is-invalid{% endif %}"
                                         id="locationid"
                                         name="locationid"
                                         required>
                                     <option value="">Select location...</option>
                                     {% for location in form_options.locations %}
                                     <option value="{{ location.id }}"
-                                            {% if old.locationid|default(query.location|default('')) == location.id %}selected{% endif %}>
+                                            {% if old.location_id|default(query.location|default('')) == location.id %}selected{% endif %}>
                                         {{ location.name }}
                                         {% if location.floor %} ({{ location.floor }}){% endif %}
                                     </option>
                                     {% endfor %}
                                 </select>
-                                {% if errors.locationid %}
-                                <div class="invalid-feedback">{{ errors.locationid }}</div>
+                                {% if errors.location_id %}
+                                <div class="invalid-feedback">{{ errors.location_id }}</div>
                                 {% endif %}
                                 <div class="form-text">Physical location where this rack is installed.</div>
                             </div>
@@ -91,7 +91,7 @@
                                     {% for area in form_options.location_areas %}
                                     <option value="{{ area.id }}"
                                             {% if old.locareaid|default('') == area.id %}selected{% endif %}
-                                            data-location="{{ area.locationid }}">
+                                            data-location="{{ area.location_id }}">
                                         {{ area.name }}
                                     </option>
                                     {% endfor %}
@@ -109,34 +109,34 @@
 
                             <div class="mb-3">
                                 <label for="usize" class="form-label">Rack Size (Units) <span class="text-danger">*</span></label>
-                                <select class="form-select{% if errors.usize %} is-invalid{% endif %}"
-                                        id="usize"
-                                        name="usize"
+                                <select class="form-select{% if errors.size_units %} is-invalid{% endif %}"
+                                        id="size_units"
+                                        name="size_units"
                                         required>
                                     <option value="">Select rack size...</option>
-                                    <option value="4" {% if old.usize|default('') == '4' %}selected{% endif %}>4U - Network Switch Rack</option>
-                                    <option value="6" {% if old.usize|default('') == '6' %}selected{% endif %}>6U - Small Equipment Rack</option>
-                                    <option value="9" {% if old.usize|default('') == '9' %}selected{% endif %}>9U - Wall Mount Rack</option>
-                                    <option value="12" {% if old.usize|default('') == '12' %}selected{% endif %}>12U - Small Server Rack</option>
-                                    <option value="18" {% if old.usize|default('') == '18' %}selected{% endif %}>18U - Medium Rack</option>
-                                    <option value="24" {% if old.usize|default('') == '24' %}selected{% endif %}>24U - Standard Rack</option>
-                                    <option value="42" {% if old.usize|default('') == '42' %}selected{% endif %}>42U - Full Server Rack (Standard)</option>
-                                    <option value="45" {% if old.usize|default('') == '45' %}selected{% endif %}>45U - Tall Server Rack</option>
-                                    <option value="48" {% if old.usize|default('') == '48' %}selected{% endif %}>48U - Extra Tall Rack</option>
+                                    <option value="4" {% if old.size_units|default('') == '4' %}selected{% endif %}>4U - Network Switch Rack</option>
+                                    <option value="6" {% if old.size_units|default('') == '6' %}selected{% endif %}>6U - Small Equipment Rack</option>
+                                    <option value="9" {% if old.size_units|default('') == '9' %}selected{% endif %}>9U - Wall Mount Rack</option>
+                                    <option value="12" {% if old.size_units|default('') == '12' %}selected{% endif %}>12U - Small Server Rack</option>
+                                    <option value="18" {% if old.size_units|default('') == '18' %}selected{% endif %}>18U - Medium Rack</option>
+                                    <option value="24" {% if old.size_units|default('') == '24' %}selected{% endif %}>24U - Standard Rack</option>
+                                    <option value="42" {% if old.size_units|default('') == '42' %}selected{% endif %}>42U - Full Server Rack (Standard)</option>
+                                    <option value="45" {% if old.size_units|default('') == '45' %}selected{% endif %}>45U - Tall Server Rack</option>
+                                    <option value="48" {% if old.size_units|default('') == '48' %}selected{% endif %}>48U - Extra Tall Rack</option>
                                     <option value="custom">Custom Size...</option>
                                 </select>
-                                {% if errors.usize %}
-                                <div class="invalid-feedback">{{ errors.usize }}</div>
+                                {% if errors.size_units %}
+                                <div class="invalid-feedback">{{ errors.size_units }}</div>
                                 {% endif %}
                                 <div class="form-text">Number of rack units (1U = 1.75 inches). Standard server racks are 42U.</div>
                             </div>
 
                             <div class="mb-3" id="custom-size-field" style="display: none;">
-                                <label for="custom_usize" class="form-label">Custom Size (Units)</label>
+                                <label for="custom_size_units" class="form-label">Custom Size (Units)</label>
                                 <input type="number"
                                        class="form-control"
-                                       id="custom_usize"
-                                       name="custom_usize"
+                                       id="custom_size_units"
+                                       name="custom_size_units"
                                        min="1"
                                        max="100">
                                 <div class="form-text">Enter custom number of rack units (1-100).</div>
@@ -144,19 +144,19 @@
 
                             <div class="mb-3">
                                 <label for="depth" class="form-label">Rack Depth (inches)</label>
-                                <select class="form-select{% if errors.depth %} is-invalid{% endif %}"
-                                        id="depth"
-                                        name="depth">
+                                <select class="form-select{% if errors.depth_mm %} is-invalid{% endif %}"
+                                        id="depth_mm"
+                                        name="depth_mm">
                                     <option value="">Select depth...</option>
-                                    <option value="24" {% if old.depth|default('') == '24' %}selected{% endif %}>24" - Shallow Network Rack</option>
-                                    <option value="30" {% if old.depth|default('') == '30' %}selected{% endif %}>30" - Standard Network Rack</option>
-                                    <option value="32" {% if old.depth|default('') == '32' %}selected{% endif %}>32" - Medium Server Rack</option>
-                                    <option value="36" {% if old.depth|default('') == '36' %}selected{% endif %}>36" - Standard Server Rack</option>
-                                    <option value="42" {% if old.depth|default('') == '42' %}selected{% endif %}>42" - Deep Server Rack</option>
-                                    <option value="48" {% if old.depth|default('') == '48' %}selected{% endif %}>48" - Extra Deep Rack</option>
+                                    <option value="24" {% if old.depth_mm|default('') == '24' %}selected{% endif %}>24" - Shallow Network Rack</option>
+                                    <option value="30" {% if old.depth_mm|default('') == '30' %}selected{% endif %}>30" - Standard Network Rack</option>
+                                    <option value="32" {% if old.depth_mm|default('') == '32' %}selected{% endif %}>32" - Medium Server Rack</option>
+                                    <option value="36" {% if old.depth_mm|default('') == '36' %}selected{% endif %}>36" - Standard Server Rack</option>
+                                    <option value="42" {% if old.depth_mm|default('') == '42' %}selected{% endif %}>42" - Deep Server Rack</option>
+                                    <option value="48" {% if old.depth_mm|default('') == '48' %}selected{% endif %}>48" - Extra Deep Rack</option>
                                 </select>
-                                {% if errors.depth %}
-                                <div class="invalid-feedback">{{ errors.depth }}</div>
+                                {% if errors.depth_mm %}
+                                <div class="invalid-feedback">{{ errors.depth_mm }}</div>
                                 {% endif %}
                                 <div class="form-text">Depth of the rack from front to back (optional but recommended).</div>
                             </div>
@@ -256,11 +256,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('label').focus();
 
     // Handle custom size selection
-    const usizeSelect = document.getElementById('usize');
+    const sizeUnitsSelect = document.getElementById("size_units");
     const customSizeField = document.getElementById('custom-size-field');
-    const customUsizeInput = document.getElementById('custom_usize');
+    const customUsizeInput = document.getElementById('custom_size_units');
 
-    usizeSelect.addEventListener('change', function() {
+    sizeUnitsSelect.addEventListener('change', function() {
         if (this.value === 'custom') {
             customSizeField.style.display = 'block';
             customUsizeInput.required = true;
@@ -326,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Rack preview functionality
     function updateRackPreview() {
         const previewDiv = document.getElementById('rack-preview');
-        let rackSize = usizeSelect.value;
+        let rackSize = sizeUnitsSelect.value;
 
         if (rackSize === 'custom') {
             rackSize = customUsizeInput.value;
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
             previewHtml += '</div>';
             previewHtml += `<div class="rack-dimensions mt-2 text-muted small">`;
             previewHtml += `Height: ${(units * 1.75).toFixed(1)}" | `;
-            previewHtml += `Depth: ${document.getElementById('depth').value || 'TBD'}"`;
+            previewHtml += `Depth: ${document.getElementById("depth_mm").value || 'TBD'}"`;
             previewHtml += '</div>';
             previewHtml += '</div>';
 
@@ -370,12 +370,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update preview when size changes
     customUsizeInput.addEventListener('input', updateRackPreview);
-    document.getElementById('depth').addEventListener('change', updateRackPreview);
+    document.getElementById("depth_mm");
 
     // Form validation
     const form = document.querySelector('form');
     form.addEventListener('submit', function(e) {
-        let rackSize = usizeSelect.value;
+        let rackSize = sizeUnitsSelect.value;
 
         if (rackSize === 'custom') {
             rackSize = customUsizeInput.value;
@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
             // Set the actual value for submission
-            usizeSelect.innerHTML += `<option value="${rackSize}" selected></option>`;
+            sizeUnitsSelect.innerHTML += `<option value="${rackSize}" selected></option>`;
         }
 
         if (!locationSelect.value) {

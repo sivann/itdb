@@ -7685,7 +7685,7 @@ class TCPDF {
 					header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
 					header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 					header('Content-Disposition: inline; filename="'.basename($name).'"');
-					TCPDF_STATIC::sendOutputData(file_get_contents($name), filesize($name));
+					TCPDF_STATIC::sendOutputData(file_get_contents($name), file_size($name));
 				} elseif ($dest == 'FD') {
 					// send headers to browser
 					if (ob_get_contents()) {
@@ -7711,7 +7711,7 @@ class TCPDF {
 					// use the Content-Disposition header to supply a recommended filename
 					header('Content-Disposition: attachment; filename="'.basename($name).'"');
 					header('Content-Transfer-Encoding: binary');
-					TCPDF_STATIC::sendOutputData(file_get_contents($name), filesize($name));
+					TCPDF_STATIC::sendOutputData(file_get_contents($name), file_size($name));
 				}
 				break;
 			}
@@ -18087,8 +18087,8 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 							$cell_content = '&nbsp;';
 						}
 						$tagtype = $dom[$key]['value'];
-						$parentid = $key;
-						while (($key < $maxel) AND (!(($dom[$key]['tag']) AND (!$dom[$key]['opening']) AND ($dom[$key]['value'] == $tagtype) AND ($dom[$key]['parent'] == $parentid)))) {
+						$parent_contract_id = $key;
+						while (($key < $maxel) AND (!(($dom[$key]['tag']) AND (!$dom[$key]['opening']) AND ($dom[$key]['value'] == $tagtype) AND ($dom[$key]['parent'] == $parent_contract_id)))) {
 							// move $key index forward
 							++$key;
 						}
@@ -18115,8 +18115,8 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						} else {
 							$this->x += ($cellspacingx / 2);
 						}
-						if (isset($dom[$parentid]['attribute']['rowspan'])) {
-							$rowspan = intval($dom[$parentid]['attribute']['rowspan']);
+						if (isset($dom[$parent_contract_id]['attribute']['rowspan'])) {
+							$rowspan = intval($dom[$parent_contract_id]['attribute']['rowspan']);
 						} else {
 							$rowspan = 1;
 						}
@@ -18164,9 +18164,9 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 								}
 							}
 						}
-						if (isset($dom[$parentid]['width'])) {
+						if (isset($dom[$parent_contract_id]['width'])) {
 							// user specified width
-							$cellw = $this->getHTMLUnitToUnits($dom[$parentid]['width'], $table_columns_width, 'px');
+							$cellw = $this->getHTMLUnitToUnits($dom[$parent_contract_id]['width'], $table_columns_width, 'px');
 							$tmpcw = ($cellw / $colspan);
 							for ($i = 0; $i < $colspan; ++$i) {
 								$table_colwidths[($colid + $i)] = $tmpcw;
@@ -18190,8 +18190,8 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 							$dom[$trid]['cellpos'][($cellid - 1)]['rowspanid'] = ($trsid - 1);
 						}
 						// push background colors
-						if (isset($dom[$parentid]['bgcolor']) AND ($dom[$parentid]['bgcolor'] !== false)) {
-							$dom[$trid]['cellpos'][($cellid - 1)]['bgcolor'] = $dom[$parentid]['bgcolor'];
+						if (isset($dom[$parent_contract_id]['bgcolor']) AND ($dom[$parent_contract_id]['bgcolor'] !== false)) {
+							$dom[$trid]['cellpos'][($cellid - 1)]['bgcolor'] = $dom[$parent_contract_id]['bgcolor'];
 						}
 						// store border info
 						if (isset($tdborder) AND !empty($tdborder)) {

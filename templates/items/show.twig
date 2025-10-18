@@ -53,7 +53,7 @@
                             <div>
                                 {% if item.statusType %}
                                     {% set status_class = item.status == 1 ? 'success' : (item.status == 0 ? 'danger' : 'secondary') %}
-                                    <span class="badge bg-{{ status_class }}">{{ item.statusType.statusdesc }}</span>
+                                    <span class="badge bg-{{ status_class }}">{{ item.statusType.name }}</span>
                                 {% else %}
                                     <span class="badge bg-secondary">Unknown</span>
                                 {% endif %}
@@ -91,7 +91,7 @@
                                 {% if item.user %}
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-person-circle me-2"></i>
-                                        {{ item.user.userdesc|default(item.user.username) }}
+                                        {{ item.user.display_name|default(item.user.username) }}
                                     </div>
                                 {% else %}
                                     <span class="text-muted">Unassigned</span>
@@ -147,10 +147,10 @@
                 </h6>
             </div>
             <div class="card-body">
-                {% if item.purchasedate %}
+                {% if item.purchase_date %}
                 <div class="mb-3">
                     <label class="form-label fw-bold">Purchase Date</label>
-                    <div>{{ item.purchasedate|date('F j, Y') }}</div>
+                    <div>{{ item.purchase_date|date('F j, Y') }}</div>
                 </div>
                 {% endif %}
 

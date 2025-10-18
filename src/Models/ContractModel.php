@@ -23,14 +23,14 @@ class ContractModel
         $contract = $this->db->fetchOne(
             "SELECT c.*,
                     ct.name as contract_type_name,
-                    contractor.title as contractor_name,
-                    vendor.title as vendor_name,
+                    contractor.name as contractor_name,
+                    vendor.name as vendor_name,
                     parent.title as parent_title
              FROM contracts c
-             LEFT JOIN contracttypes ct ON c.type = ct.id
-             LEFT JOIN agents contractor ON c.contractorid = contractor.id
-             LEFT JOIN agents vendor ON c.vendorid = vendor.id
-             LEFT JOIN contracts parent ON c.parentid = parent.id
+             LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
+             LEFT JOIN agents contractor ON c.contractor_id = contractor.id
+             LEFT JOIN agents vendor ON c.vendor_id = vendor.id
+             LEFT JOIN contracts parent ON c.parent_contract_id = parent.id
              WHERE c.id = :id",
             ['id' => $id]
         );
@@ -53,26 +53,26 @@ class ContractModel
 
         // Build WHERE conditions
         if (!empty($filters['search'])) {
-            $whereConditions[] = "(c.title LIKE :search OR c.number LIKE :search OR c.description LIKE :search)";
+            $whereConditions[] = "(c.title LIKE :search OR c.contract_number LIKE :search OR c.description LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
         if (!empty($filters['type'])) {
-            $whereConditions[] = "c.type = :type";
+            $whereConditions[] = "c.contract_type_id = :type";
             $params['type'] = (int) $filters['type'];
         }
 
         if (!empty($filters['contractor'])) {
-            $whereConditions[] = "c.contractorid = :contractor";
+            $whereConditions[] = "c.contractor_id = :contractor";
             $params['contractor'] = (int) $filters['contractor'];
         }
 
         if (!empty($filters['status'])) {
             if ($filters['status'] === 'active') {
-                $whereConditions[] = "(c.currentenddate IS NULL OR c.currentenddate > :current_time)";
+                $whereConditions[] = "(c.end_date IS NULL OR c.end_date > :current_time)";
                 $params['current_time'] = time();
             } elseif ($filters['status'] === 'expired') {
-                $whereConditions[] = "c.currentenddate <= :current_time";
+                $whereConditions[] = "c.end_date <= :current_time";
                 $params['current_time'] = time();
             }
         }
@@ -87,16 +87,16 @@ class ContractModel
         $sql = "
             SELECT c.*,
                    ct.name as contract_type_name,
-                   contractor.title as contractor_name,
-                   vendor.title as vendor_name,
+                   contractor.name as contractor_name,
+                   vendor.name as vendor_name,
                    parent.title as parent_title
             FROM contracts c
-            LEFT JOIN contracttypes ct ON c.type = ct.id
-            LEFT JOIN agents contractor ON c.contractorid = contractor.id
-            LEFT JOIN agents vendor ON c.vendorid = vendor.id
-            LEFT JOIN contracts parent ON c.parentid = parent.id
+            LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
+            LEFT JOIN agents contractor ON c.contractor_id = contractor.id
+            LEFT JOIN agents vendor ON c.vendor_id = vendor.id
+            LEFT JOIN contracts parent ON c.parent_contract_id = parent.id
             $whereClause
-            ORDER BY c.startdate DESC
+            ORDER BY c.start_date DESC
             LIMIT :limit OFFSET :offset
         ";
 
@@ -123,8 +123,8 @@ class ContractModel
     public function create(array $data): int
     {
         $allowedFields = [
-            'type', 'parentid', 'title', 'number', 'description', 'comments',
-            'totalcost', 'contractorid', 'vendorid', 'startdate', 'currentenddate',
+            'type', 'parent_contract_id', 'title', 'number', 'description', 'comments',
+            'total_cost', 'contractor_id', 'vendor_id', 'start_date', 'end_date',
             'renewals', 'subtype'
         ];
 
@@ -139,8 +139,8 @@ class ContractModel
     public function update(int $id, array $data): bool
     {
         $allowedFields = [
-            'type', 'parentid', 'title', 'number', 'description', 'comments',
-            'totalcost', 'contractorid', 'vendorid', 'startdate', 'currentenddate',
+            'type', 'parent_contract_id', 'title', 'number', 'description', 'comments',
+            'total_cost', 'contractor_id', 'vendor_id', 'start_date', 'end_date',
             'renewals', 'subtype'
         ];
 
@@ -168,7 +168,7 @@ class ContractModel
      */
     public function getParentContracts(int $excludeId = null): array
     {
-        $sql = "SELECT id, title FROM contracts WHERE parentid IS NULL";
+        $sql = "SELECT id, title FROM contracts WHERE parent_contract_id IS NULL";
         $params = [];
 
         if ($excludeId !== null) {
@@ -186,10 +186,10 @@ class ContractModel
      */
     public function getContractorIds(): array
     {
-        $sql = "SELECT DISTINCT contractorid FROM contracts WHERE contractorid IS NOT NULL";
+        $sql = "SELECT DISTINCT contractor_id FROM contracts WHERE contractor_id IS NOT NULL";
 
         $result = $this->db->fetchAll($sql);
-        return array_column($result, 'contractorid');
+        return array_column($result, 'contractor_id');
     }
 
     /**
@@ -198,7 +198,7 @@ class ContractModel
     public function hasChildren(int $id): bool
     {
         $count = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM contracts WHERE parentid = :id",
+            "SELECT COUNT(*) FROM contracts WHERE parent_contract_id = :id",
             ['id' => $id]
         );
 
@@ -214,7 +214,7 @@ class ContractModel
 
         // Check for child contracts
         $childCount = $this->db->fetchColumn(
-            "SELECT COUNT(*) FROM contracts WHERE parentid = :id",
+            "SELECT COUNT(*) FROM contracts WHERE parent_contract_id = :id",
             ['id' => $id]
         );
         if ($childCount > 0) {
@@ -237,11 +237,11 @@ class ContractModel
     {
         $sql = "
             SELECT c.*,
-                   contractor.title as contractor_name
+                   contractor.name as contractor_name
             FROM contracts c
-            LEFT JOIN agents contractor ON c.contractorid = contractor.id
+            LEFT JOIN agents contractor ON c.contractor_id = contractor.id
             WHERE c.title LIKE :query
-               OR c.number LIKE :query
+               OR c.contract_number LIKE :query
                OR c.description LIKE :query
         ";
 
@@ -253,7 +253,7 @@ class ContractModel
             $params['id'] = (int) $query;
         }
 
-        $sql .= " ORDER BY c.startdate DESC LIMIT :limit";
+        $sql .= " ORDER BY c.start_date DESC LIMIT :limit";
         $params['limit'] = $limit;
 
         return $this->db->fetchAll($sql, $params);
@@ -278,13 +278,13 @@ class ContractModel
         $contract['type_name'] = $contract['contract_type_name'] ?? null;
 
         // Format dates for display
-        if ($contract['startdate']) {
-            $contract['start_date_formatted'] = date('Y-m-d', $contract['startdate']);
+        if ($contract['start_date']) {
+            $contract['start_date_formatted'] = date('Y-m-d', $contract['start_date']);
         }
 
-        if ($contract['currentenddate']) {
-            $contract['end_date_formatted'] = date('Y-m-d', $contract['currentenddate']);
-            $contract['is_active'] = $contract['currentenddate'] > time();
+        if ($contract['end_date']) {
+            $contract['end_date_formatted'] = date('Y-m-d', $contract['end_date']);
+            $contract['is_active'] = $contract['end_date'] > time();
         } else {
             $contract['is_active'] = true;
         }
@@ -292,8 +292,8 @@ class ContractModel
         // Calculate status for templates
         $currentTime = time();
 
-        if ($contract['currentenddate']) {
-            $daysUntilEnd = ceil(($contract['currentenddate'] - $currentTime) / 86400);
+        if ($contract['end_date']) {
+            $daysUntilEnd = ceil(($contract['end_date'] - $currentTime) / 86400);
 
             if ($daysUntilEnd > 0) {
                 $status = 'active';

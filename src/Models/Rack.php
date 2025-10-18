@@ -12,7 +12,7 @@ class Rack extends BaseModel
     protected $fillable = [
         'location_id',
         'size_units',
-        'depth',
+        'depth_mm',
         'comments',
         'model',
         'label',
@@ -63,7 +63,7 @@ class Rack extends BaseModel
         return [
             'location_id' => 'required|integer|exists:locations,id',
             'size_units' => 'integer|min:1|max:100',
-            'depth' => 'integer|min:1',
+            'depth_mm' => 'integer|min:1',
             'comments' => 'string',
             'model' => 'string|max:100',
             'label' => 'string|max:100',

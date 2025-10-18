@@ -119,7 +119,7 @@ class AgentController extends BaseController
             $agentId = $this->agentModel->create([
                 'name' => $this->sanitizeString($data['name'] ?? ''),
                 'contact_info' => $this->sanitizeString($data['contactinfo'] ?? ''),
-                'contacts' => $this->sanitizeString($data['contacts'] ?? ''),
+                'contacts' => $data['contacts'] ?? '[]',
                 'urls' => $this->sanitizeString($data['urls'] ?? ''),
             ]);
 
@@ -215,7 +215,7 @@ class AgentController extends BaseController
             $this->agentModel->update($id, [
                 'name' => $this->sanitizeString($data['name'] ?? ''),
                 'contact_info' => $this->sanitizeString($data['contactinfo'] ?? ''),
-                'contacts' => $this->sanitizeString($data['contacts'] ?? ''),
+                'contacts' => $data['contacts'] ?? '[]',
                 'urls' => $this->sanitizeString($data['urls'] ?? ''),
             ]);
 

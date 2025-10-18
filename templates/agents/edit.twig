@@ -8,6 +8,96 @@
     {% endif %}
 {% endblock %}
 
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const contactsContainer = document.getElementById('contacts-container');
+        const addContactBtn = document.getElementById('add-contact');
+        const contactsJsonInput = document.getElementById('contacts-json');
+
+        let contacts = [];
+
+        try {
+            contacts = JSON.parse('{{ agent.contacts|default("[]")|raw }}');
+        } catch (e) {
+            contacts = [];
+        }
+
+        function renderContacts() {
+            contactsContainer.innerHTML = '';
+            contacts.forEach((contact, index) => {
+                const contactEl = document.createElement('div');
+                contactEl.classList.add('contact-person', 'mb-3', 'p-3', 'border', 'rounded');
+                contactEl.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-2">
+                                <label class="form-label small">Name</label>
+                                <input type="text" class="form-control form-control-sm" data-index="${index}" data-field="name" value="${contact.name || ''}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-2">
+                                <label class="form-label small">Phone</label>
+                                <input type="text" class="form-control form-control-sm" data-index="${index}" data-field="phone" value="${contact.phone || ''}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-2">
+                                <label class="form-label small">Email</label>
+                                <input type="email" class="form-control form-control-sm" data-index="${index}" data-field="email" value="${contact.email || ''}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <label class="form-label small">Role</label>
+                                <input type="text" class="form-control form-control-sm" data-index="${index}" data-field="role" value="${contact.role || ''}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <label class="form-label small">Comments</label>
+                                <input type="text" class="form-control form-control-sm" data-index="${index}" data-field="comments" value="${contact.comments || ''}">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger btn-sm remove-contact" data-index="${index}">Remove</button>
+                `;
+                contactsContainer.appendChild(contactEl);
+            });
+            updateJsonInput();
+        }
+
+        function updateJsonInput() {
+            contactsJsonInput.value = JSON.stringify(contacts);
+        }
+
+        addContactBtn.addEventListener('click', () => {
+            contacts.push({});
+            renderContacts();
+        });
+
+        contactsContainer.addEventListener('input', (e) => {
+            const index = e.target.dataset.index;
+            const field = e.target.dataset.field;
+            contacts[index][field] = e.target.value;
+            updateJsonInput();
+        });
+
+        contactsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-contact')) {
+                const index = e.target.dataset.index;
+                contacts.splice(index, 1);
+                renderContacts();
+            }
+        });
+
+        renderContacts();
+    });
+</script>
+{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <nav aria-label="breadcrumb">
@@ -45,21 +135,20 @@
                 <form method="post" action="{% if mode == 'create' %}/agents{% else %}/agents/{{ agent.id }}{% endif %}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-                    <div class="row mb-3">
-                        <label for="name" class="col-md-3 col-form-label">Agent Name <span class="text-danger">*</span></label>
+                    <div class="row mb-1 py-1">
+                        <label for="name" class="col-md-3 col-form-label text-end">Agent Name <span class="text-danger">*</span></label>
                         <div class="col-md-9">
                             <input type="text"
-                                   class="form-control"
+                                   class="form-control form-control-sm"
                                    id="name"
                                    name="name"
                                    value="{{ agent.name|default('') }}"
                                    required>
-                            <div class="form-text">The name or company name of the agent</div>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label for="agent_types" class="col-md-3 col-form-label">Agent Types</label>
+                    <div class="row mb-1 py-1">
+                        <label for="agent_types" class="col-md-3 col-form-label text-end">Agent Types</label>
                         <div class="col-md-9">
                             <div class="row">
                                 {% set agent_type_ids = (agent_types) ? agent_types|map(a => a.id) : [] %}
@@ -75,48 +164,42 @@
                                         <label class="form-check-label" for="agent_type_{{ agent_type.id }}">
                                             <span class="badge bg-{{ agent_type.badge_color|default('secondary') }} me-2" style="display: inline-block; width: 12px; height: 12px; padding: 0; position: relative; top: 1px;"></span>
                                             {{ agent_type.name }}
-                                            {% if agent_type.description %}
-                                                <small class="text-muted d-block">{{ agent_type.description }}</small>
-                                            {% endif %}
                                         </label>
                                     </div>
                                 </div>
                                 {% endfor %}
                             </div>
-                            <div class="form-text">Select all applicable types for this agent</div>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label for="contactinfo" class="col-md-3 col-form-label">Contact Information</label>
+                    <div class="row mb-1 py-1">
+                        <label for="contactinfo" class="col-md-3 col-form-label text-end">Contact Information</label>
                         <div class="col-md-9">
-                            <textarea class="form-control"
+                            <textarea class="form-control form-control-sm"
                                       id="contactinfo"
                                       name="contactinfo"
-                                      rows="3">{{ agent.contactinfo|default('') }}</textarea>
-                            <div class="form-text">Phone numbers, email addresses, physical addresses, etc.</div>
+                                      rows="2">{{ agent.contact_info|default('') }}</textarea>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label for="contacts" class="col-md-3 col-form-label">Contact Persons</label>
+                    <div class="row mb-1 py-1">
+                        <label for="contacts" class="col-md-3 col-form-label text-end">Contact Persons</label>
                         <div class="col-md-9">
-                            <textarea class="form-control"
-                                      id="contacts"
-                                      name="contacts"
-                                      rows="3">{{ agent.contacts|default('') }}</textarea>
-                            <div class="form-text">Names and details of key contact persons</div>
+                            <div id="contacts-container"></div>
+                            <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="add-contact">
+                                <i class="bi bi-plus-lg me-1"></i>Add Contact Person
+                            </button>
+                            <input type="hidden" name="contacts" id="contacts-json">
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label for="urls" class="col-md-3 col-form-label">URLs</label>
+                    <div class="row mb-1 py-1">
+                        <label for="urls" class="col-md-3 col-form-label text-end">URLs</label>
                         <div class="col-md-9">
-                            <textarea class="form-control"
+                            <textarea class="form-control form-control-sm"
                                       id="urls"
                                       name="urls"
                                       rows="3">{{ agent.urls|default('') }}</textarea>
-                            <div class="form-text">Website URLs, one per line</div>
                         </div>
                     </div>
 

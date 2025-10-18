@@ -188,7 +188,7 @@
                         <i class="bi bi-laptop me-1"></i>Items ({{ relationships.items|length }})
                     </strong>
                     {% if relationships.items|length > 0 %}
-                    <div class="small">
+                    <div class="small" style="max-height: 300px; overflow-y: auto;">
                         {% for item in relationships.items %}
                             <a href="/items/{{ item.id }}" class="d-block text-decoration-none py-1">
                                 #{{ item.id }} {{ item.label|default(item.function)|default('N/A') }}
@@ -205,7 +205,7 @@
                         <i class="bi bi-code-square me-1"></i>Software ({{ relationships.software|length }})
                     </strong>
                     {% if relationships.software|length > 0 %}
-                    <div class="small">
+                    <div class="small" style="max-height: 300px; overflow-y: auto;">
                         {% for software in relationships.software %}
                             <a href="/software/{{ software.id }}" class="d-block text-decoration-none py-1">
                                 #{{ software.id }} {{ software.stitle|default('N/A') }}{% if software.sversion %} v{{ software.sversion }}{% endif %}
@@ -222,7 +222,7 @@
                         <i class="bi bi-receipt me-1"></i>Invoices as Vendor ({{ relationships.invoices_vendor|length }})
                     </strong>
                     {% if relationships.invoices_vendor|length > 0 %}
-                    <div class="small">
+                    <div class="small" style="max-height: 300px; overflow-y: auto;">
                         {% for invoice in relationships.invoices_vendor %}
                             <a href="/invoices/{{ invoice.id }}" class="d-block text-decoration-none py-1">
                                 #{{ invoice.id }}{% if invoice.totalcost %} - ${{ invoice.totalcost|number_format(2) }}{% endif %}
@@ -239,7 +239,7 @@
                         <i class="bi bi-cart me-1"></i>Invoices as Buyer ({{ relationships.invoices_buyer|length }})
                     </strong>
                     {% if relationships.invoices_buyer|length > 0 %}
-                    <div class="small">
+                    <div class="small" style="max-height: 300px; overflow-y: auto;">
                         {% for invoice in relationships.invoices_buyer %}
                             <a href="/invoices/{{ invoice.id }}" class="d-block text-decoration-none py-1">
                                 #{{ invoice.id }}{% if invoice.totalcost %} - ${{ invoice.totalcost|number_format(2) }}{% endif %}
@@ -256,7 +256,7 @@
                         <i class="bi bi-file-text me-1"></i>Contracts ({{ relationships.contracts|length }})
                     </strong>
                     {% if relationships.contracts|length > 0 %}
-                    <div class="small">
+                    <div class="small" style="max-height: 300px; overflow-y: auto;">
                         {% for contract in relationships.contracts %}
                             <a href="/contracts/{{ contract.id }}" class="d-block text-decoration-none py-1">
                                 #{{ contract.id }} {{ contract.title|default('N/A') }}

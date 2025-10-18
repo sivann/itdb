@@ -68,12 +68,14 @@
 
             <!-- Action Buttons -->
             <div class="col-md-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary me-2">
-                    <i class="bi bi-search"></i> Filter
-                </button>
-                <a href="/racks" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-clockwise"></i>
-                </a>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Filter
+                    </button>
+                    <a href="/racks" class="btn btn-outline-secondary" title="Clear filters">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+                </div>
             </div>
         </form>
     </div>
@@ -92,30 +94,27 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Rack</th>
+                        <th width="60">ID</th>
+                        <th>Rack Label</th>
                         <th>Location</th>
-                        <th>Size</th>
                         <th>Occupation</th>
                         <th>Items</th>
-                        <th>Depth</th>
+                        <th>Size (U)</th>
+                        <th>Depth (mm)</th>
                         <th width="120">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for rack in racks %}
                     <tr>
+                        <td><a href="/racks/{{ rack.id }}" class="fw-bold text-decoration-none">{{ rack.id }}</a></td>
                         <td>
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-server me-3 text-primary fs-4"></i>
-                                <div>
-                                    <a href="/racks/{{ rack.id }}" class="fw-bold text-decoration-none">
-                                        {{ rack.display_name }}
-                                    </a>
-                                    {% if rack.model %}
-                                        <br><small class="text-muted">{{ rack.model }}</small>
-                                    {% endif %}
-                                </div>
-                            </div>
+                            <a href="/racks/{{ rack.id }}" class="fw-bold text-decoration-none">
+                                {{ rack.display_name }}
+                            </a>
+                            {% if rack.model %}
+                                <br><small class="text-muted">{{ rack.model }}</small>
+                            {% endif %}
                         </td>
                         <td>
                             {% if rack.location %}
@@ -125,13 +124,6 @@
                                 {% endif %}
                             {% else %}
                                 <span class="text-muted">Not assigned</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if rack.usize %}
-                                <span class="badge bg-secondary">{{ rack.usize }}U</span>
-                            {% else %}
-                                <span class="text-muted">Unknown</span>
                             {% endif %}
                         </td>
                         <td>
@@ -156,8 +148,15 @@
                             <span class="badge bg-primary">{{ rack.items_count }}</span>
                         </td>
                         <td>
+                            {% if rack.usize %}
+                                {{ rack.usize }}
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
                             {% if rack.depth %}
-                                {{ rack.depth }} mm
+                                {{ rack.depth }}
                                 {% if rack.revnums == 1 %}
                                     <br><span class="badge bg-info badge-sm" title="Units numbered from top to bottom">
                                         <i class="bi bi-arrow-down"></i> Rev

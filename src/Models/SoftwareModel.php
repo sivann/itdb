@@ -77,6 +77,25 @@ class SoftwareModel
             $item['installations_count'] = $installationsCount;
             $item['available_licenses'] = max(0, $licenseCount - $installationsCount);
 
+            // Load associated items with details for display
+            if ($installationsCount > 0) {
+                $itemsSql = "
+                    SELECT i.id, i.label, i.function, i.model,
+                           a.title as manufacturer_name,
+                           it.name as type_name
+                    FROM item2soft i2s
+                    INNER JOIN items i ON i2s.itemid = i.id
+                    LEFT JOIN agents a ON i.manufacturerid = a.id
+                    LEFT JOIN itemtypes it ON i.itemtypeid = it.id
+                    WHERE i2s.softid = ?
+                    ORDER BY i.function, i.label
+                    LIMIT 10
+                ";
+                $item['items_list'] = $this->db->fetchAll($itemsSql, [$item['id']]);
+            } else {
+                $item['items_list'] = [];
+            }
+
             // License status
             if ($licenseCount > 0) {
                 $item['license_status'] = [

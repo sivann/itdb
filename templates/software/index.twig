@@ -119,6 +119,20 @@
                             {% if item.licqty and item.available_licenses < 5 %}
                                 <br><small class="text-warning">{{ item.available_licenses }} available</small>
                             {% endif %}
+                            {% if item.items_list|length > 0 %}
+                                <div class="mt-2" style="font-size: 0.85em;">
+                                    {% for installed_item in item.items_list %}
+                                        <div class="text-muted">
+                                            {{ installed_item.manufacturer_name|default(installed_item.model)|default('Unknown') }}
+                                            {{ installed_item.model ?: '' }}
+                                            [{{ installed_item.type_name|default('Item') }}, ID:{{ installed_item.id }}]
+                                        </div>
+                                    {% endfor %}
+                                    {% if item.installations_count > 10 %}
+                                        <div class="text-muted fst-italic">... and {{ item.installations_count - 10 }} more</div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                         </td>
                         <td>
                             {% if item.license_status.status == 'active' %}

@@ -163,10 +163,10 @@ class ContractController extends BaseController
 
         try {
             $contractData = [
-                'type' => !empty($data['type']) ? (int) $data['type'] : null,
+                'contract_type_id' => !empty($data['contract_type_id']) ? (int) $data['contract_type_id'] : null,
                 'parent_contract_id' => !empty($data['parent_contract_id']) ? (int) $data['parent_contract_id'] : null,
                 'title' => $this->sanitizeString($data['title']),
-                'number' => $this->sanitizeString($data['number'] ?? ''),
+                'contract_number' => $this->sanitizeString($data['contract_number'] ?? ''),
                 'description' => $this->sanitizeString($data['description'] ?? ''),
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
                 'total_cost' => !empty($data['total_cost']) ? (float) $data['total_cost'] : null,
@@ -175,7 +175,7 @@ class ContractController extends BaseController
                 'start_date' => !empty($data['start_date']) ? strtotime($data['start_date']) : null,
                 'end_date' => !empty($data['end_date']) ? strtotime($data['end_date']) : null,
                 'renewals' => $this->sanitizeString($data['renewals'] ?? ''),
-                'subtype' => !empty($data['subtype']) ? (int) $data['subtype'] : null,
+                'contract_subtype_id' => !empty($data['contract_subtype_id']) ? (int) $data['contract_subtype_id'] : null,
             ];
 
             $contractId = $this->contractModel->create($contractData);
@@ -274,10 +274,10 @@ class ContractController extends BaseController
 
         try {
             $updateData = [
-                'type' => !empty($data['type']) ? (int) $data['type'] : null,
+                'contract_type_id' => !empty($data['contract_type_id']) ? (int) $data['contract_type_id'] : null,
                 'parent_contract_id' => !empty($data['parent_contract_id']) ? (int) $data['parent_contract_id'] : null,
                 'title' => $this->sanitizeString($data['title']),
-                'number' => $this->sanitizeString($data['number'] ?? ''),
+                'contract_number' => $this->sanitizeString($data['contract_number'] ?? ''),
                 'description' => $this->sanitizeString($data['description'] ?? ''),
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
                 'total_cost' => !empty($data['total_cost']) ? (float) $data['total_cost'] : null,
@@ -286,7 +286,7 @@ class ContractController extends BaseController
                 'start_date' => !empty($data['start_date']) ? strtotime($data['start_date']) : null,
                 'end_date' => !empty($data['end_date']) ? strtotime($data['end_date']) : null,
                 'renewals' => $this->sanitizeString($data['renewals'] ?? ''),
-                'subtype' => !empty($data['subtype']) ? (int) $data['subtype'] : null,
+                'contract_subtype_id' => !empty($data['contract_subtype_id']) ? (int) $data['contract_subtype_id'] : null,
             ];
 
             $this->contractModel->update($id, $updateData);

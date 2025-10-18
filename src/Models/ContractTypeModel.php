@@ -76,31 +76,19 @@ class ContractTypeModel
         $allowedFields = ['name'];
         $insertData = array_intersect_key($data, array_flip($allowedFields));
 
-        return $this->db->insert('contracttypes', $insertData);
+        return $this->db->insert('contract_types', $insertData);
     }
 
-    /**
-     * Update a contract type
-     */
     public function update(int $id, array $data): bool
     {
-        $allowedFields = ['name'];
-        $updateData = array_intersect_key($data, array_flip($allowedFields));
-
-        if (empty($updateData)) {
-            return false;
-        }
-
-        $rowsAffected = $this->db->update('contracttypes', $updateData, ['id' => $id]);
+        $updateData = array_intersect_key($data, array_flip(['name']));
+        $rowsAffected = $this->db->update('contract_types', $updateData, ['id' => $id]);
         return $rowsAffected > 0;
     }
 
-    /**
-     * Delete a contract type
-     */
     public function delete(int $id): bool
     {
-        $rowsAffected = $this->db->delete('contracttypes', ['id' => $id]);
+        $rowsAffected = $this->db->delete('contract_types', ['id' => $id]);
         return $rowsAffected > 0;
     }
 

@@ -117,6 +117,8 @@ class ContractModel
         ];
     }
 
+    public function create(array $data): int
+    {
         $allowedFields = [
             'contract_type_id', 'parent_contract_id', 'title', 'contract_number', 'description', 'comments',
             'total_cost', 'contractor_id', 'vendor_id', 'start_date', 'end_date',

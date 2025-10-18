@@ -426,67 +426,67 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="number" class="form-label">Contract Number</label>
+                                    <label for="contract_number" class="form-label">Contract Number</label>
                                     <input type="text"
-                                           class="form-control{% if errors.number %} is-invalid{% endif %}"
-                                           id="number"
-                                           name="number"
-                                           value="{{ old.number|default(contract.number|default('')) }}"
+                                           class="form-control{% if errors.contract_number %} is-invalid{% endif %}"
+                                           id="contract_number"
+                                           name="contract_number"
+                                           value="{{ old.contract_number|default(contract.contract_number|default('')) }}"
                                            maxlength="100">
-                                    {% if errors.number %}
-                                    <div class="invalid-feedback">{{ errors.number }}</div>
+                                    {% if errors.contract_number %}
+                                    <div class="invalid-feedback">{{ errors.contract_number }}</div>
                                     {% endif %}
                                     <div class="form-text">Official contract number or reference.</div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="type" class="form-label">Contract Type</label>
-                                    <select class="form-select{% if errors.type %} is-invalid{% endif %}"
-                                            id="type"
-                                            name="type">
+                                    <label for="contract_type_id" class="form-label">Contract Type</label>
+                                    <select class="form-select{% if errors.contract_type_id %} is-invalid{% endif %}"
+                                            id="contract_type_id"
+                                            name="contract_type_id">
                                         <option value="">Select contract type...</option>
                                         {% for type in form_options.contract_types %}
                                         <option value="{{ type.id }}"
-                                                {% if (old.type|default(contract.type|default(''))) == type.id %}selected{% endif %}>
+                                                {% if (old.contract_type_id|default(contract.contract_type_id|default(''))) == type.id %}selected{% endif %}>
                                             {{ type.name }}
                                         </option>
                                         {% endfor %}
                                     </select>
-                                    {% if errors.type %}
-                                    <div class="invalid-feedback">{{ errors.type }}</div>
+                                    {% if errors.contract_type_id %}
+                                    <div class="invalid-feedback">{{ errors.contract_type_id }}</div>
                                     {% endif %}
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="subtype" class="form-label">Sub Type</label>
-                                    <select class="form-select{% if errors.subtype %} is-invalid{% endif %}"
-                                            id="subtype"
-                                            name="subtype">
+                                    <label for="contract_subtype_id" class="form-label">Sub Type</label>
+                                    <select class="form-select{% if errors.contract_subtype_id %} is-invalid{% endif %}"
+                                            id="contract_subtype_id"
+                                            name="contract_subtype_id">
                                         <option value="">Select a subtype...</option>
                                     </select>
-                                    {% if errors.subtype %}
-                                    <div class="invalid-feedback">{{ errors.subtype }}</div>
+                                    {% if errors.contract_subtype_id %}
+                                    <div class="invalid-feedback">{{ errors.contract_subtype_id }}</div>
                                     {% endif %}
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="parentid" class="form-label">Parent Contract</label>
-                                    <select class="form-select{% if errors.parentid %} is-invalid{% endif %}"
-                                            id="parentid"
-                                            name="parentid">
+                                    <label for="parent_contract_id" class="form-label">Parent Contract</label>
+                                    <select class="form-select{% if errors.parent_contract_id %} is-invalid{% endif %}"
+                                            id="parent_contract_id"
+                                            name="parent_contract_id">
                                         <option value="">None (Root Contract)</option>
                                         {% for parent in form_options.contracts %}
                                             {% if mode == 'create' or parent.id != contract.id %}
                                             <option value="{{ parent.id }}"
-                                                    {% if (old.parentid|default(contract.parentid|default(''))) == parent.id %}selected{% endif %}>
+                                                    {% if (old.parent_contract_id|default(contract.parent_contract_id|default(''))) == parent.id %}selected{% endif %}>
                                                 {{ parent.title }}
-                                                {% if parent.number %} ({{ parent.number }}){% endif %}
+                                                {% if parent.contract_number %} ({{ parent.contract_number }}){% endif %}
                                             </option>
                                             {% endif %}
                                         {% endfor %}
                                     </select>
-                                    {% if errors.parentid %}
-                                    <div class="invalid-feedback">{{ errors.parentid }}</div>
+                                    {% if errors.parent_contract_id %}
+                                    <div class="invalid-feedback">{{ errors.parent_contract_id }}</div>
                                     {% endif %}
                                     <div class="form-text">Select if this is a child/sub-contract of another contract.</div>
                                 </div>
@@ -497,88 +497,88 @@
                                 <h6 class="text-muted mb-3">Financial & Contractor Information</h6>
 
                                 <div class="mb-3">
-                                    <label for="contractorid" class="form-label">Contractor</label>
-                                    <select class="form-select{% if errors.contractorid %} is-invalid{% endif %}"
-                                            id="contractorid"
-                                            name="contractorid">
+                                    <label for="contractor_id" class="form-label">Contractor</label>
+                                    <select class="form-select{% if errors.contractor_id %} is-invalid{% endif %}"
+                                            id="contractor_id"
+                                            name="contractor_id">
                                         <option value="">Select contractor...</option>
                                         {% if contractors is defined and contractors|length > 0 %}
                                             {% for agent in contractors %}
                                             <option value="{{ agent.id }}"
-                                                    {% if (old.contractorid|default(contract.contractorid|default(''))) == agent.id %}selected{% endif %}>
-                                                {{ agent.title }}
+                                                    {% if (old.contractor_id|default(contract.contractor_id|default(''))) == agent.id %}selected{% endif %}>
+                                                {{ agent.name }}
                                                 {% if agent.type_description %} ({{ agent.type_description }}){% endif %}
                                             </option>
                                             {% endfor %}
                                         {% endif %}
                                     </select>
-                                    {% if errors.contractorid %}
-                                    <div class="invalid-feedback">{{ errors.contractorid }}</div>
+                                    {% if errors.contractor_id %}
+                                    <div class="invalid-feedback">{{ errors.contractor_id }}</div>
                                     {% endif %}
                                     <div class="form-text">The external organization providing contracted services.</div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="vendorid" class="form-label">Vendor</label>
-                                    <select class="form-select{% if errors.vendorid %} is-invalid{% endif %}"
-                                            id="vendorid"
-                                            name="vendorid">
+                                    <label for="vendor_id" class="form-label">Vendor</label>
+                                    <select class="form-select{% if errors.vendor_id %} is-invalid{% endif %}"
+                                            id="vendor_id"
+                                            name="vendor_id">
                                         <option value="">Select vendor...</option>
                                         {% if vendors is defined and vendors|length > 0 %}
                                             {% for agent in vendors %}
                                             <option value="{{ agent.id }}"
-                                                    {% if (old.vendorid|default(contract.vendorid|default(''))) == agent.id %}selected{% endif %}>
-                                                {{ agent.title }}
+                                                    {% if (old.vendor_id|default(contract.vendor_id|default(''))) == agent.id %}selected{% endif %}>
+                                                {{ agent.name }}
                                                 {% if agent.type_description %} ({{ agent.type_description }}){% endif %}
                                             </option>
                                             {% endfor %}
                                         {% endif %}
                                     </select>
-                                    {% if errors.vendorid %}
-                                    <div class="invalid-feedback">{{ errors.vendorid }}</div>
+                                    {% if errors.vendor_id %}
+                                    <div class="invalid-feedback">{{ errors.vendor_id }}</div>
                                     {% endif %}
                                     <div class="form-text">The external organization providing products or supplies.</div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="totalcost" class="form-label">Total Cost</label>
+                                    <label for="total_cost" class="form-label">Total Cost</label>
                                     <div class="input-group">
                                         <span class="input-group-text">$</span>
                                         <input type="number"
-                                               class="form-control{% if errors.totalcost %} is-invalid{% endif %}"
-                                               id="totalcost"
-                                               name="totalcost"
-                                               value="{{ old.totalcost|default(contract.totalcost|default('')) }}"
+                                               class="form-control{% if errors.total_cost %} is-invalid{% endif %}"
+                                               id="total_cost"
+                                               name="total_cost"
+                                               value="{{ old.total_cost|default(contract.total_cost|default('')) }}"
                                                step="0.01"
                                                min="0">
                                     </div>
-                                    {% if errors.totalcost %}
-                                    <div class="invalid-feedback">{{ errors.totalcost }}</div>
+                                    {% if errors.total_cost %}
+                                    <div class="invalid-feedback">{{ errors.total_cost }}</div>
                                     {% endif %}
                                     <div class="form-text">Total contract value in dollars.</div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="startdate" class="form-label">Start Date</label>
+                                    <label for="start_date" class="form-label">Start Date</label>
                                     <input type="date"
-                                           class="form-control{% if errors.startdate %} is-invalid{% endif %}"
-                                           id="startdate"
-                                           name="startdate"
-                                           value="{{ old.startdate|default(contract.startdate|date('Y-m-d')) }}">
-                                    {% if errors.startdate %}
-                                    <div class="invalid-feedback">{{ errors.startdate }}</div>
+                                           class="form-control{% if errors.start_date %} is-invalid{% endif %}"
+                                           id="start_date"
+                                           name="start_date"
+                                           value="{{ old.start_date|default(contract.start_date|date('Y-m-d')) }}">
+                                    {% if errors.start_date %}
+                                    <div class="invalid-feedback">{{ errors.start_date }}</div>
                                     {% endif %}
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="currentenddate" class="form-label">End Date</label>
+                                    <label for="end_date" class="form-label">End Date</label>
                                     <input type="date"
-                                           class="form-control{% if errors.currentenddate %} is-invalid{% endif %}"
-                                           id="currentenddate"
-                                           name="currentenddate"
-                                           value="{{ old.currentenddate|default(contract.currentenddate|date('Y-m-d')) }}">
-                                    {% if errors.currentenddate %}
-                                    <div class="invalid-feedback">{{ errors.currentenddate }}</div>
+                                           class="form-control{% if errors.end_date %} is-invalid{% endif %}"
+                                           id="end_date"
+                                           name="end_date"
+                                           value="{{ old.end_date|default(contract.end_date|date('Y-m-d')) }}">
+                                    {% if errors.end_date %}
+                                    <div class="invalid-feedback">{{ errors.end_date }}</div>
                                     {% endif %}
                                     <div class="form-text">Leave empty for contracts with no end date.</div>
                                 </div>
@@ -899,8 +899,8 @@
 {% if mode == 'edit' or mode == 'create' %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const typeSelect = document.getElementById('type');
-    const subtypeSelect = document.getElementById('subtype');
+    const typeSelect = document.getElementById('contract_type_id');
+    const subtypeSelect = document.getElementById('contract_subtype_id');
     const subtypes = {{ form_options.contract_subtypes|json_encode|raw }};
 
     function updateSubtypes() {
@@ -923,7 +923,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (typeSelect && subtypeSelect) {
-        subtypeSelect.dataset.selected = "{{ contract.subtype|default('') }}";
+        subtypeSelect.dataset.selected = "{{ contract.contract_subtype_id|default('') }}";
         typeSelect.addEventListener('change', updateSubtypes);
         updateSubtypes();
     }

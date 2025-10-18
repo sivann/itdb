@@ -17,11 +17,11 @@ class ContractSubtypeModel
 
     public function getAll(): array
     {
-        return $this->db->fetchAll("SELECT * FROM contractsubtypes ORDER BY name");
+        return $this->db->fetchAll("SELECT * FROM contract_subtypes ORDER BY name");
     }
 
     public function getByTypeId(int $typeId): array
     {
-        return $this->db->fetchAll("SELECT * FROM contractsubtypes WHERE contypeid = ? ORDER BY name", [$typeId]);
+        return $this->db->fetchAll("SELECT * FROM contract_subtypes WHERE contypeid = ? ORDER BY name", [$typeId]);
     }
 }

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS "status_types" (id INTEGER PRIMARY KEY AUTOINCREMENT,
 CREATE TABLE IF NOT EXISTS "contracts_files"(contract_id integer,file_id integer);
 CREATE TABLE viewhist(id INTEGER PRIMARY KEY AUTOINCREMENT, url,description);
 CREATE TABLE IF NOT EXISTS "location_areas"(id  INTEGER PRIMARY KEY AUTOINCREMENT,location_id number,name,x1 number,y1 number,x2 number,y2 number);
-CREATE TABLE contractsubtypes(id INTEGER PRIMARY KEY AUTOINCREMENT,contypeid integer, name);
+CREATE TABLE IF NOT EXISTS "contract_subtypes"(id INTEGER PRIMARY KEY AUTOINCREMENT,contypeid integer, name);
 CREATE TABLE settings(companytitle, dateformat, currency, lang, version, timezone, dbversion, useldap integer default 0, ldap_server, ldap_dn, ldap_getusers, ldap_getusers_filter, file_storage_path TEXT DEFAULT './public/storage/uploads');
 CREATE TABLE agents (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -47,69 +47,6 @@ CREATE TABLE tags (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
     color TEXT
-);
-CREATE TABLE items (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    item_type_id INTEGER NOT NULL,
-    function TEXT,
-    manufacturer_id INTEGER,
-    model TEXT,
-    serial_number TEXT,
-    serial_number_2 TEXT,
-    serial_number_3 TEXT,
-    origin TEXT,
-    warranty_months INTEGER,
-    purchase_date INTEGER,
-    purchase_price TEXT,
-    dns_name TEXT,
-    maintenance_info TEXT,
-    comments TEXT,
-    is_part INTEGER DEFAULT 0,
-    hard_drive TEXT,
-    cpu TEXT,
-    ram TEXT,
-    location_id INTEGER,
-    user_id INTEGER,
-    ipv4_address TEXT,
-    ipv6_address TEXT,
-    rack_units INTEGER,
-    is_rack_mountable INTEGER,
-    mac_addresses TEXT,
-    remote_admin_ip TEXT,
-    panel_port TEXT,
-    port_count INTEGER,
-    switch_port TEXT,
-    switch_id INTEGER,
-    rack_id INTEGER,
-    rack_position INTEGER,
-    label TEXT,
-    status_id INTEGER DEFAULT 1,
-    cpu_count INTEGER,
-    cores_per_cpu INTEGER,
-    rack_position_depth INTEGER,
-    warranty_info TEXT,
-    location_area_id NUMBER,
-    certificate_of_authenticity TEXT, updated_at INTEGER,
-
-    -- Foreign key constraints
-    FOREIGN KEY (item_type_id) REFERENCES itemtypes(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (manufacturer_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE
-);
-CREATE TABLE software (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT,
-    version TEXT,
-    license_key TEXT,
-    comments TEXT,
-    url TEXT,
-    license_type_id INTEGER,
-    category TEXT,
-    manufacturer_id INTEGER, updated_at INTEGER,
-
-    -- Foreign key constraints
-    FOREIGN KEY (manufacturer_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (license_type_id) REFERENCES license_types(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 CREATE TABLE invoices (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -185,7 +122,7 @@ CREATE TABLE IF NOT EXISTS "items_tags" (
     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
-CREATE TABLE contractevents (
+CREATE TABLE IF NOT EXISTS "contract_events" (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contractid INTEGER NOT NULL,
     startdate INTEGER,
@@ -204,10 +141,6 @@ CREATE TABLE actions (
     FOREIGN KEY (itemid) REFERENCES items(id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (userid) REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
-CREATE INDEX idx_items_manufacturer ON items(manufacturer_id);
-CREATE INDEX idx_items_userid ON items(user_id);
-CREATE INDEX idx_items_itemtypeid ON items(item_type_id);
-CREATE INDEX idx_software_manufacturer ON software(manufacturer_id);
 CREATE INDEX idx_invoices_vendor ON invoices(vendor_id);
 CREATE INDEX idx_invoices_buyer ON invoices(buyer_id);
 CREATE INDEX idx_contracts_contractor ON contracts(contractor_id);
@@ -224,7 +157,7 @@ CREATE INDEX idx_item2soft_item ON "items_software"(item_id);
 CREATE INDEX idx_item2soft_software ON "items_software"(software_id);
 CREATE INDEX idx_tag2item_tag ON "items_tags"(tag_id);
 CREATE INDEX idx_tag2item_item ON "items_tags"(item_id);
-CREATE INDEX idx_contractevents_contract ON contractevents(contractid);
+CREATE INDEX idx_contractevents_contract ON "contract_events"(contractid);
 CREATE INDEX idx_actions_item ON actions(itemid);
 CREATE INDEX idx_actions_user ON actions(userid);
 CREATE TABLE license_types (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, description TEXT);
@@ -305,3 +238,5 @@ CREATE TABLE IF NOT EXISTS "locations" (
     floor_plan_filename TEXT
 );
 CREATE UNIQUE INDEX idx_racks_label_unique ON racks(label);
+CREATE TABLE IF NOT EXISTS "software" ( id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, version TEXT, license_key TEXT, comments TEXT, url TEXT, license_type_id TEXT, category TEXT, manufacturer_id INTEGER, updated_at INTEGER, FOREIGN KEY (manufacturer_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE, FOREIGN KEY (license_type_id) REFERENCES license_types(id) ON DELETE SET NULL ON UPDATE CASCADE );
+CREATE TABLE IF NOT EXISTS "items" ( id INTEGER PRIMARY KEY AUTOINCREMENT, item_type_id INTEGER NOT NULL, function TEXT, manufacturer_id INTEGER, model TEXT, serial_number TEXT, serial_number_2 TEXT, serial_number_3 TEXT, origin TEXT, warranty_months INTEGER, purchase_date INTEGER, purchase_price TEXT, dns_name TEXT, maintenance_info TEXT, comments TEXT, is_part INTEGER DEFAULT 0, hard_drive TEXT, cpu TEXT, ram TEXT, location_id INTEGER, user_id INTEGER, ipv4_address TEXT, ipv6_address TEXT, rack_units INTEGER, is_rack_mountable INTEGER, mac_addresses TEXT, remote_admin_ip TEXT, panel_port TEXT, port_count INTEGER, switch_port TEXT, switch_id INTEGER, rack_id INTEGER, rack_position INTEGER, label TEXT, status_id INTEGER DEFAULT 1, cpu_count INTEGER, cores_per_cpu INTEGER, rack_position_depth INTEGER, warranty_info TEXT, location_area_id NUMBER, certificate_of_authenticity TEXT, updated_at INTEGER, FOREIGN KEY (item_type_id) REFERENCES item_types(id) ON DELETE RESTRICT ON UPDATE CASCADE, FOREIGN KEY (manufacturer_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE, FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE );

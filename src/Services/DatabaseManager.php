@@ -339,11 +339,11 @@ class DatabaseManager
             'contracts' => 'contract',
             'invoices' => 'invoice',
             'itemtypes' => 'item type',
-            'contracttypes' => 'contract type',
+            'contract_types' => 'contract type',
             'agent_types' => 'agent type',
             'tags' => 'tag',
             'actions' => 'action',
-            'contractevents' => 'contract event',
+            'contract_events' => 'contract event',
         ];
 
         return $entityNames[$tableName] ?? str_replace('_', ' ', $tableName);

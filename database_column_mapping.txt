@@ -1,0 +1,262 @@
+===========================================
+DATABASE SCHEMA NORMALIZATION MAPPING
+===========================================
+
+NAMING CONVENTIONS:
+- All column names: snake_case
+- Foreign keys: {singular_table}_id
+- Dates: _at suffix (created_at, updated_at)
+- Boolean flags: is_ prefix or _enabled suffix
+- Table names: plural (items, software, etc.)
+
+===========================================
+ITEMS TABLE
+===========================================
+items.id                    → items.id
+items.itemtypeid            → items.item_type_id
+items.function              → items.function
+items.manufacturerid        → items.manufacturer_id
+items.model                 → items.model
+items.sn                    → items.serial_number
+items.sn2                   → items.serial_number_2
+items.sn3                   → items.serial_number_3
+items.origin                → items.origin
+items.warrantymonths        → items.warranty_months
+items.purchasedate          → items.purchase_date
+items.purchprice            → items.purchase_price
+items.dnsname               → items.dns_name
+items.maintenanceinfo       → items.maintenance_info
+items.comments              → items.comments
+items.ispart                → items.is_part
+items.hd                    → items.hard_drive
+items.cpu                   → items.cpu
+items.ram                   → items.ram
+items.locationid            → items.location_id
+items.userid                → items.user_id
+items.ipv4                  → items.ipv4_address
+items.ipv6                  → items.ipv6_address
+items.usize                 → items.rack_units
+items.rackmountable         → items.is_rack_mountable
+items.macs                  → items.mac_addresses
+items.remadmip              → items.remote_admin_ip
+items.panelport             → items.panel_port
+items.ports                 → items.port_count
+items.switchport            → items.switch_port
+items.switchid              → items.switch_id
+items.rackid                → items.rack_id
+items.rackposition          → items.rack_position
+items.label                 → items.label
+items.status                → items.status_id
+items.cpuno                 → items.cpu_count
+items.corespercpu           → items.cores_per_cpu
+items.rackposdepth          → items.rack_position_depth
+items.warrinfo              → items.warranty_info
+items.locareaid             → items.location_area_id
+items.coa                   → items.certificate_of_authenticity
+items.updated_at            → items.updated_at
+
+===========================================
+SOFTWARE TABLE
+===========================================
+software.id                 → software.id
+software.stitle             → software.title
+software.sversion           → software.version
+software.slicense           → software.license_key
+software.scomments          → software.comments
+software.url                → software.url
+software.slicensetype       → software.license_type
+software.scat               → software.category
+software.manufacturerid     → software.manufacturer_id
+software.updated_at         → software.updated_at
+
+===========================================
+CONTRACTS TABLE
+===========================================
+contracts.id                → contracts.id
+contracts.type              → contracts.contract_type_id
+contracts.parentid          → contracts.parent_contract_id
+contracts.title             → contracts.title
+contracts.number            → contracts.contract_number
+contracts.description       → contracts.description
+contracts.comments          → contracts.comments
+contracts.totalcost         → contracts.total_cost
+contracts.contractorid      → contracts.contractor_id
+contracts.startdate         → contracts.start_date
+contracts.currentenddate    → contracts.end_date
+contracts.renewals          → contracts.renewals
+contracts.subtype           → contracts.contract_subtype_id
+contracts.vendorid          → contracts.vendor_id
+contracts.updated_at        → contracts.updated_at
+
+===========================================
+INVOICES TABLE
+===========================================
+invoices.id                 → invoices.id
+invoices.date               → invoices.invoice_date
+invoices.vendorid           → invoices.vendor_id
+invoices.buyerid            → invoices.buyer_id
+invoices.comments           → invoices.comments
+invoices.totalcost          → invoices.total_cost
+invoices.updated_at         → invoices.updated_at
+
+ADD NEW COLUMNS:
+invoices.invoice_number     → invoices.invoice_number (NEW)
+invoices.title              → invoices.title (NEW)
+
+===========================================
+FILES TABLE
+===========================================
+files.id                    → files.id
+files.type                  → files.file_type_id
+files.title                 → files.title
+files.fname                 → files.filename_stored
+files.uploader              → files.uploader_username
+files.uploaddate            → files.uploaded_at
+files.date                  → files.updated_at
+files.filename              → files.filename_original
+files.description           → files.description
+files.filesize              → files.file_size
+files.ftype                 → files.file_type_id (DUPLICATE - remove one)
+
+===========================================
+AGENTS TABLE
+===========================================
+agents.id                   → agents.id
+agents.title                → agents.name
+agents.contactinfo          → agents.contact_info
+agents.contacts             → agents.contacts
+agents.urls                 → agents.urls
+
+===========================================
+USERS TABLE
+===========================================
+users.id                    → users.id
+users.username              → users.username
+users.userdesc              → users.display_name
+users.pass                  → users.password_hash
+users.usertype              → users.user_type
+users.cookie1               → users.remember_token
+
+===========================================
+ITEM_TYPES TABLE (itemtypes)
+===========================================
+itemtypes.id                → item_types.id
+itemtypes.name              → item_types.name
+itemtypes.typedesc          → item_types.description
+itemtypes.hassoftware       → item_types.has_software
+
+RENAME TABLE: itemtypes → item_types
+
+===========================================
+STATUS_TYPES TABLE (statustypes)
+===========================================
+statustypes.id              → status_types.id
+statustypes.statusdesc      → status_types.name
+
+RENAME TABLE: statustypes → status_types
+
+===========================================
+CONTRACT_TYPES TABLE (contracttypes)
+===========================================
+contracttypes.id            → contract_types.id
+contracttypes.name          → contract_types.name
+
+RENAME TABLE: contracttypes → contract_types
+
+===========================================
+FILE_TYPES TABLE (filetypes)
+===========================================
+filetypes.id                → file_types.id
+filetypes.typedesc          → file_types.name
+
+RENAME TABLE: filetypes → file_types
+
+===========================================
+LICENSE_TYPES TABLE (already correct)
+===========================================
+license_types.id            → license_types.id
+license_types.name          → license_types.name
+license_types.description   → license_types.description
+
+===========================================
+LOCATIONS TABLE
+===========================================
+locations.id                → locations.id
+locations.name              → locations.name
+locations.floor             → locations.floor
+locations.floorplanfn       → locations.floor_plan_filename
+
+===========================================
+LOCATION_AREAS TABLE (locareas)
+===========================================
+locareas.id                 → location_areas.id
+locareas.locationid         → location_areas.location_id
+locareas.areaname           → location_areas.name
+locareas.x1                 → location_areas.x1
+locareas.y1                 → location_areas.y1
+locareas.x2                 → location_areas.x2
+locareas.y2                 → location_areas.y2
+
+RENAME TABLE: locareas → location_areas
+
+===========================================
+RACKS TABLE
+===========================================
+racks.id                    → racks.id
+racks.locationid            → racks.location_id
+racks.usize                 → racks.size_units
+racks.depth                 → racks.depth_mm
+racks.comments              → racks.comments
+racks.model                 → racks.model
+racks.label                 → racks.label
+racks.revnums               → racks.reverse_numbering
+racks.locareaid             → racks.location_area_id
+
+===========================================
+JUNCTION TABLES
+===========================================
+item2file                   → items_files
+item2inv                    → items_invoices
+item2soft                   → items_software
+software2file               → software_files
+contract2file               → contracts_files
+contract2item               → contracts_items
+contract2soft               → contracts_software
+contract2inv                → contracts_invoices
+invoice2file                → invoices_files
+tag2item                    → items_tags
+tag2software                → software_tags
+
+Junction table column pattern:
+{table1_singular}_id, {table2_singular}_id
+
+Example:
+item2file.itemid            → items_files.item_id
+item2file.fileid            → items_files.file_id
+
+===========================================
+ADDITIONAL TABLES
+===========================================
+agent_types.id              → agent_types.id
+agent_types.name            → agent_types.name
+
+contractsubtypes            → contract_subtypes
+contractevents              → contract_events
+
+tags.id                     → tags.id
+tags.name                   → tags.name
+
+===========================================
+SUMMARY OF KEY IMPROVEMENTS
+===========================================
+
+1. Consistent snake_case naming
+2. Foreign keys follow {table}_id pattern
+3. Remove 's' prefix from software columns
+4. Standardize type table names with underscores
+5. Clear date/time field naming (_at suffix)
+6. Boolean fields use is_ prefix
+7. Descriptive names (statusdesc → name)
+8. Junction tables use plural_plural pattern
+9. Remove duplicate columns (files.type vs files.ftype)
+10. Add missing useful columns (invoices.invoice_number)

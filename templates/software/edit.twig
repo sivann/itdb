@@ -112,7 +112,7 @@
                                             <select class="form-select form-select-sm" id="manufacturerid" name="manufacturerid">
                                                 <option value="">Select...</option>
                                                 {% for manufacturer in form_options.manufacturers %}
-                                                <option value="{{ manufacturer.id }}" {% if software.manufacturer_id == manufacturer.id %}selected{% endif %}>{{ manufacturer.title }}</option>
+                                                <option value="{{ manufacturer.id }}" {% if software.manufacturer_id == manufacturer.id %}selected{% endif %}>{{ manufacturer.name }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>

@@ -34,6 +34,7 @@ class DatabaseManager
      */
     public function execute(string $sql, array $params = []): PDOStatement
     {
+        $this->logger->debug('Executing SQL', ['sql' => $sql, 'params' => $params]);
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
@@ -65,6 +66,7 @@ class DatabaseManager
      */
     public function fetchAll(string $sql, array $params = []): array
     {
+        $this->logger->debug('Executing SQL', ['sql' => $sql, 'params' => $params]);
         $stmt = $this->execute($sql, $params);
         return $stmt->fetchAll();
     }

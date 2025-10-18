@@ -1,0 +1,38 @@
+{#
+    Reusable items sidebar component
+
+    Parameters:
+    - items: array of items to display
+    - title: optional custom title (default: "Items")
+    - icon: optional custom icon (default: "bi-laptop")
+    - empty_message: optional custom empty message (default: "No items")
+#}
+
+<div class="card">
+    <div class="card-header">
+        <h6 class="mb-0">
+            <i class="bi {{ icon|default('bi-laptop') }} me-1"></i>{{ title|default('Items') }} ({{ items|length }})
+        </h6>
+    </div>
+    <div class="card-body" style="max-height: 70vh; overflow-y: auto;">
+        {% if items|length > 0 %}
+        <div class="small">
+            {% for item in items %}
+                <div class="py-1">
+                    <a href="/items/{{ item.id }}/edit" class="text-decoration-none">
+                        <strong>#{{ item.id }}</strong> {{ item.label|default(item.function)|default('N/A') }}
+                    </a>
+                    <div class="text-muted" style="font-size: 0.85em;">
+                        {{ item.manufacturer_name|default('') }}{% if item.manufacturer_name and item.model %}, {% endif %}{{ item.model|default('') }}{% if (item.manufacturer_name or item.model) and item.type_name %}, {% endif %}{{ item.type_name|default('') }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-3">
+            <span class="badge bg-primary">0</span>
+            <div class="text-muted small mt-2">{{ empty_message|default('items') }}</div>
+        </div>
+        {% endif %}
+    </div>
+</div>

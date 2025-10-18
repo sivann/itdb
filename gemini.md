@@ -1,0 +1,4 @@
+- When debugging, always check the database schema first.
+- Run queries directly on the database to verify the results.
+- Double-check the code for typos and other errors.
+- Be more proactive and think ahead to anticipate potential problems.

@@ -1,0 +1,103 @@
+/* Shared CSS for Edit Forms - matching legacy ITDB style */
+
+/* Section Headers - matching old h3 style */
+.form-section-header {
+    font-size: 10pt;
+    font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    text-shadow: 3px 3px 4px #cCCCeC;
+    border-bottom: 2px solid var(--primary-color);
+    color: #000;
+}
+
+/* Form Labels - matching old td.tdt style */
+.form-label-legacy {
+    background-color: #EDEDED;
+    text-align: right;
+    font-size: 8pt;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 4px 8px;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+}
+
+/* Association headers - matching old div.relatedlist style */
+.association-header {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    font-size: 7pt;
+    text-align: center;
+    border-bottom: 2px solid #efefef;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+/* Association container */
+.association-container {
+    height: 180px;
+    overflow-y: auto;
+    border: 1px solid #afafaf;
+    border-radius: 4px;
+}
+
+/* Association rows */
+.association-row {
+    padding: 1px 0 1px 8px;
+    font-size: 0.75rem;
+}
+
+.association-row:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.association-row:nth-child(even) {
+    background-color: #D9E3F6;
+}
+
+/* Compact form controls */
+.form-control-sm, .form-select-sm {
+    font-size: 9pt;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* Apply to labels in horizontal form layout */
+.col-form-label-sm.text-end {
+    background-color: #EDEDED;
+    padding: 4px 8px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 0;
+    font-size: 9pt;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin-left: 0;
+    padding-right: 5px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Input boxes need border to align with label */
+.row.mb-1 .col-form-label-sm.text-end + div .form-control,
+.row.mb-1 .col-form-label-sm.text-end + div .form-select,
+.row.mb-1 .col-form-label-sm.text-end + div .input-group {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-left: 0;
+    border-right: 1px solid #ddd;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.row.mb-1 {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.row.mb-1 .col-form-label-sm.text-end + div {
+    padding-left: 0;
+}

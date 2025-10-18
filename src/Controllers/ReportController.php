@@ -72,8 +72,8 @@ class ReportController extends BaseController
         $query = Item::with(['location', 'user']);
 
         // Apply filters based on query parameters
-        if (!empty($queryParams['status'])) {
-            $query->where('status', $queryParams['status']);
+        if (!empty($queryParams['status_id'])) {
+            $query->where('status_id', $queryParams['status_id']);
         }
 
         if (!empty($queryParams['location'])) {
@@ -97,11 +97,11 @@ class ReportController extends BaseController
         $user = $this->authService->getCurrentUser();
 
         // Get financial data
-        $totalValue = Item::sum('price');
+        $totalValue = Item::sum('purchase_price');
         $invoiceStats = [
             'total_invoices' => Invoice::count(),
-            'total_amount' => Invoice::sum('amount'),
-            'pending_invoices' => Invoice::where('status', 'pending')->count(),
+            'total_amount' => Invoice::sum('total_cost'),
+            'pending_invoices' => Invoice::where('status_id', 2)->count(), // Assuming 2 is the status for pending
         ];
 
         return $this->render($response, 'reports/financial.twig', [
@@ -123,8 +123,8 @@ class ReportController extends BaseController
             'total_items' => Item::count(),
             'assigned_items' => Item::whereNotNull('user_id')->count(),
             'unassigned_items' => Item::whereNull('user_id')->count(),
-            'active_items' => Item::where('status', 1)->count(),
-            'inactive_items' => Item::where('status', 0)->count(),
+            'active_items' => Item::where('status_id', 1)->count(), // Assuming 1 is active
+            'inactive_items' => Item::where('status_id', 0)->count(), // Assuming 0 is inactive
         ];
 
         return $this->render($response, 'reports/utilization.twig', [
@@ -143,14 +143,14 @@ class ReportController extends BaseController
         // Get contract statistics
         $contractStats = [
             'total_contracts' => Contract::count(),
-            'active_contracts' => Contract::where('status', 'active')->count(),
-            'expired_contracts' => Contract::where('enddate', '<', date('Y-m-d'))->count(),
-            'expiring_soon' => Contract::whereBetween('enddate', [date('Y-m-d'), date('Y-m-d', strtotime('+30 days'))])->count(),
+            'active_contracts' => Contract::where('status_id', 1)->count(), // Assuming 1 is active
+            'expired_contracts' => Contract::where('end_date', '<', date('Y-m-d'))->count(),
+            'expiring_soon' => Contract::whereBetween('end_date', [date('Y-m-d'), date('Y-m-d', strtotime('+30 days'))])->count(),
         ];
 
         // Get contracts expiring soon
-        $expiringContracts = Contract::whereBetween('enddate', [date('Y-m-d'), date('Y-m-d', strtotime('+30 days'))])
-                                   ->orderBy('enddate')
+        $expiringContracts = Contract::whereBetween('end_date', [date('Y-m-d'), date('Y-m-d', strtotime('+30 days'))])
+                                   ->orderBy('end_date')
                                    ->limit(10)
                                    ->get();
 

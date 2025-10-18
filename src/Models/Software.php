@@ -15,7 +15,7 @@ class Software extends BaseModel
         'sinfo',            // description/info field
         'license_key',      // license info field
         'licqty',           // license quantity field
-        'license_type',     // license type field
+        'license_type_id',     // license type field
         'stype',            // software type field
         'manufacturer_id',  // manufacturer id field
         'invoice_id',       // invoice id field

@@ -56,7 +56,7 @@ class ItemController extends BaseController
             $filters['type'] = $queryParams['type'];
         }
         if (!empty($queryParams['status'])) {
-            $filters['status'] = $queryParams['status'];
+            $filters['status_id'] = $queryParams['status'];
         }
         if (!empty($queryParams['location'])) {
             $filters['location'] = $queryParams['location'];
@@ -157,10 +157,10 @@ class ItemController extends BaseController
         // Validation rules
         $rules = [
             'item_type_id' => 'required|integer',
-            'status' => 'required|integer',
+            'status_id' => 'required|integer',
             'function' => 'string|max:255',
             'model' => 'string|max:100',
-            'sn' => 'string|max:100',
+            'serial_number' => 'string|max:100',
             'label' => 'string|max:50',
         ];
 
@@ -178,19 +178,19 @@ class ItemController extends BaseController
             $itemData = [
                 'function' => $this->sanitizeString($data['function'] ?? ''),
                 'item_type_id' => !empty($data['item_type_id']) ? (int) $data['item_type_id'] : null,
-                'status' => (int) $data['status'],
+                'status_id' => (int) $data['status_id'],
                 'model' => $this->sanitizeString($data['model'] ?? ''),
-                'sn' => $this->sanitizeString($data['sn'] ?? ''),
+                'serial_number' => $this->sanitizeString($data['serial_number'] ?? ''),
                 'label' => $this->sanitizeString($data['label'] ?? ''),
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
                 'maintenance_info' => $this->sanitizeString($data['maintenance_info'] ?? ''),
                 'user_id' => !empty($data['user_id']) ? (int) $data['user_id'] : null,
                 'location_id' => !empty($data['location_id']) ? (int) $data['location_id'] : null,
-                'ipv4' => $this->sanitizeString($data['ipv4'] ?? ''),
+                'ipv4_address' => $this->sanitizeString($data['ipv4_address'] ?? ''),
                 'dns_name' => $this->sanitizeString($data['dns_name'] ?? ''),
                 'cpu' => $this->sanitizeString($data['cpu'] ?? ''),
                 'ram' => $this->sanitizeString($data['ram'] ?? ''),
-                'hd' => $this->sanitizeString($data['hd'] ?? ''),
+                'hard_drive' => $this->sanitizeString($data['hard_drive'] ?? ''),
             ];
 
             // Handle purchase information
@@ -295,20 +295,20 @@ class ItemController extends BaseController
             $updateData = [
                 'function' => $this->sanitizeString($data['function'] ?? ''),
                 'item_type_id' => (int) $data['item_type_id'],
-                'status' => (int) ($data['status'] ?? 0),
+                'status_id' => (int) ($data['status_id'] ?? 0),
                 'manufacturer_id' => !empty($data['manufacturer_id']) ? (int) $data['manufacturer_id'] : null,
                 'model' => $this->sanitizeString($data['model'] ?? ''),
-                'sn' => $this->sanitizeString($data['sn'] ?? ''),
+                'serial_number' => $this->sanitizeString($data['serial_number'] ?? ''),
                 'label' => $this->sanitizeString($data['label'] ?? ''),
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
                 'maintenance_info' => $this->sanitizeString($data['maintenance_info'] ?? ''),
                 'user_id' => !empty($data['user_id']) ? (int) $data['user_id'] : null,
                 'location_id' => !empty($data['location_id']) ? (int) $data['location_id'] : null,
-                'ipv4' => $this->sanitizeString($data['ipv4'] ?? ''),
+                'ipv4_address' => $this->sanitizeString($data['ipv4_address'] ?? ''),
                 'dns_name' => $this->sanitizeString($data['dns_name'] ?? ''),
                 'cpu' => $this->sanitizeString($data['cpu'] ?? ''),
                 'ram' => $this->sanitizeString($data['ram'] ?? ''),
-                'hd' => $this->sanitizeString($data['hd'] ?? ''),
+                'hard_drive' => $this->sanitizeString($data['hard_drive'] ?? ''),
                 'is_rack_mountable' => !empty($data['is_rack_mountable']) ? 1 : 0,
                 'rack_id' => !empty($data['rack_id']) ? (int) $data['rack_id'] : null,
                 'rack_position' => !empty($data['rack_position']) ? (int) $data['rack_position'] : null,
@@ -399,7 +399,7 @@ class ItemController extends BaseController
                 'id' => $item['id'],
                 'label' => $item['label'] ?: $item['function'] ?: "#" . $item['id'],
                 'model' => $item['model'] ?: 'Unknown Model',
-                'sn' => $item['sn'],
+                'serial_number' => $item['serial_number'],
                 'function' => $item['function'], // description/title
                 'itemType' => [
                     'id' => $item['item_type_id'] ?? null,
@@ -432,13 +432,13 @@ class ItemController extends BaseController
             $errors[] = 'Item type is required.';
         }
 
-        if (empty($data['status'])) {
+        if (empty($data['status_id'])) {
             $errors[] = 'Item status is required.';
         }
 
         // Check for duplicate serial number if provided
-        if (!empty($data['sn'])) {
-            if ($this->itemModel->serialNumberExists($data['sn'])) {
+        if (!empty($data['serial_number'])) {
+            if ($this->itemModel->serialNumberExists($data['serial_number'])) {
                 $errors[] = 'Serial number already exists.';
             }
         }
@@ -602,7 +602,7 @@ class ItemController extends BaseController
                                        a.name as manufacturer_name, lt.name as license_type
                                 FROM software s
                                 LEFT JOIN agents a ON s.manufacturer_id = a.id
-                                LEFT JOIN license_types lt ON s.license_type = lt.id
+                                LEFT JOIN license_types lt ON s.license_type_id = lt.id
                                 WHERE s.id = ?";
                         break;
 
@@ -637,7 +637,7 @@ class ItemController extends BaseController
 
                     case 'file':
                         $sql = "SELECT f.id, f.filename_stored, f.title, f.file_size as file_size,
-                                       f.uploaded_at, ft.description as filetype_name
+                                       f.uploaded_at, ft.name as filetype_name
                                 FROM files f
                                 LEFT JOIN file_types ft ON f.file_type_id = ft.id
                                 WHERE f.id = ?";
@@ -655,13 +655,13 @@ class ItemController extends BaseController
                     if ($itemData) {
                         // Format data based on type
                         if ($type === 'invoice') {
-                            $itemData['date_formatted'] = $itemData['date'] ? date('Y-m-d', (int)$itemData['date']) : 'N/A';
+                            $itemData['date_formatted'] = $itemData['invoice_date'] ? date('Y-m-d', (int)$itemData['invoice_date']) : 'N/A';
                             $itemData['total_formatted'] = number_format($itemData['total_cost'] ?? 0, 2);
                         } elseif ($type === 'contract') {
                             $itemData['start_date'] = $itemData['start_date'] ? date('Y-m-d', (int)$itemData['start_date']) : 'N/A';
-                            $itemData['enddate'] = $itemData['enddate'] ? date('Y-m-d', (int)$itemData['enddate']) : 'N/A';
+                            $itemData['end_date'] = $itemData['end_date'] ? date('Y-m-d', (int)$itemData['end_date']) : 'N/A';
                         } elseif ($type === 'file') {
-                            $itemData['uploaddate_formatted'] = $itemData['uploaddate'] ? date('Y-m-d', (int)$itemData['uploaddate']) : 'N/A';
+                            $itemData['uploaded_at_formatted'] = $itemData['uploaded_at'] ? date('Y-m-d', (int)$itemData['uploaded_at']) : 'N/A';
                         }
 
                         $responseData['data'] = $itemData;

@@ -32,7 +32,7 @@ class ItemTypeModel
         $params = [];
 
         if (!empty($filters['search'])) {
-            $whereConditions[] = "(typedesc LIKE :search OR name LIKE :search)";
+            $whereConditions[] = "(description LIKE :search OR name LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
@@ -51,7 +51,7 @@ class ItemTypeModel
                 GROUP BY item_type_id
             ) item_counts ON it.id = item_counts.item_type_id
             $whereClause
-            ORDER BY it.description
+            ORDER BY it.name
             LIMIT :limit OFFSET :offset
         ";
         $params['limit'] = $perPage;
@@ -70,18 +70,18 @@ class ItemTypeModel
 
     public function create(array $data): int
     {
-        return $this->db->insert('itemtypes', [
+        return $this->db->insert('item_types', [
             'name' => $data['name'],
-            'typedesc' => $data['typedesc'] ?? $data['name'],
+            'description' => $data['description'] ?? $data['name'],
             'has_software' => (int) ($data['has_software'] ?? 0)
         ]);
     }
 
     public function update(int $id, array $data): bool
     {
-        $rowsAffected = $this->db->update('itemtypes', [
+        $rowsAffected = $this->db->update('item_types', [
             'name' => $data['name'],
-            'typedesc' => $data['typedesc'] ?? $data['name'],
+            'description' => $data['description'] ?? $data['name'],
             'has_software' => (int) ($data['has_software'] ?? 0)
         ], ['id' => $id]);
         return $rowsAffected > 0;
@@ -94,7 +94,7 @@ class ItemTypeModel
             throw new \Exception("Cannot delete item type: " . implode(', ', $canDelete['references']));
         }
 
-        $rowsAffected = $this->db->delete('itemtypes', ['id' => $id]);
+        $rowsAffected = $this->db->delete('item_types', ['id' => $id]);
         return $rowsAffected > 0;
     }
 

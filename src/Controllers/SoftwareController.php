@@ -255,7 +255,7 @@ class SoftwareController extends BaseController
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
                 'license_key' => $this->sanitizeString($data['license_key'] ?? ''),
                 'licqty' => !empty($data['licqty']) ? (int) $data['licqty'] : 1,
-                'license_type' => !empty($data['license_type']) ? (int) $data['license_type'] : 0,
+                'license_type_id' => !empty($data['license_type_id']) ? (int) $data['license_type_id'] : 0,
                 'manufacturer_id' => !empty($data['manufacturer_id']) ? (int) $data['manufacturer_id'] : null,
             ];
 
@@ -631,7 +631,7 @@ class SoftwareController extends BaseController
                        a.name as manufacturer_name, lt.name as license_type
                 FROM software s
                 LEFT JOIN agents a ON s.manufacturer_id = a.id
-                LEFT JOIN license_types lt ON s.license_type = lt.id
+                LEFT JOIN license_types lt ON s.license_type_id = lt.id
             ";
 
             $params = [];

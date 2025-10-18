@@ -262,7 +262,7 @@ class LocationModel
     public function getAreas(int $locationId): array
     {
         return $this->db->fetchAll(
-            "SELECT id, areaname as name FROM location_areas WHERE location_id = :location_id ORDER BY areaname",
+            "SELECT id, name FROM location_areas WHERE location_id = :location_id ORDER BY name",
             ['location_id' => $locationId]
         );
     }

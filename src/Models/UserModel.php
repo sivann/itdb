@@ -31,9 +31,9 @@ class UserModel
             $params['search'] = $search;
         }
 
-        if (isset($filters['usertype'])) {
-            $conditions[] = "usertype = :usertype";
-            $params['usertype'] = (int) $filters['usertype'];
+        if (isset($filters['user_type'])) {
+            $conditions[] = "user_type = :user_type";
+            $params['user_type'] = (int) $filters['user_type'];
         }
 
         $whereClause = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
@@ -65,7 +65,7 @@ class UserModel
 
         // Add display_name field for template compatibility
         foreach ($users as &$user) {
-            $user['display_name'] = !empty($user['userdesc']) ? $user['userdesc'] : $user['username'];
+            $user['display_name'] = !empty($user['display_name']) ? $user['display_name'] : $user['username'];
         }
 
         return [
@@ -87,7 +87,7 @@ class UserModel
         if ($result) {
             $user = $result[0];
             // Add display_name field for template compatibility
-            $user['display_name'] = !empty($user['userdesc']) ? $user['userdesc'] : $user['username'];
+            $user['display_name'] = !empty($user['display_name']) ? $user['display_name'] : $user['username'];
             return $user;
         }
         return null;
@@ -122,15 +122,15 @@ class UserModel
     public function create(array $data): int
     {
         $sql = "
-            INSERT INTO users (username, display_name, user_type, pass)
-            VALUES (:username, :userdesc, :usertype, :pass)
+            INSERT INTO users (username, display_name, user_type, password_hash)
+            VALUES (:username, :display_name, :user_type, :password_hash)
         ";
 
         $params = [
             'username' => $data['username'],
-            'userdesc' => $data['userdesc'] ?? null,
-            'usertype' => $data['usertype'] ?? 0,
-            'pass' => $data['password'] ?? null
+            'display_name' => $data['display_name'] ?? null,
+            'user_type' => $data['user_type'] ?? 0,
+            'password_hash' => $data['password'] ?? null
         ];
 
         $this->db->execute($sql, $params);
@@ -145,15 +145,15 @@ class UserModel
         $sql = "
             UPDATE users SET
                 username = :username,
-                display_name = :userdesc,
-                user_type = :usertype
+                display_name = :display_name,
+                user_type = :user_type
             WHERE id = :id
         ";
 
         $params = [
             'username' => $data['username'],
-            'userdesc' => $data['userdesc'] ?? null,
-            'usertype' => $data['usertype'] ?? 0,
+            'display_name' => $data['display_name'] ?? null,
+            'user_type' => $data['user_type'] ?? 0,
             'id' => $id
         ];
 
@@ -166,9 +166,9 @@ class UserModel
      */
     public function updatePassword(int $id, string $hashedPassword): bool
     {
-        $sql = "UPDATE users SET password = :password WHERE id = :id";
+        $sql = "UPDATE users SET password_hash = :password_hash WHERE id = :id";
         $stmt = $this->db->execute($sql, [
-            'password' => $hashedPassword,
+            'password_hash' => $hashedPassword,
             'id' => $id
         ]);
         return $stmt->rowCount() > 0;
@@ -256,13 +256,13 @@ class UserModel
     public function verifyPassword(int $userId, string $password): bool
     {
         $user = $this->find($userId);
-        if (!$user || !isset($user['password'])) {
+        if (!$user || !isset($user['password_hash'])) {
             return false;
         }
 
         // In production, this would use password_verify() for hashed passwords
         // For now, doing simple comparison as per existing code
-        return $user['password'] === $password;
+        return $user['password_hash'] === $password;
     }
 
     /**

@@ -22,7 +22,7 @@ class StatusTypeModel
 
     public function getAll(): array
     {
-        return $this->db->fetchAll("SELECT * FROM status_types ORDER BY statusdesc");
+        return $this->db->fetchAll("SELECT * FROM status_types ORDER BY name");
     }
 
     public function getPaginated(int $page = 1, int $perPage = 20, array $filters = []): array
@@ -32,7 +32,7 @@ class StatusTypeModel
         $params = [];
 
         if (!empty($filters['search'])) {
-            $whereConditions[] = "statusdesc LIKE :search";
+            $whereConditions[] = "name LIKE :search";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
@@ -41,7 +41,7 @@ class StatusTypeModel
         $totalSql = "SELECT COUNT(*) FROM status_types $whereClause";
         $total = (int) $this->db->fetchColumn($totalSql, $params);
 
-        $sql = "SELECT * FROM status_types $whereClause ORDER BY statusdesc LIMIT :limit OFFSET :offset";
+        $sql = "SELECT * FROM status_types $whereClause ORDER BY name LIMIT :limit OFFSET :offset";
         $params['limit'] = $perPage;
         $params['offset'] = $offset;
 
@@ -59,7 +59,7 @@ class StatusTypeModel
     public function create(array $data): int
     {
         return $this->db->insert('statustypes', [
-            'statusdesc' => $data['statusdesc'],
+            'name' => $data['name'],
             'availableforloan' => $data['availableforloan'] ?? 0
         ]);
     }
@@ -67,7 +67,7 @@ class StatusTypeModel
     public function update(int $id, array $data): bool
     {
         $rowsAffected = $this->db->update('statustypes', [
-            'statusdesc' => $data['statusdesc'],
+            'name' => $data['name'],
             'availableforloan' => $data['availableforloan'] ?? 0
         ], ['id' => $id]);
         return $rowsAffected > 0;

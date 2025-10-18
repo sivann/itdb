@@ -108,17 +108,17 @@ class StatusTypeController extends BaseController
 
         $data = $this->getParsedBody($request);
 
-        if (empty($data['statusdesc'])) {
-            $this->addFlashMessage('error', 'Status description is required.');
+        if (empty($data['name'])) {
+            $this->addFlashMessage('error', 'Status name is required.');
             return $this->redirectToRoute($request, $response, 'admin.status-types.create');
         }
 
         try {
             $statusTypeId = $this->statusTypeModel->create([
-                'statusdesc' => $this->sanitizeString($data['statusdesc']),
+                'name' => $this->sanitizeString($data['name']),
             ]);
 
-            $this->logUserAction('status_type_created', ['type_id' => $statusTypeId, 'name' => $data['statusdesc']]);
+            $this->logUserAction('status_type_created', ['type_id' => $statusTypeId, 'name' => $data['name']]);
             $this->addFlashMessage('success', 'Status type created successfully.');
 
             return $this->redirectToRoute($request, $response, 'admin.status-types.show', ['id' => $statusTypeId]);
@@ -181,17 +181,17 @@ class StatusTypeController extends BaseController
 
         $data = $this->getParsedBody($request);
 
-        if (empty($data['statusdesc'])) {
-            $this->addFlashMessage('error', 'Status description is required.');
+        if (empty($data['name'])) {
+            $this->addFlashMessage('error', 'Status name is required.');
             return $this->redirectToRoute($request, $response, 'admin.status-types.edit', ['id' => $id]);
         }
 
         try {
             $this->statusTypeModel->update($id, [
-                'statusdesc' => $this->sanitizeString($data['statusdesc']),
+                'name' => $this->sanitizeString($data['name']),
             ]);
 
-            $this->logUserAction('status_type_updated', ['type_id' => $id, 'name' => $data['statusdesc']]);
+            $this->logUserAction('status_type_updated', ['type_id' => $id, 'name' => $data['name']]);
             $this->addFlashMessage('success', 'Status type updated successfully.');
 
             return $this->redirectToRoute($request, $response, 'admin.status-types.show', ['id' => $id]);
@@ -225,7 +225,7 @@ class StatusTypeController extends BaseController
         }
 
         try {
-            $typeName = $statusType['statusdesc'];
+            $typeName = $statusType['name'];
             $this->statusTypeModel->delete($id);
 
             $this->logUserAction('status_type_deleted', ['type_id' => $id, 'name' => $typeName]);

@@ -305,7 +305,7 @@ class FileModel
     {
         $sql = "
             SELECT s.id, s.title, s.version,
-                   s.license_type,
+                   s.license_type_id,
                    a.name as manufacturer_name
             FROM software_files s2f
             INNER JOIN software s ON s2f.software_id = s.id

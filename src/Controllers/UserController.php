@@ -48,8 +48,8 @@ class UserController extends BaseController
         }
 
         // Filter by user type
-        if (isset($queryParams['usertype']) && $queryParams['usertype'] !== '') {
-            $filters['usertype'] = (int) $queryParams['usertype'];
+        if (isset($queryParams['user_type']) && $queryParams['user_type'] !== '') {
+            $filters['user_type'] = (int) $queryParams['user_type'];
         }
 
         // Pagination
@@ -132,13 +132,13 @@ class UserController extends BaseController
             $errors[] = 'Username already exists';
         }
 
-        if (empty($data['pass'])) {
+        if (empty($data['password'])) {
             $errors[] = 'Password is required';
-        } elseif (strlen($data['pass']) < 4) {
+        } elseif (strlen($data['password']) < 4) {
             $errors[] = 'Password must be at least 4 characters';
         }
 
-        if (!isset($data['usertype']) || !in_array((int) $data['usertype'], [1, 2])) {
+        if (!isset($data['user_type']) || !in_array((int) $data['user_type'], [1, 2])) {
             $errors[] = 'Valid user type is required';
         }
 
@@ -149,9 +149,9 @@ class UserController extends BaseController
         try {
             $userId = $this->userModel->create([
                 'username' => $this->sanitizeString($data['username']),
-                'realname' => $this->sanitizeString($data['userdesc'] ?? ''), // Map display_name to realname
-                'password' => $data['pass'], // In production, should be hashed
-                'usertype' => (int) $data['usertype'],
+                'display_name' => $this->sanitizeString($data['display_name'] ?? ''),
+                'password_hash' => password_hash($data['password'], PASSWORD_DEFAULT), // Hash the password
+                'user_type' => (int) $data['user_type'],
                 'comments' => null,
             ]);
 
@@ -241,14 +241,14 @@ class UserController extends BaseController
         }
 
         // Password validation (only if provided)
-        if (!empty($data['pass']) && strlen($data['pass']) < 4) {
+        if (!empty($data['password']) && strlen($data['password']) < 4) {
             $errors[] = 'Password must be at least 4 characters';
         }
 
         // Only admins can change user type
-        if (isset($data['usertype']) && !$currentUser->isAdmin()) {
+        if (isset($data['user_type']) && !$currentUser->isAdmin()) {
             $errors[] = 'Access denied: cannot change user type';
-        } elseif (isset($data['usertype']) && !in_array((int) $data['usertype'], [0, 1, 2])) {
+        } elseif (isset($data['user_type']) && !in_array((int) $data['user_type'], [0, 1, 2])) {
             $errors[] = 'Invalid user type';
         }
 
@@ -259,20 +259,20 @@ class UserController extends BaseController
         try {
             $updateData = [
                 'username' => $this->sanitizeString($data['username']),
-                'realname' => $this->sanitizeString($data['userdesc'] ?? ''),
+                'display_name' => $this->sanitizeString($data['display_name'] ?? ''),
                 'comments' => null
             ];
 
             // Update user type only if admin
-            if (isset($data['usertype']) && $currentUser->isAdmin()) {
-                $updateData['usertype'] = (int) $data['usertype'];
+            if (isset($data['user_type']) && $currentUser->isAdmin()) {
+                $updateData['user_type'] = (int) $data['user_type'];
             }
 
             $this->userModel->update($id, $updateData);
 
             // Update password separately if provided
-            if (!empty($data['pass'])) {
-                $this->userModel->updatePassword($id, $data['pass']); // In production, should be hashed
+            if (!empty($data['password'])) {
+                $this->userModel->updatePassword($id, password_hash($data['password'], PASSWORD_DEFAULT)); // Hash the password
             }
 
             $this->logUserAction('user_updated', ['updated_user_id' => $id, 'username' => $data['username']]);

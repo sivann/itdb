@@ -84,11 +84,11 @@
                         </div>
 
                         <div class="row mb-1">
-                            <label for="locationid" class="col-sm-4 col-form-label col-form-label-sm text-end">Location <span class="text-danger">*</span></label>
+                            <label for="location_id" class="col-sm-4 col-form-label col-form-label-sm text-end">Location <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
                                 <select class="form-select form-select-sm{% if errors.location_id %} is-invalid{% endif %}"
-                                        id="locationid"
-                                        name="locationid"
+                                        id="location_id"
+                                        name="location_id"
                                         required>
                                     <option value="">Select location...</option>
                                     {% for location in form_options.locations %}
@@ -106,28 +106,28 @@
                         </div>
 
                         <div class="row mb-1">
-                            <label for="locareaid" class="col-sm-4 col-form-label col-form-label-sm text-end">Area</label>
+                            <label for="location_area_id" class="col-sm-4 col-form-label col-form-label-sm text-end">Area</label>
                             <div class="col-sm-8">
-                                <select class="form-select form-select-sm{% if errors.locareaid %} is-invalid{% endif %}"
-                                        id="locareaid"
-                                        name="locareaid">
+                                <select class="form-select form-select-sm{% if errors.location_area_id %} is-invalid{% endif %}"
+                                        id="location_area_id"
+                                        name="location_area_id">
                                     <option value="">No specific area</option>
                                     {% for area in form_options.location_areas %}
                                     <option value="{{ area.id }}"
-                                            {% if (old.locareaid|default(rack.locareaid|default(''))) == area.id %}selected{% endif %}
+                                            {% if (old.location_area_id|default(rack.location_area_id|default(''))) == area.id %}selected{% endif %}
                                             data-location="{{ area.location_id }}">
                                         {{ area.name }}
                                     </option>
                                     {% endfor %}
                                 </select>
-                                {% if errors.locareaid %}
-                                <div class="invalid-feedback">{{ errors.locareaid }}</div>
+                                {% if errors.location_area_id %}
+                                <div class="invalid-feedback">{{ errors.location_area_id }}</div>
                                 {% endif %}
                             </div>
                         </div>
 
                         <div class="row mb-1">
-                            <label for="usize" class="col-sm-4 col-form-label col-form-label-sm text-end">Size (U) <span class="text-danger">*</span></label>
+                            <label for="size_units" class="col-sm-4 col-form-label col-form-label-sm text-end">Size (U) <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
                                 <select class="form-select form-select-sm{% if errors.size_units %} is-invalid{% endif %}"
                                         id="size_units"
@@ -168,7 +168,7 @@
                         </div>
 
                         <div class="row mb-1">
-                            <label for="depth" class="col-sm-4 col-form-label col-form-label-sm text-end">Depth (mm)</label>
+                            <label for="depth_mm" class="col-sm-4 col-form-label col-form-label-sm text-end">Depth (mm)</label>
                             <div class="col-sm-8">
                                 <select class="form-select form-select-sm{% if errors.depth_mm %} is-invalid{% endif %}"
                                         id="depth_mm"
@@ -195,17 +195,17 @@
                             <label class="col-sm-4 col-form-label col-form-label-sm text-end">U Numbering</label>
                             <div class="col-sm-8">
                                 <div class="form-check">
-                                    <input class="form-check-input{% if errors.revnums %} is-invalid{% endif %}"
+                                    <input class="form-check-input{% if errors.reverse_numbering %} is-invalid{% endif %}"
                                            type="checkbox"
-                                           id="revnums"
-                                           name="revnums"
+                                           id="reverse_numbering"
+                                           name="reverse_numbering"
                                            value="1"
-                                           {% if (old.revnums|default(rack.revnums|default(''))) == 1 %}checked{% endif %}>
-                                    <label class="form-check-label" for="revnums">
+                                           {% if (old.reverse_numbering|default(rack.reverse_numbering|default(''))) == 1 %}checked{% endif %}>
+                                    <label class="form-check-label" for="reverse_numbering">
                                         Reverse
                                     </label>
-                                    {% if errors.revnums %}
-                                    <div class="invalid-feedback">{{ errors.revnums }}</div>
+                                    {% if errors.reverse_numbering %}
+                                    <div class="invalid-feedback">{{ errors.reverse_numbering }}</div>
                                     {% endif %}
                                 </div>
                             </div>

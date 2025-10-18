@@ -108,19 +108,19 @@ class ItemTypeController extends BaseController
 
         $data = $this->getParsedBody($request);
 
-        if (empty($data['typedesc'])) {
-            $this->addFlashMessage('error', 'Type description is required.');
+        if (empty($data['name'])) {
+            $this->addFlashMessage('error', 'Type name is required.');
             return $this->redirectToRoute($request, $response, 'admin.item-types.create');
         }
 
         try {
             $itemTypeId = $this->itemTypeModel->create([
-                'name' => $this->sanitizeString($data['typedesc']),
-                'typedesc' => $this->sanitizeString($data['typedesc']),
+                'name' => $this->sanitizeString($data['name']),
+                'description' => $this->sanitizeString($data['description'] ?? ''),
                 'has_software' => (int) ($data['has_software'] ?? 0),
             ]);
 
-            $this->logUserAction('item_type_created', ['type_id' => $itemTypeId, 'name' => $data['typedesc']]);
+            $this->logUserAction('item_type_created', ['type_id' => $itemTypeId, 'name' => $data['name']]);
             $this->addFlashMessage('success', 'Item type created successfully.');
 
             return $this->redirectToRoute($request, $response, 'admin.item-types.show', ['id' => $itemTypeId]);
@@ -183,19 +183,19 @@ class ItemTypeController extends BaseController
 
         $data = $this->getParsedBody($request);
 
-        if (empty($data['typedesc'])) {
-            $this->addFlashMessage('error', 'Type description is required.');
+        if (empty($data['name'])) {
+            $this->addFlashMessage('error', 'Type name is required.');
             return $this->redirectToRoute($request, $response, 'admin.item-types.edit', ['id' => $id]);
         }
 
         try {
             $this->itemTypeModel->update($id, [
-                'name' => $this->sanitizeString($data['typedesc']),
-                'typedesc' => $this->sanitizeString($data['typedesc']),
+                'name' => $this->sanitizeString($data['name']),
+                'description' => $this->sanitizeString($data['description'] ?? ''),
                 'has_software' => (int) ($data['has_software'] ?? 0),
             ]);
 
-            $this->logUserAction('item_type_updated', ['type_id' => $id, 'name' => $data['typedesc']]);
+            $this->logUserAction('item_type_updated', ['type_id' => $id, 'name' => $data['name']]);
             $this->addFlashMessage('success', 'Item type updated successfully.');
 
             return $this->redirectToRoute($request, $response, 'admin.item-types.show', ['id' => $id]);
@@ -229,7 +229,7 @@ class ItemTypeController extends BaseController
         }
 
         try {
-            $typeName = $itemType['typedesc'] ?? $itemType['name'];
+            $typeName = $itemType['name'];
             $this->itemTypeModel->delete($id);
 
             $this->logUserAction('item_type_deleted', ['type_id' => $id, 'name' => $typeName]);

@@ -161,7 +161,7 @@ class InvoiceController extends BaseController
                 'buyer_id' => !empty($data['buyer_id']) ? (int) $data['buyer_id'] : null,
                 'total_cost' => !empty($data['total_cost']) ? (float) $data['total_cost'] : 0.00,
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
-                'date' => !empty($data['invoicedate']) ? strtotime($data['invoicedate']) : time(),
+                'invoice_date' => !empty($data['invoice_date']) ? strtotime($data['invoice_date']) : time(),
             ];
 
             $invoiceId = $this->invoiceModel->create($invoiceData);
@@ -253,7 +253,7 @@ class InvoiceController extends BaseController
                 'buyer_id' => !empty($data['buyer_id']) ? (int) $data['buyer_id'] : null,
                 'total_cost' => !empty($data['total_cost']) ? (float) $data['total_cost'] : 0.00,
                 'comments' => $this->sanitizeString($data['comments'] ?? ''),
-                'date' => !empty($data['invoicedate']) ? strtotime($data['invoicedate']) : null,
+                'invoice_date' => !empty($data['invoice_date']) ? strtotime($data['invoice_date']) : null,
             ];
 
             $this->invoiceModel->update($id, $updateData);

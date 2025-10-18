@@ -108,17 +108,17 @@ class FileTypeController extends BaseController
 
         $data = $this->getParsedBody($request);
 
-        if (empty($data['typedesc'])) {
-            $this->addFlashMessage('error', 'File type description is required.');
+        if (empty($data['name'])) {
+            $this->addFlashMessage('error', 'File type name is required.');
             return $this->redirectToRoute($request, $response, 'admin.file-types.create');
         }
 
         try {
             $fileTypeId = $this->fileTypeModel->create([
-                'typedesc' => $this->sanitizeString($data['typedesc']),
+                'name' => $this->sanitizeString($data['name']),
             ]);
 
-            $this->logUserAction('file_type_created', ['type_id' => $fileTypeId, 'name' => $data['typedesc']]);
+            $this->logUserAction('file_type_created', ['type_id' => $fileTypeId, 'name' => $data['name']]);
             $this->addFlashMessage('success', 'File type created successfully.');
 
             return $this->redirectToRoute($request, $response, 'admin.file-types.show', ['id' => $fileTypeId]);
@@ -181,17 +181,17 @@ class FileTypeController extends BaseController
 
         $data = $this->getParsedBody($request);
 
-        if (empty($data['typedesc'])) {
-            $this->addFlashMessage('error', 'File type description is required.');
+        if (empty($data['name'])) {
+            $this->addFlashMessage('error', 'File type name is required.');
             return $this->redirectToRoute($request, $response, 'admin.file-types.edit', ['id' => $id]);
         }
 
         try {
             $this->fileTypeModel->update($id, [
-                'typedesc' => $this->sanitizeString($data['typedesc']),
+                'name' => $this->sanitizeString($data['name']),
             ]);
 
-            $this->logUserAction('file_type_updated', ['type_id' => $id, 'name' => $data['typedesc']]);
+            $this->logUserAction('file_type_updated', ['type_id' => $id, 'name' => $data['name']]);
             $this->addFlashMessage('success', 'File type updated successfully.');
 
             return $this->redirectToRoute($request, $response, 'admin.file-types.show', ['id' => $id]);
@@ -225,7 +225,7 @@ class FileTypeController extends BaseController
         }
 
         try {
-            $typeName = $fileType['typedesc'];
+            $typeName = $fileType['name'];
             $this->fileTypeModel->delete($id);
 
             $this->logUserAction('file_type_deleted', ['type_id' => $id, 'name' => $typeName]);

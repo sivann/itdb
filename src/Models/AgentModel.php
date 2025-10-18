@@ -31,7 +31,7 @@ class AgentModel
      */
     public function getAll(): array
     {
-        return $this->db->fetchAll("SELECT * FROM agents ORDER BY title");
+        return $this->db->fetchAll("SELECT * FROM agents ORDER BY name");
     }
 
     /**
@@ -45,7 +45,7 @@ class AgentModel
 
         // Build WHERE conditions
         if (!empty($filters['search'])) {
-            $whereConditions[] = "(title LIKE :search OR contact_info LIKE :search)";
+            $whereConditions[] = "(name LIKE :search OR contact_info LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
@@ -134,7 +134,7 @@ class AgentModel
      */
     public function create(array $data): int
     {
-        $allowedFields = ['title', 'contactinfo', 'contacts', 'urls'];
+        $allowedFields = ['name', 'contact_info', 'contacts', 'urls'];
         $insertData = array_intersect_key($data, array_flip($allowedFields));
 
         return $this->db->insert('agents', $insertData);
@@ -145,7 +145,7 @@ class AgentModel
      */
     public function update(int $id, array $data): bool
     {
-        $allowedFields = ['title', 'contactinfo', 'contacts', 'urls'];
+        $allowedFields = ['name', 'contact_info', 'contacts', 'urls'];
         $updateData = array_intersect_key($data, array_flip($allowedFields));
 
         if (empty($updateData)) {

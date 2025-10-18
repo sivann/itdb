@@ -42,12 +42,7 @@ class SoftwareModel
 
         // Get software with manufacturer info and more complete data
         $sql = "
-            SELECT s.*, a.name as manufacturer_name,
-                   CASE
-                       WHEN s.license_key IS NOT NULL AND s.license_key != '' THEN CAST(s.license_key AS INTEGER)
-                       ELSE 0
-                   END as license_quantity,
-                   (SELECT COUNT(*) FROM items_software WHERE software_id = s.id) as installations_count
+            SELECT s.*, a.name as manufacturer_name, s.license_type_id
             FROM software s
             LEFT JOIN agents a ON s.manufacturer_id = a.id
             {$whereClause}
@@ -65,11 +60,11 @@ class SoftwareModel
             $item['sinfo'] = $item['comments'];
 
             // License quantity from parsed field
-            $licenseCount = (int)$item['license_quantity'];
+            $licenseCount = (int)($item['licqty'] ?? 0);
             $item['licqty'] = $licenseCount > 0 ? $licenseCount : null;
 
             // License type (0=Per Device, 1=Per User, 2=Site License, 3=Volume License)
-            $licenseType = !empty($item['license_type']) && is_numeric($item['license_type']) ? (int)$item['license_type'] : 0;
+            $licenseType = !empty($item['license_type_id']) && is_numeric($item['license_type_id']) ? (int)$item['license_type_id'] : 0;
             $item['lictype'] = $licenseType;
 
             // Installation count from database query
@@ -109,10 +104,6 @@ class SoftwareModel
                 ];
             }
 
-            // Last updated (would be from updated_at timestamp if available)
-            // For now, use a placeholder or null
-            $item['purchdate'] = null; // Would be actual purchase date
-
             return $item;
         }, $software);
 
@@ -131,11 +122,7 @@ class SoftwareModel
     public function find(int $id): ?array
     {
         $sql = "
-            SELECT s.*, a.name as manufacturer_name,
-                   CASE
-                       WHEN s.license_key IS NOT NULL AND s.license_key != '' THEN CAST(s.license_key AS INTEGER)
-                       ELSE 0
-                   END as license_quantity
+            SELECT s.*, a.name as manufacturer_name
             FROM software s
             LEFT JOIN agents a ON s.manufacturer_id = a.id
             WHERE s.id = ? LIMIT 1
@@ -209,11 +196,6 @@ class SoftwareModel
         $software['display_title'] = $software['title'] . ($software['version'] ? ' v' . $software['version'] : '');
         $software['sinfo'] = $software['comments'];
 
-        // License info
-        $licenseCount = (int)($software['license_quantity'] ?? 0);
-        $software['licqty'] = $licenseCount > 0 ? $licenseCount : null;
-        $software['lictype'] = !empty($software['license_type']) && is_numeric($software['license_type']) ? (int)$software['license_type'] : 0;
-
         return $software;
     }
 
@@ -223,7 +205,7 @@ class SoftwareModel
     public function create(array $data): int
     {
         $sql = "
-            INSERT INTO software (title, version, license_key, comments, url, license_type, category, manufacturer_id, updated_at)
+            INSERT INTO software (title, version, license_key, comments, url, license_type_id, category, manufacturer_id, updated_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ";
 
@@ -233,7 +215,7 @@ class SoftwareModel
             $data['license_key'] ?? null,
             $data['comments'] ?? null,
             $data['url'] ?? null,
-            $data['license_type'] ?? null,
+            $data['license_type_id'] ?? null,
             $data['category'] ?? null,
             $data['manufacturer_id'] ?? null,
             time()
@@ -251,7 +233,7 @@ class SoftwareModel
         $sql = "
             UPDATE software SET
                 title = ?, version = ?, license_key = ?, comments = ?,
-                url = ?, license_type = ?, category = ?, manufacturer_id = ?, updated_at = ?
+                url = ?, license_type_id = ?, category = ?, manufacturer_id = ?, updated_at = ?
             WHERE id = ?
         ";
 
@@ -261,7 +243,7 @@ class SoftwareModel
             $data['license_key'] ?? null,
             $data['comments'] ?? null,
             $data['url'] ?? null,
-            $data['license_type'] ?? null,
+            $data['license_type_id'] ?? null,
             $data['category'] ?? null,
             $data['manufacturer_id'] ?? null,
             time(),
@@ -288,8 +270,6 @@ class SoftwareModel
     public function getFilterOptions(): array
     {
         return [
-            'manufacturers' => $this->db->fetchAll("SELECT DISTINCT manufacturer FROM software WHERE manufacturer IS NOT NULL ORDER BY manufacturer"),
-            'operating_systems' => $this->db->fetchAll("SELECT DISTINCT os FROM software WHERE os IS NOT NULL ORDER BY os")
         ];
     }
 
@@ -321,7 +301,7 @@ class SoftwareModel
     public function getAssociatedInvoices(int $softwareId): array
     {
         $sql = "
-            SELECT inv.id, inv.id as invoice_id, inv.invoice_date, inv.total_cost, inv.comments,
+            SELECT inv.id, inv.invoice_number, inv.invoice_date, inv.total_cost, inv.comments,
                    vendor.name as vendor_name, buyer.name as buyer_name
             FROM software_invoices s2i
             INNER JOIN invoices inv ON s2i.invoice_id = inv.id

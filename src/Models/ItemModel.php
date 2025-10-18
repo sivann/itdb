@@ -36,9 +36,9 @@ class ItemModel
             $params[] = (int) $filters['type'];
         }
 
-        if (!empty($filters['status'])) {
+        if (!empty($filters['status_id'])) {
             $conditions[] = "status_id = ?";
-            $params[] = (int) $filters['status'];
+            $params[] = (int) $filters['status_id'];
         }
 
         if (!empty($filters['location'])) {
@@ -168,10 +168,11 @@ class ItemModel
     {
         $sql = "
             INSERT INTO items (
-                function, item_type_id, status_id, manufacturer_id, model, serial_number, label,
+                function, item_type_id, status_id, manufacturer_id, model, serial_number, serial_number_2, serial_number_3, label,
                 comments, maintenance_info, user_id, location_id, location_area_id, rack_id,
-                rack_position, purchase_date, warranty_months, ipv4_address, hard_drive, cpu, ram, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                rack_position, rack_position_depth, purchase_date, warranty_months, warranty_info, ipv4_address, ipv6_address, mac_addresses, dns_name, 
+                hard_drive, cpu, ram, cpu_count, cores_per_cpu, port_count, is_rack_mountable, is_part, origin, purchase_price, remote_admin_ip, panel_port, switch_port, switch_id, certificate_of_authenticity, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ";
 
         $params = [
@@ -181,6 +182,8 @@ class ItemModel
             $data['manufacturer_id'] ?? null,
             $data['model'] ?? null,
             $data['serial_number'] ?? null,
+            $data['serial_number_2'] ?? null,
+            $data['serial_number_3'] ?? null,
             $data['label'] ?? null,
             $data['comments'] ?? null,
             $data['maintenance_info'] ?? null,
@@ -189,12 +192,29 @@ class ItemModel
             $data['location_area_id'] ?? null,
             $data['rack_id'] ?? null,
             $data['rack_position'] ?? null,
+            $data['rack_position_depth'] ?? null,
             $data['purchase_date'] ?? null,
             $data['warranty_months'] ?? null,
+            $data['warranty_info'] ?? null,
             $data['ipv4_address'] ?? null,
+            $data['ipv6_address'] ?? null,
+            $data['mac_addresses'] ?? null,
+            $data['dns_name'] ?? null,
             $data['hard_drive'] ?? null,
             $data['cpu'] ?? null,
             $data['ram'] ?? null,
+            $data['cpu_count'] ?? null,
+            $data['cores_per_cpu'] ?? null,
+            $data['port_count'] ?? null,
+            $data['is_rack_mountable'] ?? null,
+            $data['is_part'] ?? null,
+            $data['origin'] ?? null,
+            $data['purchase_price'] ?? null,
+            $data['remote_admin_ip'] ?? null,
+            $data['panel_port'] ?? null,
+            $data['switch_port'] ?? null,
+            $data['switch_id'] ?? null,
+            $data['certificate_of_authenticity'] ?? null,
             time()
         ];
 
@@ -209,10 +229,10 @@ class ItemModel
     {
         $sql = "
             UPDATE items SET
-                function = ?, item_type_id = ?, status_id = ?, manufacturer_id = ?,
-                model = ?, serial_number = ?, label = ?, comments = ?, maintenance_info = ?,
-                user_id = ?, location_id = ?, location_area_id = ?, rack_id = ?, rack_position = ?,
-                purchase_date = ?, warranty_months = ?, ipv4_address = ?, hard_drive = ?, cpu = ?, ram = ?, updated_at = ?
+                function = ?, item_type_id = ?, status_id = ?, manufacturer_id = ?, model = ?, serial_number = ?, serial_number_2 = ?, serial_number_3 = ?, label = ?,
+                comments = ?, maintenance_info = ?, user_id = ?, location_id = ?, location_area_id = ?, rack_id = ?,
+                rack_position = ?, rack_position_depth = ?, purchase_date = ?, warranty_months = ?, warranty_info = ?, ipv4_address = ?, ipv6_address = ?, mac_addresses = ?, dns_name = ?,
+                hard_drive = ?, cpu = ?, ram = ?, cpu_count = ?, cores_per_cpu = ?, port_count = ?, is_rack_mountable = ?, is_part = ?, origin = ?, purchase_price = ?, remote_admin_ip = ?, panel_port = ?, switch_port = ?, switch_id = ?, certificate_of_authenticity = ?, updated_at = ?
             WHERE id = ?
         ";
 
@@ -223,6 +243,8 @@ class ItemModel
             $data['manufacturer_id'] ?? null,
             $data['model'] ?? null,
             $data['serial_number'] ?? null,
+            $data['serial_number_2'] ?? null,
+            $data['serial_number_3'] ?? null,
             $data['label'] ?? null,
             $data['comments'] ?? null,
             $data['maintenance_info'] ?? null,
@@ -231,12 +253,29 @@ class ItemModel
             $data['location_area_id'] ?? null,
             $data['rack_id'] ?? null,
             $data['rack_position'] ?? null,
+            $data['rack_position_depth'] ?? null,
             $data['purchase_date'] ?? null,
             $data['warranty_months'] ?? null,
+            $data['warranty_info'] ?? null,
             $data['ipv4_address'] ?? null,
+            $data['ipv6_address'] ?? null,
+            $data['mac_addresses'] ?? null,
+            $data['dns_name'] ?? null,
             $data['hard_drive'] ?? null,
             $data['cpu'] ?? null,
             $data['ram'] ?? null,
+            $data['cpu_count'] ?? null,
+            $data['cores_per_cpu'] ?? null,
+            $data['port_count'] ?? null,
+            $data['is_rack_mountable'] ?? null,
+            $data['is_part'] ?? null,
+            $data['origin'] ?? null,
+            $data['purchase_price'] ?? null,
+            $data['remote_admin_ip'] ?? null,
+            $data['panel_port'] ?? null,
+            $data['switch_port'] ?? null,
+            $data['switch_id'] ?? null,
+            $data['certificate_of_authenticity'] ?? null,
             time(),
             $id
         ];
@@ -361,10 +400,10 @@ class ItemModel
     /**
      * Check if serial number exists
      */
-    public function serialNumberExists(string $sn, ?int $excludeId = null): bool
+    public function serialNumberExists(string $serial_number, ?int $excludeId = null): bool
     {
-        $sql = "SELECT COUNT(*) FROM items WHERE serial_number = :sn";
-        $params = ['sn' => $sn];
+        $sql = "SELECT COUNT(*) FROM items WHERE serial_number = :serial_number";
+        $params = ['serial_number' => $serial_number];
 
         if ($excludeId) {
             $sql .= " AND id != :exclude_id";
@@ -459,7 +498,7 @@ class ItemModel
             SELECT s.id, s.title as name, s.version, lt.name as license_type, a.name as manufacturer_name
             FROM items_software i2s
             INNER JOIN software s ON i2s.software_id = s.id
-            LEFT JOIN license_types lt ON s.license_type = lt.id
+            LEFT JOIN license_types lt ON s.license_type_id = lt.id
             LEFT JOIN agents a ON s.manufacturer_id = a.id
             WHERE i2s.item_id = ?
             ORDER BY s.title ASC
@@ -497,7 +536,7 @@ class ItemModel
     public function getAssociatedInvoices(int $itemId): array
     {
         $sql = "
-            SELECT i.id, i.id as number, i.invoice_date, i.total_cost, i.comments,
+            SELECT i.id, i.invoice_number as number, i.invoice_date, i.total_cost, i.comments,
                    a.name as vendor_title
             FROM items_invoices i2i
             INNER JOIN invoices i ON i2i.invoice_id = i.id
@@ -559,7 +598,7 @@ class ItemModel
         // Format data
         foreach ($contracts as &$contract) {
             $contract['start_date'] = $contract['start_date'] ? date('Y-m-d', $contract['start_date']) : 'N/A';
-            $contract['enddate'] = $contract['end_date'] ? date('Y-m-d', $contract['end_date']) : 'N/A';
+            $contract['end_date'] = $contract['end_date'] ? date('Y-m-d', $contract['end_date']) : 'N/A';
         }
 
         return $contracts;
@@ -646,8 +685,8 @@ class ItemModel
             SELECT i.id, i.label, i.function, i.model, it.name as type_name,
                    l.name as location_name, u.username, a.name as manufacturer_name
             FROM itemlink il
-            INNER JOIN items i ON (il.itemid2 = i.id AND il.itemid1 = ?)
-                                OR (il.itemid1 = i.id AND il.itemid2 = ?)
+            INNER JOIN items i ON (il.item_id2 = i.id AND il.item_id1 = ?)
+                                OR (il.item_id1 = i.id AND il.item_id2 = ?)
             LEFT JOIN item_types it ON i.item_type_id = it.id
             LEFT JOIN locations l ON i.location_id = l.id
             LEFT JOIN users u ON i.user_id = u.id
@@ -666,15 +705,15 @@ class ItemModel
         try {
             // Check if association already exists in either direction
             $sql = "SELECT COUNT(*) FROM itemlink
-                    WHERE (itemid1 = ? AND itemid2 = ?)
-                       OR (itemid1 = ? AND itemid2 = ?)";
+                    WHERE (item_id1 = ? AND item_id2 = ?)
+                       OR (item_id1 = ? AND item_id2 = ?)";
             $exists = $this->db->fetchColumn($sql, [$itemId, $relatedItemId, $relatedItemId, $itemId]);
 
             if ($exists > 0) {
                 return false; // Already associated
             }
 
-            $sql = "INSERT INTO itemlink (itemid1, itemid2) VALUES (?, ?)";
+            $sql = "INSERT INTO itemlink (item_id1, item_id2) VALUES (?, ?)";
             $stmt = $this->db->execute($sql, [$itemId, $relatedItemId]);
             return $stmt->rowCount() > 0;
         } catch (\Exception $e) {
@@ -688,8 +727,8 @@ class ItemModel
     public function dissociateItem(int $itemId, int $relatedItemId): bool
     {
         $sql = "DELETE FROM itemlink
-                WHERE (itemid1 = ? AND itemid2 = ?)
-                   OR (itemid1 = ? AND itemid2 = ?)";
+                WHERE (item_id1 = ? AND item_id2 = ?)
+                   OR (item_id1 = ? AND item_id2 = ?)";
         $stmt = $this->db->execute($sql, [$itemId, $relatedItemId, $relatedItemId, $itemId]);
         return $stmt->rowCount() > 0;
     }

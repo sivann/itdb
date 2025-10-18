@@ -12,8 +12,8 @@ class Invoice extends BaseModel
     protected $fillable = [
         'title',
         'description',
-        'invoicedate',
-        'total',
+        'invoice_date',
+        'total_cost',
         'vendor_id',
         'notes'
     ];
@@ -25,7 +25,7 @@ class Invoice extends BaseModel
      */
     public function getInvoiceDateFormatted(): ?string
     {
-        return $this->formatDate($this->invoicedate);
+        return $this->formatDate($this->invoice_date);
     }
 
     /**
@@ -33,6 +33,6 @@ class Invoice extends BaseModel
      */
     public function getTotalFormatted(): string
     {
-        return number_format($this->total, 2);
+        return number_format($this->total_cost, 2);
     }
 }

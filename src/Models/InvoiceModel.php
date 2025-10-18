@@ -151,7 +151,7 @@ class InvoiceModel
     public function create(array $data): int
     {
         $allowedFields = [
-            'date', 'vendor_id', 'buyer_id', 'comments', 'total_cost'
+            'invoice_date', 'vendor_id', 'buyer_id', 'comments', 'total_cost', 'invoice_number', 'title'
         ];
 
         $insertData = array_intersect_key($data, array_flip($allowedFields));
@@ -165,7 +165,7 @@ class InvoiceModel
     public function update(int $id, array $data): bool
     {
         $allowedFields = [
-            'date', 'vendor_id', 'buyer_id', 'comments', 'total_cost'
+            'invoice_date', 'vendor_id', 'buyer_id', 'comments', 'total_cost', 'invoice_number', 'title'
         ];
 
         $updateData = array_intersect_key($data, array_flip($allowedFields));
@@ -192,7 +192,7 @@ class InvoiceModel
      */
     public function getAll(): array
     {
-        return $this->db->fetchAll("SELECT * FROM invoices ORDER BY date DESC");
+        return $this->db->fetchAll("SELECT * FROM invoices ORDER BY invoice_date DESC");
     }
 
     /**
@@ -268,7 +268,7 @@ class InvoiceModel
             'total_invoices' => (int) $this->db->fetchColumn("SELECT COUNT(*) FROM invoices"),
             'total_amount' => (float) ($this->db->fetchColumn("SELECT SUM(total_cost) FROM invoices") ?? 0),
             'this_year' => (int) $this->db->fetchColumn(
-                "SELECT COUNT(*) FROM invoices WHERE date >= :year_start",
+                "SELECT COUNT(*) FROM invoices WHERE invoice_date >= :year_start",
                 ['year_start' => mktime(0, 0, 0, 1, 1, date('Y'))]
             ),
         ];
@@ -287,8 +287,8 @@ class InvoiceModel
             (object)['title' => $invoice['buyer_name']] : null;
 
         // Format dates for display
-        if ($invoice['date']) {
-            $invoice['date_formatted'] = date('Y-m-d', $invoice['date']);
+        if ($invoice['invoice_date']) {
+            $invoice['date_formatted'] = date('Y-m-d', $invoice['invoice_date']);
         }
 
         // Format cost
@@ -337,7 +337,7 @@ class InvoiceModel
         $sql = "
             SELECT s.*,
                    a.name as manufacturer_name,
-                   s.license_type as license_type_name
+                   s.license_type_id as license_type_name
             FROM software s
             INNER JOIN software_invoices si ON s.id = si.software_id
             LEFT JOIN agents a ON s.manufacturer_id = a.id
@@ -357,7 +357,7 @@ class InvoiceModel
             SELECT c.*,
                    a.name as contractor_name
             FROM contracts c
-            INNER JOIN contracts_invoices ci ON c.id = ci.contractid
+            INNER JOIN contracts_invoices ci ON c.id = ci.contract_id
             LEFT JOIN agents a ON c.contractor_id = a.id
             WHERE ci.invoice_id = :invoice_id
             ORDER BY c.id DESC
@@ -373,7 +373,7 @@ class InvoiceModel
     {
         $sql = "
             SELECT f.*,
-                   ft.description as filetype_name
+                   ft.name as filetype_name
             FROM files f
             INNER JOIN invoices_files i2f ON f.id = i2f.file_id
             LEFT JOIN file_types ft ON f.file_type_id = ft.id
@@ -452,7 +452,7 @@ class InvoiceModel
     public function addContractAssociation(int $invoiceId, int $contractId): void
     {
         try {
-            $this->db->insert('contract2inv', ['invid' => $invoiceId, 'contractid' => $contractId]);
+            $this->db->insert('contracts_invoices', ['invoice_id' => $invoiceId, 'contract_id' => $contractId]);
         } catch (\Exception $e) {
             if (strpos($e->getMessage(), 'UNIQUE constraint') === false &&
                 strpos($e->getMessage(), 'PRIMARY KEY') === false) {
@@ -466,7 +466,7 @@ class InvoiceModel
      */
     public function removeContractAssociation(int $invoiceId, int $contractId): void
     {
-        $this->db->delete('contract2inv', ['invid' => $invoiceId, 'contractid' => $contractId]);
+        $this->db->delete('contracts_invoices', ['invoice_id' => $invoiceId, 'contract_id' => $contractId]);
     }
 
     /**

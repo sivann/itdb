@@ -103,12 +103,13 @@ CREATE TABLE software (
     license_key TEXT,
     comments TEXT,
     url TEXT,
-    license_type TEXT,
+    license_type_id INTEGER,
     category TEXT,
     manufacturer_id INTEGER, updated_at INTEGER,
 
     -- Foreign key constraints
-    FOREIGN KEY (manufacturer_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (manufacturer_id) REFERENCES agents(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (license_type_id) REFERENCES license_types(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 CREATE TABLE invoices (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

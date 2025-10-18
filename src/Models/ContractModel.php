@@ -117,15 +117,10 @@ class ContractModel
         ];
     }
 
-    /**
-     * Create a new contract
-     */
-    public function create(array $data): int
-    {
         $allowedFields = [
-            'type', 'parent_contract_id', 'title', 'number', 'description', 'comments',
+            'contract_type_id', 'parent_contract_id', 'title', 'contract_number', 'description', 'comments',
             'total_cost', 'contractor_id', 'vendor_id', 'start_date', 'end_date',
-            'renewals', 'subtype'
+            'renewals', 'contract_subtype_id'
         ];
 
         $insertData = array_intersect_key($data, array_flip($allowedFields));
@@ -139,9 +134,9 @@ class ContractModel
     public function update(int $id, array $data): bool
     {
         $allowedFields = [
-            'type', 'parent_contract_id', 'title', 'number', 'description', 'comments',
+            'contract_type_id', 'parent_contract_id', 'title', 'contract_number', 'description', 'comments',
             'total_cost', 'contractor_id', 'vendor_id', 'start_date', 'end_date',
-            'renewals', 'subtype'
+            'renewals', 'contract_subtype_id'
         ];
 
         $updateData = array_intersect_key($data, array_flip($allowedFields));

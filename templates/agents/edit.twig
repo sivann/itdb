@@ -46,13 +46,13 @@
                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
                     <div class="row mb-3">
-                        <label for="title" class="col-md-3 col-form-label">Agent Name <span class="text-danger">*</span></label>
+                        <label for="name" class="col-md-3 col-form-label">Agent Name <span class="text-danger">*</span></label>
                         <div class="col-md-9">
                             <input type="text"
                                    class="form-control"
-                                   id="title"
-                                   name="title"
-                                   value="{{ agent.title|default('') }}"
+                                   id="name"
+                                   name="name"
+                                   value="{{ agent.name|default('') }}"
                                    required>
                             <div class="form-text">The name or company name of the agent</div>
                         </div>

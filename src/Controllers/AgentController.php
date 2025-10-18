@@ -117,8 +117,8 @@ class AgentController extends BaseController
 
         try {
             $agentId = $this->agentModel->create([
-                'title' => $this->sanitizeString($data['title'] ?? ''),
-                'contactinfo' => $this->sanitizeString($data['contactinfo'] ?? ''),
+                'name' => $this->sanitizeString($data['name'] ?? ''),
+                'contact_info' => $this->sanitizeString($data['contactinfo'] ?? ''),
                 'contacts' => $this->sanitizeString($data['contacts'] ?? ''),
                 'urls' => $this->sanitizeString($data['urls'] ?? ''),
             ]);
@@ -203,8 +203,8 @@ class AgentController extends BaseController
 
         // Validation
         $errors = [];
-        if (empty($data['title'])) {
-            $errors[] = 'Title is required';
+        if (empty($data['name'])) {
+            $errors[] = 'Name is required';
         }
 
         if (!empty($errors)) {
@@ -213,8 +213,8 @@ class AgentController extends BaseController
 
         try {
             $this->agentModel->update($id, [
-                'title' => $this->sanitizeString($data['title'] ?? ''),
-                'contactinfo' => $this->sanitizeString($data['contactinfo'] ?? ''),
+                'name' => $this->sanitizeString($data['name'] ?? ''),
+                'contact_info' => $this->sanitizeString($data['contactinfo'] ?? ''),
                 'contacts' => $this->sanitizeString($data['contacts'] ?? ''),
                 'urls' => $this->sanitizeString($data['urls'] ?? ''),
             ]);

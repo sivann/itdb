@@ -119,7 +119,7 @@
                                 <br><small class="text-warning">{{ item.available_licenses }} available</small>
                             {% endif %}
                             {% if item.items_list|length > 0 %}
-                                <div class="mt-2" style="font-size: 0.85em;">
+                                <div class="mt-2" style="font-size: 0.75em; max-height: 120px; overflow-y: auto; overflow-x: hidden;">
                                     {% for installed_item in item.items_list %}
                                         <div class="text-muted">
                                             <a href="/items/{{ installed_item.id }}" class="text-decoration-none">
@@ -137,7 +137,9 @@
                         </td>
                         <td>
                             {% if item.license_key %}
-                                <span class="text-muted">{{ item.license_key }}</span>
+                                <div style="max-width: 150px; font-size: 0.75em; word-wrap: break-word; overflow-wrap: break-word;">
+                                    <span class="text-muted">{{ item.license_key }}</span>
+                                </div>
                             {% else %}
                                 <span class="text-muted">-</span>
                             {% endif %}

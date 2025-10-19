@@ -259,13 +259,34 @@ class UserController extends BaseController
         try {
             $updateData = [
                 'username' => $this->sanitizeString($data['username']),
-                'display_name' => $this->sanitizeString($data['display_name'] ?? ''),
+                'display_name' => $this->sanitizeString($data['userdesc'] ?? ''),
                 'comments' => null
             ];
 
             // Update user type only if admin
-            if (isset($data['user_type']) && $currentUser->isAdmin()) {
-                $updateData['user_type'] = (int) $data['user_type'];
+            if (isset($data['usertype']) && $currentUser->isAdmin()) {
+                $updateData['user_type'] = (int) $data['usertype'];
+            }
+
+            // Handle user preferences
+            if (isset($data['use_system_defaults'])) {
+                $updateData['use_system_defaults'] = 1;
+                // Clear custom preferences when using defaults
+                $updateData['date_format'] = null;
+                $updateData['timezone'] = null;
+                $updateData['language'] = null;
+            } else {
+                $updateData['use_system_defaults'] = 0;
+                // Save custom preferences
+                if (isset($data['user_date_format'])) {
+                    $updateData['date_format'] = $this->sanitizeString($data['user_date_format']);
+                }
+                if (isset($data['user_timezone'])) {
+                    $updateData['timezone'] = $this->sanitizeString($data['user_timezone']);
+                }
+                if (isset($data['user_language'])) {
+                    $updateData['language'] = $this->sanitizeString($data['user_language']);
+                }
             }
 
             $this->userModel->update($id, $updateData);

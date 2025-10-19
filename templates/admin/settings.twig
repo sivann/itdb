@@ -4,6 +4,58 @@
 {% block page_title %}System Settings{% endblock %}
 
 {% block content %}
+
+{# Current User's Active Settings (Read-only) #}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-person-check me-2"></i>Your Active Settings
+                    {% if user_settings.override_source == 'user' %}
+                        <span class="badge bg-warning text-dark ms-2">Custom Override</span>
+                    {% else %}
+                        <span class="badge bg-light text-dark ms-2">Using System Defaults</span>
+                    {% endif %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p class="mb-2"><strong>Date Format:</strong>
+                            {% if user_settings.date_format == 'dmy' %}
+                                Day/Month/Year (DD/MM/YYYY)
+                            {% elseif user_settings.date_format == 'mdy' %}
+                                Month/Day/Year (MM/DD/YYYY)
+                            {% else %}
+                                Year-Month-Day (YYYY-MM-DD)
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-2"><strong>Timezone:</strong> {{ user_settings.timezone }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-2"><strong>Language:</strong>
+                            {% if user_settings.language == 'en' %}English
+                            {% elseif user_settings.language == 'de' %}German
+                            {% elseif user_settings.language == 'es' %}Spanish
+                            {% elseif user_settings.language == 'it' %}Italian
+                            {% else %}Chinese
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <a href="/users/{{ user.id }}/edit#preferences" class="btn btn-sm btn-outline-info">
+                        <i class="bi bi-gear me-1"></i>Change Your Preferences
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <form method="post" action="/admin/settings">
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
@@ -11,7 +63,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">General Settings</h5>
+                    <h5 class="card-title mb-0">System Default Settings</h5>
+                    <p class="text-muted small mb-0">These are the default settings for all users. Individual users can override these in their profiles.</p>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -22,7 +75,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="date_format" class="form-label">Date Format</label>
+                                <label for="date_format" class="form-label">Default Date Format</label>
                                 <select class="form-select" id="date_format" name="date_format">
                                     <option value="dmy" {{ settings.date_format == 'dmy' ? 'selected' : '' }}>Day/Month/Year (DD/MM/YYYY)</option>
                                     <option value="mdy" {{ settings.date_format == 'mdy' ? 'selected' : '' }}>Month/Day/Year (MM/DD/YYYY)</option>
@@ -45,7 +98,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="language" class="form-label">Interface Language</label>
+                                <label for="language" class="form-label">Default Interface Language</label>
                                 <select class="form-select" id="language" name="language">
                                     <option value="en" {{ settings.language == 'en' ? 'selected' : '' }}>English</option>
                                     <option value="de" {{ settings.language == 'de' ? 'selected' : '' }}>German</option>
@@ -58,7 +111,7 @@
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="timezone" class="form-label">Timezone</label>
+                                <label for="timezone" class="form-label">Default Timezone</label>
                                 <select class="form-select" id="timezone" name="timezone">
                                     <option value="UTC" {{ settings.timezone == 'UTC' ? 'selected' : '' }}>UTC</option>
                                     <option value="Europe/London" {{ settings.timezone == 'Europe/London' ? 'selected' : '' }}>Europe/London</option>

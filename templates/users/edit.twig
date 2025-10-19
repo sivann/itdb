@@ -450,6 +450,78 @@
                             <strong>Administrator users have full access to all system functions including user management, system settings, and data deletion.</strong>
                         </div>
                         {% endif %}
+
+                        <hr id="preferences">
+
+                        <!-- User Preferences -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-muted mb-3">
+                                    <i class="bi bi-sliders me-2"></i>Personal Preferences
+                                </h6>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="use_system_defaults"
+                                               name="use_system_defaults"
+                                               value="1"
+                                               {{ (old.use_system_defaults|default(user_data.use_system_defaults|default(1))) ? 'checked' : '' }}
+                                               onchange="togglePreferencesOverride(this.checked)">
+                                        <label class="form-check-label" for="use_system_defaults">
+                                            Use System Default Settings
+                                        </label>
+                                        <div class="form-text">When enabled, you'll use system-wide defaults for date format, timezone, and language. When disabled, you can customize these settings.</div>
+                                    </div>
+                                </div>
+
+                                <div id="preference-overrides" style="display: {{ (old.use_system_defaults|default(user_data.use_system_defaults|default(1))) ? 'none' : 'block' }};">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="user_date_format" class="form-label">Date Format</label>
+                                                <select class="form-select" id="user_date_format" name="user_date_format">
+                                                    <option value="dmy" {{ (old.user_date_format|default(user_data.date_format|default('dmy'))) == 'dmy' ? 'selected' : '' }}>Day/Month/Year (DD/MM/YYYY)</option>
+                                                    <option value="mdy" {{ (old.user_date_format|default(user_data.date_format|default('dmy'))) == 'mdy' ? 'selected' : '' }}>Month/Day/Year (MM/DD/YYYY)</option>
+                                                    <option value="ymd" {{ (old.user_date_format|default(user_data.date_format|default('dmy'))) == 'ymd' ? 'selected' : '' }}>Year-Month-Day (YYYY-MM-DD)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="user_timezone" class="form-label">Timezone</label>
+                                                <select class="form-select" id="user_timezone" name="user_timezone">
+                                                    <option value="UTC" {{ (old.user_timezone|default(user_data.timezone|default('UTC'))) == 'UTC' ? 'selected' : '' }}>UTC</option>
+                                                    <option value="Europe/London" {{ (old.user_timezone|default(user_data.timezone|default('UTC'))) == 'Europe/London' ? 'selected' : '' }}>Europe/London</option>
+                                                    <option value="Europe/Paris" {{ (old.user_timezone|default(user_data.timezone|default('UTC'))) == 'Europe/Paris' ? 'selected' : '' }}>Europe/Paris</option>
+                                                    <option value="Europe/Berlin" {{ (old.user_timezone|default(user_data.timezone|default('UTC'))) == 'Europe/Berlin' ? 'selected' : '' }}>Europe/Berlin</option>
+                                                    <option value="Europe/Athens" {{ (old.user_timezone|default(user_data.timezone|default('UTC'))) == 'Europe/Athens' ? 'selected' : '' }}>Europe/Athens</option>
+                                                    <option value="America/New_York" {{ (old.user_timezone|default(user_data.timezone|default('UTC'))) == 'America/New_York' ? 'selected' : '' }}>America/New_York</option>
+                                                    <option value="America/Los_Angeles" {{ (old.user_timezone|default(user_data.timezone|default('UTC'))) == 'America/Los_Angeles' ? 'selected' : '' }}>America/Los_Angeles</option>
+                                                    <option value="Asia/Tokyo" {{ (old.user_timezone|default(user_data.timezone|default('UTC'))) == 'Asia/Tokyo' ? 'selected' : '' }}>Asia/Tokyo</option>
+                                                    <option value="Asia/Shanghai" {{ (old.user_timezone|default(user_data.timezone|default('UTC'))) == 'Asia/Shanghai' ? 'selected' : '' }}>Asia/Shanghai</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="user_language" class="form-label">Interface Language</label>
+                                                <select class="form-select" id="user_language" name="user_language">
+                                                    <option value="en" {{ (old.user_language|default(user_data.language|default('en'))) == 'en' ? 'selected' : '' }}>English</option>
+                                                    <option value="de" {{ (old.user_language|default(user_data.language|default('en'))) == 'de' ? 'selected' : '' }}>German</option>
+                                                    <option value="es" {{ (old.user_language|default(user_data.language|default('en'))) == 'es' ? 'selected' : '' }}>Spanish</option>
+                                                    <option value="it" {{ (old.user_language|default(user_data.language|default('en'))) == 'it' ? 'selected' : '' }}>Italian</option>
+                                                    <option value="cn" {{ (old.user_language|default(user_data.language|default('en'))) == 'cn' ? 'selected' : '' }}>Chinese</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         {% endif %}
 
                         <div class="d-flex justify-content-between">
@@ -692,6 +764,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // Remove invalid characters
         this.value = this.value.replace(/[^a-z0-9_.-]/g, '');
     });
+
+    // Toggle preferences override visibility
+    const useSystemDefaultsCheckbox = document.getElementById('use_system_defaults');
+    if (useSystemDefaultsCheckbox) {
+        function togglePreferencesOverride() {
+            const overridesDiv = document.getElementById('preference-overrides');
+            if (overridesDiv) {
+                overridesDiv.style.display = useSystemDefaultsCheckbox.checked ? 'none' : 'block';
+            }
+        }
+
+        useSystemDefaultsCheckbox.addEventListener('change', togglePreferencesOverride);
+    }
 });
 </script>
 {% endif %}

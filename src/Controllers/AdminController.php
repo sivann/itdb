@@ -124,12 +124,16 @@ class AdminController extends BaseController
             return $this->redirectToRoute($request, $response, 'dashboard');
         }
 
-        // Load current settings
+        // Load system default settings
         $settings = $this->getSystemSettings();
+
+        // Load current user's effective settings
+        $userSettings = $this->getCurrentUserSettings($user->id);
 
         return $this->render($response, 'admin/settings.twig', [
             'user' => $user,
             'settings' => $settings,
+            'user_settings' => $userSettings,
             'csrf_token' => $this->generateCsrfToken(),
         ]);
     }
@@ -260,6 +264,38 @@ class AdminController extends BaseController
         return $this->render($response, 'admin/backup.twig', [
             'user' => $user,
         ]);
+    }
+
+    /**
+     * Get current user's effective settings
+     */
+    private function getCurrentUserSettings(int $userId): array
+    {
+        $sql = "SELECT use_system_defaults, date_format, timezone, language FROM users WHERE id = ? LIMIT 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$userId]);
+        $userPrefs = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if (!$userPrefs) {
+            return $this->getSystemSettings();
+        }
+
+        // If user uses system defaults, return system settings
+        if ($userPrefs['use_system_defaults']) {
+            return array_merge($this->getSystemSettings(), [
+                'use_system_defaults' => true,
+                'override_source' => 'system'
+            ]);
+        }
+
+        // Return user's custom settings
+        return [
+            'date_format' => $userPrefs['date_format'] ?? $this->getSystemSettings()['date_format'],
+            'timezone' => $userPrefs['timezone'] ?? $this->getSystemSettings()['timezone'],
+            'language' => $userPrefs['language'] ?? $this->getSystemSettings()['language'],
+            'use_system_defaults' => false,
+            'override_source' => 'user'
+        ];
     }
 
     /**

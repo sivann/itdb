@@ -145,20 +145,28 @@ class UserModel
      */
     public function update(int $id, array $data): bool
     {
-        $sql = "
-            UPDATE users SET
-                username = :username,
-                display_name = :display_name,
-                user_type = :user_type
-            WHERE id = :id
-        ";
-
-        $params = [
-            'username' => $data['username'],
-            'display_name' => $data['display_name'] ?? null,
-            'user_type' => $data['user_type'] ?? 0,
-            'id' => $id
+        $allowedFields = [
+            'username', 'display_name', 'user_type',
+            'date_format', 'timezone', 'language', 'use_system_defaults'
         ];
+
+        // Filter only allowed fields that are present in $data
+        $updateData = array_intersect_key($data, array_flip($allowedFields));
+
+        if (empty($updateData)) {
+            return false;
+        }
+
+        // Build dynamic UPDATE query
+        $setParts = [];
+        $params = ['id' => $id];
+
+        foreach ($updateData as $field => $value) {
+            $setParts[] = "$field = :$field";
+            $params[$field] = $value;
+        }
+
+        $sql = "UPDATE users SET " . implode(', ', $setParts) . " WHERE id = :id";
 
         $stmt = $this->db->execute($sql, $params);
         return $stmt->rowCount() > 0;

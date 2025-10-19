@@ -113,6 +113,23 @@ class AdminController extends BaseController
     }
 
     /**
+     * Labels page
+     */
+    public function labels(Request $request, Response $response): Response
+    {
+        $user = $this->authService->getCurrentUser();
+
+        if (!$user || !$user->isAdmin()) {
+            $this->addFlashMessage('error', 'Access denied');
+            return $this->redirectToRoute($request, $response, 'dashboard');
+        }
+
+        return $this->render($response, 'admin/labels.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
      * Settings page
      */
     public function settings(Request $request, Response $response): Response

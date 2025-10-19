@@ -214,6 +214,7 @@ return function (App $app) {
             $group->post('/import', [AdminController::class, 'processImport'])->setName('admin.import.process');
             $group->get('/translations', [AdminController::class, 'translations'])->setName('admin.translations');
             $group->get('/types', [AdminController::class, 'types'])->setName('admin.types');
+            $group->get('/labels', [AdminController::class, 'labels'])->setName('admin.labels');
 
             // Audit Log
             $group->get('/audit-log', [AuditLogController::class, 'index'])->setName('admin.audit-log.index');

@@ -10,3 +10,4 @@ Generic context instructions:
 - Be more proactive and think ahead to anticipate potential problems.
 - Double-check the code for typos and other errors.
 - ignore all code under legacy_code, don't touch it. It's the old implementation left there for user reference.
+- don't use ORM, I prefer SQL

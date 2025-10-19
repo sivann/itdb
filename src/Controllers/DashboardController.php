@@ -7,6 +7,8 @@ namespace App\Controllers;
 use App\Models\ItemModel;
 use App\Models\SoftwareModel;
 use App\Models\ContractModel;
+use App\Models\InvoiceModel;
+use App\Models\RackModel;
 use App\Services\AuthService;
 use App\Services\DatabaseService;
 use App\Services\DatabaseManager;
@@ -24,6 +26,8 @@ class DashboardController extends BaseController
     private SoftwareModel $softwareModel;
     private ContractModel $contractModel;
     private \App\Models\SettingsModel $settings;
+    private RackModel $rackModel;
+    private InvoiceModel $invoiceModel;
 
     public function __construct(
         LoggerInterface $logger,
@@ -34,7 +38,9 @@ class DashboardController extends BaseController
         ItemModel $itemModel,
         SoftwareModel $softwareModel,
         ContractModel $contractModel,
-        \App\Models\SettingsModel $settings
+        \App\Models\SettingsModel $settings,
+        RackModel $rackModel,
+        InvoiceModel $invoiceModel
     ) {
         parent::__construct($logger, $twig);
         $this->authService = $authService;
@@ -44,6 +50,8 @@ class DashboardController extends BaseController
         $this->softwareModel = $softwareModel;
         $this->contractModel = $contractModel;
         $this->settings = $settings;
+        $this->rackModel = $rackModel;
+        $this->invoiceModel = $invoiceModel;
     }
 
     /**
@@ -56,11 +64,8 @@ class DashboardController extends BaseController
         // Get dashboard statistics
         $stats = $this->getDashboardStats();
 
-        // Get recent items (simplified)
-        $recentItems = $this->getRecentItems(10);
-
-        // Get recent software (simplified)
-        $recentSoftware = $this->getRecentSoftware(5);
+        // Get recent changes
+        $recentChanges = $this->getRecentChanges(10);
 
         // Get items assigned to current user
         $myItems = [];
@@ -83,8 +88,7 @@ class DashboardController extends BaseController
         return $this->render($response, 'dashboard/index.twig', [
             'user' => $user,
             'stats' => $stats,
-            'recent_items' => $recentItems,
-            'recent_software' => $recentSoftware,
+            'recent_changes' => $recentChanges,
             'my_items' => $myItems,
             'expiring_warranties' => $expiringWarranties,
             'expiring_licenses' => $expiringLicenses,
@@ -145,6 +149,18 @@ class DashboardController extends BaseController
                 'active' => $activeContracts,
             ];
 
+            // Add rack stats
+            $rackCount = (int) $this->db->fetchColumn("SELECT COUNT(*) FROM racks");
+            $stats['racks'] = ['total' => $rackCount];
+
+            // Add location stats
+            $locationCount = (int) $this->db->fetchColumn("SELECT COUNT(*) FROM locations");
+            $stats['locations'] = ['total' => $locationCount];
+
+            // Add agent stats
+            $agentCount = (int) $this->db->fetchColumn("SELECT COUNT(*) FROM agents");
+            $stats['agents'] = ['total' => $agentCount];
+
             // Add invoice stats if table exists
             try {
                 $invoiceCount = (int) $this->db->fetchColumn("SELECT COUNT(*) FROM invoices");
@@ -173,6 +189,9 @@ class DashboardController extends BaseController
                 'storage' => ['files' => 0, 'size' => 0],
                 'contracts' => ['total' => 0, 'active' => 0],
                 'invoices' => ['total' => 0, 'total_amount' => 0],
+                'racks' => ['total' => 0],
+                'locations' => ['total' => 0],
+                'agents' => ['total' => 0],
             ];
         }
     }
@@ -342,28 +361,35 @@ class DashboardController extends BaseController
         ]);
     }
 
-    /**
-     * Get recent items (simplified)
-     */
-    private function getRecentItems(int $limit = 10): array
+    private function getRecentChanges(int $limit = 10): array
     {
-        $sql = "SELECT i.*, u.username as user_name, st.name as status_name
-                FROM items i
-                LEFT JOIN users u ON i.user_id = u.id
-                LEFT JOIN status_types st ON i.status_id = st.id
-                ORDER BY i.id DESC
-                LIMIT :limit";
+        $queries = [
+            ['type' => 'item', 'query' => 'SELECT id, name, updated_at FROM items ORDER BY updated_at DESC LIMIT ?'],
+            ['type' => 'software', 'query' => 'SELECT id, name, updated_at FROM software ORDER BY updated_at DESC LIMIT ?'],
+            ['type' => 'contract', 'query' => 'SELECT id, name, updated_at FROM contracts ORDER BY updated_at DESC LIMIT ?'],
+            ['type' => 'rack', 'query' => 'SELECT id, name, updated_at FROM racks ORDER BY updated_at DESC LIMIT ?'],
+            ['type' => 'invoice', 'query' => 'SELECT id, number as name, updated_at FROM invoices ORDER BY updated_at DESC LIMIT ?'],
+        ];
 
-        return $this->db->fetchAll($sql, ['limit' => $limit]);
-    }
+        $changes = [];
+        foreach ($queries as $q) {
+            try {
+                $results = $this->db->fetchAll($q['query'], [$limit]);
+                foreach ($results as $row) {
+                    $row['type'] = $q['type'];
+                    $changes[] = $row;
+                }
+            } catch (\Exception $e) {
+                // Ignore errors for individual tables
+            }
+        }
 
-    /**
-     * Get recent software (simplified)
-     */
-    private function getRecentSoftware(int $limit = 5): array
-    {
-        $sql = "SELECT * FROM software ORDER BY id DESC LIMIT :limit";
-        return $this->db->fetchAll($sql, ['limit' => $limit]);
+        // Sort all changes by date
+        usort($changes, function ($a, $b) {
+            return strtotime($b['updated_at']) - strtotime($a['updated_at']);
+        });
+
+        return array_slice($changes, 0, $limit);
     }
 
     /**

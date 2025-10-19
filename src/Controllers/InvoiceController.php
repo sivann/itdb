@@ -367,7 +367,7 @@ class InvoiceController extends BaseController
                 ),
                 'vendor' => $invoice['vendor_name'] ?? null,
                 'total' => $invoice['total_cost'] ? number_format($invoice['total_cost'], 2) : null,
-                'date' => $invoice['date'] ? date('Y-m-d', $invoice['date']) : null
+                'date' => $invoice['invoice_date'] ? date('Y-m-d', $invoice['invoice_date']) : null
             ];
         }
 

@@ -513,9 +513,9 @@ class FileController extends BaseController
             // Debug logging
             $this->logger->info('File uploader_username debug', [
                 'file_id' => $file['id'],
-                'uploader_raw' => $file['uploader'] ?? 'missing',
-                'uploader_type' => gettype($file['uploader']),
-                'uploader_value' => $file['uploader']
+                'uploader_raw' => $file['uploader_username'] ?? 'missing',
+                'uploader_type' => gettype($file['uploader_username'] ?? null),
+                'uploader_value' => $file['uploader_username'] ?? null
             ]);
 
             $results[] = [
@@ -530,7 +530,7 @@ class FileController extends BaseController
                 'fileType' => ['name' => $file['type_name'] ?: 'Unknown'],
                 'size_formatted' => isset($file['file_size']) && $file['file_size'] ? $this->formatBytes($file['file_size']) : 'Unknown Size',
                 'uploader' => $this->getUploaderName($file),
-                'upload_date' => $file['uploaded_at'] ? date('Y-m-d', strtotime($file['uploaded_at'])) : null
+                'upload_date' => $file['uploaded_at'] ? date('Y-m-d', (int)$file['uploaded_at']) : null
             ];
         }
 
@@ -546,7 +546,7 @@ class FileController extends BaseController
     private function getUploaderName($file): ?string
     {
         // Get raw uploader_username value from database
-        $uploaderValue = $file['uploader'] ?? null;
+        $uploaderValue = $file['uploader_username'] ?? null;
         if (!$uploaderValue) {
             return null;
         }

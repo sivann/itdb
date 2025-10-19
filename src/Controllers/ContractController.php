@@ -438,7 +438,7 @@ class ContractController extends BaseController
                     $contract['id'],
                     $contract['title'] ?: 'Untitled Contract'
                 ),
-                'number' => $contract['number'],
+                'number' => $contract['contract_number'],
                 'contractor' => [
                     'name' => $contract['contractor_name'] ?? null
                 ],

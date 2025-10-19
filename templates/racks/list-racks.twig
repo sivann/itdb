@@ -1,0 +1,64 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+
+<SCRIPT LANGUAGE="JavaScript"> 
+$(function () {
+  $('table#rackslisttbl').dataTable({
+	"sPaginationType": "full_numbers",
+	"bJQueryUI": true,
+	"iDisplayLength": 25,
+	//"aLengthMenu": [[10,25, 50, 100, -1], [10,25, 50, 100, "All"]],
+	"bLengthChange": true,
+	"bFilter": true,
+	"bSort": true,
+	"bInfo": true,
+	"sDom": '<"H"Tlpf>rt<"F"ip>',
+	"oTableTools": {
+	    "sSwfPath": "swf/copy_cvs_xls_pdf.swf"
+	}
+
+  });
+});
+
+</SCRIPT>
+
+<h1>Racks <a title='Add new Rack' href='{{ scriptname }}?action=editrack&amp;id=new'><img border=0 src='images/add.png' ></a>
+</h1>
+
+
+<table class='display' width="100%" id='rackslisttbl'>
+
+<thead>
+<tr>
+  <th width='2%'>Edit</th>
+  <th width='5%'>Occupation</th>
+  <th title='how many items are assigned to this rack'> Items</th>
+  <th width='10%'>Size (U)<sup>*</sup></th>
+  <th>Depth</th>
+  <th>Location</th>
+  <th>Area/Room</th>
+  <th>Label</th>
+</tr>
+</thead>
+<tbody>
+
+{% for rack in racks %}
+  <tr>
+    <td><a class='editid' href='{{ scriptname }}?action=editrack&amp;id={{ rack.id }}'>{{ rack.id }}</a></td>
+    <td title='{{ rack.occupation }} U occupied' >
+       <div style='width:70px;border:1px solid #888;padding:0;'>
+       <div style='background-color:#8ECE03;width:{{ (rack.occupation / rack.usize) * 100 / (100/70) }}px'>&nbsp;</div></div></td>
+    <td>{{ rack.population }}</td>
+    <td>{{ rack.usize }}U</td>
+    <td>{% if rack.depth %}{{ rack.depth }}mm{% endif %}</td>
+    <td>{{ rack.location_name }}</td>
+    <td>{{ rack.location_area_name }}</td>
+    <td>{{ rack.label }}</td>
+  </tr>
+{% endfor %}
+
+</tbody>
+</table>
+
+{% endblock %}

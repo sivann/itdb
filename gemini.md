@@ -1,3 +1,4 @@
+Generic context instructions:
 - Always read the `gemini.md` file at the beginning of the session.
 - When an error is reported, first check the logs to get the exact error message.
 - When debugging, always check the database schema first.
@@ -8,3 +9,4 @@
 - After each change, verify that the issue is resolved by accessing the relevant page.
 - Be more proactive and think ahead to anticipate potential problems.
 - Double-check the code for typos and other errors.
+- ignore all code under legacy_code, don't touch it. It's the old implementation left there for user reference.

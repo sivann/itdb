@@ -6,6 +6,9 @@ namespace App\Models;
 
 use App\Services\DatabaseManager;
 
+/**
+ * User data access model - handles all database operations for users (CRUD, authentication, permissions).
+ */
 class UserModel
 {
     private DatabaseManager $db;

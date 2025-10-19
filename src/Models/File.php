@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 
+/**
+ * File entity model - represents a single file record with business logic.
+ * Note: Currently unused. Controllers use FileModel for data access.
+ */
 class File extends BaseModel
 {
     protected $table = 'files';

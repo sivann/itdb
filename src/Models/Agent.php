@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 
+/**
+ * Agent entity model - represents a single agent (vendor/manufacturer) record with business logic.
+ * Note: Currently unused. Controllers use AgentModel for data access.
+ */
 class Agent extends BaseModel
 {
     protected $table = 'agents';

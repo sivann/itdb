@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-
+/**
+ * Item entity model - represents a single item record with business logic.
+ * Note: Currently unused. Controllers use ItemModel for data access.
+ */
 class Item extends BaseModel
 {
     protected $table = 'items';

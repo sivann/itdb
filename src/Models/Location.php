@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 
+/**
+ * Location entity model - represents a single location record with business logic.
+ * Note: Currently unused. Controllers use LocationModel for data access.
+ */
 class Location extends BaseModel
 {
     protected $table = 'locations';

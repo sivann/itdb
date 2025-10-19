@@ -6,6 +6,9 @@ namespace App\Models;
 
 use App\Services\DatabaseManager;
 
+/**
+ * Rack data access model - handles all database operations for racks (CRUD, queries, layout).
+ */
 class RackModel
 {
     private DatabaseManager $db;

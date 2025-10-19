@@ -6,6 +6,9 @@ namespace App\Models;
 
 use App\Services\DatabaseManager;
 
+/**
+ * File data access model - handles all database operations for files (CRUD, queries, uploads, associations).
+ */
 class FileModel
 {
     private DatabaseManager $db;

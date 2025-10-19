@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-
+/**
+ * Rack entity model - represents a single rack record with business logic.
+ * Note: Currently unused. Controllers use RackModel for data access.
+ */
 class Rack extends BaseModel
 {
     protected $table = 'racks';

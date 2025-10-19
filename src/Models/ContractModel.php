@@ -6,6 +6,9 @@ namespace App\Models;
 
 use App\Services\DatabaseManager;
 
+/**
+ * Contract data access model - handles all database operations for contracts (CRUD, queries, associations).
+ */
 class ContractModel
 {
     private DatabaseManager $db;

@@ -6,6 +6,9 @@ namespace App\Models;
 
 use App\Services\DatabaseManager;
 
+/**
+ * Location data access model - handles all database operations for locations (CRUD, queries, areas).
+ */
 class LocationModel
 {
     private DatabaseManager $db;

@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 
+/**
+ * Software entity model - represents a single software record with business logic.
+ * Note: Currently unused. Controllers use SoftwareModel for data access.
+ */
 class Software extends BaseModel
 {
     protected $table = 'software';

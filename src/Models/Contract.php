@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 
+/**
+ * Contract entity model - represents a single contract record with business logic.
+ * Note: Currently unused. Controllers use ContractModel for data access.
+ */
 class Contract extends BaseModel
 {
     protected $table = 'contracts';

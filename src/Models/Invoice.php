@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 
+/**
+ * Invoice entity model - represents a single invoice record with business logic.
+ * Note: Currently unused. Controllers use InvoiceModel for data access.
+ */
 class Invoice extends BaseModel
 {
     protected $table = 'invoices';

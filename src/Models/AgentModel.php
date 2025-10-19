@@ -6,6 +6,9 @@ namespace App\Models;
 
 use App\Services\DatabaseManager;
 
+/**
+ * Agent data access model - handles all database operations for agents/vendors/manufacturers (CRUD, queries).
+ */
 class AgentModel
 {
     private DatabaseManager $db;

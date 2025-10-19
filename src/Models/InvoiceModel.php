@@ -6,6 +6,9 @@ namespace App\Models;
 
 use App\Services\DatabaseManager;
 
+/**
+ * Invoice data access model - handles all database operations for invoices (CRUD, queries, associations).
+ */
 class InvoiceModel
 {
     private DatabaseManager $db;

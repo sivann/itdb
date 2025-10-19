@@ -6,6 +6,9 @@ namespace App\Models;
 
 use App\Services\DatabaseManager;
 
+/**
+ * Item data access model - handles all database operations for items (CRUD, queries, associations).
+ */
 class ItemModel
 {
     private DatabaseManager $db;

@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 
+/**
+ * User entity model - represents a single user record with business logic and permissions.
+ * Note: Currently unused. Controllers use UserModel for data access.
+ */
 class User extends BaseModel
 {
     protected $table = 'users';

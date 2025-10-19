@@ -7,6 +7,9 @@ namespace App\Models;
 use App\Services\DatabaseManager;
 use App\Models\InvoiceModel;
 
+/**
+ * Software data access model - handles all database operations for software (CRUD, queries, associations).
+ */
 class SoftwareModel
 {
     private DatabaseManager $db;
